@@ -43,7 +43,6 @@ class EventsController extends BaseController
         //$this->layout->slider = 'this is the header from inside the controller';
         $this->layout->events = View::make('site.layouts.event', ['events'=>$events]);
         //return View::make('site.layouts.slider');
-
         //return $events;
         //return View::make('events.index', compact('events'));
     }

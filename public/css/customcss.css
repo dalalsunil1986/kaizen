@@ -1,0 +1,55 @@
+
+	@font-face
+	{
+		font-family: Sultan Medium;
+		src: url('Sultan Medium.tif');
+	}
+	html,body,h1,h2,h3,h4,a,div,span {
+		font-family: 'Sultan Medium' !important;
+	}
+	.panel-default {
+		
+		box-shadow: 2px 2px 15px #888888 !important;
+	}		
+	.panel-heading {
+		background-image: -webkit-gradient(
+			linear,
+			right top,
+			right bottom,
+			color-stop(0.28, #4B1C78),
+			color-stop(1, #3E188C)
+			);
+		background-image: -o-linear-gradient(bottom, #4B1C78 28%, #3E188C 20%);
+		background-image: -moz-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+		background-image: -webkit-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+		background-image: -ms-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+		background-image: linear-gradient(to bottom, #4B1C78 28%, #3E188C 100%);
+		background-repeat:no-repeat;
+		padding: 16px 27px !important;
+		color:#FFF !important;	
+	}
+	.panel-body {
+		background-image: -webkit-gradient(
+			linear,
+			left top,
+			left bottom,
+			color-stop(0, #E0E0E0),
+			color-stop(1, #C7C7C7)
+			);
+		background-image: -o-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
+		background-image: -moz-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
+		background-image: -webkit-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
+		background-image: -ms-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
+		background-image: linear-gradient(to bottom, #E0E0E0 0%, #C7C7C7 100%);
+		#side-instagram .panel-default {
+		/*	background-image:url(images/Instagram.png);*/
+		
+	}
+   .navbar-default {
+	   background-color: none !important;
+
+	   border-color: none !important;
+	   }
+	   .navbar-nav>li {
+		   background-color: red;
+		   }
