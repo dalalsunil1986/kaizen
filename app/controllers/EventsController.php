@@ -35,13 +35,17 @@ class EventsController extends BaseController
     //        $events = $this->model->all()->take(5);
     //        return View::make('events.index');
     //	}
-
+    protected $layout = 'site.layouts.home';
     public function index()
     {
         //  $events =  $this->model->all();
-        $events = parent::all();
-        return $events;
-//        return View::make('events.index', compact('events'));
+        $events = parent::all(5);
+        //$this->layout->slider = 'this is the header from inside the controller';
+        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]);
+        //return View::make('site.layouts.slider');
+
+        //return $events;
+        //return View::make('events.index', compact('events'));
     }
 
 
