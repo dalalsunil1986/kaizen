@@ -29,23 +29,41 @@
     @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
     {{ HTML::style('css/bootstrap-rtl.min.css') }}
     @endif
-    <link href="{{ asset('css/customcss.css') }}" rel="stylesheet">
+    {{ HTML::style('css/customcss.css') }}
 
 </head>
 <body>
 <div class="container">
-    @yield('header')
+    <div id="header" class="row">
+        <div class="row">
+            <div class="col-md-4">
+                {{ HTML::image('images/Logo.png') }}
+            </div>
+            <div class="col-md-7">
+            @yield('login')
+            </div>
+        </div>
+        <div class="row">
+            @yield('nav')
+         </div> <!-- end of row-->
+    </div> <!-- end header-->
 
     <!--content-->
     <div id="content" class="row">
         @yield('slider')
         @yield('ads')
+        <div class="row"><br></div>
+        <!-- main content division -->
+        <div class="col-md-8">
+            @yield('maincontent')
+        </div>
+        <!-- end of main content-->
 
-        <div id="main">
-            <div class="row"><br></div>
-            @yield('rightside')
-            @yield('leftside')
-        </div> <!-- end of Maincontent -->
+        <!-- sidecontent division -->
+        <div class="col-md-4">
+        @yield('sidecontent')
+        </div>
+        <!-- end of sidedivision content-->
     </div><!-- end of content-->
 
     @yield('footer')
