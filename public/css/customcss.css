@@ -9,26 +9,26 @@
 	}
 	.panel-default {
 		
-		box-shadow: 2px 2px 15px #888888 !important;
+		/*box-shadow: 2px 2px 15px #888888 !important;*/
+        border: 0px;
+        background-color: white !important;
 	}		
 	.panel-heading {
-		background-image: -webkit-gradient(
-			linear,
-			right top,
-			right bottom,
-			color-stop(0.28, #4B1C78),
-			color-stop(1, #3E188C)
-			);
-		background-image: -o-linear-gradient(bottom, #4B1C78 28%, #3E188C 20%);
-		background-image: -moz-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
-		background-image: -webkit-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
-		background-image: -ms-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
-		background-image: linear-gradient(to bottom, #4B1C78 28%, #3E188C 100%);
-		background-repeat:no-repeat;
+        top: 20px;
+        position: relative;
+        background-color: transparent !important;
+        border-color: none !important;
+        background-image: url("../images/SlidesActive.png");
+        background-size:60%;
+        background-position:right;
+        background-repeat: no-repeat;
 		padding: 16px 27px !important;
 		color:#FFF !important;
+
 	}
+
 	.panel-body {
+        padding-top: 25px;
 		overflow: hidden !important;
         background-image: -webkit-gradient(
 			linear,
@@ -57,7 +57,7 @@
        background-color: white !important;
        border-color: white !important;
    }
-   .navbar-brand{
+    .navbar-default .navbar-nav>li>a {
        background-image: -webkit-gradient(
            linear,
            left top,
@@ -72,20 +72,14 @@
        background-image: linear-gradient(to bottom, #E0E0E0 0%, #C7C7C7 100%);
     color: white !important;
    }
-    .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
-        background-image: -webkit-gradient(
-            linear,
-            right top,
-            right bottom,
-            color-stop(0.28, #4B1C78),
-            color-stop(1, #3E188C)
-        );
-        background-image: -o-linear-gradient(bottom, #4B1C78 28%, #3E188C 20%);
-        background-image: -moz-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
-        background-image: -webkit-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
-        background-image: -ms-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
-        background-image: linear-gradient(to bottom, #4B1C78 28%, #3E188C 100%);
-        background-repeat:no-repeat;
-       color: white !important;
+    .navbar-default .navbar-nav>li>a {
+       background-color: red !important;
    }
 
+    #side-instagram .panel-body {
+
+        padding-right: 10%;
+        padding-left: 10%;
+        float:none;
+        overflow: hidden !important;
+    }

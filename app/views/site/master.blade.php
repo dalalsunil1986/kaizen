@@ -30,6 +30,9 @@
     {{ HTML::style('css/bootstrap-rtl.min.css') }}
     @endif
     {{ HTML::style('css/customcss.css') }}
+    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+    {{ HTML::style('css/customen.css') }}
+    @endif
 
 </head>
 <body>

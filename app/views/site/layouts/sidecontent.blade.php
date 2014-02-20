@@ -14,7 +14,10 @@ extends('site.layouts.home')
 
 <div id="side-1">
     <div class="panel panel-default">
-        <div class="panel-heading">العنوان العنوان</div>
+        <div class="panel-heading">
+
+            العنوان الاول
+        </div>
         <div class="panel-body">
             <ul>
                 <li>الموضوع الأول الموضوع الأول</li>
