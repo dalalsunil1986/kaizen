@@ -3,5 +3,7 @@
 return array(
 
 	'edit'   => 'Edit',
-	'delete' => 'Delete'
+	'delete' => 'Delete',
+    'sign'   => 'Sign',
+    'register' => 'Register'
 );

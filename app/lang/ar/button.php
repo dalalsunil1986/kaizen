@@ -2,6 +2,8 @@
 
 return array(
 
-	'edit'   => 'Edit',
-	'delete' => 'Delete'
+	'edit'   => 'تعديل',
+	'delete' => 'حذف',
+    'sign'   => 'دخول',
+    'register' => 'تسجيل'
 );

@@ -33,40 +33,49 @@
 
 </head>
 <body>
-<div class="container">
-    <div id="header" class="row">
-        <div class="row">
+<div class="container" class="container-fluid">
+    <div class="col-md-1" ></div>
+    <div class="col-md-10" >
+        <!-- header -->
+        <div id="header" class="row">
+            <div class="row">
+                <div class="col-md-4">
+                    {{ HTML::image('images/Logo.png') }}
+                </div>
+                <div class="col-md-8">
+                    @yield('login')
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                @yield('nav')
+                </div>
+            </div> <!-- end of row-->
+        </div>
+        <!-- end header-->
+
+        <!--content-->
+        <div id="content" class="row">
+            @yield('slider')
+            @yield('ads')
+            <div class="row"><br></div>
+            <!-- main content division -->
+            <div class="col-md-8">
+                @yield('maincontent')
+            </div>
+            <!-- end of main content-->
+
+            <!-- sidecontent division -->
             <div class="col-md-4">
-                {{ HTML::image('images/Logo.png') }}
+                @yield('sidecontent')
             </div>
-            <div class="col-md-7">
-            @yield('login')
-            </div>
-        </div>
-        <div class="row">
-            @yield('nav')
-         </div> <!-- end of row-->
-    </div> <!-- end header-->
+            <!-- end of sidedivision content-->
+        </div><!-- end of content-->
 
-    <!--content-->
-    <div id="content" class="row">
-        @yield('slider')
-        @yield('ads')
-        <div class="row"><br></div>
-        <!-- main content division -->
-        <div class="col-md-8">
-            @yield('maincontent')
-        </div>
-        <!-- end of main content-->
+        @yield('footer')
+    </div>
+    <div class="col-md-1"></div>
 
-        <!-- sidecontent division -->
-        <div class="col-md-4">
-        @yield('sidecontent')
-        </div>
-        <!-- end of sidedivision content-->
-    </div><!-- end of content-->
-
-    @yield('footer')
 </div> <!-- end of container -->
 
 
