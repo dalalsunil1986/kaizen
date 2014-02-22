@@ -1,8 +1,34 @@
 @section('maincontent')
-
 <div id="youtube-1">
 
-    <script src="http://www.gmodules.com/ig/ifr?url=http://www.google.com/ig/modules/youtube.xml&amp;up_channel=nationalyou&amp;synd=open&amp;w=320&amp;h=390&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
+   <!-- <iframe style="width:100%; min-height:250px; height: 350px; max-height: 350px; padding-top: 18px; margin:0px; "
+            src="//www.youtube.com/embed/N6KpbdJVWIY?list=PLgziGzRnamoJ4ESrNu5Yhtzqc4j-Mer3_" frameborder="0" allowfullscreen></iframe>
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <div class="g-ytsubscribe" data-channel="GoogleDevelopers">-->
+
+        <?php
+        $json = json_decode(file_get_contents('http://gdata.youtube.com/feeds/api/playlists/PLgziGzRnamoJ4ESrNu5Yhtzqc4j-Mer3_?v=2&alt=jsonc'));
+print_r($json);
+        exit;
+        $i =0;
+        $playlistdiv = '';
+
+                if ($i <= 4) {
+
+               // $media = $playlist->children('http://search.yahoo.')
+                echo '<pre>';
+                //print_r($playlist);
+                //print_r($links->href);
+                echo '</pre>';
+                    $playlistdiv .= '<div><img src="http://img.youtube.com/vi/'.$json->data->thumbnail->sqDefault.'/default.jpg"/> <h6>'.$json->data->title.'</h6></div>';
+                $i++;
+                }
+
+        echo $playlistdiv;
+        exit;
+        ?>
+    </div>
+
 
 </div>
 
@@ -15,5 +41,4 @@
         </div>
     </div>
 </div>
-
 @stop

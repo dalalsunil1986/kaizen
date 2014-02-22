@@ -43,13 +43,14 @@ extends('site.layouts.home')
 
 <div id="side-3">
     <div class="panel panel-default">
-        <div class="panel-heading">العنوان العنوان</div>
+        <div class="panel-heading">
+            القائمة البريدية
+        </div>
         <div class="panel-body">
-            <ul>
-                <li>الموضوع الأول الموضوع الأول</li>
-                <li>الموضوع الأول الموضوع الأول</li>
-                <li>الموضوع الأول الموضوع الأول</li>
-            </ul>
+           {{Form::open()}}
+            {{Form::input('email','email')}}
+            {{Form::submit('Submit')}}
+            {{Form::close()}}
         </div>
     </div>
 </div>

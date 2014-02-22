@@ -61,7 +61,7 @@
         <div id="content" class="row">
             @yield('slider')
             @yield('ads')
-            <div class="row"><br></div>
+            <div class="row"></div>
             <!-- main content division -->
             <div class="col-md-8">
                 @yield('maincontent')

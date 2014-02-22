@@ -7,6 +7,9 @@
 	html,body,h1,h2,h3,h4,a,div,span {
 		font-family: 'Sultan Medium' !important;
 	}
+    .panel {
+        /*margin-bottom: 5px !important;*/
+    }
 	.panel-default {
 		
 		/*box-shadow: 2px 2px 15px #888888 !important;*/
@@ -57,24 +60,37 @@
        background-color: white !important;
        border-color: white !important;
    }
-    .navbar-default .navbar-nav>li>a {
-       background-image: -webkit-gradient(
-           linear,
-           left top,
-           left bottom,
-           color-stop(0, #E0E0E0),
-           color-stop(1, #C7C7C7)
-       );
-       background-image: -o-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
-       background-image: -moz-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
-       background-image: -webkit-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
-       background-image: -ms-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
-       background-image: linear-gradient(to bottom, #E0E0E0 0%, #C7C7C7 100%);
-    color: white !important;
-   }
-    .navbar-default .navbar-nav>li>a {
-       background-color: red !important;
-   }
+    .navbar-default .navbar-brand { color: #FFF !important;}
+    .navbar-default {
+        background-image: -webkit-gradient(
+            linear,
+            right top,
+            right bottom,
+            color-stop(0.28, #4B1C78),
+            color-stop(1, #3E188C)
+        );
+        background-image: -o-linear-gradient(bottom, #4B1C78 28%, #3E188C 20%);
+        background-image: -moz-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: -webkit-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: -ms-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: linear-gradient(to bottom, #4B1C78 28%, #3E188C 100%);
+        background-repeat:no-repeat;
+    }
+    .navbar-nav>li {
+        background-image: -webkit-gradient(
+            linear,
+            right top,
+            right bottom,
+            color-stop(0.28, #4B1C78),
+            color-stop(1, #3E188C)
+        );
+        background-image: -o-linear-gradient(bottom, #4B1C78 28%, #3E188C 20%);
+        background-image: -moz-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: -webkit-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: -ms-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: linear-gradient(to bottom, #4B1C78 28%, #3E188C 100%);
+        background-repeat:no-repeat;
+    }
 
     #side-instagram .panel-body {
 
@@ -90,6 +106,7 @@
         height:auto;
         background-repeat: no-repeat;
         text-align: left;
+        min-height: 94px;
     }
     #socialicons {
         padding-top:10px;
