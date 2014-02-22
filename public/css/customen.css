@@ -2,3 +2,7 @@
     background-image: url("../images/SlidesActiveeng.png") !important;
     background-position:left !important;
 }
+#footer {
+     text-align: right !important;
+ }
+#socialicons {text-align:left !important;}

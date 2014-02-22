@@ -10,7 +10,7 @@ extends('site.layouts.home')
 
         </div>
     </div>
-</div><br>
+</div>
 
 <div id="side-1">
     <div class="panel panel-default">
@@ -26,7 +26,7 @@ extends('site.layouts.home')
             </ul>
         </div>
     </div>
-</div><br>
+</div>
 
 <div id="side-2">
     <div class="panel panel-default">
@@ -39,7 +39,7 @@ extends('site.layouts.home')
             </ul>
         </div>
     </div>
-</div><br>
+</div>
 
 <div id="side-3">
     <div class="panel panel-default">
@@ -52,5 +52,5 @@ extends('site.layouts.home')
             </ul>
         </div>
     </div>
-</div><br>
+</div>
 @stop

@@ -14,6 +14,6 @@
             <iframe id="instimg-iframe" src="http://imageagram.com/grid.php?q=u&search=Kaizen_co&wt=in&s=120&h=3&w=3&b=no&c=&p=5&ho=none&sh=yes" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:381px; height: 381px" ></iframe>
         </div>
     </div>
-</div><br>
+</div>
 
 @stop
