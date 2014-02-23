@@ -380,7 +380,7 @@ class EventsController extends BaseController
     {
         // get 4 events
         // with images
-        $query = EventModel::featured()->get(array('e.title'));
+        $query = EventModel::featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
         dd($query);
     }
 
