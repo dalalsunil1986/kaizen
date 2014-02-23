@@ -51,6 +51,7 @@ Route::group(
 //                $q->where('name', '=', 'author');
 //
 //            })->get()->toArray();
+//            $query = EventModel::featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
 
 //              $query = EventModel::find(1)->with('comments','author','photos','subscribers','followers','favorites')->get();
 ////            $query = Category::bySlug('Kristofer Hyatt')->first();

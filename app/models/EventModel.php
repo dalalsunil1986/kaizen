@@ -104,19 +104,12 @@ class EventModel extends BaseModel {
         return $this->morphMany('Photo','imageable');
     }
 
-    public static function featured($limit = 5)
+    public static function featured($limit = 4)
     {
         return DB::table('events AS e')
             ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
             ->where('p.imageable_type', '=', 'EventModel')
             ->take($limit);
-//            ->get(array('e.id', 'e.title', 'e.description', 'p.name'));
-
-//        return DB::table("events as e")->select("e.id,e.title")->join("photos as p", function($join) {
-//            $join->on("e.id", "=", "p.imageable_id")
-//                ->where("p.imageable_type", "=", 'EventModel');
-//        });
-
     }
 }
 

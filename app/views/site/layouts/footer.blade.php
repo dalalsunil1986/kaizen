@@ -11,7 +11,7 @@ extends('site.layouts.home')
 
     </div>
 
-    <div class="col-md-7"style="padding: 15px; color:white;">
+    <div class="col-md-7" style="padding: 15px; color:white;">
         copyrights 2014 </br>
 جميع الحقوق محفوظة ـ شركة كايزن للمؤتمرات والمعارض
     </div>

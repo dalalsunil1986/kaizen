@@ -36,7 +36,7 @@
 
 </head>
 <body>
-<div class="container" class="container-fluid">
+<div class="container container-fluid">
     <div class="col-md-1" ></div>
     <div class="col-md-10" >
         <!-- header -->

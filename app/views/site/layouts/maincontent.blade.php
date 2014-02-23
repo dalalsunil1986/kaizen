@@ -13,7 +13,7 @@
 
     for($i=0; $i<= 3; $i++) {
         $playlistdiv .= '<div class="col-md-3"><a href="'.$json->data->items[$i]->video->player->default.'">
-        <img class="img-thumbnail" src="'.$json->data->items[$i]->video->thumbnail->sqDefault.'"/>
+        <img class="img-thumbnail" src="'.$json->data->items[$i]->video->thumbnail->sqDefault.'"/></a>
         <p>'.$json->data->items[$i]->video->title.'</p>
         </div>';
     }

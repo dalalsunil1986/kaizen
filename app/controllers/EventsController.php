@@ -39,8 +39,8 @@ class EventsController extends BaseController
     protected $layout = 'site.layouts.home';
     public function index()
     {
-
-        $events = parent::all(5);
+//        $events = parent::all();
+        $events = $this->model->featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
         //**Usama**
         //each section is divided like widgets ...
         // so flixable to add/remove slider
@@ -90,7 +90,7 @@ class EventsController extends BaseController
             // $image->move(public_path().'/images/'.$image_name);
             try {
                 Intervention::make($image->getRealPath())->save(public_path() . '/images/' . $image_name);
-                $data = Image::create(
+                $data = Photo::create(
                     [
                         'name' => $image_name,
                         'imageable_id' => $validation->id,
@@ -381,7 +381,6 @@ class EventsController extends BaseController
         // get 4 events
         // with images
         $query = EventModel::featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
-        dd($query);
     }
 
     public function isTheAuthor($user)
