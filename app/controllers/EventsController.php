@@ -85,22 +85,8 @@ class EventsController extends BaseController
         }
         if (Input::hasFile('thumbnail')) {
             $image = Input::file('thumbnail');
-            // Image::make(Input::file('photo')->getRealPath())->resize(300, 200)->save('foo.jpg');
-            $image_name = time() . '-' . $image->getClientOriginalName();
-            // $image->move(public_path().'/images/'.$image_name);
-            try {
-                Intervention::make($image->getRealPath())->save(public_path() . '/images/' . $image_name);
-                $data = Photo::create(
-                    [
-                        'name' => $image_name,
-                        'imageable_id' => $validation->id,
-                        'imageable_type' => 'EventModel',
-                        //  'featured' => Input::get('featured')
-                    ]
-                );
-                $data->save();
-            } catch (InvalidImageTypeException $e) {
-                return Redirect::to(LaravelLocalization::localizeURL('event/' . $validation->id . '/edit'))->withErrors($e->getMessage());
+            if(!$this->photo->attachFeatured($validation->id,$image)) {
+                return Redirect::to(LaravelLocalization::localizeURL('event/' . $validation->id . '/edit'))->withErrors(array('Please upload valid image'));
             }
         }
         return Redirect::to('event/' . $validation->id);
@@ -150,6 +136,12 @@ class EventsController extends BaseController
         $validation->fill(Input::all());
         if (!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
+        }
+        if (Input::hasFile('thumbnail')) {
+            $image = Input::file('thumbnail');
+            if(!$this->photo->attachFeatured($id,$image)) {
+                return Redirect::to(LaravelLocalization::localizeURL('event/' . $id . '/edit'))->withErrors(array('Please upload valid image'));
+            }
         }
         return Redirect::to('event/' . $id);
     }
