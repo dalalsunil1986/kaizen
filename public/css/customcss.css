@@ -1,0 +1,123 @@
+
+	@font-face
+	{
+		font-family: Sultan Medium;
+		src: url('Sultan Medium.tif');
+	}
+	html,body,h1,h2,h3,h4,a,div,span {
+		font-family: 'Sultan Medium' !important;
+	}
+    .panel {
+        /*margin-bottom: 5px !important;*/
+    }
+	.panel-default {
+		
+		/*box-shadow: 2px 2px 15px #888888 !important;*/
+        border: 0px;
+        background-color: white !important;
+	}		
+	.panel-heading {
+        top: 20px;
+        position: relative;
+        background-color: transparent !important;
+        border-color: none !important;
+        background-image: url("../images/SlidesActive.png");
+        background-size:60%;
+        background-position:right;
+        background-repeat: no-repeat;
+		padding: 16px 27px !important;
+		color:#FFF !important;
+
+	}
+
+	.panel-body {
+        padding-top: 25px;
+		overflow: hidden !important;
+        background-image: -webkit-gradient(
+			linear,
+			left top,
+			left bottom,
+			color-stop(0, #E0E0E0),
+			color-stop(1, #C7C7C7)
+			);
+		background-image: -o-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
+		background-image: -moz-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
+		background-image: -webkit-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
+		background-image: -ms-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
+		background-image: linear-gradient(to bottom, #E0E0E0 0%, #C7C7C7 100%);
+		#side-instagram .panel-default {
+		/*	background-image:url(images/Instagram.png);*/
+		
+	    }
+    }
+
+   .form-control {
+        border: 1.25px solid #4100B6;
+        border-radius: 0px;
+   }
+
+   .navbar-default  {
+       background-color: white !important;
+       border-color: white !important;
+   }
+    .navbar-default .navbar-brand { color: #FFF !important;}
+    .navbar-default {
+        background-image: -webkit-gradient(
+            linear,
+            right top,
+            right bottom,
+            color-stop(0.28, #4B1C78),
+            color-stop(1, #3E188C)
+        );
+        background-image: -o-linear-gradient(bottom, #4B1C78 28%, #3E188C 20%);
+        background-image: -moz-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: -webkit-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: -ms-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: linear-gradient(to bottom, #4B1C78 28%, #3E188C 100%);
+        background-repeat:no-repeat;
+    }
+    .navbar-nav>li {
+        background-image: -webkit-gradient(
+            linear,
+            right top,
+            right bottom,
+            color-stop(0.28, #4B1C78),
+            color-stop(1, #3E188C)
+        );
+        background-image: -o-linear-gradient(bottom, #4B1C78 28%, #3E188C 20%);
+        background-image: -moz-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: -webkit-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: -ms-linear-gradient(bottom, #4B1C78 28%, #3E188C 100%);
+        background-image: linear-gradient(to bottom, #4B1C78 28%, #3E188C 100%);
+        background-repeat:no-repeat;
+    }
+
+    #side-instagram .panel-body {
+
+        padding-right: 10%;
+        padding-left: 10%;
+        float:none;
+        overflow: hidden !important;
+    }
+
+    #footer {
+        background-image: url("../images/Footer.png");
+        background-size: 100%;
+        height:auto;
+        background-repeat: no-repeat;
+        text-align: left;
+        min-height: 94px;
+    }
+    #socialicons {
+        padding-top:10px;
+        padding-bottom: 10px;
+        color: white;
+        text-align:right;
+    }
+    #socialicons .col-md-3 img {
+        width: 60%;
+        max-width: 40px;
+        text-align: center;
+        height:auto;
+    }
+

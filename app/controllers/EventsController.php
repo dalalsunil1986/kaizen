@@ -16,7 +16,11 @@ class EventsController extends BaseController
     protected $category;
     protected $photo;
 
+<<<<<<< HEAD
     function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
+=======
+    function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
+>>>>>>> dev
     {
         $this->model = $model;
         $this->user = $user;
@@ -37,13 +41,25 @@ class EventsController extends BaseController
     //        $events = $this->model->all()->take(5);
     //        return View::make('events.index');
     //	}
-
+    // master layout
+    protected $layout = 'site.layouts.home';
     public function index()
     {
-        //  $events =  $this->model->all();
-        $events = parent::all();
-        return $events;
-//        return View::make('events.index', compact('events'));
+//        $events = parent::all();
+        $events = $this->getSliderEvents();
+        //**Usama**
+        //each section is divided like widgets ...
+        // so flixable to add/remove slider
+        // add/remove ads section
+        // add/remove login form section .. and so on
+        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.layouts.maincontent');
+        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->footer = view::make('site.layouts.footer');
+
     }
 
 
@@ -362,8 +378,7 @@ class EventsController extends BaseController
     {
         // get 4 events
         // with images
-        $query = EventModel::featured()->get(array('e.title'));
-        dd($query);
+        return $this->model->featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
     }
 
     public function isTheAuthor($user)

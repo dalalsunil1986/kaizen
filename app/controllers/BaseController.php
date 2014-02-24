@@ -1,9 +1,10 @@
 <?php
 
-abstract class BaseController extends Controller {
+abstract class BaseController extends Controller
+{
 
     //Inject the Model into the Constructor method of the controller
-    
+
     protected $model;
 //    protected $layout = 'site.layouts.default';
 
@@ -20,7 +21,7 @@ abstract class BaseController extends Controller {
 
     protected function setupLayout()
     {
-        if ( ! is_null($this->layout)) {
+        if (!is_null($this->layout)) {
             $this->layout = View::make($this->layout);
         }
     }
@@ -31,7 +32,8 @@ abstract class BaseController extends Controller {
      * @return mixed
      * overrides the default Eloquent all method
      */
-    public  function all($perPage = 10) {
+    public function all($perPage = 10)
+    {
         return $this->model->orderBy('created_at', 'DESC')->paginate($perPage);
     }
 
@@ -40,16 +42,19 @@ abstract class BaseController extends Controller {
      * @return mixed
      * Returns the Category For the Post, Event
      */
-    public function getCategory($id) {
+    public function getCategory($id)
+    {
         $category = $this->model->find($id)->category;
         return $category;
     }
+
     /**
      * @param $id
      * @return mixed
      * Returns the Followers For the Post, Event
      */
-    public function getFollowers($id) {
+    public function getFollowers($id)
+    {
         $followers = $this->model->find($id)->followers;
         return $followers;
     }
@@ -59,34 +64,41 @@ abstract class BaseController extends Controller {
      * @return mixed
      * Returns the Favorites For the Post, Event
      */
-    public function getFavorites($id) {
+    public function getFavorites($id)
+    {
         $favorites = $this->model->find($id)->favorites;
         return $favorites;
     }
+
     /**
      * @param $id
      * @return mixed
      * Returns the Subscriptions For the Post, Event
      */
-    public function getSubscriptions($id) {
+    public function getSubscriptions($id)
+    {
         $subscriptions = $this->model->find($id)->subscriptions;
         return $subscriptions;
     }
+
     /**
      * @param $id
      * @return mixed
      * Returns the Country For the Post, Event
      */
-    public function getCountry($id) {
+    public function getCountry($id)
+    {
         $country = $this->model->find($id)->location->country;
         return $country;
     }
+
     /**
      * @param $id
      * @return mixed
      * Returns the Location For the Post, Event
      */
-    public function getLocation($id) {
+    public function getLocation($id)
+    {
         $location = $this->model->find($id)->location;
         return $location;
     }
