@@ -14,13 +14,15 @@ class EventsController extends BaseController
     protected $user;
     protected $mailer;
     protected $category;
+    protected $photo;
 
-    function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category)
+    function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category,Photo $photo)
     {
         $this->model = $model;
         $this->user = $user;
         $this->mailer = $mailer;
         $this->category = $category;
+        $this->photo = $photo;
         parent::__construct();
 
     }
@@ -40,7 +42,7 @@ class EventsController extends BaseController
     public function index()
     {
 //        $events = parent::all();
-        $events = $this->model->featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
+        $events = $this->getSliderEvents();
         //**Usama**
         //each section is divided like widgets ...
         // so flixable to add/remove slider
@@ -372,7 +374,7 @@ class EventsController extends BaseController
     {
         // get 4 events
         // with images
-        $query = EventModel::featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
+        return $this->model->featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
     }
 
     public function isTheAuthor($user)

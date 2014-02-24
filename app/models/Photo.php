@@ -16,7 +16,7 @@ class Photo extends BaseModel {
         $image_name = time() . '-' . $image->getClientOriginalName();
         // $image->move(public_path().'/images/'.$image_name);
         try {
-            Image::make($image->getRealPath())->save(public_path() . '/images/' . $image_name);
+            Image::make($image->getRealPath())->save(public_path() . '/uploads/' . $image_name);
             $data = Photo::create(
                 [
                     'name' => $image_name,
