@@ -16,11 +16,9 @@ class EventsController extends BaseController
     protected $category;
     protected $photo;
 
-<<<<<<< HEAD
+
     function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
-=======
-    function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
->>>>>>> dev
+
     {
         $this->model = $model;
         $this->user = $user;
