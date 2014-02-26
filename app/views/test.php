@@ -34,7 +34,9 @@
 </head>
 <body>
 	<div class="welcome">
-        <?php var_dump($query); ?>
+<!--        --><?php // var_dump($query); ?>
+
+        Hey Zal :)
 	</div>
 </body>
 </html>

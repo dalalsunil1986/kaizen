@@ -4,7 +4,6 @@ use Acme\Mail\EventsMailer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
-use Intervention\Image\Exception\InvalidImageTypeException;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class EventsController extends BaseController
@@ -24,7 +23,6 @@ class EventsController extends BaseController
         $this->category = $category;
         $this->photo = $photo;
         parent::__construct();
-
     }
 
     /**
@@ -32,23 +30,21 @@ class EventsController extends BaseController
      *
      * @return Response
      */
-    //	public function index()
-    //	{
-    //        $events = $this->model->all()->take(5);
-    //        return View::make('events.index');
-    //	}
+
     // master layout
     protected $layout = 'site.layouts.home';
     public function index()
     {
-//        $events = parent::all();
+        //        $events = parent::all();
+        // get only 4 images for slider
         $events = $this->getSliderEvents();
+
         //**Usama**
         //each section is divided like widgets ...
         // so flixable to add/remove slider
         // add/remove ads section
         // add/remove login form section .. and so on
-        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
+       // $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
@@ -57,8 +53,7 @@ class EventsController extends BaseController
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
-
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -85,10 +80,11 @@ class EventsController extends BaseController
         if (!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-        if (Input::hasFile('thumbnail')) {
-            $image = Input::file('thumbnail');
-            if(!$this->photo->attachFeatured($validation->id,$image)) {
-                return Redirect::to(LaravelLocalization::localizeURL('event/' . $validation->id . '/edit'))->withErrors(array('Please upload valid image'));
+        // if file is uploaded, try to attach it and save it the db
+        if(Input::hasFile('thumbnail')) {
+            // call the attach image function from Photo class
+            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','1')) {
+                return Redirect::to(LaravelLocalization::localizeURL('event/' . $validation->id . '/edit'))->withErrors($this->photo->getErrors());
             }
         }
         return Redirect::to('event/' . $validation->id);
@@ -135,14 +131,13 @@ class EventsController extends BaseController
     {
         // refer davzie postEdits();
         $validation = $this->model->find($id);
-        $validation->fill(Input::all());
+        $validation->fill(Input::except('thumbnail'));
         if (!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
         if (Input::hasFile('thumbnail')) {
-            $image = Input::file('thumbnail');
-            if(!$this->photo->attachFeatured($id,$image)) {
-                return Redirect::to(LaravelLocalization::localizeURL('event/' . $id . '/edit'))->withErrors(array('Please upload valid image'));
+            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','0')) {
+                return Redirect::back()->withErrors($this->photo->getErrors());
             }
         }
         return Redirect::to('event/' . $id);

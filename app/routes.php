@@ -57,9 +57,13 @@ Route::group(
 ////            $query = Category::bySlug('Kristofer Hyatt')->first();
 //            return View::make('test')->with(['query'=> $query]);
 
+            Mail::queue('test',array(),function($m){
+               $m->to('z4ls@live.com')->from('zals@kaizen.com')->subject('hello');
+            });
+
         });
 
-        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@index'));
+//        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@index'));
 
         Route::resource('countries', 'CountriesController');
         Route::get('country', array('as' => 'countries','uses' => 'CountriesController@index'));
