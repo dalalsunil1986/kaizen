@@ -19,6 +19,11 @@ abstract class BaseController extends Controller
         $this->beforeFilter('csrf', array('on' => 'post'));
     }
 
+
+    protected function findByType($id,$type,$type_string) {
+        return $this->model->find($id)->where($type_string, '=', $type);
+    }
+
     protected function setupLayout()
     {
         if (!is_null($this->layout)) {

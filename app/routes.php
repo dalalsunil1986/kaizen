@@ -57,9 +57,13 @@ Route::group(
 ////            $query = Category::bySlug('Kristofer Hyatt')->first();
 //            return View::make('test')->with(['query'=> $query]);
 
+            Mail::queue('test',array(),function($m){
+               $m->to('z4ls@live.com')->from('zals@kaizen.com')->subject('hello');
+            });
+
         });
 
-        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@index'));
+//        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@index'));
 
         Route::resource('countries', 'CountriesController');
         Route::get('country', array('as' => 'countries','uses' => 'CountriesController@index'));
@@ -164,6 +168,22 @@ Route::group(
         # User RESTful Routes (Login, Logout, Register, etc)
         Route::controller('user', 'UserController');
 
+//        Route::post('newsletter/subscribe', array('as'=>'newsletter','uses'=>'NewslettersController@store'));
+        Route::get('newsletter/subscribe', function() {
+            return View::make('test');
+        });
+
+
+        Route::get('/mailchimp', function() {
+            $user = User::find(2);
+            $email = array();
+            $email['email']= $user->email;
+            Notify::userSubscriber($email);
+            dd($user->toArray());
+        });
+
+        // newsletter subscribe route
+        Route::post('newsletter','NewslettersController@storeNewsletter');
 
 
 //        /** ------------------------------------------

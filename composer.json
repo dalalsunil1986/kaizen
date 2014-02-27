@@ -17,7 +17,8 @@
         "zizaco/entrust": "dev-master",
         "bllim/datatables": "*",
         "mailchimp/mailchimp": "2.0.4",
-        "intervention/image": "dev-master"
+        "intervention/image": "dev-master",
+		"pda/pheanstalk": "dev-master"
 	},
     "require-dev": {
         "way/generators": "dev-master",

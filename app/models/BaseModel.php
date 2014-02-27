@@ -108,6 +108,8 @@ class BaseModel extends Eloquent
     }
 
 
+
+
     protected function getHumanTimestampAttribute($column)
     {
         if ($this->attributes[$column])

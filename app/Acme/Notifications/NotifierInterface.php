@@ -9,4 +9,7 @@ interface NotifierInterface {
      * @return mixed
      */
     public function lessonSubscribers($data);
+
+    public function subscribeUser($listId,$email);
+
 }
