@@ -168,8 +168,10 @@ class EventsController extends BaseController
     public function notifyFollowers($id)
     {
         $event = $this->model->find($id);
-        // Notify::lessonSubscribers($event);
-        return $this->mailer->notifyFollowers($event);
+
+//        dd($user);
+        Notify::lessonSubscribers($event);
+//        return $this->mailer->notifyFollowers($event);
     }
 
 

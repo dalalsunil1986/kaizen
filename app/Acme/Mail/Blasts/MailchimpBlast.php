@@ -34,4 +34,11 @@ class MailchimpBlast implements EmailBlastInterface {
 
         $this->mailchimp->campaigns->send($campaign['id']);
     }
+
+    public function subscribe($id, $email)
+    {
+//        $_params = array("id" => $id, "email" => $email, "merge_vars" => $merge_vars, "email_type" => $email_type, "double_optin" => $double_optin, "update_existing" => $update_existing, "replace_interests" => $replace_interests, "send_welcome" => $send_welcome);
+//        return $this->master->call('lists/subscribe', $_params);
+        $this->mailchimp->lists->subscribe($id,$email);
+    }
 }

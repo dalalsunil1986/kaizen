@@ -168,6 +168,22 @@ Route::group(
         # User RESTful Routes (Login, Logout, Register, etc)
         Route::controller('user', 'UserController');
 
+//        Route::post('newsletter/subscribe', array('as'=>'newsletter','uses'=>'NewslettersController@store'));
+        Route::get('newsletter/subscribe', function() {
+            return View::make('test');
+        });
+
+
+        Route::get('/mailchimp', function() {
+            $user = User::find(2);
+            $email = array();
+            $email['email']= $user->email;
+            Notify::userSubscriber($email);
+            dd($user->toArray());
+        });
+
+        // newsletter subscribe route
+        Route::post('newsletter','NewslettersController@storeNewsletter');
 
 
 //        /** ------------------------------------------
