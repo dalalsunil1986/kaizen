@@ -16,6 +16,7 @@ class EventsController extends BaseController
     protected $photo;
 
 
+
     function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
 
     {
@@ -26,6 +27,7 @@ class EventsController extends BaseController
         $this->photo = $photo;
         parent::__construct();
     }
+
 
     /**
      * Display a listing of the resource.
@@ -480,4 +482,5 @@ class EventsController extends BaseController
 
         return View::make('events.search',compact('category','author','country','events','search','categories','authors','countries'));
     }
+
 }
