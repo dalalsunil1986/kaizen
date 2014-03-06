@@ -6,3 +6,9 @@
      text-align: right !important;
  }
 #socialicons {text-align:left !important;}
+
+#statistic_feed {
+    float: right;
+    padding:10px;
+    display:block;
+}

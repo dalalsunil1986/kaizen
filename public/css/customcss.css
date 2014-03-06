@@ -145,3 +145,9 @@
     #event_images img {
         margin:5px;
     }
+
+    #statistic_feed {
+        float: left;
+        padding:10px;
+        display:block;
+    }
