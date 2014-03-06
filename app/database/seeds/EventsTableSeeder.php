@@ -22,6 +22,7 @@ class EventsTableSeeder extends Seeder {
                     'title_en' => $faker->sentence(2),
                     'description' => $faker->sentence(50),
                     'description_en'=>$faker->sentence(50),
+                    'price'=> $faker->
                     'total_seats' => '15',
                     'available_seats' => '0',
                     'slug'=> $faker->sentence(10),
