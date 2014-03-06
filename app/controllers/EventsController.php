@@ -487,8 +487,5 @@ class EventsController extends BaseController
 
         return View::make('events.search',compact('category','author','country','events','search','categories','authors','countries'));
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> fd1a197fd261bdfe4e24fc3949132efc44655b7d
 }

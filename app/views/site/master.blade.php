@@ -129,5 +129,6 @@
 
 <script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 <script src="{{ asset('js/bootstrap-image-gallery.js')"></script>
+<script src="{{ asset('js/customjs.js')"></script>
 </body>
 </html>

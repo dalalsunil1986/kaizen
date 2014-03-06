@@ -1,4 +1,5 @@
-
-$('#fav').click(function () {
-    alert('add To Fav');
+$(document).ready(function () {
+    $('#fav').click(function () {
+        alert('add To Fav');
+    });
 });

@@ -2,7 +2,7 @@
 <div class="row">
     <div class="row" id="statistic_feed">
 
-        <a id="fav" href="#" title="Add To Favorites"> <img src="https://cdn1.iconfinder.com/data/icons/icojoy/noshadow/standart/png/24x24/001_15.png" /></a>
+        <i id="fav" class="glyphicon glyphicon-star-empty"></i>
         <button type="button" class="btn btn-info">Info</button>
         <button type="button" class="btn btn-info">Info</button>
     </div>
