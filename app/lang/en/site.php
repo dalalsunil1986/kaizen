@@ -16,5 +16,15 @@ return array(
 	'contact_us' => 'Contact Us',
 
     'nav' => array('home' => 'Home','admin' => 'Admin','login' => 'Login', 'logout'=>'Logout','sign_up' => 'Sign Up'),
+    'event' => array(
+                'summaryevent' => 'Summary',
+                'totalseats' => 'Total Seats',
+                'date_start' => 'Starts on',
+                'time_start' => 'Starts at',
+                'seatsavail' => 'Seats Avail.',
+                'date_end' => 'Ends on',
+                'time_end' => 'Ends at'
+
+                )
 
 );

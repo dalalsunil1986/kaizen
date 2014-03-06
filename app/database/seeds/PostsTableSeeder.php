@@ -19,8 +19,8 @@ class PostsTableSeeder extends Seeder {
                     'meta_title' => 'meta_title1',
                     'meta_description' => 'meta_description1',
                     'meta_keywords' => 'meta_keywords1',
-                    'created_at' => new DateTime,
-                    'updated_at' => new DateTime
+                    'created_at' => $faker->DateTime(),
+                    'updated_at' => $faker->DateTime()
                 ]
             );
             DB::table('posts')->insert($posts);

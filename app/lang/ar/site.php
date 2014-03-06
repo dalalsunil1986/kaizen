@@ -19,4 +19,15 @@ return array(
                     'admin' => 'ادمن',
                     'login' => 'دخول', 'logout'=>'خروج','sign_up' => 'تسجيل'),
 
+    'event' => array(
+        'summaryevent' => 'تفاصيل الحدث',
+        'totalseats' => 'إجمالي المقاعد',
+        'date_start' => 'تاريخ البدء',
+        'time_start' => 'يبدأ',
+        'seatsavail' => 'المقاعد المتاحة',
+        'date_end' => 'تاريخ الانتهاء',
+        'time_end' => 'ينتهي'
+
+
+    )
 );
