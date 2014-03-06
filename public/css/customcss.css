@@ -155,8 +155,13 @@
 
     .glyphicon {
         font-size: 25px;
-
     }
+
+    #fav  {
+        color: gold;
+        font-weight: bolder;
+    }
+
 
 
 

@@ -2,9 +2,10 @@
 <div class="row">
     <div class="row" id="statistic_feed">
 
-        <i id="fav" class="glyphicon glyphicon-star-empty"></i>
-        <button type="button" class="btn btn-info">Info</button>
-        <button type="button" class="btn btn-info">Info</button>
+        <a><i id="fav" class="glyphicon glyphicon-star-empty"></i></a>
+        <i id="fav" class="glyphicon glyphicon-align-left"></i>
+        <i id="fav" class="glyphicon glyphicon-arrow-down"></i>
+
     </div>
 
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
