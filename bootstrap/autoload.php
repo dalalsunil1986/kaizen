@@ -1,6 +1,8 @@
 <?php
 
-define('LARAVEL_START', microtime(true));
+
+define('KAIZEN', microtime(true));
+
 
 /*
 |--------------------------------------------------------------------------
