@@ -151,3 +151,17 @@
         padding:10px;
         display:block;
     }
+
+
+    .glyphicon {
+        font-size: 25px;
+    }
+
+    #fav  {
+        color: gold;
+        font-weight: bolder;
+    }
+
+
+
+

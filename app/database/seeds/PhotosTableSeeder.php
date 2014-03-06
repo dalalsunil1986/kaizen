@@ -15,7 +15,7 @@ class PhotosTableSeeder extends Seeder {
             $images = array(
 
                 [
-                    'name' => $faker->imageUrl(120,120),
+         'name' => $faker->imageUrl(120,120),
                     'imageable_id' => $event,
                     'imageable_type' => $faker->randomElement(['EventModel','Blog']),
                     'created_at' => new DateTime,

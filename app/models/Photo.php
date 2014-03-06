@@ -1,5 +1,6 @@
 <?php
 use Intervention\Image\Facades\Image;
+
 class Photo extends BaseModel {
     protected $guarded = array('id');
     public static $rules = array(
@@ -23,8 +24,6 @@ class Photo extends BaseModel {
 
         // try to move and upload the file
         try {
-
-
             Image::make($image->getRealPath())->save($image_path_name);
 
             // if the featured image is already exists in the db, replace it with the new image

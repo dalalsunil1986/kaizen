@@ -2,9 +2,10 @@
 <div class="row">
     <div class="row" id="statistic_feed">
 
-        <a id="fav" href="#" title="Add To Favorites"> <img src="https://cdn1.iconfinder.com/data/icons/icojoy/noshadow/standart/png/24x24/001_15.png" /></a>
-        <button type="button" class="btn btn-info">Info</button>
-        <button type="button" class="btn btn-info">Info</button>
+        <a><i id="fav" class="glyphicon glyphicon-star-empty"></i></a>
+        <i id="fav" class="glyphicon glyphicon-align-left"></i>
+        <i id="fav" class="glyphicon glyphicon-arrow-down"></i>
+
     </div>
 
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
@@ -23,6 +24,7 @@
     <table class="table table-striped">
         <tr>
             <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+
         </tr>
         <tr>
             <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>

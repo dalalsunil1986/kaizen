@@ -23,8 +23,10 @@ class EmailNotifier implements NotifierInterface {
     /**
      * Notify lesson subscribers
      *
+
      * @param $event
      * @internal param $lesson
+
      *
      * @return mixed|void
      */
@@ -51,6 +53,7 @@ class EmailNotifier implements NotifierInterface {
      * @param int $listId
      * @param array $emails => assosiative array
      * @return bool
+
      * @internal param \Acme\Notifications\assosiative $user array of emails
      * Subscribe a user to the list
      */
