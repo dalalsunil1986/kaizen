@@ -1,26 +1,22 @@
 @section('maincontent')
 <div class="row">
-    <div class="row">
+    <div class="row" id="statistic_feed">
 
-        <button type="button" class="btn btn-info">Info</button>
+        <a id="fav" href="#" title="Add To Favorites"> <img src="https://cdn1.iconfinder.com/data/icons/icojoy/noshadow/standart/png/24x24/001_15.png" /></a>
         <button type="button" class="btn btn-info">Info</button>
         <button type="button" class="btn btn-info">Info</button>
     </div>
 
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
     <h1>{{ $event->title_en}}</h1>
-
     <div id="event_images">
         <div id="links">
-            <a href="{{ asset('images/Instagram.png') }}" title="Banana" data-gallery>
-                <img src="http://placehold.it/100x100" alt="Banana" class="img-thumbnail">
+            @foreach($event->photos as $photo) {
+            <a href="{{ $photo->name }}" data-gallery>
+                <img src=" {{ $photo->featured }}" alt="{{ $photo->name }}" class="img-thumbnail">
             </a>
-            <a href="http://placehold.it/100x100" title="Apple" data-gallery>
-                <img src="http://placehold.it/100x100" alt="Apple">
-            </a>
-            <a href="http://placehold.it/100x100" title="Orange" data-gallery>
-                <img src="http://placehold.it/100x100" alt="Orange">
-            </a>
+            }
+            @endforeach
         </div>
     </div>
 
@@ -96,10 +92,10 @@
                 <img src="http://placehold.it/100x100" alt="Banana" class="img-thumbnail">
             </a>
             <a href="http://placehold.it/100x100" title="Apple" data-gallery>
-                <img src="http://placehold.it/100x100" alt="Apple">
+                <img src="http://placehold.it/100x100" alt="Apple"  class="img-thumbnail">
             </a>
             <a href="http://placehold.it/100x100" title="Orange" data-gallery>
-                <img src="http://placehold.it/100x100" alt="Orange">
+                <img src="http://placehold.it/100x100" alt="Orange"  class="img-thumbnail">
             </a>
         </div>
     </div>
