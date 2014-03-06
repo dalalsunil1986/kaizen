@@ -6,7 +6,6 @@
 <!--        <a href="{{ URL::action('EventsController@show',$events[0]->id) }}"><img alt="" src="{{ URL::asset('/uploads/' . $events[0]->name) }}"></a>-->
 
         @foreach ($events as $event )
-<!--            {{ var_dump($event) }}-->
             <div class="item">
                 <img alt="" src="{{ URL::asset('/uploads/' . $event->name) }}">
                 @if ( LaravelLocalization::getCurrentLocaleName() == 'English')

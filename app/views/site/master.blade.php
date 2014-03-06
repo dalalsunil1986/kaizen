@@ -36,7 +36,7 @@
 
 </head>
 <body>
-<div class="container container-fluid">
+<div class="container">
     <div class="col-md-1" ></div>
     <div class="col-md-10" >
         <!-- header -->
@@ -63,13 +63,13 @@
             @yield('ads')
             <div class="row"></div>
             <!-- main content division -->
-            <div class="col-md-8">
+            <div id="maincontent" class="col-md-8">
                 @yield('maincontent')
             </div>
             <!-- end of main content-->
 
             <!-- sidecontent division -->
-            <div class="col-md-4">
+            <div id="sidecontent" class="col-md-4">
                 @yield('sidecontent')
             </div>
             <!-- end of sidedivision content-->

@@ -19,8 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
     array(
-        'prefix' => LaravelLocalization::setLocale(),
+        'prefix' => LaravelLocalization::setLocale(), // default : English === it will set the local language according to the session
         'before' => 'LaravelLocalizationRedirectFilter' // LaravelLocalization filter
+        // only forces lang /ar/en to the URL
+        // first time to load english !!! so it will force the before filter to en
     ),
     function()
     {
@@ -57,13 +59,13 @@ Route::group(
 ////            $query = Category::bySlug('Kristofer Hyatt')->first();
 //            return View::make('test')->with(['query'=> $query]);
 
-            Mail::queue('test',array(),function($m){
+            /*Mail::queue('test',array(),function($m){
                $m->to('z4ls@live.com')->from('zals@kaizen.com')->subject('hello');
-            });
+            });*/
 
         });
 
-//        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@index'));
+        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@index'));
 
         Route::resource('countries', 'CountriesController');
         Route::get('country', array('as' => 'countries','uses' => 'CountriesController@index'));
@@ -72,6 +74,7 @@ Route::group(
 
         //Event Routes
         Route::resource('event','EventsController');
+
         //get all events
         Route::get('events', 'EventsController@index');
 
