@@ -23,12 +23,12 @@
 
         <li>
             {{ Form::label('title', 'Title:') }}
-            {{ Form::textarea('title') }}
+            {{ Form::text('title') }}
         </li>
 
         <li>
             {{ Form::label('title_en', 'Title_en:') }}
-            {{ Form::textarea('title_en') }}
+            {{ Form::text('title_en') }}
         </li>
 
         <li>
@@ -42,8 +42,13 @@
         </li>
 
         <li>
+            {{ Form::label('price', 'Price:') }}
+            {{ Form::text('description_en') }}
+        </li>
+
+        <li>
             {{ Form::label('date_start', 'Date_start:') }}
-            {{ Form::textarea('date_start') }}
+            {{ Form::text('date_start') }}
         </li>
 
         <li>
@@ -53,27 +58,27 @@
 
         <li>
             {{ Form::label('time_start', 'Time_start:') }}
-            {{ Form::textarea('time_start') }}
+            {{ Form::text('time_start') }}
         </li>
 
         <li>
             {{ Form::label('time_end', 'Time_end:') }}
-            {{ Form::textarea('time_end') }}
+            {{ Form::text('time_end') }}
         </li>
 
         <li>
             {{ Form::label('address', 'Address:') }}
-            {{ Form::text('address') }}
+            {{ Form::textarea('address') }}
         </li>
 
         <li>
             {{ Form::label('address_en', 'Address_en:') }}
-            {{ Form::text('address_en') }}
+            {{ Form::textarea('address_en') }}
         </li>
 
         <li>
             {{ Form::label('street', 'Street:') }}
-            {{ Form::textarea('street') }}
+            {{ Form::text('street') }}
         </li>
 
         <li>
@@ -85,6 +90,12 @@
             {{ Form::label('thumbnail', 'Thumbnail:') }}
             {{ Form::file('thumbnail') }}
         </li>
+
+        <li>
+            {{ Form::label('Free', 'Free:') }}
+            {{ Form::checkbox('free','1',false) }}
+        </li>
+
 
 		<li>
 			{{ Form::submit('Submit', array('class' => 'btn btn-info')) }}

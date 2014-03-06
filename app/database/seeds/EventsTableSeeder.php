@@ -38,7 +38,8 @@ class EventsTableSeeder extends Seeder {
                     'longitude' => $faker->longitude,
                     'active' =>(bool) rand(0, 1),
                     'created_at' => new DateTime,
-                    'updated_at' => new DateTime
+                    'updated_at' => new DateTime,
+                    'free' => $faker->boolean()
                 ]
 
 		    );

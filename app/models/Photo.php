@@ -3,8 +3,7 @@ use Intervention\Image\Facades\Image;
 class Photo extends BaseModel {
     protected $guarded = array('id');
     public static $rules = array(
-        'name' => 'required',
-        'featured'=> 'int'
+        'name' => 'required'
     );
 
     public function imageable()
