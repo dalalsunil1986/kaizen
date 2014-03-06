@@ -1,0 +1,32 @@
+# Laravel
+/bootstrap/compiled.php
+/vendor
+
+# Configuration
+/app/config/local
+/app/config/staging
+/app/config/production
+
+# Basset development collections
+/public/assets/compiled/public
+/public/assets/compiled/admin
+/public/uploads
+
+#vagrant
+VagrantFile
+.vagrant
+.idea
+install.sh
+
+# Composer
+composer.phar
+composer.lock
+
+# OS
+.DS_Store
+.idea/
+
+# Packages
+_ide_helpers.php
+
+Thumbs.db
