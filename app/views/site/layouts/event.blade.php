@@ -1,12 +1,9 @@
 @extends('site.layouts.home')
 @section('slider')
-
 <div class="carousel slide" id="myCarousel">
     <div class="carousel-inner">
 <!--        <a href="{{ URL::action('EventsController@show',$events[0]->id) }}"><img alt="" src="{{ URL::asset('/uploads/' . $events[0]->name) }}"></a>-->
-
-        @foreach ($events as $event )
-<!--            {{ var_dump($event) }}-->
+        @foreach ($events as $event)
             <div class="item">
                 <img alt="" src="{{ URL::asset('/uploads/' . $event->name) }}">
                 @if ( LaravelLocalization::getCurrentLocaleName() == 'English')

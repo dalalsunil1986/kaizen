@@ -52,6 +52,7 @@ class EventsController extends BaseController
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
         $this->layout->maincontent = view::make('site.layouts.maincontent');
         $this->layout->sidecontent = view::make('site.layouts.sidecontent');
         $this->layout->footer = view::make('site.layouts.footer');
@@ -103,8 +104,14 @@ class EventsController extends BaseController
     public function show($id)
     {
         $event = $this->model->with('comments','author','photos','subscribers','followers','favorites')->find($id);
-        dd($event);
-        return View::make('events.show', compact('event'));
+       // dd($event);
+        //return View::make('events.show', compact('event'));
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.layouts.eventmain' , ['event' => $event]);
+        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->footer = view::make('site.layouts.footer');
     }
 
     /**
