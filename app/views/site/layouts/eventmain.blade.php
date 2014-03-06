@@ -24,6 +24,7 @@
     <table class="table table-striped">
         <tr>
             <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+
         </tr>
         <tr>
             <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>

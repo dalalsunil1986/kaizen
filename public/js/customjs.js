@@ -5,6 +5,4 @@ $(document).ready(function () {
        // alert('working');
        $(this).toggleClass('glyphicon glyphicon-star');
     });
-
-
 });
