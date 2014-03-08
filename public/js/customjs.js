@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('#fav').click(function () {
         alert('add To Fav');
-    }).hover(function () {
+    }).on('mouseover',function () {
        // alert('working');
        $(this).toggleClass('glyphicon glyphicon-star');
     });

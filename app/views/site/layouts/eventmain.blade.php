@@ -2,7 +2,7 @@
 <div class="row">
     <div class="row" id="statistic_feed">
 
-        <a><i id="fav" class="glyphicon glyphicon-star-empty"></i></a>
+        <button  id="fav" href="#"><i  class=glyphicon glyphicon-star"></i></button>
         <i id="fav" class="glyphicon glyphicon-align-left"></i>
         <i id="fav" class="glyphicon glyphicon-arrow-down"></i>
 
