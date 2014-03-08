@@ -157,9 +157,20 @@
         font-size: 25px;
     }
 
-    #fav  {
+    #fav_btn  {
         color: gold;
-        font-weight: bolder;
+    }
+
+    #fallow_btn {
+        color: #b447b0;
+    }
+    #subscribe_btn {
+        color: #7540b4;
+    }
+    #event_images {
+        display: block;
+        clear:both;
+        margin: 5px;
     }
 
 

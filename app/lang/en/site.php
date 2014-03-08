@@ -23,7 +23,10 @@ return array(
                 'time_start' => 'Starts at',
                 'seatsavail' => 'Seats Avail.',
                 'date_end' => 'Ends on',
-                'time_end' => 'Ends at'
+                'time_end' => 'Ends at',
+                'fav' => 'Add To Favorites',
+                'fallow' => 'Fallow',
+                'subscribe' => 'Subscribe',
 
                 )
 

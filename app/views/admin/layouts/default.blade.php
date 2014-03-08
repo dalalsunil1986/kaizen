@@ -93,6 +93,13 @@
 <body>
 	<!-- Container -->
 	<div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {{ HTML::image('images/Logo.png') }}
+            </div>
+            <div class="col-md-8">
+            </div>
+        </div>
 		<!-- Navbar -->
 		<div class="navbar navbar-default navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -165,6 +172,8 @@
     <script src="{{ asset('js/datatables.fnReloadAjax.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/jquery.colorbox.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/prettify.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.MultiFile.js') }}" type="text/javascript"></script>
+
 
 
     <script type="text/javascript">
