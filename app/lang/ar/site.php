@@ -26,7 +26,10 @@ return array(
         'time_start' => 'يبدأ',
         'seatsavail' => 'المقاعد المتاحة',
         'date_end' => 'تاريخ الانتهاء',
-        'time_end' => 'ينتهي'
+        'time_end' => 'ينتهي',
+        'fav' => 'إضف إلى المفضلة',
+        'fallow' => 'متابعة',
+        'subscribe' => 'إنضمام',
 
 
     )

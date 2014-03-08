@@ -1,26 +1,28 @@
 @section('maincontent')
 <div class="row">
+
+    @if(Auth::user())
     <div class="row" id="statistic_feed">
 
-        <a><i id="fav" class="glyphicon glyphicon-star-empty"></i></a>
-        <i id="fav" class="glyphicon glyphicon-align-left"></i>
-        <i id="fav" class="glyphicon glyphicon-arrow-down"></i>
+        <button  id="fav_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fav') }}"><i class="glyphicon glyphicon-star"></i></button>&nbsp;
+        <button  id="fallow_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fallow') }}"><i class="glyphicon glyphicon-plus"></i></button>&nbsp;
+        <button  id="subscribe_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i class="glyphicon glyphicon-check"></i></button>&nbsp;
 
     </div>
+    @endif
 
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
     <h1>{{ $event->title_en}}</h1>
     <div id="event_images">
         <div id="links">
-            @foreach($event->photos as $photo) {
+            @foreach($event->photos as $photo)
             <a href="{{ $photo->name }}" data-gallery>
-                <img src=" {{ $photo->featured }}" alt="{{ $photo->name }}" class="img-thumbnail">
+                <img src=" {{ $photo->name }}" alt="{{ $photo->name }}" class="img-thumbnail">
             </a>
-            }
             @endforeach
         </div>
     </div>
-
+</br>
     <table class="table table-striped">
         <tr>
             <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
@@ -90,18 +92,14 @@
 
     <div id="event_images">
         <div id="links">
-            <a href="{{ asset('images/Instagram.png') }}" title="Banana" data-gallery>
-                <img src="http://placehold.it/100x100" alt="Banana" class="img-thumbnail">
+            @foreach($event->photos as $photo)
+            <a href="{{ $photo->name }}" data-gallery>
+                <img src=" {{ $photo->name }}" alt="{{ $photo->name }}" class="img-thumbnail">
             </a>
-            <a href="http://placehold.it/100x100" title="Apple" data-gallery>
-                <img src="http://placehold.it/100x100" alt="Apple"  class="img-thumbnail">
-            </a>
-            <a href="http://placehold.it/100x100" title="Orange" data-gallery>
-                <img src="http://placehold.it/100x100" alt="Orange"  class="img-thumbnail">
-            </a>
+            @endforeach
         </div>
     </div>
-
+    </br>
     <table class="table table-striped">
         <tr>
             <h4>{{ Lang::get('site.event.summaryevent') }}</h4>

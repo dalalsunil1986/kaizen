@@ -1,8 +1,11 @@
 $(document).ready(function () {
-    $('#fav').click(function () {
+
+    // tooltip activation
+    $("[data-toggle=tooltip]").tooltip();
+
+    // EventController Favorite btn
+    $('#fav_btn').click(function () {
         alert('add To Fav');
-    }).hover(function () {
-       // alert('working');
-       $(this).toggleClass('glyphicon glyphicon-star');
     });
+
 });
