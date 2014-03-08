@@ -73,7 +73,7 @@ Route::group(
         Route::post('country/create', array('as' => 'createCountry', 'uses' => 'CountriesController@store'));
 
         //Event Routes
-        Route::resource('event','EventsController');
+        Route::resource('event','EventsController', array('only' => array('index', 'show')));
 
         //get all events
         Route::get('events', 'EventsController@index');
@@ -85,12 +85,7 @@ Route::group(
         Route::get('event/{id}/author', 'EventsController@getAuthor');
 
         //get event followers
-        Route::get('event/{id}/followers','EventsController@getFollowers');
-        Route::get('event/{id}/favorites','EventsController@getFavorites');
-        Route::get('event/{id}/subscriptions','EventsController@getSubscriptions');
-        Route::get('event/{id}/country','EventsController@getCountry');
-        Route::get('event/{id}/location','EventsController@getLocation');
-        Route::get('event/{id}/notifyFollowers', 'EventsController@notifyFollowers');
+
         Route::get('event/{id}/subscribe','EventsController@subscribe');
         Route::get('event/{id}/unsubscribe','EventsController@unsubscribe');
         Route::get('event/{id}/follow','EventsController@follow');
@@ -116,7 +111,17 @@ Route::group(
         //followers
 
         // Admin Route Group
-        Route::group(array('prefix' => 'admin', 'before' => 'auth'), function () {
+        Route::group(array('prefix' => 'admin', 'before' =>'auth|Moderator'), function () {
+
+
+            Route::get('/findRoles/{role}',function($role) {
+                $user = new User();
+                $users = $user->getRoleByName($role);
+//                dd($users->toArray());
+                foreach ($users as $user) {
+                    echo $user->username.'<br>';
+                }
+            });
 
             # Comment Management
             Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
@@ -134,7 +139,7 @@ Route::group(
             Route::controller('blogs', 'AdminBlogsController');
 
             # User Management
-            Route::get('users/{user}/show', 'AdminUsersController@getShow');
+            Route::get('users/{user}/show', array('uses'=>'AdminUsersController@getShow'));
             Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
             Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
             Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
@@ -149,8 +154,29 @@ Route::group(
             Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
             Route::controller('roles', 'AdminRolesController');
 
+//            Auth::loginUsingId(2);
+//            $user = Auth::user();
+//
+////            dd($user);
+//
+//            if ($user->hasRole('moderator') )
+//            {
+////                dd('moderator');
+//                dd('admin');
+//            }
+            #event
+            Route::resource('event','EventsController');
+            Route::get('event/{id}/followers','EventsController@getFollowers');
+            Route::get('event/{id}/favorites','EventsController@getFavorites');
+            Route::get('event/{id}/subscriptions','EventsController@getSubscriptions');
+            Route::get('event/{id}/country','EventsController@getCountry');
+            Route::get('event/{id}/location','EventsController@getLocation');
+            Route::get('event/{id}/notifyFollowers', 'EventsController@notifyFollowers');
+
             # Admin Dashboard
             Route::controller('/', 'AdminDashboardController');
+
+
         });
 
         /** ------------------------------------------

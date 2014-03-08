@@ -11204,7 +11204,6 @@ class Confide extends Zizaco\Confide\ConfideFacade{
 
 }
 
-class Entrust extends Zizaco\Entrust\EntrustFacade{
 	/**
 	 * Create a new confide instance.
 	 *

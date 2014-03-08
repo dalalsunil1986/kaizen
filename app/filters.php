@@ -72,13 +72,14 @@ Route::filter('guest', function()
 */
 
 // Check for role on all admin routes
-Entrust::routeNeedsRole( 'admin*', array('admin'), Redirect::to('/') );
+Entrust::routeNeedsRole( 'admin*', array('admin','moderator'));
 
 // Check for permissions on admin actions
-Entrust::routeNeedsPermission( 'admin/blogs*', 'manage_blogs', Redirect::to('/admin') );
-Entrust::routeNeedsPermission( 'admin/comments*', 'manage_comments', Redirect::to('/admin') );
-Entrust::routeNeedsPermission( 'admin/users*', 'manage_users', Redirect::to('/admin') );
-Entrust::routeNeedsPermission( 'admin/roles*', 'manage_roles', Redirect::to('/admin') );
+//Entrust::routeNeedsPermission( 'admin/blogs*', 'manage_blogs', Redirect::to('/admin') );
+//Entrust::routeNeedsPermission( 'admin/comments*', 'manage_comments', Redirect::to('/admin') );
+//Entrust::routeNeedsPermission( 'admin/users*', 'manage_users', Redirect::to('/admin') );
+//Entrust::routeNeedsPermission( 'admin/roles*', 'manage_roles', Redirect::to('/admin') );
+//Entrust::routeNeedsPermission( 'admin/events*', 'manage_roles', Redirect::to('/admin') );
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +91,24 @@ Entrust::routeNeedsPermission( 'admin/roles*', 'manage_roles', Redirect::to('/ad
 | session does not match the one given in this request, we'll bail.
 |
 */
+
+Route::filter('Moderator', function()
+{
+    if (!(Entrust::hasRole('admin') || (Entrust::hasRole('moderator')))) // Checks the current user
+    {
+        return Redirect::to(LaravelLocalization::localizeURL('/'));
+    }
+});
+
+Route::filter('Admin', function()
+{
+    if (!(Entrust::hasRole('admin') )) // Checks the current user
+    {
+        dd('you do not have permission');
+        return Redirect::to(LaravelLocalization::localizeURL('/'));
+    }
+});
+
 
 Route::filter('csrf', function()
 {
