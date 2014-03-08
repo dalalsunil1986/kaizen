@@ -1,5 +1,7 @@
 @section('maincontent')
 <div class="row">
+
+    @if(Auth::user())
     <div class="row" id="statistic_feed">
 
         <button  id="fav_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fav') }}"><i class="glyphicon glyphicon-star"></i></button>&nbsp;
@@ -7,6 +9,7 @@
         <button  id="subscribe_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i class="glyphicon glyphicon-check"></i></button>&nbsp;
 
     </div>
+    @endif
 
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
     <h1>{{ $event->title_en}}</h1>
