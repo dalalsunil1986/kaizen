@@ -174,7 +174,9 @@
         margin: 5px;
         border-top: 1px solid rgba(230, 229, 228, 0.83);
     }
-
-
-
-
+    .comments_title {
+        width:98%;
+        height:auto;
+        padding: 5px;
+        background-color: rgba(216, 215, 214, 0.83);
+    }

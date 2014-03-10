@@ -27,7 +27,8 @@ return array(
                 'fav' => 'Add To Favorites',
                 'fallow' => 'Fallow',
                 'subscribe' => 'Subscribe',
-
+                'comment' => 'Comments' ,
+                'addcomment' => 'Add Comment'
                 )
 
 );

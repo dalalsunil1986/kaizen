@@ -101,7 +101,7 @@ class EventsController extends BaseController
      */
     public function show($id)
     {
-        $event = $this->model->with('comments','author','photos','subscribers','followers','favorites')->find($id);
+        $event =  EventModel::with('comments','author','photos','subscribers','followers','favorites')->find($id);
        // dd($event);
         //return View::make('events.show', compact('event'));
         $this->layout->login = View::make('site.layouts.login');

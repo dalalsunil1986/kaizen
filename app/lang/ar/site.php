@@ -30,6 +30,8 @@ return array(
         'fav' => 'إضف إلى المفضلة',
         'fallow' => 'متابعة',
         'subscribe' => 'إنضمام',
+        'comment' => 'تعليقات',
+        'addcomment' => 'إضافه تعليق'
 
 
     )
