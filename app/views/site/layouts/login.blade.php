@@ -9,7 +9,7 @@
         <label class="sr-only" for="exampleInputPassword2">Password</label>
         <input type="password" class="form-control" size="10" id="exampleInputPassword2" placeholder="Password">
     </div>&nbsp;&nbsp;
-    <button type="submit" class="btn btn-default">{{ Lang::get('site.auth.signing') }}</button>
+    <button type="submit" class="btn btn-default">{{ Lang::get('site.nav.login') }}</button>
 <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
 </form>
 @stop

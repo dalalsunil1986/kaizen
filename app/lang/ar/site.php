@@ -17,7 +17,14 @@ return array(
 
      'nav' => array('home' => 'رئيسية',
                     'admin' => 'ادمن',
-                    'login' => 'دخول', 'logout'=>'خروج','sign_up' => 'تسجيل'),
+                    'login' => 'دخول', 'logout'=>'خروج','sign_up' => 'تسجيل',
+                    'main' => 'الصفحة الرئيسية',
+                    'events' => 'الفعاليات',
+                    'consultancies' => 'الإستشارات',
+                    'posts' => 'المقالات',
+                    'contactus' => 'الإتصال بنا',
+                    'search' => 'بحث',
+     ),
 
     'event' => array(
         'summaryevent' => 'تفاصيل الحدث',
@@ -32,7 +39,8 @@ return array(
         'subscribe' => 'إنضمام',
         'comment' => 'تعليقات',
         'addcomment' => 'إضافه تعليق'
-
-
+    ),
+    'general' => array(
+        'kaizen' => 'كايزن',
     )
 );
