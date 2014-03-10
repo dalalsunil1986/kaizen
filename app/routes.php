@@ -111,7 +111,7 @@ Route::group(
         //followers
 
         // Admin Route Group
-        Route::group(array('prefix' => 'admin', 'before' =>'auth|Moderator'), function () {
+        Route::group(array('prefix' => 'admin', 'before' =>'auth'), function () {
 
 
             Route::get('/findRoles/{role}',function($role) {
