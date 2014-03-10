@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'key' => 'NxscBeY7Mb4dXJHrIZTmnRJer5cqHr9z',
+	'key' => '2lKTFygI3YiYnohTbHC2gL0KcD6ESEvS',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -122,6 +122,8 @@ return array(
         'Barryvdh\Debugbar\ServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 
+        'Basset\BassetServiceProvider', // Better Asset Management
+        'Robbo\Presenter\PresenterServiceProvider', // Presenter
 	),
 
 	/*
@@ -191,13 +193,18 @@ return array(
         /* Additional Aliases */
         'Confide'         => 'Zizaco\Confide\ConfideFacade', // Confide Alias
         'Entrust'         => 'Zizaco\Entrust\EntrustFacade', // Entrust Alias
-        'Carbon'          => 'Carbon\Carbon', // Carbon
         'LaravelLocalization'   => 'Mcamara\LaravelLocalization\Facades\LaravelLocalization',
-        'Datatables'      => 'Bllim\Datatables\Datatables', // DataTables
         'Notify'          => 'Acme\Facades\Notify',
         'Intervention' => 'Intervention\Image\Facades\Image',
 
         'Debugbar' => 'Barryvdh\Debugbar\Facade',
+
+        'Presenter'       => 'Robbo\Presenter\Presenter', // Presenter
+        'Presentable'     => 'Robbo\Presenter\PresentableInterface', // Presenter
+        'Basset'          => 'Basset\Facade', // Better Asset Management
+        'String'          => 'Andrew13\Helpers\String', // String
+        'Carbon'          => 'Carbon\Carbon', // Carbon
+        'Datatables'      => 'Bllim\Datatables\Datatables', // DataTables
 
     ),
 

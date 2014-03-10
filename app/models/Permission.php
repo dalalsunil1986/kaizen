@@ -43,5 +43,4 @@ class Permission extends EntrustPermission
         }
         return $preparedPermissions;
     }
-
 }

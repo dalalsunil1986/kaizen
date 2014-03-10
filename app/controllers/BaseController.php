@@ -37,7 +37,7 @@ abstract class BaseController extends Controller
      * @return mixed
      * overrides the default Eloquent all method
      */
-    public function all($perPage = 10)
+    public function all($perPage = 8)
     {
         return $this->model->orderBy('created_at', 'DESC')->paginate($perPage);
     }

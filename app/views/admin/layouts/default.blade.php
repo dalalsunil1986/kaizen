@@ -43,29 +43,15 @@
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{{ asset('assets/ico/apple-touch-icon-72-precomposed.png') }}}">
 	<link rel="apple-touch-icon-precomposed" href="{{{ asset('assets/ico/apple-touch-icon-57-precomposed.png') }}}">
 
+	<!-- CSS -->
+    {{ Basset::show('admin.css') }}
 
-    @section('styles')
-        <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/wysihtml5/prettify.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/wysihtml5/bootstrap-wysihtml5.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/datatables-bootstrap.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/colorbox.css') }}">
+	<style>
+	body {
+		padding: 60px 0;
+	}
+	</style>
 
-
-
-        <!-- CSS -->
-        <style>
-            body {
-                padding: 60px 0;
-            }
-        </style>
-        @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
-            {{ HTML::style('css/bootstrap-rtl.min.css') }}
-        @endif
-    @endsection
 	@yield('styles')
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -93,13 +79,6 @@
 <body>
 	<!-- Container -->
 	<div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                {{ HTML::image('images/Logo.png') }}
-            </div>
-            <div class="col-md-8">
-            </div>
-        </div>
 		<!-- Navbar -->
 		<div class="navbar navbar-default navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -163,23 +142,14 @@
 	<!-- ./ container -->
 
 	<!-- Javascripts -->
-    <script src="{{ asset('js/jquery.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/wysihtml5/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/wysihtml5/wysihtml5-0.3.0.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/jquery.datatables.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/datatables-bootstrap.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/datatables.fnReloadAjax.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/jquery.colorbox.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/prettify.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/jquery.MultiFile.js') }}" type="text/javascript"></script>
-
-
+    {{ Basset::show('admin.js') }}
 
     <script type="text/javascript">
-        $('.wysihtml5').wysihtml5();
+    	$('.wysihtml5').wysihtml5();
         $(prettyPrint);
     </script>
+
+    @yield('scripts')
 
 </body>
 

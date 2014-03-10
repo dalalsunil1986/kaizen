@@ -37,9 +37,9 @@ class EventsController extends BaseController
     protected $layout = 'site.layouts.home';
     public function index()
     {
-        //        $events = parent::all();
+            $events = parent::all();
         // get only 4 images for slider
-        $events = $this->getSliderEvents();
+//        $events = $this->all();
 
         //**Usama**
         //each section is divided like widgets ...
@@ -56,6 +56,29 @@ class EventsController extends BaseController
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
+
+    public function slider()
+    {
+//        $events = parent::all();
+        // get only 4 images for slider
+        $events = $this->getSliderEvents();
+
+        //**Usama**
+        //each section is divided like widgets ...
+        // so flixable to add/remove slider
+        // add/remove ads section
+        // add/remove login form section .. and so on
+        // $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        $this->layout->maincontent = view::make('site.layouts.maincontent');
+        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->footer = view::make('site.layouts.footer');
+
+    }
+
     
     /**
      * Show the form for creating a new resource.

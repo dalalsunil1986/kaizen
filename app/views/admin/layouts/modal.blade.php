@@ -44,21 +44,15 @@
 	<link rel="apple-touch-icon-precomposed" href="{{{ asset('assets/ico/apple-touch-icon-57-precomposed.png') }}}">
 
 	<!-- CSS -->
-
+    {{ Basset::show('admin.css') }}
 
 	<style>
 	.tab-pane {
 		padding-top: 20px;
 	}
 	</style>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/colorbox.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/datatables-bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/wysihtml5/bootstrap-wysihtml5.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/wysihtml5/prettify.css') }}">
 
+	@yield('styles')
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -113,27 +107,32 @@
 	<!-- ./ container -->
 
 	<!-- Javascripts -->
-    <script src="{{ asset('js/jquery.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/wysihtml5/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/wysihtml5/wysihtml5-0.3.0.js') }}" type="text/javascript"></script>
+    {{ Basset::show('admin.js') }}
 
-    <script src="{{ asset('js/jquery.colorbox.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/prettify.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/datatables.fnReloadAjax.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/datatables-bootstrap.js') }}" type="text/javascript"></script>
-
-    <script type="text/javascript">
-    	$(document).ready(function(){
-			$('.close_popup').click(function(){
-				parent.oTable.fnReloadAjax();
-				parent.$.colorbox.close();
-				return false;
-			});
-		});
-		$('.wysihtml5').wysihtml5();
-       	$(prettyPrint)
-    </script>
+ <script type="text/javascript">
+$(document).ready(function(){
+$('.close_popup').click(function(){
+parent.oTable.fnReloadAjax();
+parent.jQuery.fn.colorbox.close();
+return false;
+});
+$('#deleteForm').submit(function(event) {
+var form = $(this);
+$.ajax({
+type: form.attr('method'),
+url: form.attr('action'),
+data: form.serialize()
+}).done(function() {
+parent.jQuery.colorbox.close();
+parent.oTable.fnReloadAjax();
+}).fail(function() {
+});
+event.preventDefault();
+});
+});
+$('.wysihtml5').wysihtml5();
+$(prettyPrint)
+</script>
 
     @yield('scripts')
 
