@@ -144,9 +144,14 @@ class AdminCommentsController extends AdminController
      */
     public function getData()
     {
-        $comments = Comment::leftjoin('posts', 'posts.id', '=', 'comments.post_id')
+//        $comments = Comment::leftjoin('posts', 'posts.id', '=', 'comments.post_id')
+//            ->leftjoin('users', 'users.id', '=','comments.user_id' )
+//            ->select(array('comments.id as id', 'posts.id as postid','users.id as userid', 'comments.content', 'posts.title as post_name', 'users.username as poster_name', 'comments.created_at'));
+
+        $comments = Comment::leftjoin('posts', 'posts.id', '=', 'comments.commentable_id')
             ->leftjoin('users', 'users.id', '=','comments.user_id' )
-            ->select(array('comments.id as id', 'posts.id as postid','users.id as userid', 'comments.content', 'posts.title as post_name', 'users.username as poster_name', 'comments.created_at'));
+            ->select(array('comments.id as id', 'posts.id as postid','users.id as userid', 'comments.content', 'posts.title as post_name', 'users.username as poster_name', 'comments.created_at'))
+            ->where('comments.commentable_type','Post');
 
         return Datatables::of($comments)
 

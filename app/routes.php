@@ -59,13 +59,17 @@ Route::group(
 ////            $query = Category::bySlug('Kristofer Hyatt')->first();
 //            return View::make('test')->with(['query'=> $query]);
 
-            /*Mail::queue('test',array(),function($m){
-               $m->to('z4ls@live.com')->from('zals@kaizen.com')->subject('hello');
-            });*/
-
+            Mail::later('180','test',array(),function($m){
+               $m->to('z4ls@live.com')->from('zals@kaizen.com')->subject('hello zal 123 at 7:10');
+            });
+            return 'Queued';
         });
 
-        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@slider'));
+
+        Route::get('/artisan',function() {
+           Artisan::call('queue:listen');
+        });
+//        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@slider'));
 
         Route::resource('countries', 'CountriesController');
         Route::get('country', array('as' => 'countries','uses' => 'CountriesController@index'));
@@ -112,11 +116,15 @@ Route::group(
         Route::get('posts',function (){
             echo 'this is from inside the main page of posts';
         });
+
+        # Posts - Second to last set, match slug
+        Route::get('blog/{postSlug}', 'BlogController@getView');
+        Route::post('blog/{postSlug}', 'BlogController@postView');
+        Route::get('blog', array('as' => 'blog','uses' => 'BlogController@getIndex'));
+
+
         // Contact Us Page
         Route::get('contactus','ContactusController@index');
-
-
-
 
         //followers
 
