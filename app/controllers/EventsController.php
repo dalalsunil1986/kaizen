@@ -37,10 +37,8 @@ class EventsController extends BaseController
     protected $layout = 'site.layouts.home';
     public function index()
     {
-            $events = parent::all();
+        $events = parent::all();
         // get only 4 images for slider
-//        $events = $this->all();
-
         //**Usama**
         //each section is divided like widgets ...
         // so flixable to add/remove slider
@@ -50,16 +48,17 @@ class EventsController extends BaseController
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
-        $this->layout->maincontent = view::make('site.layouts.maincontent');
+       // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        $this->layout->maincontent = view::make('site.layouts.allevents', ['events'=> $events]);
         $this->layout->sidecontent = view::make('site.layouts.sidecontent');
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
 
+
     public function slider()
     {
-//        $events = parent::all();
+        //        $events = parent::all();
         // get only 4 images for slider
         $events = $this->getSliderEvents();
 
@@ -72,14 +71,13 @@ class EventsController extends BaseController
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
         $this->layout->maincontent = view::make('site.layouts.maincontent');
         $this->layout->sidecontent = view::make('site.layouts.sidecontent');
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
 
-    
     /**
      * Show the form for creating a new resource.
      *
@@ -124,7 +122,7 @@ class EventsController extends BaseController
      */
     public function show($id)
     {
-        $event = $this->model->with('comments','author','photos','subscribers','followers','favorites')->find($id);
+        $event =  EventModel::with('comments','author','photos','subscribers','followers','favorites')->find($id);
        // dd($event);
         //return View::make('events.show', compact('event'));
         $this->layout->login = View::make('site.layouts.login');

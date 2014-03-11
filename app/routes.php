@@ -65,7 +65,7 @@ Route::group(
 
         });
 
-        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@index'));
+        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@slider'));
 
         Route::resource('countries', 'CountriesController');
         Route::get('country', array('as' => 'countries','uses' => 'CountriesController@index'));
@@ -75,7 +75,7 @@ Route::group(
         //Event Routes
         Route::resource('event','EventsController', array('only' => array('index', 'show')));
 
-        //get all events
+        //get all events to the main page (8 per page)
         Route::get('events', 'EventsController@index');
 
         //get events by category name
@@ -106,6 +106,16 @@ Route::group(
         //Location Routes
         Route::resource('location','LocationsController');
         Route::get('location/{id}/events', ['as'=>'LocationEvents','uses'=>'LocationsController@getEvents']);
+        // Posts Routes
+
+        // Posts ==> Main Page
+        Route::get('posts',function (){
+            echo 'this is from inside the main page of posts';
+        });
+        // Contact Us Page
+        Route::get('contactus','ContactusController@index');
+
+
 
 
         //followers

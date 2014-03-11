@@ -17,10 +17,17 @@ return array(
 
      'nav' => array('home' => 'رئيسية',
                     'admin' => 'ادمن',
-                    'login' => 'دخول', 'logout'=>'خروج','sign_up' => 'تسجيل'),
+                    'login' => 'دخول', 'logout'=>'خروج','sign_up' => 'تسجيل',
+                    'main' => 'الصفحة الرئيسية',
+                    'events' => 'الفعاليات',
+                    'consultancies' => 'الإستشارات',
+                    'posts' => 'المقالات',
+                    'contactus' => 'الإتصال بنا',
+                    'search' => 'بحث',
+     ),
 
     'event' => array(
-        'summaryevent' => 'تفاصيل الحدث',
+        'summaryevent' => 'تفاصيل الموضوع',
         'totalseats' => 'إجمالي المقاعد',
         'date_start' => 'تاريخ البدء',
         'time_start' => 'يبدأ',
@@ -30,7 +37,14 @@ return array(
         'fav' => 'إضف إلى المفضلة',
         'fallow' => 'متابعة',
         'subscribe' => 'إنضمام',
-
-
+        'comment' => 'تعليقات',
+        'addcomment' => 'إضافه تعليق',
+        'category' => 'التصنيف',
+        'title' => 'الموضوع',
+        'events' => 'الفعاليات',
+        'all' => 'جميع',
+    ),
+    'general' => array(
+        'kaizen' => 'كايزن',
     )
 );

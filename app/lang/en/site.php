@@ -15,7 +15,16 @@ return array(
 
 	'contact_us' => 'Contact Us',
 
-    'nav' => array('home' => 'Home','admin' => 'Admin','login' => 'Login', 'logout'=>'Logout','sign_up' => 'Sign Up'),
+    'nav' => array('home' => 'Home','admin' => 'Admin','login' => 'Login', 'logout'=>'Logout','sign_up' => 'Sign Up',
+                    'main' => 'Main Page',
+                    'events' => 'Events',
+                    'consultancies' => 'Consultancies',
+                    'posts' => 'Posts',
+                    'contactus' => 'Contact Us',
+                    'search' => 'search',
+
+
+    ),
     'event' => array(
                 'summaryevent' => 'Summary',
                 'totalseats' => 'Total Seats',
@@ -27,7 +36,15 @@ return array(
                 'fav' => 'Add To Favorites',
                 'fallow' => 'Fallow',
                 'subscribe' => 'Subscribe',
-
-                )
+                'comment' => 'Comments' ,
+                'addcomment' => 'Add Comment',
+                'category' => 'Category',
+                'title' => 'Title',
+                'events' => 'Events',
+                'all' => 'All',
+                ),
+    'general' => array(
+    'kaizen' => 'Kaizen',
+)
 
 );

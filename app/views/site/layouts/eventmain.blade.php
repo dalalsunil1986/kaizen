@@ -3,29 +3,29 @@
 
     @if(Auth::user())
         <div class="row" id="statistic_feed">
-
             <button  id="fav_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fav') }}"><i class="glyphicon glyphicon-star"></i></button>&nbsp;
             <button  id="fallow_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fallow') }}"><i class="glyphicon glyphicon-plus"></i></button>&nbsp;
             <button  id="subscribe_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i class="glyphicon glyphicon-check"></i></button>&nbsp;
-
         </div>
     @endif
 
     <h1>
         @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
             @if($event->title_en)
-                {{ $event->title_en}}
+                {{ $event->title_en }}
+            @else
+                {{ $event->title }}
             @endif
         @else
-            {{ $event->title }}
+        {{ $event->title }}
         @endif
     </h1>
     <div id="event_images">
         <div id="links">
             @foreach($event->photos as $photo)
-            <a href="{{ $photo->name }}" data-gallery>
-                <img src=" {{ $photo->name }}" alt="{{ $photo->name }}" class="img-thumbnail">
-            </a>
+                <a href="{{ $photo->name }}" data-gallery>
+                    <img src=" {{ $photo->name }}" alt="{{ $photo->name }}" class="img-thumbnail">
+                </a>
             @endforeach
         </div>
     </div>
@@ -47,30 +47,32 @@
             <td> {{ $event->date_start }}</td>
             <td> {{ Lang::get('site.event.date_end') }}</td>
             <td > {{ $event->date_end }} </td>
-
         </tr>
         <tr>
             <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
             <td> {{ $event->time_start }}</td>
             <td> {{ Lang::get('site.event.time_end') }}</td>
             <td > {{ $event->time_end }} </td>
-
         </tr>
-
     </table>
 
     <p>
-        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+       @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
             @if($event->description_en)
-                {{ $event->description_en}}
+                {{ $event->description_en }}
+            @else
+                {{ $event->description }}
             @endif
-        @else
+       @else
             {{ $event->description }}
-        @endif
-    </p>
+       @endif
+   </p>
 
 
-    <div id="map_canvas"></div>
+    @if($event->latitude && $event->longitude)
+        <div id="map_canvas"></div>
+    @endif
+
     <address>
         <strong> {{ $event->address}} </strong><br>
         795 Folsom Ave, Suite 600<br>
@@ -79,10 +81,32 @@
     </address>
 
 </div>
+
+<div class="row">
+    <h3 class="comments_title"> {{Lang::get('site.event.comment') }}</h3>
+    @foreach($event->comments as $comment)
+    <div class="comments_dev">
+        <p class="text-muted">
+            {{ $comment->content }}
+        </p>
+        <span class="text-right">{{ $comment->user->username}}</span>
+    </div>
+    @endforeach
+    @if(Auth::User())
+    <form role="form" style="width:98%;">
+        <div class="form-group">
+            <label for="comment"></label>
+            <textarea type="text" class="form-control" id="comment" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }} </button>
+    </form>
+    @endif
+</div>
+
+@if($event->latitude && $event->longitude)
     <script>
         function initialize() {
-//            var myLatlng = new google.maps.LatLng({{ $event->latitude }},{{ $event->longitude}});
-            var myLatlng = new google.maps.LatLng(29.357, 47.951);
+            var myLatlng = new google.maps.LatLng({{ $event->latitude }},{{ $event->longitude}});
         var myOptions = {
             zoom: 10,
             center: myLatlng,
@@ -97,8 +121,9 @@
             script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
             document.body.appendChild(script);
         }
+
         window.onload = loadScript;
 
-
     </script>
+@endif
 @stop
