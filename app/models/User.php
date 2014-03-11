@@ -4,28 +4,23 @@ use Zizaco\Confide\ConfideUser;
 use Zizaco\Confide\Confide;
 use Zizaco\Confide\ConfideEloquentRepository;
 use Zizaco\Entrust\HasRole;
+use Robbo\Presenter\PresentableInterface;
 use Carbon\Carbon;
 
-class User extends ConfideUser{
+class User extends ConfideUser implements PresentableInterface {
     use HasRole;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
-    public static $rules = array(
-        'email' => 'required|email',
-        'password' => 'required|between:4,11|confirmed',
-        'username' => 'required'
-    );
-//
-//    public function getPresenter()
-//    {
-//        return new UserPresenter($this);
-//    }
+    public function getPresenter()
+    {
+        return new UserPresenter($this);
+    }
 
     /**
      * Get user by username
@@ -148,4 +143,6 @@ class User extends ConfideUser{
         })->get();
         return $query;
     }
+
+
 }

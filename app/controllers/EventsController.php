@@ -37,10 +37,8 @@ class EventsController extends BaseController
     protected $layout = 'site.layouts.home';
     public function index()
     {
-        //        $events = parent::all();
-        // get only 4 images for slider
         $events = parent::all();
-
+        // get only 4 images for slider
         //**Usama**
         //each section is divided like widgets ...
         // so flixable to add/remove slider
@@ -79,6 +77,7 @@ class EventsController extends BaseController
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
+
     /**
      * Show the form for creating a new resource.
      *

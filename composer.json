@@ -16,9 +16,14 @@
         "zizaco/confide": "3.1.x",
         "zizaco/entrust": "dev-master",
         "bllim/datatables": "*",
+        "twbs/bootstrap":  "3.0.0",
+        "jasonlewis/basset": "dev-master",
+        "robclancy/presenter": "1.2.*",
+        "j20/php-uuid": "dev-master",
         "mailchimp/mailchimp": "2.0.4",
         "intervention/image": "dev-master",
-		"pda/pheanstalk": "dev-master"
+		"pda/pheanstalk": "dev-master",
+        "leafo/lessphp": "v0.4.0"
 	},
     "require-dev": {
         "way/generators": "dev-master",
