@@ -112,9 +112,8 @@ Route::group(
         Route::get('posts',function (){
             echo 'this is from inside the main page of posts';
         });
-        Route::get('contactus',function (){
-            echo 'this is from inside the contact us';
-        });
+        // Contact Us Page
+        Route::get('contactus','ContactusController@index');
 
 
 

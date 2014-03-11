@@ -90,12 +90,14 @@
     <div class="row">
         <h3 class="comments_title"> {{Lang::get('site.event.comment') }}</h3>
         @foreach($event->comments as $comment)
-        <p class="text-muted" style="border-bottom: 1px solid rgba(229, 228, 227, 0.83);">
-            {{ $comment->content }}
-            <span></br>{{ $comment->user->username}}</span>
-        </p>
+        <div class="comments_dev">
+            <p class="text-muted">
+                {{ $comment->content }}
+            </p>
+            <span class="text-right">{{ $comment->user->username}}</span>
+        </div>
         @endforeach
-
+        @if(Auth::User())
         <form role="form" style="width:98%;">
             <div class="form-group">
                 <label for="comment"></label>
@@ -103,6 +105,7 @@
             </div>
             <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }} </button>
         </form>
+        @endif
     </div>
 
 </div>

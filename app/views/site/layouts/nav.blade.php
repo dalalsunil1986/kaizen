@@ -10,7 +10,6 @@ extends('site.layouts.home')
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ action('EventsController@slider') }}">{{ Lang::get('site.nav.main') }}</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

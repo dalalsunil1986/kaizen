@@ -3,14 +3,14 @@
 
     <table class="table table-striped">
         <tr>
-            <h4>All Events</h4>
+            <h4>{{ Lang::get('site.event.all')}} {{Lang::get('site.event.events')}}</h4>
 
         </tr>
         <tr>
-            <td>Title</td>
-            <td>Category</td>
-            <td>Start Date</td>
-            <td>End Date</td>
+            <td>{{ Lang::get('site.event.title')}}</td>
+            <td>{{ Lang::get('site.event.category') }}</td>
+            <td>{{ Lang::get('site.event.date_start')}}</td>
+            <td>{{ Lang::get('site.event.date_end')}}</td>
         </tr>
         @foreach($events as $event)
         <tr data-link="{{ action('EventsController@show',$event->id) }}">

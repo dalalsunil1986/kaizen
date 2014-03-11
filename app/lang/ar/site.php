@@ -27,7 +27,7 @@ return array(
      ),
 
     'event' => array(
-        'summaryevent' => 'تفاصيل الحدث',
+        'summaryevent' => 'تفاصيل الموضوع',
         'totalseats' => 'إجمالي المقاعد',
         'date_start' => 'تاريخ البدء',
         'time_start' => 'يبدأ',
@@ -38,7 +38,11 @@ return array(
         'fallow' => 'متابعة',
         'subscribe' => 'إنضمام',
         'comment' => 'تعليقات',
-        'addcomment' => 'إضافه تعليق'
+        'addcomment' => 'إضافه تعليق',
+        'category' => 'التصنيف',
+        'title' => 'الموضوع',
+        'events' => 'الفعاليات',
+        'all' => 'جميع',
     ),
     'general' => array(
         'kaizen' => 'كايزن',

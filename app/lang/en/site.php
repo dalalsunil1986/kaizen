@@ -37,7 +37,11 @@ return array(
                 'fallow' => 'Fallow',
                 'subscribe' => 'Subscribe',
                 'comment' => 'Comments' ,
-                'addcomment' => 'Add Comment'
+                'addcomment' => 'Add Comment',
+                'category' => 'Category',
+                'title' => 'Title',
+                'events' => 'Events',
+                'all' => 'All',
                 ),
     'general' => array(
     'kaizen' => 'Kaizen',
