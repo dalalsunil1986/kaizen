@@ -112,10 +112,15 @@ Route::group(
         Route::get('location/{id}/events', ['as'=>'LocationEvents','uses'=>'LocationsController@getEvents']);
         // Posts Routes
 
+<<<<<<< HEAD
+        // Contact Us Page
+        Route::get('contactus','ContactusController@index');
+=======
         // Posts ==> Main Page
         Route::get('posts',function (){
             echo 'this is from inside the main page of posts';
         });
+>>>>>>> 6ea2dea88966f0d5615885428713cad233cf0671
 
         # Posts - Second to last set, match slug
         Route::get('blog/{postSlug}', 'BlogController@getView');
