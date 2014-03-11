@@ -108,10 +108,6 @@ Route::group(
         Route::get('location/{id}/events', ['as'=>'LocationEvents','uses'=>'LocationsController@getEvents']);
         // Posts Routes
 
-        // Posts ==> Main Page
-        Route::get('posts',function (){
-            echo 'this is from inside the main page of posts';
-        });
         // Contact Us Page
         Route::get('contactus','ContactusController@index');
 

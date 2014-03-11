@@ -15,12 +15,7 @@ class ContactusController extends BaseController{
 
     protected $layout = 'site.layouts.home';
     function index() {
-        $contact = '
-        <h2 style="background-color: rgba(221, 220, 219, 0.83); padding:10px;">Contact Us</h2>
-        Phone : 394893247 </br>
-        Address : Address Address Address Address,</br>
-        Mobile : 34324234 </br>
-        ';
+        $contact = '';
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');

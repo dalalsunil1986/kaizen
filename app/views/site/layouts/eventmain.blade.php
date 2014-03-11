@@ -86,17 +86,24 @@
         <abbr title="Phone">P:</abbr> (123) 456-7890
     </address>
 
-
-    <div class="row">
-        <h3 class="comments_title"> {{Lang::get('site.event.comment') }}</h3>
-        @foreach($event->comments as $comment)
-        <div class="comments_dev">
-            <p class="text-muted">
-                {{ $comment->content }}
-            </p>
-            <span class="text-right">{{ $comment->user->username}}</span>
-        </div>
-        @endforeach
+        @if(count($event->comments) != 0)
+            <h3 class="comments_title"> {{Lang::get('site.event.comment') }}</h3>
+            @foreach($event->comments as $comment)
+            <div class="comments_dev">
+                <p class="text-muted">
+                    {{ $comment->content }}
+                </p>
+                <p
+                @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                   class="text-right text-primary"
+                @else
+                    class="text-left text-primary"
+                @endif
+                >{{ $comment->user->username}}</span>
+            </div>
+            @endforeach
+        @endif
+    
         @if(Auth::User())
         <form role="form" style="width:98%;">
             <div class="form-group">
@@ -106,7 +113,7 @@
             <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }} </button>
         </form>
         @endif
-    </div>
+
 
 </div>
 @if($event->latitude && $event->longitude)

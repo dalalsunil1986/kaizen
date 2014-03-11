@@ -179,4 +179,13 @@
         height:auto;
         padding: 5px;
         background-color: rgba(216, 215, 214, 0.83);
+        border-bottom: 1px solid #acaba8;
+    }
+    .comments_dev {
+        width:98%;
+        border-bottom: 1px solid #dcdbd8;
+        margin-bottom: 3px;
+    }
+    .comments_dev p {
+        margin:0px !important;
     }
