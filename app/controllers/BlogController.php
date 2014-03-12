@@ -19,6 +19,7 @@ class BlogController extends BaseController {
      * @param Post $post
      * @param User $user
      */
+    protected $layout = 'site.layouts.home';
     public function __construct(Post $model, User $user)
     {
         parent::__construct();
@@ -41,9 +42,10 @@ class BlogController extends BaseController {
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.layouts.allblog', ['posts'=> $posts]);
+        $this->layout->maincontent = view::make('site.layouts.blog.index', compact('posts'));
         $this->layout->sidecontent = view::make('site.layouts.sidecontent');
         $this->layout->footer = view::make('site.layouts.footer');
+
 	}
 
 	/**
@@ -79,7 +81,13 @@ class BlogController extends BaseController {
         }
 
 		// Show the page
-		return View::make('site/blog/view_post', compact('post', 'comments', 'canComment'));
+
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.layouts.blog.view_post', compact('post', 'comments', 'canComment'));
+        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->footer = view::make('site.layouts.footer');
 	}
 
 	/**

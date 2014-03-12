@@ -1,4 +1,4 @@
-extends('site.layouts.home')
+@extends('site.layouts.home')
 @section('footer')
 <!--footer start-->
 <div id="footer" class="row">

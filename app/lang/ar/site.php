@@ -46,5 +46,10 @@ return array(
     ),
     'general' => array(
         'kaizen' => 'كايزن',
+        'name' => 'الاسم',
+        'email' => 'البريد الإلكتروني',
+        'submit' => 'إرسال',
+        'comment' => 'التعليق',
+        'remember' => 'تذكرني',
     )
 );
