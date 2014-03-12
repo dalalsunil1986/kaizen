@@ -7,7 +7,7 @@ class PostsTableSeeder extends Seeder {
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 30; $i++)
         {
-            $sentence = $faker->sentence(20);
+            $sentence = $faker->sentence(5);
             $slug = Str::slug($sentence);
 
             $user = User::orderBy(DB::raw('RAND()'))->first()->id;
@@ -18,7 +18,7 @@ class PostsTableSeeder extends Seeder {
                     'category_id'=> $category,
                     'title'      => $sentence,
                     'slug'       => $slug,
-                    'content'    => $faker->sentence(40),
+                    'content'    => $faker->sentence(200),
                     'meta_title' => 'meta_title1',
                     'meta_description' => 'meta_description1',
                     'meta_keywords' => 'meta_keywords1',

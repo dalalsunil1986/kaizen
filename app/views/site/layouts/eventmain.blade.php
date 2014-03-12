@@ -80,7 +80,7 @@
         <abbr title="Phone">P:</abbr> (123) 456-7890
     </address>
 
-<<<<<<< HEAD
+
         @if(count($event->comments) != 0)
             <h3 class="comments_title"> {{Lang::get('site.event.comment') }}</h3>
             @foreach($event->comments as $comment)
@@ -109,30 +109,6 @@
         </form>
         @endif
 
-
-=======
-</div>
-
-<div class="row">
-    <h3 class="comments_title"> {{Lang::get('site.event.comment') }}</h3>
-    @foreach($event->comments as $comment)
-    <div class="comments_dev">
-        <p class="text-muted">
-            {{ $comment->content }}
-        </p>
-        <span class="text-right">{{ $comment->user->username}}</span>
-    </div>
-    @endforeach
-    @if(Auth::User())
-    <form role="form" style="width:98%;">
-        <div class="form-group">
-            <label for="comment"></label>
-            <textarea type="text" class="form-control" id="comment" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
-        </div>
-        <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }} </button>
-    </form>
-    @endif
->>>>>>> 6ea2dea88966f0d5615885428713cad233cf0671
 </div>
 
 @if($event->latitude && $event->longitude)

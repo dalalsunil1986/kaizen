@@ -45,6 +45,11 @@ return array(
                 ),
     'general' => array(
     'kaizen' => 'Kaizen',
+    'name' => 'Name',
+    'email' => 'Email',
+    'submit' => 'Submit',
+    'comment' => 'Comment',
+    'remember' => 'Remember',
 )
 
 );
