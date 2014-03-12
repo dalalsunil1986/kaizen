@@ -38,7 +38,12 @@ class BlogController extends BaseController {
 		$posts = parent::all();
 
 		// Show the page
-		return View::make('site/blog/index', compact('posts'));
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.layouts.allblog', ['posts'=> $posts]);
+        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->footer = view::make('site.layouts.footer');
 	}
 
 	/**

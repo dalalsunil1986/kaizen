@@ -12,10 +12,10 @@
             <td>{{ Lang::get('site.event.date_start')}}</td>
             <td>{{ Lang::get('site.event.date_end')}}</td>
         </tr>
-        @foreach($events as $event)
+        @foreach($posts as $post)
+        {{dd($posts->toArray()) }}
         <tr data-link="{{ action('EventsController@show',$event->id) }}">
             @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-
                 @if($event->description_en)
                 <td>{{ $event->title_en }} </td>
                 <td>{{ $event->category->name_en }} </td>
