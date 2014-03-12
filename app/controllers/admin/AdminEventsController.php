@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-class AdminEventsController extends AdminController
+class AdminEventsController extends BaseController
 {
 
     protected $model;
@@ -37,6 +37,23 @@ class AdminEventsController extends AdminController
     protected $layout = 'site.layouts.home';
     public function index()
     {
+        $events = parent::all();
+        // get only 4 images for slider
+        //**Usama**
+        //each section is divided like widgets ...
+        // so flixable to add/remove slider
+        // add/remove ads section
+        // add/remove login form section .. and so on
+        // $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
+
+        // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        $this->layout->maincontent = view::make('site.layouts.allevents', ['events'=> $events]);
+
+    }
+
+
+    public function slider()
+    {
         //        $events = parent::all();
         // get only 4 images for slider
         $events = $this->getSliderEvents();
@@ -50,7 +67,7 @@ class AdminEventsController extends AdminController
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
         $this->layout->maincontent = view::make('site.layouts.maincontent');
         $this->layout->sidecontent = view::make('site.layouts.sidecontent');
         $this->layout->footer = view::make('site.layouts.footer');
@@ -101,7 +118,7 @@ class AdminEventsController extends AdminController
      */
     public function show($id)
     {
-        $event = $this->model->with('comments','author','photos','subscribers','followers','favorites')->find($id);
+        $event =  EventModel::with('comments','author','photos','subscribers','followers','favorites')->find($id);
         // dd($event);
         //return View::make('events.show', compact('event'));
         $this->layout->login = View::make('site.layouts.login');

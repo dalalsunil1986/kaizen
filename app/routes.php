@@ -17,6 +17,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
 Route::group(
     array(
         'prefix' => LaravelLocalization::setLocale(), // default : English === it will set the local language according to the session
@@ -59,17 +60,17 @@ Route::group(
 ////            $query = Category::bySlug('Kristofer Hyatt')->first();
 //            return View::make('test')->with(['query'=> $query]);
 
-            Mail::later('180','test',array(),function($m){
-               $m->to('z4ls@live.com')->from('zals@kaizen.com')->subject('hello zal 123 at 7:10');
-            });
-            return 'Queued';
+//            Mail::later('180','test',array(),function($m){
+//               $m->to('z4ls@live.com')->from('zals@kaizen.com')->subject('hello zal 123 at 7:10');
+//            });
+//            return 'Queued';
         });
 
 
-        Route::get('/artisan',function() {
-           Artisan::call('queue:listen');
-        });
-//        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@slider'));
+//        Route::get('/artisan',function() {
+//           Artisan::call('queue:listen');
+//        });
+        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@slider'));
 
         Route::resource('countries', 'CountriesController');
         Route::get('country', array('as' => 'countries','uses' => 'CountriesController@index'));
@@ -89,7 +90,6 @@ Route::group(
         Route::get('event/{id}/author', 'EventsController@getAuthor');
 
         //get event followers
-
         Route::get('event/{id}/subscribe','EventsController@subscribe');
         Route::get('event/{id}/unsubscribe','EventsController@unsubscribe');
         Route::get('event/{id}/follow','EventsController@follow');
@@ -186,13 +186,14 @@ Route::group(
 //                dd('admin');
 //            }
             #event
-            Route::resource('event','EventsController');
-            Route::get('event/{id}/followers','EventsController@getFollowers');
-            Route::get('event/{id}/favorites','EventsController@getFavorites');
-            Route::get('event/{id}/subscriptions','EventsController@getSubscriptions');
-            Route::get('event/{id}/country','EventsController@getCountry');
-            Route::get('event/{id}/location','EventsController@getLocation');
-            Route::get('event/{id}/notifyFollowers', 'EventsController@notifyFollowers');
+
+            Route::resource('event','AdminEventsController');
+            Route::get('event/{id}/followers','AdminEventsController@getFollowers');
+            Route::get('event/{id}/favorites','AdminEventsController@getFavorites');
+            Route::get('event/{id}/subscriptions','AdminEventsController@getSubscriptions');
+            Route::get('event/{id}/country','AdminEventsController@getCountry');
+            Route::get('event/{id}/location','AdminEventsController@getLocation');
+            Route::get('event/{id}/notifyFollowers', 'AdminEventsController@notifyFollowers');
 
             # Admin Dashboard
             Route::controller('/', 'AdminDashboardController');
