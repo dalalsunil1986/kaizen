@@ -1,7 +1,7 @@
 @extends('site.layouts.home')
 @section('maincontent')
 @foreach ($posts as $post)
-<div class="row">
+
 
         <!-- Post Title -->
         <div class="row">
@@ -17,7 +17,7 @@
                 <a href="blog/{{$post->slug}}" class="thumbnail"><img src="http://placehold.it/260x180" alt=""></a>
             </div>
 
-                <p>
+                <p style="width: 98%;">
                     {{ String::tidy(Str::limit($post->content, 200)) }}
                 </p>
                 <p><a class="btn btn-mini btn-default" href="blog/{{$post->slug}}">Read more</a></p>
@@ -37,8 +37,6 @@
 
         </div>
         <!-- ./ post footer -->
-</div>
-
 <hr />
 @endforeach
 
