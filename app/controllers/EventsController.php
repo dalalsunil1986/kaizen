@@ -35,6 +35,8 @@ class EventsController extends BaseController
 
     // master layout
     protected $layout = 'site.layouts.home';
+
+
     public function index()
     {
         $events = parent::all();
@@ -45,8 +47,7 @@ class EventsController extends BaseController
         // add/remove ads section
         // add/remove login form section .. and so on
 //        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
-        $this->layout->login = View::make('site.layouts.login');
-        $this->layout->ads = view::make('site.layouts.ads');
+
         $this->layout->nav = view::make('site.layouts.nav');
 //        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
         $this->layout->maincontent = view::make('site.layouts.allevents', ['events'=> $events]);
@@ -421,92 +422,102 @@ class EventsController extends BaseController
         //search by location
         //search by category
         //search by instructor name
-        $categories = $this->category->getEventCategories()->lists('name', 'id');
-        $authors = $this->user->getRoleByName('author')->lists('username', 'id');
-        $countries = Country::all()->lists('name', 'id');
+        $event = parent::all();
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+        //$this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        $this->layout->maincontent = view::make('site.layouts.allevents', ['events' => $event, 'search'=>true]);
+        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->footer = view::make('site.layouts.footer');
 
-        $search = Request::get('search');
-        $category = Request::get('category');
-        $author = Request::get('author');
-        $country = Request::get('country');
-
-        $events = $this->model;
-        {
-            if (isset($getSearch)) {
-                $events = $events->where('title','LIKE',"%$search%");
-//                $events = $events->orWhere('description','LIKE',"%$getSearch%");
-
-            }
-            if (isset($category)) {
-                $events = $events->where('category_id',$category);
-            }
-
-        };
-
-        $events = $events->get( array('title'));
-
-//        $events = DB::table('events')->where(function($query) use ($getSearch, $getCategory, $getAuthor, $getCountry)
+//        $categories = $this->category->getEventCategories()->lists('name', 'id');
+//        $authors = $this->user->getRoleByName('author')->lists('username', 'id');
+//        $countries = Country::all()->lists('name', 'id');
+//        $general = // will search for the word in any field of the table !!!!
+//
+//        $search = Request::get('search');
+//        $category = Request::get('category');
+//        $author = Request::get('author');
+//        $country = Request::get('country');
+//
+//        $events = $this->model;
 //        {
 //            if (isset($getSearch)) {
-//                $query->where('title','LIKE',"%$getSearch%")
-//                    ->orWhere('description','LIKE',"%$getSearch%");
-//            }
-//            if (isset($getCategory)) {
-//                $query->where('category_id', '=', $getCategory);
-//            }
-//        })->get( array('title','description') );
-
-
-//        $best_circle = DB::table("member_circles")
-//            ->select("circle_id", DB::raw("COUNT(*)"))
-//            ->join("member_relations", function($join) use ($user){
-//                $join->on("member_circles.member_id", "=", "member_relations.member_b")
-//                    ->where("member_a", "=", $user->member_id)
-//                    ->where("active", "=", "1");
-//            });
+//                $events = $events->where('title','LIKE',"%$search%");
+////                $events = $events->orWhere('description','LIKE',"%$getSearch%");
 //
-
-//        $events = DB::table('events')
-//            ->select("events.title");
-//            if(isset($getSearch)) {
-//                ->where('title' ,'LIKE', "%$getSearch%")
-//                ->orWhere('description','LIKE',"%$getSearch%");
 //            }
-//            if(isset($getCategory)) {
-//                ->leftJoin('categories','id','=',$getCategory);
+//            if (isset($category)) {
+//                $events = $events->where('category_id',$category);
 //            }
-//        ;
-
-
-//        DB::table('node')
-//            ->where(function($query) use ($published, $year)
-//            {
-//                if ($published) {
-//                    $query->where('published', 'true');
-//                }
 //
-//                if (!empty($year) && is_numeric($year)) {
-//                    $query->where('year', '>', $year);
-//                }
-//            })
-//            ->get( array('column1','column2') );
-
-
-
-//        $events = $this->model->where(function($query) use ($getSearch,$getCategory,$getAuthor,$getCountry) {
-//            if(!empty($getSearch)) {
-//                $query->where('title','LIKE',"%$getSearch%")
-//                      ->orWhere('description','LIKE',"%$getSearch%");
-//            }
-//            if(!empty($getCategory)) {
-//                $query->where(
-//                $query->join("categories", function ($join) use($getCategory) {
-//                    $join->on("categories.id", '=', "%$getCategory%");
-//                }));
-//            }
-//        })->get();
-
-        return View::make('events.search',compact('category','author','country','events','search','categories','authors','countries'));
+//        };
+//
+//        $events = $events->get( array('title'));
+//
+////        $events = DB::table('events')->where(function($query) use ($getSearch, $getCategory, $getAuthor, $getCountry)
+////        {
+////            if (isset($getSearch)) {
+////                $query->where('title','LIKE',"%$getSearch%")
+////                    ->orWhere('description','LIKE',"%$getSearch%");
+////            }
+////            if (isset($getCategory)) {
+////                $query->where('category_id', '=', $getCategory);
+////            }
+////        })->get( array('title','description') );
+//
+//
+////        $best_circle = DB::table("member_circles")
+////            ->select("circle_id", DB::raw("COUNT(*)"))
+////            ->join("member_relations", function($join) use ($user){
+////                $join->on("member_circles.member_id", "=", "member_relations.member_b")
+////                    ->where("member_a", "=", $user->member_id)
+////                    ->where("active", "=", "1");
+////            });
+////
+//
+////        $events = DB::table('events')
+////            ->select("events.title");
+////            if(isset($getSearch)) {
+////                ->where('title' ,'LIKE', "%$getSearch%")
+////                ->orWhere('description','LIKE',"%$getSearch%");
+////            }
+////            if(isset($getCategory)) {
+////                ->leftJoin('categories','id','=',$getCategory);
+////            }
+////        ;
+//
+//
+////        DB::table('node')
+////            ->where(function($query) use ($published, $year)
+////            {
+////                if ($published) {
+////                    $query->where('published', 'true');
+////                }
+////
+////                if (!empty($year) && is_numeric($year)) {
+////                    $query->where('year', '>', $year);
+////                }
+////            })
+////            ->get( array('column1','column2') );
+//
+//
+//
+////        $events = $this->model->where(function($query) use ($getSearch,$getCategory,$getAuthor,$getCountry) {
+////            if(!empty($getSearch)) {
+////                $query->where('title','LIKE',"%$getSearch%")
+////                      ->orWhere('description','LIKE',"%$getSearch%");
+////            }
+////            if(!empty($getCategory)) {
+////                $query->where(
+////                $query->join("categories", function ($join) use($getCategory) {
+////                    $join->on("categories.id", '=', "%$getCategory%");
+////                }));
+////            }
+////        })->get();
+//
+//        return View::make('events.search',compact('category','author','country','events','search','categories','authors','countries'));
     }
 
 }

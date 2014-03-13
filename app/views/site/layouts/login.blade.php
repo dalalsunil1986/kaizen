@@ -21,8 +21,14 @@
         <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
         </form>
     @else
-    <div class="col-md-8" style="border: 1px solid red;">
-        <p class="text-left">you are logged in as : {{ Auth::user()->username }} </br>
+    <div class="col-md-5
+     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+    pull-right
+    @else
+    pull-left
+    @endif
+    " style="">
+        <p class="text-left">you are logged in as : {{ Auth::user()->username }}
 
             <a type="button" class="btn btn-default btn-sm" href="{{ URL::action('UserController@getLogout') }}">
                <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>{{ Lang::get('site.nav.logout') }}

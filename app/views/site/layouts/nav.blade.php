@@ -29,7 +29,7 @@ extends('site.layouts.home')
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="{{ Lang::get('site.nav.search') }}">
                         </div>
-                        <button type="submit" class="btn btn-default">{{ Lang::get('site.nav.search') }}</button>
+                        <a href="{{ action('EventsController@search') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.search') }}</a>
                     </form>
                </li>
             </ul>

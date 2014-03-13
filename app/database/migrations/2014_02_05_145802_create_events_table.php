@@ -25,8 +25,8 @@ class CreateEventsTable extends Migration {
             $table->integer('total_seats');
             $table->integer('available_seats');
             $table->string('slug');
-            $table->date('date_start');
-            $table->date('date_end');
+            $table->string('date_start'); // here also
+            $table->string('date_end'); // just for now // later you make it date !!
             $table->string('time_start');
             $table->string('time_end');
             $table->text('address');
