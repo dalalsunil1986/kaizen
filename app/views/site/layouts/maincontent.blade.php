@@ -7,20 +7,20 @@
     <script src="https://apis.google.com/js/platform.js"></script>
     <div class="g-ytsubscribe" data-channel="GoogleDevelopers"></div>
 </div>
-<div id="youtube_playlist" class="row">
-    <?php
-    $playlistdiv = '';
-    $json = json_decode(file_get_contents('http://gdata.youtube.com/feeds/api/playlists/PLgziGzRnamoJ4ESrNu5Yhtzqc4j-Mer3_?v=2&alt=jsonc'));
-
-    for($i=0; $i<= 3; $i++) {
-        $playlistdiv .= '<div class="col-md-3"><a href="'.$json->data->items[$i]->video->player->default.'">
-        <img class="img-thumbnail" src="'.$json->data->items[$i]->video->thumbnail->sqDefault.'"/></a>
-        <p>'.$json->data->items[$i]->video->title.'</p>
-        </div>';
-    }
-    echo $playlistdiv;
-    ?>
-</div>
+<!--<div id="youtube_playlist" class="row">-->
+<!--    --><?php
+//    $playlistdiv = '';
+//    $json = json_decode(file_get_contents('http://gdata.youtube.com/feeds/api/playlists/PLgziGzRnamoJ4ESrNu5Yhtzqc4j-Mer3_?v=2&alt=jsonc'));
+//
+//    for($i=0; $i<= 3; $i++) {
+//        $playlistdiv .= '<div class="col-md-3"><a href="'.$json->data->items[$i]->video->player->default.'">
+//        <img class="img-thumbnail" src="'.$json->data->items[$i]->video->thumbnail->sqDefault.'"/></a>
+//        <p>'.$json->data->items[$i]->video->title.'</p>
+//        </div>';
+//    }
+//    echo $playlistdiv;
+//    ?>
+<!--</div>-->
 
 <div id="side-instagram">
     <div class="panel panel-default">

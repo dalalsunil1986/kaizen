@@ -1,11 +1,10 @@
 @section('maincontent')
 <div class="row">
-
     @if(Auth::user())
         <div class="row" id="statistic_feed">
-            <button  id="fav_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fav') }}"><i class="glyphicon glyphicon-star"></i></button>&nbsp;
-            <button  id="fallow_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fallow') }}"><i class="glyphicon glyphicon-plus"></i></button>&nbsp;
-            <button  id="subscribe_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i class="glyphicon glyphicon-check"></i></button>&nbsp;
+            <button  id="favorite_btn" type="button" class="btn btn-default btn-sm " data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fav') }}"><i id="favorite" class="glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></button>&nbsp;
+            <button  id="follow_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fallow') }}"><i id="follow" class="glyphicon glyphicon-plus {{ $followed? 'active' :'' ;}}"></i></button>&nbsp;
+            <button  id="subscribe_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i id="subscribe" class="glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i></button>&nbsp;
         </div>
     @endif
 
@@ -113,14 +112,16 @@
 
 @if($event->latitude && $event->longitude)
     <script>
+        var id = '<?php echo $event->id; ?>';
+
         function initialize() {
             var myLatlng = new google.maps.LatLng({{ $event->latitude }},{{ $event->longitude}});
-        var myOptions = {
-            zoom: 10,
-            center: myLatlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+            var myOptions = {
+                zoom: 10,
+                center: myLatlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
         }
 
         function loadScript() {

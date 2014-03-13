@@ -158,16 +158,17 @@
         font-size: 25px;
     }
 
-    #fav_btn  {
+    #favorite_btn .active {
         color: gold;
     }
 
-    #fallow_btn {
+    #follow_btn .active {
         color: #b447b0;
     }
-    #subscribe_btn {
+    #subscribe_btn .active {
         color: #7540b4;
     }
+
     #event_images {
         display: block;
         clear:both;

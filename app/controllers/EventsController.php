@@ -131,6 +131,23 @@ class EventsController extends BaseController
         $this->layout->maincontent = view::make('site.layouts.eventmain' , ['event' => $event]);
         $this->layout->sidecontent = view::make('site.layouts.sidecontent');
         $this->layout->footer = view::make('site.layouts.footer');
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            View::composer('site.layouts.eventmain', function($view) use ($id, $user)
+            {
+                $favorited =  Favorite::hasFavorited($id,$user->id);
+                $subscribed = Subscription::isSubscribed($id,$user->id);
+                $followed = Follower::isFollowing($id,$user->id);
+                $view->with(array('favorited'=>$favorited,'subscribed'=>$subscribed,'followed'=>$followed));
+
+            });
+        } else {
+            View::composer('site.layouts.eventmain', function($view)
+            {
+                $view->with(array('favorited'=>false,'subscribed'=>false,'followed'=>false));
+            });
+        }
     }
 
     /**
@@ -220,7 +237,11 @@ class EventsController extends BaseController
 
             if (Subscription::isSubscribed($id)) {
                 // return you are already subscribed to this event
-                dd('you have already subscribed to this event');
+//                dd('you have already subscribed to this event');
+                return Response::json(array(
+                    'success' => false,
+                    'message'=> 'you have already subscribed to this event'
+                ), 400 );
             }
             // either call availableSeats function which caluclated the total space available or
             // just query the events table available_seats column
@@ -235,15 +256,27 @@ class EventsController extends BaseController
                 //update the event seats_taken colum
                 $event->available_seats = $available_seats - 1;
                 $event->save();
-                dd('you have been registered');
+//                dd('you have been registered');
+                return Response::json(array(
+                    'success' => true,
+                    'message'=> 'you have been registered'
+                ), 200);
 
             }
             // notify no seats available
-            dd('No seats availble');
+//            dd('No seats availble');
+            return Response::json(array(
+                'success' => false,
+                'message'=> 'No seats availblet'
+            ), 400);
 
         }
         // notify user not authenticated
-        dd('You are not Authenticated');
+//        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 401);
 
     }
 
@@ -261,16 +294,36 @@ class EventsController extends BaseController
         if (!empty($user->id)) {
             if (Subscription::isSubscribed($id)) {
                 // check whether user already subscribed
-                echo Subscription::unsubscribe($id) ? 'You have been unsubscribed' : ' Error : Could not Unsubscribe You ';
+                if (Subscription::unsubscribe($id)) {
+//                    dd('You have been unsubscribed' );
+                    return Response::json(array(
+                        'success' => true,
+                        'message'=> 'You have been unsubscribed'
+                    ), 200);
+                } else {
+//                    dd(' Error : Could not Unsubscribe You ');
+                    return Response::json(array(
+                        'success' => false,
+                        'message'=> ' Error : Could not Unsubscribe You '
+                    ), 500);
+                }
             } else {
                 // wrong access
-                dd('sorry wrong access, you have\'nt subscribed in first place');
+//                dd('sorry wrong access, you have\'nt subscribed in first place');
+                return Response::json(array(
+                    'success' => false,
+                    'message'=> 'sorry wrong access, you have\'nt subscribed in first place'
+                ), 400);
             }
             // reset available seats
             $event->available_seats = $event->available_seats + 1;
             $event->save();
         } else {
-            dd('you are not authenticated');
+//            dd('you are not authenticated');
+            return Response::json(array(
+                'success' => false,
+                'message'=> 'you are not authenticated'
+            ), 403);
         }
 
     }
@@ -290,16 +343,28 @@ class EventsController extends BaseController
 
             if (Follower::isFollowing($id,$user->id)) {
                 // return you are already subscribed to this event
-                dd('you are already following this event');
+//                dd('you are already following this event');
+                return Response::json(array(
+                    'success' => false,
+                    'message'=> 'you are already following this event'
+                ), 400);
             }
 
             $event->followers()->attach($user);
 
-            dd('you are following');
+//            dd('you are following');
+            return Response::json(array(
+                'success' => true,
+                'message'=> 'you are following now'
+            ), 200);
 
         }
         // notify user not authenticated
-        dd('You are not Authenticated');
+//        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 403);
 
     }
 
@@ -314,16 +379,33 @@ class EventsController extends BaseController
             if (Follower::isFollowing($id,$user->id)) {
                 // return you are already subscribed to this event
 
-                echo Follower::unfollow($id,$user->id) ? 'you are  not following this event anymore ' : ' Error : Could not Unfavorite You ';
-
+                if(Follower::unfollow($id,$user->id)) {
+//                    'you are  not following this event anymore ';
+                    return Response::json(array(
+                        'success' => true,
+                        'message'=> 'you are  not following this event anymore '
+                    ), 200);
+                } else {
+//                 } : ' Error : Could not Unfavorite You ';
+                    return Response::json(array(
+                        'success' => false,
+                        'message'=> 'Error : Could not Unfavorite You'
+                    ), 500);
+                }
                 // redriect user
             }
-
-            dd('you havent followed this event in first place');
+            return Response::json(array(
+                'success' => false,
+                'message'=> 'you havent followed this event in first place'
+            ), 400);
 
         }
         // notify user not authenticated
-        dd('You are not Authenticated');
+//        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 403);
 
     }
 
@@ -342,16 +424,28 @@ class EventsController extends BaseController
 
             if (Favorite::hasFavorited($id,$user->id)) {
                 // return you are already subscribed to this event
-                dd('you have already favorited this event');
+//                dd('you have already favorited this event');
+                return Response::json(array(
+                    'success' => false,
+                    'message'=> 'you have already favorited this event'
+                ), 400);
             }
 
             $event->favorites()->attach($user);
 
-            dd('you favorited this event');
+//            dd('you favorited this event');
+            return Response::json(array(
+                'success' => true,
+                'message'=> 'you favorited this event'
+            ), 200);
 
         }
         // notify user not authenticated
-        dd('You are not Authenticated');
+//        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 403);
 
     }
 
@@ -366,15 +460,32 @@ class EventsController extends BaseController
             if (Favorite::hasFavorited($id,$user->id)) {
                 // return you are already subscribed to this event
 
-                echo Favorite::unfavorite($id,$user->id) ? 'You unfavorited this event' : ' Error : Could not Unfavorite You ';
-
-                // redriect user
-                dd();
+                if(Favorite::unfavorite($id,$user->id)) {
+//                    dd('You unfavorited this event');
+                    return Response::json(array(
+                        'success' => true,
+                        'message'=> 'You unfavorited this event'
+                    ), 200);
+                } else {
+//                     dd(' Error : Could not Unfavorite You ') ;
+                    return Response::json(array(
+                        'success' => false,
+                        'message'=> 'Error : Could not Unfavorite You '
+                    ), 500);
+                }
             }
-            dd('you havent favorited this event in first place');
+//            dd('you havent favorited this event in first place');
+            return Response::json(array(
+                'success' => false,
+                'message'=> 'you havent favorited this event in first place'
+            ), 400);
         }
         // notify user not authenticated
-        dd('You are not Authenticated');
+//        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 403);
 
     }
 
