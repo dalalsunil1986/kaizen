@@ -18,23 +18,23 @@ class Subscription extends BaseModel {
 
     /**
      * @param $id eventId
+     * @param $userId int
      * @return boolean
      * Is User subsribed to this event
      */
-    public static function isSubscribed($id) {
-        $user = Auth::user();
-        $query = Subscription::where('user_id', '=', $user->id)->where('event_id', '=', $id)->count();
+    public static function isSubscribed($id,$userId) {
+        $query = Subscription::where('user_id', '=', $userId)->where('event_id', '=', $id)->count();
         return ($query >= 1 ) ? true : false;
     }
 
     /**
      * @param $id eventId
+     * @param $userId int
      * @return boolean true
      * Unsubscribe User
      */
-    public static function unsubscribe($id) {
-        $user = Auth::user();
-        $query = Subscription::where('user_id','=',$user->id)->where('event_id','=',$id)->delete();
+    public static function unsubscribe($id,$userId) {
+        $query = Subscription::where('user_id','=',$userId)->where('event_id','=',$id)->delete();
         return $query ? true : false;
     }
 }

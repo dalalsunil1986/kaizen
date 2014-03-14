@@ -1,17 +1,20 @@
 $(document).ready(function () {
-
     // tooltip activation
     $("[data-toggle=tooltip]").tooltip();
 
     // EventController Favorite btn
     $('#favorite_btn').click(function () {
-
-       if($('#favorite').hasClass('active')) {
-           var behavior = 'unfavorite'
-       } else {
-           var behavior = 'favorite'
-       }
-
+//        $('#favorite_btn').prop('title','unfavorite');
+        if($('#favorite').hasClass('active')) {
+           var behavior = 'unfavorite';
+        } else {
+           var behavior = 'favorite';
+        }
+        //change tooltip text
+        $('#favorite_btn').tooltip('hide')
+            .attr('title', behavior)
+            .tooltip('fixTitle')
+            .tooltip('show');
         $.ajax({
             url: '/en/event/' + id + '/'+ behavior,
             type: 'GET',
@@ -24,7 +27,7 @@ $(document).ready(function () {
                 if(data.success) {
                     $('#favorite').toggleClass('active');
                 }
-                alert(data.message);
+                //alert(data.message);
             }
         });
     });
@@ -35,7 +38,10 @@ $(document).ready(function () {
         } else {
             var behavior = 'follow'
         }
-
+        $('#follow_btn').tooltip('hide')
+            .attr('title', behavior)
+            .tooltip('fixTitle')
+            .tooltip('show');
         $.ajax({
             url: '/en/event/' + id + '/'+ behavior,
             type: 'GET',
@@ -55,10 +61,14 @@ $(document).ready(function () {
 
     $('#subscribe_btn').click(function () {
         if($('#subscribe').hasClass('active')) {
-            var behavior = 'subscribe'
-        } else {
             var behavior = 'unsubscribe'
+        } else {
+            var behavior = 'subscribe'
         }
+        $('#subscribe_btn').tooltip('hide')
+            .attr('title', behavior)
+            .tooltip('fixTitle')
+            .tooltip('show');
         $.ajax({
             url: '/en/event/' + id + '/'+ behavior,
             type: 'GET',
@@ -83,34 +93,3 @@ $(document).ready(function () {
     })
 
 });
-
-
-function getPosts(id,action) {
-    var params = {
-        id: id,
-        mode:action
-    };
-    //	$('#ajax').html(ajax_load).css('text-align','center');
-    //	$("#ajax").bind("ajaxStart", function(){
-    $("#listings").bind("ajaxStart", function(){
-        $(this).html(ajax_load +'').css('text-align','center');
-    }).bind("ajaxStop", function(){
-        //	$(this).hide();
-    });
-    $.ajax({
-        url: settingsUrl,
-        type: 'GET',
-        data: $.param(params),
-        cache : true,
-        dataType: "json",
-        error: function(xhr, textStatus, errorThrown) {
-            displayError(textStatus);
-        },
-        success: function(data) {
-            //	$('#ajax').empty().remove(); // remove the div inorder not to repeat the contents when clicking second time
-            var postHeading = action; // to send the heading
-            readPosts(data,postHeading,id);
-        }
-    });
-    return false;
-}

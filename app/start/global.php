@@ -20,7 +20,7 @@ ClassLoader::addDirectories(array(
     app_path().'/database/seeds',
 
 ));
-
+//\Debugbar::disable();
 /*
 |--------------------------------------------------------------------------
 | Application Error Logger

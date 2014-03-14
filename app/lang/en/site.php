@@ -22,19 +22,17 @@ return array(
                     'posts' => 'Posts',
                     'contactus' => 'Contact Us',
                     'search' => 'search',
-
-
     ),
     'event' => array(
                 'summaryevent' => 'Summary',
                 'totalseats' => 'Total Seats',
                 'date_start' => 'Starts on',
                 'time_start' => 'Starts at',
-                'seatsavail' => 'Seats Avail.',
+                'seatsavail' => 'Seats Available.',
                 'date_end' => 'Ends on',
                 'time_end' => 'Ends at',
-                'fav' => 'Add To Favorites',
-                'fallow' => 'Fallow',
+                'favorite' => 'Add To Favorites',
+                'follow' => 'Follow',
                 'subscribe' => 'Subscribe',
                 'comment' => 'Comments' ,
                 'addcomment' => 'Add Comment',
@@ -44,12 +42,12 @@ return array(
                 'all' => 'All',
                 ),
     'general' => array(
-    'kaizen' => 'Kaizen',
-    'name' => 'Name',
-    'email' => 'Email',
-    'submit' => 'Submit',
-    'comment' => 'Comment',
-    'remember' => 'Remember',
-)
+                'kaizen' => 'Kaizen',
+                'name' => 'Name',
+                'email' => 'Email',
+                'submit' => 'Submit',
+                'comment' => 'Comment',
+                'remember' => 'Remember',
+    )
 
 );

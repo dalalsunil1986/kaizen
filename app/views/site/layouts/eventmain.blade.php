@@ -2,8 +2,8 @@
 <div class="row">
     @if(Auth::user())
         <div class="row" id="statistic_feed">
-            <button  id="favorite_btn" type="button" class="btn btn-default btn-sm " data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fav') }}"><i id="favorite" class="glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></button>&nbsp;
-            <button  id="follow_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.fallow') }}"><i id="follow" class="glyphicon glyphicon-plus {{ $followed? 'active' :'' ;}}"></i></button>&nbsp;
+            <button  id="favorite_btn" type="button" class="btn btn-default btn-sm " data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}"><i id="favorite" class="glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></button>&nbsp;
+            <button  id="follow_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.follow') }}"><i id="follow" class="glyphicon glyphicon-plus {{ $followed? 'active' :'' ;}}"></i></button>&nbsp;
             <button  id="subscribe_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i id="subscribe" class="glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i></button>&nbsp;
         </div>
     @endif
@@ -97,7 +97,7 @@
             </div>
             @endforeach
         @endif
-    
+
         @if(Auth::User())
         <form role="form" style="width:98%;">
             <div class="form-group">
@@ -110,8 +110,13 @@
 
 </div>
 
+
+
 @if($event->latitude && $event->longitude)
     <script>
+
+
+
         var id = '<?php echo $event->id; ?>';
 
         function initialize() {

@@ -26,7 +26,7 @@
         "leafo/lessphp": "v0.4.0"
 	},
     "require-dev": {
-        "way/generators": "dev-master",
+        "way/generators": "2.*",
         "fzaninotto/faker": "dev-master",
         "barryvdh/laravel-debugbar": "dev-master",
         "barryvdh/laravel-ide-helper": "dev-master"

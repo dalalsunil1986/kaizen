@@ -236,7 +236,7 @@ class EventsController extends BaseController
             //check whether seats are empty
             $event = $this->model->findOrFail($id);
 
-            if (Subscription::isSubscribed($id)) {
+            if (Subscription::isSubscribed($id,$user->id)) {
                 // return you are already subscribed to this event
 //                dd('you have already subscribed to this event');
                 return Response::json(array(
@@ -250,7 +250,6 @@ class EventsController extends BaseController
             $available_seats = $this->availableSeats($event);
             // $available_seats = $event->available_seats;
             if ($available_seats >= 1) {
-                // check whether this user is already subscriber
 
                 // subscribe this user
                 $event->subscriptions()->attach($user);
@@ -260,7 +259,7 @@ class EventsController extends BaseController
 //                dd('you have been registered');
                 return Response::json(array(
                     'success' => true,
-                    'message'=> 'you have been registered'
+                    'message'=> 'you have been subscribed'
                 ), 200);
 
             }
@@ -268,7 +267,7 @@ class EventsController extends BaseController
 //            dd('No seats availble');
             return Response::json(array(
                 'success' => false,
-                'message'=> 'No seats availblet'
+                'message'=> 'No seats available'
             ), 400);
 
         }
@@ -284,23 +283,26 @@ class EventsController extends BaseController
 
     /**
      * @param $id eventId
-     * return boolean true false
+     * @return boolean true false
      * Unsubscribe a User from an event
      */
     public function unsubscribe($id)
     {
         // check whether user authenticated
-        $event = $this->model->find($id);
+        $event = $this->model->findOrFail($id);
         $user = Auth::user();
         if (!empty($user->id)) {
-            if (Subscription::isSubscribed($id)) {
+            if (Subscription::isSubscribed($id,$user->id)) {
                 // check whether user already subscribed
-                if (Subscription::unsubscribe($id)) {
+                if (Subscription::unsubscribe($id,$user->id)) {
 //                    dd('You have been unsubscribed' );
                     return Response::json(array(
                         'success' => true,
                         'message'=> 'You have been unsubscribed'
                     ), 200);
+                    // reset available seats
+                    $event->available_seats = $event->available_seats + 1;
+                    $event->save();
                 } else {
 //                    dd(' Error : Could not Unsubscribe You ');
                     return Response::json(array(
@@ -316,9 +318,6 @@ class EventsController extends BaseController
                     'message'=> 'sorry wrong access, you have\'nt subscribed in first place'
                 ), 400);
             }
-            // reset available seats
-            $event->available_seats = $event->available_seats + 1;
-            $event->save();
         } else {
 //            dd('you are not authenticated');
             return Response::json(array(
