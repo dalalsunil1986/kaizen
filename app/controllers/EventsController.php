@@ -72,7 +72,7 @@ class EventsController extends BaseController
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+       // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
         $this->layout->maincontent = view::make('site.layouts.maincontent');
         $this->layout->sidecontent = view::make('site.layouts.sidecontent');
         $this->layout->footer = view::make('site.layouts.footer');
