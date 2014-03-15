@@ -37,7 +37,19 @@
 
     </div>
     @endif
-
+@if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+{{  '<ul class="nav navbar-nav navbar-right">'; }}
+    @else
+    {{ '<ul class="nav navbar-nav navbar-left">'; }}
+        @endif
+        <li><form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="{{ Lang::get('site.nav.search') }}">
+                </div>
+                <a href="{{ action('EventsController@search') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.search') }}</a>
+            </form>
+        </li>
+    </ul>
     @if ( Session::get('error') )
     <div class="alert alert-danger">{{ Session::get('error') }}</div>
     @endif
