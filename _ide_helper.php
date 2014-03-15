@@ -10244,6 +10244,16 @@ class Session extends Illuminate\Support\Facades\Session{
 	 }
 
 	/**
+	 * Regenerate the CSRF token value.
+	 *
+	 * @return void
+	 * @static 
+	 */
+	 public static function regenerateToken(){
+		 Illuminate\Session\Store::regenerateToken();
+	 }
+
+	/**
 	 * Get the underlying session handler implementation.
 	 *
 	 * @return \SessionHandlerInterface

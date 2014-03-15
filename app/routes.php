@@ -115,7 +115,7 @@ Route::group(
         // Posts Routes
 
         // Contact Us Page
-        Route::get('contactus','ContactusController@index');
+        Route::resource('contact-us','ContactsController');
 
 
         # Posts - Second to last set, match slug

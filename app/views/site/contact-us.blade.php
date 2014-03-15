@@ -1,13 +1,18 @@
-@extends('site.layouts.default')
-{{-- Web site Title --}}
-@section('title')
-{{{ Lang::get('site.contact_us') }}} ::
-@parent
-@stop
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<h2>Hi, I am {{ $name }}</h2>
 
-{{-- Content --}}
-@section('content')
+<div>
+    <p> {{ $comment }} </p>
 
-{{{ Lang::get('site.contact_us') }}}
-
-@stop
+    <address>
+        Regards,
+        {{ $name }} - {{ $email }}
+    </address>
+</div>
+</body>
+</html>
