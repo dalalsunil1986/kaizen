@@ -55,7 +55,7 @@ class ContactsController extends \BaseController {
         $view= 'site.contact-us';
         $subject = 'Kaizen.com - '.$data['name']. ' Has contact you';
         if($validate->passes()) {
-            Mail::queue($view, $data, function($message) use ($data, $contact, $subject) {
+            Mail::send($view, $data, function($message) use ($data, $contact, $subject) {
                 $message->to('z4ls@live.com')
                         ->subject($subject)
                         ->from($data['email'],$data['name']);
