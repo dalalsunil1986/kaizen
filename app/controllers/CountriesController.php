@@ -21,7 +21,7 @@ class CountriesController extends BaseController {
 	 */
 	public function index()
 	{
-		$countries = $this->country->all();
+		return $countries = $this->country->all();
 
 		return View::make('countries.index', compact('countries'));
 	}

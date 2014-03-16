@@ -1,81 +1,81 @@
 @extends('site.layouts.home')
 @section('maincontent')
 <div class="row">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-        <form role="form">
-            <h2>Please Sign Up <small>It's free and always will be.</small></h2>
-            <hr class="colorgraph">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <input type="text" name="first_name" id="first_name" class="form-control input-lg" placeholder="First Name" tabindex="1">
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <input type="text" name="last_name" id="last_name" class="form-control input-lg" placeholder="Last Name" tabindex="2">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="text" name="display_name" id="display_name" class="form-control input-lg" placeholder="Display Name" tabindex="3">
-            </div>
-            <div class="form-group">
-                <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" tabindex="4">
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="5">
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirm Password" tabindex="6">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4 col-sm-3 col-md-3">
-					<span class="button-checkbox">
-						<button type="button" class="btn" data-color="info" tabindex="7">I Agree</button>
-                        <input type="checkbox" name="t_and_c" id="t_and_c" class="hidden" value="1">
-					</span>
-                </div>
-                <div class="col-xs-8 col-sm-9 col-md-9">
-                    By clicking <strong class="label label-primary">Register</strong>, you agree to the <a href="#" data-toggle="modal" data-target="#t_and_c_m">Terms and Conditions</a> set out by this site, including our Cookie Use.
-                </div>
-            </div>
 
-            <hr class="colorgraph">
+        <form action="{{ action('UserController@store') }}" method="post" accept-charset="utf-8" class="form" role="form">   <legend>Sign Up</legend>
             <div class="row">
-                <div class="col-xs-12 col-md-6"><input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7"></div>
-                <div class="col-xs-12 col-md-6"><a href="#" class="btn btn-success btn-block btn-lg">Sign In</a></div>
+
+                <div class="col-xs-6 col-md-6">
+                    <input type="text" name="first_name" value="" class="form-control input-lg" placeholder="First Name"  />                        </div>
+                <div class="col-xs-6 col-md-6">
+                    <input type="text" name="last_name" value="" class="form-control input-lg" placeholder="Last Name"  />                        </div>
+            </div></br>
+            <input type="text" name="username" value="" class="form-control input-lg" placeholder="Username"  required="required" />
+            </br>
+            <input type="email" name="email" value="" class="form-control input-lg" placeholder="Your Email"  required="required"/>
+            </br>
+            <input type="password" name="password" value="" class="form-control input-lg" placeholder="Password"  required="required" />
+            </br>
+            <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirm Password"  required="required" />
+            </br>
+            <input type="tel" name="mobile" value="" class="form-control input-lg" placeholder="Mobile Telephone"  />
+            </br>
+            <input type="tel" name="phone" value="" class="form-control input-lg" placeholder="Telphone"  />
+            </br>
+            {{ Form::select('country_id', $countries, null ,['class' => 'form-control input-lg']) }}
+            </br>
+            <label>Birth Date</label>
+            <div class="row">
+                <div class="col-xs-4 col-md-4">
+                    <select name="month" class = "form-control input-lg">
+                        <option value="01">Jan</option>
+                        <option value="02">Feb</option>
+                        <option value="03">Mar</option>
+                        <option value="04">Apr</option>
+                        <option value="05">May</option>
+                        <option value="06">Jun</option>
+                        <option value="07">Jul</option>
+                        <option value="08">Aug</option>
+                        <option value="09">Sep</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                    </select>                        </div>
+                <div class="col-xs-4 col-md-4">
+                    <select name="day" class = "form-control input-lg">
+
+                        @for($i=1;$i<=31;$i++)
+                        <option value="{{ $i }}"> {{ $i }}</option>
+                        @endfor
+                    </select>                        </div>
+                <div class="col-xs-4 col-md-4">
+                    <select name="year" class = "form-control input-lg">
+                        @for($i=1930;$i<=2014;$i++)
+                        <option value="{{ $i }}"> {{ $i }}</option>
+                        @endfor
+                    </select>                        </div>
             </div>
+            <br />
+            <label>Gender : </label>                    <label class="radio-inline">
+                <input type="radio" name="gender" value="M" id=male />                        Male
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="gender" value="F" id=female />                        Female
+            </label>
+            <br />
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    <input type="text" name="twitter" value="" class="form-control input-lg" placeholder="Twitter Account"  />                        </div>
+                <div class="col-xs-6 col-md-6">
+                    <input type="text" name="instagram" value="" class="form-control input-lg" placeholder="Istagram Account"  />                        </div>
+
+            </div></br>
+            <textarea name="prev_event_comment" class="form-control" rows="3"  placeholder="Previous Events in Kaizen"></textarea>
+            </br>
+            <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
+                Create my account</button>
         </form>
     </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">Terms & Conditions</h4>
-            </div>
-            <div class="modal-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">I Agree</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
+
 @stop

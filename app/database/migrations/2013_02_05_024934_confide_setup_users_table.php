@@ -19,16 +19,13 @@ class ConfideSetupUsersTable extends Migration {
             $table->string('email');
             $table->string('password');
             $table->string('first_name');
-            $table->string('second_name');
             $table->string('last_name');
             $table->integer('mobile');
             $table->integer('phone');
             $table->integer('country_id');
             $table->string('gender');
             $table->string('instagram');
-            $table->string('facebook');
             $table->string('twitter');
-            $table->string('google');
             $table->text('prev_event_comment');
             $table->string('confirmation_code');
             $table->boolean('confirmed')->default(false);
