@@ -17,7 +17,7 @@ return array(
 
      'nav' => array('home' => 'رئيسية',
                 'admin' => 'ادمن',
-                'login' => 'دخول', 'logout'=>'خروج','sign_up' => 'تسجيل',
+                'login' => 'دخول', 'logout'=>'خروج','register' => 'تسجيل',
                 'main' => 'الصفحة الرئيسية',
                 'events' => 'الفعاليات',
                 'consultancies' => 'الإستشارات',

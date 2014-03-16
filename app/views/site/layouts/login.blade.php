@@ -18,6 +18,7 @@
                 </label>
             </div>
             <button type="submit" class="btn btn-default">{{ Lang::get('site.nav.login') }}</button>
+            <a href="{{ action('UserController@create') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
         <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
         </form>
     @else

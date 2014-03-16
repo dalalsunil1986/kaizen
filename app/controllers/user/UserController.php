@@ -9,7 +9,7 @@ class UserController extends BaseController {
      * @var User
      */
     protected $user;
-
+    protected $layout = 'site.layouts.home';
     /**
      * Inject the models.
      * @param User $user
@@ -147,11 +147,17 @@ class UserController extends BaseController {
      */
     public function create()
     {
-        return View::make('site/user/create');
+        $countries = Country::all()->lists('name','id');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.user.create', ['countries'=>$countries]);
+        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->footer = view::make('site.layouts.footer');
     }
+
+
     public function store()
     {
-        dd(Input::all());
+
     }
 
 

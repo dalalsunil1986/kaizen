@@ -17,7 +17,7 @@ extends('site.layouts.home')
                 <li><a href="{{ action('EventsController@slider') }}">{{ Lang::get('site.nav.main')}}</a></li>
                 <li><a href="{{ action('EventsController@index') }}">{{ Lang::get('site.nav.events') }}</a></li>
                 <li><a href="#">{{ Lang::get('site.nav.consultancies') }}</a></li>
-                <li><a href="{{ URL::to('blog') }}">{{ Lang::get('site.nav.posts') }}</a></li>
+                <li><a href="{{ URL::to('register') }}">{{ Lang::get('site.nav.posts') }}</a></li>
                 <li><a href="{{ URL::to('contact-us') }}">{{ Lang::get('site.nav.contactus') }}</a></li>
             </ul>
 
