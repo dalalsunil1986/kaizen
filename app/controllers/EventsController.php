@@ -533,7 +533,9 @@ class EventsController extends BaseController
         //search by category
         //search by instructor name
         $events = parent::all();
-        $any = array('0'=>'Select one');
+        $any = array('id'=>'0','name'=>'any');
+        $list = $any->lists('name','id');
+        dd($list);
         $catego = $this->category->getEventCategories()->lists('name', 'id');
         $categories = array_push($any,$catego);
         $authors = $this->user->getRoleByName('author')->lists('username', 'id');
