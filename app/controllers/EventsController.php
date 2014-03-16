@@ -47,11 +47,11 @@ class EventsController extends BaseController
         // add/remove ads section
         // add/remove login form section .. and so on
 //        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
-
+        $this->layout->login = View::make('site.layouts.login');
         $this->layout->nav = view::make('site.layouts.nav');
 //        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
-        $this->layout->maincontent = view::make('site.layouts.allevents', ['events'=> $events]);
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->maincontent = view::make('site.events.index', ['events'=> $events]);
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
@@ -73,8 +73,8 @@ class EventsController extends BaseController
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
        // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
-        $this->layout->maincontent = view::make('site.layouts.maincontent');
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->maincontent = view::make('site.layouts.dashboard');
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
@@ -129,13 +129,13 @@ class EventsController extends BaseController
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.layouts.eventmain' , ['event' => $event]);
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->maincontent = view::make('site.events.view' , ['event' => $event]);
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
         if (Auth::check()) {
             $user = Auth::user();
-            View::composer('site.layouts.eventmain', function($view) use ($id, $user)
+            View::composer('site.events.view', function($view) use ($id, $user)
             {
                 $favorited =  Favorite::hasFavorited($id,$user->id);
                 $subscribed = Subscription::isSubscribed($id,$user->id);
@@ -144,7 +144,7 @@ class EventsController extends BaseController
 
             });
         } else {
-            View::composer('site.layouts.eventmain', function($view)
+            View::composer('site.events.view', function($view)
             {
                 $view->with(array('favorited'=>false,'subscribed'=>false,'followed'=>false));
             });
@@ -522,8 +522,8 @@ class EventsController extends BaseController
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
         //$this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
-        $this->layout->maincontent = view::make('site.layouts.search', compact('events','authors','categories','countries','search','category','author','country'));
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->maincontent = view::make('site.layouts.events.search', compact('events','authors','categories','countries','search','category','author','country'));
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
 //        $events = $this->model;
@@ -617,5 +617,7 @@ class EventsController extends BaseController
         dd('success');
         return Redirect::back();
     }
+
+
 
 }

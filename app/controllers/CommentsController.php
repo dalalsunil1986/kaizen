@@ -25,11 +25,12 @@ class CommentsController extends BaseController {
 	 * @return Response
 	 */
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param $id
+     * @return Response
+     */
 	public function store($id)
 	{
         $event = $this->event->find($id);

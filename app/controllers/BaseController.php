@@ -141,4 +141,9 @@ abstract class BaseController extends Controller
     {
         return Redirect::intended($default);
     }
+
+    public function latest() {
+        $events = $this->all(3);
+        dd($events->toArray());
+    }
 }

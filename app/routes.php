@@ -64,6 +64,7 @@ Route::group(
 //               $m->to('z4ls@live.com')->from('zals@kaizen.com')->subject('hello zal 123 at 7:10');
 //            });
 //            return 'Queued';
+//            dd(Session::get('url.intended'));
         });
 
 
@@ -91,18 +92,20 @@ Route::group(
         //get events by author name
         Route::get('event/{id}/author', 'EventsController@getAuthor');
 
-        //get event followers
-        Route::get('event/{id}/subscribe','EventsController@subscribe');
-        Route::get('event/{id}/unsubscribe','EventsController@unsubscribe');
-        Route::get('event/{id}/follow','EventsController@follow');
-        Route::get('event/{id}/unfollow','EventsController@unfollow');
-        Route::get('event/{id}/favorite','EventsController@favorite');
-        Route::get('event/{id}/unfavorite','EventsController@unfavorite');
+        //Routes For Event Subscribe, Follow, Favorite .. Route Returns Json Object
+        Route::get('event/{id}/subscribe',array('as'=>'event.subscribe','uses'=>'EventsController@subscribe'));
+        Route::get('event/{id}/unsubscribe',array('as'=>'event.unsubscribe','uses'=>'EventsController@unsubscribe'));
+        Route::get('event/{id}/follow',array('as'=>'event.follow','uses'=>'EventsController@follow'));
+        Route::get('event/{id}/unfollow',array('as'=>'event.unfollow','uses'=>'EventsController@unfollow'));
+        Route::get('event/{id}/favorite',array('as'=>'event.favorite','uses'=>'EventsController@favorite'));
+        Route::get('event/{id}/unfavorite',array('as'=>'event.unfavorite','uses'=>'EventsController@unfavorite'));
+        Route::get('events/featured',array('as'=>'event.featured','uses'=>'EventsController@getSliderEvents'));
 
+        // Search Route
+        Route::get('events/search',array('as'=>'event.search','uses'=>'EventsController@search'));
 
-        Route::get('events/featured','EventsController@getSliderEvents');
-        Route::get('events/search','EventsController@search');
-        Route::post('event/{$id}/storeComment/',array('as'=>'comment.store', 'uses'=> 'EventsController@storeComment'));
+        //get latest 3 posts for sidebar
+        Route::get('events/latest',array('as'=>'event.latest','uses'=>'EventsController@latest'));
 
         //Category Routes
         Route::resource('categories', 'CategoriesController');
@@ -110,32 +113,65 @@ Route::group(
         Route::get('category/{id}/events',['as'=>'CategoryEvents','uses'=>'CategoriesController@getEvents']);
         Route::get('category/{id}/posts',['as'=>'CategoryPosts','uses'=>'CategoriesController@getPosts']);
 
-        Route::resource('locations', 'LocationsController');
         //Location Routes
         Route::resource('location','LocationsController');
         Route::get('location/{id}/events', ['as'=>'LocationEvents','uses'=>'LocationsController@getEvents']);
-        // Posts Routes
 
         // Contact Us Page
-        Route::resource('contact-us','ContactsController', array('only' => array('index','show')));
-
+        Route::resource('contact-us','ContactsController', array('only' => array('index','store')));
 
         # Posts - Second to last set, match slug
         Route::get('blog/{postSlug}', 'BlogController@getView');
         Route::post('blog/{postSlug}', 'BlogController@postView');
         Route::get('blog', array('as' => 'blog','uses' => 'BlogController@getIndex'));
+        Route::get('blog/latest',array('as'=>'blog.latest','uses'=>'EventsController@latest'));
+
+        // Post Comment
+        Route::resource('event.comments', 'CommentsController', array('only' => array('store')));
 
 
-        //followers
+        // User reset routes
+        Route::get('user/reset/{token}', 'UserController@getReset');
 
-        // Admin Route Group
+        // User password reset
+        Route::post('user/reset/{token}', 'UserController@postReset');
+
+        //:: User Account Routes ::
+        Route::post('user/{user}/edit', 'UserController@postEdit');
+
+        //:: User Account Routes ::
+        Route::post('user/login', array('as' => 'login', 'uses' => 'UserController@postLogin'));
+
+        # User RESTful Routes (Login, Logout, Register, etc)
+        Route::get('user/register', array('as'=>'register','uses'=>'UserController@create'));
+        Route::post('user/register', array('uses'=>'UserController@store'));
+
+        Route::controller('user', 'UserController');
+
+        // Newsletter Route
+        // Route::post('newsletter/subscribe', array('as'=>'newsletter','uses'=>'NewslettersController@store'));
+        Route::get('newsletter/subscribe', function() {
+            return View::make('test');
+        });
+        Route::post('newsletter','NewslettersController@storeNewsletter');
+
+        // Just  a Test Route
+        Route::get('/mailchimp', function() {
+            $user = User::find(2);
+            $email = array();
+            $email['email']= $user->email;
+            Notify::userSubscriber($email);
+            dd($user->toArray());
+        });
+
+
+        /* Admin Route Group */
         Route::group(array('prefix' => 'admin', 'before' =>'auth|Moderator'), function () {
 
-
+            // Just a Test Route to find the Roles of a User
             Route::get('/findRoles/{role}',function($role) {
                 $user = new User();
                 $users = $user->getRoleByName($role);
-//                dd($users->toArray());
                 foreach ($users as $user) {
                     echo $user->username.'<br>';
                 }
@@ -172,18 +208,7 @@ Route::group(
             Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
             Route::controller('roles', 'AdminRolesController');
 
-//            Auth::loginUsingId(2);
-//            $user = Auth::user();
-//
-////            dd($user);
-//
-//            if ($user->hasRole('moderator') )
-//            {
-////                dd('moderator');
-//                dd('admin');
-//            }
-            #event
-
+            // Admin Event Route
             Route::resource('event','AdminEventsController');
             Route::get('event/{id}/followers','AdminEventsController@getFollowers');
             Route::get('event/{id}/favorites','AdminEventsController@getFavorites');
@@ -191,76 +216,22 @@ Route::group(
             Route::get('event/{id}/country','AdminEventsController@getCountry');
             Route::get('event/{id}/location','AdminEventsController@getLocation');
             Route::get('event/{id}/notifyFollowers', 'AdminEventsController@notifyFollowers');
-
-
-
             # Admin Dashboard
             Route::controller('/', 'AdminDashboardController');
 
-
-        });
-
-        /** ------------------------------------------
-         *  Frontend Routes
-         *  ------------------------------------------
-         */
-
-        // User reset routes
-        Route::get('user/reset/{token}', 'UserController@getReset');
-        // User password reset
-        Route::post('user/reset/{token}', 'UserController@postReset');
-        //:: User Account Routes ::
-        Route::post('user/{user}/edit', 'UserController@postEdit');
-
-        //:: User Account Routes ::
-        Route::post('user/login', array('as' => 'login', 'uses' => 'UserController@postLogin'));
-
-        # User RESTful Routes (Login, Logout, Register, etc)
-        Route::get('user/register', array('as'=>'register','uses'=>'UserController@create'));
-        Route::post('user/register', array('uses'=>'UserController@store'));
-
-
-
-        Route::controller('user', 'UserController');
-
-//        Route::post('newsletter/subscribe', array('as'=>'newsletter','uses'=>'NewslettersController@store'));
-        Route::get('newsletter/subscribe', function() {
-            return View::make('test');
+            //            Auth::loginUsingId(2);
+            //            $user = Auth::user();
+            //            if ($user->hasRole('moderator') )
+            //            {
+            //                dd('admin');
+            //            }
         });
 
 
 
 
-        Route::get('/mailchimp', function() {
-            $user = User::find(2);
-            $email = array();
-            $email['email']= $user->email;
-            Notify::userSubscriber($email);
-            dd($user->toArray());
-        });
 
-        // newsletter subscribe route
-        Route::post('newsletter','NewslettersController@storeNewsletter');
 
-        Route::resource('event.comments', 'CommentsController');
-
-//        /** ------------------------------------------
-//         *  Frontend Routes
-//         *  ------------------------------------------
-//         */
-//
-//        // User reset routes
-//        Route::get('user/reset/{token}', 'UserController@getReset');
-//        // User password reset
-//        Route::post('user/reset/{token}', 'UserController@postReset');
-//        //:: User Account Routes ::
-//        Route::post('user/{user}/edit', 'UserController@postEdit');
-//
-//        //:: User Account Routes ::
-//        Route::post('user/login', 'UserController@postLogin');
-//
-//        # User RESTful Routes (Login, Logout, Register, etc)
-//        Route::controller('user', 'AdminUsersController');
     }
 
 );

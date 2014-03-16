@@ -42,8 +42,8 @@ class BlogController extends BaseController {
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.layouts.blog.index', compact('posts'));
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->maincontent = view::make('site.blog.index', compact('posts'));
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
 	}
@@ -69,24 +69,20 @@ class BlogController extends BaseController {
 			// 404 error page.
 			return App::abort(404);
 		}
-
 		// Get this post comments
 		$comments = $post->comments()->orderBy('created_at', 'ASC')->get();
-
         // Get current user and check permission
         $user = $this->user->currentUser();
         $canComment = false;
         if(!empty($user)) {
             $canComment = $user->can('post_comment');
         }
-
 		// Show the page
-
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.layouts.blog.view_post', compact('post', 'comments', 'canComment'));
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->maincontent = view::make('site.blog.view', compact('post', 'comments', 'canComment'));
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 	}
 
@@ -98,7 +94,6 @@ class BlogController extends BaseController {
 	 */
 	public function postView($slug)
 	{
-
         $user = $this->user->currentUser();
         $canComment = $user->can('post_comment');
 		if ( ! $canComment)

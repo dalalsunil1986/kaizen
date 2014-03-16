@@ -35,10 +35,11 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-    if (Auth::guest()) {
-        Session::put('loginRedirect', Request::url());
-        return Redirect::to('/');
-    }
+//    if (Auth::guest()) {
+//        Session::put('loginRedirect', Request::url());
+//        return Redirect::to('/');
+//    }
+    if (Auth::guest()) return Redirect::guest('/');
 });
 
 Route::filter('auth.basic', function()

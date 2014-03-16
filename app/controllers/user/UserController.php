@@ -196,13 +196,7 @@ class UserController extends BaseController {
         // Check that the user is confirmed.
         if ( Confide::logAttempt( $input, true ) )
         {
-            $r = Session::get('loginRedirect');
-            if (!empty($r))
-            {
-                Session::forget('loginRedirect');
-                return Redirect::to($r);
-            }
-            return Redirect::to('/');
+            return Redirect::intended('/');
         }
         else
         {
@@ -225,7 +219,8 @@ class UserController extends BaseController {
     /**
      * Attempt to confirm account with code
      *
-     * @param  string  $code
+     * @param  string $code
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function getConfirm( $code )
     {
