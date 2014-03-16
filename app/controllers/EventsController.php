@@ -532,21 +532,26 @@ class EventsController extends BaseController
         //search by location
         //search by category
         //search by instructor name
-        $event = parent::all();
+        $events = parent::all();
+        $any = array('id'=>'0','name'=>'any');
+        $list = $any->lists('name','id');
+        dd($list);
+        $catego = $this->category->getEventCategories()->lists('name', 'id');
+        $categories = array_push($any,$catego);
+        $authors = $this->user->getRoleByName('author')->lists('username', 'id');
+        $countries = Country::all()->lists('name', 'id');
+//        $general = // will search for the word in any field of the table !!!!
+//
+        $search = Input::get('search');
+
+
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
         //$this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
-        $this->layout->maincontent = view::make('site.layouts.allevents', ['events' => $event, 'search'=>true]);
+        $this->layout->maincontent = view::make('site.layouts.search', compact('events','authors','categories','countries','search'));
         $this->layout->sidecontent = view::make('site.layouts.sidecontent');
         $this->layout->footer = view::make('site.layouts.footer');
-
-//        $categories = $this->category->getEventCategories()->lists('name', 'id');
-//        $authors = $this->user->getRoleByName('author')->lists('username', 'id');
-//        $countries = Country::all()->lists('name', 'id');
-//        $general = // will search for the word in any field of the table !!!!
-//
-//        $search = Request::get('search');
 //        $category = Request::get('category');
 //        $author = Request::get('author');
 //        $country = Request::get('country');

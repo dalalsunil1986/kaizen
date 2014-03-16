@@ -145,9 +145,13 @@ class UserController extends BaseController {
      * Displays the form for user creation
      *
      */
-    public function getCreate()
+    public function create()
     {
         return View::make('site/user/create');
+    }
+    public function store()
+    {
+        dd(Input::all());
     }
 
 

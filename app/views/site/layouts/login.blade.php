@@ -23,10 +23,10 @@
         </form>
     @else
     <div class="col-md-5
-     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-    pull-right
+    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+        pull-right
     @else
-    pull-left
+        pull-left
     @endif
     " style="">
         <p class="text-left">you are logged in as : {{ Auth::user()->username }}
@@ -38,24 +38,25 @@
 
     </div>
     @endif
-@if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-{{  '<ul class="nav navbar-nav navbar-right">'; }}
+    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+        <ul class="nav navbar-nav navbar-right">
     @else
-    {{ '<ul class="nav navbar-nav navbar-left">'; }}
-        @endif
-        <li><form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="{{ Lang::get('site.nav.search') }}">
-                </div>
-                <a href="{{ action('EventsController@search') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.search') }}</a>
-            </form>
-        </li>
-    </ul>
+        <ul class="nav navbar-nav navbar-left">
+    @endif
+            <li>
+                <form class="navbar-form navbar-left" role="search" method="GET" action="{{ URL::action('EventsController@search') }}">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="{{ Lang::get('site.nav.search') }}" value="@if(isset($_GET['search'])) {{ $_GET['search'] }} @endif " name="search" >
+                    </div>
+                    <input type="submit" class="btn btn-default" value="{{ Lang::get('site.nav.search') }}">
+                </form>
+            </li>
+        </ul>
     @if ( Session::get('error') )
-    <div class="alert alert-danger">{{ Session::get('error') }}</div>
+        <div class="alert alert-danger">{{ Session::get('error') }}</div>
     @endif
 
     @if ( Session::get('notice') )
-    <div class="alert">{{ Session::get('notice') }}</div>
+        <div class="alert">{{ Session::get('notice') }}</div>
     @endif
 @stop

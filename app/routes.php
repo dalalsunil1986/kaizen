@@ -212,6 +212,11 @@ Route::group(
         Route::post('user/login', array('as' => 'login', 'uses' => 'UserController@postLogin'));
 
         # User RESTful Routes (Login, Logout, Register, etc)
+        Route::get('user/register', array('as'=>'register','uses'=>'UserController@create'));
+        Route::post('user/register', array('uses'=>'UserController@store'));
+
+
+
         Route::controller('user', 'UserController');
 
 //        Route::post('newsletter/subscribe', array('as'=>'newsletter','uses'=>'NewslettersController@store'));
