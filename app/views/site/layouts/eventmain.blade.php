@@ -1,3 +1,4 @@
+@extends('site.layouts.home')
 @section('maincontent')
 <div class="row">
     @if(Auth::user())

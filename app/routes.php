@@ -220,6 +220,8 @@ Route::group(
         });
 
 
+
+
         Route::get('/mailchimp', function() {
             $user = User::find(2);
             $email = array();

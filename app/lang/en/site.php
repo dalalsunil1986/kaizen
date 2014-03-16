@@ -15,7 +15,7 @@ return array(
 
 	'contact_us' => 'Contact Us',
 
-    'nav' => array('home' => 'Home','admin' => 'Admin','login' => 'Login', 'logout'=>'Logout','sign_up' => 'Sign Up',
+    'nav' => array('home' => 'Home','admin' => 'Admin','login' => 'Login', 'logout'=>'Logout','register' => 'Register',
                     'main' => 'Main Page',
                     'events' => 'Events',
                     'consultancies' => 'Consultancies',
