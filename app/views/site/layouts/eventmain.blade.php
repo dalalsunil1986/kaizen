@@ -71,7 +71,7 @@
     @if($event->latitude && $event->longitude)
         <div id="map_canvas"></div>
     @endif
-
+<option selected disabled>first option</option>
     <address>
         <strong> {{ $event->address}} </strong><br>
         795 Folsom Ave, Suite 600<br>
@@ -79,8 +79,7 @@
         <abbr title="Phone">P:</abbr> (123) 456-7890
     </address>
 
-
-        @if(count($event->comments) != 0)
+        @if(count($event->comments) > 0)
             <h3 class="comments_title"> {{Lang::get('site.event.comment') }}</h3>
             @foreach($event->comments as $comment)
             <div class="comments_dev">
