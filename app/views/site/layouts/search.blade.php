@@ -1,25 +1,26 @@
 @extends('site.layouts.home')
 @section('maincontent')
 <div class="row">
-    @if(isset($search))
-    <form class="form-inline" role="form">
+    {{ Form::open(array('action' => 'EventsController@search','method'=>'get','class'=>'form-inline')) }}
+
         <div class="form-group">
             <label class="sr-only" for="exampleInputEmail2">Keyword</label>
             <input type="text" class="form-control" id="search" name="search" value="@if(isset($search)) {{ $search }} @endif "  placeholder="Keyword">
         </div>
 
         <div class="form-group">
-            {{ Form::select('country', $countries, null ,['class' => 'form-control']) }}
+            {{ Form::select('country', array('0'=>'Select One',$categories), $country ,['class' => 'form-control']) }}
         </div>
         <div class="form-group">
-            {{ Form::select('category', $categories, null ,['class' => 'form-control']) }}
+            {{ Form::select('category', array('0'=>'Select One',$categories), $category ,['class' => 'form-control']) }}
         </div>
         <div class="form-group">
-            {{ Form::select('user', $authors, null ,['class' => 'form-control']) }}
+            {{ Form::select('author', array(''=>'Select One',$authors), $author ,['class' => 'form-control']) }}
         </div>
         <button type="submit" class="btn btn-default">Search</button>
-    </form>
-    @endif
+    {{ Form::close() }}
+
+
     <table class="table table-striped">
         <tr>
             <h4>{{ Lang::get('site.event.all')}} {{Lang::get('site.event.events')}}</h4>

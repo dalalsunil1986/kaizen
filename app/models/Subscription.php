@@ -37,4 +37,9 @@ class Subscription extends BaseModel {
         $query = Subscription::where('user_id','=',$userId)->where('event_id','=',$id)->delete();
         return $query ? true : false;
     }
+
+    public static function findEventCount($id) {
+        $query = Subscription::where('event_id',$id)->count();
+        return $query;
+    }
 }

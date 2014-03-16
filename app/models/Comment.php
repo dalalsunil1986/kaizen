@@ -4,6 +4,20 @@ use Robbo\Presenter\PresentableInterface;
 
 class Comment extends BaseModel implements PresentableInterface{
 
+    protected $guarded = ['id'];
+
+    protected static  $rules = [
+        'content' => 'required | min:3'
+    ];
+
+    /**
+     * @return array
+     */
+    public static function getRules()
+    {
+        return self::$rules;
+    }
+
     /**
      * Get the comment's content.
      *
@@ -23,6 +37,11 @@ class Comment extends BaseModel implements PresentableInterface{
     {
         return $this->belongsTo('User', 'user_id');
     }
+
+    public function commentable(){
+        return $this->morphTo();
+    }
+
 
     /**
      * Get the comment's post's.

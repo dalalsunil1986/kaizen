@@ -1,7 +1,6 @@
 <?php
 
 class SubscriptionsTableSeeder extends Seeder {
-
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
@@ -25,8 +24,18 @@ class SubscriptionsTableSeeder extends Seeder {
             DB::table('subscriptions')->insert($subscriptions);
 
         }
-
 		// Uncomment the below to run the seeder
+
+        $this->updateEventsTable();
 	}
+
+    public function updateEventsTable() {
+
+        $events  = EventModel::all();
+        foreach ($events as $event) {
+            $count = Subscription::findEventCount($event->id);
+            EventModel::fixEventCounts($event->id,$count);
+        }
+    }
 
 }

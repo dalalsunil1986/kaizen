@@ -13,6 +13,9 @@ class EventsTableSeeder extends Seeder {
             $category = Category::orderBy(DB::raw('RAND()'))->first()->id;
             $user = User::orderBy(DB::raw('RAND()'))->first()->id;
             $location = Location::orderBy(DB::raw('RAND()'))->first()->id;
+            $max_seats = 15;
+            $total_seats = $faker->numberBetween(1,$max_seats);
+            $available_seats = $max_seats - $total_seats;
             $events = array(
                 [
                     'category_id' => $category,
@@ -23,8 +26,8 @@ class EventsTableSeeder extends Seeder {
                     'description' => $faker->sentence(50),
                     'description_en'=>$faker->sentence(50),
                     'price'=> '440',
-                    'total_seats' => '15',
-                    'available_seats' => '0',
+                    'total_seats' => $total_seats,
+                    'available_seats' => $available_seats,
                     'slug'=> $faker->sentence(10),
                     'date_start' =>new DateTime,
                     'date_end' => new DateTime,

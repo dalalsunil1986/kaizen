@@ -98,18 +98,21 @@
         @endif
 
         @if(Auth::User())
-        <form role="form" style="width:98%;">
-            <div class="form-group">
-                <label for="comment"></label>
-                <textarea type="text" class="form-control" id="comment" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
-            </div>
-            <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }} </button>
-        </form>
+            {{ Form::open(array( 'action' => array('CommentsController@store', $event->id),'class'=>'form-inline')) }}
+                <div class="form-group">
+                    <label for="comment"></label>
+                    <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
+                </div>
+                <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }} </button>
+            {{ Form::close() }}
+            @if ($errors->any())
+            <ul>
+                {{ implode('', $errors->all('<li class="error">:message</li>')) }}
+            </ul>
+            @endif
         @endif
 
 </div>
-
-
 
 @if($event->latitude && $event->longitude)
     <script>

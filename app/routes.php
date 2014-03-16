@@ -99,8 +99,10 @@ Route::group(
         Route::get('event/{id}/favorite','EventsController@favorite');
         Route::get('event/{id}/unfavorite','EventsController@unfavorite');
 
+
         Route::get('events/featured','EventsController@getSliderEvents');
         Route::get('events/search','EventsController@search');
+        Route::post('event/{$id}/storeComment/',array('as'=>'comment.store', 'uses'=> 'EventsController@storeComment'));
 
         //Category Routes
         Route::resource('categories', 'CategoriesController');
@@ -115,7 +117,7 @@ Route::group(
         // Posts Routes
 
         // Contact Us Page
-        Route::resource('contact-us','ContactsController');
+        Route::resource('contact-us','ContactsController', array('only' => array('index','show')));
 
 
         # Posts - Second to last set, match slug
@@ -190,6 +192,8 @@ Route::group(
             Route::get('event/{id}/location','AdminEventsController@getLocation');
             Route::get('event/{id}/notifyFollowers', 'AdminEventsController@notifyFollowers');
 
+
+
             # Admin Dashboard
             Route::controller('/', 'AdminDashboardController');
 
@@ -236,6 +240,7 @@ Route::group(
         // newsletter subscribe route
         Route::post('newsletter','NewslettersController@storeNewsletter');
 
+        Route::resource('event.comments', 'CommentsController');
 
 //        /** ------------------------------------------
 //         *  Frontend Routes

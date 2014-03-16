@@ -111,5 +111,13 @@ class EventModel extends BaseModel {
             ->where('p.imageable_type', '=', 'EventModel')
             ->take($limit);
     }
+
+
+
+    public static  function fixEventCounts($id,$count) {
+        $event = EventModel::find($id);
+        $event->available_seats = $event->total_seats - $count;
+        $event->save();
+    }
 }
 
