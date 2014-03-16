@@ -1,5 +1,5 @@
 <?php
-use Auth;
+
 class Subscription extends BaseModel {
 	protected $guarded = array('id');
 
