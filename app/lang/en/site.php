@@ -19,9 +19,9 @@ return array(
                     'main' => 'Main Page',
                     'events' => 'Events',
                     'consultancies' => 'Consultancies',
-                    'posts' => 'Posts',
+                    'posts' => 'Blog',
                     'contactus' => 'Contact Us',
-                    'search' => 'search',
+                    'search' => 'Search',
     ),
     'event' => array(
                 'summaryevent' => 'Summary',

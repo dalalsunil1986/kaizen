@@ -153,7 +153,7 @@ Route::group(
         Route::get('newsletter/subscribe', function() {
             return View::make('test');
         });
-        Route::post('newsletter','NewslettersController@storeNewsletter');
+        Route::post('newsletter','NewslettersController@store');
 
         // Just  a Test Route
         Route::get('/mailchimp', function() {
@@ -226,11 +226,6 @@ Route::group(
             //                dd('admin');
             //            }
         });
-
-
-
-
-
 
     }
 

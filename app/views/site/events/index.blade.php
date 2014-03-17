@@ -1,77 +1,31 @@
 @extends('site.layouts.home')
 @section('maincontent')
 <div class="row">
-    @if(isset($search))
-    <form class="form-inline" role="form">
-        <div class="form-group">
-            <label class="sr-only" for="exampleInputEmail2">Keyword</label>
-            <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Keyword">
-        </div>
-        <div class="form-group">
-            <select class="form-control">
-                <option selected disabled>Countries</option>
-                <option>Kuwait</option>
-                <option>Egypt</option>
-                <option>USA</option>
-                <option>UAE</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <select class="form-control">
-                <option selected disabled>Categories</option>
-                <option>Workshops</option>
-                <option>Conferences</option>
-                <option>Courses</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <select class="form-control">
-                <option selected disabled>Author</option>
-                <option>Workshops</option>
-                <option>Conferences</option>
-                <option>Courses</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-default">Sign in</button>
-    </form>
-    @endif
-    <table class="table table-striped">
-        <tr>
-            <h4>{{ Lang::get('site.event.all')}} {{Lang::get('site.event.events')}}</h4>
 
-        </tr>
-        <tr>
-            <td>{{ Lang::get('site.event.title')}}</td>
-            <td>{{ Lang::get('site.event.category') }}</td>
-            <td>{{ Lang::get('site.event.date_start')}}</td>
-            <td>{{ Lang::get('site.event.date_end')}}</td>
-        </tr>
+    <ul class="timeline">
+        <?php $i=0; ?>
         @foreach($events as $event)
-        <tr data-link="{{ action('EventsController@show',$event->id) }}">
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+        <li {{ (($i = !$i)? '':'class="timeline-inverted"') }} >
+            <div class="timeline-badge">
+                <span class="timeline-balloon-date-day">18 </span>
+                <span class="timeline-balloon-date-month">Dec</span>
+            </div>
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                    <h4 class="timeline-title"><a href="{{ URL::action('EventsController@show',$event->id)}}">{{ $event->title }}</a></h4>
+                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> at 2:am</small></p>
+                        <i class="glyphicon glyphicon-calendar"></i>{{ $event->getEventDate() }}|
+                        <i class="glyphicon glyphicon-comment"></i><a href="#">&nbsp;{{ count($event->comments) }}</a>
+                </div>
+                <div class="timeline-body">
+                    <p>{{ $event->description }}</p>
+                </div>
+            </div>
+        </li>
 
-                @if($event->description_en)
-                <td>{{ $event->title_en }} </td>
-                <td>{{ $event->category->name_en }} </td>
-                <td> {{ $event->date_start}}</td>
-                <td>{{ $event->date_end}}</td>
-                @else
-                <td>{{ $event->title }} </td>
-                <td>{{ $event->category->name }} </td>
-                <td> {{ $event->date_start}}</td>
-                <td>{{ $event->date_end}}</td>
-                @endif
-            @else
-            <td>{{ $event->title_en }} </td>
-            <td>{{ $event->category->name_en }} </td>
-            <td> {{ $event->date_start}}</td>
-            <td>{{ $event->date_end}}</td>
-            @endif
-
-        </tr>
+        <?php $i++; ?>
         @endforeach
-
-    </table>
-    <?php echo $events->links(); ?>
+    </ul>
 </div>
+<?php echo $events->links(); ?>
 @stop

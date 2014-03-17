@@ -7,6 +7,9 @@ class EventModel extends BaseModel {
         'title'=>'required',
         'description'=>'required'
     );
+    /**
+     * @var
+     */
 
     protected  $table = "events";
 
@@ -112,12 +115,20 @@ class EventModel extends BaseModel {
             ->take($limit);
     }
 
-
-
     public static  function fixEventCounts($id,$count) {
         $event = EventModel::find($id);
         $event->available_seats = $event->total_seats - $count;
         $event->save();
+    }
+
+    public function getEventDate()
+    {
+        $carbon = new Carbon();
+        return $carbon->toFormattedDateString('date_start');
+    }
+
+    public static function latest($count) {
+        return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->paginate($count);
     }
 }
 

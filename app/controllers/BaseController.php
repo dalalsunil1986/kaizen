@@ -17,8 +17,21 @@ abstract class BaseController extends Controller
     public function __construct()
     {
         $this->beforeFilter('csrf', array('on' => 'post'));
+        $this->sidebarPosts();
+
     }
 
+    public function sidebarPosts() {
+
+        View::composer('site.layouts.sidebar', function($view)
+        {
+
+            $latest_event_posts = EventModel::latest(4);
+            $latest_blog_posts  = Post::latest(4);
+            $view->with(array('latest_event_posts'=>$latest_event_posts,'latest_blog_posts'=>$latest_blog_posts));
+
+        });
+    }
 
     protected function findByType($id,$type,$type_string) {
         return $this->model->find($id)->where($type_string, '=', $type);
@@ -141,9 +154,9 @@ abstract class BaseController extends Controller
     {
         return Redirect::intended($default);
     }
-
-    public function latest() {
-        $events = $this->all(3);
-        dd($events->toArray());
-    }
+//
+//    public function latest() {
+//        $events = $this->all(3);
+//        dd($events->toArray());
+//    }
 }

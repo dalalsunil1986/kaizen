@@ -9,6 +9,7 @@ use Carbon\Carbon;
 
 class User extends ConfideUser implements PresentableInterface {
     use HasRole;
+    protected $guarded = array('confirmation_code','confirmed','id');
 
     /**
      * The database table used by the model.
@@ -16,6 +17,20 @@ class User extends ConfideUser implements PresentableInterface {
      * @var string
      */
     protected $table = 'users';
+
+    public static $rules = array(
+        'username' => 'required|alpha_dash|unique:users',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|between:4,11|confirmed',
+        'password_confirmation' => 'between:4,11',
+        'first_name' => 'required|alpha|between:3,10',
+        'last_name' =>  'alpha|between:3,10',
+        'mobile' =>   'numeric',
+        'phone' =>    'numeric',
+        'twitter' =>    'url',
+        'instagram' =>   'url',
+        'prev_event_comment' =>  'min:5'
+    );
 
     public function getPresenter()
     {
@@ -143,6 +158,5 @@ class User extends ConfideUser implements PresentableInterface {
         })->get();
         return $query;
     }
-
 
 }
