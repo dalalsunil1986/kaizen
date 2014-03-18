@@ -1,4 +1,5 @@
-@extends('site.layouts.default')
+@extends('site.layouts.home')
+@section('maincontent')
 
 {{-- Web site Title --}}
 @section('title')
@@ -6,8 +7,6 @@
 @parent
 @stop
 
-{{-- Content --}}
-@section('content')
 <div class="page-header">
 	<h1>Login into your account</h1>
 </div>

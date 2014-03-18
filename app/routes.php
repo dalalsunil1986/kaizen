@@ -79,6 +79,7 @@ Route::group(
         Route::get('country', array('as' => 'countries','uses' => 'CountriesController@index'));
         Route::get('country/create', array('as' => 'countries/create','uses' => 'CountriesController@create'));
         Route::post('country/create', array('as' => 'createCountry', 'uses' => 'CountriesController@store'));
+        Route::get('country/{id}/events', array('uses' => 'CountriesController@getEvents'));
 
         //Event Routes
         Route::resource('event','EventsController', array('only' => array('index', 'show')));
@@ -100,7 +101,7 @@ Route::group(
         Route::get('event/{id}/favorite',array('as'=>'event.favorite','uses'=>'EventsController@favorite'));
         Route::get('event/{id}/unfavorite',array('as'=>'event.unfavorite','uses'=>'EventsController@unfavorite'));
         Route::get('events/featured',array('as'=>'event.featured','uses'=>'EventsController@getSliderEvents'));
-        Route::get('event/{id}/country','AdminEventsController@getCountry');
+        Route::get('event/{id}/country','EventsController@getCountry');
         Route::get('event/{id}/location','AdminEventsController@getLocation');
 
         // Search Route
@@ -142,13 +143,18 @@ Route::group(
         Route::post('user/{user}/edit', 'UserController@postEdit');
 
         //:: User Account Routes ::
+        Route::get('user/login', array('as' => 'user.getLogin', 'uses' => 'UserController@getLogin'));
+
         Route::post('user/login', array('as' => 'login', 'uses' => 'UserController@postLogin'));
+
+        Route::get('user/logout', array('as' => 'logout', 'uses' => 'UserController@getLogout'));
+
 
         # User RESTful Routes (Login, Logout, Register, etc)
         Route::get('user/register', array('as'=>'register','uses'=>'UserController@create'));
         Route::post('user/register', array('uses'=>'UserController@store'));
 
-        Route::controller('user', 'UserController');
+        Route::resource('user', 'UserController');
 
         // Newsletter Route
         // Route::post('newsletter/subscribe', array('as'=>'newsletter','uses'=>'NewslettersController@store'));

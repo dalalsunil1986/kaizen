@@ -3,8 +3,7 @@
     <div class="col-md-12">
         <div class="row">
             @if(!Auth::user())
-                <form class="form-inline
-                    {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
+                <form class="form-inline {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
                     " role="form" style="padding:18px;" method="POST" action="{{ URL::route('login') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <div class="form-group">

@@ -60,7 +60,7 @@ class EmailNotifier implements NotifierInterface {
     public function subscribeUser($listId,$emails=array())
     {
 //        $lessonNotificationsListId = 'de1f937717';
-        $this->blast->subscribe($listId,$emails);
+        $this->blast->subscribe($listId,$emails,null,'html',false,true);
         return true;
     }
 
