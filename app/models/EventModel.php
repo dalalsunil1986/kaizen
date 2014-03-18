@@ -28,6 +28,11 @@ class EventModel extends BaseModel {
         return $this->belongsTo('User','user_id')->select('id','username','email');
     }
 
+    // added !!!
+    public function categories() {
+        return $this->belongsTo('Category','category_id')->select('name','name_en','type','slug');
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -86,7 +91,7 @@ class EventModel extends BaseModel {
         return $this->belongsTo('Category','category_id');
     }
 
-    public function  Location() {
+    public function  location() {
         return $this->belongsTo('Location');
     }
 

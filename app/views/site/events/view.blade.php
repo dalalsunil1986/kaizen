@@ -99,10 +99,11 @@
         @endif
 
         @if(Auth::User())
-            {{ Form::open(array( 'action' => array('CommentsController@store', $event->id),'class'=>'form-inline')) }}
+
+            {{ Form::open(array( 'action' => array('CommentsController@store', $event->id),'class'=>'row')) }}
                 <div class="form-group">
                     <label for="comment"></label>
-                    <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
+                    <textarea type="text"  class="form-control" id="content" name="content" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
                 </div>
                 <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }} </button>
             {{ Form::close() }}
@@ -111,6 +112,7 @@
                 {{ implode('', $errors->all('<li class="error">:message</li>')) }}
             </ul>
             @endif
+    </br>
         @endif
 
 </div>
