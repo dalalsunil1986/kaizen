@@ -94,7 +94,7 @@ class EventModel extends BaseModel {
      * @todo fix the query
      *
      */
-    public function country(){
+    public function country() {
         return $this->BelongsToThrough('Country','Location','country_id','id');
     }
 

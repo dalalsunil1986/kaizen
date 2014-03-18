@@ -1,5 +1,6 @@
 @extends('site.layouts.home')
 @section('maincontent')
+
 <div class="row">
     {{ Form::open(array('action' => 'EventsController@search','method'=>'get','class'=>'form-inline')) }}
 
@@ -9,7 +10,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::select('country', array('0'=>'Select One',$categories), $country ,['class' => 'form-control']) }}
+            {{ Form::select('country', array('0'=>'Select One',$countries), $country ,['class' => 'form-control']) }}
         </div>
         <div class="form-group">
             {{ Form::select('category', array('0'=>'Select One',$categories), $category ,['class' => 'form-control']) }}
