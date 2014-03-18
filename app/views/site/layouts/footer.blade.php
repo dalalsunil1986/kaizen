@@ -1,12 +1,12 @@
-extends('site.layouts.home')
+@extends('site.layouts.home')
 @section('footer')
 <!--footer start-->
 <div id="footer" class="row">
     <div class="col-md-5 col-xs-5" id="socialicons">
         <p>تواصل معنا</p>
         <div class="col-md-1 col-xs-1"><img class="img-responsive" src="{{ asset('images/TwitterIcon.png')}}"/> </div>
-        <div class="col-md-1 col-xs-1"><img class="img-responsive" src="{{ asset('images/FacebookIcon.png')}}"/> </div>
-        <div class="col-md-1 col-xs-1"><img class="img-responsive" src="{{ asset('images/YoutubeIcon.png')}}"/> </div>
+        <div class="col-md-1 col-xs-1"><img class="img-responsive" src="{{ asset('images/FacebookIcon.png')}}"/></div>
+        <div class="col-md-1 col-xs-1"><a href="http://www.youtube.com/user/KaizenYC"><img class="img-responsive" src="{{ asset('images/YoutubeIcon.png')}}"/> </a></div>
         <div class="col-md-1 col-xs-1"> <img class="img-responsive" src="{{ asset('images/InstagramIcon.png')}}"/> </div>
 
     </div>

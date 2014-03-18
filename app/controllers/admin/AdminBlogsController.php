@@ -36,27 +36,27 @@ class AdminBlogsController extends AdminController {
         return View::make('admin/blogs/index', compact('posts', 'title'));
     }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function getCreate()
-	{
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate()
+    {
         // Title
         $title = Lang::get('admin/blogs/title.create_a_new_blog');
 
         // Show the page
         return View::make('admin/blogs/create_edit', compact('title'));
-	}
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function postCreate()
-	{
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function postCreate()
+    {
         // Declare the rules for the form validation
         $rules = array(
             'title'   => 'required|min:3',
@@ -71,7 +71,6 @@ class AdminBlogsController extends AdminController {
         {
             // Create a new blog post
             $user = Auth::user();
-
             // Update the blog post data
             $this->post->title            = Input::get('title');
             $this->post->slug             = Str::slug(Input::get('title'));
@@ -84,17 +83,17 @@ class AdminBlogsController extends AdminController {
             // Was the blog post created?
             if($this->post->save())
             {
-                // Redirect to the new blog post page
-                return Redirect::to('admin/blogs/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.create.success'));
+                    // Redirect to the new blog post page
+                return Redirect::to('admin/blogs')->with('success', Lang::get('admin/blogs/messages.create.success'));
             }
 
             // Redirect to the blog post create page
-            return Redirect::to('admin/blogs/create')->with('error', Lang::get('admin/blogs/messages.create.error'));
+            return Redirect::to('admin/blogs/create')->withErrors($validator->errors());
         }
 
         // Form validation failed
-        return Redirect::to('admin/blogs/create')->withInput()->withErrors($validator);
-	}
+        return Redirect::to('admin/blogs/create')->withInput()->withErrors($validator->errors());
+    }
 
     /**
      * Display the specified resource.
@@ -102,10 +101,10 @@ class AdminBlogsController extends AdminController {
      * @param $post
      * @return Response
      */
-	public function getShow($post)
-	{
+    public function getShow($post)
+    {
         // redirect to the frontend
-	}
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -113,14 +112,15 @@ class AdminBlogsController extends AdminController {
      * @param $post
      * @return Response
      */
-	public function getEdit($post)
-	{
+    public function getEdit($post)
+    {
         // Title
         $title = Lang::get('admin/blogs/title.blog_update');
+        $post = $this->post->find($post);
 
         // Show the page
         return View::make('admin/blogs/create_edit', compact('post', 'title'));
-	}
+    }
 
     /**
      * Update the specified resource in storage.
@@ -128,8 +128,8 @@ class AdminBlogsController extends AdminController {
      * @param $post
      * @return Response
      */
-	public function postEdit($post)
-	{
+    public function postEdit($post)
+    {
 
         // Declare the rules for the form validation
         $rules = array(
@@ -144,6 +144,7 @@ class AdminBlogsController extends AdminController {
         if ($validator->passes())
         {
             // Update the blog post data
+            $post = $this->post->find($post);
             $post->title            = Input::get('title');
             $post->slug             = Str::slug(Input::get('title'));
             $post->content          = Input::get('content');
@@ -163,8 +164,8 @@ class AdminBlogsController extends AdminController {
         }
 
         // Form validation failed
-        return Redirect::to('admin/blogs/' . $post->id . '/edit')->withInput()->withErrors($validator);
-	}
+        return Redirect::to('admin/blogs/' . $post->id . '/edit')->withInput()->with($validator->errors());
+    }
 
 
     /**
@@ -177,6 +178,8 @@ class AdminBlogsController extends AdminController {
     {
         // Title
         $title = Lang::get('admin/blogs/title.blog_delete');
+
+        $post = $this->post->find($post);
 
         // Show the page
         return View::make('admin/blogs/delete', compact('post', 'title'));
@@ -201,21 +204,16 @@ class AdminBlogsController extends AdminController {
         // Check if the form validates with success
         if ($validator->passes())
         {
-            $id = $post->id;
-            $post->delete();
-
-            // Was the blog post deleted?
-            $post = Post::find($id);
-            if(empty($post))
-            {
-                // Redirect to the blog posts management page
-                return Redirect::to('admin/blogs')->with('success', Lang::get('admin/blogs/messages.delete.success'));
+            $post = $this->post->find($post);
+            if($post) {
+                if($post->delete()) {
+                    // Redirect to the blog posts management page
+                    return Redirect::to('admin/blogs')->with('success', Lang::get('admin/blogs/messages.delete.success'));
+                }
             }
         }
         // There was a problem deleting the blog post
         return Redirect::to('admin/blogs')->with('error', Lang::get('admin/blogs/messages.delete.error'));
-
-
     }
 
     /**
@@ -229,15 +227,15 @@ class AdminBlogsController extends AdminController {
 
         return Datatables::of($posts)
 
-        ->edit_column('comments', '{{ DB::table(\'comments\')->where(\'post_id\', \'=\', $id)->count() }}')
+            ->edit_column('comments', '{{ DB::table(\'comments\')->where(\'commentable_id\', \'=\', $id)->where(\'commentable_type\',\'EventModel\')->count() }}')
 
-        ->add_column('actions', '<a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
+            ->add_column('actions', '<a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
                 <a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
             ')
 
-        ->remove_column('id')
+            ->remove_column('id')
 
-        ->make();
+            ->make();
     }
 
 }

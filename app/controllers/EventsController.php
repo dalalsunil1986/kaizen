@@ -35,24 +35,23 @@ class EventsController extends BaseController
 
     // master layout
     protected $layout = 'site.layouts.home';
+
+
     public function index()
     {
-        //        $events = parent::all();
-        // get only 4 images for slider
         $events = parent::all();
-
+        // get only 4 images for slider
         //**Usama**
         //each section is divided like widgets ...
         // so flixable to add/remove slider
         // add/remove ads section
         // add/remove login form section .. and so on
-       // $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
+//        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
         $this->layout->login = View::make('site.layouts.login');
-        $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-       // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
-        $this->layout->maincontent = view::make('site.layouts.allevents', ['events'=> $events]);
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+//        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        $this->layout->maincontent = view::make('site.events.index', ['events'=> $events]);
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
@@ -73,12 +72,15 @@ class EventsController extends BaseController
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
+
         $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
         $this->layout->maincontent = view::make('site.layouts.maincontent');
         $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -129,9 +131,26 @@ class EventsController extends BaseController
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.layouts.eventmain' , ['event' => $event]);
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->maincontent = view::make('site.events.view' , ['event' => $event]);
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            View::composer('site.events.view', function($view) use ($id, $user)
+            {
+                $favorited =  Favorite::hasFavorited($id,$user->id);
+                $subscribed = Subscription::isSubscribed($id,$user->id);
+                $followed = Follower::isFollowing($id,$user->id);
+                $view->with(array('favorited'=>$favorited,'subscribed'=>$subscribed,'followed'=>$followed));
+
+            });
+        } else {
+            View::composer('site.events.view', function($view)
+            {
+                $view->with(array('favorited'=>false,'subscribed'=>false,'followed'=>false));
+            });
+        }
     }
 
     /**
@@ -219,59 +238,86 @@ class EventsController extends BaseController
             //check whether seats are empty
             $event = $this->model->findOrFail($id);
 
-            if (Subscription::isSubscribed($id)) {
+            if (Subscription::isSubscribed($id,$user->id)) {
                 // return you are already subscribed to this event
-                dd('you have already subscribed to this event');
+                return Response::json(array(
+                    'success' => false,
+                    'message'=> 'you have already subscribed to this event'
+                ), 400 );
             }
-            // either call availableSeats function which caluclated the total space available or
-            // just query the events table available_seats column
 
             $available_seats = $this->availableSeats($event);
             // $available_seats = $event->available_seats;
             if ($available_seats >= 1) {
-                // check whether this user is already subscriber
-
                 // subscribe this user
                 $event->subscriptions()->attach($user);
                 //update the event seats_taken colum
                 $event->available_seats = $available_seats - 1;
                 $event->save();
-                dd('you have been registered');
+                return Response::json(array(
+                    'success' => true,
+                    'message'=> 'you have been subscribed'
+                ), 200);
 
             }
             // notify no seats available
-            dd('No seats availble');
+            return Response::json(array(
+                'success' => false,
+                'message'=> 'No seats available'
+            ), 400);
 
         }
         // notify user not authenticated
-        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 401);
 
     }
 
 
     /**
      * @param $id eventId
-     * return boolean true false
+     * @return boolean true false
      * Unsubscribe a User from an event
      */
     public function unsubscribe($id)
     {
         // check whether user authenticated
-        $event = $this->model->find($id);
+        $event = $this->model->findOrFail($id);
         $user = Auth::user();
         if (!empty($user->id)) {
-            if (Subscription::isSubscribed($id)) {
+            if (Subscription::isSubscribed($event->id,$user->id)) {
                 // check whether user already subscribed
-                echo Subscription::unsubscribe($id) ? 'You have been unsubscribed' : ' Error : Could not Unsubscribe You ';
+                if (Subscription::unsubscribe($event->id,$user->id)) {
+
+                    // reset available seats
+                    $event->available_seats = $event->available_seats + 1;
+                    $event->save();
+                    return Response::json(array(
+                        'success' => true,
+                        'message'=> 'You have been unsubscribed'
+                    ), 200);
+
+                } else {
+//                    dd(' Error : Could not Unsubscribe You ');
+                    return Response::json(array(
+                        'success' => false,
+                        'message'=> ' Error : Could not Unsubscribe You '
+                    ), 500);
+                }
             } else {
                 // wrong access
-                dd('sorry wrong access, you have\'nt subscribed in first place');
+                return Response::json(array(
+                    'success' => false,
+                    'message'=> 'sorry wrong access, you have\'nt subscribed in first place'
+                ), 400);
             }
-            // reset available seats
-            $event->available_seats = $event->available_seats + 1;
-            $event->save();
         } else {
-            dd('you are not authenticated');
+            return Response::json(array(
+                'success' => false,
+                'message'=> 'you are not authenticated'
+            ), 403);
         }
 
     }
@@ -291,16 +337,24 @@ class EventsController extends BaseController
 
             if (Follower::isFollowing($id,$user->id)) {
                 // return you are already subscribed to this event
-                dd('you are already following this event');
+                return Response::json(array(
+                    'success' => false,
+                    'message'=> 'you are already following this event'
+                ), 400);
             }
 
             $event->followers()->attach($user);
-
-            dd('you are following');
+            return Response::json(array(
+                'success' => true,
+                'message'=> 'you are following now'
+            ), 200);
 
         }
         // notify user not authenticated
-        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 403);
 
     }
 
@@ -315,16 +369,29 @@ class EventsController extends BaseController
             if (Follower::isFollowing($id,$user->id)) {
                 // return you are already subscribed to this event
 
-                echo Follower::unfollow($id,$user->id) ? 'you are  not following this event anymore ' : ' Error : Could not Unfavorite You ';
-
-                // redriect user
+                if(Follower::unfollow($id,$user->id)) {
+                    return Response::json(array(
+                        'success' => true,
+                        'message'=> 'you are  not following this event anymore '
+                    ), 200);
+                } else {
+                    return Response::json(array(
+                        'success' => false,
+                        'message'=> 'Error : Could not Unfavorite You'
+                    ), 500);
+                }
             }
-
-            dd('you havent followed this event in first place');
+            return Response::json(array(
+                'success' => false,
+                'message'=> 'you havent followed this event in first place'
+            ), 400);
 
         }
         // notify user not authenticated
-        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 403);
 
     }
 
@@ -343,16 +410,24 @@ class EventsController extends BaseController
 
             if (Favorite::hasFavorited($id,$user->id)) {
                 // return you are already subscribed to this event
-                dd('you have already favorited this event');
+                return Response::json(array(
+                    'success' => false,
+                    'message'=> 'you have already favorited this event'
+                ), 400);
             }
 
             $event->favorites()->attach($user);
-
-            dd('you favorited this event');
+            return Response::json(array(
+                'success' => true,
+                'message'=> 'you favorited this event'
+            ), 200);
 
         }
         // notify user not authenticated
-        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 403);
 
     }
 
@@ -367,15 +442,27 @@ class EventsController extends BaseController
             if (Favorite::hasFavorited($id,$user->id)) {
                 // return you are already subscribed to this event
 
-                echo Favorite::unfavorite($id,$user->id) ? 'You unfavorited this event' : ' Error : Could not Unfavorite You ';
-
-                // redriect user
-                dd();
+                if(Favorite::unfavorite($id,$user->id)) {
+                    return Response::json(array(
+                        'success' => true,
+                        'message'=> 'You unfavorited this event'
+                    ), 200);
+                } else {
+                    return Response::json(array(
+                        'success' => false,
+                        'message'=> 'Error : Could not Unfavorite You '
+                    ), 500);
+                }
             }
-            dd('you havent favorited this event in first place');
+            return Response::json(array(
+                'success' => false,
+                'message'=> 'you havent favorited this event in first place'
+            ), 400);
         }
-        // notify user not authenticated
-        dd('You are not Authenticated');
+        return Response::json(array(
+            'success' => false,
+            'message'=> 'You are not Authenticated'
+        ), 403);
 
     }
 
@@ -385,16 +472,16 @@ class EventsController extends BaseController
      */
     protected function availableSeats($event)
     {
-        $total_seats = $event->total_seats;
-        //dd($total_seats);
-        $seats_taken = $event->subscriptions->count();
-        // dd($event->subscriptions);
-
-        $available_seats = $total_seats - $seats_taken;
-        // $available_seats = $seats_taken;
-        // dd($available_seats);
-        return $available_seats;
-        // notify no seats left
+        //        $total_seats = $event->total_seats;
+        ////        dd($total_seats);
+        //        $seats_taken = $event->subscriptions->count();
+        //        dd($seats_taken);
+        //
+        //        $available_seats = $total_seats - $seats_taken;
+        //        // $available_seats = $seats_taken;
+        //        // dd($available_seats);
+        //        return $available_seats->getAvailableSeats();
+        return $event->available_seats;
 
     }
 
@@ -418,96 +505,59 @@ class EventsController extends BaseController
     }
 
     public function search() {
-        //search by country
-        //search by location
-        //search by category
-        //search by instructor name
+
+        $perPage = 5;
+        //find countries,authors,and categories to display in form
         $categories = $this->category->getEventCategories()->lists('name', 'id');
         $authors = $this->user->getRoleByName('author')->lists('username', 'id');
-        $countries = Country::all()->lists('name', 'id');
+        $countries = Country::all()->lists('name','id');
 
-        $search = Request::get('search');
+        // find selected form values
+        $search = trim(Input::get('search'));
         $category = Request::get('category');
         $author = Request::get('author');
         $country = Request::get('country');
 
-        $events = $this->model;
-        {
-            if (isset($getSearch)) {
-                $events = $events->where('title','LIKE',"%$search%");
-//                $events = $events->orWhere('description','LIKE',"%$getSearch%");
+        // if the form is selected
+        // perform search
+        if(!empty($search) || !empty($category) || !empty($author) || !empty($country)) {
 
-            }
-            if (isset($category)) {
-                $events = $events->where('category_id',$category);
-            }
+            $events = $this->model->with('category')->where(function($query) use ($search, $category, $author, $country)
+            {
+                if (!empty($search)) {
+                    $query->where('title','LIKE',"%$search%");
+                //  ->orWhere('title_en','LIKE',"%$search%")
+                //  ->orWhere('description','LIKE',"%$search%")
+                //  ->orWhere('description_en','LIKE',"%$search%");
+                }
+                if (!empty($category)) {
+                    $query->where('category_id', $category);
+                }
+                if (!empty($author)) {
+                    $query->where('user_id', $author);
+                }
+                if (!empty($country)) {
+                    $locations = Country::find($country)->locations()->get(array('id'));
+                    foreach($locations as $location) {
+                        $location_id[] = $location->id;
+                    }
+                    $location_array = implode(',',$location_id);
+                    $query->whereRaw('location_id in ('.$location_array.')');
+                }
+            })->orderBy('created_at', 'DESC')->paginate($perPage);
 
-        };
+        } else {
+            $events = parent::all($perPage);
+        }
 
-        $events = $events->get( array('title'));
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+        //$this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        $this->layout->maincontent = view::make('site.events.search', compact('events','authors','categories','countries','search','category','author','country'));
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->footer = view::make('site.layouts.footer');
 
-//        $events = DB::table('events')->where(function($query) use ($getSearch, $getCategory, $getAuthor, $getCountry)
-//        {
-//            if (isset($getSearch)) {
-//                $query->where('title','LIKE',"%$getSearch%")
-//                    ->orWhere('description','LIKE',"%$getSearch%");
-//            }
-//            if (isset($getCategory)) {
-//                $query->where('category_id', '=', $getCategory);
-//            }
-//        })->get( array('title','description') );
-
-
-//        $best_circle = DB::table("member_circles")
-//            ->select("circle_id", DB::raw("COUNT(*)"))
-//            ->join("member_relations", function($join) use ($user){
-//                $join->on("member_circles.member_id", "=", "member_relations.member_b")
-//                    ->where("member_a", "=", $user->member_id)
-//                    ->where("active", "=", "1");
-//            });
-//
-
-//        $events = DB::table('events')
-//            ->select("events.title");
-//            if(isset($getSearch)) {
-//                ->where('title' ,'LIKE', "%$getSearch%")
-//                ->orWhere('description','LIKE',"%$getSearch%");
-//            }
-//            if(isset($getCategory)) {
-//                ->leftJoin('categories','id','=',$getCategory);
-//            }
-//        ;
-
-
-//        DB::table('node')
-//            ->where(function($query) use ($published, $year)
-//            {
-//                if ($published) {
-//                    $query->where('published', 'true');
-//                }
-//
-//                if (!empty($year) && is_numeric($year)) {
-//                    $query->where('year', '>', $year);
-//                }
-//            })
-//            ->get( array('column1','column2') );
-
-
-
-//        $events = $this->model->where(function($query) use ($getSearch,$getCategory,$getAuthor,$getCountry) {
-//            if(!empty($getSearch)) {
-//                $query->where('title','LIKE',"%$getSearch%")
-//                      ->orWhere('description','LIKE',"%$getSearch%");
-//            }
-//            if(!empty($getCategory)) {
-//                $query->where(
-//                $query->join("categories", function ($join) use($getCategory) {
-//                    $join->on("categories.id", '=', "%$getCategory%");
-//                }));
-//            }
-//        })->get();
-
-        return View::make('events.search',compact('category','author','country','events','search','categories','authors','countries'));
     }
 
 }

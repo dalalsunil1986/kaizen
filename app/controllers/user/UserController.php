@@ -9,7 +9,7 @@ class UserController extends BaseController {
      * @var User
      */
     protected $user;
-
+    protected $layout = 'site.layouts.home';
     /**
      * Inject the models.
      * @param User $user
@@ -40,12 +40,18 @@ class UserController extends BaseController {
      */
     public function postIndex()
     {
-
         $this->user->username = Input::get( 'username' );
         $this->user->email = Input::get( 'email' );
-
         $password = Input::get( 'password' );
         $passwordConfirmation = Input::get( 'password_confirmation' );
+        $this->user->first_name = Input::get('first_name');
+        $this->user->last_name = Input::get('last_name');
+        $this->user->mobile = Input::get('mobile');
+        $this->user->phone = Input::get('phone');
+        $this->user->country = Input::get('country');
+        $this->user->twitter = Input::get('twitter');
+        $this->user->instagram = Input::get('instagram');
+        $this->user->prev_event_comment = Input::get('prev_event_comment');
 
         if(!empty($password)) {
             if($password === $passwordConfirmation) {
@@ -61,26 +67,21 @@ class UserController extends BaseController {
                     ->with('error', Lang::get('admin/users/messages.password_does_not_match'));
             }
         } else {
-
             unset($this->user->password);
             unset($this->user->password_confirmation);
         }
         // Save if valid. Password field will be hashed before save
-        $this->user->save();
-
-        if ( $this->user->id )
-        {
-
+        if($this->user->save()) {
             // Redirect with success message, You may replace "Lang::get(..." for your custom message.
-            return Redirect::to('user/login')
+            return Redirect::to('/')
                 ->with( 'notice', Lang::get('user/user.user_account_created') );
+
         }
         else
         {
-
             // Get validation errors (see Ardent package)
             $error = $this->user->errors()->all();
-
+            dd($error);
             return Redirect::back()
                 ->withInput(Input::except('password'))
                 ->with( 'error', $error );
@@ -145,9 +146,25 @@ class UserController extends BaseController {
      * Displays the form for user creation
      *
      */
-    public function getCreate()
+    public function create()
     {
-        return View::make('site/user/create');
+        $countries = Country::all()->lists('name','id');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.user.create', ['countries'=>$countries]);
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->footer = view::make('site.layouts.footer');
+    }
+
+
+    public function store()
+    {
+        $inputs = Input::all();
+        if($this->user->create($inputs)) {
+            return Redirect::home();
+        } else {
+            dd('error');
+            return Redirect::back()->withInput()->withErrors($this->user->errors());
+        }
     }
 
 
@@ -171,6 +188,7 @@ class UserController extends BaseController {
      */
     public function postLogin()
     {
+
         $input = array(
             'email'    => Input::get( 'email' ), // May be the username too
             'username' => Input::get( 'email' ), // May be the username too
@@ -178,19 +196,14 @@ class UserController extends BaseController {
             'remember' => Input::get( 'remember' ),
         );
 
+
         // If you wish to only allow login from confirmed users, call logAttempt
         // with the second parameter as true.
         // logAttempt will check if the 'email' perhaps is the username.
         // Check that the user is confirmed.
         if ( Confide::logAttempt( $input, true ) )
         {
-            $r = Session::get('loginRedirect');
-            if (!empty($r))
-            {
-                Session::forget('loginRedirect');
-                return Redirect::to($r);
-            }
-            return Redirect::to('/');
+            return Redirect::intended('/');
         }
         else
         {
@@ -203,9 +216,9 @@ class UserController extends BaseController {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
 
-            return Redirect::route('login')
+            return Redirect::to(LaravelLocalization::localizeUrl('/'))
                 ->withInput(Input::except('password'))
-                ->with( 'error', $err_msg );
+                ->with('error', $err_msg );
 
         }
     }
@@ -213,7 +226,8 @@ class UserController extends BaseController {
     /**
      * Attempt to confirm account with code
      *
-     * @param  string  $code
+     * @param  string $code
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function getConfirm( $code )
     {

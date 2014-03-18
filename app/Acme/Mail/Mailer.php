@@ -18,6 +18,5 @@ abstract class Mailer {
         });
               echo 'Email Sent to ' . $email . ' with Subject ' . $subject .' With View ' .$view .'<br>';
 //          }
-
     }
 } 

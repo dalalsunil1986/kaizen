@@ -35,10 +35,11 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-    if (Auth::guest()) {
-        Session::put('loginRedirect', Request::url());
-        return Redirect::to('user/login/');
-    }
+//    if (Auth::guest()) {
+//        Session::put('loginRedirect', Request::url());
+//        return Redirect::to('/');
+//    }
+    if (Auth::guest()) return Redirect::guest('/');
 });
 
 Route::filter('auth.basic', function()
@@ -72,7 +73,7 @@ Route::filter('guest', function()
 */
 
 // Check for role on all admin routes
-Entrust::routeNeedsRole( 'admin*', array('admin','moderator'));
+Entrust::routeNeedsRole( 'admin*', array('admin'));
 
 // Check for permissions on admin actions
 //Entrust::routeNeedsPermission( 'admin/blogs*', 'manage_blogs', Redirect::to('/admin') );
@@ -117,3 +118,8 @@ Route::filter('csrf', function()
         throw new Illuminate\Session\TokenMismatchException;
     }
 });
+
+
+//view composer
+
+

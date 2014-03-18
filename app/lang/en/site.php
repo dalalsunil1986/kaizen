@@ -15,26 +15,24 @@ return array(
 
 	'contact_us' => 'Contact Us',
 
-    'nav' => array('home' => 'Home','admin' => 'Admin','login' => 'Login', 'logout'=>'Logout','sign_up' => 'Sign Up',
+    'nav' => array('home' => 'Home','admin' => 'Admin','login' => 'Login', 'logout'=>'Logout','register' => 'Register',
                     'main' => 'Main Page',
                     'events' => 'Events',
                     'consultancies' => 'Consultancies',
-                    'posts' => 'Posts',
+                    'posts' => 'Blog',
                     'contactus' => 'Contact Us',
-                    'search' => 'search',
-
-
+                    'search' => 'Search',
     ),
     'event' => array(
                 'summaryevent' => 'Summary',
                 'totalseats' => 'Total Seats',
                 'date_start' => 'Starts on',
                 'time_start' => 'Starts at',
-                'seatsavail' => 'Seats Avail.',
+                'seatsavail' => 'Seats Available.',
                 'date_end' => 'Ends on',
                 'time_end' => 'Ends at',
-                'fav' => 'Add To Favorites',
-                'fallow' => 'Fallow',
+                'favorite' => 'Add To Favorites',
+                'follow' => 'Follow',
                 'subscribe' => 'Subscribe',
                 'comment' => 'Comments' ,
                 'addcomment' => 'Add Comment',
@@ -44,7 +42,12 @@ return array(
                 'all' => 'All',
                 ),
     'general' => array(
-    'kaizen' => 'Kaizen',
-)
+                'kaizen' => 'Kaizen',
+                'name' => 'Name',
+                'email' => 'Email',
+                'submit' => 'Submit',
+                'comment' => 'Comment',
+                'remember' => 'Remember',
+    )
 
 );

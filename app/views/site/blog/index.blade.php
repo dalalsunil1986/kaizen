@@ -1,42 +1,42 @@
-@extends('site.layouts.default')
-
-{{-- Content --}}
-@section('content')
+@extends('site.layouts.home')
+@section('maincontent')
 @foreach ($posts as $post)
-<div class="row">
-	<div class="col-md-8">
-		<!-- Post Title -->
-		<div class="row">
-			<div class="col-md-8">
-				<h4><strong><a href="#">{{$post->title }}</a></strong></h4>
-			</div>
-		</div>
-		<!-- ./ post title -->
 
-		<!-- Post Content -->
-		<div class="row">
-			<div class="col-md-2">
-				<a href="#" class="thumbnail"><img src="http://placehold.it/260x180" alt=""></a>
-			</div>
-			<div class="col-md-6">
-				<p>
-					{{ Str::limit($post->description, 200) }}
-				</p>
-				<p><a class="btn btn-mini btn-default" href="#">Read more</a></p>
-			</div>
-		</div>
-		<!-- ./ post content -->
 
-		<!-- Post Footer -->
-		<div class="row">
-			<div class="col-md-8">
+        <!-- Post Title -->
+        <div class="row">
 
-			</div>
-		</div>
-		<!-- ./ post footer -->
-	</div>
-</div>
+                <h4><strong><a href="blog/{{$post->slug}}">{{ String::title($post->title) }}</a></strong></h4>
 
+        </div>
+        <!-- ./ post title -->
+
+        <!-- Post Content -->
+        <div class="row">
+            <div class="col-md-2">
+                <a href="blog/{{$post->slug}}" class="thumbnail"><img src="http://placehold.it/260x180" alt=""></a>
+            </div>
+
+                <p style="width: 98%;">
+                    {{ String::tidy(Str::limit($post->content, 200)) }}
+                </p>
+                <p><a class="btn btn-mini btn-default" href="blog/{{$post->slug}}">Read more</a></p>
+
+        </div>
+        <!-- ./ post content -->
+
+        <!-- Post Footer -->
+        <div class="row">
+
+                <p></p>
+                <p>
+                    <span class="glyphicon glyphicon-user"></span> by <span class="muted">{{{ $post->author->username }}}</span>
+                    | <span class="glyphicon glyphicon-calendar"></span> <!--Sept 16th, 2012-->{{{ $post->date() }}}
+                    | <span class="glyphicon glyphicon-comment"></span> <a href="blog/{{$post->slug}}#comments">{{$post->comments()->count()}} {{ \Illuminate\Support\Pluralizer::plural('Comment', $post->comments()->count()) }}</a>
+                </p>
+
+        </div>
+        <!-- ./ post footer -->
 <hr />
 @endforeach
 

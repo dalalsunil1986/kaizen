@@ -11124,6 +11124,16 @@ class Session extends Illuminate\Support\Facades\Session{
 	 }
 
 	/**
+	 * Regenerate the CSRF token value.
+	 *
+	 * @return void
+	 * @static 
+	 */
+	 public static function regenerateToken(){
+		 Illuminate\Session\Store::regenerateToken();
+	 }
+
+	/**
 	 * Get the underlying session handler implementation.
 	 *
 	 * @return \SessionHandlerInterface
@@ -11529,24 +11539,48 @@ class View extends Illuminate\Support\Facades\View{
 	 * @param \Illuminate\View\Engines\EngineResolver  $engines
 	 * @param \Illuminate\View\ViewFinderInterface  $finder
 	 * @param \Illuminate\Events\Dispatcher  $events
+	 * @param \Robbo\Presenter\Decorator  $decorator
 	 * @return void
 	 * @static 
 	 */
-	 public static function __construct($engines, $finder, $events){
-		 Illuminate\View\Environment::__construct($engines, $finder, $events);
+	 public static function __construct($engines, $finder, $events, $decorator){
+		 Robbo\Presenter\View\Environment::__construct($engines, $finder, $events, $decorator);
 	 }
 
 	/**
-	 * Get the evaluated view contents for the given view.
+	 * Get a evaluated view contents for the given view.
 	 *
 	 * @param string  $view
 	 * @param array   $data
 	 * @param array   $mergeData
-	 * @return \Illuminate\View\View
+	 * @return Illuminate\View\View
 	 * @static 
 	 */
 	 public static function make($view, $data = array(), $mergeData = array()){
-		return Illuminate\View\Environment::make($view, $data, $mergeData);
+		return Robbo\Presenter\View\Environment::make($view, $data, $mergeData);
+	 }
+
+	/**
+	 * Add a piece of shared data to the environment.
+	 *
+	 * @param string  $key
+	 * @param mixed   $value
+	 * @return void
+	 * @static 
+	 */
+	 public static function share($key, $value = null){
+		 Robbo\Presenter\View\Environment::share($key, $value);
+	 }
+
+	/**
+	 * Decorate an object with a presenter.
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 * @static 
+	 */
+	 public static function decorate($value){
+		return Robbo\Presenter\View\Environment::decorate($value);
 	 }
 
 	/**
@@ -11558,7 +11592,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function of($view, $data = array()){
-		return Illuminate\View\Environment::of($view, $data);
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::of($view, $data);
 	 }
 
 	/**
@@ -11570,7 +11605,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function name($view, $name){
-		 Illuminate\View\Environment::name($view, $name);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::name($view, $name);
 	 }
 
 	/**
@@ -11581,7 +11617,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function exists($view){
-		return Illuminate\View\Environment::exists($view);
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::exists($view);
 	 }
 
 	/**
@@ -11595,19 +11632,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function renderEach($view, $data, $iterator, $empty = 'raw|'){
-		return Illuminate\View\Environment::renderEach($view, $data, $iterator, $empty);
-	 }
-
-	/**
-	 * Add a piece of shared data to the environment.
-	 *
-	 * @param string  $key
-	 * @param mixed   $value
-	 * @return void
-	 * @static 
-	 */
-	 public static function share($key, $value = null){
-		 Illuminate\View\Environment::share($key, $value);
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::renderEach($view, $data, $iterator, $empty);
 	 }
 
 	/**
@@ -11619,7 +11645,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function creator($views, $callback){
-		return Illuminate\View\Environment::creator($views, $callback);
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::creator($views, $callback);
 	 }
 
 	/**
@@ -11630,7 +11657,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function composers($composers){
-		return Illuminate\View\Environment::composers($composers);
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::composers($composers);
 	 }
 
 	/**
@@ -11642,7 +11670,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function composer($views, $callback, $priority = null){
-		return Illuminate\View\Environment::composer($views, $callback, $priority);
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::composer($views, $callback, $priority);
 	 }
 
 	/**
@@ -11653,7 +11682,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function callComposer($view){
-		 Illuminate\View\Environment::callComposer($view);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::callComposer($view);
 	 }
 
 	/**
@@ -11664,7 +11694,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function callCreator($view){
-		 Illuminate\View\Environment::callCreator($view);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::callCreator($view);
 	 }
 
 	/**
@@ -11676,7 +11707,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function startSection($section, $content = ''){
-		 Illuminate\View\Environment::startSection($section, $content);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::startSection($section, $content);
 	 }
 
 	/**
@@ -11688,7 +11720,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function inject($section, $content){
-		 Illuminate\View\Environment::inject($section, $content);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::inject($section, $content);
 	 }
 
 	/**
@@ -11698,7 +11731,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function yieldSection(){
-		return Illuminate\View\Environment::yieldSection();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::yieldSection();
 	 }
 
 	/**
@@ -11709,7 +11743,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function stopSection($overwrite = false){
-		return Illuminate\View\Environment::stopSection($overwrite);
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::stopSection($overwrite);
 	 }
 
 	/**
@@ -11719,7 +11754,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function appendSection(){
-		return Illuminate\View\Environment::appendSection();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::appendSection();
 	 }
 
 	/**
@@ -11731,7 +11767,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function yieldContent($section, $default = ''){
-		return Illuminate\View\Environment::yieldContent($section, $default);
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::yieldContent($section, $default);
 	 }
 
 	/**
@@ -11741,7 +11778,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function flushSections(){
-		 Illuminate\View\Environment::flushSections();
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::flushSections();
 	 }
 
 	/**
@@ -11751,7 +11789,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function flushSectionsIfDoneRendering(){
-		 Illuminate\View\Environment::flushSectionsIfDoneRendering();
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::flushSectionsIfDoneRendering();
 	 }
 
 	/**
@@ -11761,7 +11800,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function incrementRender(){
-		 Illuminate\View\Environment::incrementRender();
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::incrementRender();
 	 }
 
 	/**
@@ -11771,7 +11811,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function decrementRender(){
-		 Illuminate\View\Environment::decrementRender();
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::decrementRender();
 	 }
 
 	/**
@@ -11781,7 +11822,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function doneRendering(){
-		return Illuminate\View\Environment::doneRendering();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::doneRendering();
 	 }
 
 	/**
@@ -11792,7 +11834,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function addLocation($location){
-		 Illuminate\View\Environment::addLocation($location);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::addLocation($location);
 	 }
 
 	/**
@@ -11804,7 +11847,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function addNamespace($namespace, $hints){
-		 Illuminate\View\Environment::addNamespace($namespace, $hints);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::addNamespace($namespace, $hints);
 	 }
 
 	/**
@@ -11816,7 +11860,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function prependNamespace($namespace, $hints){
-		 Illuminate\View\Environment::prependNamespace($namespace, $hints);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::prependNamespace($namespace, $hints);
 	 }
 
 	/**
@@ -11829,7 +11874,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function addExtension($extension, $engine, $resolver = null){
-		 Illuminate\View\Environment::addExtension($extension, $engine, $resolver);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::addExtension($extension, $engine, $resolver);
 	 }
 
 	/**
@@ -11839,7 +11885,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function getExtensions(){
-		return Illuminate\View\Environment::getExtensions();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::getExtensions();
 	 }
 
 	/**
@@ -11849,7 +11896,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function getEngineResolver(){
-		return Illuminate\View\Environment::getEngineResolver();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::getEngineResolver();
 	 }
 
 	/**
@@ -11859,7 +11907,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function getFinder(){
-		return Illuminate\View\Environment::getFinder();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::getFinder();
 	 }
 
 	/**
@@ -11869,7 +11918,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function setFinder($finder){
-		 Illuminate\View\Environment::setFinder($finder);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::setFinder($finder);
 	 }
 
 	/**
@@ -11879,7 +11929,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function getDispatcher(){
-		return Illuminate\View\Environment::getDispatcher();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::getDispatcher();
 	 }
 
 	/**
@@ -11890,7 +11941,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function setDispatcher($events){
-		 Illuminate\View\Environment::setDispatcher($events);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::setDispatcher($events);
 	 }
 
 	/**
@@ -11900,7 +11952,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function getContainer(){
-		return Illuminate\View\Environment::getContainer();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::getContainer();
 	 }
 
 	/**
@@ -11911,7 +11964,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function setContainer($container){
-		 Illuminate\View\Environment::setContainer($container);
+		//Method inherited from Illuminate\View\Environment
+		 Robbo\Presenter\View\Environment::setContainer($container);
 	 }
 
 	/**
@@ -11923,7 +11977,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function shared($key, $default = null){
-		return Illuminate\View\Environment::shared($key, $default);
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::shared($key, $default);
 	 }
 
 	/**
@@ -11933,7 +11988,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function getShared(){
-		return Illuminate\View\Environment::getShared();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::getShared();
 	 }
 
 	/**
@@ -11943,7 +11999,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function getSections(){
-		return Illuminate\View\Environment::getSections();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::getSections();
 	 }
 
 	/**
@@ -11953,7 +12010,8 @@ class View extends Illuminate\Support\Facades\View{
 	 * @static 
 	 */
 	 public static function getNames(){
-		return Illuminate\View\Environment::getNames();
+		//Method inherited from Illuminate\View\Environment
+		return Robbo\Presenter\View\Environment::getNames();
 	 }
 
 }
@@ -12234,9 +12292,6 @@ class Entrust extends Zizaco\Entrust\EntrustFacade{
 		 Zizaco\Entrust\Entrust::routeNeedsRoleOrPermission($route, $roles, $permissions, $result, $cumulative);
 	 }
 
-}
-
-class Carbon extends Carbon\Carbon{
 }
 
 class LaravelLocalization extends Mcamara\LaravelLocalization\Facades\LaravelLocalization{
@@ -12594,9 +12649,6 @@ class LaravelLocalization extends Mcamara\LaravelLocalization\Facades\LaravelLoc
 		return Mcamara\LaravelLocalization\LaravelLocalization::negotiateLanguage();
 	 }
 
-}
-
-class Datatables extends Bllim\Datatables\Datatables{
 }
 
 class Notify extends Acme\Facades\Notify{
@@ -13718,5 +13770,148 @@ class Debugbar extends Barryvdh\Debugbar\Facade{
 		 Barryvdh\Debugbar\LaravelDebugbar::offsetUnset($key);
 	 }
 
+}
+
+class Presenter extends Robbo\Presenter\Presenter{
+}
+
+interface Presentable extends Robbo\Presenter\PresentableInterface{
+}
+
+class Basset extends Basset\Facade{
+	/**
+	 * Create a new environment instance.
+	 *
+	 * @param \Basset\Factory\FactoryManager  $factory
+	 * @param \Basset\AssetFinder  $finder
+	 * @return void
+	 * @static 
+	 */
+	 public static function __construct($factory, $finder){
+		 Basset\Environment::__construct($factory, $finder);
+	 }
+
+	/**
+	 * Alias of \Basset\Environment::collection()
+	 *
+	 * @param string  $name
+	 * @param \Closure  $callback
+	 * @return \Basset\Collection
+	 * @static 
+	 */
+	 public static function make($name, $callback = null){
+		return Basset\Environment::make($name, $callback);
+	 }
+
+	/**
+	 * Create or return an existing collection.
+	 *
+	 * @param string  $identifier
+	 * @param \Closure  $callback
+	 * @return \Basset\Collection
+	 * @static 
+	 */
+	 public static function collection($identifier, $callback = null){
+		return Basset\Environment::collection($identifier, $callback);
+	 }
+
+	/**
+	 * Get all collections.
+	 *
+	 * @return array
+	 * @static 
+	 */
+	 public static function all(){
+		return Basset\Environment::all();
+	 }
+
+	/**
+	 * Determine if a collection exists.
+	 *
+	 * @param string  $name
+	 * @return bool
+	 * @static 
+	 */
+	 public static function has($name){
+		return Basset\Environment::has($name);
+	 }
+
+	/**
+	 * Register a package with the environment.
+	 *
+	 * @param string  $package
+	 * @param string  $namespace
+	 * @return void
+	 * @static 
+	 */
+	 public static function package($package, $namespace = null){
+		 Basset\Environment::package($package, $namespace);
+	 }
+
+	/**
+	 * Register an array of collections.
+	 *
+	 * @param array  $collections
+	 * @return void
+	 * @static 
+	 */
+	 public static function collections($collections){
+		 Basset\Environment::collections($collections);
+	 }
+
+	/**
+	 * Set a collection offset.
+	 *
+	 * @param string  $offset
+	 * @param mixed  $value
+	 * @return void
+	 * @static 
+	 */
+	 public static function offsetSet($offset, $value){
+		 Basset\Environment::offsetSet($offset, $value);
+	 }
+
+	/**
+	 * Get a collection offset.
+	 *
+	 * @param string  $offset
+	 * @return null|\Basset\Collection
+	 * @static 
+	 */
+	 public static function offsetGet($offset){
+		return Basset\Environment::offsetGet($offset);
+	 }
+
+	/**
+	 * Unset a collection offset.
+	 *
+	 * @param string  $offset
+	 * @return void
+	 * @static 
+	 */
+	 public static function offsetUnset($offset){
+		 Basset\Environment::offsetUnset($offset);
+	 }
+
+	/**
+	 * Determine if a collection offset exists.
+	 *
+	 * @param string  $offset
+	 * @return bool
+	 * @static 
+	 */
+	 public static function offsetExists($offset){
+		return Basset\Environment::offsetExists($offset);
+	 }
+
+}
+
+class String extends Andrew13\Helpers\String{
+}
+
+class Carbon extends Carbon\Carbon{
+}
+
+class Datatables extends Bllim\Datatables\Datatables{
 }
 

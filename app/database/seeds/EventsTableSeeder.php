@@ -10,21 +10,24 @@ class EventsTableSeeder extends Seeder {
         for ($i = 0; $i < 50; $i++)
         {
 
-            $category = Category::orderBy(DB::raw('RAND()'))->first()->id;
+            $category = Category::getEventCategories()->orderBY(DB::raw('RAND()'))->first()->id;
             $user = User::orderBy(DB::raw('RAND()'))->first()->id;
             $location = Location::orderBy(DB::raw('RAND()'))->first()->id;
+            $max_seats = 15;
+            $total_seats = $faker->numberBetween(1,$max_seats);
+            $available_seats = $max_seats - $total_seats;
             $events = array(
                 [
                     'category_id' => $category,
                     'user_id' => $user,
                     'location_id' => $location,
-                    'title' => $faker->sentence(2),
-                    'title_en' => $faker->sentence(2),
+                    'title' => $faker->sentence(3),
+                    'title_en' => $faker->sentence(3),
                     'description' => $faker->sentence(50),
                     'description_en'=>$faker->sentence(50),
                     'price'=> '440',
-                    'total_seats' => '15',
-                    'available_seats' => '0',
+                    'total_seats' => $total_seats,
+                    'available_seats' => $available_seats,
                     'slug'=> $faker->sentence(10),
                     'date_start' =>new DateTime,
                     'date_end' => new DateTime,
@@ -44,6 +47,9 @@ class EventsTableSeeder extends Seeder {
 
 		    );
             DB::table('events')->insert($events);
+
+
+
 
         }
 

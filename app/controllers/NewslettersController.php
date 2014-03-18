@@ -17,7 +17,7 @@ class NewslettersController extends BaseController{
      * @param array $email
      * Add a user to the newsletter list
      */
-    public function storeNewsletter() {
+    public function store() {
         $getEmail = Input::get('email');
         $email['email'] = $getEmail;
         try {

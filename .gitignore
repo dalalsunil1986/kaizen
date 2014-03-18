@@ -29,4 +29,6 @@ composer.lock
 # Packages
 _ide_helpers.php
 
+routes.txt
+
 Thumbs.db

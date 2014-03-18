@@ -1,40 +1,57 @@
 <?php
 
-class Comment extends BaseModel {
+use Robbo\Presenter\PresentableInterface;
 
-	/**
-	 * Get the comment's content.
-	 *
-	 * @return string
-	 */
-	public function content()
-	{
-		return nl2br($this->content);
-	}
+class Comment extends BaseModel implements PresentableInterface{
 
-	/**
-	 * Get the comment's author.
-	 *
-	 * @return User
-	 */
-	public function author()
-	{
-		return $this->belongsTo('User', 'user_id');
-	}
+    protected $guarded = ['id'];
+
+    protected static  $rules = [
+        'content' => 'required | min:3'
+    ];
+
+    /**
+     * @return array
+     */
+    public static function getRules()
+    {
+        return self::$rules;
+    }
+
+    /**
+     * Get the comment's content.
+     *
+     * @return string
+     */
+    public function content()
+    {
+        return nl2br($this->content);
+    }
+
+    /**
+     * Get the comment's author.
+     *
+     * @return User
+     */
+    public function author()
+    {
+        return $this->belongsTo('User', 'user_id');
+    }
 
     public function commentable(){
         return $this->morphTo();
     }
 
-	/**
-	 * Get the comment's post's.
-	 *
-	 * @return Blog\Post
-	 */
-//	public function post()
-//	{
-//		return $this->belongsTo('Post');
-//	}
+
+    /**
+     * Get the comment's post's.
+     *
+     * @return Blog\Post
+     */
+    public function post()
+    {
+        return $this->belongsTo('Post');
+    }
 
     /**
      * Get the post's author.
