@@ -12,6 +12,28 @@
     padding:10px;
     display:block;
 }
+
+
+/* Chnage edge position in english for home page slider */
+span.tag:after{
+	right: 0px !important;
+	left: 240px !important;
+	height: 37px !important;
+	width: 80px !important;
+	border-radius: 0px 0px 42px 0px !important;
+	-moz-transform-origin:0 0 !important;
+	-moz-transform:rotate(-140deg) translate(-71%, -26%) !important;
+	-webkit-transform-origin:0 0 !important;
+	-webkit-transform:rotate(-140deg) translate(-71%, -26%) !important;
+	transform-origin:0 0 !important;
+	transform:rotate(-140deg) translate(-71%, -26%) !important;
+}
+
+.carousel-caption{
+	width: 40% !important; 
+	margin-left: 40% !important; 
+	right: 0px !important;
+}
 .navbar-default .navbar-nav>li>a {
     background-image: url("../images/MenuInactiveen.png");
 }
