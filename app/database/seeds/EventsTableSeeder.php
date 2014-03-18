@@ -10,7 +10,7 @@ class EventsTableSeeder extends Seeder {
         for ($i = 0; $i < 50; $i++)
         {
 
-            $category = Category::orderBy(DB::raw('RAND()'))->first()->id;
+            $category = Category::getEventCategories()->orderBY(DB::raw('RAND()'))->first()->id;
             $user = User::orderBy(DB::raw('RAND()'))->first()->id;
             $location = Location::orderBy(DB::raw('RAND()'))->first()->id;
             $max_seats = 15;

@@ -503,20 +503,50 @@ class EventsController extends BaseController
     }
 
     public function search() {
-        //search by country
-        //search by location
-        //search by category
-        //search by instructor name
-        $events = parent::all();
+
+        $perPage = 5;
+        //find countries,authors,and categories to display in form
         $categories = $this->category->getEventCategories()->lists('name', 'id');
         $authors = $this->user->getRoleByName('author')->lists('username', 'id');
-        $countries = Country::all();
-//        $general = // will search for the word in any field of the table !!!!
-//
+        $countries = Country::all()->lists('name','id');
+
+        // find selected form values
         $search = trim(Input::get('search'));
         $category = Request::get('category');
         $author = Request::get('author');
         $country = Request::get('country');
+
+        // if the form is selected
+        // perform search
+        if(!empty($search) || !empty($category) || !empty($author) || !empty($country)) {
+
+            $events = $this->model->with('category')->where(function($query) use ($search, $category, $author, $country)
+            {
+                if (!empty($search)) {
+                    $query->where('title','LIKE',"%$search%");
+                //  ->orWhere('title_en','LIKE',"%$search%")
+                //  ->orWhere('description','LIKE',"%$search%")
+                //  ->orWhere('description_en','LIKE',"%$search%");
+                }
+                if (!empty($category)) {
+                    $query->where('category_id', $category);
+                }
+                if (!empty($author)) {
+                    $query->where('user_id', $author);
+                }
+                if (!empty($country)) {
+                    $locations = Country::find($country)->locations()->get(array('id'));
+                    foreach($locations as $location) {
+                        $location_id[] = $location->id;
+                    }
+                    $location_array = implode(',',$location_id);
+                    $query->whereRaw('location_id in ('.$location_array.')');
+                }
+            })->orderBy('created_at', 'DESC')->paginate($perPage);
+
+        } else {
+            $events = parent::all($perPage);
+        }
 
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
@@ -526,98 +556,6 @@ class EventsController extends BaseController
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
-//        $events = $this->model;
-//        {
-//            if (isset($getSearch)) {
-//                $events = $events->where('title','LIKE',"%$search%");
-////                $events = $events->orWhere('description','LIKE',"%$getSearch%");
-//
-//            }
-//            if (isset($category)) {
-//                $events = $events->where('category_id',$category);
-//            }
-//
-//        };
-//
-//        $events = $events->get( array('title'));
-//
-////        $events = DB::table('events')->where(function($query) use ($getSearch, $getCategory, $getAuthor, $getCountry)
-////        {
-////            if (isset($getSearch)) {
-////                $query->where('title','LIKE',"%$getSearch%")
-////                    ->orWhere('description','LIKE',"%$getSearch%");
-////            }
-////            if (isset($getCategory)) {
-////                $query->where('category_id', '=', $getCategory);
-////            }
-////        })->get( array('title','description') );
-//
-//
-////        $best_circle = DB::table("member_circles")
-////            ->select("circle_id", DB::raw("COUNT(*)"))
-////            ->join("member_relations", function($join) use ($user){
-////                $join->on("member_circles.member_id", "=", "member_relations.member_b")
-////                    ->where("member_a", "=", $user->member_id)
-////                    ->where("active", "=", "1");
-////            });
-////
-//
-////        $events = DB::table('events')
-////            ->select("events.title");
-////            if(isset($getSearch)) {
-////                ->where('title' ,'LIKE', "%$getSearch%")
-////                ->orWhere('description','LIKE',"%$getSearch%");
-////            }
-////            if(isset($getCategory)) {
-////                ->leftJoin('categories','id','=',$getCategory);
-////            }
-////        ;
-//
-//
-////        DB::table('node')
-////            ->where(function($query) use ($published, $year)
-////            {
-////                if ($published) {
-////                    $query->where('published', 'true');
-////                }
-////
-////                if (!empty($year) && is_numeric($year)) {
-////                    $query->where('year', '>', $year);
-////                }
-////            })
-////            ->get( array('column1','column2') );
-//
-//
-//
-////        $events = $this->model->where(function($query) use ($getSearch,$getCategory,$getAuthor,$getCountry) {
-////            if(!empty($getSearch)) {
-////                $query->where('title','LIKE',"%$getSearch%")
-////                      ->orWhere('description','LIKE',"%$getSearch%");
-////            }
-////            if(!empty($getCategory)) {
-////                $query->where(
-////                $query->join("categories", function ($join) use($getCategory) {
-////                    $join->on("categories.id", '=', "%$getCategory%");
-////                }));
-////            }
-////        })->get();
-//
-//        return View::make('events.search',compact('category','author','country','events','search','categories','authors','countries'));
-
     }
-
-    public function storeComment($id) {
-        $event = $this->model->find($id);
-        $validation =  $event->comments()->save(Input::all());
-        if (!$validation)
-        {
-            dd('asdas');
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
-        }
-        dd('success');
-        return Redirect::back();
-    }
-
-
 
 }

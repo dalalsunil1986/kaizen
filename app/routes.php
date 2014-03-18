@@ -100,6 +100,8 @@ Route::group(
         Route::get('event/{id}/favorite',array('as'=>'event.favorite','uses'=>'EventsController@favorite'));
         Route::get('event/{id}/unfavorite',array('as'=>'event.unfavorite','uses'=>'EventsController@unfavorite'));
         Route::get('events/featured',array('as'=>'event.featured','uses'=>'EventsController@getSliderEvents'));
+        Route::get('event/{id}/country','AdminEventsController@getCountry');
+        Route::get('event/{id}/location','AdminEventsController@getLocation');
 
         // Search Route
         Route::get('events/search',array('as'=>'event.search','uses'=>'EventsController@search'));
