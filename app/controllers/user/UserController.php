@@ -325,8 +325,12 @@ class UserController extends BaseController {
         {
             return App::abort(404);
         }
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->maincontent = View::make('site/user/profile', compact('user'));
+        $this->layout->footer = view::make('site.layouts.footer');
 
-        return View::make('site/user/profile', compact('user'));
     }
 
     public function getSettings()
@@ -334,7 +338,7 @@ class UserController extends BaseController {
         list($user,$redirect) = User::checkAuthAndRedirect('user/settings');
         if($redirect){return $redirect;}
 
-        return View::make('site/user/profile', compact('user'));
+         View::make('site/user/profile', compact('user'));
     }
 
     /**

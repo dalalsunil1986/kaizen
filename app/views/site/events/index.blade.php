@@ -87,12 +87,13 @@
     </div>
 </div>
 
-<div class="row" style="font-size: x-small !important;"> <small>
+<div class="row" style="margin: 9px; font-size: x-small !important;">
+
         <i class="glyphicon glyphicon-user"> {{ $event->author->username }} |</i>
         <i class="glyphicon glyphicon-calendar"> {{ $event->date_start}} |</i>
-        <i class="glyphicon glyphicon-time"> {{ $event->date_end}} |</i>
+        <i class="glyphicon glyphicon-time"> {{ $event->date_end}} |</i></br>
         <i class="glyphicon glyphicon-bookmark"> {{ $event->location->country->name}} |</i>
-    </small>
+
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
     <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;{{ $event->categories->name_en }}
     @else

@@ -57,6 +57,8 @@ return array(
                 'instagram' =>'Instagram',
                 'twitter' => 'Twitter',
                 'youtube' => 'Youtube',
-                'newsletter_subscribe' => 'Subscribe to Newletter'
+                'newsletter_subscribe' => 'Subscribe to Newletter',
+                'youlog'=>'انت مسجل لدينا باسم',
+                'profile' => 'معلوماتي',
     )
 );

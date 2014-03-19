@@ -25,7 +25,7 @@
                 <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
                 </form>
             @else
-                <div class="col-md-5
+                <div class="col-md-7
                 @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                     pull-right
                 @else
@@ -34,9 +34,14 @@
                 " >
                     <p class="
                     {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
-                    " style="padding-top:10px">you are logged in as : {{ Auth::user()->username }}
-                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getLogout') }}">
+
+                    " style="padding-top:10px">{{ Lang::get('site.general.youlog') }} : {{ Auth::user()->username }}
+                        <a type="button" class="btn btn-primary btn-sm" href="{{ action('UserController@getLogout') }}">
                            <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>{{ Lang::get('site.nav.logout') }}
+                        </a>
+
+                        <a type="button" class="btn btn-primary btn-sm" href="{{ URL::to('user/profile') }}/{{ Auth::user()->username}}">
+                            <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>{{ Lang::get('site.general.profile') }}
                         </a>
                     </p>
 
