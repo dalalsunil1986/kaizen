@@ -218,6 +218,7 @@ Route::group(
 
             // Admin Event Route
             Route::resource('event','AdminEventsController');
+            Route::get('events','AdminEventsController@index');
             Route::get('event/{id}/followers','AdminEventsController@getFollowers');
             Route::get('event/{id}/favorites','AdminEventsController@getFavorites');
             Route::get('event/{id}/subscriptions','AdminEventsController@getSubscriptions');

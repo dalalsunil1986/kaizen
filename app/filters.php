@@ -120,6 +120,4 @@ Route::filter('csrf', function()
 });
 
 
-//view composer
-
 

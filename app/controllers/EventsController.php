@@ -36,7 +36,6 @@ class EventsController extends BaseController
     // master layout
     protected $layout = 'site.layouts.home';
 
-
     public function index()
     {
         $events = parent::all();
