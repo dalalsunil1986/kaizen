@@ -51,5 +51,7 @@ return array(
                 'submit' => 'إرسال',
                 'comment' => 'التعليق',
                 'remember' => 'تذكرني',
+                'youlog'=>'انت مسجل لدينا باسم',
+                'profile' => 'معلوماتي',
     )
 );

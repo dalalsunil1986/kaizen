@@ -22,6 +22,7 @@ return array(
                     'posts' => 'Blog',
                     'contactus' => 'Contact Us',
                     'search' => 'Search',
+
     ),
     'event' => array(
                 'summaryevent' => 'Summary',
@@ -48,6 +49,8 @@ return array(
                 'submit' => 'Submit',
                 'comment' => 'Comment',
                 'remember' => 'Remember',
+                'youlog' => 'You are logged as',
+                'profile' => 'Profile',
     )
 
 );
