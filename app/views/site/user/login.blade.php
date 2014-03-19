@@ -1,12 +1,5 @@
 @extends('site.layouts.home')
 @section('maincontent')
-
-{{-- Web site Title --}}
-@section('title')
-{{{ Lang::get('user/user.login') }}} ::
-@parent
-@stop
-
 <div class="page-header">
 	<h1>Login into your account</h1>
 </div>

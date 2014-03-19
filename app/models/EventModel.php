@@ -28,6 +28,11 @@ class EventModel extends BaseModel {
         return $this->belongsTo('User','user_id')->select('id','username','email');
     }
 
+    // added !!!
+    public function categories() {
+        return $this->belongsTo('Category','category_id')->select('name','name_en','type','slug');
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -86,7 +91,7 @@ class EventModel extends BaseModel {
         return $this->belongsTo('Category','category_id');
     }
 
-    public function  Location() {
+    public function  location() {
         return $this->belongsTo('Location');
     }
 
@@ -107,7 +112,7 @@ class EventModel extends BaseModel {
         return $this->morphMany('Photo','imageable');
     }
 
-    public static function featured($limit = 4)
+    public static function featured($limit = 5)
     {
         return DB::table('events AS e')
             ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')

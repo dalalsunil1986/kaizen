@@ -1,31 +1,89 @@
 @extends('site.layouts.home')
 @section('maincontent')
 <div class="row">
+    {{ Form::open(array('action' => 'EventsController@index','method'=>'get','class'=>'form-inline')) }}
 
-    <ul class="timeline">
-        <?php $i=0; ?>
-        @foreach($events as $event)
-        <li {{ (($i = !$i)? '':'class="timeline-inverted"') }} >
-            <div class="timeline-badge">
-                <span class="timeline-balloon-date-day">18 </span>
-                <span class="timeline-balloon-date-month">Dec</span>
-            </div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title"><a href="{{ URL::action('EventsController@show',$event->id)}}">{{ $event->title }}</a></h4>
-                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> at 2:am</small></p>
-                        <i class="glyphicon glyphicon-calendar"></i>{{ $event->getEventDate() }}|
-                        <i class="glyphicon glyphicon-comment"></i><a href="#">&nbsp;{{ count($event->comments) }}</a>
-                </div>
-                <div class="timeline-body">
-                    <p>{{ $event->description }}</p>
-                </div>
-            </div>
-        </li>
+    <div class="form-group">
+        <label class="sr-only" for="exampleInputEmail2">Keyword</label>
+        <input type="text" class="form-control" id="search" name="search" value="@if(isset($search)) {{ $search }} @endif "  placeholder="Keyword">
+    </div>
 
-        <?php $i++; ?>
-        @endforeach
-    </ul>
+    <div class="form-group">
+        {{ Form::select('country', array('0'=>'Select One',$countries), $country ,['class' => 'form-control']) }}
+    </div>
+    <div class="form-group">
+        {{ Form::select('category', array('0'=>'Select One',$categories), $category ,['class' => 'form-control']) }}
+    </div>
+    <div class="form-group">
+        {{ Form::select('author', array(''=>'Select One',$authors), $author ,['class' => 'form-control']) }}
+    </div>
+    <button type="submit" class="btn btn-default">Search</button>
+    {{ Form::close() }}
 </div>
+</br>
+
+@foreach($events as $event)
+
+<div class="row">
+    <div class="col-sm-2 col-md-2">
+        <div id="event_images">
+            <div id="links">
+
+                @if(count($event->photos) > 0)
+                <a href="event/{{ $event->id}}" >
+                    <img src="{{ $event->photos[0]->name }}" alt="{{ $event->photos[0]->name }}" class="img-thumbnail">
+                </a>
+                @else
+                <a href="event/{{ $event->id }}">
+                    <img src="http://placehold.it/70x70" class="img-thumbnail">
+                </a>
+                @endif
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-10 col-md-10">
+        <h3><a href="event/{{$event->id}}">
+            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            @if($event->description_en)
+            {{ $event->title_en }}
+            @else
+            {{ $event->title }}
+
+            @endif
+            @else
+            {{ $event->title_en }}
+            @endif
+        </a></h3>
+        <p>
+            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+
+            @if($event->description_en)
+            {{ Str::limit($event->description, 150) }}
+        @else
+            {{ $event->description }}
+        @endif
+        @else
+            {{ Str::limit($event->description, 150) }}
+        @endif
+            <a href="event/{{ $event->id}}">المزيد</a>
+        </p>
+
+    </div>
+</div>
+
+<div class="row" style="font-size: x-small !important;"> <small>
+        <i class="glyphicon glyphicon-user"> {{ $event->author->username }} |</i>
+        <i class="glyphicon glyphicon-calendar"> {{ $event->date_start}} |</i>
+        <i class="glyphicon glyphicon-time"> {{ $event->date_end}} |</i>
+        <i class="glyphicon glyphicon-bookmark"> {{ $event->location->country->name}} |</i>
+    </small>
+    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+    <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;{{ $event->categories->name_en }}
+    @else
+    <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;{{ $event->categories->name }}
+    @endif</div>
+<hr>
+@endforeach
 <?php echo $events->links(); ?>
 @stop
