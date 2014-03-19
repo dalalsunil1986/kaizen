@@ -20,8 +20,8 @@
                             <input type="checkbox" id="remember" value="1">&nbsp;{{ Lang::get('site.general.remember')}}
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary">{{ Lang::get('site.nav.login') }}</button>
-                    <a href="{{ action('UserController@create') }}" type="submit" class="btn btn-primary">{{ Lang::get('site.nav.register') }}</a>
+                    <button type="submit" class="btn btn-default">{{ Lang::get('site.nav.login') }}</button>
+                    <a href="{{ action('UserController@create') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
                 <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
                 </form>
             @else
@@ -35,7 +35,7 @@
                     <p class="
                     {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
                     " style="padding-top:10px">you are logged in as : {{ Auth::user()->username }}
-                        <a type="button" class="btn btn-primary btn-sm" href="{{ action('UserController@getLogout') }}">
+                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getLogout') }}">
                            <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>{{ Lang::get('site.nav.logout') }}
                         </a>
                     </p>
@@ -61,7 +61,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="{{ Lang::get('site.nav.search') }}" value="@if(isset($_GET['search'])) {{ $_GET['search'] }} @endif " name="search" >
                 </div>
-                <input type="submit" class="btn btn-primary" value="{{ Lang::get('site.nav.search') }}">
+                <input type="submit" class="btn btn-default" value="{{ Lang::get('site.nav.search') }}">
             </form>
         </li>
         </ul>

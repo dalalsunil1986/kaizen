@@ -1,4 +1,5 @@
-@extends('site.layouts.default')
+@extends('site.layouts.home')
+@section('maincontent')
 
 {{-- Web site Title --}}
 @section('title')
@@ -7,7 +8,7 @@
 @stop
 
 {{-- Content --}}
-@section('content')
+@section('maincontent')
 <div class="page-header">
 	<h1>Forgot Password</h1>
 </div>

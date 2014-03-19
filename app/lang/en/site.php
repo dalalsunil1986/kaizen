@@ -48,6 +48,14 @@ return array(
                 'submit' => 'Submit',
                 'comment' => 'Comment',
                 'remember' => 'Remember',
+                'latest_events' => 'Latest Events',
+                'latest_blog' => 'Latest Blog Posts',
+                'newsletter' => 'Newsletter',
+                'instagram' =>'Instagram',
+                'twitter' => 'Twitter',
+                'youtube' => 'Youtube',
+                'newsletter_subscribe' => 'Subscribe to Newletter'
+
     )
 
 );

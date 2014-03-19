@@ -1,24 +1,40 @@
 @extends('site.layouts.home')
 @section('maincontent')
+<style>
+    .padded {
+        padding:0;
+        margin:0 5px 0 5px;
+    }
+</style>
 <div class="row">
-    {{ Form::open(array('action' => 'EventsController@index','method'=>'get','class'=>'form-inline')) }}
+        {{ Form::open(array('action' => 'EventsController@index','method'=>'get','class'=>'form-inline')) }}
+        <div class="col-md-3 padded">
+            <div class="form-group">
+                <input type="text" class="form-control" id="search" name="search" value="@if(isset($search)) {{ $search }} @endif "  placeholder="Keyword">
+            </div>
+        </div>
+        <div class="col-md-2 padded">
 
-    <div class="form-group">
-        <label class="sr-only" for="exampleInputEmail2">Keyword</label>
-        <input type="text" class="form-control" id="search" name="search" value="@if(isset($search)) {{ $search }} @endif "  placeholder="Keyword">
-    </div>
+            <div class="form-group">
+                {{ Form::select('country', array('0'=>'Select One',$countries), $country ,['class' => 'form-control']) }}
+            </div>
+        </div>
+        <div class="col-md-2 padded">
+            <div class="form-group">
+                {{ Form::select('category', array('0'=>'Select One',$categories), $category ,['class' => 'form-control']) }}
+            </div>
+        </div>
+        <div class="col-md-2 padded">
+            <div class="form-group">
+                {{ Form::select('author', array(''=>'Select One',$authors), $author ,['class' => 'form-control']) }}
+            </div>
+        </div>
+        <div class="col-md-1">
 
-    <div class="form-group">
-        {{ Form::select('country', array('0'=>'Select One',$countries), $country ,['class' => 'form-control']) }}
-    </div>
-    <div class="form-group">
-        {{ Form::select('category', array('0'=>'Select One',$categories), $category ,['class' => 'form-control']) }}
-    </div>
-    <div class="form-group">
-        {{ Form::select('author', array(''=>'Select One',$authors), $author ,['class' => 'form-control']) }}
-    </div>
-    <button type="submit" class="btn btn-default">Search</button>
-    {{ Form::close() }}
+            <button type="submit" class="btn btn-default btn-small">Search</button>
+
+        </div>
+        {{ Form::close() }}
 </div>
 </br>
 
@@ -28,7 +44,6 @@
     <div class="col-sm-2 col-md-2">
         <div id="event_images">
             <div id="links">
-
                 @if(count($event->photos) > 0)
                 <a href="event/{{ $event->id}}" >
                     <img src="{{ $event->photos[0]->name }}" alt="{{ $event->photos[0]->name }}" class="img-thumbnail">

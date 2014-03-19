@@ -266,9 +266,10 @@ class UserController extends BaseController {
      */
     public function getReset( $token )
     {
-
-        return View::make('site/user/reset')
-            ->with('token',$token);
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.user.reset', ['token'=>$token]);
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->footer = view::make('site.layouts.footer');
     }
 
 

@@ -10,7 +10,7 @@
 
 <div id="side-instagram">
     <div class="panel panel-default">
-        <div class="panel-heading">انستجرام</div>
+        <div class="panel-heading">{{ Lang::get('site.general.instagram') }}</div>
         <div class="panel-body">
             <!-- <iframe id="instimg-iframe" src="http://imageagram.com/grid.php?q=u&search=Kaizen_co&wt=in&s=180&h=3&w=3&b=no&c=&p=35&ho=fadeOut&sh=no" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:651px; height: 651px" ></iframe> -->
             <iframe id="instimg-iframe" src="http://imageagram.com/grid.php?q=u&search=Kaizen_co&wt=in&s=120&h=3&w=3&b=no&c=&p=5&ho=none&sh=yes" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:381px; height: 381px" ></iframe>

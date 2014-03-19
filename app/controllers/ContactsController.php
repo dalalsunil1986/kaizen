@@ -1,6 +1,6 @@
 <?php
 
-class ContactsController extends \BaseController {
+class ContactsController extends BaseController {
 
     /**
      * Contact Repository
@@ -14,6 +14,7 @@ class ContactsController extends \BaseController {
     public function __construct(Contact $model)
     {
         $this->model = $model;
+        parent::__construct();
     }
 	/**
 	 * Display a listing of the resource.
