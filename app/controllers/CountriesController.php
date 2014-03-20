@@ -7,11 +7,13 @@ class CountriesController extends BaseController {
 	 *
 	 * @var Country
 	 */
-	protected $country;
+	protected $model;
 
-	public function __construct(Country $country)
+    protected $layout = 'site.layouts.home';
+
+	public function __construct(Country $model)
 	{
-		$this->country = $country;
+		$this->model = $model;
 	}
 
 	/**
@@ -21,7 +23,7 @@ class CountriesController extends BaseController {
 	 */
 	public function index()
 	{
-		return $countries = $this->country->all();
+		return $countries = $this->model->all();
 
 		return View::make('countries.index', compact('countries'));
 	}
@@ -48,7 +50,7 @@ class CountriesController extends BaseController {
 
 		if ($validation->passes())
 		{
-			$this->country->create($input);
+			$this->model->create($input);
 
 			return Redirect::route('countries.index');
 		}
@@ -67,7 +69,7 @@ class CountriesController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$country = $this->country->findOrFail($id);
+		$model = $this->model->findOrFail($id);
 
 		return View::make('countries.show', compact('country'));
 	}
@@ -80,9 +82,9 @@ class CountriesController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		$country = $this->country->find($id);
+		$model = $this->model->find($id);
 
-		if (is_null($country))
+		if (is_null($model))
 		{
 			return Redirect::route('countries.index');
 		}
@@ -103,8 +105,8 @@ class CountriesController extends BaseController {
 
 		if ($validation->passes())
 		{
-			$country = $this->country->find($id);
-			$country->update($input);
+			$model = $this->model->find($id);
+			$model->update($input);
 
 			return Redirect::route('countries.show', $id);
 		}
@@ -123,9 +125,13 @@ class CountriesController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$this->country->find($id)->delete();
+		$this->model->find($id)->delete();
 
 		return Redirect::route('countries.index');
 	}
+
+    public function getEvents($id) {
+         $this->model->find($id)->events;
+    }
 
 }

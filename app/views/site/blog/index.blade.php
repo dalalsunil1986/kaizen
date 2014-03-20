@@ -30,9 +30,9 @@
 
                 <p></p>
                 <p>
-                    <span class="glyphicon glyphicon-user"></span> by <span class="muted">{{{ $post->author->username }}}</span>
-                    | <span class="glyphicon glyphicon-calendar"></span> <!--Sept 16th, 2012-->{{{ $post->date() }}}
-                    | <span class="glyphicon glyphicon-comment"></span> <a href="blog/{{$post->slug}}#comments">{{$post->comments()->count()}} {{ \Illuminate\Support\Pluralizer::plural('Comment', $post->comments()->count()) }}</a>
+                    <i class="glyphicon glyphicon-user"></i> by <span class="muted">{{{ $post->author->username }}}</span>
+                    | <i class="glyphicon glyphicon-calendar"></i> <!--Sept 16th, 2012-->{{{ $post->date() }}}
+                    | <i class="glyphicon glyphicon-comment"></i> <a href="blog/{{$post->slug}}#comments">{{$post->comments()->count()}} {{ \Illuminate\Support\Pluralizer::plural('Comment', $post->comments()->count()) }}</a>
                 </p>
 
         </div>

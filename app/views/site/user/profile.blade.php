@@ -1,41 +1,106 @@
 @extends('site.layouts.home')
 @section('maincontent')
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-6">
-        <div class="well well-sm">
-            <div class="row">
-                <div class="col-sm-6 col-md-4">
-                    <img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive" />
-                </div>
-                <div class="col-sm-6 col-md-8">
-                    <h4>
-                        Bhaumik Patel</h4>
-                    <small><cite title="San Francisco, USA">San Francisco, USA <i class="glyphicon glyphicon-map-marker">
-                            </i></cite></small>
-                    <p>
-                        <i class="glyphicon glyphicon-envelope"></i>email@example.com
-                        <br />
-                        <i class="glyphicon glyphicon-globe"></i><a href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>
-                        <br />
-                        <i class="glyphicon glyphicon-gift"></i>June 02, 1988</p>
-                    <!-- Split button -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary">
-                            Social</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span><span class="sr-only">Social</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Twitter</a></li>
-                            <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google +</a></li>
-                            <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Github</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="row well">
+    <div class="col-lg-3">
+        <img class="img-circle" src="http://critterapp.pagodabox.com/img/user.jpg" alt="">
     </div>
+    <div class="col-lg-8">
+            <h1>{{ Lang::get('site.general.profile') }}</h1>
+            <table class="table table-striped">
+                <tr>
+                    <td>{{ Lang::get('site.general.name') }} : </td>
+                    <td>
+                    @if(count($user->first_name) > 1)
+                   {{ $user->first_name . $user->last_name}}
+                    @else
+                    {{ Lang::get('site.general.notavail')}}
+                   @endif
+                    </td>
+              </tr>
+                <tr>
+                    <td>{{ Lang::get('site.general.email') }} : </td>
+                    <td>
+                        @if(count($user->email) > 1)
+                        {{ $user->email}}
+                        @else
+                        {{ Lang::get('site.general.notavail')}}
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ Lang::get('site.general.mobile') }} : </td>
+                    <td>
+                        @if(count($user->mobile) > 1)
+                        {{ $user->mobile }}
+                        @else
+                        {{ Lang::get('site.general.notavail')}}
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ Lang::get('site.general.phone') }} : </td>
+                    <td>
+                        @if(count($user->phone) > 1)
+                        {{ $user->phone}}
+                        @else
+                        {{ Lang::get('site.general.notavail')}}
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ Lang::get('site.general.country') }} : </td>
+                    <td>
+                        @if(count($user->country) > 1)
+                        {{ $user->country}}
+                        @else
+                        {{ Lang::get('site.general.notavail')}}
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ Lang::get('site.general.gender') }} : </td>
+                    <td>
+                        @if(count($user->gender) > 1)
+                        {{ $user->gender}}
+                        @else
+                        {{ Lang::get('site.general.notavail')}}
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ Lang::get('site.general.dob') }} : </td>
+                    <td>
+                        @if(count($user->dob) > 1)
+                        {{ $user->job}}
+                        @else
+                        {{ Lang::get('site.general.notavail')}}
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ Lang::get('site.general.instagram') }} : </td>
+                    <td>
+                        @if(count($user->instagram) > 1)
+                        {{ $user->instagram}}
+                        @else
+                        {{ Lang::get('site.general.notavail')}}
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ Lang::get('site.general.twitter') }} : </td>
+                    <td>
+                        @if(count($user->twitter) > 1)
+                        {{ $user->twitter}}
+                        @else
+                        {{ Lang::get('site.general.notavail')}}
+                        @endif
+                    </td>
+                </tr>
+            </table>
+
+    </div>
+
+
 </div>
 @stop

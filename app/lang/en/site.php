@@ -22,6 +22,7 @@ return array(
                     'posts' => 'Blog',
                     'contactus' => 'Contact Us',
                     'search' => 'Search',
+
     ),
     'event' => array(
                 'summaryevent' => 'Summary',
@@ -48,6 +49,15 @@ return array(
                 'submit' => 'Submit',
                 'comment' => 'Comment',
                 'remember' => 'Remember',
+                'latest_events' => 'Latest Events',
+                'latest_blog' => 'Latest Blog Posts',
+                'newsletter' => 'Newsletter',
+                'instagram' =>'Instagram',
+                'twitter' => 'Twitter',
+                'youtube' => 'Youtube',
+                'newsletter_subscribe' => 'Subscribe to Newletter',
+                'youlog' => 'You are logged as',
+                'profile' => 'Profile',
     )
 
 );

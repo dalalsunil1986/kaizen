@@ -8,4 +8,9 @@ class Country extends BaseModel {
     public function locations() {
         return $this->hasMany('Location');
     }
+
+    public function events() {
+        return $this->hasManyThrough('EventModel','Location');
+    }
+
 }

@@ -71,8 +71,10 @@
         background-repeat: no-repeat;
         padding: 16px 27px !important;
         width: 180px;
-        padding-right:9px;
-        padding-left: 9px;
+        padding-right:11px;
+        padding-left: 11px;
+        margin-right:0.5px;
+        margin-left:0.5px;
     }
     .navbar-default .navbar-nav>li>a:hover {
         color: #d0d0d0 !important;

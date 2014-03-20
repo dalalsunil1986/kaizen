@@ -100,7 +100,7 @@ class EventModel extends BaseModel {
      *
      */
     public function country() {
-        return $this->BelongsToThrough('Country','Location','country_id','id');
+        return $this->hasManyThrough('Country','Location','country_id','id');
     }
 
 //    public function categories() {

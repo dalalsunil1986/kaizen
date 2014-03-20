@@ -25,7 +25,7 @@ class UserController extends BaseController {
      *
      * @return View
      */
-    public function getIndex()
+    public function index()
     {
         list($user,$redirect) = $this->user->checkAuthAndRedirect('user');
         if($redirect){return $redirect;}
@@ -38,7 +38,7 @@ class UserController extends BaseController {
      * Stores new user
      *
      */
-    public function postIndex()
+    public function store()
     {
         $this->user->username = Input::get( 'username' );
         $this->user->email = Input::get( 'email' );
@@ -80,19 +80,22 @@ class UserController extends BaseController {
         else
         {
             // Get validation errors (see Ardent package)
-            $error = $this->user->errors()->all();
-            dd($error);
+            $errors = $this->user->errors();
             return Redirect::back()
                 ->withInput(Input::except('password'))
-                ->with( 'error', $error );
+                ->withErrors($errors );
         }
+    }
+
+    public function show($id) {
+        return $this->getProfile($id);
     }
 
     /**
      * Edits a user
      *
      */
-    public function postEdit($user)
+    public function edit($user)
     {
         // Validate the inputs
         $validator = Validator::make(Input::all(), $user->getUpdateRules());
@@ -155,19 +158,6 @@ class UserController extends BaseController {
         $this->layout->footer = view::make('site.layouts.footer');
     }
 
-
-    public function store()
-    {
-        $inputs = Input::all();
-        if($this->user->create($inputs)) {
-            return Redirect::home();
-        } else {
-            dd('error');
-            return Redirect::back()->withInput()->withErrors($this->user->errors());
-        }
-    }
-
-
     /**
      * Displays the login form
      *
@@ -178,8 +168,10 @@ class UserController extends BaseController {
         if(!empty($user->id)){
             return Redirect::to('/');
         }
-
-        return View::make('site/user/login');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.user.login');
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->footer = view::make('site.layouts.footer');
     }
 
     /**
@@ -188,15 +180,12 @@ class UserController extends BaseController {
      */
     public function postLogin()
     {
-
         $input = array(
             'email'    => Input::get( 'email' ), // May be the username too
             'username' => Input::get( 'email' ), // May be the username too
             'password' => Input::get( 'password' ),
             'remember' => Input::get( 'remember' ),
         );
-
-
         // If you wish to only allow login from confirmed users, call logAttempt
         // with the second parameter as true.
         // logAttempt will check if the 'email' perhaps is the username.
@@ -216,7 +205,7 @@ class UserController extends BaseController {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
 
-            return Redirect::to(LaravelLocalization::localizeUrl('/'))
+            return Redirect::back()
                 ->withInput(Input::except('password'))
                 ->with('error', $err_msg );
 
@@ -277,9 +266,10 @@ class UserController extends BaseController {
      */
     public function getReset( $token )
     {
-
-        return View::make('site/user/reset')
-            ->with('token',$token);
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.user.reset', ['token'=>$token]);
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->footer = view::make('site.layouts.footer');
     }
 
 
@@ -335,8 +325,12 @@ class UserController extends BaseController {
         {
             return App::abort(404);
         }
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->maincontent = View::make('site/user/profile', compact('user'));
+        $this->layout->footer = view::make('site.layouts.footer');
 
-        return View::make('site/user/profile', compact('user'));
     }
 
     public function getSettings()
@@ -344,7 +338,7 @@ class UserController extends BaseController {
         list($user,$redirect) = User::checkAuthAndRedirect('user/settings');
         if($redirect){return $redirect;}
 
-        return View::make('site/user/profile', compact('user'));
+         View::make('site/user/profile', compact('user'));
     }
 
     /**

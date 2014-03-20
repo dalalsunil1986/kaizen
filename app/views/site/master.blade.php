@@ -38,6 +38,7 @@
     <!-- header -->
     <div id="header" class="row">
         <div class="row">
+            @include('notifications')
             <div class="col-md-4">
                 <a href="/">{{ HTML::image('images/Logo.png') }}</a>
             </div>

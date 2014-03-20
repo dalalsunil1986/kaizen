@@ -106,8 +106,11 @@ abstract class BaseController extends Controller
      */
     public function getCountry($id)
     {
-        $country = $this->model->find($id)->location->country;
-        return $country;
+//        $country = $this->model->find($id)->location->country;
+//        return $country;
+        $this->model->find($id)->country;
+//        return $country;
+
     }
 
     /**

@@ -3,8 +3,7 @@
     <div class="col-md-12">
         <div class="row">
             @if(!Auth::user())
-                <form class="form-inline
-                    {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
+                <form class="form-inline {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
                     " role="form" style="padding:18px;" method="POST" action="{{ URL::route('login') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <div class="form-group">
@@ -21,12 +20,12 @@
                             <input type="checkbox" id="remember" value="1">&nbsp;{{ Lang::get('site.general.remember')}}
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary">{{ Lang::get('site.nav.login') }}</button>
-                    <a href="{{ action('UserController@create') }}" type="submit" class="btn btn-primary">{{ Lang::get('site.nav.register') }}</a>
+                    <button type="submit" class="btn btn-default">{{ Lang::get('site.nav.login') }}</button>
+                    <a href="{{ action('UserController@create') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
                 <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
                 </form>
             @else
-                <div class="col-md-5
+                <div class="col-md-7
                 @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                     pull-right
                 @else
@@ -35,9 +34,14 @@
                 " >
                     <p class="
                     {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
-                    " style="padding-top:10px">you are logged in as : {{ Auth::user()->username }}
+
+                    " style="padding-top:10px">{{ Lang::get('site.general.youlog') }} : {{ Auth::user()->username }}
                         <a type="button" class="btn btn-primary btn-sm" href="{{ action('UserController@getLogout') }}">
                            <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>{{ Lang::get('site.nav.logout') }}
+                        </a>
+
+                        <a type="button" class="btn btn-primary btn-sm" href="{{ URL::to('user/profile') }}/{{ Auth::user()->username}}">
+                            <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>{{ Lang::get('site.general.profile') }}
                         </a>
                     </p>
 
@@ -62,7 +66,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="{{ Lang::get('site.nav.search') }}" value="@if(isset($_GET['search'])) {{ $_GET['search'] }} @endif " name="search" >
                 </div>
-                <input type="submit" class="btn btn-primary" value="{{ Lang::get('site.nav.search') }}">
+                <input type="submit" class="btn btn-default" value="{{ Lang::get('site.nav.search') }}">
             </form>
         </li>
         </ul>

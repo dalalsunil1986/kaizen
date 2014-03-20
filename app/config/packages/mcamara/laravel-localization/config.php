@@ -6,8 +6,8 @@
 		// Add any supported to the supportedLocales array.
 		// A list of many locales has been added to the bottom of this file for your convenience.
 		'supportedLocales' => array(
-			"en" => array("name" => "English",		"script" => "Latin",		"dir" => "ltr",		"native" => "English"),
             "ar" => array("name" => "Arabic",			"script" => "Arabic",		"dir" => "rtl",		"native" =>	"العربية"),
+            "en" => array("name" => "English",		"script" => "Latin",		"dir" => "ltr",		"native" => "English"),
 		),
 
 		// Negotiate for the user locale using the Accept-Language header if it's not defined in the URL?

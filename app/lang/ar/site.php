@@ -51,5 +51,14 @@ return array(
                 'submit' => 'إرسال',
                 'comment' => 'التعليق',
                 'remember' => 'تذكرني',
+                'latest_events' => 'Latest Events',
+                'latest_blog' => 'Latest Blog Posts',
+                'newsletter' => 'Newsletter',
+                'instagram' =>'Instagram',
+                'twitter' => 'Twitter',
+                'youtube' => 'Youtube',
+                'newsletter_subscribe' => 'Subscribe to Newletter',
+                'youlog'=>'انت مسجل لدينا باسم',
+                'profile' => 'معلوماتي',
     )
 );
