@@ -3,12 +3,12 @@
 
 <div class="row">
 
-<div class="col-md-4">
-        <span class="tag tag-gray active-tab-slide" id="slide0" style="cursor: pointer;"></span>
-        <span class="tag tag-gray" id="slide1" style="cursor: pointer;"></span>
-        <span class="tag tag-gray" id="slide2" style="cursor: pointer;"></span>
-        <span class="tag tag-gray" id="slide3" style="cursor: pointer;"></span>
-        <span class="tag tag-gray" id="slide4" style="cursor: pointer;"></span>
+<div class="col-md-4 visible-lg">
+        <span class="tag tag-gray active-tab-slide" id="slide0" style="cursor: pointer; font-size: 18px;"> Text 1 </span>
+        <span class="tag tag-gray" id="slide1" style="cursor: pointer; font-size: 18px;"> Text 2 </span>
+        <span class="tag tag-gray" id="slide2" style="cursor: pointer; font-size: 18px;"> Text 3 </span>
+        <span class="tag tag-gray" id="slide3" style="cursor: pointer; font-size: 18px;"> Text 4 </span>
+        <span class="tag tag-gray" id="slide4" style="cursor: pointer; font-size: 18px;"> Text 5 </span>
 </div>
 
     <div id="myCarousel" class="carousel slide col-md-8"  data-ride="carousel">
@@ -27,16 +27,18 @@
                 @foreach ($events as $event)
                     <div class="item {{$first}}" data-order="{{$order}}">
                         <!-- <img alt="" src="{{ URL::asset($event->name) }}"> -->
-                        <img alt="" src="../images/events.jpg">
+                        <img alt="" width="400" height="400" src="../images/events.gif">
                         @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-                            <div class="carousel-caption">
-                                <h3><a href="event/{{ $event->id}}"> {{ $event->description_en }}</a></h3>
-                                <p><a href="event/{{ $event->id}}"> {{ $event->title_en }}</a></p>
+                            <div class="carousel-caption" style="background:#502d8a;height:400px;padding-left: 3px; padding-right: 3px;">
+                                <h3><a href="event/{{ $event->id}}" style="color:white;font-size: 14px;"> {{ $event->description_en }}</a></h3>
+                                <p><a href="event/{{ $event->id}}" style="color:white;font-size: 15px;"> {{ $event->title_en }}</a></p>
+                                <a class="kaizen-button kaizen-button-right" href="http://localhost:8000/en/user/register">Button</a>
                             </div>
                         @else
-                            <div class="carousel-caption" style="width: 40%; margin-right: 40%;">
-                                <h3><a href="event/{{ $event->id}}"> {{ $event->description }}></a></h3>
-                                <p><a href="event/{{ $event->id}}"> {{ $event->title }}</a></p>
+                            <div class="carousel-caption" style="background:#502d8a;width: 40%; height:400px;margin-right: 40%;padding-left: 3px; padding-right: 3px;">
+                                <h3><a href="event/{{ $event->id}}" style="color:white;font-size: 14px;"> {{ $event->description }}></a></h3>
+                                <p><a href="event/{{ $event->id}}" style="color:white;font-size: 15px;"> {{ $event->title }}</a></p>
+                                <a class="kaizen-button" href="http://localhost:8000/en/user/register">Register</a>
                             </div>
                         @endif
                     </div>
