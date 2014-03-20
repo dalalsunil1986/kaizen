@@ -58,6 +58,7 @@ return array(
                 'newsletter_subscribe' => 'Subscribe to Newletter',
                 'youlog' => 'You are logged as',
                 'profile' => 'Profile',
+                'username'=>'Username'
     )
 
 );

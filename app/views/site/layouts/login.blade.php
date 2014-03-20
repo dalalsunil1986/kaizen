@@ -7,11 +7,9 @@
                     " role="form" style="padding:18px;" method="POST" action="{{ URL::route('login') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <div class="form-group">
-                        <label class="sr-only" for="email">تسجيل | دخول</label>
                         <input type="text" class="form-control" size="13"  name="email" id="email" value="{{ Input::old('email') }}" placeholder="Username or Email">
                     </div>&nbsp;&nbsp;&nbsp;&nbsp;
                     <div class="form-group">
-                        <label class="sr-only" for="password">Password</label>
                         <input type="password" name="password" id="password" class="form-control" size="13" placeholder="Password">
                     </div>&nbsp;&nbsp;
                     <div class="checkbox" style="margin: 3px;">
