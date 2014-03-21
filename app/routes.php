@@ -149,10 +149,16 @@ Route::group(
 
         Route::get('user/logout', array('as' => 'logout', 'uses' => 'UserController@getLogout'));
 
+        //profie
+        Route::get('user/{user}/profile', array('as' => 'profile', 'uses' => 'UserController@getProfile'));
+
 
         # User RESTful Routes (Login, Logout, Register, etc)
         Route::get('user/register', array('as'=>'register','uses'=>'UserController@create'));
         Route::post('user/register', array('uses'=>'UserController@store'));
+
+        Route::get('user/forgot', array('as'=>'forgot','uses'=>'UserController@getForgot'));
+        Route::post('user/forgot', array('as'=>'forgot','uses'=>'UserController@postForgot'));
 
         Route::resource('user', 'UserController');
 

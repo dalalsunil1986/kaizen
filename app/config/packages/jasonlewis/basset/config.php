@@ -52,13 +52,11 @@ return array(
                 $collection->add('wysihtml5/bootstrap-wysihtml5.css');
                 $collection->add('datatables-bootstrap.css');
                 $collection->add('colorbox.css');
+                $collection->add('jquery.datetimepicker.css');
             })->apply('UriRewriteFilter')->apply('CssMin');
 
             $collection->directory('assets/js', function($collection)
             {
-                $collection->javascript('http://code.jquery.com/jquery.min.js');
-                $collection->add('bootstrap/bootstrap.js');
-                $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
                 $collection->add('wysihtml5/wysihtml5-0.3.0.js');
                 $collection->add('wysihtml5/bootstrap-wysihtml5.js');
                 $collection->javascript('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js');
@@ -66,6 +64,8 @@ return array(
                 $collection->add('datatables.fnReloadAjax.js');
                 $collection->add('jquery.colorbox.js');
                 $collection->add('prettify.js');
+                $collection->add('jquery.datetimepicker.js');
+                $collection->add('bootbox.min.js');
             })->apply('JsMin');
         }
 

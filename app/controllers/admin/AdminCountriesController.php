@@ -1,6 +1,6 @@
 <?php
 
-class CountriesController extends BaseController {
+class AdminCountriesController extends AdminBaseController {
 
 	/**
 	 * Country Repository

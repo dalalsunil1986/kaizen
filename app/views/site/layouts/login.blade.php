@@ -34,13 +34,16 @@
                     {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
 
                     " style="padding-top:10px">{{ Lang::get('site.general.youlog') }} : {{ Auth::user()->username }}
-                        <a type="button" class="btn btn-primary btn-sm" href="{{ action('UserController@getLogout') }}">
+                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getLogout') }}">
                            <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>{{ Lang::get('site.nav.logout') }}
                         </a>
 
-                        <a type="button" class="btn btn-primary btn-sm" href="{{ URL::to('user/profile') }}/{{ Auth::user()->username}}">
+                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getProfile', Auth::user()->username) }}">
                             <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>{{ Lang::get('site.general.profile') }}
                         </a>
+                        {{ (Helper::isMod()) ? '<a type="button" class="btn btn-default btn-sm" href="'. URL::to('admin') .'">
+                            <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>'. Lang::get('site.general.admin_panel') .'
+                        </a>' : '' }}
                     </p>
 
                 </div>

@@ -107,9 +107,6 @@ class BaseModel extends Eloquent
         return ! empty($this->errors);
     }
 
-
-
-
     protected function getHumanTimestampAttribute($column)
     {
         if ($this->attributes[$column])
@@ -124,6 +121,23 @@ class BaseModel extends Eloquent
     {
         return $this->getHumanTimestampAttribute("created_at");
     }
+
+    public function getNiceDate($date)
+    {
+        return $this->getHumanTimestampAttribute($date);
+    }
+
+
+    public function getHumanEventDateStartAtAttribute()
+    {
+        return $this->getHumanTimestampAttribute("date_start");
+    }
+
+    public function getHumanEventDateEndAtAttribute()
+    {
+        return $this->getHumanTimestampAttribute("date_end");
+    }
+
 
     public function getHumanUpdatedAtAttribute()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class ImagesController extends BaseController {
+class AdminImagesController extends AdminBaseController {
 
 	/**
 	 * Display a listing of the resource.

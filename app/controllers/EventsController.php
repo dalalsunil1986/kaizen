@@ -532,7 +532,7 @@ class EventsController extends BaseController
     {
         // get 4 events
         // with images
-        return $this->model->featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
+        return $this->model->featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name','e.button','e.button_en'));
     }
 
     public function isTheAuthor($user)

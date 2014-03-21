@@ -22,13 +22,13 @@ class CreateEventsTable extends Migration {
             $table->string('title_en');
             $table->text('description');
             $table->text('description_en');
+            $table->boolean('free');
+            $table->decimal('price',5,2);
             $table->integer('total_seats');
             $table->integer('available_seats');
             $table->string('slug');
-            $table->string('date_start'); // here also
-            $table->string('date_end'); // just for now // later you make it date !!
-            $table->string('time_start');
-            $table->string('time_end');
+            $table->timestamp('date_start'); // here also
+            $table->timestamp('date_end'); // just for now // later you make it date !!
             $table->text('address');
             $table->text('address_en');
             $table->string('street');
@@ -36,6 +36,8 @@ class CreateEventsTable extends Migration {
             $table->float('latitude',10,6);
             $table->float('longitude',10,6);
             $table->boolean('active');
+            $table->string('button');
+            $table->string('button_en');
 			$table->timestamps();
 		});
 	}

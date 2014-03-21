@@ -7,6 +7,8 @@ class EventsTableSeeder extends Seeder {
 		// Uncomment the below to wipe the table clean before populating
 		 DB::table('events')->truncate();
         $faker = Faker\Factory::create();
+        $dt = Carbon::now();
+        $dateNow = $dt->toDateTimeString();
         for ($i = 0; $i < 50; $i++)
         {
 
@@ -29,10 +31,8 @@ class EventsTableSeeder extends Seeder {
                     'total_seats' => $total_seats,
                     'available_seats' => $available_seats,
                     'slug'=> $faker->sentence(10),
-                    'date_start' =>new DateTime,
-                    'date_end' => new DateTime,
-                    'time_start' => $faker->time(),
-                    'time_end' => $faker->time(),
+                    'date_start' =>$dateNow,
+                    'date_end' => $dateNow,
                     'address' => $faker->address,
                     'address_en' => $faker->address,
                     'street' => $faker->streetAddress,
@@ -40,9 +40,11 @@ class EventsTableSeeder extends Seeder {
                     'latitude' => $faker->latitude,
                     'longitude' => $faker->longitude,
                     'active' =>(bool) rand(0, 1),
-                    'created_at' => new DateTime,
-                    'updated_at' => new DateTime,
-                    'free' => $faker->boolean()
+                    'created_at' => $dateNow,
+                    'updated_at' => $dateNow,
+                    'free' => $faker->boolean(),
+                    'button' => 'سجل',
+                    'button_en'=>'Subscribe'
                 ]
 
 		    );

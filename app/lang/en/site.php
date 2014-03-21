@@ -58,7 +58,15 @@ return array(
                 'newsletter_subscribe' => 'Subscribe to Newletter',
                 'youlog' => 'You are logged as',
                 'profile' => 'Profile',
-                'username'=>'Username'
+                'username'=>'Username',
+                'name' => 'Name',
+                'gender'=> 'Sex',
+                'phone' => 'Phone',
+                'mobile'=> 'Mobile',
+                'country' => 'Country',
+                'dob'=> 'Date of Birth',
+                'admin_panel'=> 'Admin Panel',
+                'notavail' => 'N/A'
     )
 
 );

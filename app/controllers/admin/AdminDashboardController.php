@@ -1,6 +1,6 @@
 <?php
 
-class AdminDashboardController extends AdminController {
+class AdminDashboardController extends AdminBaseController {
 
 	/**
 	 * Admin dashboard
