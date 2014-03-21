@@ -77,10 +77,10 @@ class EventsController extends BaseController
                     $location_array = implode(',',$location_id);
                     $query->whereRaw('location_id in ('.$location_array.')');
                 }
-            })->orderBy('created_at', 'DESC')->paginate($perPage);
+            })->orderBy('date_start', 'DESC')->paginate($perPage);
 
         } else {
-            $events = parent::all($perPage);
+            $events = $this->getEvents($perPage);
         }
 
         // get only 4 images for slider
@@ -587,10 +587,10 @@ class EventsController extends BaseController
                     $location_array = implode(',',$location_id);
                     $query->whereRaw('location_id in ('.$location_array.')');
                 }
-            })->orderBy('created_at', 'DESC')->paginate($perPage);
+            })->orderBy('date_start', 'DESC')->paginate($perPage);
 
         } else {
-            $events = parent::all($perPage);
+            $events = $this->getEvents($perPage);
         }
 
         $this->layout->login = View::make('site.layouts.login');
@@ -600,6 +600,10 @@ class EventsController extends BaseController
         $this->layout->maincontent = view::make('site.events.search', compact('events','authors','categories','countries','search','category','author','country'));
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
+    }
+
+    public function getEvents($perPage) {
+        return $this->model->with('category')->orderBy('date_start','DESC')->paginate($perPage);
     }
 
 }

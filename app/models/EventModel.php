@@ -100,7 +100,8 @@ class EventModel extends BaseModel {
      *
      */
     public function country() {
-        return $this->hasManyThrough('Country','Location','country_id','id');
+//        return $this->hasManyThrough('Country','Location','country_id','id');
+        return Null;
     }
 
 //    public function categories() {
@@ -126,14 +127,31 @@ class EventModel extends BaseModel {
         $event->save();
     }
 
-    public function getEventDate()
+    public function formatEventDate($column)
     {
-        $carbon = new Carbon();
-        return $carbon->toFormattedDateString('date_start');
+        $dt = Carbon::createFromTimestamp(strtotime($column));
+        return $dt->format('l jS \\of F Y');
+    }
+    public function formatEventTime($column)
+    {
+        $dt = Carbon::createFromTimestamp(strtotime($column));
+        return $dt->format('h:i:s A');
     }
 
     public static function latest($count) {
         return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->paginate($count);
     }
+
+    protected function getHumanTimestampAttribute($column)
+    {
+        if ($this->attributes[$column])
+        {
+            return Carbon::parse($this->attributes[$column])->diffForHumans();
+        }
+
+        return null;
+    }
+
+
 }
 
