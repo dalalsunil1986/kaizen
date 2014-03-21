@@ -1,6 +1,7 @@
 <?php
 
 use Acme\Mail\EventsMailer;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -14,6 +15,7 @@ class EventsController extends BaseController
     protected $mailer;
     protected $category;
     protected $photo;
+    protected $currentTime;
 
 
     function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
@@ -50,12 +52,16 @@ class EventsController extends BaseController
         $category = Request::get('category');
         $author = Request::get('author');
         $country = Request::get('country');
+        $this->currentTime = Carbon::now()->toDateTimeString();
 
         // if the form is selected
         // perform search
         if(!empty($search) || !empty($category) || !empty($author) || !empty($country)) {
 
-            $events = $this->model->with('category')->where(function($query) use ($search, $category, $author, $country)
+
+            $events = $this->model->with('category')->
+                where('date_start','>',$this->currentTime)->
+                where(function($query) use ($search, $category, $author, $country)
             {
                 if (!empty($search)) {
                     $query->where('title','LIKE',"%$search%");
@@ -530,9 +536,17 @@ class EventsController extends BaseController
 
     public function getSliderEvents()
     {
-        // get 4 events
-        // with images
-        return $this->model->featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name','e.button','e.button_en'));
+
+        $latestEvents = $this->model->latestEvents();
+        $featuredEvents = $this->model->feautredEvents();
+        $events  = array_merge((array)$latestEvents,(array)$featuredEvents);
+        foreach ($events as $event) {
+            $array[] = $event->id;
+        }
+        $events_unique = array_unique($array);
+        $sliderEvents = $this->model->getSliderEvents(5,$events_unique);
+        return $sliderEvents;
+
     }
 
     public function isTheAuthor($user)
@@ -603,7 +617,7 @@ class EventsController extends BaseController
     }
 
     public function getEvents($perPage) {
-        return $this->model->with('category')->orderBy('date_start','DESC')->paginate($perPage);
+        return $this->model->with('category')->where('date_start','>',$this->currentTime)->orderBy('date_start','DESC')->paginate($perPage);
     }
 
 }

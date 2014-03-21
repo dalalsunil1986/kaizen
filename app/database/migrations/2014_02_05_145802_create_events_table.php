@@ -36,6 +36,7 @@ class CreateEventsTable extends Migration {
             $table->float('latitude',10,6);
             $table->float('longitude',10,6);
             $table->boolean('active');
+            $table->boolean('featured');
             $table->string('button');
             $table->string('button_en');
 			$table->timestamps();

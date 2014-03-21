@@ -1,0 +1,1 @@
+{{ dd(count($query)) }}

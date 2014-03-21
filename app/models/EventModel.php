@@ -5,11 +5,25 @@ class EventModel extends BaseModel {
 
 	public static $rules = array(
         'title'=>'required',
-        'description'=>'required'
+        'description'=>'required',
+        'user_id' => 'required',
+        'category_id' => 'required',
+        'location_id' =>'required'
     );
     /**
      * @var
      */
+
+    protected static function boot()
+    {
+
+        parent::boot();
+
+        static::saving(function($model)
+        {
+            return $model->validate();
+        });
+    }
 
     protected  $table = "events";
 
@@ -75,11 +89,23 @@ class EventModel extends BaseModel {
      * gets the past events
      */
     public function getPastEvents(){
-
+        return DB::table('events AS e')
+            ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
+            ->where('p.imageable_type', '=', 'EventModel')
+            ->where('e.date_start','<',Carbon::now()->toDateTimeString());
     }
 
-    public function getRecentEvents() {
-
+    /**
+     * @param int $days
+     * @return \Illuminate\Database\Query\Builder|static
+     * get Recent Event by Days
+     */
+    public static  function getRecentEvents($days) {
+        $dt = Carbon::now()->addDays($days);
+        return DB::table('events AS e')
+            ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
+            ->where('p.imageable_type', '=', 'EventModel')
+            ->where('e.date_start','<',$dt->toDateTimeString());
     }
 
     public function getRelatedEvents() {
@@ -113,12 +139,43 @@ class EventModel extends BaseModel {
         return $this->morphMany('Photo','imageable');
     }
 
-    public static function featured($limit = 5)
+
+    public  function latestEvents()
+    {
+        return DB::table('events as e')
+            ->join('photos as p', 'e.id', '=', 'p.imageable_id', 'LEFT')
+            ->where('p.imageable_type', '=', 'EventModel')
+            ->where('e.date_start','>',Carbon::now()->toDateTimeString())
+            ->orderBy('e.date_start','DESC')
+            ->orderBy('e.created_at','DESC')
+            ->take('5')
+            ->get(array('e.id'))
+            ;
+    }
+
+
+    public  function feautredEvents()
     {
         return DB::table('events AS e')
             ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
             ->where('p.imageable_type', '=', 'EventModel')
-            ->take($limit);
+            ->where('e.date_start','>',Carbon::now()->toDateTimeString())
+            ->orderBy('e.featured','DESC')
+            ->orderBy('e.date_start','DESC')
+            ->orderBy('e.created_at','DESC')
+            ->take('5')
+            ->get(array('e.id'))
+            ;
+    }
+
+    public function getSliderEvents($limit, $array) {
+        $events = DB::table('events AS e')
+            ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
+            ->whereIn('e.id',$array)
+            ->take($limit)
+            ->groupBy('e.id')
+            ->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name','e.button','e.button_en'));
+        return $events;
     }
 
     public static  function fixEventCounts($id,$count) {

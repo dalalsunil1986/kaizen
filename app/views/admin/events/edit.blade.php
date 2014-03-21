@@ -51,12 +51,18 @@
 </div>
 
 <div class="row">
-    <div class="form-group col-md-6">
-        {{ Form::label('free_event', 'Free Event ?:') }}
+    <div class="form-group col-md-12">
+        {{ Form::label('total_seats', 'Total Seats For this Event:') }}
+        {{ Form::text('total_seats',NULL,array('class'=>'form-control')) }}
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-2 col-sm-4 col-xs-4">
+        {{ Form::label('free_event', 'Is this a Free Event ?:') }}
         <br/>
         {{ Form::checkbox('free', '1', true) }}
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-10 col-sm-8 col-xs-8">
         {{ Form::label('price', 'Event Price:') }}
         {{ Form::text('price',NULL,array('class'=>'form-control')) }}
     </div>
@@ -101,8 +107,15 @@
     </div>
 
     <div class="form-group col-md-6">
-        {{ Form::label('street_en', 'Street Nae in English:') }}
+        {{ Form::label('street_en', 'Street Name in English:') }}
         {{ Form::text('street_en',NULL,array('class'=>'form-control')) }}
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-12">
+        {{ Form::label('button_en', 'Is this a Featured Event ? : (Featured Event Will be included in Slider)') }}
+        <br>
+        {{ Form::checkbox('featured', '1', false) }}
     </div>
 </div>
 <div class="row">
