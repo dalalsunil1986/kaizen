@@ -55,7 +55,7 @@ Route::group(
 //
 //            })->get()->toArray();
 //            $query = EventModel::featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
-              $query = EventModel::getRecentEvents(10);
+//              $query = EventModel::getRecentEvents(10);
 //              $query = EventModel::find(1)->with('comments','author','photos','subscribers','followers','favorites')->get();
 ////            $query = Category::bySlug('Kristofer Hyatt')->first();
 //            return View::make('test')->with(['query'=> $query]);
