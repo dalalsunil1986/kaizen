@@ -60,5 +60,12 @@ return array(
                 'newsletter_subscribe' => 'Subscribe to Newletter',
                 'youlog'=>'انت مسجل لدينا باسم',
                 'profile' => 'معلوماتي',
+                'latest_events' => 'آخر الفعاليات',
+                'latest_blog' => 'آخر الأخبار',
+                'newsletter' => 'النشرة البريدية',
+                'instagram' =>'انستقرام',
+                'twitter' => 'تويتر',
+                'youtube' => 'يو تيوب',
+                'newsletter_subscribe' => 'الاشتراك بالنشرة البريدية',
     )
 );

@@ -67,7 +67,7 @@
 
             @endif
             @else
-            {{ $event->title_en }}
+            {{ $event->title }}
             @endif
         </a></h3>
         <p>
