@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-class LocationsController extends BaseController {
+class AdminLocationsController extends AdminBaseController {
 
     protected $model;
     protected $user;

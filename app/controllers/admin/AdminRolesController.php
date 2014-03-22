@@ -1,6 +1,6 @@
 <?php
 
-class AdminRolesController extends AdminController {
+class AdminRolesController extends AdminBaseController {
 
 
     /**

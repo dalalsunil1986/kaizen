@@ -91,57 +91,77 @@ class UserController extends BaseController {
         return $this->getProfile($id);
     }
 
+
+    public function edit($id) {
+        $user = $this->user->find($id);
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.user.edit',compact('user'));
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->footer = view::make('site.layouts.footer');
+
+    }
+
     /**
      * Edits a user
      *
      */
-    public function edit($user)
+    public function update($id)
     {
-        // Validate the inputs
-        $validator = Validator::make(Input::all(), $user->getUpdateRules());
+        $user = $this->user->find($id);
+        $oldUser = clone $user;
+        $rules = array(
+            'password' => 'sometimes|between:4,11|confirmed',
+            'password_confirmation' => 'between:4,11',
+            'first_name' => 'alpha|between:3,10',
+            'last_name' =>  'alpha|between:3,10',
+            'mobile' =>   'numeric',
+            'phone' =>    'numeric',
+            'twitter' =>    'url',
+            'instagram' =>   'url',
+            'prev_event_comment' =>  'min:5'
+        );
 
+        // Validate the inputs
+        $validator = Validator::make(Input::all(), $rules);
+        $password = Input::get('password');
+        $passwordConfirmation = Input::get('password_confirmation');
+
+
+        if(!empty($password)) {
+//            dd('password is not empty'); //true
+            if($password === $passwordConfirmation) {
+//                dd('password matches'); // true
+
+                $user->password = $password;
+                // The password confirmation will be removed from model
+                // before saving. This field will be used in Ardent's
+                // auto validation.
+                $user->password_confirmation = $passwordConfirmation;
+            } else {
+//                dd('password does not match'); //true
+
+                // Redirect to the new user page
+                return Redirect::back()->with('error', Lang::get('admin/users/messages.password_does_not_match'));
+            }
+        } else {
+//            dd('password is empty'); //true
+            unset($user->password);
+            unset($user->password_confirmation);
+        }
 
         if ($validator->passes())
         {
-            $oldUser = clone $user;
-            $user->username = Input::get( 'username' );
-            $user->email = Input::get( 'email' );
-
-            $password = Input::get( 'password' );
-            $passwordConfirmation = Input::get( 'password_confirmation' );
-
-            if(!empty($password)) {
-                if($password === $passwordConfirmation) {
-                    $user->password = $password;
-                    // The password confirmation will be removed from model
-                    // before saving. This field will be used in Ardent's
-                    // auto validation.
-                    $user->password_confirmation = $passwordConfirmation;
-                } else {
-                    // Redirect to the new user page
-                    return Redirect::to('users')->with('error', Lang::get('admin/users/messages.password_does_not_match'));
-                }
-            } else {
-                unset($user->password);
-                unset($user->password_confirmation);
-            }
-
             $user->prepareRules($oldUser, $user);
-
             // Save if valid. Password field will be hashed before save
             $user->amend();
-        }
 
-        // Get validation errors (see Ardent package)
-        $error = $user->errors()->all();
-
-        if(empty($error)) {
-            return Redirect::to('user')
+            return Redirect::action('UserController@getProfile',$user->username)
                 ->with( 'success', Lang::get('user/user.user_account_updated') );
         } else {
-            return Redirect::to('user')
+            $error = $validator->errors()->all();
+            return Redirect::back()
                 ->withInput(Input::except('password','password_confirmation'))
-                ->with( 'error', $error );
+                ->with('error', $error );
         }
     }
 
@@ -151,9 +171,8 @@ class UserController extends BaseController {
      */
     public function create()
     {
-        $countries = Country::all()->lists('name','id');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.user.create', ['countries'=>$countries]);
+        $this->layout->maincontent = view::make('site.user.create');
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
     }
@@ -205,7 +224,7 @@ class UserController extends BaseController {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
 
-            return Redirect::back()
+            return Redirect::intended(LaravelLocalization::localizeUrl('user/login'))
                 ->withInput(Input::except('password'))
                 ->with('error', $err_msg );
 
@@ -238,7 +257,10 @@ class UserController extends BaseController {
      */
     public function getForgot()
     {
-        return View::make('site/user/forgot');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.user.forgot');
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->footer = view::make('site.layouts.footer');
     }
 
     /**
@@ -247,7 +269,7 @@ class UserController extends BaseController {
      */
     public function postForgot()
     {
-        if( Confide::forgotPassword( Input::get( 'email' ) ) )
+        if( Confide::forgotPassword( Input::get('email') ) )
         {
             return Redirect::to('user/login')
                 ->with( 'notice', Lang::get('confide::confide.alerts.password_forgot') );

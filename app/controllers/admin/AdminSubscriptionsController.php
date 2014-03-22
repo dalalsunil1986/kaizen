@@ -1,6 +1,6 @@
 <?php
 
-class SubscriptionsController extends BaseController {
+class AdminSubscriptionsController extends AdminBaseController {
 
 	/**
 	 * Display a listing of the resource.

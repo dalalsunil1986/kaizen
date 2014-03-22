@@ -11,6 +11,8 @@ class User extends ConfideUser implements PresentableInterface {
     use HasRole;
     protected $guarded = array('confirmation_code','confirmed','id');
 
+    protected $hidden = array('password');
+
     /**
      * The database table used by the model.
      *

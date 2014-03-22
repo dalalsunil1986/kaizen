@@ -1,6 +1,6 @@
 <?php
 
-class FollowersController extends BaseController {
+class AdminFollowersController extends AdminBaseController {
 
 	/**
 	 * Display a listing of the resource.

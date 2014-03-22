@@ -55,7 +55,7 @@ Route::group(
 //
 //            })->get()->toArray();
 //            $query = EventModel::featured()->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name'));
-
+//              $query = EventModel::getRecentEvents(10);
 //              $query = EventModel::find(1)->with('comments','author','photos','subscribers','followers','favorites')->get();
 ////            $query = Category::bySlug('Kristofer Hyatt')->first();
 //            return View::make('test')->with(['query'=> $query]);
@@ -65,6 +65,11 @@ Route::group(
 //            });
 //            return 'Queued';
 //            dd(Session::get('url.intended'));
+//            $dt = new Carbon();
+//            $dt->addDays(10);
+//            dd($dt);
+
+
         });
 
 
@@ -149,10 +154,16 @@ Route::group(
 
         Route::get('user/logout', array('as' => 'logout', 'uses' => 'UserController@getLogout'));
 
+        //profie
+        Route::get('user/{user}/profile', array('as' => 'profile', 'uses' => 'UserController@getProfile'));
+
 
         # User RESTful Routes (Login, Logout, Register, etc)
         Route::get('user/register', array('as'=>'register','uses'=>'UserController@create'));
         Route::post('user/register', array('uses'=>'UserController@store'));
+
+        Route::get('user/forgot', array('as'=>'forgot','uses'=>'UserController@getForgot'));
+        Route::post('user/forgot', array('as'=>'forgot','uses'=>'UserController@postForgot'));
 
         Route::resource('user', 'UserController');
 

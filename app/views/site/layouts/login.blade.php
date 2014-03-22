@@ -7,11 +7,9 @@
                     " role="form" style="padding:18px;" method="POST" action="{{ URL::route('login') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <div class="form-group">
-                        <label class="sr-only" for="email">تسجيل | دخول</label>
                         <input type="text" class="form-control" size="13"  name="email" id="email" value="{{ Input::old('email') }}" placeholder="Username or Email">
                     </div>&nbsp;&nbsp;&nbsp;&nbsp;
                     <div class="form-group">
-                        <label class="sr-only" for="password">Password</label>
                         <input type="password" name="password" id="password" class="form-control" size="13" placeholder="Password">
                     </div>&nbsp;&nbsp;
                     <div class="checkbox" style="margin: 3px;">
@@ -36,13 +34,16 @@
                     {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
 
                     " style="padding-top:10px">{{ Lang::get('site.general.youlog') }} : {{ Auth::user()->username }}
-                        <a type="button" class="btn btn-primary btn-sm" href="{{ action('UserController@getLogout') }}">
+                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getLogout') }}">
                            <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>{{ Lang::get('site.nav.logout') }}
                         </a>
 
-                        <a type="button" class="btn btn-primary btn-sm" href="{{ URL::to('user/profile') }}/{{ Auth::user()->username}}">
+                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getProfile', Auth::user()->username) }}">
                             <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>{{ Lang::get('site.general.profile') }}
                         </a>
+                        {{ (Helper::isMod()) ? '<a type="button" class="btn btn-default btn-sm" href="'. URL::to('admin') .'">
+                            <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>'. Lang::get('site.general.admin_panel') .'
+                        </a>' : '' }}
                     </p>
 
                 </div>

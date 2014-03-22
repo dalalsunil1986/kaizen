@@ -1,6 +1,6 @@
 <?php
 
-class FavoritesController extends BaseController {
+class AdminFavoritesController extends AdminBaseController {
 
 	/**
 	 * Display a listing of the resource.

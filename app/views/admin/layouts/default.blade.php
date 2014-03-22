@@ -45,7 +45,7 @@
 
 	<!-- CSS -->
     {{ Basset::show('admin.css') }}
-
+<!--    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">-->
 	<style>
 	body {
 		padding: 60px 0;
@@ -53,11 +53,17 @@
 	</style>
 
 	@yield('styles')
+    <style>
+        ul {list-style-type: none}
+        li {list-style-type: none}
+    </style>
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+    <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
 
 	<!-- Asynchronous google analytics; this is the official snippet.
 	 Replace UA-XXXXXX-XX with your site's ID and uncomment to enable.
@@ -140,6 +146,7 @@
 	<!-- ./ container -->
 
 	<!-- Javascripts -->
+<!--    <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>-->
     {{ Basset::show('admin.js') }}
 
     <script type="text/javascript">

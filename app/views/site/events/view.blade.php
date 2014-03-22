@@ -44,15 +44,15 @@
         </tr>
         <tr>
             <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
-            <td> {{ $event->date_start }}</td>
+            <td> {{ $event->formatEventDate($event->date_start) }}</td>
             <td> {{ Lang::get('site.event.date_end') }}</td>
-            <td > {{ $event->date_end }} </td>
+            <td> {{ $event->formatEventDate($event->date_end) }}</td>
         </tr>
         <tr>
             <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
-            <td> {{ $event->time_start }}</td>
+            <td> {{ $event->formatEventTime($event->time_start) }}</td>
             <td> {{ Lang::get('site.event.time_end') }}</td>
-            <td > {{ $event->time_end }} </td>
+            <td> {{ $event->formatEventTime($event->time_end) }}</td>
         </tr>
     </table>
 

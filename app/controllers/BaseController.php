@@ -18,7 +18,6 @@ abstract class BaseController extends Controller
     {
         $this->beforeFilter('csrf', array('on' => 'post'));
         $this->sidebarPosts();
-
     }
 
     public function sidebarPosts() {
@@ -157,9 +156,10 @@ abstract class BaseController extends Controller
     {
         return Redirect::intended($default);
     }
-//
-//    public function latest() {
-//        $events = $this->all(3);
-//        dd($events->toArray());
-//    }
+
+    protected function redirectToAdmin()
+    {
+        return Redirect::to('admin/');
+    }
+
 }
