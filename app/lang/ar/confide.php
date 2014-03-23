@@ -2,11 +2,11 @@
 
 return array(
 
-    'username' => 'Username',
-    'password' => 'Password',
-    'password_confirmation' => 'Confirm Password',
-    'e_mail' => 'Email',
-    'username_e_mail' => 'Username or Email',
+    'username' => 'اسم المستخدم',
+    'password' => 'كلمة المرور',
+    'password_confirmation' => 'تأكيد كلمة المرور',
+    'e_mail' => 'البريد الإلكتروني',
+    'username_e_mail' => 'اسم المستخدم أو البريد الإلكتروني',
 
     'signup' => array(
         'title' => 'Signup',
@@ -16,11 +16,11 @@ return array(
     ),
 
     'login' => array(
-        'title' => 'Login',
-        'desc' => 'Enter your credentials',
-        'forgot_password' => '(forgot password)',
-        'remember' => 'Remember me',
-        'submit' => 'Login',
+        'title' => 'الدخول',
+        'desc' => 'إدخال بياناتك السرية',
+        'forgot_password' => '(نسيت كلمة المرور)',
+        'remember' => 'تذكرني',
+        'submit' => 'دخول',
     ),
 
     'forgot' => array(
@@ -40,7 +40,7 @@ return array(
         'password_reset' => 'Your password has been changed successfully.',
         'wrong_password_reset' => 'Invalid password. Try again',
         'wrong_token' => 'The password reset token is not valid.',
-        'duplicated_credentials' => 'The credentials provided have already been used. Try with different credentials.',
+        'duplicated_credentials' => 'يرجى المحاولة مرة أخرى .. اسم المستخدم أو البريد الإلكتروني مسجل لدينا من قبل ',
     ),
 
     'email' => array(

@@ -67,7 +67,7 @@
 
             @endif
             @else
-            {{ $event->title_en }}
+            {{ $event->title }}
             @endif
         </a></h3>
         <p>
@@ -81,7 +81,7 @@
         @else
             {{ Str::limit($event->description, 150) }}
         @endif
-            <a href="event/{{ $event->id}}">المزيد</a>
+            <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
         </p>
 
     </div>

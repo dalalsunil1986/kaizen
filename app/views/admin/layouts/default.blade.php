@@ -119,15 +119,14 @@
     					<li><a href="{{{ URL::to('/') }}}">View Homepage</a></li>
     					<li class="divider-vertical"></li>
     					<li class="dropdown">
-    							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-    								<span class="glyphicon glyphicon-user"></span> {{{ Auth::user()->username }}}	<span class="caret"></span>
-    							</a>
     							<ul class="dropdown-menu">
     								<li><a href="{{{ URL::to('user/'.Auth::user()->id.'/profile') }}}"><span class="glyphicon glyphicon-wrench"></span> Settings</a></li>
     								<li class="divider"></li>
     								<li><a href="{{{ URL::to('user/logout') }}}"><span class="glyphicon glyphicon-share"></span> Logout</a></li>
     							</ul>
+
     					</li>
+
     				</ul>
     			</div>
             </div>

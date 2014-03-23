@@ -2,27 +2,27 @@
 
 return array(
 
-	'already_exists'    => 'User already exists!',
-	'does_not_exist'    => 'User does not exist.',
-	'login_required'    => 'The login field is required',
-	'password_required' => 'The password is required.',
-	'password_does_not_match' => 'The passwords provided do not match.',
+	'already_exists'    => 'اسم المستخدم مسجل لدينا مسبقاً',
+	'does_not_exist'    => 'لا يوجد مستخدم بهذا الاسم',
+	'login_required'    => 'يجب التسجيل اولاً',
+	'password_required' => 'يجب إدخال كلمة المرور.',
+	'password_does_not_match' => 'كلمة المرور غير مطابقة',
 
 	'create' => array(
-		'error'   => 'User was not created, please try again.',
-		'success' => 'User created successfully.'
+		'error'   => 'لم يتم انشاء حساب جديد .. برجاء المحاولة مرة أخرى',
+		'success' => 'تم انشاء حساب جديد'
 	),
 
     'edit' => array(
-        'impossible' => 'You cannot edit yourself.',
-        'error'      => 'There was an issue editing the user. Please try again.',
-        'success'    => 'The user was edited successfully.'
+        'impossible' => 'غير متاح التعديل',
+        'error'      => 'حدث خطأ ما .. لا يمكن إكمال العملية',
+        'success'    => 'تم التعديل بنجاح'
     ),
 
     'delete' => array(
-        'impossible' => 'You cannot delete yourself.',
-        'error'      => 'There was an issue deleting the user. Please try again.',
-        'success'    => 'The user was deleted successfully.'
+        'impossible' => 'لا يمكن إكمال العملية ..',
+        'error'      => 'لا يمكن إتمام عملية حذف المستخدم .. يرجى المحاولة مرة أخرى',
+        'success'    => 'تم الغاء حساب المستخدم بنجاح'
     )
 
 );

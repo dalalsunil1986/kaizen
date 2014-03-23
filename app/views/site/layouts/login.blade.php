@@ -7,10 +7,10 @@
                     " role="form" style="padding:18px;" method="POST" action="{{ URL::route('login') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <div class="form-group">
-                        <input type="text" class="form-control" size="13"  name="email" id="email" value="{{ Input::old('email') }}" placeholder="Username or Email">
+                        <input type="text" class="form-control" size="13"  name="email" id="email" value="{{ Input::old('email') }}" placeholder="{{ Lang::get('site.nav.email')}}">
                     </div>&nbsp;&nbsp;&nbsp;&nbsp;
                     <div class="form-group">
-                        <input type="password" name="password" id="password" class="form-control" size="13" placeholder="Password">
+                        <input type="password" name="password" id="password" class="form-control" size="13" placeholder="{{ Lang::get('site.nav.password')}}">
                     </div>&nbsp;&nbsp;
                     <div class="checkbox" style="margin: 3px;">
                         <label>

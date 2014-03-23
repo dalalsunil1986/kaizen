@@ -22,6 +22,9 @@ return array(
                     'posts' => 'Blog',
                     'contactus' => 'Contact Us',
                     'search' => 'Search',
+                    'username' => 'Username',
+                    'password' => 'Password',
+                    'email' => 'Email'
 
     ),
     'event' => array(
@@ -66,7 +69,21 @@ return array(
                 'country' => 'Country',
                 'dob'=> 'Date of Birth',
                 'admin_panel'=> 'Admin Panel',
-                'notavail' => 'N/A'
+                'notavail' => 'N/A',
+                'fix_error' => 'Please Fix these errors and try again ..',
+                'first_name' => 'First Name',
+                'last_name' =>'Last Name',
+                'pass' =>'Password',
+                'pass_confirm' =>'Password Confirmation',
+                'mobile' =>'Mobile',
+                'telelphone'=>'Telephone',
+                'select_country' => 'Country',
+                'birth' => 'Birth Day',
+                'gender' => 'Gender',
+                'male' =>'Male',
+                'female' => 'Female',
+                'more' => 'More...',
+                'entry' => 'Login to your account',
     )
 
 );
