@@ -24,6 +24,9 @@ return array(
                 'posts' => 'المقالات',
                 'contactus' => 'الإتصال بنا',
                 'search' => 'بحث',
+                'username' => 'اسم الدخول',
+                'password' => 'كلمة المرور',
+                'email' => 'البريد الإلكتروني',
      ),
 
     'event' => array(
@@ -54,9 +57,9 @@ return array(
                 'latest_events' => 'Latest Events',
                 'latest_blog' => 'Latest Blog Posts',
                 'newsletter' => 'Newsletter',
-                'instagram' =>'Instagram',
-                'twitter' => 'Twitter',
-                'youtube' => 'Youtube',
+                'instagram' =>'انستجرام',
+                'twitter' => 'تويتر',
+                'youtube' => 'يو تيوب',
                 'newsletter_subscribe' => 'Subscribe to Newletter',
                 'youlog'=>'انت مسجل لدينا باسم',
                 'profile' => 'معلوماتي',
@@ -67,5 +70,20 @@ return array(
                 'twitter' => 'تويتر',
                 'youtube' => 'يو تيوب',
                 'newsletter_subscribe' => 'الاشتراك بالنشرة البريدية',
+                'fix_error' => 'يرجى تصحيح الأخطاء وإعاده المحاولة مرة أخرى ..',
+                'first_name' => 'الاسم الاول',
+                'last_name' =>'اسم العائلة',
+                'pass' =>'كلمة المرور',
+                'mobile' =>'الهاتف النقال',
+                'pass_confirm' =>'تأكيد كلمة المرور',
+                'telelphone'=>'تلفون',
+                'select_country' => 'الدولة',
+                'birth' => 'تاريخ الميلاد',
+                'gender' => 'النوع',
+                'male' =>'ذكر',
+                'female' => 'أنثى',
+                'more' => 'المزيد ..',
+                'entry' => 'الدخول إلى حساب المستخدم',
+
     )
 );

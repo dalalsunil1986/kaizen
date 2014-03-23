@@ -5,44 +5,44 @@
     {{ Form::open(array('action'=>'UserController@store','method'=>'post','class'=>'form')) }}
 
         @if ( Session::get('errors') )
-        <div class="alert alert-danger">Please fix the Errors<br/>{{ implode('', $errors->all('<p> - :message</p>')) }}</div>
+        <div class="alert alert-danger">{{ Lang::get('site.general.fix_error')}}<br/>{{ implode('', $errors->all('<p> - :message</p>')) }}</div>
         @endif
 
         <div class="row">
             <div class="col-xs-6 col-md-6">
-                <input type="text" name="first_name" value="" class="form-control input-lg" placeholder="First Name"/>
+                <input type="text" name="first_name" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.first_name')}}"/>
             </div>
 <!--            {{ $errors->first('first_name', '<span class="error">:message</span>') }}-->
             <div class="col-xs-6 col-md-6">
-                <input type="text" name="last_name" value="" class="form-control input-lg" placeholder="Last Name"/>
+                <input type="text" name="last_name" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.last_name')}}"/>
             </div>
 <!--            {{ $errors->first('last_name', '<span class="error">:message</span>') }}-->
         </div>
         </br>
-        <input type="text" name="username" value="" class="form-control input-lg {{ $errors->first('username', 'has-error') }}" placeholder="Username"
-               />
+        <input type="text" name="username" value="" class="form-control input-lg {{ $errors->first('username', 'has-error') }}" placeholder="{{ Lang::get('site.nav.username')}}"
+              required="true" />
 <!--        {{ $errors->first('username', '<span class="error">:message</span>') }}-->
         </br>
-        <input type="email" name="email" value="" class="form-control input-lg" placeholder="Your Email"
-               />
+        <input type="email" name="email" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.email')}}"
+               required="true"/>
 <!--        {{ $errors->first('email', '<span class="error">:message</span>') }}-->
         </br>
-        <input type="password" name="password" value="" class="form-control input-lg" placeholder="Password"
-               />
+        <input type="password" name="password" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.pass')}}"
+               required="true" />
         </br>
 <!--        {{ $errors->first('password', '<span class="error">:message</span>') }}-->
         <input type="password" name="password_confirmation" value="" class="form-control input-lg"
-               placeholder="Confirm Password" />
+               placeholder="{{ Lang::get('site.general.pass_confirm')}}"  required="true"/>
         </br>
 <!--        {{ $errors->first('password_confirmation', '<span class="error">:message</span>') }}-->
-        <input type="text" name="mobile" value="" class="form-control input-lg" placeholder="Mobile Telephone"/>
+        <input type="text" name="mobile" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.mobile')}}"/>
         </br>
 <!--        {{ $errors->first('mobile', '<span class="error">:message</span>') }}-->
-        <input type="text" name="phone" value="" class="form-control input-lg" placeholder="Telphone"/>
+        <input type="text" name="phone" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.telelphone')}}"/>
         </br>
 
     <select name="Country" class="form-control input-lg">
-    <option value="" selected="selected">Select Country</option>
+    <option value="" selected="selected">{{ Lang::get('site.general.select_country')}} </option>
     <option value="United States">United States</option>
     <option value="United Kingdom">United Kingdom</option>
     <option value="Afghanistan">Afghanistan</option>
@@ -288,7 +288,7 @@
 
 
         </br>
-        <label>Birth Date</label>
+        <label>{{ Lang::get('site.general.birth')}}</label>
         <div class="row">
             <div class="col-xs-4 col-md-4">
                 <select name="month" class="form-control input-lg">
@@ -321,20 +321,20 @@
         </div>
 
         <br/>
-        <label>Gender : </label> <label class="radio-inline">
-            <input type="radio" name="gender" value="M" id=male/> Male
+        <label>{{ Lang::get('site.general.gender')}} &nbsp;: &nbsp;&nbsp;</label> <label class="radio-inline">
+            <input type="radio" name="gender" value="M" id=male/> {{ Lang::get('site.general.male')}}
         </label>
         <label class="radio-inline">
-            <input type="radio" name="gender" value="F" id=female/> Female
+            <input type="radio" name="gender" value="F" id=female/> {{ Lang::get('site.general.female')}}
         </label>
         <br/>
         <div class="row">
             <div class="col-xs-6 col-md-6">
-                <input type="text" name="twitter" value="" class="form-control input-lg" placeholder="Twitter Account"/>
+                <input type="text" name="twitter" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.twitter')}}"/>
             </div>
 <!--            {{ $errors->first('twitter', '<span class="error">:message</span>') }}-->
             <div class="col-xs-6 col-md-6">
-                <input type="text" name="instagram" value="" class="form-control input-lg" placeholder="Istagram Account"/>
+                <input type="text" name="instagram" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.instagram')}}"/>
             </div>
 <!--            {{ $errors->first('instagram', '<span class="error">:message</span>') }}-->
         </div>

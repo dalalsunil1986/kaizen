@@ -9,16 +9,16 @@ return array(
 	|
 	|
 	*/
+    'register'              => 'تسجيل',
+    'login'                 => 'دخول',
+    'login_first'           => 'يجب التسجيل أولاً',
+    'account'               => 'حساب',
+    'forgot_password'       => 'نسيت كلمة المرور',
+    'settings'              => 'الخصائص',
+    'profile'               => 'صفحتي الشخصية',
+    'user_account_is_not_confirmed'          => 'حساب المستخدم لم يتم تأكديه.',
+    'user_account_updated'          => 'تم تحديث المستخدم',
+    'user_account_created'          => 'تم انشاء مستخدم',
 
-	'register'              => 'Register',
-	'login'                 => 'Login',
-	'login_first'           => 'Login first',
-	'account'               => 'Account',
-	'forgot_password'       => 'Forgot Password',
-	'settings'              => 'Settings',
-	'profile'               => 'Profile',
-	'user_account_is_not_confirmed'          => 'User Account is not confirmed.',
-	'user_account_updated'          => 'User Account updated.',
-	'user_account_created'          => 'User Account created.',
 
 );
