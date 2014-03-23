@@ -1,6 +1,6 @@
 <?php
 
-class CategoriesController extends AdminBaseController {
+class AdminCategoriesController extends AdminBaseController {
 
 	/**
 	 * Category Repository
@@ -23,7 +23,7 @@ class CategoriesController extends AdminBaseController {
 	{
 		$categories = $this->model->all();
 
-		return View::make('categories.index', compact('categories'));
+		return View::make('admin.categories.index', compact('categories'));
 	}
 
 	/**
@@ -33,7 +33,7 @@ class CategoriesController extends AdminBaseController {
 	 */
 	public function create()
 	{
-		return View::make('categories.create');
+		return View::make('admin.categories.create');
 	}
 
 	/**
@@ -61,7 +61,7 @@ class CategoriesController extends AdminBaseController {
 	{
 		$category = $this->model->findOrFail($id);
 
-		return View::make('categories.show', compact('category'));
+		return View::make('admin.categories.show', compact('category'));
 	}
 
 	/**
@@ -76,10 +76,10 @@ class CategoriesController extends AdminBaseController {
 
 		if (is_null($category))
 		{
-			return Redirect::route('categories.index');
+			return Redirect::route('admin.categories.index');
 		}
 
-		return View::make('categories.edit', compact('category'));
+		return View::make('admin.categories.edit', compact('category'));
 	}
 
 	/**
@@ -111,7 +111,7 @@ class CategoriesController extends AdminBaseController {
         if(!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-        Redirect::route('categories.index');
+        Redirect::route('admin.categories.index');
 	}
 
 	/**
@@ -124,7 +124,7 @@ class CategoriesController extends AdminBaseController {
 	{
 		$this->model->find($id)->delete();
 
-		return Redirect::back();
+		return Redirect::action('AdminCategoriesController@index');
 	}
 
 

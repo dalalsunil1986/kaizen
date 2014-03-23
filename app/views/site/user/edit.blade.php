@@ -2,7 +2,7 @@
 @section('maincontent')
 
 <div class="row">
-    {{ Form::model($user,  array('method' => 'PATCH', 'action'=>array('UserController@update',$user->id),'class'=>'form')) }}
+    {{ Form::model($user,array('method' => 'PATCH', 'action'=>array('UserController@update',$user->id),'class'=>'form')) }}
 
         @if ( Session::get('errors') )
         <div class="alert alert-danger">Please fix the Errors<br/>{{ implode('', $errors->all('<p> - :message</p>')) }}</div>

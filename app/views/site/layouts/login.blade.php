@@ -38,7 +38,7 @@
                            <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>{{ Lang::get('site.nav.logout') }}
                         </a>
 
-                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getProfile', Auth::user()->username) }}">
+                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getProfile', Auth::user()->id) }}">
                             <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>{{ Lang::get('site.general.profile') }}
                         </a>
                         {{ (Helper::isMod()) ? '<a type="button" class="btn btn-default btn-sm" href="'. URL::to('admin') .'">

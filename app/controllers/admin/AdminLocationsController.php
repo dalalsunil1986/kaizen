@@ -20,8 +20,8 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function index()
 	{
-//        return View::make('locations.index');
-	    return Location::all();
+        $locations = Location::with('country')->get();
+        return View::make('admin.locations.index',compact('locations'));
     }
 
 	/**
@@ -31,24 +31,8 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function create()
 	{
-
-//        $user = $this->user->currentUser();
-//        $user = Auth::user();
-//        $canComment = false;
-//        if(!$user) {
-//            echo 'Hey You are not logged in Brah';
-//        }
-//        if (!$user->can('post_comment')) {
-//            echo 'Hey You cannot Post Comment Brah';
-//        } else {
-//            echo 'You can Post Comment' .$user->username;
-//        }
-//        echo '<br>';
-//        if($user->hasRole('admin')) {
-//            echo 'Hey u have comment';
-//        }
         $countries = Country::lists('name','id');
-        return View::make('locations.create',compact('countries'));
+        return View::make('admin.locations.create',compact('countries'));
     }
 
 	/**
@@ -62,7 +46,7 @@ class AdminLocationsController extends AdminBaseController {
         if(!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-        return Redirect::to('locations/'.$validation->id);
+        return Redirect::to('admin/locations/'.$validation->id);
         // If validation returns true
 	}
 
@@ -74,7 +58,9 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function show($id)
 	{
-        return $this->model->find($id);
+        $location = $this->model->findOrFail($id);
+
+        return View::make('admin.locations.show', compact('location'));
 	}
 
 	/**
@@ -87,7 +73,7 @@ class AdminLocationsController extends AdminBaseController {
 	{
         $location = Location::find($id);
         $countries = $this->country->lists('name','id');
-        return View::make('locations.edit',compact('location','countries'));
+        return View::make('admin.locations.edit',compact('location','countries'));
 	}
 
 	/**
@@ -104,7 +90,7 @@ class AdminLocationsController extends AdminBaseController {
         if(!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-      return Redirect::to('locations/'.$id);
+      return Redirect::to('admin/locations/'.$id);
     }
 
 
@@ -117,7 +103,8 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+        $this->model->find($id)->delete();
+        return Redirect::action('AdminLocationsController@index');
 	}
 
     public function getEvents($id){

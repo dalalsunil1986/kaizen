@@ -55,9 +55,8 @@ class EventModel extends BaseModel {
      */
     public function followers() {
 //        return $this->hasMany('Follower','event_id');
-        $followers = $this->belongsToMany('User', 'followers','event_id','user_id')->withTimestamps();
+        $followers = $this->belongsToMany('User', 'followers','event_id','user_id');
         return $followers;
-
     }
 
     /**
@@ -66,7 +65,7 @@ class EventModel extends BaseModel {
      * @param int eventId
      */
     public function subscriptions() {
-        return $this->belongsToMany('User', 'subscriptions','event_id','user_id')->withTimestamps();
+        return $this->belongsToMany('User', 'subscriptions','event_id','user_id');
 //        return $this->hasMany('Subscription','event_id');
     }
     public function subscribers() {
@@ -81,7 +80,7 @@ class EventModel extends BaseModel {
      */
     public function favorites() {
 //        return $this->hasMany('Favorite','event_id');
-        return $this->belongsToMany('User', 'favorites','event_id','user_id')->withTimestamps();
+        return $this->belongsToMany('User', 'favorites','event_id','user_id');
 
     }
 
@@ -139,7 +138,11 @@ class EventModel extends BaseModel {
         return $this->morphMany('Photo','imageable');
     }
 
-
+    /**
+     * Fetches posts for latest Event
+     * @return array
+     *
+     */
     public  function latestEvents()
     {
         return DB::table('events as e')
@@ -153,14 +156,18 @@ class EventModel extends BaseModel {
             ;
     }
 
-
+    /**
+     * Fetches posts for latest Event
+     * @return array
+     *
+     */
     public  function feautredEvents()
     {
         return DB::table('events AS e')
             ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
             ->where('p.imageable_type', '=', 'EventModel')
             ->where('e.date_start','>',Carbon::now()->toDateTimeString())
-            ->orderBy('e.featured','DESC')
+            ->where('e.featured','1')
             ->orderBy('e.date_start','DESC')
             ->orderBy('e.created_at','DESC')
             ->take('5')

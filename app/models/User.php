@@ -25,13 +25,14 @@ class User extends ConfideUser implements PresentableInterface {
         'email' => 'required|email|unique:users',
         'password' => 'required|between:4,11|confirmed',
         'password_confirmation' => 'between:4,11',
-        'first_name' => 'required|alpha|between:3,10',
+        'first_name' => 'alpha|between:3,10',
         'last_name' =>  'alpha|between:3,10',
         'mobile' =>   'numeric',
         'phone' =>    'numeric',
         'twitter' =>    'url',
         'instagram' =>   'url',
-        'prev_event_comment' =>  'min:5'
+        'prev_event_comment' =>  'min:5',
+        'country' => 'string'
     );
 
     public function getPresenter()

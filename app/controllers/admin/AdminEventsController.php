@@ -39,7 +39,6 @@ class AdminEventsController extends AdminBaseController
     {
         $events = parent::all();
         return View::make('admin.events.index', ['events'=> $events]);
-
     }
 
 
@@ -171,6 +170,47 @@ class AdminEventsController extends AdminBaseController
         $event = $this->model->find($id);
         Notify::lessonSubscribers($event);
 //        return $this->mailer->notifyFollowers($event);
+    }
+
+    public function settings($id)
+    {
+        $event = $this->model->find($id);
+        return View::make('admin.events.settings',compact('event'));
+    }
+    /**
+     * @param $id
+     * @return mixed
+     * Returns the Followers For the Post, Event
+     */
+    public function getFollowers($id)
+    {
+        $users = $this->model->find($id)->followers;
+        $event = $this->model->find($id);
+        return View::make('admin.events.followers',compact('users','event'));
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * Returns the Favorites For the Post, Event
+     */
+    public function getFavorites($id)
+    {
+        $users = $this->model->find($id)->favorites;
+        $event = $this->model->find($id);
+        return View::make('admin.events.favorites',compact('users','event'));
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * Returns the Subscriptions For the Post, Event
+     */
+    public function getSubscriptions($id)
+    {
+        $users = $this->model->find($id)->subscriptions;
+        $event = $this->model->find($id);
+        return View::make('admin.events.subscriptions',compact('users','event'));
     }
 
 }

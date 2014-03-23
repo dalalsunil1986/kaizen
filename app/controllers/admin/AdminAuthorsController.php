@@ -1,6 +1,6 @@
 <?php
 
-class AuthorsController extends AdminBaseController {
+class AdminAuthorsController extends AdminBaseController {
 
 	/**
 	 * Display a listing of the resource.

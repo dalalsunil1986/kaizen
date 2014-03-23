@@ -27,4 +27,9 @@ class NewslettersController extends BaseController{
             return Redirect::home()->withErrors($e->getMessage());
         }
     }
+
+    public function send() {
+        //@todo
+        //send newsletter email
+    }
 } 

@@ -2,7 +2,6 @@
 
 class AdminRolesController extends AdminBaseController {
 
-
     /**
      * User Model
      * @var User
@@ -236,7 +235,6 @@ class AdminRolesController extends AdminBaseController {
     public function getData()
     {
         $roles = Role::select(array('roles.id',  'roles.name', 'roles.id as users', 'roles.created_at'));
-        dd($roles);
         return Datatables::of($roles)
         // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
         ->edit_column('users', '{{{ DB::table(\'assigned_roles\')->where(\'role_id\', \'=\', $id)->count()  }}}')

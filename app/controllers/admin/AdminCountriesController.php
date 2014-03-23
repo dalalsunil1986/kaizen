@@ -23,7 +23,7 @@ class AdminCountriesController extends AdminBaseController {
 	{
 		$countries = $this->country->all();
 
-		return View::make('countries.index', compact('countries'));
+		return View::make('admin.countries.index', compact('countries'));
 	}
 
 	/**
@@ -33,7 +33,7 @@ class AdminCountriesController extends AdminBaseController {
 	 */
 	public function create()
 	{
-		return View::make('countries.create');
+		return View::make('admin.countries.create');
 	}
 
 	/**
@@ -50,7 +50,7 @@ class AdminCountriesController extends AdminBaseController {
 		{
 			$this->country->create($input);
 
-			return Redirect::route('countries.index');
+			return Redirect::action('AdminCountriesController@index');
 		}
 
 		return Redirect::route('countries.create')
@@ -69,7 +69,7 @@ class AdminCountriesController extends AdminBaseController {
 	{
 		$country = $this->country->findOrFail($id);
 
-		return View::make('countries.show', compact('country'));
+		return View::make('admin.countries.show', compact('country'));
 	}
 
 	/**
@@ -87,7 +87,7 @@ class AdminCountriesController extends AdminBaseController {
 			return Redirect::route('countries.index');
 		}
 
-		return View::make('countries.edit', compact('country'));
+		return View::make('admin.countries.edit', compact('country'));
 	}
 
 	/**
@@ -106,10 +106,10 @@ class AdminCountriesController extends AdminBaseController {
 			$country = $this->country->find($id);
 			$country->update($input);
 
-			return Redirect::route('countries.show', $id);
+			return Redirect::action('AdminCountriesController@show', $id);
 		}
 
-		return Redirect::route('countries.edit', $id)
+		return Redirect::action('AdminCountriesController@edit', $id)
 			->withInput()
 			->withErrors($validation)
 			->with('message', 'There were validation errors.');
@@ -125,7 +125,7 @@ class AdminCountriesController extends AdminBaseController {
 	{
 		$this->country->find($id)->delete();
 
-		return Redirect::route('countries.index');
+		return Redirect::action('AdminCountriesController@index');
 	}
 
 }

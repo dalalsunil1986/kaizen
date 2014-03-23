@@ -65,38 +65,7 @@ abstract class BaseController extends Controller
         return $category;
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     * Returns the Followers For the Post, Event
-     */
-    public function getFollowers($id)
-    {
-        $followers = $this->model->find($id)->followers;
-        return $followers;
-    }
 
-    /**
-     * @param $id
-     * @return mixed
-     * Returns the Favorites For the Post, Event
-     */
-    public function getFavorites($id)
-    {
-        $favorites = $this->model->find($id)->favorites;
-        return $favorites;
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     * Returns the Subscriptions For the Post, Event
-     */
-    public function getSubscriptions($id)
-    {
-        $subscriptions = $this->model->find($id)->subscriptions;
-        return $subscriptions;
-    }
 
     /**
      * @param $id

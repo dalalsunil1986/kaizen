@@ -2,7 +2,7 @@
 
 {{-- Content --}}
 @section('content')
-
+<h1>Events</h1>
 <p>{{ link_to_action('AdminEventsController@create', 'Add new event') }}</p>
 
 @if ($events->count())
@@ -27,10 +27,11 @@
 					<td>{{{ $event->category->name }}}</td>
 					<td>{{{ $event->location->name }}}</td>
 					<td>{{{ $event->title }}}</td>
-					<td>{{{ $event->getHumanEventDateStartAtAttribute() }}}</td>
-					<td>{{{ $event->getHumanEventDateEndAtAttribute() }}}</td>
+					<td>{{{ $event->date_start }}}</td>
+					<td>{{{ $event->date_end }}}</td>
 					<td>{{{ $event->address }}}</td>
                     <td>{{{ $event->getHumanCreatedAtAttribute() }}} </td>
+                    <td><a href="{{ URL::action('AdminEventsController@settings',$event->id)}}">Settings</a></td>
                     <td><a href="{{ URL::action('AdminEventsController@edit', array($event->id), array('class' => 'btn btn-info')) }}">Edit</a></td>
                     <td>
                         {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminEventsController@destroy', $event->id))) }}

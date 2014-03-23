@@ -22,7 +22,7 @@ class ConfideSetupUsersTable extends Migration {
             $table->string('last_name');
             $table->integer('mobile');
             $table->integer('phone');
-            $table->string('country');
+            $table->string('country')->nullable;
             $table->string('gender');
             $table->string('dob');
             $table->string('instagram');

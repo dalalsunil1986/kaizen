@@ -41,7 +41,7 @@
         <input type="text" name="phone" value="" class="form-control input-lg" placeholder="Telphone"/>
         </br>
 
-    <select name="Country" class="form-control input-lg">
+    <select name="country" class="form-control input-lg">
     <option value="" selected="selected">Select Country</option>
     <option value="United States">United States</option>
     <option value="United Kingdom">United Kingdom</option>

@@ -148,10 +148,10 @@ class AdminCommentsController extends AdminBaseController
 //            ->leftjoin('users', 'users.id', '=','comments.user_id' )
 //            ->select(array('comments.id as id', 'posts.id as postid','users.id as userid', 'comments.content', 'posts.title as post_name', 'users.username as poster_name', 'comments.created_at'));
 
-        $comments = Comment::leftjoin('posts', 'posts.id', '=', 'comments.commentable_id')
+        $comments = Comment::leftjoin('events as posts', 'posts.id', '=', 'comments.commentable_id')
             ->leftjoin('users', 'users.id', '=','comments.user_id' )
             ->select(array('comments.id as id', 'posts.id as postid','users.id as userid', 'comments.content', 'posts.title as post_name', 'users.username as poster_name', 'comments.created_at'))
-            ->where('comments.commentable_type','Post');
+            ->where('comments.commentable_type','EventModel');
 
         return Datatables::of($comments)
 

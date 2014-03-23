@@ -1,17 +1,18 @@
-@extends('layouts.scaffold')
+@extends('admin.layouts.default')
 
-@section('main')
+{{-- Content --}}
+@section('content')
 
 <h1>All Locations</h1>
 
-<p>{{ link_to_route('locations.create', 'Add new location') }}</p>
+<p>{{ link_to_action('AdminLocationsController@create', 'Add new location') }}</p>
 
 @if ($locations->count())
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th>Country_id</th>
+				<th>Country</th>
 			</tr>
 		</thead>
 
@@ -19,10 +20,10 @@
 			@foreach ($locations as $location)
 				<tr>
 					<td>{{{ $location->name }}}</td>
-					<td>{{{ $location->country_id }}}</td>
-                    <td>{{ link_to_route('locations.edit', 'Edit', array($location->id), array('class' => 'btn btn-info')) }}</td>
+					<td>{{{ $location->country->name }}}</td>
+                    <td>{{ link_to_action('AdminLocationsController@edit', 'Edit', array($location->id), array('class' => 'btn btn-info')) }}</td>
                     <td>
-                        {{ Form::open(array('method' => 'DELETE', 'route' => array('locations.destroy', $location->id))) }}
+                        {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminLocationsController@destroy', $location->id))) }}
                             {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
                         {{ Form::close() }}
                     </td>

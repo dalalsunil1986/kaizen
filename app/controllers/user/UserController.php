@@ -16,8 +16,8 @@ class UserController extends BaseController {
      */
     public function __construct(User $user)
     {
-        parent::__construct();
         $this->user = $user;
+        parent::__construct();
     }
 
     /**
@@ -98,16 +98,14 @@ class UserController extends BaseController {
         $this->layout->maincontent = view::make('site.user.edit',compact('user'));
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
-
     }
 
     /**
      * Edits a user
      *
      */
-    public function update($id)
+    public function update($user)
     {
-        $user = $this->user->find($id);
         $oldUser = clone $user;
         $rules = array(
             'password' => 'sometimes|between:4,11|confirmed',
@@ -125,7 +123,6 @@ class UserController extends BaseController {
         $validator = Validator::make(Input::all(), $rules);
         $password = Input::get('password');
         $passwordConfirmation = Input::get('password_confirmation');
-
 
         if(!empty($password)) {
 //            dd('password is not empty'); //true
@@ -148,14 +145,10 @@ class UserController extends BaseController {
             unset($user->password);
             unset($user->password_confirmation);
         }
-
         if ($validator->passes())
         {
-            $user->prepareRules($oldUser, $user);
-            // Save if valid. Password field will be hashed before save
-            $user->amend();
 
-            return Redirect::action('UserController@getProfile',$user->username)
+            return Redirect::action('UserController@getProfile',$user->id)
                 ->with( 'success', Lang::get('user/user.user_account_updated') );
         } else {
             $error = $validator->errors()->all();
@@ -164,6 +157,7 @@ class UserController extends BaseController {
                 ->with('error', $error );
         }
     }
+
 
     /**
      * Displays the form for user creation
@@ -339,9 +333,10 @@ class UserController extends BaseController {
      */
     public function getProfile($username)
     {
-        $userModel = new User;
-        $user = $userModel->getUserByUsername($username);
+//        $userModel = new User;
+//        $user = $userModel->getUserByUsername($username);
 
+        $user = $this->user->find($username);
         // Check if the user exists
         if (is_null($user))
         {

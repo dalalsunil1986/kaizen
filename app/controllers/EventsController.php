@@ -269,8 +269,8 @@ class EventsController extends BaseController
         $event = $this->model->find($id);
 
 //        dd($user);
-        Notify::lessonSubscribers($event);
-//        return $this->mailer->notifyFollowers($event);
+//        Notify::lessonSubscribers($event);
+        return $this->mailer->notifyFollowers($event);
     }
 
 
@@ -536,6 +536,10 @@ class EventsController extends BaseController
 
     public function getSliderEvents()
     {
+        // fetch 3 latest post
+        // fetches 2 featured post
+        // order by event date, date created, featured
+        // combines them into one query to return for slider
 
         $latestEvents = $this->model->latestEvents();
         $featuredEvents = $this->model->feautredEvents();

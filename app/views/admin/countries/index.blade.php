@@ -1,10 +1,11 @@
-@extends('layouts.scaffold')
+@extends('admin.layouts.default')
 
-@section('main')
+{{-- Content --}}
+@section('content')
 
 <h1>All Countries</h1>
 
-<p>{{ link_to_route('countries.create', 'Add new country') }}</p>
+<p>{{ link_to_action('AdminCountriesController@create', 'Add new country') }}</p>
 
 @if ($countries->count())
 	<table class="table table-striped table-bordered">
@@ -18,9 +19,9 @@
 			@foreach ($countries as $country)
 				<tr>
 					<td>{{{ $country->name }}}</td>
-                    <td>{{ link_to_route('countries.edit', 'Edit', array($country->id), array('class' => 'btn btn-info')) }}</td>
+                    <td>{{ link_to_action('AdminCountriesController@edit', 'Edit', array($country->id), array('class' => 'btn btn-info')) }}</td>
                     <td>
-                        {{ Form::open(array('method' => 'DELETE', 'route' => array('countries.destroy', $country->id))) }}
+                        {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminCountriesController@destroy', $country->id))) }}
                             {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
                         {{ Form::close() }}
                     </td>
