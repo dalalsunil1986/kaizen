@@ -40,6 +40,7 @@ class EventsController extends BaseController
 
     public function index()
     {
+
         $perPage = 10;
         //find countries,authors,and categories to display in form
         $categories = $this->category->getEventCategories()->lists('name', 'id');
@@ -61,28 +62,28 @@ class EventsController extends BaseController
             $events = $this->model->with('category')->
                 where('date_start','>',$this->currentTime)->
                 where(function($query) use ($search, $category, $author, $country)
-                {
-                    if (!empty($search)) {
-                        $query->where('title','LIKE',"%$search%");
-                        //  ->orWhere('title_en','LIKE',"%$search%")
-                        //  ->orWhere('description','LIKE',"%$search%")
-                        //  ->orWhere('description_en','LIKE',"%$search%");
+            {
+                if (!empty($search)) {
+                    $query->where('title','LIKE',"%$search%");
+                    //  ->orWhere('title_en','LIKE',"%$search%")
+                    //  ->orWhere('description','LIKE',"%$search%")
+                    //  ->orWhere('description_en','LIKE',"%$search%");
+                }
+                if (!empty($category)) {
+                    $query->where('category_id', $category);
+                }
+                if (!empty($author)) {
+                    $query->where('user_id', $author);
+                }
+                if (!empty($country)) {
+                    $locations = Country::find($country)->locations()->get(array('id'));
+                    foreach($locations as $location) {
+                        $location_id[] = $location->id;
                     }
-                    if (!empty($category)) {
-                        $query->where('category_id', $category);
-                    }
-                    if (!empty($author)) {
-                        $query->where('user_id', $author);
-                    }
-                    if (!empty($country)) {
-                        $locations = Country::find($country)->locations()->get(array('id'));
-                        foreach($locations as $location) {
-                            $location_id[] = $location->id;
-                        }
-                        $location_array = implode(',',$location_id);
-                        $query->whereRaw('location_id in ('.$location_array.')');
-                    }
-                })->orderBy('date_start', 'DESC')->paginate($perPage);
+                    $location_array = implode(',',$location_id);
+                    $query->whereRaw('location_id in ('.$location_array.')');
+                }
+            })->orderBy('date_start', 'DESC')->paginate($perPage);
 
         } else {
             $events = $this->getEvents($perPage);
@@ -97,12 +98,38 @@ class EventsController extends BaseController
 //        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->nav = view::make('site.layouts.nav');
-        // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+       // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
         $this->layout->maincontent = view::make('site.events.index', compact('events','authors','categories','countries','search','category','author','country'));
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
     }
+
+
+    public function slider()
+    {
+        //        $events = parent::all();
+        // get only 4 images for slider
+        $events = $this->getSliderEvents();
+
+        //**Usama**
+        //each section is divided like widgets ...
+        // so flixable to add/remove slider
+        // add/remove ads section
+        // add/remove login form section .. and so on
+        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+
+        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        $this->layout->maincontent = view::make('site.layouts.dashboard');
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+
+        $this->layout->footer = view::make('site.layouts.footer');
+
+    }
+
 
     /**
      * Display the event by Id and the regardig comments.
@@ -113,43 +140,31 @@ class EventsController extends BaseController
     public function show($id)
     {
         $event =  EventModel::with('comments','author','photos','subscribers','followers','favorites')->find($id);
-        // dd($event);
+       // dd($event);
         //return View::make('events.show', compact('event'));
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.layouts.eventmain' , ['event' => $event]);
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
-        $this->layout->footer = view::make('site.layouts.footer');
-    }
-
-    public function slider()
-    {
-        //        $events = parent::all();
-        // get only 4 images for slider
-        $events = $this->getSliderEvents();
-        //**Usama**
-        //each section is divided like widgets ...
-        // so flixable to add/remove slider
-        // add/remove ads section
-        // add/remove login form section .. and so on
-
-        $this->layout->events = View::make('site.layouts.event',compact('events')); // slider section
-        $this->layout->login = View::make('site.layouts.login');
-        $this->layout->ads = view::make('site.layouts.ads');
-        $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->slider = view::make('site.layouts.event',compact('events') );
-        $this->layout->maincontent = view::make('site.layouts.dashboard');
+        $this->layout->maincontent = view::make('site.events.view' , ['event' => $event]);
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
-        View::composer('site.layouts.ads', function($view)
-        {
-            $ad1 = Ad::getAd1();
-            $ad2 = Ad::getAd2();
-            $view->with(array('ad1'=>$ad1,'ad2'=>$ad2));
-        });
+        if (Auth::check()) {
+            $user = Auth::user();
+            View::composer('site.events.view', function($view) use ($id, $user)
+            {
+                $favorited =  Favorite::hasFavorited($id,$user->id);
+                $subscribed = Subscription::isSubscribed($id,$user->id);
+                $followed = Follower::isFollowing($id,$user->id);
+                $view->with(array('favorited'=>$favorited,'subscribed'=>$subscribed,'followed'=>$followed));
 
+            });
+        } else {
+            View::composer('site.events.view', function($view)
+            {
+                $view->with(array('favorited'=>false,'subscribed'=>false,'followed'=>false));
+            });
+        }
     }
 
     /**
@@ -441,61 +456,6 @@ class EventsController extends BaseController
         $event = $this->model->find($id);
         $author = $event->author;
         dd($author);
-    }
-
-    public function search() {
-
-        $perPage = 5;
-        //find countries,authors,and categories to display in form
-        $categories = $this->category->getEventCategories()->lists('name', 'id');
-        $authors = $this->user->getRoleByName('author')->lists('username', 'id');
-        $countries = Country::all()->lists('name','id');
-
-        // find selected form values
-        $search = trim(Input::get('search'));
-        $category = Request::get('category');
-        $author = Request::get('author');
-        $country = Request::get('country');
-
-        // if the form is selected
-        // perform search
-        if(!empty($search) || !empty($category) || !empty($author) || !empty($country)) {
-
-            $events = $this->model->with('category')->where(function($query) use ($search, $category, $author, $country)
-            {
-                if (!empty($search)) {
-                    $query->where('title','LIKE',"%$search%");
-                    //  ->orWhere('title_en','LIKE',"%$search%")
-                    //  ->orWhere('description','LIKE',"%$search%")
-                    //  ->orWhere('description_en','LIKE',"%$search%");
-                }
-                if (!empty($category)) {
-                    $query->where('category_id', $category);
-                }
-                if (!empty($author)) {
-                    $query->where('user_id', $author);
-                }
-                if (!empty($country)) {
-                    $locations = Country::find($country)->locations()->get(array('id'));
-                    foreach($locations as $location) {
-                        $location_id[] = $location->id;
-                    }
-                    $location_array = implode(',',$location_id);
-                    $query->whereRaw('location_id in ('.$location_array.')');
-                }
-            })->orderBy('date_start', 'DESC')->paginate($perPage);
-
-        } else {
-            $events = $this->getEvents($perPage);
-        }
-
-        $this->layout->login = View::make('site.layouts.login');
-        $this->layout->ads = view::make('site.layouts.ads');
-        $this->layout->nav = view::make('site.layouts.nav');
-        //$this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
-        $this->layout->maincontent = view::make('site.events.search', compact('events','authors','categories','countries','search','category','author','country'));
-        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-        $this->layout->footer = view::make('site.layouts.footer');
     }
 
     public function getEvents($perPage) {

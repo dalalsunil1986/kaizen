@@ -195,6 +195,4 @@ class AdminEventsController extends AdminBaseController
         return View::make('admin.events.subscriptions',compact('users','event'));
     }
 
-
-
 }

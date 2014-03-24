@@ -18,6 +18,7 @@ abstract class BaseController extends Controller
     {
         $this->beforeFilter('csrf', array('on' => 'post'));
         $this->sidebarPosts();
+        $this->getAds();
     }
 
     public function sidebarPosts() {
@@ -31,6 +32,15 @@ abstract class BaseController extends Controller
 
         });
     }
+    public function getAds() {
+        View::composer('site.layouts.ads', function($view)
+        {
+            $ad1 = Ad::getAd1();
+            $ad2 = Ad::getAd2();
+            $view->with(array('ad1'=>$ad1,'ad2'=>$ad2));
+        });
+    }
+
 
     protected function findByType($id,$type,$type_string) {
         return $this->model->find($id)->where($type_string, '=', $type);

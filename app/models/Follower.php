@@ -1,9 +1,9 @@
 <?php
 
 class Follower extends BaseModel {
-	protected $guarded = array();
+    protected $guarded = array();
 
-	public static $rules = array();
+    public static $rules = array();
 
 
 
