@@ -13,7 +13,6 @@ class EventsMailer extends Mailer
     public function notifyFollowers(EventModel $model)
     {
         foreach ($model->followers as $follower) {
-
             $mail_to = $follower->email;
             $view = 'emails.welcome';
             $data = [];

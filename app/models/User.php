@@ -31,8 +31,7 @@ class User extends ConfideUser implements PresentableInterface {
         'phone' =>    'numeric',
         'twitter' =>    'url',
         'instagram' =>   'url',
-        'prev_event_comment' =>  'min:5',
-        'country' => 'string'
+        'prev_event_comment' =>  'min:5'
     );
 
     public function getPresenter()

@@ -84,6 +84,9 @@ Route::group(
         // Newsletter Route
         Route::post('newsletter','NewslettersController@store');
 
+        Route::get('ads1','AdsController@getAd1');
+        Route::get('ads2','AdsController@getAd2');
+
         Route::get('/', array('as'=>'home', 'uses' => 'EventsController@slider'));
 
         /* Admin Route Group */
@@ -159,7 +162,12 @@ Route::group(
             Route::get('location/{id}/events', ['as'=>'LocationEvents','uses'=>'AdminLocationsController@getEvents']);
             Route::resource('locations','AdminLocationsController');
 
-            Route::controller('/', 'AdminDashboardController');
+            //ads
+            Route::resource('ads','AdminAdsController',array('only' => array('index','store')));
+
+            Route::get('/', 'AdminEventsController@index');
+
+
 
         });
 

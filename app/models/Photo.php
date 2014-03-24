@@ -12,19 +12,23 @@ class Photo extends BaseModel {
         return $this->morphTo();
     }
 
-    public  function attachImage($id,$image, $type='EventModel', $featured='0') {
+    public  function attachImage($id,$image, $type, $featured='0') {
+//        Image::make(Input::file('photo')->getRealPath())->resize(300, 200)->save('foo.jpg');
         // set random unique image name
-        $image_name = md5(time()). '.' . $image->getClientOriginalExtension();
+
+        $image_name = md5(uniqid(rand()*(time()))). '.' . $image->getClientOriginalExtension();
 
         // specify the path where you want to save your images
         $image_path = public_path() . '/uploads/';
 
         // the whole image path
         $image_path_name = $image_path.$image_name;
+        $thumbnail_path_name = $image_path.'/thumbnail/'.$image_name;
 
         // try to move and upload the file
         try {
             Image::make($image->getRealPath())->save($image_path_name);
+            Image::make($image->getRealPath())->resize(300,200)->save($thumbnail_path_name);
 
             // if the featured image is already exists in the db, replace it with the new image
             $data = Photo::where('imageable_id',$id)->where('imageable_type',$type)->where('featured', $featured)->first();
@@ -32,8 +36,12 @@ class Photo extends BaseModel {
             if($data) {
                 //delete old files
                 $old_image = $image_path.$data->name;
+                $old_thumbnail_image = $thumbnail_path_name.$data->name;
                 if(file_exists($old_image)) {
                     unlink($old_image);
+                }
+                if(file_exists($old_thumbnail_image)) {
+                    unlink($old_thumbnail_image);
                 }
                 $data->name = $image_name;
             } else {
@@ -41,7 +49,7 @@ class Photo extends BaseModel {
                 $data = new Photo();
                 $data->name = $image_name;
                 $data->imageable_id = $id;
-                $data->imageable_type = 'EventModel';
+                $data->imageable_type = $type;
                 $data->featured = $featured;
             }
             if(!$data->save()){

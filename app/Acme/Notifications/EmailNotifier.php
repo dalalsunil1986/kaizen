@@ -48,6 +48,23 @@ class EmailNotifier implements NotifierInterface {
         ]);
     }
 
+    public function newsletterSubscribers($data)
+    {
+        // You probably shouldn't place this here.
+        // Add it to Mailchimp class, or a config file.
+        $lessonNotificationsListId = 'de1f937717';
+
+        $this->blast->send('regular', [
+            'list_id'    => $lessonNotificationsListId,
+            'subject'    => $data['subject'],
+            'from_name'  => $data['from_name'],
+            'from_email' => $data['from_email'],
+            'to_name'    => 'Subscriber'
+        ], [
+            'html' => $data['message'],
+            'text' => strip_tags($data['message'])
+        ]);
+    }
 
     /**
      * @param int $listId

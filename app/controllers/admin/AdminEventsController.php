@@ -72,7 +72,7 @@ class AdminEventsController extends AdminBaseController
         if(Input::hasFile('thumbnail')) {
             // call the attach image function from Photo class
             if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','1')) {
-                return Redirect::to(LaravelLocalization::localizeURL('event/' . $validation->id . '/edit'))->withErrors($this->photo->getErrors());
+                return Redirect::to(LaravelLocalization::localizeURL('admin/event/' . $validation->id . '/edit'))->withErrors($this->photo->getErrors());
             }
         }
         //update available seats
@@ -83,24 +83,6 @@ class AdminEventsController extends AdminBaseController
         return parent::redirectToAdmin()->with('success','Added Event to the Database');
     }
 
-    /**
-     * Display the event by Id and the regardig comments.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        $event =  EventModel::with('comments','author','photos','subscribers','followers','favorites')->find($id);
-        // dd($event);
-        //return View::make('events.show', compact('event'));
-        $this->layout->login = View::make('site.layouts.login');
-        $this->layout->ads = view::make('site.layouts.ads');
-        $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.layouts.eventmain' , ['event' => $event]);
-        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
-        $this->layout->footer = view::make('site.layouts.footer');
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -212,5 +194,7 @@ class AdminEventsController extends AdminBaseController
         $event = $this->model->find($id);
         return View::make('admin.events.subscriptions',compact('users','event'));
     }
+
+
 
 }

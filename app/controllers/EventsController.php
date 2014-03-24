@@ -40,7 +40,6 @@ class EventsController extends BaseController
 
     public function index()
     {
-
         $perPage = 10;
         //find countries,authors,and categories to display in form
         $categories = $this->category->getEventCategories()->lists('name', 'id');
@@ -62,28 +61,28 @@ class EventsController extends BaseController
             $events = $this->model->with('category')->
                 where('date_start','>',$this->currentTime)->
                 where(function($query) use ($search, $category, $author, $country)
-            {
-                if (!empty($search)) {
-                    $query->where('title','LIKE',"%$search%");
-                    //  ->orWhere('title_en','LIKE',"%$search%")
-                    //  ->orWhere('description','LIKE',"%$search%")
-                    //  ->orWhere('description_en','LIKE',"%$search%");
-                }
-                if (!empty($category)) {
-                    $query->where('category_id', $category);
-                }
-                if (!empty($author)) {
-                    $query->where('user_id', $author);
-                }
-                if (!empty($country)) {
-                    $locations = Country::find($country)->locations()->get(array('id'));
-                    foreach($locations as $location) {
-                        $location_id[] = $location->id;
+                {
+                    if (!empty($search)) {
+                        $query->where('title','LIKE',"%$search%");
+                        //  ->orWhere('title_en','LIKE',"%$search%")
+                        //  ->orWhere('description','LIKE',"%$search%")
+                        //  ->orWhere('description_en','LIKE',"%$search%");
                     }
-                    $location_array = implode(',',$location_id);
-                    $query->whereRaw('location_id in ('.$location_array.')');
-                }
-            })->orderBy('date_start', 'DESC')->paginate($perPage);
+                    if (!empty($category)) {
+                        $query->where('category_id', $category);
+                    }
+                    if (!empty($author)) {
+                        $query->where('user_id', $author);
+                    }
+                    if (!empty($country)) {
+                        $locations = Country::find($country)->locations()->get(array('id'));
+                        foreach($locations as $location) {
+                            $location_id[] = $location->id;
+                        }
+                        $location_array = implode(',',$location_id);
+                        $query->whereRaw('location_id in ('.$location_array.')');
+                    }
+                })->orderBy('date_start', 'DESC')->paginate($perPage);
 
         } else {
             $events = $this->getEvents($perPage);
@@ -98,72 +97,11 @@ class EventsController extends BaseController
 //        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->nav = view::make('site.layouts.nav');
-       // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
+        // $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
         $this->layout->maincontent = view::make('site.events.index', compact('events','authors','categories','countries','search','category','author','country'));
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
-    }
-
-
-    public function slider()
-    {
-        //        $events = parent::all();
-        // get only 4 images for slider
-        $events = $this->getSliderEvents();
-
-        //**Usama**
-        //each section is divided like widgets ...
-        // so flixable to add/remove slider
-        // add/remove ads section
-        // add/remove login form section .. and so on
-        $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
-        $this->layout->login = View::make('site.layouts.login');
-        $this->layout->ads = view::make('site.layouts.ads');
-        $this->layout->nav = view::make('site.layouts.nav');
-
-        $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
-        $this->layout->maincontent = view::make('site.layouts.dashboard');
-        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-
-        $this->layout->footer = view::make('site.layouts.footer');
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        $category = $this->category->getEventCategories()->lists('name', 'id');
-        $author = $this->user->getRoleByName('author')->lists('username', 'id');
-        $location = Location::all()->lists('name', 'id');
-        $country = Country::all()->lists('name', 'id');
-        return View::make('events.create', compact('category', 'author', 'location'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store()
-    {
-        //validate and save
-        $validation = new $this->model(Input::except('thumbnail'));
-        if (!$validation->save()) {
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
-        }
-        // if file is uploaded, try to attach it and save it the db
-        if(Input::hasFile('thumbnail')) {
-            // call the attach image function from Photo class
-            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','1')) {
-                return Redirect::to(LaravelLocalization::localizeURL('event/' . $validation->id . '/edit'))->withErrors($this->photo->getErrors());
-            }
-        }
-        return Redirect::to('event/' . $validation->id);
     }
 
     /**
@@ -175,104 +113,44 @@ class EventsController extends BaseController
     public function show($id)
     {
         $event =  EventModel::with('comments','author','photos','subscribers','followers','favorites')->find($id);
-       // dd($event);
+        // dd($event);
         //return View::make('events.show', compact('event'));
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.events.view' , ['event' => $event]);
+        $this->layout->maincontent = view::make('site.layouts.eventmain' , ['event' => $event]);
+        $this->layout->sidecontent = view::make('site.layouts.sidecontent');
+        $this->layout->footer = view::make('site.layouts.footer');
+    }
+
+    public function slider()
+    {
+        //        $events = parent::all();
+        // get only 4 images for slider
+        $events = $this->getSliderEvents();
+        //**Usama**
+        //each section is divided like widgets ...
+        // so flixable to add/remove slider
+        // add/remove ads section
+        // add/remove login form section .. and so on
+
+        $this->layout->events = View::make('site.layouts.event',compact('events')); // slider section
+        $this->layout->login = View::make('site.layouts.login');
+        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->slider = view::make('site.layouts.event',compact('events') );
+        $this->layout->maincontent = view::make('site.layouts.dashboard');
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
 
-        if (Auth::check()) {
-            $user = Auth::user();
-            View::composer('site.events.view', function($view) use ($id, $user)
-            {
-                $favorited =  Favorite::hasFavorited($id,$user->id);
-                $subscribed = Subscription::isSubscribed($id,$user->id);
-                $followed = Follower::isFollowing($id,$user->id);
-                $view->with(array('favorited'=>$favorited,'subscribed'=>$subscribed,'followed'=>$followed));
-
-            });
-        } else {
-            View::composer('site.events.view', function($view)
-            {
-                $view->with(array('favorited'=>false,'subscribed'=>false,'followed'=>false));
-            });
-        }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
+        View::composer('site.layouts.ads', function($view)
         {
-            $event = $this->model->find($id);
-            $category = $this->category->getEventCategories()->lists('name', 'id');
-            $author = $this->user->getRoleByName('author')->lists('username', 'id');
-            $location = Location::all()->lists('name', 'id');
-            $country = Country::all()->lists('name', 'id');
-            return View::make('events.edit', compact('event', 'category', 'author', 'location'));
-        }
+            $ad1 = Ad::getAd1();
+            $ad2 = Ad::getAd2();
+            $view->with(array('ad1'=>$ad1,'ad2'=>$ad2));
+        });
+
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function update($id)
-    {
-        // refer davzie postEdits();
-        $validation = $this->model->find($id);
-        $validation->fill(Input::except('thumbnail'));
-        if (!$validation->save()) {
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
-        }
-        if (Input::hasFile('thumbnail')) {
-            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','0')) {
-                return Redirect::back()->withErrors($this->photo->getErrors());
-            }
-        }
-        return Redirect::to('event/' . $id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        if ($this->model->findOrFail($id)->delete()) {
-            //  return Redirect::home();
-            return Redirect::to('event/index');
-        }
-        return Redirect::to('event/index');
-    }
-
-
-    /**
-     * @param $id
-     * @return statement
-     * Send Notification Email for the Event Followers
-     */
-
-    public function notifyFollowers($id)
-    {
-        $event = $this->model->find($id);
-
-//        dd($user);
-//        Notify::lessonSubscribers($event);
-        return $this->mailer->notifyFollowers($event);
-    }
-
 
     /**
      * @param eventId $id
@@ -587,9 +465,9 @@ class EventsController extends BaseController
             {
                 if (!empty($search)) {
                     $query->where('title','LIKE',"%$search%");
-                //  ->orWhere('title_en','LIKE',"%$search%")
-                //  ->orWhere('description','LIKE',"%$search%")
-                //  ->orWhere('description_en','LIKE',"%$search%");
+                    //  ->orWhere('title_en','LIKE',"%$search%")
+                    //  ->orWhere('description','LIKE',"%$search%")
+                    //  ->orWhere('description_en','LIKE',"%$search%");
                 }
                 if (!empty($category)) {
                     $query->where('category_id', $category);
