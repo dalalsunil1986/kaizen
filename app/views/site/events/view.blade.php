@@ -1,13 +1,30 @@
 @extends('site.layouts.home')
 @section('maincontent')
 <div class="row">
-    @if(Auth::user())
-        <div class="row" id="statistic_feed">
-            <button  id="favorite_btn" type="button" class="btn btn-default btn-sm " data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}"><i id="favorite" class="glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></button>&nbsp;
-            <button  id="follow_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.follow') }}"><i id="follow" class="glyphicon glyphicon-plus {{ $followed? 'active' :'' ;}}"></i></button>&nbsp;
-            <button  id="subscribe_btn" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i id="subscribe" class="glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i></button>&nbsp;
+
+        <div class="row text-center {{ !Auth::user()? 'btns_disabled' :'' }}" id="statistic_feed" style="width: 45%;" >
+                <div class="col-lg-4" ">
+                <button  {{ !Auth::user()? 'disabled' :'' }} id="favorite_btn" type="button" class="btn btn-default btn-sm events_btns" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}"><i id="favorite" class="glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>{{ Lang::get('site.general.fv_btn_desc')}}</button>
+                </div>
+
+
+
+                <div class="col-lg-4">
+                 <button {{ !Auth::user()? 'disabled' :'' }} id="follow_btn" type="button" class="events_btns btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.follow') }}"><i id="follow" class="glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>{{ Lang::get('site.general.follow_btn_desc')}}</button>
+
+                </div>
+
+
+
+                <div class="col-lg-4">
+                 <button  {{ !Auth::user()? 'disabled' :'' }}  id="subscribe_btn"  type="button" class="events_btns btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i id="subscribe" class="glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br> {{ Lang::get('site.general.subscribe_btn_desc')}}</button>
+
+                </div>
+
         </div>
-    @endif
+
+
+
 
     <h1>
         @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
@@ -79,7 +96,26 @@
         San Francisco, CA 94107<br>
         <abbr title="Phone">P:</abbr> (123) 456-7890
     </address>
+<div class="row text-center {{ !Auth::user()? 'btns_disabled' :'' }}" id="statistic_feed" style="width: 45%;" >
+    <div class="col-lg-4" ">
+    <button  {{ !Auth::user()? 'disabled' :'' }} id="favorite_btn" type="button" class="btn btn-default btn-sm events_btns" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}"><i id="favorite" class="glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>{{ Lang::get('site.general.fv_btn_desc')}}</button>
+</div>
 
+
+
+<div class="col-lg-4">
+    <button {{ !Auth::user()? 'disabled' :'' }} id="follow_btn" type="button" class="events_btns btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.follow') }}"><i id="follow" class="glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>{{ Lang::get('site.general.follow_btn_desc')}}</button>
+
+</div>
+
+
+
+<div class="col-lg-4">
+    <button  {{ !Auth::user()? 'disabled' :'' }}  id="subscribe_btn"  type="button" class="events_btns btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i id="subscribe" class="glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br> {{ Lang::get('site.general.subscribe_btn_desc')}}</button>
+
+</div>
+
+</div>
         @if(count($event->comments) > 0)
             <h3 class="comments_title"> {{Lang::get('site.event.comment') }}</h3>
             @foreach($event->comments as $comment)
@@ -103,7 +139,7 @@
             {{ Form::open(array( 'action' => array('CommentsController@store', $event->id),'class'=>'row')) }}
                 <div class="form-group">
                     <label for="comment"></label>
-                    <textarea type="text"  class="form-control" id="content" name="content" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
+                    <textarea type="text"  style="width: 97%;" class="form-control" id="content" name="content" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
                 </div>
                 <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }} </button>
             {{ Form::close() }}
@@ -112,7 +148,8 @@
                 {{ implode('', $errors->all('<li class="error">:message</li>')) }}
             </ul>
             @endif
-    </br>
+         </br>
+
         @endif
 
 </div>

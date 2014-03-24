@@ -2,6 +2,11 @@ $(document).ready(function () {
     // tooltip activation
     $("[data-toggle=tooltip]").tooltip();
 
+
+    // EventController Buttons -- Disabled Case
+    $('.btns_disabled').click(function () {
+        alert('يجب التسجيل أولاً لاستخدام تلك الميزة');
+    });
     // EventController Favorite btn
     $('#favorite_btn').click(function () {
 //        $('#favorite_btn').prop('title','unfavorite');
@@ -82,6 +87,7 @@ $(document).ready(function () {
                     $('#subscribe').toggleClass('active');
                 }
                 alert(data.message);
+                // to insert href.location line here in order to activate the Knet !!!! Usama - 24.3.14
             }
         });
     });

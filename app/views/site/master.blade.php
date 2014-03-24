@@ -92,16 +92,23 @@
                 </div>
             </div>
         </div>
+        <!-- sidecontent division -->
+        <div id="sidecontent" class="col-md-4
+        @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
+       pull-right
+        @else
+       pull-left
+       @endif
+        ">
+            @yield('sidecontent')
+        </div>
+        <!-- end of sidedivision content-->
         <!-- main content division -->
         <div id="maincontent" class="col-md-8">
             @yield('maincontent')
         </div>
         <!-- end of main content-->
-        <!-- sidecontent division -->
-        <div id="sidecontent" class="col-md-4">
-            @yield('sidecontent')
-        </div>
-        <!-- end of sidedivision content-->
+
     </div>
     @yield('footer')
 </div>

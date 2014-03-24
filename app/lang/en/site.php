@@ -37,7 +37,7 @@ return array(
                 'time_end' => 'Ends at',
                 'favorite' => 'Add To Favorites',
                 'follow' => 'Follow',
-                'subscribe' => 'Subscribe',
+                'subscribe' => 'Join',
                 'comment' => 'Comments' ,
                 'addcomment' => 'Add Comment',
                 'category' => 'Category',
@@ -71,8 +71,8 @@ return array(
                 'admin_panel'=> 'Admin Panel',
                 'notavail' => 'N/A',
                 'fix_error' => 'Please Fix these errors and try again ..',
-                'first_name' => 'First Name',
-                'last_name' =>'Last Name',
+                'first_name' => 'Full Name - English',
+                'last_name' =>'Full Name - Arabic',
                 'pass' =>'Password',
                 'pass_confirm' =>'Password Confirmation',
                 'mobile' =>'Mobile',
@@ -84,6 +84,11 @@ return array(
                 'female' => 'Female',
                 'more' => 'More...',
                 'entry' => 'Login to your account',
+                'subscribe_btn_desc' => 'book a seat',
+                'follow_btn_desc' => 'follow event',
+                'fv_btn_desc' => 'add to fav.',
+                'prev_events' => 'Did you attend any previous events in Kaizen .. please tell us what events and where ... Thank You',
+                'warning_msg' => 'Please kindly note that these information are important in order to issue your certificates in the future.. please fill in the form properly'
     )
 
 );

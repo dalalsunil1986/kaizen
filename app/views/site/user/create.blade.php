@@ -2,6 +2,7 @@
 @section('maincontent')
 
 <div class="row">
+    <div class="alert alert-warning">{{ Lang::get('site.general.warning_msg')}}</div>
     {{ Form::open(array('action'=>'UserController@store','method'=>'post','class'=>'form')) }}
 
         @if ( Session::get('errors') )
@@ -10,11 +11,11 @@
 
         <div class="row">
             <div class="col-xs-6 col-md-6">
-                <input type="text" name="first_name" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.first_name')}}"/>
+                <input type="text" name="first_name" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.first_name')}}" required="true"/>
             </div>
 <!--            {{ $errors->first('first_name', '<span class="error">:message</span>') }}-->
             <div class="col-xs-6 col-md-6">
-                <input type="text" name="last_name" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.last_name')}}"/>
+                <input type="text" name="last_name" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.last_name')}}" required="true"/>
             </div>
 <!--            {{ $errors->first('last_name', '<span class="error">:message</span>') }}-->
         </div>
@@ -35,14 +36,14 @@
                placeholder="{{ Lang::get('site.general.pass_confirm')}}"  required="true"/>
         </br>
 <!--        {{ $errors->first('password_confirmation', '<span class="error">:message</span>') }}-->
-        <input type="text" name="mobile" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.mobile')}}"/>
+        <input type="text" name="mobile" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.mobile')}}"  required="true"/>
         </br>
 <!--        {{ $errors->first('mobile', '<span class="error">:message</span>') }}-->
         <input type="text" name="phone" value="" class="form-control input-lg" placeholder="{{ Lang::get('site.general.telelphone')}}"/>
         </br>
 
-        <select name="country" class="form-control input-lg">
-        <option value="" selected="selected">Select Country</option>
+        <select name="country" class="form-control input-lg"  required="true">
+        <option value="" selected="selected">{{ Lang::get('site.general.select_country')}}</option>
         <option value="United States">United States</option>
         <option value="United Kingdom">United Kingdom</option>
         <option value="Afghanistan">Afghanistan</option>
@@ -291,7 +292,7 @@
         <label>{{ Lang::get('site.general.birth')}}</label>
         <div class="row">
             <div class="col-xs-4 col-md-4">
-                <select name="month" class="form-control input-lg">
+                <select name="month" class="form-control input-lg"  required="true">
                     <option value="01">Jan</option>
                     <option value="02">Feb</option>
                     <option value="03">Mar</option>
@@ -306,13 +307,13 @@
                     <option value="12">Dec</option>
                 </select></div>
             <div class="col-xs-4 col-md-4">
-                <select name="day" class="form-control input-lg">
+                <select name="day" class="form-control input-lg"  required="true">
                     @for($i=1;$i<=31;$i++)
                     <option value="{{ $i }}"> {{ $i }}</option>
                     @endfor
                 </select></div>
             <div class="col-xs-4 col-md-4">
-                <select name="year" class="form-control input-lg">
+                <select name="year" class="form-control input-lg"  required="true">
                     @for($i=1930;$i<=2014;$i++)
                     <option value="{{ $i }}"> {{ $i }}</option>
                     @endfor
@@ -322,10 +323,10 @@
 
         <br/>
         <label>{{ Lang::get('site.general.gender')}} &nbsp;: &nbsp;&nbsp;</label> <label class="radio-inline">
-            <input type="radio" name="gender" value="M" id=male/> {{ Lang::get('site.general.male')}}
+            <input type="radio" name="gender" value="M" id="male"  /> {{ Lang::get('site.general.male')}}
         </label>
         <label class="radio-inline">
-            <input type="radio" name="gender" value="F" id=female/> {{ Lang::get('site.general.female')}}
+            <input type="radio" name="gender" value="F" id="female" /> {{ Lang::get('site.general.female')}}
         </label>
         <br/>
         <div class="row">
@@ -339,7 +340,7 @@
 <!--            {{ $errors->first('instagram', '<span class="error">:message</span>') }}-->
         </div>
         </br>
-        <textarea name="prev_event_comment" class="form-control" rows="3" placeholder="Previous Events in Kaizen"></textarea>
+        <textarea name="prev_event_comment" class="form-control" rows="3" placeholder="{{ Lang::get('site.general.prev_events') }}"></textarea>
 <!--        {{ $errors->first('prev_event_comment', '<span class="error">:message</span>') }}-->
         </br>
         <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
