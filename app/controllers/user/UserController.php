@@ -331,12 +331,12 @@ class UserController extends BaseController {
      * @param $username
      * @return mixed
      */
-    public function getProfile($username)
+    public function getProfile($id)
     {
-//        $userModel = new User;
-//        $user = $userModel->getUserByUsername($username);
-
-        $user = $this->user->find($username);
+//        Post::with(array('user'=>function($query){
+//                $query->select('id','username');
+//            }))->get();
+        $user = $this->user->find($id)->with(array('favorites','subscriptions','followings'))->first();
         // Check if the user exists
         if (is_null($user))
         {

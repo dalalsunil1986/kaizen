@@ -76,14 +76,8 @@ class AdminFollowersController extends AdminBaseController {
 		//
 	}
 
-    public function notifyFollowers(array $data, array $users) {
-        $subject = $data['subject'];
-        $message = $data['message'];
-
-        foreach($users as $user) {
-            $to = $user->email;
-            mail($to,$subject,$message);
-        }
+    public function notifyFollowers() {
+        dd(Input::all());
     }
 
 }

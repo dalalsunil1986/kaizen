@@ -136,20 +136,16 @@ Route::group(
             Route::controller('roles', 'AdminRolesController');
 
             // Admin Event Route
-            Route::get('events','AdminEventsController@index');
             Route::get('event/{id}/followers','AdminEventsController@getFollowers');
             Route::get('event/{id}/favorites','AdminEventsController@getFavorites');
             Route::get('event/{id}/subscriptions','AdminEventsController@getSubscriptions');
             Route::get('event/{id}/country','AdminEventsController@getCountry');
             Route::get('event/{id}/location','AdminEventsController@getLocation');
-            Route::get('event/{id}/notifyFollowers', 'AdminEventsController@notifyFollowers');
+            Route::post('event/{id}/mailFollowers', 'AdminEventsController@mailFollowers');
+            Route::post('event/{id}/mailSubscribers', 'AdminEventsController@mailSubscribers');
+            Route::post('event/{id}/mailFavorites', 'AdminEventsController@mailFavorites');
             Route::get('event/{id}/location','AdminEventsController@getLocation');
             Route::get('event/{id}/settings','AdminEventsController@settings');
-//            Route::get('event/{id}/followers','AdminEventsController@viewFollowers');
-//            Route::get('event/{id}/subscribers','AdminEventsController@viewSubscribers');
-//            Route::get('event/{id}/favorites','AdminEventsController@viewFavorites');
-
-
             Route::resource('event','AdminEventsController');
 
             //category
@@ -166,8 +162,6 @@ Route::group(
             Route::resource('ads','AdminAdsController',array('only' => array('index','store')));
 
             Route::get('/', 'AdminEventsController@index');
-
-
 
         });
 

@@ -9,14 +9,28 @@ use Mail;
  */
 
 abstract class Mailer {
-    public function sendTo($email, $subject, $view, $data =[]) {
-//            die($email);
-//          foreach($emails as $email) {
+    public function send($email, $subject, $view, $data) {
         Mail::send($view, $data, function($message) use ($email, $subject) {
             $message->to($email)
                     ->subject($subject);
         });
-              echo 'Email Sent to ' . $email . ' with Subject ' . $subject .' With View ' .$view .'<br>';
-//          }
     }
+
+    /**
+     * @param $model
+     * @param $args
+     * @internal param $user
+     * @return mixed
+     */
+    abstract function sendMail($model,$args);
+
+    public function sendTo($view, $args,$user) {
+        Mail::send($view, $args, function($message) use($args,$user){
+            $message->from($args['email'],$args['name']);
+            $message->sender($args['email'],$args['name'] );
+            $message->to($user->email, $user->username);
+            $message->subject($args['subject']);
+        });
+    }
+
 } 

@@ -55,7 +55,7 @@ class EventModel extends BaseModel {
      */
     public function followers() {
 //        return $this->hasMany('Follower','event_id');
-        $followers = $this->belongsToMany('User', 'followers','event_id','user_id');
+        $followers = $this->belongsToMany('User', 'followers','event_id','user_id')->select('username','email');
         return $followers;
     }
 

@@ -11,7 +11,7 @@ class UsersTableSeeder extends Seeder {
         $users = array(
             array(
                 'username'      => 'ad_user',
-                'email'      => 'z4lss@live.com',
+                'email'      => 'z4ls@live.com',
                 'password'   => Hash::make('admin'),
                 'confirmed'   => 1,
                 'confirmation_code' => md5(microtime().Config::get('app.key')),

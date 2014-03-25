@@ -42,6 +42,11 @@
 			@endforeach
 		</tbody>
 	</table>
+    <div class="row">
+        <div class="col-md-12">
+            {{ $events->links() }}
+        </div>
+    </div>
 @else
 	There are no events
 @endif

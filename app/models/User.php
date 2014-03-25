@@ -129,23 +129,26 @@ class User extends ConfideUser implements PresentableInterface {
         return $this->morphMany('Comment','commentable');
     }
 
-
     public function events() {
         return $this->hasMany('EventModel');
     }
 
     public function followings() {
-        return $this->hasMany('Follower');
+        return $this->belongsToMany('EventModel', 'followers','user_id','event_id');
+
+//        return $this->hasMany('Follower');
     }
 
     public function subscriptions() {
-        return $this->belongsToMany('EventModel', 'subscriptions','user_id','event_id')->withTimestamps();
+//        return $this->hasMany('Subscription');
+        return $this->belongsToMany('EventModel', 'subscriptions','user_id','event_id');
+        // the second query returns Events for the subscriptions
     }
 
     public function favorites() {
-        return $this->hasMany('Favorite');
+        return $this->belongsToMany('EventModel', 'favorites','user_id','event_id');
+//        return $this->hasMany('Favorite');
     }
-
 
     /**
      * @param String $roleName
