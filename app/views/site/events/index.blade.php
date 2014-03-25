@@ -95,9 +95,9 @@
         <i class="glyphicon glyphicon-bookmark"> {{ $event->location->country->name}} |</i>
 
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-    <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;{{ $event->categories->name_en }}
+    <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;{{ $event->category->name_en }}
     @else
-    <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;{{ $event->categories->name }}
+    <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;{{ $event->category->name }}
     @endif</div>
 <hr>
 @endforeach

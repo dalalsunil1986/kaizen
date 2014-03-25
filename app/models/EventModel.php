@@ -126,7 +126,7 @@ class EventModel extends BaseModel {
      */
     public function country() {
 //        return $this->hasManyThrough('Country','Location','country_id','id');
-        return Null;
+        return $this->location()->country;
     }
 
 //    public function categories() {

@@ -459,7 +459,7 @@ class EventsController extends BaseController
     }
 
     public function getEvents($perPage) {
-        return $this->model->with('category')->where('date_start','>',$this->currentTime)->orderBy('date_start','DESC')->paginate($perPage);
+        return $this->model->with(array('category','location.country','photos','author'))->where('date_start','>',$this->currentTime)->orderBy('date_start','DESC')->paginate($perPage);
     }
 
 }
