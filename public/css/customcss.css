@@ -155,8 +155,13 @@
 
     .glyphicon {
         font-size: 14px;
+        color: white;
     }
-
+    .events_btns {
+        color: white;
+        background-color: #8a66d0 !important;
+        font-weight: bold;
+    }
     #favorite_btn .active {
         color: gold;
     }

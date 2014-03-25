@@ -198,21 +198,21 @@ class EventsController extends BaseController
                 $event->save();
                 return Response::json(array(
                     'success' => true,
-                    'message'=> 'you have been subscribed'
+                    'message'=> 'تم الاشتراك بهذه الفعالية .. شكرا'
                 ), 200);
 
             }
             // notify no seats available
             return Response::json(array(
                 'success' => false,
-                'message'=> 'No seats available'
+                'message'=> 'لا يوجد مقاعد متاحة لهذه الفعالية'
             ), 400);
 
         }
         // notify user not authenticated
         return Response::json(array(
             'success' => false,
-            'message'=> 'You are not Authenticated'
+            'message'=> 'لا تملك الصلاحية لهذه الميزة',
         ), 401);
 
     }
@@ -238,7 +238,7 @@ class EventsController extends BaseController
                     $event->save();
                     return Response::json(array(
                         'success' => true,
-                        'message'=> 'You have been unsubscribed'
+                        'message'=> 'تم إلغاء اشتراكك بهذه الفعالية'
                     ), 200);
 
                 } else {
@@ -281,21 +281,21 @@ class EventsController extends BaseController
                 // return you are already subscribed to this event
                 return Response::json(array(
                     'success' => false,
-                    'message'=> 'you are already following this event'
+                    'message'=> 'انت مسجل لدينا في هذه الفعالية من قبل ..'
                 ), 400);
             }
 
             $event->followers()->attach($user);
             return Response::json(array(
                 'success' => true,
-                'message'=> 'you are following now'
+                'message'=> 'تم التسجيل بنجاح بهذه الفعالية .. شكرا'
             ), 200);
 
         }
         // notify user not authenticated
         return Response::json(array(
             'success' => false,
-            'message'=> 'You are not Authenticated'
+            'message'=> 'لا تملك الصلاحية لاستخدام هذه الميزة .. يجب عليك التسجيل أولاً'
         ), 403);
 
     }
@@ -314,7 +314,7 @@ class EventsController extends BaseController
                 if(Follower::unfollow($id,$user->id)) {
                     return Response::json(array(
                         'success' => true,
-                        'message'=> 'you are  not following this event anymore '
+                        'message'=> 'تم إلغاء متابعه هذه الفعالية '
                     ), 200);
                 } else {
                     return Response::json(array(
