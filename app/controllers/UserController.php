@@ -107,6 +107,7 @@ class UserController extends BaseController {
      */
     public function update($user)
     {
+        // updated rule for update
         $rules = array(
             'password' => 'sometimes|between:4,11|confirmed',
             'password_confirmation' => 'between:4,11',
@@ -118,13 +119,25 @@ class UserController extends BaseController {
             'instagram' =>   'url',
             'prev_event_comment' =>  'min:5'
         );
-        // Validate the inputs
+
         $validator = Validator::make(Input::all(), $rules);
         if ($validator->passes())
         {
             $user->fill(Input::except(array('password_confirmation','month','day','year')));
-//            $dob = Input::get('year').'-'.Input::get('month').'-'.Input::get('day');
-//            $user->dob= $dob;
+            // Validate the inputs
+            if(Input::get('month')) {
+                $month = Input::get('month');
+            }
+            if(Input::get('day')) {
+                $day = Input::get('day');
+            }
+            if(Input::get('year')) {
+                $year = Input::get('year');
+            }
+            if(isset($month) && ($day) && ($year)){
+                $dob = $year.'-'.$month.'-'.$day.' 00:00:00';
+                $user->dob= $dob;
+            }
             $user->amend();
             return Redirect::action('UserController@getProfile',$user->id)
                 ->with( 'success', Lang::get('user/user.user_account_updated') );

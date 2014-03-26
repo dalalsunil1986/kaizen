@@ -85,7 +85,7 @@
                                 <td>{{ Lang::get('site.general.dob') }} : </td>
                                 <td>
                                     @if($user->dob)
-                                    {{ $user->job}}
+                                    {{ $user->dob->format("j-n-Y") }}
                                     @else
                                     {{ Lang::get('site.general.notavail')}}
                                     @endif
@@ -217,7 +217,7 @@
                     <td>{{ Lang::get('site.general.dob') }} : </td>
                     <td>
                         @if($user->dob)
-                        {{ $user->job}}
+                        {{ $user->dob->format("j-n-Y") }}
                         @else
                         {{ Lang::get('site.general.notavail')}}
                         @endif

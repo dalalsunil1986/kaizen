@@ -34,7 +34,7 @@
         {{ Form::text('mobile',NULL,array('class'=>'form-control input-lg','placeholder'=> 'Phone')) }}
         </br>
 
-        <select name="Country" class="form-control input-lg">
+        <select name="country" class="form-control input-lg">
         <option value="">Select Country</option>
         <option value="United States">United States</option>
         <option value="United Kingdom">United Kingdom</option>
@@ -279,12 +279,13 @@
         <option value="Zimbabwe">Zimbabwe</option>
         </select>
 
-
         </br>
         <label>Birth Date</label>
         <div class="row">
+
             <div class="col-xs-4 col-md-4">
                 <select name="month" class="form-control input-lg">
+                    <option value="">Select Month</option>
                     <option value="01">Jan</option>
                     <option value="02">Feb</option>
                     <option value="03">Mar</option>
@@ -300,12 +301,14 @@
                 </select></div>
             <div class="col-xs-4 col-md-4">
                 <select name="day" class="form-control input-lg">
+                    <option value="day">Select Day</option>
                     @for($i=1;$i<=31;$i++)
                     <option value="{{ $i }}"> {{ $i }}</option>
                     @endfor
                 </select></div>
             <div class="col-xs-4 col-md-4">
                 <select name="year" class="form-control input-lg">
+                    <option value="">Select Year</option>
                     @for($i=1930;$i<=2014;$i++)
                     <option value="{{ $i }}"> {{ $i }}</option>
                     @endfor

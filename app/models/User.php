@@ -164,4 +164,8 @@ class User extends ConfideUser implements PresentableInterface {
         return $query;
     }
 
+    public function getDates() {
+        return array('created_at','updated_at','dob');
+    }
+
 }
