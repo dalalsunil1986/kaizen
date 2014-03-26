@@ -33,7 +33,8 @@ Route::group(
         Route::resource('event','EventsController', array('only' => array('index', 'show')));
 
         // Contact Us Page
-        Route::resource('contact-us','ContactsController', array('only' => array('index','store')));
+        Route::resource('contact-us','ContactsController', array('only' => array('index')));
+        Route::post('contact-us/contact','ContactsController@contact');
 
         # Posts - Second to last set, match slug
         Route::get('blog/{postSlug}', 'BlogController@getView');

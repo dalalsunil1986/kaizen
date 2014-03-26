@@ -10,8 +10,8 @@
     </address>
 
     <div class="row col-md-8">
-        {{ Form::open(array('action' => 'ContactsController@store')) }}
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        {{ Form::open(array('method' => 'POST', 'action' => array('ContactsController@contact'), 'role'=>'form')) }}
+
             <div class="form-group">
                 <label for="exampleInputEmail">{{ Lang::get('site.general.email') }}</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="{{ Lang::get('site.general.email') }}">

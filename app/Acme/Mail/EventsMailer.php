@@ -27,7 +27,7 @@ class EventsMailer extends Mailer
     {
         $view = 'emails.notify-followers';
         foreach ($model as $user) {
-            $this->sendTo($view,$args,$user);
+            $this->send($view,$args,$user);
         }
     }
 

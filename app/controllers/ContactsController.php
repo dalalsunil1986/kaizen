@@ -1,5 +1,7 @@
 <?php
 
+use Acme\Mail\ContactsMailer;
+
 class ContactsController extends BaseController {
 
     /**
@@ -10,11 +12,16 @@ class ContactsController extends BaseController {
     protected $model;
 
     protected $layout = 'site.layouts.home';
+    /**
+     * @var Acme\Mail\ContactsMailer
+     */
+    private $mailer;
 
-    public function __construct(Contact $model)
+    public function __construct(Contact $model, ContactsMailer $mailer)
     {
         $this->model = $model;
         parent::__construct();
+        $this->mailer = $mailer;
     }
 	/**
 	 * Display a listing of the resource.
@@ -38,23 +45,23 @@ class ContactsController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function contact()
 	{
-        $data = Input::all();
-        $contact = $this->model->firstOrFail();
-        $validate = Validator::make($data, $this->model->rules);
-        $view= 'site.contact-us';
-        $subject = 'Kaizen.com - '.$data['name']. ' Has contact you';
+        $args = Input::all();
+        $rules = array(
+            'email'=>'required|email',
+            'name'=>'required',
+            'comment'=>'required|min:5'
+        );
+        $user = $this->model->first();
+        $validate = Validator::make($args,$rules);
         if($validate->passes()) {
-            Mail::send($view, $data, function($message) use ($data, $contact, $subject) {
-                $message->to('z4ls@live.com')
-                        ->subject($subject)
-                        ->from($data['email'],$data['name']);
-            });
-            return Redirect::home();
-
-        } else {
-            dd($validate->errors());
+            if($this->mailer->sendMail($user,$args)) {
+                return Redirect::home()->with('success','Mail Sent');
+            }
+            return Redirect::home()->with('error','Error Sending Mail');
         }
+        return Redirect::back()->withInput()->with('error',$validate->errors()->all());
+
 	}
 }

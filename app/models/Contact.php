@@ -6,7 +6,7 @@ class Contact extends \Eloquent {
 
     public $rules= [
         'email'=>'required|email',
-        'comment'=>'required|min:3',
+        'username'=>'required',
         'mobile' => 'int',
         'phone' =>'int'
     ];
