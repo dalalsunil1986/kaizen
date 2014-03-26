@@ -1,10 +1,10 @@
 <?php
 
-class Contact extends \Eloquent {
+class Contact extends BaseModel {
 	protected $fillable = [];
     protected $table = 'contacts';
 
-    public $rules= [
+    public static $rules= [
         'email'=>'required|email',
         'username'=>'required',
         'mobile' => 'int',

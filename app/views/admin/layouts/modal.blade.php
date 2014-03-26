@@ -58,9 +58,8 @@
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-    <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
-
 
 </head>
 
