@@ -16,10 +16,12 @@ class CreateCommentsTable extends Migration {
 		{
             $table->engine = 'InnoDB';
 			$table->increments('id')->unsigned();
-			$table->integer('user_id')->unsigned();
+			$table->integer('user_id')->unsigned()->index();
             $table->morphs('commentable');
 			$table->text('content');
 			$table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
 		});
 	}
 

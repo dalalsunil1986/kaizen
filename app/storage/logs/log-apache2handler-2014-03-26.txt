@@ -271,3 +271,8 @@ Stack trace:
 #24 /vagrant/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(606): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #25 /vagrant/public/index.php(49): Illuminate\Foundation\Application->run()
 #26 {main} [] []
+[2014-03-26 14:24:39] local.ERROR: 500 - Call to undefined method Illuminate\Events\Dispatcher::all() @ /en/test
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to undefined method Illuminate\Events\Dispatcher::all()' in /vagrant/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:205
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []

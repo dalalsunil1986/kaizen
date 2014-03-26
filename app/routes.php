@@ -18,6 +18,31 @@ Route::group(
     ),
     function()
     {
+        Route::get('/test', function () {
+            $total_events = EventModel::all()->count();
+            echo 'total events: ' .$total_events;
+            echo '<br>';
+
+            $total_cat = Category::all()->count();
+            echo 'total categories: ' .$total_cat;
+            echo '<br>';
+            $total_fav = Favorite::all()->count();
+            echo 'total favorites: ' .$total_fav;
+            echo '<br>';
+            $total_sub = Subscription::all()->count();
+            echo 'total sub: ' .$total_sub;
+            echo '<br>';
+            $total_fol = Follower::all()->count();
+            echo 'total follower: ' .$total_fol;
+            echo '<br>';
+
+            $total_comments = Comment::all()->count();
+            echo 'total_comments:' .$total_comments;
+            echo '<br>';
+            $user_posts = EventModel::where('user_id','3')->count();
+            echo 'total_user_posts:' .$user_posts;
+
+        });
         //Event Routes
         Route::get('event/{id}/category', 'EventsController@getCategory');
         Route::get('event/{id}/author', 'EventsController@getAuthor');
