@@ -3,7 +3,7 @@
 class PostsTableSeeder extends Seeder {
     public function run()
     {
-        DB::table('posts')->truncate();
+//        DB::table('posts')->truncate();
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 30; $i++)
         {

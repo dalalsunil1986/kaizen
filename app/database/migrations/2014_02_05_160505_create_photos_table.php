@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateSubscriptionsTable extends Migration {
+class CreatePhotosTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,12 @@ class CreateSubscriptionsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('subscriptions', function(Blueprint $table) {
+		Schema::create('photos', function(Blueprint $table) {
             $table->engine = 'InnoDB';
 			$table->increments('id');
-			$table->integer('user_id');
-			$table->integer('event_id');
+			$table->string('name');
+            $table->morphs('imageable');
+            $table->boolean('featured');
 			$table->timestamps();
 		});
 	}
@@ -29,7 +30,7 @@ class CreateSubscriptionsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('subscriptions');
+		Schema::drop('photos');
 	}
 
 }

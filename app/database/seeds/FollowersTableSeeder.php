@@ -5,7 +5,7 @@ class FollowersTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-		 DB::table('followers')->truncate();
+//		 DB::table('followers')->truncate();
 
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 40; $i++)

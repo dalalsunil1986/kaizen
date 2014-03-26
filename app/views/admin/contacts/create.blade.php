@@ -22,6 +22,10 @@
         {{ Form::label('phone', 'Company Phone:',array('class'=>'control-label')) }}
         {{ Form::text('phone',NULL,array('class'=>'form-control')) }}
     </div>
+<div class="form-group">
+        {{ Form::label('mobile', 'Mobile Phone:',array('class'=>'control-label')) }}
+        {{ Form::text('mobile',NULL,array('class'=>'form-control')) }}
+    </div>
 
         <div class="form-group">
             {{ Form::submit('Update', array('class' => 'btn btn-info')) }}

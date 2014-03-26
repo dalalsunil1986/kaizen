@@ -8,7 +8,8 @@ class Contact extends BaseModel {
         'email'=>'required|email',
         'username'=>'required',
         'mobile' => 'integer',
-        'phone' =>'integer'
+        'phone' =>'integer',
+        'mobile'=>'integer'
     ];
 
 }

@@ -71,7 +71,7 @@ App::error(function(Exception $exception, $code)
             return Response::view('error/404',array(), 404);
 
         default:
-            return Response::view('error/default', array(), $code);
+            return Response::view('error/default', array(), 503);
     }
 });
 

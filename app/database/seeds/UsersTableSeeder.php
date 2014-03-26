@@ -6,8 +6,8 @@ class UsersTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0'); // disable foreign key constraints
-        DB::table('users')->truncate();
+
+//        DB::table('users')->truncate();
         $users = array(
             array(
                 'username'      => 'ad_user',

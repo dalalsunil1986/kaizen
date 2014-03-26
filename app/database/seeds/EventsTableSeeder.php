@@ -8,7 +8,7 @@ class EventsTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-		DB::table('events')->truncate();
+//		DB::table('events')->truncate();
         $faker = Faker\Factory::create();
         $dt = Carbon::now();
         $dateNow = $dt->toDateTimeString();

@@ -46,7 +46,7 @@ class AdminContactsController extends BaseController {
         if(!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-        return parent::redirectToAdmin();
+        return parent::redirectToAdmin()->with('success','Saved Contact Information');
 //        $data = Input::all();
 //        $contact = $this->model->first();
 //        if($contact) {

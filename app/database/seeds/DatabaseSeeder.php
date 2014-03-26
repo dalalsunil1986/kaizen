@@ -2,9 +2,32 @@
 
 class DatabaseSeeder extends Seeder {
 
+    private $tables = [
+        'assigned_roles',
+        'authors',
+        'categories',
+        'comments',
+        'contacts',
+        'countries',
+        'events',
+        'failed_jobs',
+        'favorites',
+        'followers',
+        'locations',
+        'migrations',
+        'password_reminders',
+        'permission_role',
+        'permissions',
+        'photos',
+        'posts',
+        'roles',
+        'subscriptions',
+        'users'
+    ];
     public function run()
     {
         Eloquent::unguard();
+        $this->cleanDatabase();
 
         // Add calls to Seeders here
         $this->call('UsersTableSeeder');
@@ -23,5 +46,15 @@ class DatabaseSeeder extends Seeder {
 		$this->call('AuthorsTableSeeder');
         $this->call('ContactsTableSeeder');
 	}
+
+    private function cleanDatabase()
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        foreach ($this->tables as $table) {
+            DB::table($table)->truncate();
+        }
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+    }
 
 }

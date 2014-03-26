@@ -4,7 +4,7 @@ class PermissionsTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('permissions')->truncate();
+//        DB::table('permissions')->truncate();
 
 
         $permissions = array(
@@ -36,7 +36,7 @@ class PermissionsTableSeeder extends Seeder {
 
         DB::table('permissions')->insert( $permissions );
 
-        DB::table('permission_role')->truncate();
+//        DB::table('permission_role')->truncate();
 
         $permissions = array(
             array(

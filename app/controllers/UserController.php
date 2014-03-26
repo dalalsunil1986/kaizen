@@ -139,7 +139,7 @@ class UserController extends BaseController {
 //                dd('password does not match'); //true
 
                 // Redirect to the new user page
-                return Redirect::back()->with('error', Lang::get('admin/users/messages.password_does_not_match'));
+                return Redirect::back()->with('error', Lang::get('admin/users/messages.password_does_not_match'))->withInput(Input::except(array('password_confirmation','password')));
             }
         } else {
 //            dd('password is empty'); //true

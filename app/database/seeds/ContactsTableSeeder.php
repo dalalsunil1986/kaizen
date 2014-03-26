@@ -7,7 +7,7 @@ class ContactsTableSeeder extends Seeder {
 
 	public function run()
 	{
-        DB::table('contacts')->truncate();
+//        DB::table('contacts')->truncate();
         $faker = Faker::create();
 
         $contacts = array([
