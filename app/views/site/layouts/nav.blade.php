@@ -13,8 +13,8 @@ extends('site.layouts.home')
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="{{ Request::is('/')? 'active' : '' }}" ><a href="{{ action('EventsController@slider') }}">{{ Lang::get('site.nav.home')}}</a></li>
-                <li class="{{ Request::is('events')? 'active' : '' }}"><a href="{{ action('EventsController@index') }}">{{ Lang::get('site.nav.events') }}</a></li>
+                <li class="{{ Request::is('/')? 'active' : '' }}" ><a href="{{ action('EventsController@dashboard') }}">{{ Lang::get('site.nav.home')}}</a></li>
+                <li class="{{ Request::is('event')? 'active' : '' }}"><a href="{{ action('EventsController@index') }}">{{ Lang::get('site.nav.events') }}</a></li>
                 <li class="{{ Request::is('/')? 'active' : '' }}"><a href="#">{{ Lang::get('site.nav.consultancies') }}</a></li>
                 <li class="{{ Request::is('/blog')? 'active' : '' }}"><a href="{{ action('BlogController@getIndex') }}">{{ Lang::get('site.nav.posts') }}</a></li>
                 <li class="{{ Request::is('/contact-us')? 'active' : '' }}"><a href="{{ action('ContactsController@index') }}">{{ Lang::get('site.nav.contactus') }}</a></li>

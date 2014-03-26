@@ -72,7 +72,7 @@ Route::group(
         Route::get('ads1','AdsController@getAd1');
         Route::get('ads2','AdsController@getAd2');
 
-        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@slider'));
+        Route::get('/', array('as'=>'home', 'uses' => 'EventsController@dashboard'));
 
         /* Admin Route Group */
         Route::group(array('prefix' => 'admin', 'before' =>'auth|Moderator'), function () {

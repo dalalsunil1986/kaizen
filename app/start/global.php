@@ -67,8 +67,11 @@ App::error(function(Exception $exception, $code)
         case 500:
             return Response::view('error/500', array(), 500);
 
+        case 404:
+            return Response::view('error/404',array(), 404);
+
         default:
-            return Response::view('error/404', array(), $code);
+            return Response::view('error/default', array(), $code);
     }
 });
 
