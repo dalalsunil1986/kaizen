@@ -64,7 +64,7 @@
                             <tr>
                                 <td>{{ Lang::get('site.general.country') }} : </td>
                                 <td>
-                                    @if($user->country))
+                                    @if($user->country)
                                     {{ $user->country}}
                                     @else
                                     {{ Lang::get('site.general.notavail')}}
@@ -196,7 +196,7 @@
                 <tr>
                     <td>{{ Lang::get('site.general.country') }} : </td>
                     <td>
-                        @if($user->country))
+                        @if($user->country)
                         {{ $user->country}}
                         @else
                         {{ Lang::get('site.general.notavail')}}

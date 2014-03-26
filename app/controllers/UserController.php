@@ -107,7 +107,6 @@ class UserController extends BaseController {
      */
     public function update($user)
     {
-        $oldUser = clone $user;
         $rules = array(
             'password' => 'sometimes|between:4,11|confirmed',
             'password_confirmation' => 'between:4,11',
@@ -119,36 +118,14 @@ class UserController extends BaseController {
             'instagram' =>   'url',
             'prev_event_comment' =>  'min:5'
         );
-
         // Validate the inputs
         $validator = Validator::make(Input::all(), $rules);
-        $password = Input::get('password');
-        $passwordConfirmation = Input::get('password_confirmation');
-
-        if(!empty($password)) {
-//            dd('password is not empty'); //true
-            if($password === $passwordConfirmation) {
-//                dd('password matches'); // true
-
-                $user->password = $password;
-                // The password confirmation will be removed from model
-                // before saving. This field will be used in Ardent's
-                // auto validation.
-                $user->password_confirmation = $passwordConfirmation;
-            } else {
-//                dd('password does not match'); //true
-
-                // Redirect to the new user page
-                return Redirect::back()->with('error', Lang::get('admin/users/messages.password_does_not_match'))->withInput(Input::except(array('password_confirmation','password')));
-            }
-        } else {
-//            dd('password is empty'); //true
-            unset($user->password);
-            unset($user->password_confirmation);
-        }
         if ($validator->passes())
         {
-
+            $user->fill(Input::except(array('password_confirmation','month','day','year')));
+//            $dob = Input::get('year').'-'.Input::get('month').'-'.Input::get('day');
+//            $user->dob= $dob;
+            $user->amend();
             return Redirect::action('UserController@getProfile',$user->id)
                 ->with( 'success', Lang::get('user/user.user_account_updated') );
         } else {
