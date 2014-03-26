@@ -59,7 +59,7 @@ class EventsController extends BaseController
         if(!empty($search) || !empty($category) || !empty($author) || !empty($country)) {
 
 
-            $events = $this->model->with('category')->
+            $events = $this->model->with(array('category','location.country','photos','author'))->
                 where('date_start','>',$this->currentTime)->
                 where(function($query) use ($search, $category, $author, $country)
             {
@@ -459,7 +459,10 @@ class EventsController extends BaseController
     }
 
     public function getEvents($perPage) {
-        return $this->model->with(array('category','location.country','photos','author'))->where('date_start','>',$this->currentTime)->orderBy('date_start','DESC')->paginate($perPage);
+        return $this->model
+            ->with(array('category','location.country','photos','author'))
+            ->where('date_start','>',$this->currentTime)->orderBy('date_start','DESC')
+            ->paginate($perPage);
     }
 
 }

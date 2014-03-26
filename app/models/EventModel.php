@@ -122,13 +122,21 @@ class EventModel extends BaseModel {
 
     /*
      * @todo fix the query
+     * this method can be eager loaded as nested relationship, ex;location.query and
+     * can be accessed in view as location->country->name
      *
      */
     public function country() {
 //        return $this->hasManyThrough('Country','Location','country_id','id');
-        return $this->location()->country;
+//        return $this->location()->country;
+
     }
 
+    /**
+     * Return all the categories for Event
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     *
+     */
 //    public function categories() {
 //        return $this->hasMany('Category'); // where
 //    }
@@ -216,6 +224,9 @@ class EventModel extends BaseModel {
         return null;
     }
 
+    public function getDates() {
+        return array('created_at','updated_at','date_start','date_end');
+    }
 
 }
 

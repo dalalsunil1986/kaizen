@@ -1,24 +1,16 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
-|
-*/
-
 /**
- * route group for localized url
+ * Route Model Binding
  */
 Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
 Route::model('user', 'User');
 
+/**
+ * Route Group for Localized url
+ */
 Route::group(
     array(
         'prefix' => LaravelLocalization::setLocale(), // default : English === it will set the local language according to the session
@@ -27,8 +19,6 @@ Route::group(
     function()
     {
         //Event Routes
-        Route::resource('event','EventsController', array('only' => array('index', 'show')));
-        Route::get('events', 'EventsController@index');
         Route::get('event/{id}/category', 'EventsController@getCategory');
         Route::get('event/{id}/author', 'EventsController@getAuthor');
         Route::get('event/{id}/subscribe',array('as'=>'event.subscribe','uses'=>'EventsController@subscribe'));
@@ -39,13 +29,9 @@ Route::group(
         Route::get('event/{id}/unfavorite',array('as'=>'event.unfavorite','uses'=>'EventsController@unfavorite'));
         Route::get('events/featured',array('as'=>'event.featured','uses'=>'EventsController@getSliderEvents'));
         Route::get('event/{id}/country','EventsController@getCountry');
-
-
-        // Search Route
-        Route::get('events/search',array('as'=>'event.search','uses'=>'EventsController@search'));
-
-        //get latest 3 posts for sidebar
         Route::get('events/latest',array('as'=>'event.latest','uses'=>'EventsController@latest'));
+        Route::resource('event','EventsController', array('only' => array('index', 'show')));
+
         // Contact Us Page
         Route::resource('contact-us','ContactsController', array('only' => array('index','store')));
 
@@ -71,12 +57,11 @@ Route::group(
         Route::get ('user/forgot', array('as'=>'forgot','uses'=>'UserController@getForgot'));
         Route::post('user/forgot', array('as'=>'forgot','uses'=>'UserController@postForgot'));
         Route::get('user/{id}/edit', array('uses'=>'UserController@edit'));
-
         Route::resource('user', 'UserController');
 
         //Category Routes
-        Route::get('category/{id}/events',['as'=>'CategoryEvents','uses'=>'CategoriesController@getEvents']);
-        Route::get('category/{id}/posts',['as'=>'CategoryPosts','uses'=>'CategoriesController@getPosts']);
+        Route::get('category/{id}/events',array('as'=>'CategoryEvents','uses'=>'CategoriesController@getEvents'));
+        Route::get('category/{id}/posts',array('as'=>'CategoryPosts','uses'=>'CategoriesController@getPosts'));
 
         //country
         Route::get('country/{id}/events', array('uses' => 'CountriesController@getEvents'));
@@ -91,18 +76,6 @@ Route::group(
 
         /* Admin Route Group */
         Route::group(array('prefix' => 'admin', 'before' =>'auth|Moderator'), function () {
-
-
-
-            // Just a Test Route to find the Roles of a User
-            Route::get('/findRoles/{role}',function($role) {
-                $user = new User();
-                $users = $user->getRoleByName($role);
-                foreach ($users as $user) {
-                    echo $user->username.'<br>';
-                }
-            });
-
 
             # Comment Management
             Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
@@ -152,19 +125,16 @@ Route::group(
             Route::resource('category','AdminCategoriesController');
 
             //countries
-
             Route::resource('country', 'AdminCountriesController');
+
             //Location Routes
-            Route::get('location/{id}/events', ['as'=>'LocationEvents','uses'=>'AdminLocationsController@getEvents']);
+            Route::get('location/{id}/events', array('as'=>'LocationEvents','uses'=>'AdminLocationsController@getEvents'));
             Route::resource('locations','AdminLocationsController');
 
             //ads
             Route::resource('ads','AdminAdsController',array('only' => array('index','store')));
 
             Route::get('/', 'AdminEventsController@index');
-
         });
-
     }
-
 );
