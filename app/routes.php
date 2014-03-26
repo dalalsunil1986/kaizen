@@ -125,6 +125,8 @@ Route::group(
             //category
             Route::resource('category','AdminCategoriesController');
 
+            Route::resource('contact-us','AdminContactsController',array('only'=>array('index','store')));
+
             //countries
             Route::resource('country', 'AdminCountriesController');
 

@@ -152,7 +152,6 @@ class EventsController extends BaseController
         //check whether user logged in
         $user = Auth::user();
         if (!empty($user->id)) {
-            //check whether seats are empty
             $event = $this->model->findOrFail($id);
 
             if (Subscription::isSubscribed($id,$user->id)) {
@@ -162,9 +161,10 @@ class EventsController extends BaseController
                     'message'=> 'you have already subscribed to this event'
                 ), 400 );
             }
-
+            //get available seats
             $available_seats = $this->availableSeats($event);
             // $available_seats = $event->available_seats;
+            //check whether seats are empty
             if ($available_seats >= 1) {
                 // subscribe this user
                 $event->subscriptions()->attach($user);
@@ -217,7 +217,6 @@ class EventsController extends BaseController
                     ), 200);
 
                 } else {
-//                    dd(' Error : Could not Unsubscribe You ');
                     return Response::json(array(
                         'success' => false,
                         'message'=> ' Error : Could not Unsubscribe You '

@@ -7,8 +7,8 @@ class Contact extends BaseModel {
     public static $rules= [
         'email'=>'required|email',
         'username'=>'required',
-        'mobile' => 'int',
-        'phone' =>'int'
+        'mobile' => 'integer',
+        'phone' =>'integer'
     ];
 
 }

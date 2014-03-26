@@ -2,7 +2,7 @@
 
 use Acme\Mail\ContactsMailer;
 
-class ContactsController extends BaseController {
+class AdminContactsController extends BaseController {
 
     /**
      * Contact Repository
@@ -20,8 +20,8 @@ class ContactsController extends BaseController {
     public function __construct(Contact $model, ContactsMailer $mailer)
     {
         $this->model = $model;
-        parent::__construct();
         $this->mailer = $mailer;
+        parent::__construct();
     }
 	/**
 	 * Display a listing of the resource.
@@ -30,7 +30,8 @@ class ContactsController extends BaseController {
 	 */
 	public function index()
 	{
-
+        $contact = $this->model->first();
+        return View::make('admin.contacts.create',compact('contact'));
 	}
 
 	/**
@@ -40,14 +41,20 @@ class ContactsController extends BaseController {
 	 */
 	public function store()
 	{
-        $data = Input::all();
-        $contact = $this->model->first();
-        if($contact) {
-            // update
+        $validation = $this->model->first();
+        $validation->fill(Input::all());
+        if(!$validation->save()) {
+            return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-        //save
-
-        $validate = Validator::make($data, $this->model->rules);
+        return parent::redirectToAdmin();
+//        $data = Input::all();
+//        $contact = $this->model->first();
+//        if($contact) {
+//            // update
+//        }
+//        //save
+//
+//        $validate = Validator::make($data, $this->model->rules);
 
 	}
 }
