@@ -211,7 +211,7 @@ class EventModel extends BaseModel {
     }
 
     public static function latest($count) {
-        return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->paginate($count);
+        return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->remember(10)->limit($count)->get();
     }
 
     protected function getHumanTimestampAttribute($column)

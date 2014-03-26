@@ -8,9 +8,11 @@ class AdsController extends BaseController {
      * @var Post
      */
     protected $model;
+
     /**
      * Inject the models.
-     * @param Post $post
+     * @param Ad $model
+     * @internal param \Post $post
      */
     public function __construct(Ad $model)
     {

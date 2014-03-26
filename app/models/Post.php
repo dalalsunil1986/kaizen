@@ -104,6 +104,6 @@ class Post extends BaseModel {
     }
 
     public static function latest($count) {
-        return Post::orderBy('created_at', 'DESC')->select('id','title','slug')->paginate($count);
+        return Post::orderBy('created_at', 'DESC')->select('id','title','slug')->remember(10)->limit($count)->get();
     }
 }

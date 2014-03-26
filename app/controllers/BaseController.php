@@ -16,20 +16,18 @@ abstract class BaseController extends Controller
      */
     public function __construct()
     {
-        $this->beforeFilter('csrf', array('on' => 'post'));
+        $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
+        $this->beforeFilter('ajax', array('on' => array('delete', 'put')));
         $this->sidebarPosts();
         $this->getAds();
     }
 
     public function sidebarPosts() {
-
         View::composer('site.layouts.sidebar', function($view)
         {
-
             $latest_event_posts = EventModel::latest(4);
             $latest_blog_posts  = Post::latest(4);
             $view->with(array('latest_event_posts'=>$latest_event_posts,'latest_blog_posts'=>$latest_blog_posts));
-
         });
     }
     public function getAds() {

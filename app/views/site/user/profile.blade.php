@@ -2,7 +2,6 @@
 @section('maincontent')
 @if(Helper::isOwner($user->id))
 
-
     <div class="row well">
         <div class="col-md-12">
             <ul class="nav nav-tabs" id="myTab">
@@ -150,7 +149,6 @@
     <div class="row well">
         <div class="col-lg-3">
             <img class="img-circle" src="http://critterapp.pagodabox.com/img/user.jpg" alt="">
-            <a href="{{ action('UserController@edit',$user->id)}}">Edit Profile</a>
         </div>
         <div class="col-lg-8">
             <table class="table table-striped">

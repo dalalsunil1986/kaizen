@@ -18,6 +18,7 @@ class UserController extends BaseController {
     {
         $this->user = $user;
         parent::__construct();
+        $this->beforeFilter('owner',array('only' => array('edit', 'update','delete')));
     }
 
     /**
@@ -328,26 +329,18 @@ class UserController extends BaseController {
 
     /**
      * Get user's profile
-     * @param $username
+     * @param $id
+     * @internal param $username
      * @return mixed
      */
     public function getProfile($id)
     {
-//        Post::with(array('user'=>function($query){
-//                $query->select('id','username');
-//            }))->get();
-        $user = $this->user->find($id)->with(array('favorites','subscriptions','followings'))->first();
-        // Check if the user exists
-        if (is_null($user))
-        {
-            return App::abort(404);
-        }
+        $user = $this->user->with(array('favorites','subscriptions','followings'))->findOrFail($id);
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->nav = view::make('site.layouts.nav');
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->maincontent = View::make('site/user/profile', compact('user'));
         $this->layout->footer = view::make('site.layouts.footer');
-
     }
 
     public function getSettings()
