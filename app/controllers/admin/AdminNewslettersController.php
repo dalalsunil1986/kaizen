@@ -6,11 +6,11 @@
  * Time: 6:57 PM
  */
 
-class NewslettersController extends BaseController{
+class NewslettersController extends AdminBaseController{
 
 
     public function __contstruct() {
-        //parent::__construct();
+        parent::__construct();
     }
 
     /**
@@ -28,8 +28,9 @@ class NewslettersController extends BaseController{
         }
     }
 
-    public function send() {
+    public function send($data) {
         //@todo
-        //send newsletter email
+        //send newsletter emai
+        Notify::newsletterSubscribers($data);
     }
 } 
