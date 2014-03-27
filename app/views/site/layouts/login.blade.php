@@ -63,7 +63,7 @@
             <ul class="nav navbar-nav navbar-left">
         @endif
         <li>
-            <form class="navbar-form navbar-left" role="search" method="GET" action="{{ URL::action('EventsController@search') }}">
+            <form class="navbar-form navbar-left" role="search" method="GET" action="{{ URL::action('EventsController@index') }}">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="{{ Lang::get('site.nav.search') }}" value="@if(isset($_GET['search'])) {{ $_GET['search'] }} @endif " name="search" >
                 </div>

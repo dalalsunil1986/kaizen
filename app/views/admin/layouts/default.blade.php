@@ -62,7 +62,7 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" type="text/javascript"></script>
 
     <!-- Asynchronous google analytics; this is the official snippet.
@@ -98,13 +98,14 @@
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li{{ (Request::is('admin/events*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/events') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li{{ (Request::is('admin/event*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                     <li{{ (Request::is('admin/blogs*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/blogs') }}}"><span class="glyphicon glyphicon-list-alt"></span> Blog</a></li>
                     <li{{ (Request::is('admin/category*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/category') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Category</a></li>
                     <li{{ (Request::is('admin/locations*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/locations') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Locations</a></li>
                     <li{{ (Request::is('admin/country*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/country') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Country</a></li>
                     <li{{ (Request::is('admin/comments*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/comments') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Comments</a></li>
                     <li{{ (Request::is('admin/ads*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/ads') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Ads</a></li>
+                    <li{{ (Request::is('admin/contact-us*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/contact-us') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Contact</a></li>
                     <li class="dropdown{{ (Request::is('admin/users*|admin/roles*') ? ' active' : '') }}">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/users') }}}">
                             <span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span>

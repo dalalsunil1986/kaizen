@@ -5,19 +5,19 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateEventsTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('events', function(Blueprint $table) {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('events', function(Blueprint $table) {
             $table->engine = 'InnoDB';
-			$table->increments('id');
-			$table->integer('category_id');
-			$table->integer('user_id');
-			$table->integer('location_id');
+            $table->increments('id');
+            $table->integer('category_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
+            $table->integer('location_id');
             $table->string('title');
             $table->string('title_en');
             $table->text('description');
@@ -39,19 +39,21 @@ class CreateEventsTable extends Migration {
             $table->boolean('featured');
             $table->string('button');
             $table->string('button_en');
-			$table->timestamps();
-		});
-	}
+            $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+        });
+    }
 
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('events');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('events');
+    }
 
 }

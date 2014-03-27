@@ -21,7 +21,6 @@ App::after(function($request, $response)
 {
     //
 });
-
 /*
 |--------------------------------------------------------------------------
 | Authentication Filters
@@ -119,5 +118,15 @@ Route::filter('csrf', function()
     }
 });
 
-
+Route::filter('owner', function($route, $request)
+{
+    if(Auth::check())
+        if( $request->segment(3) != Auth::user()->id)
+        {
+            return Redirect::action('EventsController@dashboard')->with('error','You are not supposed to do that');
+        } else {
+            return ;
+        }
+    return Redirect::action('UserController@getLogin')->with('error','Please login');
+});
 

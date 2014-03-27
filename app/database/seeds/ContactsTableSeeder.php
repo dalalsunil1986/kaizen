@@ -7,14 +7,15 @@ class ContactsTableSeeder extends Seeder {
 
 	public function run()
 	{
-        DB::table('contacts')->truncate();
+//        DB::table('contacts')->truncate();
         $faker = Faker::create();
 
         $contacts = array([
             'address' => $faker->address,
-            'email'   => $faker->email,
+            'email'   =>'z4ls@live.com',
             'phone'   => $faker->phoneNumber,
-            'mobile'  => $faker->phoneNumber
+            'mobile'  => $faker->phoneNumber,
+            'username'=> 'Kaizen Admin'
         ]);
         DB::table('contacts')->insert($contacts);
 	}

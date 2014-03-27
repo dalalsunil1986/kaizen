@@ -14,7 +14,7 @@ abstract class AdminBaseController extends BaseController
      * Initializer.
      *
      * @access   public
-     * @return \BaseController
+     * @return \AdminBaseController
      */
     public function __construct()
     {

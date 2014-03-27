@@ -55,7 +55,7 @@ class EventModel extends BaseModel {
      */
     public function followers() {
 //        return $this->hasMany('Follower','event_id');
-        $followers = $this->belongsToMany('User', 'followers','event_id','user_id');
+        $followers = $this->belongsToMany('User', 'followers','event_id','user_id')->select('username','email');
         return $followers;
     }
 
@@ -122,13 +122,21 @@ class EventModel extends BaseModel {
 
     /*
      * @todo fix the query
+     * this method can be eager loaded as nested relationship, ex;location.query and
+     * can be accessed in view as location->country->name
      *
      */
     public function country() {
 //        return $this->hasManyThrough('Country','Location','country_id','id');
-        return Null;
+//        return $this->location()->country;
+
     }
 
+    /**
+     * Return all the categories for Event
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     *
+     */
 //    public function categories() {
 //        return $this->hasMany('Category'); // where
 //    }
@@ -203,7 +211,7 @@ class EventModel extends BaseModel {
     }
 
     public static function latest($count) {
-        return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->paginate($count);
+        return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->remember(10)->limit($count)->get();
     }
 
     protected function getHumanTimestampAttribute($column)
@@ -216,6 +224,9 @@ class EventModel extends BaseModel {
         return null;
     }
 
+    public function getDates() {
+        return array('created_at','updated_at','date_start','date_end');
+    }
 
 }
 

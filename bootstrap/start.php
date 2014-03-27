@@ -23,12 +23,10 @@ $app = new Illuminate\Foundation\Application;
 | given environment, then we will automatically detect it for you.
 |
 */
-
-$env = $app->detectEnvironment(array(
-
-	'local' => array('localhost','precise32'),
-//    'local' => array('vagrant-laravel4')
-));
+//putenv('ENV=production');
+$env = $app->detectEnvironment(function() {
+    return getenv('ENV') ? :'local';
+});
 
 
 /*

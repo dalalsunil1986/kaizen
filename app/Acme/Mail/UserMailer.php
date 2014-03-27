@@ -10,11 +10,17 @@ use User;
 
 class UserMailer extends  Mailer {
 
-    public function welcome(User $user) {
+    /**
+     * @param $user
+     * @param $args
+     * @return mixed|void
+     * //todo fix
+     */
+    public function sendMail($user,$args) {
         $view = 'emails.welcome';
         $data = [];
         $subject = 'hey';
-        return $this->sendTo($user, $subject, $view, $data);
+        return $this->send($user, $subject, $view, $data);
     }
 
 } 

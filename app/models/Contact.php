@@ -1,14 +1,15 @@
 <?php
 
-class Contact extends \Eloquent {
+class Contact extends BaseModel {
 	protected $fillable = [];
     protected $table = 'contacts';
 
-    public $rules= [
+    public static $rules= [
         'email'=>'required|email',
-        'comment'=>'required|min:3',
-        'mobile' => 'int',
-        'phone' =>'int'
+        'username'=>'required',
+        'mobile' => 'integer',
+        'phone' =>'integer',
+        'mobile'=>'integer'
     ];
 
 }

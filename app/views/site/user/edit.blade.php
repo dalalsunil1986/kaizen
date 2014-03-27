@@ -314,25 +314,29 @@
         </div>
 
         <br/>
-        <label>Gender : </label> <label class="radio-inline">
-            <input type="radio" name="gender" value="M" id=male/> Male
+        <label>Gender : </label>
+        <label class="radio-inline">
+            {{ Form::radio('gender', 'M', null,  ['id' => 'male']) }}
+            Male
         </label>
         <label class="radio-inline">
-            <input type="radio" name="gender" value="F" id=female/> Female
+            {{ Form::radio('gender', 'F', null,  ['id' => 'female']) }}
+            Female
         </label>
         <br/>
         <div class="row">
             <div class="col-xs-6 col-md-6">
-                <input type="text" name="twitter" value="" class="form-control input-lg" placeholder="Twitter Account"/>
+                {{ Form::text('twitter',NULL,array('class'=>'form-control input-lg','placeholder'=> 'Twitter Account')) }}
             </div>
 <!--            {{ $errors->first('twitter', '<span class="error">:message</span>') }}-->
             <div class="col-xs-6 col-md-6">
-                <input type="text" name="instagram" value="" class="form-control input-lg" placeholder="Istagram Account"/>
+                {{ Form::text('instagram',NULL,array('class'=>'form-control input-lg','placeholder'=> 'Istagram Account')) }}
             </div>
 <!--            {{ $errors->first('instagram', '<span class="error">:message</span>') }}-->
         </div>
         </br>
-        <textarea name="prev_event_comment" class="form-control" rows="3" placeholder="Previous Events in Kaizen"></textarea>
+        {{ Form::textarea('prev_event_comment',NULL,array('class'=>'form-control','placeholder'=> 'Previous Events in Kaizen','rows'=>'3')) }}
+
 <!--        {{ $errors->first('prev_event_comment', '<span class="error">:message</span>') }}-->
         </br>
         <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">

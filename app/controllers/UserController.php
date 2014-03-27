@@ -18,6 +18,7 @@ class UserController extends BaseController {
     {
         $this->user = $user;
         parent::__construct();
+        $this->beforeFilter('owner',array('only' => array('edit', 'update','delete')));
     }
 
     /**
@@ -106,7 +107,6 @@ class UserController extends BaseController {
      */
     public function update($user)
     {
-        $oldUser = clone $user;
         $rules = array(
             'password' => 'sometimes|between:4,11|confirmed',
             'password_confirmation' => 'between:4,11',
@@ -118,36 +118,14 @@ class UserController extends BaseController {
             'instagram' =>   'url',
             'prev_event_comment' =>  'min:5'
         );
-
         // Validate the inputs
         $validator = Validator::make(Input::all(), $rules);
-        $password = Input::get('password');
-        $passwordConfirmation = Input::get('password_confirmation');
-
-        if(!empty($password)) {
-//            dd('password is not empty'); //true
-            if($password === $passwordConfirmation) {
-//                dd('password matches'); // true
-
-                $user->password = $password;
-                // The password confirmation will be removed from model
-                // before saving. This field will be used in Ardent's
-                // auto validation.
-                $user->password_confirmation = $passwordConfirmation;
-            } else {
-//                dd('password does not match'); //true
-
-                // Redirect to the new user page
-                return Redirect::back()->with('error', Lang::get('admin/users/messages.password_does_not_match'));
-            }
-        } else {
-//            dd('password is empty'); //true
-            unset($user->password);
-            unset($user->password_confirmation);
-        }
         if ($validator->passes())
         {
-
+            $user->fill(Input::except(array('password_confirmation','month','day','year')));
+//            $dob = Input::get('year').'-'.Input::get('month').'-'.Input::get('day');
+//            $user->dob= $dob;
+            $user->amend();
             return Redirect::action('UserController@getProfile',$user->id)
                 ->with( 'success', Lang::get('user/user.user_account_updated') );
         } else {
@@ -328,26 +306,18 @@ class UserController extends BaseController {
 
     /**
      * Get user's profile
-     * @param $username
+     * @param $id
+     * @internal param $username
      * @return mixed
      */
-    public function getProfile($username)
+    public function getProfile($id)
     {
-//        $userModel = new User;
-//        $user = $userModel->getUserByUsername($username);
-
-        $user = $this->user->find($username);
-        // Check if the user exists
-        if (is_null($user))
-        {
-            return App::abort(404);
-        }
+        $user = $this->user->with(array('favorites','subscriptions','followings'))->findOrFail($id);
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->nav = view::make('site.layouts.nav');
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->maincontent = View::make('site/user/profile', compact('user'));
         $this->layout->footer = view::make('site.layouts.footer');
-
     }
 
     public function getSettings()

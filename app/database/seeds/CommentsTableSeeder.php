@@ -5,7 +5,7 @@ class CommentsTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('comments')->truncate();
+//        DB::table('comments')->truncate();
 
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 50; $i++)

@@ -282,7 +282,8 @@ class AdminUsersController extends AdminBaseController {
     {
         $users = User::leftjoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
                     ->leftjoin('roles', 'roles.id', '=', 'assigned_roles.role_id')
-                    ->select(array('users.id', 'users.username','users.email', 'roles.name as rolename', 'users.confirmed', 'users.created_at'));
+                    ->select(array('users.id', 'users.username','users.email', 'roles.name as rolename', 'users.confirmed', 'users.created_at'))
+                    ->groupBy('users.email');
 
         return Datatables::of($users)
         // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')

@@ -147,11 +147,36 @@ class AdminEventsController extends AdminBaseController
      * Send Notification Email for the Event Followers
      */
 
-    public function notifyFollowers($id)
+    public function mailFollowers($id)
     {
-        $event = $this->model->find($id);
-        Notify::lessonSubscribers($event);
-//        return $this->mailer->notifyFollowers($event);
+        $event = $this->model->find($id)->followers;
+        try {
+            $this->mailer->sendMail($event,Input::all());
+        } catch(\Exception $e) {
+            return Redirect::back()->with('error','Email Could not send');
+        }
+        return Redirect::back()->with('success','Email Sent');
+    }
+
+    public function mailFavorites($id)
+    {
+        $event = $this->model->find($id)->favorites;
+        try {
+           $this->mailer->sendMail($event,Input::all());
+        } catch(\Exception $e) {
+            return Redirect::back()->with('error','Email Could not send');
+        }
+        return Redirect::back()->with('success','Email Sent');
+    }
+    public function mailSubscribers($id)
+    {
+        $event = $this->model->find($id)->subscribers;
+        try {
+            $this->mailer->sendMail($event,Input::all());
+        } catch(\Exception $e) {
+            return Redirect::back()->with('error','Email Could not send');
+        }
+        return Redirect::back()->with('success','Email Sent');
     }
 
     public function settings($id)

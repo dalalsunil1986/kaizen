@@ -1,6 +1,7 @@
 <?php namespace Acme\Mail;
 
 use EventModel;
+use Mail;
 
 /**
  * Created by PhpStorm.
@@ -19,6 +20,14 @@ class EventsMailer extends Mailer
             $subject = 'Hello ' . $follower->username;
 //            var_dump($mail_to);
             $this->sendTo($mail_to, $subject, $view, $data);
+        }
+    }
+
+    public function sendMail($model,$args)
+    {
+        $view = 'emails.notify-followers';
+        foreach ($model as $user) {
+            $this->send($view,$args,$user);
         }
     }
 

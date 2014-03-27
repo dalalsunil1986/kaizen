@@ -6,7 +6,7 @@ class PhotosTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-		 DB::table('photos')->truncate();
+//		 DB::table('photos')->truncate();
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 50; $i++)
         {
@@ -15,7 +15,7 @@ class PhotosTableSeeder extends Seeder {
             $images = array(
 
                 [
-         'name' => $faker->imageUrl(120,120),
+            'name' => $faker->imageUrl(120,120),
                     'imageable_id' => $event,
                     'imageable_type' => $faker->randomElement(['EventModel','Blog']),
                     'created_at' => new DateTime,
