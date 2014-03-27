@@ -5,7 +5,7 @@ extends('site.layout.home')
     @if($ad1)
         <div id="ads-1" class="col-md-6">
             <div class="ads" style="height: 125px;width: 460px; overflow: hidden">
-                {{ HTML::image('uploads/'.$ad1.'','image1',array('class'=>'img-responsive')) }}
+                {{ HTML::image($ad1.'','image1',array('class'=>'img-responsive')) }}
             </div>
         </div>
     @else
@@ -13,7 +13,7 @@ extends('site.layout.home')
     @endif
 
     @if($ad2)
-        {{ HTML::image('uploads/'.$ad2.'','image2',array('class'=>'img-responsive')) }}
+            {{ HTML::image($ad2.'','image1',array('class'=>'img-responsive')) }}
     @else
         <div id="ads-2" class="col-md-6"><img class="img-responsive" src=" http://placehold.it/550x150"/></div>
     @endif

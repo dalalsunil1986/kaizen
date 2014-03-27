@@ -82,6 +82,7 @@ class EventsController extends BaseController
         } else {
             $events = $this->getEvents($perPage);
         }
+
         //  $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->nav = view::make('site.layouts.nav');
