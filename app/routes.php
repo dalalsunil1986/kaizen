@@ -8,6 +8,17 @@ Route::model('post', 'Post');
 Route::model('role', 'Role');
 Route::model('user', 'User');
 
+
+/** ------------------------------------------
+ *  Route constraint patterns
+ *  ------------------------------------------
+ */
+Route::pattern('comment', '[0-9]+');
+Route::pattern('post', '[0-9]+');
+Route::pattern('user', '[0-9]+');
+Route::pattern('role', '[0-9]+');
+Route::pattern('token', '[0-9a-z]+');
+
 /**
  * Route Group for Localized url
  */
@@ -60,7 +71,6 @@ Route::group(
         Route::post('user/forgot', array('as'=>'forgot','uses'=>'UserController@postForgot'));
         Route::get('user/{id}/edit', array('uses'=>'UserController@edit'));
         Route::get('user/confirm/{token}', array('uses'=>'UserController@confirm'));
-
         Route::resource('user', 'UserController');
 
         //Category Routes
