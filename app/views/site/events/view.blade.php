@@ -1,7 +1,44 @@
 @extends('site.layouts.home')
 @section('maincontent')
+<link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+{{ HTML::style('css/bootstrap-image-gallery.min.css') }}
 <div class="row">
-
+    <!-- gallery Template Divisions that should be load each time we will use the gallery -->
+    <div id="blueimp-gallery" class="blueimp-gallery">
+        <!-- The container for the modal slides -->
+        <div class="slides"></div>
+        <!-- Controls for the borderless lightbox -->
+        <h3 class="title"></h3>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="close">×</a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
+        <!-- The modal dialog, which will be used to wrap the lightbox content -->
+        <div class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body next"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left prev">
+                            <i class="glyphicon glyphicon-chevron-left"></i>
+                            Previous
+                        </button>
+                        <button type="button" class="btn btn-primary next">
+                            Next
+                            <i class="glyphicon glyphicon-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- sidecontent division -->
         <div class="row text-center {{ !Auth::user()? 'btns_disabled' :'' }}" id="statistic_feed" style="width: 45%;" >
                 <div class="col-lg-4" ">
                 <button  {{ !Auth::user()? 'disabled' :'' }} id="favorite_btn" type="button" class="btn btn-default btn-sm events_btns" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}"><i id="favorite" class="glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>{{ Lang::get('site.general.fv_btn_desc')}}</button>
@@ -22,9 +59,6 @@
                 </div>
 
         </div>
-
-
-
 
     <h1>
         @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
@@ -153,33 +187,31 @@
         @endif
 
 </div>
-
+<script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+<script src="{{ asset('js/bootstrap-image-gallery.js') }}"></script>
 @if($event->latitude && $event->longitude)
-    <script>
+<script>
+    var id = '<?php echo $event->id; ?>';
 
-
-
-        var id = '<?php echo $event->id; ?>';
-
-        function initialize() {
-            var myLatlng = new google.maps.LatLng({{ $event->latitude }},{{ $event->longitude}});
-            var myOptions = {
-                zoom: 10,
-                center: myLatlng,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            }
-            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    function initialize() {
+        var myLatlng = new google.maps.LatLng({{ $event->latitude }},{{ $event->longitude}});
+        var myOptions = {
+            zoom: 10,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         }
+        var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    }
 
-        function loadScript() {
-            var script = document.createElement("script");
-            script.type = "text/javascript";
-            script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
-            document.body.appendChild(script);
-        }
+    function loadScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+        document.body.appendChild(script);
+    }
 
-        window.onload = loadScript;
+    window.onload = loadScript;
 
-    </script>
+</script>
 @endif
 @stop

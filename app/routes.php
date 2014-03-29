@@ -15,6 +15,7 @@ Route::group(
     array(
         'prefix' => LaravelLocalization::setLocale(), // default : English === it will set the local language according to the session
         'before' => 'LaravelLocalizationRedirectFilter' // LaravelLocalization filter
+
     ),
     function()
     {
