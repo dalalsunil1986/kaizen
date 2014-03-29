@@ -110,19 +110,19 @@ class UserController extends BaseController {
     {
 //        $user = $this->user->find($id);
         // updated rule for update
-        $rules = array(
-            'password' => 'between:4,11|confirmed',
-            'password_confirmation' => 'between:4,11',
-            'first_name' => 'alpha|between:3,10',
-            'last_name' =>  'alpha|between:3,10',
-            'mobile' =>   'numeric',
-            'phone' =>    'numeric',
-            'twitter' =>    'url',
-            'instagram' =>   'url',
-            'prev_event_comment' =>  'min:5'
-        );
+//        $rules = array(
+//            'password' => 'between:4,11|confirmed',
+//            'password_confirmation' => 'between:4,11',
+//            'first_name' => 'alpha|between:3,10',
+//            'last_name' =>  'alpha|between:3,10',
+//            'mobile' =>   'numeric',
+//            'phone' =>    'numeric',
+//            'twitter' =>    'url',
+//            'instagram' =>   'url',
+//            'prev_event_comment' =>  'min:5'
+//        );
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(Input::all(), $this->user->getUpdateRules());
 
         $password = Input::get('password');
 
@@ -147,7 +147,7 @@ class UserController extends BaseController {
                 $dob = $year.'-'.$month.'-'.$day.' 00:00:00';
                 $user->dob= $dob;
             }
-            if($user->updateUniques($rules)) {
+            if($user->updateUniques($this->user->getUpdateRules())) {
                 return Redirect::action('UserController@getProfile',$user->id)
                 ->with( 'success', Lang::get('user/user.user_account_updated') );
             } else {

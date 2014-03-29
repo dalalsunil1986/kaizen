@@ -25,14 +25,34 @@ class User extends ConfideUser implements PresentableInterface {
         'email' => 'required|email|unique:users',
         'password' => 'required|between:4,11|confirmed',
         'password_confirmation' => 'between:4,11',
-        'first_name' => 'alpha|between:3,10',
-        'last_name' =>  'alpha|between:3,10',
+        'first_name' => 'between:3,30',
+        'last_name' =>  'between:3,30',
         'mobile' =>   'numeric',
         'phone' =>    'numeric',
         'twitter' =>    'url',
         'instagram' =>   'url',
         'prev_event_comment' =>  'min:5'
     );
+
+    public static $update_rules = array(
+        'password' => 'between:4,11|confirmed',
+        'password_confirmation' => 'between:4,11',
+        'first_name' => 'between:3,30',
+        'last_name' =>  'between:3,30',
+        'mobile' =>   'numeric',
+        'phone' =>    'numeric',
+        'twitter' =>    'url',
+        'instagram' =>   'url',
+        'prev_event_comment' =>  'min:5'
+    );
+
+    public function getRules() {
+        return self::$rules;
+    }
+
+    public function getUpdateRules() {
+        return self::$update_rules;
+    }
 
     public function getPresenter()
     {
