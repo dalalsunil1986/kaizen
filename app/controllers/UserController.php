@@ -105,11 +105,12 @@ class UserController extends BaseController {
      * Edits a user
      *
      */
+
     public function update($user)
     {
         // updated rule for update
         $rules = array(
-            'password' => 'sometimes|between:4,11|confirmed',
+            'password' => 'between:4,11|confirmed',
             'password_confirmation' => 'between:4,11',
             'first_name' => 'alpha|between:3,10',
             'last_name' =>  'alpha|between:3,10',
@@ -121,6 +122,13 @@ class UserController extends BaseController {
         );
 
         $validator = Validator::make(Input::all(), $rules);
+
+        $password = Input::get('password');
+
+        if(empty($password)) {
+            unset($user->password);
+            unset($user->password_confirmation);
+        }
         if ($validator->passes())
         {
             $user->fill(Input::except(array('password_confirmation','month','day','year')));
@@ -138,9 +146,12 @@ class UserController extends BaseController {
                 $dob = $year.'-'.$month.'-'.$day.' 00:00:00';
                 $user->dob= $dob;
             }
-            $user->amend();
-            return Redirect::action('UserController@getProfile',$user->id)
+            if($user->save($rules)) {
+                return Redirect::action('UserController@getProfile',$user->id)
                 ->with( 'success', Lang::get('user/user.user_account_updated') );
+            } else {
+                dd('couldnot save');
+            }
         } else {
             $error = $validator->errors()->all();
             return Redirect::back()
@@ -148,7 +159,6 @@ class UserController extends BaseController {
                 ->with('error', $error );
         }
     }
-
 
     /**
      * Displays the form for user creation

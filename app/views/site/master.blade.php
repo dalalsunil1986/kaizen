@@ -34,7 +34,7 @@
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/customjs.js') }}" ></script>
+    <script src="{{ asset('js/customjs.js') }}"></script>
 </head>
 
 <div class="container">
@@ -50,7 +50,8 @@
         </div>
         <div class="row">
             @yield('nav')
-        </div> <!-- end of row-->
+        </div>
+        <!-- end of row-->
     </div>
     <!-- end header-->
 
@@ -61,25 +62,28 @@
         @yield('ads')
         <div class="row">
 
-        <div id="sidecontent" class="col-md-4
-        @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
-       pull-right
-        @else
-       pull-left
-       @endif
-        ">
-            @yield('sidecontent')
-        </div>
-        <!-- end of sidedivision content-->
-        <!-- main content division -->
-        <div id="maincontent" class="col-md-8">
-            @yield('maincontent')
-        </div>
-        <!-- end of main content-->
+            <div id="sidecontent" class="col-md-4
+                @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
+               pull-right
+                @else
+               pull-left
+               @endif
+                ">
+                @yield('sidecontent')
+            </div>
+            <!-- end of sidedivision content-->
+            <!-- main content division -->
+            <div id="maincontent" class="col-md-8">
+                @yield('maincontent')
+            </div>
+            <!-- end of main content-->
 
+        </div>
+        @yield('footer')
     </div>
-    @yield('footer')
-</div> <!--end of container-->
+    <!-- end content -->
+</div>
+<!--end of container-->
 
-</body>
+    </body>
 </html>

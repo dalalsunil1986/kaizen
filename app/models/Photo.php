@@ -6,6 +6,18 @@ class Photo extends BaseModel {
     public static $rules = array(
         'name' => 'required'
     );
+    protected static function boot()
+    {
+        static::saved(function($model)
+        {
+            if($model->imageable_type=='Ad') {
+                Cache::forget('cache.ad1');
+                Cache::forget('cache.ad2');
+            }
+        });
+        parent::boot();
+    }
+
 
     public function imageable()
     {
@@ -27,8 +39,12 @@ class Photo extends BaseModel {
 
         // try to move and upload the file
         try {
-            Image::make($image->getRealPath())->save($image_path_name);
-            Image::make($image->getRealPath())->resize(300,200)->save($thumbnail_path_name);
+            if($type == 'Ad') {
+                Image::make($image->getRealPath())->resize(460,125)->save($image_path_name);
+            } else {
+                Image::make($image->getRealPath())->save($thumbnail_path_name);
+                Image::make($image->getRealPath())->resize(300,200)->save($thumbnail_path_name);
+            }
 
             // if the featured image is already exists in the db, replace it with the new image
             $data = Photo::where('imageable_id',$id)->where('imageable_type',$type)->where('featured', $featured)->first();
@@ -36,13 +52,14 @@ class Photo extends BaseModel {
             if($data) {
                 //delete old files
                 $old_image = $image_path.$data->name;
-                $old_thumbnail_image = $thumbnail_path_name.$data->name;
+                $old_thumbnail_image = $image_path.'thumbnail/'.$data->name;
                 if(file_exists($old_image)) {
                     unlink($old_image);
                 }
                 if(file_exists($old_thumbnail_image)) {
                     unlink($old_thumbnail_image);
                 }
+                // set the image name to save in database
                 $data->name = $image_name;
             } else {
                 // create a new entry in  the database

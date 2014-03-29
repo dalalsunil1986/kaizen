@@ -333,7 +333,7 @@ class AdminUsersController extends AdminBaseController {
         $validate = Validator::make($args,$rules);
         if($validate->passes()) {
             if($this->mailer->sendMail($user,$args)) {
-                return Redirect::home()->with('success','Mail Sent');
+                return parent::redirectToAdmin()->with('success','Mail Sent');
             }
             return parent::redirectToUser()->with('error','Error Sending Mail');
         }

@@ -49,26 +49,19 @@ class AdminContactsController extends BaseController {
 //        return parent::redirectToAdmin()->with('success','Saved Contact Information');
 
         $validation = $this->model->first();
-        if($validation) {
-            $validation->username;
-            $validation->address;
-            $validation->email;
-            $validation->phone;
-            $validation->mobile;
-            //update
-        } else {
-            $validation = new Photo();
-            $validation=Input::get('username');
-            $validation=Input::get('address');
-            $validation=Input::get('email');
-            $validation=Input::get('phone');
-            $validation=Input::get('mobile');
+        if(!$validation) {
+            //if no records, create one
+            $validation = new Contact();
         }
-
+        // else update
+        $validation->username  =Input::get('username');
+        $validation->address  =Input::get('address');
+        $validation->email  =Input::get('email');
+        $validation->phone  =Input::get('phone');
+        $validation->mobile  =Input::get('mobile');
         if(!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
         return parent::redirectToAdmin()->with('success','Saved Contact Information');
-
 	}
 }
