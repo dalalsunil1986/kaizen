@@ -41,20 +41,34 @@ class AdminContactsController extends BaseController {
 	 */
 	public function store()
 	{
+//        $validation = $this->model->firstOrNew(Input::except('_token'));
+//        $validation->fill(Input::all());
+//        if(!$validation->save()) {
+//            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+//        }
+//        return parent::redirectToAdmin()->with('success','Saved Contact Information');
+
         $validation = $this->model->first();
-        $validation->fill(Input::all());
+        if($validation) {
+            $validation->username;
+            $validation->address;
+            $validation->email;
+            $validation->phone;
+            $validation->mobile;
+            //update
+        } else {
+            $validation = new Photo();
+            $validation=Input::get('username');
+            $validation=Input::get('address');
+            $validation=Input::get('email');
+            $validation=Input::get('phone');
+            $validation=Input::get('mobile');
+        }
+
         if(!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
         return parent::redirectToAdmin()->with('success','Saved Contact Information');
-//        $data = Input::all();
-//        $contact = $this->model->first();
-//        if($contact) {
-//            // update
-//        }
-//        //save
-//
-//        $validate = Validator::make($data, $this->model->rules);
 
 	}
 }

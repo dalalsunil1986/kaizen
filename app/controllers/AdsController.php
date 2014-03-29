@@ -20,14 +20,14 @@ class AdsController extends BaseController {
         $this->model = $model;
     }
 
-    public function getAd1() {
-         $image = $this->model->getAd1()->pluck('name');
-         return $image;
-    }
-
-    public function getAd2() {
-        $image = $this->model->getAd2()->pluck('name');
-        return $image;
-    }
+//    public function getAd1() {
+//         $image = $this->model->getAd1()->pluck('name');
+//         return $image;
+//    }
+//
+//    public function getAd2() {
+//        $image = $this->model->getAd2()->pluck('name');
+//        return $image;
+//    }
 
 }

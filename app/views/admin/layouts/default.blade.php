@@ -100,12 +100,12 @@
                 <ul class="nav navbar-nav">
                     <li{{ (Request::is('admin/event*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                     <li{{ (Request::is('admin/blogs*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/blogs') }}}"><span class="glyphicon glyphicon-list-alt"></span> Blog</a></li>
-                    <li{{ (Request::is('admin/category*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/category') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Category</a></li>
-                    <li{{ (Request::is('admin/locations*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/locations') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Locations</a></li>
-                    <li{{ (Request::is('admin/country*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/country') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Country</a></li>
-                    <li{{ (Request::is('admin/comments*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/comments') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Comments</a></li>
-                    <li{{ (Request::is('admin/ads*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/ads') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Ads</a></li>
-                    <li{{ (Request::is('admin/contact-us*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/contact-us') }}}"><span class="glyphicon glyphicon-bullhorn"></span> Contact</a></li>
+                    <li{{ (Request::is('admin/category*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/category') }}}"><span class="glyphicon glyphicon-tag"></span> Category</a></li>
+                    <li{{ (Request::is('admin/locations*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/locations') }}}"><span class="glyphicon glyphicon-map-marker"></span> Locations</a></li>
+                    <li{{ (Request::is('admin/country*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/country') }}}"><span class="glyphicon glyphicon-globe"></span> Country</a></li>
+                    <li{{ (Request::is('admin/comments*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/comments') }}}"><span class="glyphicon glyphicon-comment"></span> Comments</a></li>
+                    <li{{ (Request::is('admin/ads*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/ads') }}}"><span class="glyphicon glyphicon-pushpin"></span> Ads</a></li>
+                    <li{{ (Request::is('admin/contact-us*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/contact-us') }}}"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
                     <li class="dropdown{{ (Request::is('admin/users*|admin/roles*') ? ' active' : '') }}">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/users') }}}">
                             <span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span>
@@ -117,7 +117,7 @@
                 </li>
                 </ul>
                 <ul class="nav navbar-nav pull-right">
-                    <li><a href="{{{ URL::to('/') }}}">View Homepage</a></li>
+                    <li><a href="{{{ URL::to('/') }}}"><span class="glyphicon glyphicon-upload"></span> View Homepage</a></li>
                     <li class="divider-vertical"></li>
                     <li class="dropdown">
                         <ul class="dropdown-menu">

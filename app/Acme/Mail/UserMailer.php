@@ -1,4 +1,5 @@
 <?php namespace Acme\Mail;
+use Illuminate\Support\Facades\Mail;
 use User;
 
 /**
@@ -16,11 +17,14 @@ class UserMailer extends  Mailer {
      * @return mixed|void
      * //todo fix
      */
-    public function sendMail($user,$args) {
-        $view = 'emails.welcome';
-        $data = [];
-        $subject = 'hey';
-        return $this->send($user, $subject, $view, $data);
-    }
+    public function sendMail($model,$args)
+    {
+        $view = 'emails.report';
+        $args['subject'] = 'Kaizen.com, Report About User ' .$args['report_user_username'];
+        //admin email
+        if ($this->send($view,$args,$model)) {
+            return true;
+        };
 
+    }
 } 

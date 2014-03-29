@@ -26,5 +26,9 @@ abstract class AdminBaseController extends BaseController
     {
         return Redirect::to(LaravelLocalization::localizeUrl('admin/events'));
     }
+    protected function redirectToUser()
+    {
+        return Redirect::to(LaravelLocalization::localizeUrl('admin/users'));
+    }
 
 }

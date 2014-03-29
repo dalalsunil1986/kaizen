@@ -1,5 +1,7 @@
 <?php
 
+use Acme\Mail\UserMailer;
+
 class AdminUsersController extends AdminBaseController {
 
 
@@ -20,6 +22,10 @@ class AdminUsersController extends AdminBaseController {
      * @var Permission
      */
     protected $permission;
+    /**
+     * @var Acme\Mail\UserMailer
+     */
+    private $mailer;
 
     /**
      * Inject the models.
@@ -27,12 +33,13 @@ class AdminUsersController extends AdminBaseController {
      * @param Role $role
      * @param Permission $permission
      */
-    public function __construct(User $user, Role $role, Permission $permission)
+    public function __construct(User $user, Role $role, Permission $permission, UserMailer $mailer)
     {
         parent::__construct();
         $this->user = $user;
         $this->role = $role;
         $this->permission = $permission;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -286,7 +293,7 @@ class AdminUsersController extends AdminBaseController {
                     ->groupBy('users.email');
 
         return Datatables::of($users)
-        // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
+//         ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
 
         ->edit_column('confirmed','@if($confirmed)
                             Yes
@@ -295,14 +302,41 @@ class AdminUsersController extends AdminBaseController {
                         @endif')
 
         ->add_column('actions', '<a href="{{{ URL::to(\'admin/users/\' . $id . \'/edit\' ) }}}" class="iframe btn btn-xs btn-default">{{{ Lang::get(\'button.edit\') }}}</a>
-                                @if($username == \'admin\')
-                                @else
-                                    <a href="{{{ URL::to(\'admin/users/\' . $id . \'/delete\' ) }}}" class="iframe btn btn-xs btn-danger">{{{ Lang::get(\'button.delete\') }}}</a>
-                                @endif
+                                 <a href="{{{ URL::to(\'admin/users/\' . $id . \'/report\' ) }}}" class="btn btn-xs btn-default" >Report</a>
+                                 <a href="{{{ URL::to(\'admin/users/\' . $id . \'/delete\' ) }}}" class="iframe btn btn-xs btn-danger">{{{ Lang::get(\'button.delete\') }}}</a>
+
             ')
 
         ->remove_column('id')
 
         ->make();
+    }
+
+    public function getReport($id)
+    {
+        $title = 'Report This User to Admin';
+        $user = $this->user->find($id);
+        return View::make('admin.users.report',compact('user','title'));
+    }
+    public function postReport($id) {
+        $args = Input::all();
+        $report_user = $this->user->find($id);
+        $user = Contact::first(); // admin
+        $args['email'] = Auth::user()->email;
+        $args['name'] = Auth::user()->username;
+        $args['report_user_email'] = $report_user->email;
+        $args['report_user_username'] = $report_user->username;
+        $rules = array(
+            'subject'=>'required',
+            'body'=>'required|min:5'
+        );
+        $validate = Validator::make($args,$rules);
+        if($validate->passes()) {
+            if($this->mailer->sendMail($user,$args)) {
+                return Redirect::home()->with('success','Mail Sent');
+            }
+            return parent::redirectToUser()->with('error','Error Sending Mail');
+        }
+        return Redirect::back()->withInput()->with('error',$validate->errors()->all());
     }
 }

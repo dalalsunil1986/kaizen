@@ -70,9 +70,6 @@ Route::group(
         // Newsletter Route
         Route::post('newsletter','NewslettersController@store');
 
-        Route::get('ads1','AdsController@getAd1');
-        Route::get('ads2','AdsController@getAd2');
-
         Route::get('/', array('as'=>'home', 'uses' => 'EventsController@dashboard'));
 
         /* Admin Route Group */
@@ -99,6 +96,8 @@ Route::group(
             Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
             Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
             Route::post('users/{user}/delete', 'AdminUsersController@postDelete');
+            Route::get('users/{id}/report','AdminUsersController@getReport');
+            Route::post('users/{id}/report','AdminUsersController@postReport');
             Route::controller('users', 'AdminUsersController');
 
             # User Role Management

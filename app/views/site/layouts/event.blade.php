@@ -41,7 +41,7 @@
                                 <span class="slider-description {{ ($event->description_en) ? 'text-left':'text-right' }}">
                                         {{ ($event->description_en) ? Str::limit($event->description_en,$char_limit) : Str::limit($event->description,$char_limit) }}
                                 </span>
-                                <a class="kaizen-button kaizen-button-right" href="{{ action('EventsController@subscribe',$event->id) }}">
+                                <a class="kaizen-button kaizen-button-right" href="{{ action('EventsController@show',$event->id) }}">
                                     {{ ($event->button_en) ? $event->button_en : $event->button }}
                                 </a>
                             </div>
@@ -49,7 +49,7 @@
                             <div class="carousel-caption" style="background:#502d8a;width: 40%; height:400px;margin-right: 40%;padding-left: 3px; padding-right: 3px;">
                                 <span class="slider-title text-right"><a href="{{ action('EventsController@show',$event->id) }}" > {{ $event->title }}</a></span>
                                 <span class="slider-description text-right"> {{ Str::limit($event->description,$char_limit) }} </span>
-                                <a class="kaizen-button" href="{{ action('EventsController@subscribe',$event->id) }}">
+                                <a class="kaizen-button" href="{{ action('EventsController@show',$event->id) }}"
                                     {{  $event->button }}
                                 </a>
                             </div>
