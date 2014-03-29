@@ -108,6 +108,7 @@ class UserController extends BaseController {
 
     public function update($user)
     {
+//        $user = $this->user->find($id);
         // updated rule for update
         $rules = array(
             'password' => 'between:4,11|confirmed',
@@ -131,7 +132,7 @@ class UserController extends BaseController {
         }
         if ($validator->passes())
         {
-            $user->fill(Input::except(array('password_confirmation','month','day','year')));
+            $user->fill(Input::except(array('month','day','year','username','email')));
             // Validate the inputs
             if(Input::get('month')) {
                 $month = Input::get('month');
@@ -146,20 +147,36 @@ class UserController extends BaseController {
                 $dob = $year.'-'.$month.'-'.$day.' 00:00:00';
                 $user->dob= $dob;
             }
-            if($user->save($rules)) {
+            if($user->updateUniques($rules)) {
                 return Redirect::action('UserController@getProfile',$user->id)
                 ->with( 'success', Lang::get('user/user.user_account_updated') );
             } else {
+                dd($user->errors());
                 dd('couldnot save');
             }
         } else {
-            $error = $validator->errors()->all();
+            $error = $validator->errors();
             return Redirect::back()
                 ->withInput(Input::except('password','password_confirmation'))
                 ->with('error', $error );
         }
     }
-
+//    public function update($id)
+//    {
+//        //@todo : update available seats .. get total Seats, If its not same, count total_seats taken and adjust available accordingly
+//        // refer davzie postEdits();
+//        $validation = $this->model->find($id);
+//        $validation->fill(Input::except('thumbnail'));
+//        if (!$validation->save()) {
+//            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+//        }
+//        if (Input::hasFile('thumbnail')) {
+//            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','0')) {
+//                return Redirect::back()->withErrors($this->photo->getErrors());
+//            }
+//        }
+//        return parent::redirectToAdmin()->with('success','Updated Event '. $validation->title);;
+//    }
     /**
      * Displays the form for user creation
      *
