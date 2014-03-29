@@ -17,8 +17,8 @@ class UserController extends BaseController {
     public function __construct(User $user)
     {
         $this->user = $user;
-        parent::__construct();
         $this->beforeFilter('owner',array('only' => array('edit', 'update','delete')));
+        parent::__construct();
     }
 
     /**
@@ -30,7 +30,6 @@ class UserController extends BaseController {
     {
         list($user,$redirect) = $this->user->checkAuthAndRedirect('user');
         if($redirect){return $redirect;}
-
         // Show the page
         return View::make('site/user/index', compact('user'));
     }
@@ -108,20 +107,6 @@ class UserController extends BaseController {
 
     public function update($user)
     {
-//        $user = $this->user->find($id);
-        // updated rule for update
-//        $rules = array(
-//            'password' => 'between:4,11|confirmed',
-//            'password_confirmation' => 'between:4,11',
-//            'first_name' => 'alpha|between:3,10',
-//            'last_name' =>  'alpha|between:3,10',
-//            'mobile' =>   'numeric',
-//            'phone' =>    'numeric',
-//            'twitter' =>    'url',
-//            'instagram' =>   'url',
-//            'prev_event_comment' =>  'min:5'
-//        );
-
         $validator = Validator::make(Input::all(), $this->user->getUpdateRules());
 
         $password = Input::get('password');
@@ -235,7 +220,7 @@ class UserController extends BaseController {
             } else {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
-
+            dd($err_msg);
             return Redirect::intended(LaravelLocalization::localizeUrl('user/login'))
                 ->withInput(Input::except('password'))
                 ->with('error', $err_msg );
@@ -385,5 +370,21 @@ class UserController extends BaseController {
             $redirect .= (empty($url3)? '' : '/' . $url3);
         }
         return $redirect;
+    }
+
+    public function confirm( $code )
+    {
+        if ( Confide::confirm( $code ) )
+        {
+            $notice_msg = Lang::get('confide::confide.alerts.confirmation');
+            return Redirect::action('UserController@getLogin')
+                ->with( 'notice', $notice_msg );
+        }
+        else
+        {
+            $error_msg = Lang::get('confide::confide.alerts.wrong_confirmation');
+            return Redirect::action('UserController@getLogin')
+                ->with( 'error', $error_msg );
+        }
     }
 }

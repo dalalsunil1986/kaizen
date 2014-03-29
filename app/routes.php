@@ -59,6 +59,8 @@ Route::group(
         Route::get ('user/forgot', array('as'=>'forgot','uses'=>'UserController@getForgot'));
         Route::post('user/forgot', array('as'=>'forgot','uses'=>'UserController@postForgot'));
         Route::get('user/{id}/edit', array('uses'=>'UserController@edit'));
+        Route::get('user/confirm/{token}', array('uses'=>'UserController@confirm'));
+
         Route::resource('user', 'UserController');
 
         //Category Routes
