@@ -45,7 +45,7 @@ extends('site.layouts.home')
             {{ Lang::get('site.general.newsletter') }}
         </div>
         <div class="panel-body">
-            <div class"col-md-12">
+            <div class="col-md-12">
                 <div class="form-group">
                     <span class="mute">{{ Lang::get('site.general.newsletter_subscribe') }}</span>
                     {{ Form::open(array('action'=>'NewslettersController@store')) }}
