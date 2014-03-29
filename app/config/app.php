@@ -118,9 +118,9 @@ return array(
         'Intervention\Image\ImageServiceProvider',
 
         /* Uncomment for use in development */
-        'Way\Generators\GeneratorsServiceProvider', // Generators
-        'Barryvdh\Debugbar\ServiceProvider',
-        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+//        'Way\Generators\GeneratorsServiceProvider', // Generators
+//        'Barryvdh\Debugbar\ServiceProvider',
+//        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 
         'Basset\BassetServiceProvider', // Better Asset Management
         'Robbo\Presenter\PresenterServiceProvider', // Presenter
@@ -197,7 +197,7 @@ return array(
         'Notify'          => 'Acme\Facades\Notify',
         'Intervention' => 'Intervention\Image\Facades\Image',
 
-        'Debugbar' => 'Barryvdh\Debugbar\Facade',
+//        'Debugbar' => 'Barryvdh\Debugbar\Facade',
 
         'Presenter'       => 'Robbo\Presenter\Presenter', // Presenter
         'Presentable'     => 'Robbo\Presenter\PresentableInterface', // Presenter
