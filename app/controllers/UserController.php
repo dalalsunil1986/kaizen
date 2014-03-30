@@ -108,16 +108,19 @@ class UserController extends BaseController {
     public function update($user)
     {
         $validator = Validator::make(Input::all(), $this->user->getUpdateRules());
-
         $password = Input::get('password');
 
-        if(empty($password)) {
-            unset($user->password);
-            unset($user->password_confirmation);
+        if(!empty($password)) {
+            $user->fill(Input::except(array('month','day','year','username','email')));
+        } else {
+            // unset password,
+            // fix for avoiding password sets to null
+            $user->fill(Input::except(array('month','day','year','username','password')));
         }
+
         if ($validator->passes())
         {
-            $user->fill(Input::except(array('month','day','year','username','email')));
+            $user->fill(Input::except(array('month','day','year','username','email','password')));
             // Validate the inputs
             if(Input::get('month')) {
                 $month = Input::get('month');
@@ -134,10 +137,11 @@ class UserController extends BaseController {
             }
             if($user->updateUniques($this->user->getUpdateRules())) {
                 return Redirect::action('UserController@getProfile',$user->id)
-                ->with( 'success', Lang::get('user/user.user_account_updated') );
+                    ->with( 'success', Lang::get('user/user.user_account_updated') );
             } else {
-                dd($user->errors());
-                dd('couldnot save');
+                return Redirect::back()
+                    ->withInput(Input::except('password','password_confirmation'))
+                    ->with('error', 'Couldnt Save, Try Again' );
             }
         } else {
             $error = $validator->errors();
@@ -145,23 +149,9 @@ class UserController extends BaseController {
                 ->withInput(Input::except('password','password_confirmation'))
                 ->with('error', $error );
         }
+
     }
-//    public function update($id)
-//    {
-//        //@todo : update available seats .. get total Seats, If its not same, count total_seats taken and adjust available accordingly
-//        // refer davzie postEdits();
-//        $validation = $this->model->find($id);
-//        $validation->fill(Input::except('thumbnail'));
-//        if (!$validation->save()) {
-//            return Redirect::back()->withInput()->withErrors($validation->getErrors());
-//        }
-//        if (Input::hasFile('thumbnail')) {
-//            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','0')) {
-//                return Redirect::back()->withErrors($this->photo->getErrors());
-//            }
-//        }
-//        return parent::redirectToAdmin()->with('success','Updated Event '. $validation->title);;
-//    }
+
     /**
      * Displays the form for user creation
      *
@@ -220,7 +210,6 @@ class UserController extends BaseController {
             } else {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
-            dd($err_msg);
             return Redirect::intended(LaravelLocalization::localizeUrl('user/login'))
                 ->withInput(Input::except('password'))
                 ->with('error', $err_msg );
