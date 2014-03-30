@@ -17,7 +17,6 @@ abstract class BaseController extends Controller
     public function __construct()
     {
         $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
-        $this->beforeFilter('ajax', array('on' => array('delete', 'put')));
         $this->sidebarPosts();
         $this->getAds();
     }
@@ -39,7 +38,6 @@ abstract class BaseController extends Controller
         });
     }
 
-
     protected function findByType($id,$type,$type_string) {
         return $this->model->find($id)->where($type_string, '=', $type);
     }
@@ -50,7 +48,6 @@ abstract class BaseController extends Controller
             $this->layout = View::make($this->layout);
         }
     }
-
 
     /**
      * @param int $perPage
@@ -72,8 +69,6 @@ abstract class BaseController extends Controller
         $category = $this->model->find($id)->category;
         return $category;
     }
-
-
 
     /**
      * @param $id
@@ -99,8 +94,6 @@ abstract class BaseController extends Controller
         $location = $this->model->find($id)->location;
         return $location;
     }
-
-
     /*
      *Helper Functions
      */
@@ -132,11 +125,6 @@ abstract class BaseController extends Controller
     protected function redirectIntended($default = null)
     {
         return Redirect::intended($default);
-    }
-
-    protected function redirectToAdmin()
-    {
-        return Redirect::to('admin/');
     }
 
 }

@@ -72,7 +72,7 @@ Route::filter('guest', function()
 */
 
 // Check for role on all admin routes
-Entrust::routeNeedsRole( 'admin*', array('admin'));
+//Entrust::routeNeedsRole( 'admin*', array('Admin'));
 
 // Check for permissions on admin actions
 //Entrust::routeNeedsPermission( 'admin/blogs*', 'manage_blogs', Redirect::to('/admin') );
@@ -96,7 +96,7 @@ Route::filter('Moderator', function()
 {
     if (!(Entrust::hasRole('admin') || (Entrust::hasRole('moderator')))) // Checks the current user
     {
-        return Redirect::to(LaravelLocalization::localizeURL('/'));
+        return Redirect::to('/')->with('error','Sorry You Do not have access to this page');
     }
 });
 
@@ -104,11 +104,17 @@ Route::filter('Admin', function()
 {
     if (!(Entrust::hasRole('admin') )) // Checks the current user
     {
-        dd('you do not have permission');
-        return Redirect::to(LaravelLocalization::localizeURL('/'));
+//        if(Entrust::hasRole('moderator'))
+//            return Redirect::to('/')->with('error','Sorry You Do not have access to this feature, Contact Admin for further details');
+//        return Redirect::to('/')->with('error','Sorry You Do not have access to this page');
+//        echo "
+//            <script>
+//                alert('Sorry, Not Enough Permission to do this');
+//            </script>
+//        ";
+        return Redirect::to('forbidden')->with('errors','Sorry You Do not have access to this page');
     }
 });
-
 
 Route::filter('csrf', function()
 {
@@ -129,4 +135,3 @@ Route::filter('owner', function($route, $request)
         }
     return Redirect::action('UserController@getLogin')->with('error','Please login');
 });
-

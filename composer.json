@@ -26,6 +26,7 @@
         "leafo/lessphp": "v0.4.0"
 	},
     "require-dev": {
+        "fzaninotto/faker": "1.4.*@dev"
     },
 	"autoload": {
 		"classmap": [

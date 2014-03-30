@@ -22,11 +22,13 @@ Route::pattern('token', '[0-9a-z]+');
 /**
  * Route Group for Localized url
  */
+
+
+
 Route::group(
     array(
         'prefix' => LaravelLocalization::setLocale(), // default : English === it will set the local language according to the session
         'before' => 'LaravelLocalizationRedirectFilter' // LaravelLocalization filter
-
     ),
     function()
     {
@@ -84,72 +86,78 @@ Route::group(
         Route::post('newsletter','NewslettersController@store');
 
         Route::get('/', array('as'=>'home', 'uses' => 'EventsController@dashboard'));
-
-        /* Admin Route Group */
-        Route::group(array('prefix' => 'admin', 'before' =>'auth|Moderator'), function () {
-
-            # Comment Management
-            Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
-            Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');
-            Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
-            Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
-            Route::controller('comments', 'AdminCommentsController');
-
-            # Blog Management
-            Route::get('blogs/{post}/show', 'AdminBlogsController@getShow');
-            Route::get('blogs/{post}/edit', 'AdminBlogsController@getEdit');
-            Route::post('blogs/{post}/edit', 'AdminBlogsController@postEdit');
-            Route::get('blogs/{post}/delete', 'AdminBlogsController@getDelete');
-            Route::post('blogs/{post}/delete', 'AdminBlogsController@postDelete');
-            Route::controller('blogs', 'AdminBlogsController');
-
-            # User Management
-            Route::get('users/{user}/show', array('uses'=>'AdminUsersController@getShow'));
-            Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
-            Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
-            Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
-            Route::post('users/{user}/delete', 'AdminUsersController@postDelete');
-            Route::get('users/{id}/report','AdminUsersController@getReport');
-            Route::post('users/{id}/report','AdminUsersController@postReport');
-            Route::controller('users', 'AdminUsersController');
-
-            # User Role Management
-            Route::get('roles/{role}/show', 'AdminRolesController@getShow');
-            Route::get('roles/{role}/edit', 'AdminRolesController@getEdit');
-            Route::post('roles/{role}/edit', 'AdminRolesController@postEdit');
-            Route::get('roles/{role}/delete', 'AdminRolesController@getDelete');
-            Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
-            Route::controller('roles', 'AdminRolesController');
-
-            // Admin Event Route
-            Route::get('event/{id}/followers','AdminEventsController@getFollowers');
-            Route::get('event/{id}/favorites','AdminEventsController@getFavorites');
-            Route::get('event/{id}/subscriptions','AdminEventsController@getSubscriptions');
-            Route::get('event/{id}/country','AdminEventsController@getCountry');
-            Route::get('event/{id}/location','AdminEventsController@getLocation');
-            Route::post('event/{id}/mailFollowers', 'AdminEventsController@mailFollowers');
-            Route::post('event/{id}/mailSubscribers', 'AdminEventsController@mailSubscribers');
-            Route::post('event/{id}/mailFavorites', 'AdminEventsController@mailFavorites');
-            Route::get('event/{id}/location','AdminEventsController@getLocation');
-            Route::get('event/{id}/settings','AdminEventsController@settings');
-            Route::resource('event','AdminEventsController');
-
-            //category
-            Route::resource('category','AdminCategoriesController');
-
-            Route::resource('contact-us','AdminContactsController',array('only'=>array('index','store')));
-
-            //countries
-            Route::resource('country', 'AdminCountriesController');
-
-            //Location Routes
-            Route::get('location/{id}/events', array('as'=>'LocationEvents','uses'=>'AdminLocationsController@getEvents'));
-            Route::resource('locations','AdminLocationsController');
-
-            //ads
-            Route::resource('ads','AdminAdsController',array('only' => array('index','store')));
-
-            Route::get('/', 'AdminEventsController@index');
+        Route::get('cadminss',function(){
+            dd('admin');
         });
+
     }
 );
+///* Admin Route Group */
+Route::group(array('prefix' => 'admin','before'=>array('Auth','Moderator')), function() {
+    # Comment Management
+    Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
+    Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');
+    Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
+    Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
+    Route::controller('comments', 'AdminCommentsController');
+
+    # Blog Management
+    Route::get('blogs/{post}/show', 'AdminBlogsController@getShow');
+    Route::get('blogs/{post}/edit', 'AdminBlogsController@getEdit');
+    Route::post('blogs/{post}/edit', 'AdminBlogsController@postEdit');
+    Route::get('blogs/{post}/delete', 'AdminBlogsController@getDelete');
+    Route::post('blogs/{post}/delete', 'AdminBlogsController@postDelete');
+    Route::controller('blogs', 'AdminBlogsController');
+
+    # User Management
+    Route::get('users/{user}/show', array('uses'=>'AdminUsersController@getShow'));
+    Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
+    Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
+    Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
+    Route::post('users/{user}/delete', 'AdminUsersController@postDelete');
+    Route::get('users/{id}/report','AdminUsersController@getReport');
+    Route::post('users/{id}/report','AdminUsersController@postReport');
+    Route::controller('users', 'AdminUsersController');
+
+    # User Role Management
+    Route::get('roles/{role}/show', 'AdminRolesController@getShow');
+    Route::get('roles/{role}/edit', 'AdminRolesController@getEdit');
+    Route::post('roles/{role}/edit', 'AdminRolesController@postEdit');
+    Route::get('roles/{role}/delete', 'AdminRolesController@getDelete');
+    Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
+    Route::controller('roles', 'AdminRolesController');
+
+    // Admin Event Route
+    Route::get('event/{id}/followers','AdminEventsController@getFollowers');
+    Route::get('event/{id}/favorites','AdminEventsController@getFavorites');
+    Route::get('event/{id}/subscriptions','AdminEventsController@getSubscriptions');
+    Route::get('event/{id}/country','AdminEventsController@getCountry');
+    Route::get('event/{id}/location','AdminEventsController@getLocation');
+    Route::post('event/{id}/mailFollowers', 'AdminEventsController@mailFollowers');
+    Route::post('event/{id}/mailSubscribers', 'AdminEventsController@mailSubscribers');
+    Route::post('event/{id}/mailFavorites', 'AdminEventsController@mailFavorites');
+    Route::get('event/{id}/location','AdminEventsController@getLocation');
+    Route::get('event/{id}/settings','AdminEventsController@settings');
+    Route::resource('event','AdminEventsController');
+
+    //category
+    Route::resource('category','AdminCategoriesController');
+
+    Route::resource('contact-us','AdminContactsController',array('only'=>array('index','store')));
+
+    //countries
+    Route::resource('country', 'AdminCountriesController');
+
+    //Location Routes
+    Route::get('location/{id}/events', array('as'=>'LocationEvents','uses'=>'AdminLocationsController@getEvents'));
+    Route::resource('locations','AdminLocationsController');
+
+    //ads
+    Route::resource('ads','AdminAdsController',array('only' => array('index','store')));
+
+    Route::get('/', 'AdminEventsController@index');
+});
+
+Route::get('forbidden',function() {
+   return View::make('forbidden');
+});

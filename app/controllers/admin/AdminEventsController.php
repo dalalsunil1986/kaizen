@@ -17,7 +17,6 @@ class AdminEventsController extends AdminBaseController
 
 
     function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
-
     {
         $this->model = $model;
         $this->user = $user;
@@ -25,6 +24,8 @@ class AdminEventsController extends AdminBaseController
         $this->category = $category;
         $this->photo = $photo;
         parent::__construct();
+        $this->beforeFilter('Admin', array('except' => array('index','settings','getFollowers','getFavorites','getSubscriptions')));
+//      $this->beforeFilter('Admin', array('on' => array('store','update','destroy','mailFollowers', 'mailFavorites','mailSubscribers')
     }
 
     /**
@@ -72,7 +73,7 @@ class AdminEventsController extends AdminBaseController
         if(Input::hasFile('thumbnail')) {
             // call the attach image function from Photo class
             if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','1')) {
-                return Redirect::to(LaravelLocalization::localizeURL('admin/event/' . $validation->id . '/edit'))->withErrors($this->photo->getErrors());
+                return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($this->photo->getErrors());
             }
         }
         //update available seats

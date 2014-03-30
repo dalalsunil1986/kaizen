@@ -35,11 +35,13 @@ class AdminUsersController extends AdminBaseController {
      */
     public function __construct(User $user, Role $role, Permission $permission, UserMailer $mailer)
     {
-        parent::__construct();
+
         $this->user = $user;
         $this->role = $role;
         $this->permission = $permission;
         $this->mailer = $mailer;
+        parent::__construct();
+        $this->beforeFilter('Admin', array('except' => array('index','getIndex','view','getReport','postReport','getData')));
     }
 
     /**

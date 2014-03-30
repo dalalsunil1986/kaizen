@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder {
         'locations',
         'migrations',
         'password_reminders',
+        'roles',
         'permission_role',
         'permissions',
         'photos',
         'posts',
-        'roles',
         'subscriptions',
         'users'
     ];

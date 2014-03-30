@@ -144,7 +144,7 @@ class UserController extends BaseController {
                     ->with('error', 'Couldnt Save, Try Again' );
             }
         } else {
-            $error = $validator->errors();
+            $error = $validator->errors()->all();
             return Redirect::back()
                 ->withInput(Input::except('password','password_confirmation'))
                 ->with('error', $error );

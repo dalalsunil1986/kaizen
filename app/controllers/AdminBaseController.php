@@ -18,17 +18,16 @@ abstract class AdminBaseController extends BaseController
      */
     public function __construct()
     {
-        $this->beforeFilter('csrf', array('on' => 'post'));
-        $this->beforeFilter('admin-auths');
+        $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
     }
 
     protected function redirectToAdmin()
     {
-        return Redirect::to(LaravelLocalization::localizeUrl('admin'));
+        return Redirect::to('admin');
     }
     protected function redirectToUser()
     {
-        return Redirect::to(LaravelLocalization::localizeUrl('admin/users'));
+        return Redirect::to('admin/users');
     }
 
 }
