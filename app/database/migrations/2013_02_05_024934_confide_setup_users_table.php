@@ -24,7 +24,6 @@ class ConfideSetupUsersTable extends Migration {
             $table->integer('phone');
             $table->string('country_id');
             $table->string('gender');
-            $table->string('dob');
             $table->string('instagram');
             $table->string('twitter');
             $table->text('prev_event_comment');

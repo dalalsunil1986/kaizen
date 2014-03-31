@@ -45,6 +45,7 @@
                     <div id="links">
                         @if(count($event->photos) > 0)
                         <a href="event/{{ $event->id}}" >
+                            {{ HTML::image('uploads/thumbnail/'.$event->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
                             <img src="{{ $event->photos[0]->name }}" alt="{{ $event->photos[0]->name }}" class="img-thumbnail">
                         </a>
                         @else

@@ -60,9 +60,6 @@ class EventsTableSeeder extends Seeder {
 		    );
             DB::table('events')->insert($events);
 
-
-
-
         }
 
 		// Uncomment the below to run the seeder

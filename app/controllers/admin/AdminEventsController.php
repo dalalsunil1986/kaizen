@@ -64,6 +64,7 @@ class AdminEventsController extends AdminBaseController
      */
     public function store()
     {
+
         //validate and save
         $validation = new $this->model(Input::except('thumbnail'));
         if (!$validation->save()) {
@@ -76,6 +77,7 @@ class AdminEventsController extends AdminBaseController
                 return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($this->photo->getErrors());
             }
         }
+
         //update available seats
         $event = $this->model->find($validation->id);
         if(!empty($event->total_seats))

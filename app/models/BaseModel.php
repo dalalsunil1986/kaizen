@@ -155,5 +155,29 @@ class BaseModel extends Eloquent
     {
         return $this->model->whereSlug($slug)->first();
     }
+
+    protected function dateStringToCarbon($date, $format = 'm/d/Y')
+    {
+        if(!$date instanceof Carbon) {
+            $validDate = false;
+            try {
+                $date = Carbon::createFromFormat($format, $date);
+                $validDate = true;
+            } catch(Exception $e) { }
+
+            if(!$validDate) {
+                try {
+                    $date = Carbon::parse($date);
+                    $validDate = true;
+                } catch(Exception $e) { }
+            }
+
+            if(!$validDate) {
+                $date = NULL;
+            }
+        }
+        return $date;
+    }
+
 }
 ?>

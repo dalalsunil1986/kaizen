@@ -223,10 +223,23 @@ class EventModel extends BaseModel {
 
         return null;
     }
-
-    public function getDates() {
-        return array('created_at','updated_at','date_start','date_end');
+//
+//    public function getDates() {
+//        return array('created_at','updated_at','date_start','date_end');
+//    }
+    public function getDates()
+    {
+        return array_merge(array(static::CREATED_AT, static::UPDATED_AT, static::DELETED_AT), array('date_start','date_end'));
     }
 
+    public function setDateStartAttribute($value)
+    {
+        $this->attributes['date_start'] = $this->dateStringToCarbon($value);
+    }
+
+    public function setDateEndAttribute($value)
+    {
+        $this->attributes['date_end'] = $this->dateStringToCarbon($value);
+    }
 }
 
