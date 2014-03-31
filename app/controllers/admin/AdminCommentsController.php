@@ -16,6 +16,7 @@ class AdminCommentsController extends AdminBaseController
     public function __construct(Comment $comment)
     {
         parent::__construct();
+        $this->beforeFilter('Admin');
         $this->comment = $comment;
     }
 

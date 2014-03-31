@@ -48,7 +48,7 @@ class UserController extends BaseController {
         $this->user->last_name = Input::get('last_name');
         $this->user->mobile = Input::get('mobile');
         $this->user->phone = Input::get('phone');
-        $this->user->country = Input::get('country');
+        $this->user->country_id = Input::get('country_id');
         $this->user->twitter = Input::get('twitter');
         $this->user->instagram = Input::get('instagram');
         $this->user->prev_event_comment = Input::get('prev_event_comment');
@@ -94,8 +94,9 @@ class UserController extends BaseController {
 
     public function edit($id) {
         $user = $this->user->find($id);
+        $countries = Country::all()->lists('name','id');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.user.edit',compact('user'));
+        $this->layout->maincontent = view::make('site.user.edit',compact('user','countries'));
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
     }
@@ -111,30 +112,18 @@ class UserController extends BaseController {
         $password = Input::get('password');
 
         if(!empty($password)) {
-            $user->fill(Input::except(array('month','day','year','username','email')));
+            $user->fill(Input::except(array('username','email')));
         } else {
             // unset password,
             // fix for avoiding password sets to null
-            $user->fill(Input::except(array('month','day','year','username','password')));
+            $user->fill(Input::except(array('username','email','password')));
         }
 
         if ($validator->passes())
         {
-            $user->fill(Input::except(array('month','day','year','username','email','password')));
+//            $user->fill(Input::except(array('username','email','password')));
             // Validate the inputs
-            if(Input::get('month')) {
-                $month = Input::get('month');
-            }
-            if(Input::get('day')) {
-                $day = Input::get('day');
-            }
-            if(Input::get('year')) {
-                $year = Input::get('year');
-            }
-            if(isset($month) && ($day) && ($year)){
-                $dob = $year.'-'.$month.'-'.$day.' 00:00:00';
-                $user->dob= $dob;
-            }
+
             if($user->updateUniques($this->user->getUpdateRules())) {
                 return Redirect::action('UserController@getProfile',$user->id)
                     ->with( 'success', Lang::get('user/user.user_account_updated') );
@@ -158,8 +147,9 @@ class UserController extends BaseController {
      */
     public function create()
     {
+        $countries = Country::all()->lists('name','id');
         $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.user.create');
+        $this->layout->maincontent = view::make('site.user.create',compact('countries'));
         $this->layout->sidecontent = view::make('site.layouts.sidebar');
         $this->layout->footer = view::make('site.layouts.footer');
     }
@@ -326,7 +316,7 @@ class UserController extends BaseController {
      */
     public function getProfile($id)
     {
-        $user = $this->user->with(array('favorites','subscriptions','followings'))->findOrFail($id);
+        $user = $this->user->with(array('favorites','subscriptions','followings','country'))->findOrFail($id);
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->nav = view::make('site.layouts.nav');
         $this->layout->sidecontent = view::make('site.layouts.sidebar');

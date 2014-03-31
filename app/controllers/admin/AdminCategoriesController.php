@@ -12,7 +12,9 @@ class AdminCategoriesController extends AdminBaseController {
 	public function __construct(Category $model)
 	{
 		$this->model = $model;
-	}
+        parent::__construct();
+        $this->beforeFilter('Admin');
+    }
 
 	/**
 	 * Display a listing of the resource.

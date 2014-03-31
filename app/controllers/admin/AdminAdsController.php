@@ -19,9 +19,10 @@ class AdminAdsController extends AdminBaseController {
      */
     public function __construct(Ad $model,Photo $photo)
     {
-        parent::__construct();
         $this->model = $model;
         $this->photo = $photo;
+        parent::__construct();
+        $this->beforeFilter('Admin');
     }
 
     public function index() {

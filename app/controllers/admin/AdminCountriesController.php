@@ -12,6 +12,8 @@ class AdminCountriesController extends AdminBaseController {
 	public function __construct(Country $country)
 	{
 		$this->country = $country;
+        parent::__construct();
+        $this->beforeFilter('Admin');
 	}
 
 	/**

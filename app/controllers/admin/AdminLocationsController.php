@@ -11,6 +11,8 @@ class AdminLocationsController extends AdminBaseController {
         $this->model = $model;
         $this->user = $user;
         $this->country = $country;
+        parent::__construct();
+        $this->beforeFilter('Admin');
     }
 
 	/**

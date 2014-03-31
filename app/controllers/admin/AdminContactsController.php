@@ -22,6 +22,7 @@ class AdminContactsController extends BaseController {
         $this->model = $model;
         $this->mailer = $mailer;
         parent::__construct();
+        $this->beforeFilter('Admin');
     }
 	/**
 	 * Display a listing of the resource.

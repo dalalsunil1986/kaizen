@@ -15,8 +15,9 @@ class AdminBlogsController extends AdminBaseController {
      */
     public function __construct(Post $post)
     {
-        parent::__construct();
         $this->post = $post;
+        parent::__construct();
+        $this->beforeFilter('Admin');
     }
 
     /**

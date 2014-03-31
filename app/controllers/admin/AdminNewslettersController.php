@@ -11,6 +11,7 @@ class NewslettersController extends AdminBaseController{
 
     public function __contstruct() {
         parent::__construct();
+        $this->beforeFilter('Admin');
     }
 
     /**

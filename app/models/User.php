@@ -188,4 +188,7 @@ class User extends ConfideUser implements PresentableInterface {
         return array('created_at','updated_at','dob');
     }
 
+    public function country() {
+        return $this->belongsTo('Country');
+    }
 }
