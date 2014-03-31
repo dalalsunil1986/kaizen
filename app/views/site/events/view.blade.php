@@ -83,14 +83,18 @@
 </h1>
 <div id="event_images">
     <div id="links">
+
+
         @foreach($event->photos as $photo)
-        <a href="{{ $photo->name }}" data-gallery>
-            <img src=" {{ $photo->name }}" alt="{{ $photo->name }}" class="img-thumbnail">
+        <a href="{{ base_path().'/uploads/thumbnail/'.$photo->name }}" data-gallery>
+        {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
         </a>
+
+
         @endforeach
     </div>
 </div>
-</br>
+<br><br><br>
 <table class="table table-striped">
     <tr>
         <h4>{{ Lang::get('site.event.summaryevent') }}</h4>

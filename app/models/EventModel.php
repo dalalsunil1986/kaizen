@@ -241,5 +241,6 @@ class EventModel extends BaseModel {
     {
         $this->attributes['date_end'] = $this->dateStringToCarbon($value);
     }
+
 }
 

@@ -43,17 +43,15 @@
             <div class="col-sm-2 col-md-2">
                 <div id="event_images">
                     <div id="links">
-                        @if(count($event->photos) > 0)
-                        <a href="event/{{ $event->id}}" >
+                        @if($event->photos)
+                        <a href="{{ action('EventsController@show',$event->id) }}" >
                             {{ HTML::image('uploads/thumbnail/'.$event->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
-                            <img src="{{ $event->photos[0]->name }}" alt="{{ $event->photos[0]->name }}" class="img-thumbnail">
                         </a>
                         @else
-                        <a href="event/{{ $event->id }}">
+                        <a href="{{ action('EventsController@show',$event->id) }}">
                             <img src="http://placehold.it/70x70" class="img-thumbnail">
                         </a>
                         @endif
-
                     </div>
                 </div>
             </div>
@@ -87,17 +85,17 @@
             </div>
         </div>
 
-        <div class="row" style="margin: 9px; font-size: x-small !important;">
+        <div class="row" style="margin: 9px; ">
 
                 <i class="glyphicon glyphicon-user"> {{ $event->author->username }} |</i>
-                <i class="glyphicon glyphicon-calendar"> {{ $event->date_start}} |</i>
-                <i class="glyphicon glyphicon-time"> {{ $event->date_end}} |</i></br>
-                <i class="glyphicon glyphicon-bookmark"> {{ $event->location->country->name}} |</i>
+                <i class="glyphicon glyphicon-calendar"></i> {{ $event->date_start->format('Y-m-d')}} -
+                 {{ $event->date_end->format('Y-m-d')}} |
+                <i class="glyphicon glyphicon-globe"> {{ $event->location->country->name}} |</i>
 
             @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-            <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;{{ $event->category->name_en }}
+            <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;{{ $event->category->name_en }}
             @else
-            <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;{{ $event->category->name }}
+            <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;{{ $event->category->name }}
             @endif</div>
         <hr>
     @endforeach

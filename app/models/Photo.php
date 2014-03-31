@@ -36,14 +36,16 @@ class Photo extends BaseModel {
         // the whole image path
         $image_path_name = $image_path.$image_name;
         $thumbnail_path_name = $image_path.'/thumbnail/'.$image_name;
+        $medium_path_name = $image_path.'/medium/'.$image_name;
 
         // try to move and upload the file
         try {
             if($type == 'Ad') {
                 Image::make($image->getRealPath())->resize(460,125)->save($image_path_name);
             } else {
-                Image::make($image->getRealPath())->save($thumbnail_path_name);
-                Image::make($image->getRealPath())->resize(300,200)->save($thumbnail_path_name);
+                Image::make($image->getRealPath())->save($image_path_name);
+                Image::make($image->getRealPath())->resize(150,150)->save($thumbnail_path_name);
+                Image::make($image->getRealPath())->resize(450,400)->save($medium_path_name);
             }
 
             // if the featured image is already exists in the db, replace it with the new image
@@ -53,11 +55,15 @@ class Photo extends BaseModel {
                 //delete old files
                 $old_image = $image_path.$data->name;
                 $old_thumbnail_image = $image_path.'thumbnail/'.$data->name;
+                $old_medium_image = $image_path.'medium/'.$data->name;
                 if(file_exists($old_image)) {
                     unlink($old_image);
                 }
                 if(file_exists($old_thumbnail_image)) {
                     unlink($old_thumbnail_image);
+                }
+                if(file_exists($old_medium_image)) {
+                    unlink($old_medium_image);
                 }
                 // set the image name to save in database
                 $data->name = $image_name;

@@ -154,17 +154,17 @@
         $('#date_start').datetimepicker({
             format:'Y-m-d H:i',
             onShow:function( ct ){
-                this.setOptions({
-                    maxDate:$('#date_end').val()?$('#date_end').val():false
-                })
+//                this.setOptions({
+//                    maxDate:$('#date_end').val()?$('#date_end').val():false
+//                })
             }
         });
         $('#date_end').datetimepicker({
             format:'Y-m-d H:i',
             onShow:function( ct ){
-                this.setOptions({
-                    minDate:$('#date_start').val()?$('#date_start').val():false
-                })
+//                this.setOptions({
+//                    minDate:$('#date_start').val()?$('#date_start').val():false
+//                })
             }
         });
 
