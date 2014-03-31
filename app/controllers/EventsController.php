@@ -411,12 +411,16 @@ class EventsController extends BaseController
         $latestEvents = $this->model->latestEvents();
         $featuredEvents = $this->model->feautredEvents();
         $events  = array_merge((array)$latestEvents,(array)$featuredEvents);
-        foreach ($events as $event) {
-            $array[] = $event->id;
+        if($events) {
+            foreach ($events as $event) {
+                $array[] = $event->id;
+            }
+            $events_unique = array_unique($array);
+            $sliderEvents = $this->model->getSliderEvents(5,$events_unique);
+            return $sliderEvents;
+        } else {
+            return null;
         }
-        $events_unique = array_unique($array);
-        $sliderEvents = $this->model->getSliderEvents(5,$events_unique);
-        return $sliderEvents;
 
     }
 

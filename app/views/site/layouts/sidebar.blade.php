@@ -18,9 +18,11 @@ extends('site.layouts.home')
         </div>
         <div class="panel-body">
             <ul>
-                @foreach($latest_event_posts as $event)
-                <li><a href="{{URL::action('EventsController@show',$event->id)}}"> {{ (LaravelLocalization::getCurrentLocaleName() == 'English') ? $event->title_en : $event->title }}</a></li>
-                @endforeach
+                @if($latest_event_posts)
+                    @foreach($latest_event_posts as $event)
+                    <li><a href="{{URL::action('EventsController@show',$event->id)}}"> {{ (LaravelLocalization::getCurrentLocaleName() == 'English') ? $event->title_en : $event->title }}</a></li>
+                    @endforeach
+                @endif
             </ul>
         </div>
     </div>
@@ -31,9 +33,11 @@ extends('site.layouts.home')
         <div class="panel-heading">{{ Lang::get('site.general.latest_blog') }}</div>
         <div class="panel-body">
             <ul>
-                @foreach($latest_blog_posts as $post)
-                <li><a href="{{URL::action('BlogController@getView',$post->slug)}}"> {{ $post->title }}</a></li>
-                @endforeach
+                @if($latest_blog_posts)
+                    @foreach($latest_blog_posts as $post)
+                    <li><a href="{{URL::action('BlogController@getView',$post->slug)}}"> {{ $post->title }}</a></li>
+                    @endforeach
+                @endif
             </ul>
         </div>
     </div>
