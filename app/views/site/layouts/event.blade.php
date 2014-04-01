@@ -6,12 +6,23 @@
 
         <div class="col-md-4 visible-lg ">
             <?php $i = 0; ?>
-            @foreach($events as $event)
-                <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 18px;">{{ $event->title }}</span>
+            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                @foreach($events as $event)
+                    <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 18px;">
+                        {{  ($event->title_en ) ? $event->title_en  : $event->title  }}
+                    </span>
+                    <?php $i++; ?>
+                @endforeach
+            @else
+                <?php $i = 0; ?>
+                @foreach($events as $event)
+                    <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 18px;">
+                        {{   $event->title  }}
+                    </span>
                 <?php $i++; ?>
-            @endforeach
+                @endforeach
+            @endif
         </div>
-
 
         <div id="myCarousel" class="carousel slide col-md-8"  data-ride="carousel">
             <ol class="carousel-indicators" style="display: none;">
@@ -45,13 +56,19 @@
                             </a>
                         </div>
                     @else
-                        <div class="carousel-caption" style="background:#502d8a;width: 40%; height:400px;margin-right: 40%;padding-left: 3px; padding-right: 3px;">
-                            <span class="slider-title text-right"><a href="{{ action('EventsController@show',$event->id) }}" > {{ $event->title }}</a></span>
-                            <span class="slider-description text-right"> {{ Str::limit($event->description,$char_limit) }} </span>
-                            <a class="kaizen-button" href="{{ action('EventsController@show',$event->id) }}"
-                            {{  $event->button }}
-                            </a>
-                        </div>
+                    <div class="carousel-caption" >
+                            <span class="slider-title {{ ($event->title_en) ? 'text-left':'text-right' }}">
+                                <a href="{{ action('EventsController@show',$event->id) }}">
+                                    {{  $event->title }}
+                                </a>
+                            </span>
+                            <span class="slider-description {{ ($event->description_en) ? 'text-left':'text-right' }}">
+                                    {{ Str::limit($event->description,$char_limit) }}
+                            </span>
+                        <a class="kaizen-button kaizen-button-right" href="{{ action('EventsController@show',$event->id) }}">
+                            {{ $event->button }}
+                        </a>
+                    </div>
                     @endif
                 </div>
                 <?php $first=""; $order++;?>

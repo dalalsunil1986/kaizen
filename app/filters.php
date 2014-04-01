@@ -64,25 +64,6 @@ Route::filter('guest', function()
 
 /*
 |--------------------------------------------------------------------------
-| Role Permissions
-|--------------------------------------------------------------------------
-|
-| Access filters based on roles.
-|
-*/
-
-// Check for role on all admin routes
-//Entrust::routeNeedsRole( 'admin*', array('Admin'));
-
-// Check for permissions on admin actions
-//Entrust::routeNeedsPermission( 'admin/blogs*', 'manage_blogs', Redirect::to('/admin') );
-//Entrust::routeNeedsPermission( 'admin/comments*', 'manage_comments', Redirect::to('/admin') );
-//Entrust::routeNeedsPermission( 'admin/users*', 'manage_users', Redirect::to('/admin') );
-//Entrust::routeNeedsPermission( 'admin/roles*', 'manage_roles', Redirect::to('/admin') );
-//Entrust::routeNeedsPermission( 'admin/events*', 'manage_roles', Redirect::to('/admin') );
-
-/*
-|--------------------------------------------------------------------------
 | CSRF Protection Filter
 |--------------------------------------------------------------------------
 |
@@ -92,30 +73,6 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('Moderator', function()
-{
-    if (!(Entrust::hasRole('admin') || (Entrust::hasRole('moderator')))) // Checks the current user
-    {
-        return Redirect::to('/')->with('error','Sorry You Do not have access to this page');
-    }
-});
-
-Route::filter('Admin', function()
-{
-    if (!(Entrust::hasRole('admin') )) // Checks the current user
-    {
-//        if(Entrust::hasRole('moderator'))
-//            return Redirect::to('/')->with('error','Sorry You Do not have access to this feature, Contact Admin for further details');
-//        return Redirect::to('/')->with('error','Sorry You Do not have access to this page');
-//        echo "
-//            <script>
-//                alert('Sorry, Not Enough Permission to do this');
-//            </script>
-//        ";
-        return Redirect::to('forbidden')->with('errors','Sorry You Do not have access to this page');
-    }
-});
-
 Route::filter('csrf', function()
 {
     if (Session::getToken() != Input::get('csrf_token') &&  Session::getToken() != Input::get('_token'))
@@ -123,6 +80,23 @@ Route::filter('csrf', function()
         throw new Illuminate\Session\TokenMismatchException;
     }
 });
+
+Route::filter('Moderator', function()
+{
+    if (!(Entrust::hasRole('admin') || (Entrust::hasRole('moderator')))) // Checks the current user
+    {
+        return Redirect::to('forbidden')->with('error','Sorry You Do not have access to this page');
+    }
+});
+
+Route::filter('Admin', function()
+{
+    if (!(Entrust::hasRole('admin') )) // Checks the current user
+    {
+        return Redirect::to('forbidden')->with('errors','Sorry You Do not have access to this page');
+    }
+});
+
 
 Route::filter('owner', function($route, $request)
 {
