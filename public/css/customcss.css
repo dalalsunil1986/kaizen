@@ -90,6 +90,10 @@
     .navbar-nav>li {
 
     }
+    .navbar-nav>li.active {
+        font-weight: bold;
+        font-size: 120%;
+    }
 
     #side-instagram .panel-body {
 
