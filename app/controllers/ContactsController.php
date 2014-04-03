@@ -20,8 +20,8 @@ class ContactsController extends BaseController {
     public function __construct(Contact $model, ContactsMailer $mailer)
     {
         $this->model = $model;
-        parent::__construct();
         $this->mailer = $mailer;
+        parent::__construct();
     }
 	/**
 	 * Display a listing of the resource.
@@ -31,7 +31,7 @@ class ContactsController extends BaseController {
 	public function index()
 	{
 		//
-        $contact = $this->model->firstOrFail();
+        $contact = $this->model->first();
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');

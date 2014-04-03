@@ -31,4 +31,9 @@ abstract class AdminBaseController extends BaseController
         return Redirect::to('admin/users');
     }
 
+    protected function redirectToAdminBlog()
+    {
+        return Redirect::to('admin/blogs');
+    }
+
 }

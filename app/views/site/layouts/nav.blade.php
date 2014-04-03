@@ -15,7 +15,7 @@ extends('site.layouts.home')
             <ul class="nav navbar-nav">
                 <li class="{{ (Request::is('/'))? 'active' : '' }}" ><a href="{{ action('EventsController@dashboard') }}">{{ Lang::get('site.nav.home')}}</a></li>
                 <li class="{{ Request::is('event')? 'active' : '' }}"><a href="{{ action('EventsController@index') }}">{{ Lang::get('site.nav.events') }}</a></li>
-                <li class="{{ Request::is('/')? 'active' : '' }}"><a href="#">{{ Lang::get('site.nav.consultancies') }}</a></li>
+                <li class="{{ Request::is('consultancy')? 'active' : '' }}"><a href="{{ action('BlogController@consultancy') }}">{{ Lang::get('site.nav.consultancies') }}</a></li>
                 <li class="{{ Request::is('/blog')? 'active' : '' }}"><a href="{{ action('BlogController@getIndex') }}">{{ Lang::get('site.nav.posts') }}</a></li>
                 <li class="{{ Request::is('/contact-us')? 'active' : '' }}"><a href="{{ action('ContactsController@index') }}">{{ Lang::get('site.nav.contactus') }}</a></li>
             </ul>

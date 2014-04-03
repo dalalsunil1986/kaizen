@@ -3,7 +3,12 @@
 use Illuminate\Support\Facades\URL; # not sure why i need this here :c
 
 class Post extends BaseModel {
+    protected $guarded = array();
 
+    public static $rules = array(
+        'title'=>'required',
+        'content'=>'required'
+    );
 	/**
 	 * Deletes a blog post and all
 	 * the associated comments.
@@ -35,10 +40,10 @@ class Post extends BaseModel {
 	 *
 	 * @return User
 	 */
-	public function author()
-	{
-		return $this->belongsTo('User', 'user_id');
-	}
+    public function author() {
+        return $this->belongsTo('User','user_id')->select('id','username','email');
+    }
+
 
 	/**
 	 * Get the post's comments.
@@ -51,21 +56,10 @@ class Post extends BaseModel {
         return $this->morphMany('Comment','commentable');
 	}
 
-    /**
-     * Get the date the post was created.
-     *
-     * @param \Carbon|null $date
-     * @return string
-     */
-    public function date($date=null)
+    public function getDates()
     {
-        if(is_null($date)) {
-            $date = $this->created_at;
-        }
-
-        return String::date($date);
+        return array_merge(array(static::CREATED_AT, static::UPDATED_AT, static::DELETED_AT));
     }
-
 	/**
 	 * Get the URL to the post.
 	 *
@@ -82,10 +76,7 @@ class Post extends BaseModel {
 	 *
 	 * @return string
 	 */
-	public function created_at()
-	{
-		return $this->date($this->created_at);
-	}
+
 
 	/**
 	 * Returns the date of the blog post last update,
@@ -93,10 +84,7 @@ class Post extends BaseModel {
 	 *
 	 * @return string
 	 */
-	public function updated_at()
-	{
-        return $this->date($this->updated_at);
-	}
+
 
     public function getPresenter()
     {
@@ -105,5 +93,23 @@ class Post extends BaseModel {
 
     public static function latest($count) {
         return Post::orderBy('created_at', 'DESC')->select('id','title','slug')->remember(10)->limit($count)->get();
+    }
+
+    public function  getConsultancies() {
+        $query= DB::table('posts')
+            ->leftJoin('categories','categories.id','=','posts.category_id')
+            ->leftJoin('photos','photos.imageable_id','=','posts.id')
+            ->where('photos.imageable_type','=','Post')
+            ->where('categories.id','=','5')
+            ->paginate();
+        return $query;
+    }
+
+    public function category() {
+//        return $this->morphMany('Category','categorizable','categorizable_type');
+        return $this->belongsTo('Category','category_id');
+    }
+    public function photos() {
+        return $this->morphMany('Photo','imageable');
     }
 }

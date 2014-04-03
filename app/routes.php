@@ -4,7 +4,6 @@
  * Route Model Binding
  */
 Route::model('comment', 'Comment');
-Route::model('post', 'Post');
 Route::model('role', 'Role');
 Route::model('user', 'User');
 
@@ -14,7 +13,6 @@ Route::model('user', 'User');
  *  ------------------------------------------
  */
 Route::pattern('comment', '[0-9]+');
-Route::pattern('post', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
@@ -30,8 +28,7 @@ Route::group(
         'prefix' => LaravelLocalization::setLocale(), // default : English === it will set the local language according to the session
         'before' => 'LaravelLocalizationRedirectFilter' // LaravelLocalization filter
     ),
-    function()
-    {
+    function() {
         //Event Routes
         Route::get('event/{id}/category', 'EventsController@getCategory');
         Route::get('event/{id}/author', 'EventsController@getAuthor');
@@ -54,7 +51,7 @@ Route::group(
         Route::get('blog/{postSlug}', 'BlogController@getView');
         Route::post('blog/{postSlug}', 'BlogController@postView');
         Route::get('blog', array('as' => 'blog','uses' => 'BlogController@getIndex'));
-        Route::get('blog/latest',array('as'=>'blog.latest','uses'=>'EventsController@latest'));
+        Route::get('consultancy',array('as'=>'consultancy','uses'=>'BlogController@consultancy'));
 
         // Post Comment
         Route::resource('event.comments', 'CommentsController', array('only' => array('store')));
@@ -86,9 +83,6 @@ Route::group(
         Route::post('newsletter','NewslettersController@store');
 
         Route::get('/', array('as'=>'home', 'uses' => 'EventsController@dashboard'));
-        Route::get('cadminss',function(){
-            dd('admin');
-        });
 
     }
 );
@@ -102,12 +96,9 @@ Route::group(array('prefix' => 'admin','before'=>array('Auth','Moderator')), fun
     Route::controller('comments', 'AdminCommentsController');
 
     # Blog Management
-    Route::get('blogs/{post}/show', 'AdminBlogsController@getShow');
-    Route::get('blogs/{post}/edit', 'AdminBlogsController@getEdit');
-    Route::post('blogs/{post}/edit', 'AdminBlogsController@postEdit');
-    Route::get('blogs/{post}/delete', 'AdminBlogsController@getDelete');
-    Route::post('blogs/{post}/delete', 'AdminBlogsController@postDelete');
-    Route::controller('blogs', 'AdminBlogsController');
+    Route::get('blogs/{id}/delete', 'AdminBlogsController@getDelete');
+    Route::get('blogs/data', 'AdminBlogsController@getData');
+    Route::resource('blogs', 'AdminBlogsController');
 
     # User Management
     Route::get('users/{user}/show', array('uses'=>'AdminUsersController@getShow'));
@@ -143,8 +134,6 @@ Route::group(array('prefix' => 'admin','before'=>array('Auth','Moderator')), fun
     //category
     Route::resource('category','AdminCategoriesController');
 
-    Route::resource('contact-us','AdminContactsController',array('only'=>array('index','store')));
-
     //countries
     Route::resource('country', 'AdminCountriesController');
 
@@ -154,6 +143,9 @@ Route::group(array('prefix' => 'admin','before'=>array('Auth','Moderator')), fun
 
     //ads
     Route::resource('ads','AdminAdsController',array('only' => array('index','store')));
+
+    //contact-us
+    Route::resource('contact-us','AdminContactsController',array('only'=>array('index','store')));
 
     Route::get('/', 'AdminEventsController@index');
 });

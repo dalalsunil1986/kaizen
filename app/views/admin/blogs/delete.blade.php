@@ -2,18 +2,12 @@
 
 {{-- Content --}}
 @section('content')
-
-    <!-- Tabs -->
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>
-        </ul>
     <!-- ./ tabs -->
     {{-- Delete Post Form --}}
-    <form id="deleteForm" class="form-horizontal" method="post" action="@if (isset($post)){{ URL::action('AdminBlogsController@postDelete',$post->id ) }}@endif" autocomplete="off">
-        
-        <!-- CSRF Token -->
-        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-        <input type="hidden" name="id" value="{{ $post->id }}" />
+    {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminBlogsController@destroy', $post->id),'class'=>'form-horizontal')) }}
+
+
+
         <!-- <input type="hidden" name="_method" value="DELETE" /> -->
         <!-- ./ csrf token -->
 
@@ -21,10 +15,11 @@
         <div class="control-group">
             <div class="controls">
                 Delete Post
+                <br><br>
                 <element class="btn-cancel close_popup">Cancel</element>
-                <button type="submit" class="btn btn-danger">Delete</button>
+                {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
             </div>
         </div>
         <!-- ./ form actions -->
-    </form>
+    {{ Form::close() }}
 @stop

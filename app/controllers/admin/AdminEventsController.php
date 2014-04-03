@@ -113,8 +113,6 @@ class AdminEventsController extends AdminBaseController
      */
     public function update($id)
     {
-        //@todo : update available seats .. get total Seats, If its not same, count total_seats taken and adjust available accordingly
-        // refer davzie postEdits();
         $validation = $this->model->find($id);
         $validation->fill(Input::except('thumbnail'));
         if (!$validation->save()) {
@@ -125,7 +123,14 @@ class AdminEventsController extends AdminBaseController
                 return Redirect::back()->withErrors($this->photo->getErrors());
             }
         }
-        return parent::redirectToAdmin()->with('success','Updated Event '. $validation->title);;
+        //update available seats
+        $event = $this->model->find($validation->id);
+        $total_seats = $event->total_seats;
+        $total_seats_taken = Subscription::findEventCount($event->id);
+        $available_seats = $total_seats - $total_seats_taken;
+        $event->available_seats = $available_seats;
+        $event->save();
+        return parent::redirectToAdmin()->with('success','Updated Event '. $validation->title);
     }
 
     /**

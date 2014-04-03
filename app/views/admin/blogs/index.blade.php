@@ -48,7 +48,7 @@
 				},
 				"bProcessing": true,
 		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('admin/blogs/data') }}",
+		        "sAjaxSource": "{{ URL::action('AdminBlogsController@getData') }}",
 		        "fnDrawCallback": function ( oSettings ) {
 	           		$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
 	     		}

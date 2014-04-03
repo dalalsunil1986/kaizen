@@ -23,7 +23,6 @@ class BlogController extends BaseController {
     public function __construct(Post $model, User $user)
     {
         parent::__construct();
-
         $this->model = $model;
         $this->user = $user;
     }
@@ -36,7 +35,9 @@ class BlogController extends BaseController {
 	public function getIndex()
 	{
 		// Get all the blog posts
-		$posts = parent::all();
+        $posts = $this->model->with(array('category','photos','author'))->paginate(10);
+
+//		$posts = parent::all();
 
 		// Show the page
         $this->layout->login = View::make('site.layouts.login');
@@ -134,4 +135,21 @@ class BlogController extends BaseController {
 		// Redirect to this blog post page
 		return Redirect::to($slug)->withInput()->withErrors($validator);
 	}
+
+    public function consultancy() {
+        $posts=  $this->model
+            ->with(array('category','photos','author'))
+//            ->leftJoin('categories','categories.id','=','posts.category_id')
+//            ->leftJoin('photos','photos.imageable_id','=','posts.id')
+//            ->where('photos.imageable_type','=','Post')
+            ->where('category_id','=','5')
+            ->orderBy('created_at','DESC')
+            ->paginate(4);
+        $this->layout->login = View::make('site.layouts.login');
+//        $this->layout->ads = view::make('site.layouts.ads');
+        $this->layout->nav = view::make('site.layouts.nav');
+        $this->layout->maincontent = view::make('site.blog.consultancy', compact('posts'));
+        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+        $this->layout->footer = view::make('site.layouts.footer');
+    }
 }

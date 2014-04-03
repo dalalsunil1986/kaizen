@@ -37,14 +37,14 @@ class DatabaseSeeder extends Seeder {
         $this->call('LocationsTableSeeder');
         $this->call('CategoriesTableSeeder');
         $this->call('PostsTableSeeder');
-//		$this->call('EventsTableSeeder');
-//        $this->call('CommentsTableSeeder');
-//        $this->call('FollowersTableSeeder');
-//		$this->call('FavoritesTableSeeder');
-//		$this->call('SubscriptionsTableSeeder');
-//		$this->call('PhotosTableSeeder');
-//		$this->call('AuthorsTableSeeder');
-//        $this->call('ContactsTableSeeder');
+		$this->call('EventsTableSeeder');
+        $this->call('CommentsTableSeeder');
+        $this->call('FollowersTableSeeder');
+		$this->call('FavoritesTableSeeder');
+		$this->call('SubscriptionsTableSeeder');
+		$this->call('PhotosTableSeeder');
+		$this->call('AuthorsTableSeeder');
+        $this->call('ContactsTableSeeder');
 	}
 
     private function cleanDatabase()

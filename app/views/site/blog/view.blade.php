@@ -35,7 +35,7 @@
     pull-left
     @endif
     " style=" padding: 5px; margin:0px; margin-bottom: 5px;">
-    Posted {{{ $post->date() }}}</span>
+    Posted {{{ $post->created_at->format('Y-m-d') }}}</span>
 </div>
 
 <p class="text-justify">

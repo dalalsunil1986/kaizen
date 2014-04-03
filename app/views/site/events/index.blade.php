@@ -43,7 +43,7 @@
             <div class="col-sm-2 col-md-2">
                 <div id="event_images">
                     <div id="links">
-                        @if($event->photos)
+                        @if(count($event->photos))
                         <a href="{{ action('EventsController@show',$event->id) }}" >
                             {{ HTML::image('uploads/thumbnail/'.$event->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
                         </a>

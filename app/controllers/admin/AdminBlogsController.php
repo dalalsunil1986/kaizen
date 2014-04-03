@@ -8,14 +8,29 @@ class AdminBlogsController extends AdminBaseController {
      * @var Post
      */
     protected $post;
+    /**
+     * @var Category
+     */
+    private $category;
+    /**
+     * @var User
+     */
+    private $user;
+    /**
+     * @var Photo
+     */
+    private $photo;
 
     /**
      * Inject the models.
      * @param Post $post
      */
-    public function __construct(Post $post)
+    public function __construct(Post $post,Category $category, User $user, Photo $photo)
     {
         $this->post = $post;
+        $this->category = $category;
+        $this->user = $user;
+        $this->photo = $photo;
         parent::__construct();
         $this->beforeFilter('Admin');
     }
@@ -25,14 +40,12 @@ class AdminBlogsController extends AdminBaseController {
      *
      * @return View
      */
-    public function getIndex()
+    public function index()
     {
         // Title
         $title = Lang::get('admin/blogs/title.blog_management');
-
         // Grab all the blog posts
         $posts = $this->post;
-
         // Show the page
         return View::make('admin/blogs/index', compact('posts', 'title'));
     }
@@ -42,13 +55,15 @@ class AdminBlogsController extends AdminBaseController {
      *
      * @return Response
      */
-    public function getCreate()
+    public function create()
     {
         // Title
+        $category = $this->category->getPostCategories()->lists('name', 'id');
+        $author = $this->user->getRoleByName('author')->lists('username', 'id');
         $title = Lang::get('admin/blogs/title.create_a_new_blog');
 
         // Show the page
-        return View::make('admin/blogs/create_edit', compact('title'));
+        return View::make('admin/blogs/create', compact('title','category','author'));
     }
 
     /**
@@ -56,118 +71,79 @@ class AdminBlogsController extends AdminBaseController {
      *
      * @return Response
      */
-    public function postCreate()
+    public function store()
     {
-        // Declare the rules for the form validation
-        $rules = array(
-            'title'   => 'required|min:3',
-            'content' => 'required|min:3'
-        );
-
         // Validate the inputs
-        $validator = Validator::make(Input::all(), $rules);
 
-        // Check if the form validates with success
-        if ($validator->passes())
-        {
-            // Create a new blog post
-            $user = Auth::user();
-            // Update the blog post data
-            $this->post->title            = Input::get('title');
-            $this->post->slug             = Str::slug(Input::get('title'));
-            $this->post->content          = Input::get('content');
-            $this->post->meta_title       = Input::get('meta-title');
-            $this->post->meta_description = Input::get('meta-description');
-            $this->post->meta_keywords    = Input::get('meta-keywords');
-            $this->post->user_id          = $user->id;
-
-            // Was the blog post created?
-            if($this->post->save())
-            {
-                    // Redirect to the new blog post page
-                return Redirect::to('admin/blogs')->with('success', Lang::get('admin/blogs/messages.create.success'));
-            }
-
-            // Redirect to the blog post create page
-            return Redirect::to('admin/blogs/create')->withErrors($validator->errors());
+        $validation = new $this->post(Input::except('thumbnail'));
+        $validation->slug = Str::slug(Input::get('title'));
+        if (!$validation->save()) {
+            return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-
-        // Form validation failed
-        return Redirect::to('admin/blogs/create')->withInput()->withErrors($validator->errors());
+        if(Input::hasFile('thumbnail')) {
+            // call the attach image function from Photo class
+            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'Post','0')) {
+                return Redirect::to('admin/blogs/' . $validation->id . '/edit')->withErrors($this->photo->getErrors());
+            }
+        }
+        //update slug
+//        $post = $this->post->find($validation->id);
+//        $post->slug = Str::slug(Input::get('title'));
+//        $post->save();
+        return parent::redirectToAdminBlog()->with('success','Added Blog to the Database');
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param $post
+     * @param $id
+     * @internal param $post
      * @return Response
      */
-    public function getShow($post)
+    public function show($id)
     {
         // redirect to the frontend
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param $post
+     * @param $id
+     * @internal param $post
      * @return Response
      */
-    public function getEdit($post)
+    public function edit($id)
     {
-        // Title
         $title = Lang::get('admin/blogs/title.blog_update');
-        $post = $this->post->find($post);
+        $category = $this->category->getPostCategories()->lists('name', 'id');
+        $author = $this->user->getRoleByName('author')->lists('username', 'id');
+        $post = $this->post->find($id);
 
         // Show the page
-        return View::make('admin/blogs/create_edit', compact('post', 'title'));
+        return View::make('admin/blogs/edit', compact('post', 'title','category','author'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param $post
+     * @param $id
+     * @internal param $post
      * @return Response
      */
-    public function postEdit($post)
+    public function update($id)
     {
-
-        // Declare the rules for the form validation
-        $rules = array(
-            'title'   => 'required|min:3',
-            'content' => 'required|min:3'
-        );
-
-        // Validate the inputs
-        $validator = Validator::make(Input::all(), $rules);
-
-        // Check if the form validates with success
-        if ($validator->passes())
-        {
-            // Update the blog post data
-            $post = $this->post->find($post);
-            $post->title            = Input::get('title');
-            $post->slug             = Str::slug(Input::get('title'));
-            $post->content          = Input::get('content');
-            $post->meta_title       = Input::get('meta-title');
-            $post->meta_description = Input::get('meta-description');
-            $post->meta_keywords    = Input::get('meta-keywords');
-
-            // Was the blog post updated?
-            if($post->save())
-            {
-                // Redirect to the new blog post page
-                return Redirect::to('admin/blogs/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
-            }
-
-            // Redirect to the blogs post management page
-            return Redirect::to('admin/blogs/' . $post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
+        $validation = $this->post->find($id);
+        $validation->fill(Input::except('thumbnail'));
+        if (!$validation->save()) {
+            return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-
-        // Form validation failed
-        return Redirect::to('admin/blogs/' . $post->id . '/edit')->withInput()->with($validator->errors());
+        if (Input::hasFile('thumbnail')) {
+            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'Post','0')) {
+                return Redirect::back()->withErrors($this->photo->getErrors());
+            }
+        }
+        $post = $this->post->find($validation->id);
+        $post->slug = Str::slug(Input::get('title'));
+        $post->save();
+        return parent::redirectToAdminBlog()->with('success','Updated Blog '. $validation->title);
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -175,12 +151,24 @@ class AdminBlogsController extends AdminBaseController {
      * @param $post
      * @return Response
      */
-    public function getDelete($post)
+    public function delete($id)
     {
+        dd('h');
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @internal param $post
+     * @return Response
+     */
+    public function getDelete($id) {
+
+        $post = $this->post->find($id);
         // Title
         $title = Lang::get('admin/blogs/title.blog_delete');
-
-        $post = $this->post->find($post);
 
         // Show the page
         return View::make('admin/blogs/delete', compact('post', 'title'));
@@ -189,32 +177,19 @@ class AdminBlogsController extends AdminBaseController {
     /**
      * Remove the specified resource from storage.
      *
-     * @param $post
+     * @param $id
+     * @internal param $post
      * @return Response
      */
-    public function postDelete($post)
+
+    public function destroy($id)
     {
-        // Declare the rules for the form validation
-        $rules = array(
-            'id' => 'required|integer'
-        );
-
-        // Validate the inputs
-        $validator = Validator::make(Input::all(), $rules);
-
-        // Check if the form validates with success
-        if ($validator->passes())
-        {
-            $post = $this->post->find($post);
-            if($post) {
-                if($post->delete()) {
-                    // Redirect to the blog posts management page
-                    return Redirect::to('admin/blogs')->with('success', Lang::get('admin/blogs/messages.delete.success'));
-                }
-            }
+        $post = $this->post->findOrFail($id);
+        if ($post->delete()) {
+            //  return Redirect::home();
+            return parent::redirectToAdminBlog()->with('success','Blog Post Deleted');
         }
-        // There was a problem deleting the blog post
-        return Redirect::to('admin/blogs')->with('error', Lang::get('admin/blogs/messages.delete.error'));
+        return parent::redirectToAdminBlog()->with('error','Error: Blog Post Not Found');
     }
 
     /**
@@ -224,6 +199,7 @@ class AdminBlogsController extends AdminBaseController {
      */
     public function getData()
     {
+
         $posts = Post::select(array('posts.id', 'posts.title', 'posts.id as comments', 'posts.created_at'));
 
         return Datatables::of($posts)
