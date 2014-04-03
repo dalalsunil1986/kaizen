@@ -48,10 +48,9 @@ Route::group(
         Route::post('contact-us/contact','ContactsController@contact');
 
         # Posts - Second to last set, match slug
-        Route::get('blog/{postSlug}', 'BlogController@getView');
-        Route::post('blog/{postSlug}', 'BlogController@postView');
-        Route::get('blog', array('as' => 'blog','uses' => 'BlogController@getIndex'));
-        Route::get('consultancy',array('as'=>'consultancy','uses'=>'BlogController@consultancy'));
+
+        Route::get('consultancy',array('as'=>'consultancy','uses'=>'BlogsController@consultancy'));
+        Route::resource('blog','BlogsController', array('only' => array('index', 'show','view')));
 
         // Post Comment
         Route::resource('event.comments', 'CommentsController', array('only' => array('store')));

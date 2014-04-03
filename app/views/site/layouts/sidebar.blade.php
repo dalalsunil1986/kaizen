@@ -35,7 +35,7 @@ extends('site.layouts.home')
             <ul>
                 @if($latest_blog_posts)
                     @foreach($latest_blog_posts as $post)
-                    <li><a href="{{URL::action('BlogController@getView',$post->slug)}}"> {{ $post->title }}</a></li>
+                    <li><a href="{{URL::action('BlogsController@show',$post->slug)}}"> {{ $post->title }}</a></li>
                     @endforeach
                 @endif
             </ul>
