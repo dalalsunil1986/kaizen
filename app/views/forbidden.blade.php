@@ -24,12 +24,6 @@
             <div class="col-md-4">
                 <a href="/">{{ HTML::image('images/Logo.png') }}</a>
             </div>
-            <div class="col-md-8">
-                @yield('login')
-            </div>
-        </div>
-        <div class="row">
-            @yield('nav')
         </div>
         <!-- end of row-->
     </div>

@@ -14,14 +14,13 @@ Route::model('user', 'User');
  */
 Route::pattern('comment', '[0-9]+');
 Route::pattern('user', '[0-9]+');
+Route::pattern('id', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
 
 /**
  * Route Group for Localized url
  */
-
-
 
 Route::group(
     array(
@@ -40,7 +39,6 @@ Route::group(
         Route::get('event/{id}/unfavorite',array('as'=>'event.unfavorite','uses'=>'EventsController@unfavorite'));
         Route::get('events/featured',array('as'=>'event.featured','uses'=>'EventsController@getSliderEvents'));
         Route::get('event/{id}/country','EventsController@getCountry');
-        Route::get('events/latest',array('as'=>'event.latest','uses'=>'EventsController@latest'));
         Route::resource('event','EventsController', array('only' => array('index', 'show')));
 
         // Contact Us Page
@@ -48,7 +46,6 @@ Route::group(
         Route::post('contact-us/contact','ContactsController@contact');
 
         # Posts - Second to last set, match slug
-
         Route::get('consultancy',array('as'=>'consultancy','uses'=>'BlogsController@consultancy'));
         Route::resource('blog','BlogsController', array('only' => array('index', 'show','view')));
 
@@ -82,9 +79,9 @@ Route::group(
         Route::post('newsletter','NewslettersController@store');
 
         Route::get('/', array('as'=>'home', 'uses' => 'EventsController@dashboard'));
-
     }
 );
+
 ///* Admin Route Group */
 Route::group(array('prefix' => 'admin','before'=>array('Auth','Moderator')), function() {
     # Comment Management
