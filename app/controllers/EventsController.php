@@ -159,7 +159,7 @@ class EventsController extends BaseController
                 // return you are already subscribed to this event
                 return Response::json(array(
                     'success' => false,
-                    'message'=> 'you have already subscribed to this event',
+                    'message'=> Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed'))
                 ), 400 );
             }
             //get available seats
@@ -175,20 +175,20 @@ class EventsController extends BaseController
                 return Response::json(array(
                     'success' => true,
 //                    'message'=> 'تم الاشتراك بهذه الفعالية .. شكرا'
-                    'message'=>  Lang::get('site.event.subscribed', array('attribute'=>'subscribed'))
+                    'message'=>  Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed'))
                 ), 200);
             }
             // notify no seats available
             return Response::json(array(
                 'success' => false,
-                'message'=> 'لا يوجد مقاعد متاحة لهذه الفعالية'
+                'message'=> Lang::get('site.subscription.no_seats_available')
             ), 400);
 
         }
         // notify user not authenticated
         return Response::json(array(
             'success' => false,
-            'message'=> 'لا تملك الصلاحية لهذه الميزة',
+            'message'=> Lang::get('site.subscription.not_authenticated')
         ), 401);
 
     }
@@ -214,26 +214,27 @@ class EventsController extends BaseController
                     $event->save();
                     return Response::json(array(
                         'success' => true,
-                        'message'=> 'تم إلغاء اشتراكك بهذه الفعالية'
+                        'message'=> Lang::get('site.subscription.unsubscribed', array('attribute'=>'unsubscribed'))
                     ), 200);
 
                 } else {
                     return Response::json(array(
                         'success' => false,
-                        'message'=> ' Error : Could not Unsubscribe You '
+                        // could not unsubscribe
+                        'message'=> Lang::get('site.subscription.error', array('attribute'=>'unsubscribe'))
                     ), 500);
                 }
             } else {
                 // wrong access
                 return Response::json(array(
                     'success' => false,
-                    'message'=> 'sorry wrong access, you have\'nt subscribed in first place'
+                    'message'=> Lang::get('site.subscription.not_subscribed', array('attribute'=>'subscribed'))
                 ), 400);
             }
         } else {
             return Response::json(array(
                 'success' => false,
-                'message'=> 'you are not authenticated'
+                'message'=> Lang::get('site.subscription.not_authenticated')
             ), 403);
         }
 
@@ -256,21 +257,20 @@ class EventsController extends BaseController
                 // return you are already subscribed to this event
                 return Response::json(array(
                     'success' => false,
-                    'message'=> 'انت مسجل لدينا في هذه الفعالية من قبل ..'
+                    'message'=> Lang::get('site.subscription.already_subscribed', array('attribute'=>'following'))
                 ), 400);
             }
-
             $event->followers()->attach($user);
             return Response::json(array(
                 'success' => true,
-                'message'=> 'تم التسجيل بنجاح بهذه الفعالية .. شكرا'
+                'message'=> Lang::get('site.subscription.subscribed', array('attribute'=>'following'))
             ), 200);
 
         }
         // notify user not authenticated
         return Response::json(array(
             'success' => false,
-            'message'=> 'لا تملك الصلاحية لاستخدام هذه الميزة .. يجب عليك التسجيل أولاً'
+            'message'=> Lang::get('site.subscription.not_authenticated')
         ), 403);
 
     }
@@ -289,25 +289,25 @@ class EventsController extends BaseController
                 if(Follower::unfollow($id,$user->id)) {
                     return Response::json(array(
                         'success' => true,
-                        'message'=> 'تم إلغاء متابعه هذه الفعالية '
+                        'message'=> Lang::get('site.subscription.unsubscribed', array('attribute'=>'unfollowed'))
                     ), 200);
                 } else {
                     return Response::json(array(
                         'success' => false,
-                        'message'=> 'Error : Could not Unfavorite You'
+                        'message'=> Lang::get('site.subscription.error', array('attribute'=>'unfollowing'))
                     ), 500);
                 }
             }
             return Response::json(array(
                 'success' => false,
-                'message'=> 'you havent followed this event in first place'
+                'message'=> Lang::get('site.subscription.not_subscribed', array('attribute'=>'following'))
             ), 400);
 
         }
         // notify user not authenticated
         return Response::json(array(
             'success' => false,
-            'message'=> 'You are not Authenticated'
+            'message'=> Lang::get('site.subscription.not_authenticated')
         ), 403);
 
     }
@@ -329,21 +329,21 @@ class EventsController extends BaseController
                 // return you are already subscribed to this event
                 return Response::json(array(
                     'success' => false,
-                    'message'=> 'you have already favorited this event'
+                    'message'=> Lang::get('site.subscription.already_subscribed',array('attribute'=>'favorited'))
                 ), 400);
             }
 
             $event->favorites()->attach($user);
             return Response::json(array(
                 'success' => true,
-                'message'=> 'you favorited this event'
+                'message'=> Lang::get('site.subscription.subscribed',array('attribute'=>'favorited'))
             ), 200);
 
         }
         // notify user not authenticated
         return Response::json(array(
             'success' => false,
-            'message'=> 'You are not Authenticated'
+            'message'=> Lang::get('site.subscription.not_authenticated')
         ), 403);
 
     }
@@ -362,23 +362,23 @@ class EventsController extends BaseController
                 if(Favorite::unfavorite($id,$user->id)) {
                     return Response::json(array(
                         'success' => true,
-                        'message'=> 'You unfavorited this event'
+                        'message'=> Lang::get('site.subscription.unsubscribed',array('attribute'=>'unfavorited'))
                     ), 200);
                 } else {
                     return Response::json(array(
                         'success' => false,
-                        'message'=> 'Error : Could not Unfavorite You '
+                        'message'=> Lang::get('site.subscription.error',array('attribute'=>'unfavorite'))
                     ), 500);
                 }
             }
             return Response::json(array(
                 'success' => false,
-                'message'=> 'you havent favorited this event in first place'
+                'message'=> Lang::get('site.subscription.not_subscribed',array('attribute'=>'favorited'))
             ), 400);
         }
         return Response::json(array(
             'success' => false,
-            'message'=> 'You are not Authenticated'
+            'message'=> Lang::get('site.subscription.not_authenticated')
         ), 403);
 
     }

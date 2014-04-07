@@ -60,19 +60,19 @@
     <div class="col-md-5 {{ !Auth::user()? 'btns_disabled' :'' }}">
         <h1></h1>
         <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 btn btn-default btn-sm events_btns favorite_btn"
-        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}">
+        data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite')  }}">
         <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
         {{ Lang::get('site.general.fv_btn_desc')}}</button>
 
         <button
         {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 events_btns btn btn-default btn-sm follow_btn"
-        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.follow') }}">
+        data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow')  }}">
         <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
         {{ Lang::get('site.general.follow_btn_desc')}}</button>
 
         <button
         {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 events_btns btn btn-default btn-sm subscribe_btn"
-        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}">
+        data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
         <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
         {{ Lang::get('site.general.subscribe_btn_desc')}}</button>
     </div>
@@ -135,7 +135,7 @@
     <div id="map_canvas"></div>
     @endif
     <div class="col-md-12">
-        <option selected disabled>first option</option>
+        <option selected disabled>Address</option>
         <address>
             <strong> {{ $event->address}} </strong><br>
             795 Folsom Ave, Suite 600<br>
@@ -208,6 +208,55 @@
 
 <script>
     var id = '<?php echo $event->id; ?>';
+
+    function checkStatus(action) {
+        switch (action) {
+            case 'favorite':
+                var ttip = '<?php echo Lang::get('site.event.unfavorite') ; ?>'
+                $('.favorite_btn')
+                    .attr('title', ttip)
+                    .tooltip('fixTitle')
+                    .tooltip('show');
+                break;
+            case 'unfavorite':
+                var ttip = '<?php echo Lang::get('site.event.favorite') ; ?>'
+                $('.favorite_btn')
+                    .attr('title', ttip)
+                    .tooltip('fixTitle')
+                    .tooltip('show');
+                break;
+            case 'follow':
+                var ttip = '<?php echo Lang::get('site.event.unfollow') ; ?>'
+                $('.follow_btn')
+                    .attr('title', ttip)
+                    .tooltip('fixTitle')
+                    .tooltip('show');
+                break;
+            case 'unfollow':
+                var ttip = '<?php echo Lang::get('site.event.follow') ; ?>'
+                $('.follow_btn')
+                    .attr('title', ttip)
+                    .tooltip('fixTitle')
+                    .tooltip('show');
+                break;
+            case 'subscribe':
+                var ttip = '<?php echo Lang::get('site.event.unsubscribe') ; ?>'
+                $('.subscribe_btn')
+                    .attr('title', ttip)
+                    .tooltip('fixTitle')
+                    .tooltip('show');
+                break;
+            case 'unsubscribe':
+                var ttip = '<?php echo Lang::get('site.event.subscribe') ; ?>'
+                $('.subsribe_btn')
+                    .attr('title', ttip)
+                    .tooltip('fixTitle')
+                    .tooltip('show');
+                break;
+            default:
+        }
+    }
+
 </script>
 
 @if($event->latitude && $event->longitude)

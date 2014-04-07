@@ -9,19 +9,16 @@ $(document).ready(function () {
 
     // EventController Favorite btn
     $('.favorite_btn').click(function () {
-//        $('#favorite_btn').prop('title','unfavorite');
+        $('.favorite_btn').tooltip('hide');
         if($('.favorite').hasClass('active')) {
            var behavior = 'unfavorite';
         } else {
            var behavior = 'favorite';
         }
-        //change tooltip text
-        $('.favorite_btn').tooltip('hide')
-            .attr('title', behavior)
-            .tooltip('fixTitle')
-            .tooltip('show');
+
+        checkStatus(behavior);
         $.ajax({
-            url: '/en/event/' + id + '/'+ behavior,
+            url: '/event/' + id + '/'+ behavior,
             type: 'GET',
             cache : true,
             dataType: "json",
@@ -32,23 +29,21 @@ $(document).ready(function () {
                 if(data.success) {
                     $('.favorite').toggleClass('active');
                 }
-                //alert(data.message);
+                alert(data.message);
             }
         });
     });
 
     $('.follow_btn').click(function () {
+        $('.follow_btn').tooltip('hide');
         if($('.follow').hasClass('active')) {
             var behavior = 'unfollow'
         } else {
             var behavior = 'follow'
         }
-        $('.follow_btn').tooltip('hide')
-            .attr('title', behavior)
-            .tooltip('fixTitle')
-            .tooltip('show');
+        checkStatus(behavior);
         $.ajax({
-            url: '/en/event/' + id + '/'+ behavior,
+            url: '/event/' + id + '/'+ behavior,
             type: 'GET',
             cache : true,
             dataType: "json",
@@ -65,17 +60,15 @@ $(document).ready(function () {
     });
 
     $('.subscribe_btn').click(function () {
+        $('.subscribe_btn').tooltip('hide');
         if($('.subscribe').hasClass('active')) {
             var behavior = 'unsubscribe'
         } else {
             var behavior = 'subscribe'
         }
-        $('.subscribe_btn').tooltip('hide')
-            .attr('title', behavior)
-            .tooltip('fixTitle')
-            .tooltip('show');
+        checkStatus(behavior);
         $.ajax({
-            url: '/en/event/' + id + '/'+ behavior,
+            url: '/event/' + id + '/'+ behavior,
             type: 'GET',
             cache : true,
             dataType: "json",

@@ -36,8 +36,11 @@ return array(
                 'date_end' => 'Ends on',
                 'time_end' => 'Ends at',
                 'favorite' => 'Add To Favorites',
+                'unfavorite' => 'Remove From Favorites',
                 'follow' => 'Follow',
+                'unfollow' => 'Unfollow',
                 'subscribe' => 'Join',
+                'unsubscribe'=>'Unsubscribe',
                 'comment' => 'Comments' ,
                 'addcomment' => 'Add Comment',
                 'category' => 'Category',
@@ -96,8 +99,13 @@ return array(
                 'warning_msg' => 'Please kindly note that these information are important in order to issue your certificates in the future.. please fill in the form properly'
     ),
     'subscription' => array(
-        'subscribed' => 'You have been :attribute',
-        'unsubscribed' => 'You have been unsubscribed'
+        'subscribed' => 'You :attribute this event',
+        'unsubscribed' => 'You :attribute this event',
+        'already_subscribed' => 'You  already :attribute this event',
+        'not_authenticated' => 'Sorry, You must sign in before you perform this action',
+        'wrong_access'=> 'Sorry, Wrong Acces',
+        'error'=> 'Sorry, Could not :attribute you',
+        'not_subscribed' => 'Sorry, you havent :attribute this event in first place'
     )
 
 );

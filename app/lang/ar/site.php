@@ -38,8 +38,11 @@ return array(
                 'date_end' => 'تاريخ الانتهاء',
                 'time_end' => 'ينتهي',
                 'favorite' => 'ستضاف إلى قائمة المفضلة في حسابك',
+                'unfavorite' =>'الغاء',
                 'follow' => 'للحصول على آخر الأخبار',
+                'unfollow' => 'الغاء',
                 'subscribe' => 'لحجز مقعدك',
+                'unsubscribe'=> 'الغاء',
                 'comment' => 'تعليقات',
                 'addcomment' => 'إضافه تعليق',
                 'category' => 'التصنيف',
@@ -100,8 +103,12 @@ return array(
 
     ),
     'subscription' => array(
-        'subscribed' => 'تم الاشتراك بهذه الفعالية .. شكرا',
-        'unsubscribed' => 'You have been unsubscribed'
+        'subscribed' => 'You :attribute this event',
+        'unsubscribed' => 'You :attribute this event',
+        'already_subscribed' => 'You  already :attribute this event',
+        'not_authenticated' => 'Sorry, You must sign in before you perform this action',
+        'wrong_access'=> 'Sorry, Wrong Acces',
+        'error'=> 'Sorry, Could not :attribute you',
+        'not_subscribed' => 'Sorry, you havent :attribute this event in first place'
     )
-
 );
