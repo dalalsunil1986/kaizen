@@ -23,7 +23,8 @@
         "mailchimp/mailchimp": "2.0.4",
         "intervention/image": "dev-master",
 		"pda/pheanstalk": "dev-master",
-        "leafo/lessphp": "v0.4.0"
+        "leafo/lessphp": "v0.4.0",
+        "iron-io/iron_mq": "1.5.1"
 	},
     "require-dev": {
         "fzaninotto/faker": "1.4.*@dev"

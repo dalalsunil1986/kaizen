@@ -144,31 +144,26 @@
     San Francisco, CA 94107<br>
     <abbr title="Phone">P:</abbr> (123) 456-7890
 </address>
-<div class="row text-center {{ !Auth::user()? 'btns_disabled' :'' }}" id="statistic_feed" style="width: 45%;">
+<div class="row text-center {{ (!Auth::user()) ? 'btns_disabled' :'' }}" id="statistic_feed" style="width: 45%;">
     <div class="col-lg-4">
         <button
         {{ !Auth::user()? 'disabled' :'' }} id="favorite_btn" type="button" class="btn btn-default btn-sm events_btns"
-        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}"><i id="favorite"
-                                                                                                     class="glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
+        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}">
+        <i id="favorite" class="glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
         {{ Lang::get('site.general.fv_btn_desc')}}</button>
     </div>
-
-
     <div class="col-lg-4">
         <button
         {{ !Auth::user()? 'disabled' :'' }} id="follow_btn" type="button" class="events_btns btn btn-default btn-sm"
-        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.follow') }}"><i id="follow"
-                                                                                                   class="glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
+        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.follow') }}">
+        <i id="follow" class="glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
         {{ Lang::get('site.general.follow_btn_desc')}}</button>
-
     </div>
-
-
     <div class="col-lg-4">
         <button
         {{ !Auth::user()? 'disabled' :'' }} id="subscribe_btn" type="button" class="events_btns btn btn-default btn-sm"
-        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}"><i id="subscribe"
-                                                                                                      class="glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
+        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}">
+        <i id="subscribe"class="glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
         {{ Lang::get('site.general.subscribe_btn_desc')}}</button>
 
     </div>

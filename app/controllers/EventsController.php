@@ -159,7 +159,7 @@ class EventsController extends BaseController
                 // return you are already subscribed to this event
                 return Response::json(array(
                     'success' => false,
-                    'message'=> 'you have already subscribed to this event'
+                    'message'=> 'you have already subscribed to this event',
                 ), 400 );
             }
             //get available seats
@@ -174,9 +174,9 @@ class EventsController extends BaseController
                 $event->save();
                 return Response::json(array(
                     'success' => true,
-                    'message'=> 'تم الاشتراك بهذه الفعالية .. شكرا'
+//                    'message'=> 'تم الاشتراك بهذه الفعالية .. شكرا'
+                    'message'=>  Lang::get('site.event.subscribed', array('attribute'=>'subscribed'))
                 ), 200);
-
             }
             // notify no seats available
             return Response::json(array(

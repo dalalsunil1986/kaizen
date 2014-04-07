@@ -44,6 +44,11 @@ return array(
                 'title' => 'Title',
                 'events' => 'Events',
                 'all' => 'All',
+                'choose_country'=>'Choose a Country',
+                'choose_category'=> 'Choose a Category',
+                'choose_author'=> 'Choose an Author',
+
+
                 ),
     'general' => array(
                 'kaizen' => 'Kaizen',
@@ -89,6 +94,10 @@ return array(
                 'fv_btn_desc' => 'add to fav.',
                 'prev_events' => 'Did you attend any previous events in Kaizen .. please tell us what events and where ... Thank You',
                 'warning_msg' => 'Please kindly note that these information are important in order to issue your certificates in the future.. please fill in the form properly'
+    ),
+    'subscription' => array(
+        'subscribed' => 'You have been :attribute',
+        'unsubscribed' => 'You have been unsubscribed'
     )
 
 );

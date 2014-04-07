@@ -46,6 +46,9 @@ return array(
                 'title' => 'الموضوع',
                 'events' => 'الفعاليات',
                 'all' => 'جميع',
+                'choose_country'=>'اختر الدولة',
+                'choose_category'=> 'اختر الفئة',
+                'choose_author'=> 'اختر المدرب'
     ),
     'general' => array(
                 'kaizen' => 'كايزن',
@@ -95,5 +98,10 @@ return array(
                 'prev_events' => 'هل اشتركت في فعاليات كيزين من قبل .. برجاء ذكر الفعاليات ومكان انعقادها .. شكرا',
                 'warning_msg' => 'يرجى العلم بأن البيانات الواردة باستمارة التسجيل سيتم اعتمادها لإصدار الشهادات .. برجاء كتابه البيانات الصحيحة والتأكد منها',
 
+    ),
+    'subscription' => array(
+        'subscribed' => 'تم الاشتراك بهذه الفعالية .. شكرا',
+        'unsubscribed' => 'You have been unsubscribed'
     )
+
 );

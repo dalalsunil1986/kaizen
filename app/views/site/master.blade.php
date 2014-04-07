@@ -36,7 +36,7 @@
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/customjs.js') }}"></script>
 </head>
-
+<body>
 <div class="container">
     <!-- header -->
     <div id="header" class="row">
@@ -85,5 +85,5 @@
 </div>
 <!--end of container-->
 
-    </body>
+</body>
 </html>

@@ -16,22 +16,22 @@
     <div class="col-md-2 padded">
 
         <div class="form-group">
-            {{ Form::select('country', array('0'=>'Choose Country',$countries), $country ,['class' => 'form-control']) }}
+            {{ Form::select('country', array('0'=>Lang::get('site.event.choose_country') ,$countries), $country ,['class' => 'form-control']) }}
         </div>
     </div>
     <div class="col-md-2 padded">
         <div class="form-group">
-            {{ Form::select('category', array('0'=>'Choose Category',$categories), $category ,['class' => 'form-control']) }}
+            {{ Form::select('category', array('0'=>Lang::get('site.event.choose_category') ,$categories), $category ,['class' => 'form-control']) }}
         </div>
     </div>
     <div class="col-md-2 padded">
         <div class="form-group">
-            {{ Form::select('author', array(''=>'Choose Author',$authors), $author ,['class' => 'form-control']) }}
+            {{ Form::select('author', array(''=>Lang::get('site.event.choose_author') ,$authors), $author ,['class' => 'form-control']) }}
         </div>
     </div>
     <div class="col-md-1">
 
-        <button type="submit" class="btn btn-default btn-small">Search</button>
+        <button type="submit" class="btn btn-default btn-small">{{ Lang::get('site.nav.search') }}</button>
 
     </div>
     {{ Form::close() }}

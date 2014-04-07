@@ -190,7 +190,10 @@ class AdminEventsController extends AdminBaseController
     public function settings($id)
     {
         $event = $this->model->find($id);
-        return View::make('admin.events.settings',compact('event'));
+        $subscriptions_count =$event->subscriptions()->count();
+        $favorites_count =$event->favorites()->count();
+        $followers_count =$event->followers()->count();
+        return View::make('admin.events.settings',compact('event','subscriptions_count','favorites_count','followers_count'));
     }
     /**
      * @param $id
