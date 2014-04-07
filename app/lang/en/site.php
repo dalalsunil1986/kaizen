@@ -89,9 +89,9 @@ return array(
                 'female' => 'Female',
                 'more' => 'More...',
                 'entry' => 'Login to your account',
-                'subscribe_btn_desc' => 'book a seat',
-                'follow_btn_desc' => 'follow event',
-                'fv_btn_desc' => 'add to fav.',
+                'subscribe_btn_desc' => 'Book a Seat',
+                'follow_btn_desc' => 'Follow Event',
+                'fv_btn_desc' => 'Add to Favorite',
                 'prev_events' => 'Did you attend any previous events in Kaizen .. please tell us what events and where ... Thank You',
                 'warning_msg' => 'Please kindly note that these information are important in order to issue your certificates in the future.. please fill in the form properly'
     ),

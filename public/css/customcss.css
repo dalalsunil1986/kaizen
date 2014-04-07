@@ -147,9 +147,7 @@
     }
 
     #statistic_feed {
-        float: left;
-        padding:10px;
-        display:block;
+        padding-top:10px;
     }
 
 
@@ -162,15 +160,18 @@
         background-color: #8a66d0 !important;
         font-weight: bold;
     }
-    #favorite_btn .active {
+    .favorite_btn .active {
         color: gold;
+        font-weight: normal;
     }
 
-    #follow_btn .active {
+    .follow_btn .active {
         color: #b447b0;
+        font-weight: normal;
     }
-    #subscribe_btn .active {
+    .subscribe_btn .active {
         color: #7540b4;
+        font-weight: normal;
     }
 
     #event_images {

@@ -2,21 +2,21 @@ $(document).ready(function () {
     // tooltip activation
     $("[data-toggle=tooltip]").tooltip();
 
-
     // EventController Buttons -- Disabled Case
     $('.btns_disabled').click(function () {
         alert('يجب التسجيل أولاً لاستخدام تلك الميزة');
     });
+
     // EventController Favorite btn
-    $('#favorite_btn').click(function () {
+    $('.favorite_btn').click(function () {
 //        $('#favorite_btn').prop('title','unfavorite');
-        if($('#favorite').hasClass('active')) {
+        if($('.favorite').hasClass('active')) {
            var behavior = 'unfavorite';
         } else {
            var behavior = 'favorite';
         }
         //change tooltip text
-        $('#favorite_btn').tooltip('hide')
+        $('.favorite_btn').tooltip('hide')
             .attr('title', behavior)
             .tooltip('fixTitle')
             .tooltip('show');
@@ -30,20 +30,20 @@ $(document).ready(function () {
             },
             success: function(data) {
                 if(data.success) {
-                    $('#favorite').toggleClass('active');
+                    $('.favorite').toggleClass('active');
                 }
                 //alert(data.message);
             }
         });
     });
 
-    $('#follow_btn').click(function () {
-        if($('#follow').hasClass('active')) {
+    $('.follow_btn').click(function () {
+        if($('.follow').hasClass('active')) {
             var behavior = 'unfollow'
         } else {
             var behavior = 'follow'
         }
-        $('#follow_btn').tooltip('hide')
+        $('.follow_btn').tooltip('hide')
             .attr('title', behavior)
             .tooltip('fixTitle')
             .tooltip('show');
@@ -57,20 +57,20 @@ $(document).ready(function () {
             },
             success: function(data) {
                 if(data.success) {
-                    $('#follow').toggleClass('active');
+                    $('.follow').toggleClass('active');
                 }
                 alert(data.message);
             }
         });
     });
 
-    $('#subscribe_btn').click(function () {
-        if($('#subscribe').hasClass('active')) {
+    $('.subscribe_btn').click(function () {
+        if($('.subscribe').hasClass('active')) {
             var behavior = 'unsubscribe'
         } else {
             var behavior = 'subscribe'
         }
-        $('#subscribe_btn').tooltip('hide')
+        $('.subscribe_btn').tooltip('hide')
             .attr('title', behavior)
             .tooltip('fixTitle')
             .tooltip('show');
@@ -84,7 +84,7 @@ $(document).ready(function () {
             },
             success: function(data) {
                 if(data.success) {
-                    $('#subscribe').toggleClass('active');
+                    $('.subscribe').toggleClass('active');
                 }
                 alert(data.message);
                 // to insert href.location line here in order to activate the Knet !!!! Usama - 24.3.14
