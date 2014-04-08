@@ -29,6 +29,8 @@ class CreateEventsTable extends Migration {
             $table->string('slug');
             $table->timestamp('date_start'); // here also
             $table->timestamp('date_end'); // just for now // later you make it date !!
+            $table->integer('phone');
+            $table->string('email');
             $table->text('address');
             $table->text('address_en');
             $table->string('street');

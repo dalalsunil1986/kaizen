@@ -42,6 +42,8 @@ class EventsTableSeeder extends Seeder {
                     'slug'=> $faker->sentence(10),
                     'date_start' =>$this->getDateStart(),
                     'date_end' => $this->getDateEnd(),
+                    'phone' => $faker->phoneNumber,
+                    'email'=>$faker->email,
                     'address' => $faker->address,
                     'address_en' => $faker->address,
                     'street' => $faker->streetAddress,

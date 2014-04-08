@@ -51,7 +51,9 @@ return array(
                 'all' => 'جميع',
                 'choose_country'=>'اختر الدولة',
                 'choose_category'=> 'اختر الفئة',
-                'choose_author'=> 'اختر المدرب'
+                'choose_author'=> 'اختر المدرب',
+                'price' => 'السعر',
+                'free' => 'مجاني'
     ),
     'general' => array(
                 'kaizen' => 'كايزن',

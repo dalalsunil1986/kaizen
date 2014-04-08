@@ -78,22 +78,18 @@
     </div>
 
 </div>
-
-<div class="row" id="event_images">
-    <div id="links">
-        @foreach($event->photos as $photo)
-        <a href="{{ URL::route('base').'/uploads/'.$photo->name }}" data-gallery>
-            {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
-        </a>
-
-        <!--        <a href="{{ base_path().'/uploads/thumbnail/'.$photo->name }}" data-gallery>-->
-        <!--            {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}-->
-        <!--        </a>-->
-        @endforeach
+@if(count($event->photos))
+    <div class="row" id="event_images">
+        <div id="links">
+            @foreach($event->photos as $photo)
+            <a href="{{ URL::route('base').'/uploads/'.$photo->name }}" data-gallery>
+                {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
+            </a>
+            @endforeach
+        </div>
     </div>
-</div>
 <br><br><br>
-
+@endif
 <div class="row">
     <div class="col-md-12">
         <table class="table table-striped">
@@ -103,20 +99,40 @@
             <tr>
                 <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
                 <td> {{ $event->total_seats}}</td>
-                <td> {{ Lang::get('site.event.seatsavail') }}</td>
+                <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
                 <td> {{ $event->available_seats}}</td>
             </tr>
             <tr>
                 <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
                 <td> {{ $event->formatEventDate($event->date_start) }}</td>
-                <td> {{ Lang::get('site.event.date_end') }}</td>
+                <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
                 <td> {{ $event->formatEventDate($event->date_end) }}</td>
             </tr>
             <tr>
                 <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
                 <td> {{ $event->formatEventTime($event->time_start) }}</td>
-                <td> {{ Lang::get('site.event.time_end') }}</td>
+                <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
                 <td> {{ $event->formatEventTime($event->time_end) }}</td>
+            </tr>
+            @if($event->phone || $event->email)
+            <tr>
+                @if($event->phone)
+                    <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                    <td> {{ $event->phone }}</td>
+                @endif
+                @if($event->email)
+                    <td><b>{{ Lang::get('site.general.email') }}</b> </td>
+                    <td> {{ $event->email }}</td>
+                @endif
+            </tr>
+            @endif
+            <tr>
+                <td><b>{{ Lang::get('site.event.price') }}</b></td>
+                @if($event->price)
+                    <td>{{ $event->price }} KD</td>
+                @else
+                    <td>{{ Lang::get('site.event.free') }}</td>
+                @endif
             </tr>
         </table>
     </div>
@@ -124,26 +140,24 @@
     <div class="col-md-12">
         <p>
             @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-            @if($event->description_en)
-            {{ $event->description_en }}
+                @if($event->description_en)
+                    {{ $event->description_en }}
+                @else
+                    {{ $event->description }}
+                @endif
             @else
-            {{ $event->description }}
-            @endif
-            @else
-            {{ $event->description }}
+                {{ $event->description }}
             @endif
         </p>
     </div>
 
     @if($event->latitude && $event->longitude)
-    <div id="map_canvas"></div>
+        <div id="map_canvas"></div>
     @endif
     <div class="col-md-12">
         <option selected disabled>Address</option>
         <address>
             <strong> {{ $event->address}} </strong><br>
-            795 Folsom Ave, Suite 600<br>
-            San Francisco, CA 94107<br>
             <abbr title="Phone">P:</abbr> (123) 456-7890
         </address>
     </div>
@@ -192,7 +206,7 @@
     </div>
     <div class="col-md-12">
         @if(Auth::User())
-        {{ Form::open(array( 'action' => array('CommentsController@store', $event->id),'class'=>'row')) }}
+        {{ Form::open(array( 'action' => array('CommentsController@store', $event->id))) }}
         <div class="form-group">
             <label for="comment"></label>
             <textarea type="text" style="width: 97%;" class="form-control" id="content" name="content"

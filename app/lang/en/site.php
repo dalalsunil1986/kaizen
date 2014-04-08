@@ -50,7 +50,8 @@ return array(
                 'choose_country'=>'Choose a Country',
                 'choose_category'=> 'Choose a Category',
                 'choose_author'=> 'Choose an Author',
-
+                'price' => 'Event Price',
+                'free' => 'Free'
 
                 ),
     'general' => array(
