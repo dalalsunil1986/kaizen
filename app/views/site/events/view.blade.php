@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-12">
 
-    <!-- gallery Template Divisions that should be load each time we will use the gallery -->
+        <!-- gallery Template Divisions that should be load each time we will use the gallery -->
         <div id="blueimp-gallery" class="blueimp-gallery">
             <!-- The container for the modal slides -->
             <div class="slides"></div>
@@ -82,9 +82,13 @@
 <div class="row" id="event_images">
     <div id="links">
         @foreach($event->photos as $photo)
-        <a href="{{ base_path().'/uploads/thumbnail/'.$photo->name }}" data-gallery>
+        <a href="{{ URL::route('base').'/uploads/'.$photo->name }}" data-gallery>
             {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
         </a>
+
+        <!--        <a href="{{ base_path().'/uploads/thumbnail/'.$photo->name }}" data-gallery>-->
+        <!--            {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}-->
+        <!--        </a>-->
         @endforeach
     </div>
 </div>
@@ -188,17 +192,17 @@
     </div>
     <div class="col-md-12">
         @if(Auth::User())
-            {{ Form::open(array( 'action' => array('CommentsController@store', $event->id),'class'=>'row')) }}
-                <div class="form-group">
-                    <label for="comment"></label>
-                    <textarea type="text" style="width: 97%;" class="form-control" id="content" name="content"
-                              placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
-                </div>
-                <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }}</button>
-            {{ Form::close() }}
+        {{ Form::open(array( 'action' => array('CommentsController@store', $event->id),'class'=>'row')) }}
+        <div class="form-group">
+            <label for="comment"></label>
+            <textarea type="text" style="width: 97%;" class="form-control" id="content" name="content"
+                      placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }}</button>
+        {{ Form::close() }}
         @endif
         @if ($errors->any())
-            <ul> {{ implode('', $errors->all('  <li class="error">:message</li> ')) }} </ul>
+        <ul> {{ implode('', $errors->all('  <li class="error">:message</li> ')) }} </ul>
         @endif
     </div>
 </div>
@@ -276,4 +280,4 @@
 
 </script>
 @endif
-@stop
+@stop                                                                                     
