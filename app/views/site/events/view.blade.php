@@ -59,22 +59,22 @@
 
     <div class="col-md-5 {{ !Auth::user()? 'btns_disabled' :'' }}">
         <h1></h1>
-        <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 btn btn-default btn-sm events_btns favorite_btn"
+        <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 btn btn-default btn-sm events_btns favorite_btn bg-blue"
         data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite')  }}">
         <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
         {{ Lang::get('site.general.fv_btn_desc')}}</button>
 
         <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 events_btns btn btn-default btn-sm follow_btn"
+        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 events_btns btn btn-default btn-sm follow_btn bg-blue"
         data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow')  }}">
         <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
         {{ Lang::get('site.general.follow_btn_desc')}}</button>
 
         <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 events_btns btn btn-default btn-sm subscribe_btn"
+        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 events_btns btn btn-default btn-sm subscribe_btn bg-blue"
         data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
         <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-        {{ Lang::get('site.general.subscribe_btn_desc')}}</button>
+        <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
     </div>
 
 </div>
@@ -146,19 +146,19 @@
 
     <div class="col-md-12 {{ !Auth::user()? 'btns_disabled' :'' }}">
         <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-offset-3 col-md-2 col-sm-4 btn btn-default btn-sm events_btns favorite_btn"
+        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-offset-3 col-md-2 col-sm-4 btn btn-default btn-sm events_btns favorite_btn bg-blue"
         data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}">
         <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
         {{ Lang::get('site.general.fv_btn_desc')}}</button>
 
         <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-2 col-sm-4 events_btns btn btn-default btn-sm follow_btn"
+        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-2 col-sm-4 events_btns btn btn-default btn-sm follow_btn bg-blue"
         data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.follow') }}">
         <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
         {{ Lang::get('site.general.follow_btn_desc')}}</button>
 
         <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-2 col-sm-4 events_btns btn btn-default btn-sm subscribe_btn"
+        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-2 col-sm-4 events_btns btn btn-default btn-sm subscribe_btn bg-blue"
         data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}">
         <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
         {{ Lang::get('site.general.subscribe_btn_desc')}}</button>
@@ -209,49 +209,43 @@
 <script>
     var id = '<?php echo $event->id; ?>';
 
-    function checkStatus(action) {
+    function toggleTooltip(action) {
         switch (action) {
             case 'favorite':
-                var ttip = '<?php echo Lang::get('site.event.unfavorite') ; ?>'
+                var ttip = '{{ Lang::get('site.event.unfavorite') }}'
                 $('.favorite_btn')
                     .attr('title', ttip)
-                    .tooltip('fixTitle')
-                    .tooltip('show');
+                    .tooltip('fixTitle');
                 break;
             case 'unfavorite':
-                var ttip = '<?php echo Lang::get('site.event.favorite') ; ?>'
+                var ttip = '{{ Lang::get('site.event.favorite') }}'
                 $('.favorite_btn')
                     .attr('title', ttip)
-                    .tooltip('fixTitle')
-                    .tooltip('show');
+                    .tooltip('fixTitle');
                 break;
             case 'follow':
-                var ttip = '<?php echo Lang::get('site.event.unfollow') ; ?>'
+                var ttip = '{{ Lang::get('site.event.unfollow') }}'
                 $('.follow_btn')
                     .attr('title', ttip)
-                    .tooltip('fixTitle')
-                    .tooltip('show');
+                    .tooltip('fixTitle');
                 break;
             case 'unfollow':
-                var ttip = '<?php echo Lang::get('site.event.follow') ; ?>'
+                var ttip = '{{ Lang::get('site.event.follow') }}'
                 $('.follow_btn')
                     .attr('title', ttip)
-                    .tooltip('fixTitle')
-                    .tooltip('show');
+                    .tooltip('fixTitle');
                 break;
             case 'subscribe':
-                var ttip = '<?php echo Lang::get('site.event.unsubscribe') ; ?>'
+                var ttip = '{{ Lang::get('site.event.unsubscribe') }}'
                 $('.subscribe_btn')
                     .attr('title', ttip)
-                    .tooltip('fixTitle')
-                    .tooltip('show');
+                    .tooltip('fixTitle');
                 break;
             case 'unsubscribe':
-                var ttip = '<?php echo Lang::get('site.event.subscribe') ; ?>'
+                var ttip = '{{ Lang::get('site.event.subscribe') }}'
                 $('.subsribe_btn')
                     .attr('title', ttip)
-                    .tooltip('fixTitle')
-                    .tooltip('show');
+                    .tooltip('fixTitle');
                 break;
             default:
         }
@@ -262,19 +256,7 @@
 @if($event->latitude && $event->longitude)
 <script>
     function initialize() {
-        var myLatlng = new google.maps.LatLng({
-        {
-            $event - > latitude
-        }
-    }
-    ,
-    {
-        {
-            $event - > longitude
-        }
-    }
-    )
-    ;
+        var myLatlng = new google.maps.LatLng({{ $event->latitude }},{{ $event->longitude}});
     var myOptions = {
         zoom: 10,
         center: myLatlng,

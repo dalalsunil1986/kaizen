@@ -16,7 +16,7 @@ $(document).ready(function () {
            var behavior = 'favorite';
         }
 
-        checkStatus(behavior);
+        toggleTooltip(behavior);
         $.ajax({
             url: '/event/' + id + '/'+ behavior,
             type: 'GET',
@@ -41,7 +41,7 @@ $(document).ready(function () {
         } else {
             var behavior = 'follow'
         }
-        checkStatus(behavior);
+        toggleTooltip(behavior);
         $.ajax({
             url: '/event/' + id + '/'+ behavior,
             type: 'GET',
@@ -66,7 +66,7 @@ $(document).ready(function () {
         } else {
             var behavior = 'subscribe'
         }
-        checkStatus(behavior);
+        toggleTooltip(behavior);
         $.ajax({
             url: '/event/' + id + '/'+ behavior,
             type: 'GET',
