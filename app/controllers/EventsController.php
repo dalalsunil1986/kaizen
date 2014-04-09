@@ -19,7 +19,6 @@ class EventsController extends BaseController
 
 
     function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
-
     {
         $this->model = $model;
         $this->user = $user;
@@ -118,7 +117,7 @@ class EventsController extends BaseController
      */
     public function show($id)
     {
-        $event =  EventModel::with('comments','author','photos','subscribers','followers','favorites')->find($id);
+        $event =  EventModel::with('comments','author','photos','subscribers','followers','favorites')->findOrFail($id);
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');
@@ -174,7 +173,6 @@ class EventsController extends BaseController
                 $event->save();
                 return Response::json(array(
                     'success' => true,
-//                    'message'=> 'تم الاشتراك بهذه الفعالية .. شكرا'
                     'message'=>  Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed'))
                 ), 200);
             }

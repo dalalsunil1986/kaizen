@@ -147,6 +147,6 @@ Route::group(array('prefix' => 'admin','before'=>array('Auth','Moderator')), fun
 });
 
 Route::get('forbidden',function() {
-   return View::make('forbidden');
+   return View::make('error.forbidden');
 });
 Route::get('/', array('as'=>'base', 'uses' => 'EventsController@dashboard'));
