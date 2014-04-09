@@ -16,7 +16,7 @@
         "zizaco/confide": "3.2.x",
         "zizaco/entrust": "dev-master",
         "bllim/datatables": "*",
-        "twbs/bootstrap":  "3.0.x",
+        "twbs/bootstrap":  "3.0.0",
         "jasonlewis/basset": "dev-master",
         "robclancy/presenter": "1.2.*",
         "j20/php-uuid": "dev-master",
