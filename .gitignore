@@ -5,7 +5,7 @@
 # Configuration
 /app/config/local
 /app/config/staging
-/app/config/production
+#/app/config/production
 /app/storage
 
 # Basset development collections
