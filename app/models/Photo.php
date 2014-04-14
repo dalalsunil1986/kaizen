@@ -35,8 +35,8 @@ class Photo extends BaseModel {
 
         // the whole image path
         $image_path_name = $image_path.$image_name;
-        $thumbnail_path_name = $image_path.'/thumbnail/'.$image_name;
-        $medium_path_name = $image_path.'/medium/'.$image_name;
+        $thumbnail_path_name = $image_path.'thumbnail/'.$image_name;
+        $medium_path_name = $image_path.'medium/'.$image_name;
 
         // try to move and upload the file
         try {
