@@ -6,22 +6,17 @@
 
         <div class="col-md-4 visible-lg ">
             <?php $i = 0; ?>
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-                @foreach($events as $event)
-                    <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 18px;">
+
+            @foreach($events as $event)
+                <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 18px;">
+                    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                         {{  ($event->title_en ) ? $event->title_en  : $event->title  }}
-                    </span>
-                    <?php $i++; ?>
-                @endforeach
-            @else
-                <?php $i = 0; ?>
-                @foreach($events as $event)
-                    <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 18px;">
+                    @else
                         {{   $event->title  }}
-                    </span>
+                     @endif
+                </span>
                 <?php $i++; ?>
-                @endforeach
-            @endif
+            @endforeach
         </div>
 
         <div id="myCarousel" class="carousel slide col-md-8"  data-ride="carousel">
