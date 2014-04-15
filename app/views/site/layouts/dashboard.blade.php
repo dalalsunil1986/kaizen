@@ -25,7 +25,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">{{ Lang::get('site.general.instagram') }}</div>
         <div class="panel-body">
-            <iframe id="instimg-iframe" src="http://imageagram.com/grid.php?q=u&search=Kaizen_co&wt=in&s=120&h=3&w=3&b=no&c=&p=5&ho=none&sh=yes" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:381px; height: 381px" ></iframe>
+            <iframe src="http://snapwidget.com/in/?u=a2FpemVuX2NvfGlufDE1MHwzfDN8fG5vfDV8bm9uZXxvblN0YXJ0fHllcw==&v=15414" title="Instagram Widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:465px; height:465px"></iframe>
         </div>
     </div>
 </div>
