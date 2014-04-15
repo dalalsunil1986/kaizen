@@ -1,6 +1,5 @@
 extends('site.layouts.home')
 @section('sidecontent')
-
 <div id="twitter">
     <div class="panel panel-default">
         <div class="panel-heading">{{ Lang::get('site.general.twitter') }}</div>

@@ -39,29 +39,28 @@
 <body>
 <div class="container">
     <!-- header -->
-    <div id="header" class="row">
-        <div class="row">
-            <div class="col-md-4">
-                <a href="/">{{ HTML::image('images/Logo.png') }}</a>
-            </div>
-            <div class="col-md-8">
-                @yield('login')
-            </div>
+
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            <a href="/">{{ HTML::image('images/Logo.png') }}</a>
         </div>
-        <div class="row">
-            @yield('nav')
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            @yield('login')
         </div>
-        <!-- end of row-->
     </div>
+    <div class="row">
+        @yield('nav')
+    </div>
+    <!-- end of row-->
+
     <!-- end header-->
 
     <!--content-->
-    <div id="content" class="row">
+    <div id="content">
         @include('notifications')
         @yield('slider')
         @yield('ads')
         <div class="row">
-
             <div id="sidecontent" class="col-md-4
                 @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
                pull-right

@@ -1,75 +1,114 @@
 @extends('site.layouts.home')
 @section('login')
-    <div class="col-md-12">
-        <div class="row">
+
+    <div class="nav nav-pills " style="padding: 20px 0 0 0;">
+
+        <ul class="dropdown">
             @if(!Auth::user())
-                <form class="form-inline {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
-                    " role="form" style="padding:18px;" method="POST" action="{{ URL::route('login') }}">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                    <div class="form-group">
-                        <input type="text" class="form-control" size="13"  name="email" id="email" value="{{ Input::old('email') }}" placeholder="{{ Lang::get('site.nav.email')}}">
-                    </div>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div class="form-group">
-                        <input type="password" name="password" id="password" class="form-control" size="13" placeholder="{{ Lang::get('site.nav.password')}}">
-                    </div>&nbsp;&nbsp;
-                    <div class="checkbox" style="margin: 3px;">
-                        <label>
-                            <input type="hidden" name="remember" value="0">
-                            <input type="checkbox" id="remember" value="1">&nbsp;{{ Lang::get('site.general.remember')}}
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-default">{{ Lang::get('site.nav.login') }}</button>
-                    <a href="{{ action('UserController@create') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
-                <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
-                </form>
+                <a class="dropdown-toggle
+                    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                        pull-right
+                    @else
+                        pull-left
+                    @endif"
+                    data-toggle="dropdown" href="#">{{ Lang::get('site.nav.login') }} <span class="caret"></span>
+                </a>
             @else
-                <div class="col-md-7
+                <a class="dropdown-toggle
+                    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                        pull-right
+                    @else
+                        pull-left
+                    @endif"
+                    data-toggle="dropdown" href="#">
+                    {{ Lang::get('site.general.settings') }} <span class="caret"></span>
+                </a>
+            @endif
+            <br>
+            <div class="dropdown-menu
                 @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                     pull-right
                 @else
                     pull-left
-                @endif
-                " >
-                    <p class="
-                    {{ ( LaravelLocalization::getCurrentLocaleName() == 'English') ? 'pull-right' : 'pull-left' }}
+                @endif">
+                <div class="row">
+                    <div class="col-md-12
+                        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                        pull-right
+                        @else
+                        pull-left
+                        @endif">
+                        @if(!Auth::user())
+                            <form class="form" role="form" method="POST" action="{{ URL::route('login') }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                                <div class="col-sm-12 form-group">
+                                    <label for="exampleInputEmail1">{{ Lang::get('site.nav.email') }}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon  glyphicon-user"></i></span>
+                                        <input type="text" class="form-control" name="email" id="email" value="{{ Input::old('email') }}" placeholder="{{ Lang::get('site.nav.email')}}">
 
-                    " style="padding-top:10px">{{ Lang::get('site.general.youlog') }} : {{ Auth::user()->username }}
-                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getLogout') }}">
-                           <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>{{ Lang::get('site.nav.logout') }}
-                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 form-group">
+                                    <label for="exampleInputEmail1">{{ Lang::get('site.nav.password') }}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon  glyphicon-lock"></i></span>
+                                        <input type="password" name="password" id="password" class="form-control" placeholder="{{ Lang::get('site.nav.password')}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 form-group">
+                                    <input type="hidden" name="remember" value="0">
+                                    <input type="checkbox" id="remember" value="1">&nbsp;{{ Lang::get('site.general.remember')}}
+                                </div>
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-default">{{ Lang::get('site.nav.login') }}</button>
+                                    <a href="{{ action('UserController@create') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
+                                    <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
+                                </div>
+                            </form>
+                        @else
+                            <div style="text-align: right">
+                                <li class="dropdown-header">
+                                    <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getLogout') }}">
+                                        <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>&nbsp;{{ Lang::get('site.nav.logout') }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-header">
+                                    <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getProfile', Auth::user()->id) }}">
+                                        <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>&nbsp;{{ Lang::get('site.general.profile') }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-header">
+                                    {{ (Helper::isMod()) ? '<a type="button" class="btn btn-default btn-sm" href="'. URL::to('admin') .'">
+                                        <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>&nbsp;'. Lang::get('site.general.admin_panel') .'
+                                    </a>' : '' }}
+                                </li>
+                            </div>
 
-                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getProfile', Auth::user()->id) }}">
-                            <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>{{ Lang::get('site.general.profile') }}
-                        </a>
-                        {{ (Helper::isMod()) ? '<a type="button" class="btn btn-default btn-sm" href="'. URL::to('admin') .'">
-                            <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>'. Lang::get('site.general.admin_panel') .'
-                        </a>' : '' }}
-                    </p>
 
+                        @endif
+                    </div>
                 </div>
-            @endif
-
-            @if ($errors->any())
-                <ul>
-                    {{ implode('', $errors->all('<li class="error">:message</li>')) }}
-                </ul>
+            </div>
+        </ul>
+        <div class="localeCode
+            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                pull-right
+            @else
+                pull-left
+            @endif">
+            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            <?php $localeCode = 'ar' ;?>
+            <a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">
+                العربية
+            </a>
+            @else
+            <?php $localeCode = 'en' ;?>
+            <a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">
+                En
+            </a>
             @endif
         </div>
     </div>
-    <div class="col-md-12">
-        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-            <ul class="nav navbar-nav navbar-right">
-        @else
-            <ul class="nav navbar-nav navbar-left">
-        @endif
-        <li>
-            <form class="navbar-form navbar-left" role="search" method="GET" action="{{ URL::action('EventsController@index') }}">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="{{ Lang::get('site.nav.search') }}" value="@if(isset($_GET['search'])) {{ $_GET['search'] }} @endif " name="search" >
-                </div>
-                <input type="submit" class="btn btn-default" value="{{ Lang::get('site.nav.search') }}">
-            </form>
-        </li>
-        </ul>
-    </div>
+
 @stop

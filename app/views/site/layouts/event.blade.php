@@ -60,9 +60,9 @@
                             <span class="slider-description {{ ($event->description_en) ? 'text-left':'text-right' }}">
                                     {{ Str::limit($event->description,$char_limit) }}
                             </span>
-                        <a class="kaizen-button kaizen-button-right" href="{{ action('EventsController@show',$event->id) }}">
+                        <h1><a href="{{ action('EventsController@show',$event->id) }}">
                             {{ $event->button }}
-                        </a>
+                        </a></h1>
                     </div>
                     @endif
                 </div>

@@ -1,7 +1,7 @@
 extends('site.layout.home')
 @section('ads')
 <!-- Advertisment section-->
-<div id="ads-section" class="row">
+<div id="ads-section" class="row hidden-sm hidden-xs">
     @if($ad1)
     <div id="ads-1" class="col-md-6">
         <div class="ads" >

@@ -97,7 +97,8 @@ return array(
                 'follow_btn_desc' => 'Follow Event',
                 'fv_btn_desc' => 'Add to Favorite',
                 'prev_events' => 'Did you attend any previous events in Kaizen .. please tell us what events and where ... Thank You',
-                'warning_msg' => 'Please kindly note that these information are important in order to issue your certificates in the future.. please fill in the form properly'
+                'warning_msg' => 'Please kindly note that these information are important in order to issue your certificates in the future.. please fill in the form properly',
+                'settings' => 'Settings',
     ),
     'subscription' => array(
         'subscribed' => 'You :attribute this event',
