@@ -64,9 +64,8 @@ class AdminEventsController extends AdminBaseController
      */
     public function store()
     {
-
         //validate and save
-        $validation = new $this->model(Input::except('thumbnail'));
+        $validation = new $this->model(Input::except(array('thumbnail','addresspicker_map')));
         if (!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
@@ -114,7 +113,7 @@ class AdminEventsController extends AdminBaseController
     public function update($id)
     {
         $validation = $this->model->find($id);
-        $validation->fill(Input::except('thumbnail'));
+        $validation->fill(Input::except(array('thumbnail','addresspicker_map')));
         if (!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }

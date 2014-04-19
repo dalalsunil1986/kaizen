@@ -2,7 +2,9 @@
 
 {{-- Content --}}
 @section('content')
-
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="{{ asset('js/address.picker.js') }}"></script>
 <h1>Edit Event</h1>
 {{ Form::open(array('method' => 'POST', 'action' => array('AdminEventsController@store'), 'role'=>'form', 'files' => true)) }}
 <div class="row">
@@ -132,7 +134,17 @@
         </div>
     </div>
 </div>
-
+<div class="row">
+    <div class="form-group col-md-12">
+        <div class="map-wrapper">
+            <div id="map" style="height: 400px;"></div>
+            <div class="small">You can drag and drop the marker to the correct location</div>
+            <input id="addresspicker_map" name="addresspicker_map" class="form-control"  placeholder="Type the Street Address or drag and drop the map marker to the correct location">
+            {{ Form::hidden('latitude',NULL, array('id' => 'latitude')) }}
+            {{ Form::hidden('longitude',NULL, array('id' => 'longitude')) }}
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="form-group col-md-12">
         {{ Form::label('button_en', 'Is this a Featured Event ? : (Featured Event Will be included in Slider)') }}
@@ -172,7 +184,47 @@
     </div>
 </div>
 @endif
+<?php
+$latitude = '29.357';
+$longitude = '47.951';
+?>
 <script>
+    $(function() {
+        var latitude = '<?php echo $latitude?>';
+        var longitude = '<?php echo $longitude ?>';
+
+
+        get_map(latitude,longitude);
+
+        var addresspicker = $( "#addresspicker" ).addresspicker();
+        var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+//            regionBias: "KW",
+            updateCallback: showCallback,
+                elements: {
+                map:      "#map",
+                    lat:      "#latitude",
+                    lng:      "#longitude"
+            }
+
+        });
+
+        var gmarker = addresspickerMap.addresspicker( "marker");
+        gmarker.setVisible(true);
+        addresspickerMap.addresspicker("updatePosition");
+
+        $('#reverseGeocode').change(function(){
+            $("#addresspicker_map").addresspicker("option", "reverseGeocode", ($(this).val() === 'true'));
+        });
+
+        function showCallback(geocodeResult, parsedGeocodeResult) {
+            $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
+
+//            alert(JSON.stringify(parsedGeocodeResult, null, 4));
+        }
+
+
+    });
+
     $(function(){
         $('#date_start').datetimepicker({
             format:'Y-m-d H:i',

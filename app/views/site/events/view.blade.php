@@ -1,6 +1,8 @@
 @extends('site.layouts.home')
 @section('maincontent')
 <link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvY9Begj4WZQpP8b6IGFBACdnUhulMCok&sensor=false"></script>
+
 {{ HTML::style('css/bootstrap-image-gallery.min.css') }}
 <div class="row">
     <div class="col-md-12">
@@ -152,7 +154,7 @@
     </div>
 
     @if($event->latitude && $event->longitude)
-        <div id="map_canvas"></div>
+        <div id="map_canvas" style="height: 400px"></div>
     @endif
     <div class="col-md-12">
         <option selected disabled>Address</option>
@@ -273,24 +275,27 @@
 
 @if($event->latitude && $event->longitude)
 <script>
+    var latitude = '<?php echo $event->latitude?>';
+    var longitude = '<?php echo $event->longitude ?>';
     function initialize() {
-        var myLatlng = new google.maps.LatLng({{ $event->latitude }},{{ $event->longitude}});
-    var myOptions = {
-        zoom: 10,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        var myLatlng = new google.maps.LatLng(latitude,longitude);
+        var mapOptions  = {
+            zoom: 10,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: 'Hello World!'
+        });
+
     }
 
-    function loadScript() {
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
-        document.body.appendChild(script);
-    }
+    google.maps.event.addDomListener(window, 'load', initialize);
 
-    window.onload = loadScript;
+
 
 </script>
 @endif
