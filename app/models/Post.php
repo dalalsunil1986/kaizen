@@ -97,11 +97,14 @@ class Post extends BaseModel {
 
     public function  getConsultancies() {
         $query= DB::table('posts')
+            ->select(array('posts.*','categories.name as category','categories.name_en as category_en','photos.name as photo','users.username as author'))
             ->leftJoin('categories','categories.id','=','posts.category_id')
-            ->leftJoin('photos','photos.imageable_id','=','posts.id')
+            ->join('photos','photos.imageable_id','=','posts.id')
+            ->leftJoin('users','posts.user_id','=','users.id')
             ->where('photos.imageable_type','=','Post')
-            ->where('categories.id','=','5')
-            ->paginate();
+            ->where('categories.name','=','consultancy')
+            ->paginate(20)
+        ;
         return $query;
     }
 

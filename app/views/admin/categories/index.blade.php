@@ -19,7 +19,7 @@
 		<tbody>
 			@foreach ($categories as $category)
 				<tr>
-					<td>{{ link_to_action('AdminCategoriesController@show', $category->name, $category->id, array('class' => 'btn')) }}</td>
+					<td>{{ $category->name }}</td>
 					<td>{{{ $category->type }}}</td>
                     <td><a href="{{ URL::action('AdminCategoriesController@edit',  array($category->id), array('class' => 'btn btn-info')) }}">Edit</a></td>
                     <td>

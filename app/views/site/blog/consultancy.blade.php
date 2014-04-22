@@ -11,10 +11,10 @@
                     <div class="post">
                         <div class="post-img-content">
                             <a href="{{action('BlogsController@show',$post->slug) }}" >
-                            @if(count($post->photos))
-                                {{ HTML::image('uploads/medium/'.$post->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
+                            @if(count($post->photo))
+                                {{ HTML::image('uploads/medium/'.$post->photo.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
                             @else
-                                <img src="http://placehold.it/450x400/{{ $colors[array_rand($colors)] }}/ffffff&text={{ $post->category->name }}" class="img-responsive img-thumbnail" />
+                                <img src="http://placehold.it/450x400/{{ $colors[array_rand($colors)] }}/ffffff&text={{ $post->category }}" class="img-responsive img-thumbnail" />
                             @endif
                             </a>
                         </div>
@@ -23,8 +23,7 @@
                                 <div class="post-title"><a href="{{action('BlogsController@show',$post->slug) }}" >{{ $post->title }}</a></div>
                             </div>
                             <div class="post-author">
-                                By <b> {{ $post->author->username }} </b> |
-                                <time>{{ $post->created_at->format('Y-m-d') }}</time>
+                                By <b> {{ $post->author }} </b>
                             </div>
                             <div class="post-description">{{ Str::limit($post->content,150) }}</div>
                             <div class="post-button"><a href="{{action('BlogsController@show',$post->slug) }}" class="btn btn-primary btn-sm">Read more</a></div>

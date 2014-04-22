@@ -113,7 +113,7 @@ class AdminCategoriesController extends AdminBaseController {
         if(!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-        Redirect::route('admin.categories.index');
+        return Redirect::action('AdminCategoriesController@index');
 	}
 
 	/**
