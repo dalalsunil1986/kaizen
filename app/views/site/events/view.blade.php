@@ -48,13 +48,13 @@
     <div class="col-md-7">
         <h1>
             @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-            @if($event->title_en)
-            {{ $event->title_en }}
+                @if($event->title_en)
+                    {{ $event->title_en }}
+                @else
+                    {{ $event->title }}
+                @endif
             @else
-            {{ $event->title }}
-            @endif
-            @else
-            {{ $event->title }}
+                {{ $event->title }}
             @endif
         </h1>
     </div>

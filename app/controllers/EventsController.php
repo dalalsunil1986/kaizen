@@ -415,7 +415,7 @@ class EventsController extends BaseController
                 $array[] = $event->id;
             }
             $events_unique = array_unique($array);
-            $sliderEvents = $this->model->getSliderEvents(5,$events_unique);
+            $sliderEvents = $this->model->getSliderEvents(6,$events_unique);
             return $sliderEvents;
         } else {
             return null;

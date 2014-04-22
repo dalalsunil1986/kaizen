@@ -3,12 +3,10 @@
 
 <div class="row">
     @if($events)
-
-        <div class="col-md-4 visible-lg ">
+        <div class="col-md-3 visible-lg ">
             <?php $i = 0; ?>
-
             @foreach($events as $event)
-                <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 18px;">
+                <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 15px;">
                     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                         {{  ($event->title_en ) ? $event->title_en  : $event->title  }}
                     @else
@@ -19,7 +17,7 @@
             @endforeach
         </div>
 
-        <div id="myCarousel" class="carousel slide col-md-8"  data-ride="carousel">
+        <div id="myCarousel" class="carousel slide col-md-9"  data-ride="carousel">
             <ol class="carousel-indicators" style="display: none;">
                 <?php $i = 0; ?>
                 @foreach($events as $event)
@@ -46,7 +44,7 @@
                             <span class="slider-description {{ ($event->description_en) ? 'text-left':'text-right' }}">
                                     {{ ($event->description_en) ? Str::limit($event->description_en,$char_limit) : Str::limit($event->description,$char_limit) }}
                             </span>
-                            <a class="kaizen-button kaizen-button-right" href="{{ action('EventsController@show',$event->id) }}">
+                            <a class="kaizen-button" href="{{ action('EventsController@show',$event->id) }}">
                                 {{ ($event->button_en) ? $event->button_en : $event->button }}
                             </a>
                         </div>
@@ -60,9 +58,9 @@
                             <span class="slider-description {{ ($event->description_en) ? 'text-left':'text-right' }}">
                                     {{ Str::limit($event->description,$char_limit) }}
                             </span>
-                        <h1><a href="{{ action('EventsController@show',$event->id) }}">
-                            {{ $event->button }}
-                        </a></h1>
+                            <a class="kaizen-button" href="{{ action('EventsController@show',$event->id) }}">
+                                {{ $event->button }}
+                            </a>
                     </div>
                     @endif
                 </div>
