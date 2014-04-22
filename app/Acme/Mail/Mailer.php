@@ -26,6 +26,7 @@ abstract class Mailer {
      */
     public function send($view, $args,$user) {
         try {
+
             Mail::send($view, $args, function($message) use($args,$user){
                 $message->from($args['email'],$args['name']);
                 $message->sender($args['email'],$args['name'] );
