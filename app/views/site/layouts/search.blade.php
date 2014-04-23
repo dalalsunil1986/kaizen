@@ -8,7 +8,7 @@
             {{ Form::select('category', $categories, $category ,['class' => 'form-control']) }}
         </div>
 
-        <div class="form-group col-md-3 top7">
+        <div class="form-group col-md-4 top7">
             {{ Form::select('country',$countries, $country ,['class' => 'form-control']) }}
         </div>
 
