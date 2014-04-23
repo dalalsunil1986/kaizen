@@ -40,7 +40,7 @@ class EventsController extends BaseController
     public function index()
     {
 
-        $perPage = 10;
+        $perPage = 1;
         //find countries,authors,and categories to display in search form
         $categories = [0 => Lang::get('site.event.choose_category')] + $this->category->getEventCategories()->lists('name', 'id');
 

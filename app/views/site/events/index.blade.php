@@ -78,7 +78,7 @@
     @endif</div>
 <hr>
 @endforeach
-<?php echo $events->links(); ?>
+<?php echo $events->appends(Request::except('page'))->links(); ?>
 @else
 <h1> No Events Returned </h1>
 @endif
