@@ -47,9 +47,9 @@ return array(
                 'title' => 'Title',
                 'events' => 'Events',
                 'all' => 'All',
-                'choose_country'=>'Choose a Country',
-                'choose_category'=> 'Choose a Category',
-                'choose_author'=> 'Choose an Author',
+                'choose_country'=>'Select Country',
+                'choose_category'=> 'Select Category',
+                'choose_author'=> 'Select Author',
                 'price' => 'Event Price',
                 'free' => 'Free'
 
