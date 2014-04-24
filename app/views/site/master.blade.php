@@ -50,8 +50,7 @@
             @include('site.layouts.locale')
         </div>
     </div>
-    <div class="row
-        ">
+    <div class="row">
         @yield('nav')
     </div>
     <div class="row visible-xs">

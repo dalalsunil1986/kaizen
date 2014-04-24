@@ -59,11 +59,11 @@ App::error(function(Exception $exception, $code)
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
         {
             Log::error('NotFoundHttpException Route: ' . Request::url() );
-            return;
+//            return;
         }
 
         Log::error($exception);
-        return;
+//        return;
     }
 
     switch ($code)
