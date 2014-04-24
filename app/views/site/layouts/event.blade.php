@@ -3,7 +3,7 @@
 
 <div class="row">
     @if($events)
-        <div class="col-md-3 visible-lg ">
+        <div class="col-md-3 hidden-xs">
             <?php $i = 0; ?>
             @foreach($events as $event)
                 <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 15px;">
@@ -17,7 +17,8 @@
             @endforeach
         </div>
 
-        <div id="myCarousel" class="carousel slide col-md-9"  data-ride="carousel">
+        <div id="myCarousel" class="carousel slide col-md-9 col-xs-12"  data-ride="carousel">
+
             <ol class="carousel-indicators" style="display: none;">
                 <?php $i = 0; ?>
                 @foreach($events as $event)
@@ -26,16 +27,16 @@
                 @endforeach
               </ol>
 
-            <div class="carousel-inner">
+            <div class="carousel-inner ">
                 <?php $char_limit = 100; ?>
                 <?php $first="active"; $order=0;?>
                 @foreach ($events as $event)
                 <div class="slider item {{$first}}" data-order="{{$order}}">
                     <!-- <img alt="" src="{{ URL::asset($event->name) }}"> -->
-                    {{ HTML::image('uploads/medium/'.$event->name.'','image2',array('class'=>'img-responsive','style'=>'width:400,height:400')) }}
+                    <a href="{{ action('EventsController@show',$event->id) }}"> {{ HTML::image('uploads/medium/'.$event->name.'','image2',array('class'=>'img-responsive','style'=>'width:400,height:400')) }} </a>
 
                     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-                        <div class="carousel-caption" >
+                        <div class="carousel-caption hidden-xs" >
                             <span class="slider-title {{ ($event->title_en) ? 'text-left':'text-right' }}">
                                 <a href="{{ action('EventsController@show',$event->id) }}">
                                     {{  ($event->title_en ) ? $event->title_en  : $event->title  }}
@@ -49,7 +50,7 @@
                             </a>
                         </div>
                     @else
-                    <div class="carousel-caption" >
+                    <div class="carousel-caption hidden-xs" >
                             <span class="slider-title {{ ($event->title_en) ? 'text-left':'text-right' }}">
                                 <a href="{{ action('EventsController@show',$event->id) }}">
                                     {{  $event->title }}

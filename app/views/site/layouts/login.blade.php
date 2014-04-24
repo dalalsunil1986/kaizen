@@ -1,7 +1,7 @@
 @extends('site.layouts.home')
 @section('login')
 
-    <div class="nav nav-pills " style="padding: 20px 0 0 0;">
+    <div class="nav nav-pills " >
 
         <ul class="dropdown">
             @if(!Auth::user())
@@ -91,24 +91,6 @@
                 </div>
             </div>
         </ul>
-        <div class="localeCode
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-                pull-right
-            @else
-                pull-left
-            @endif">
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-            <?php $localeCode = 'ar' ;?>
-            <a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">
-                العربية
-            </a>
-            @else
-            <?php $localeCode = 'en' ;?>
-            <a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">
-                En
-            </a>
-            @endif
-        </div>
     </div>
 
 @stop

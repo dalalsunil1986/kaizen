@@ -21,7 +21,7 @@
     echo $playlistdiv;
     ?>
 </div>
-<div id="side-instagram">
+<div id="side-instagram" class="hidden-xs">
     <div class="panel panel-default">
         <div class="panel-heading">{{ Lang::get('site.general.instagram') }}</div>
         <div class="panel-body">
@@ -29,5 +29,12 @@
         </div>
     </div>
 </div>
+<div id="side-instagram" class="visible-xs">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ Lang::get('site.general.instagram') }}</div>
+        <div class="panel-body">
 
+        </div>
+    </div>
+</div>
 @stop

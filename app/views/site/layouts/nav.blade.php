@@ -1,8 +1,15 @@
 extends('site.layouts.home')
 @section('nav')
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default
+
+    " role="navigation">
     <div class="container-fluid">
-        <div class="navbar-header">
+        <div class="navbar-header
+        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            pull-left
+        @else
+            pull-right
+        @endif">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>

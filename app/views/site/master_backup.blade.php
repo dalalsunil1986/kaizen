@@ -39,63 +39,48 @@
 <body>
 <div class="container">
     <!-- header -->
+
     <div class="row">
-        <div class="col-md-7 col-sm-7 col-xs-12">
+        <div class="col-md-8 col-sm-12 col-xs-12">
             <a href="/">{{ HTML::image('images/Logo.png') }}</a>
         </div>
-        <div class="col-md-4 col-sm-4 visible-lg visible-md visible-sm top30">
+        <div class="col-md-4 col-sm-12 col-xs-12">
             @yield('login')
         </div>
-        <div class="col-md-1 col-sm-1 visible-lg visible-md visible-sm top30">
-            @include('site.layouts.locale')
-        </div>
     </div>
-    <div class="row
-        ">
+    <div class="row">
         @yield('nav')
     </div>
-    <div class="row visible-xs">
-        <div class="col-xs-2">
-            @include('site.layouts.locale')
-        </div>
-        <div class="col-xs-10">
-            @yield('login')
-        </div>
-    </div>
+    <!-- end of row-->
 
-    <div class="row">
-        <div class="col-md-12">
-            @include('notifications')
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @yield('slider')
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @yield('ads')
-        </div>
-    </div>
-    <div class="row">
-        <!-- main content division -->
-        <div class="col-md-8">
-            @yield('maincontent')
-        </div>
-        <!-- end of main content-->
+    <!-- end header-->
 
-        <div class="col-md-4">
-            @yield('sidecontent')
-        </div>
-        <!-- end of sidedivision content-->
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @yield('footer')
-        </div>
-    </div>
+    <!--content-->
+    <div id="content">
+        @include('notifications')
+        @yield('slider')
+        @yield('ads')
+        <div class="row">
+            <div id="sidecontent" class="col-md-4
+               @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
+                pull-right
+               @else
+                pull-left
+               @endif
+                ">
+                @yield('sidecontent')
+            </div>
+            <!-- end of sidedivision content-->
+            <!-- main content division -->
+            <div id="maincontent" class="col-md-8">
+                @yield('maincontent')
+            </div>
+            <!-- end of main content-->
 
+        </div>
+        @yield('footer')
+    </div>
+    <!-- end content -->
 </div>
 <!--end of container-->
 
