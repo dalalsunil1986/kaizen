@@ -1,19 +1,25 @@
 @extends('site.layouts.home')
 @section('maincontent')
-<div class="row" xmlns="http://www.w3.org/1999/html">
-    <address>
-    <h2 style="background-color: rgba(221, 220, 219, 0.83); padding:10px;">Contact Us</h2>
 
-    @if($contact)
-        Phone   : {{ $contact->phone }} </br>
-        Address : {{ $contact->address }}</br>
-        Mobile  : {{ $contact->mobile }} </br>
-        email address : {{ $contact->email }}
-    @endif
-    </address>
+    <div class="row">
+       <div class="col-md-12">
+           <address>
+               <h2 style="background-color: rgba(221, 220, 219, 0.83); padding:10px;">Contact Us</h2>
 
-    <div class="row col-md-8">
-        {{ Form::open(array('method' => 'POST', 'action' => array('ContactsController@contact'), 'role'=>'form')) }}
+               @if($contact)
+               Phone   : {{ $contact->phone }} </br>
+               Address : {{ $contact->address }}</br>
+               Mobile  : {{ $contact->mobile }} </br>
+               email address : {{ $contact->email }}
+               @endif
+           </address>
+       </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-8">
+            {{ Form::open(array('method' => 'POST', 'action' => array('ContactsController@contact'), 'role'=>'form')) }}
 
             <div class="form-group">
                 <label for="exampleInputEmail">{{ Lang::get('site.general.email') }}</label>
@@ -28,8 +34,8 @@
                 <textarea class="form-control" id="comment" name="comment" placeholder="{{ Lang::get('site.general.comment') }}"></textarea>
             </div>
             <button type="submit" class="btn btn-default">{{ Lang::get('site.general.submit') }}</button>
-        {{ Form::close() }}
-
+            {{ Form::close() }}
+        </div>
     </div>
-</div>
+
 @stop
