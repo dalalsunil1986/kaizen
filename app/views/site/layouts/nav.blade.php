@@ -4,10 +4,10 @@ extends('site.layouts.home')
     <div class="container-fluid">
         <div class="navbar-header
         @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-            pull-left
+            col-md-12 pull-left
         @else
             pull-right
-        @endif col-md-12">
+        @endif ">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>

@@ -57,7 +57,7 @@
         <div class="col-xs-2">
             @include('site.layouts.locale')
         </div>
-        <div class="col-xs-10">
+        <div class="col-xs-10 pull-right">
             @yield('login')
         </div>
     </div>

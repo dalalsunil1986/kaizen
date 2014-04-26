@@ -37,6 +37,8 @@ class Photo extends BaseModel {
         $image_path_name = $image_path.$image_name;
         $thumbnail_path_name = $image_path.'thumbnail/'.$image_name;
         $medium_path_name = $image_path.'medium/'.$image_name;
+        $large_path_name = $image_path.'large/'.$image_name;
+
 
         // try to move and upload the file
         try {
@@ -46,6 +48,7 @@ class Photo extends BaseModel {
                 Image::make($image->getRealPath())->save($image_path_name);
                 Image::make($image->getRealPath())->resize(150,150)->save($thumbnail_path_name);
                 Image::make($image->getRealPath())->resize(450,400)->save($medium_path_name);
+                Image::make($image->getRealPath())->resize(715,400)->save($large_path_name);
             }
 
             // if the featured image is already exists in the db, replace it with the new image
@@ -56,6 +59,7 @@ class Photo extends BaseModel {
                 $old_image = $image_path.$data->name;
                 $old_thumbnail_image = $image_path.'thumbnail/'.$data->name;
                 $old_medium_image = $image_path.'medium/'.$data->name;
+                $old_large_image = $image_path.'large/'.$data->name;
                 if(file_exists($old_image)) {
                     unlink($old_image);
                 }
@@ -64,6 +68,9 @@ class Photo extends BaseModel {
                 }
                 if(file_exists($old_medium_image)) {
                     unlink($old_medium_image);
+                }
+                if(file_exists($old_large_image)) {
+                    unlink($old_large_image);
                 }
                 // set the image name to save in database
                 $data->name = $image_name;

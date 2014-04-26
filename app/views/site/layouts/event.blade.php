@@ -3,7 +3,7 @@
 
 <div class="row">
     @if($events)
-        <div class="col-md-3 hidden-xs">
+        <div class="col-md-3 hidden-xs hidden-sm">
             <?php $i = 0; ?>
             @foreach($events as $event)
                 <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 15px;">
@@ -33,7 +33,7 @@
                 @foreach ($events as $event)
                 <div class="slider item {{$first}}" data-order="{{$order}}">
                     <!-- <img alt="" src="{{ URL::asset($event->name) }}"> -->
-                    <a href="{{ action('EventsController@show',$event->id) }}"> {{ HTML::image('uploads/medium/'.$event->name.'','image2',array('class'=>'img-responsive','style'=>'width:400,height:400')) }} </a>
+                    <a href="{{ action('EventsController@show',$event->id) }}"> {{ HTML::image('uploads/'.$event->name.'','image2',array('class'=>'img-responsive','style'=>'width:400,height:400')) }} </a>
 
                     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                         <div class="carousel-caption hidden-xs" >
