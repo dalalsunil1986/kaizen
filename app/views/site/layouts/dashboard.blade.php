@@ -25,7 +25,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">{{ Lang::get('site.general.instagram') }}</div>
         <div class="panel-body">
-            <iframe src="http://snapwidget.com/in/?u=a2FpemVuX2NvfGlufDE1MHwzfDN8fG5vfDV8bm9uZXxvblN0YXJ0fHllcw==&v=15414" title="Instagram Widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:465px; height:465px"></iframe>
+            <iframe src="http://snapwidget.com/in/?u=a2FpemVuX2NvfGlufDE1MHwzfDN8ZTZlNmU2fHllc3w1fG5vbmV8b25TdGFydHxubw==&v=26414" title="Instagram Widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:495px; height:495px"></iframe>
         </div>
     </div>
 </div>
@@ -33,7 +33,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">{{ Lang::get('site.general.instagram') }}</div>
         <div class="panel-body">
-
+            <iframe src="http://snapwidget.com/in/?u=a2FpemVuX2NvfGlufDEwMHwyfDJ8ZTZlNmU2fHllc3w1fG5vbmV8b25TdGFydHxubw==&v=26414" title="Instagram Widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:230px; height:230px"></iframe>
         </div>
     </div>
 </div>

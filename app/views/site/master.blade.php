@@ -41,7 +41,7 @@
     <!-- header -->
     <div class="row">
         <div class="col-md-7 col-sm-7 col-xs-12">
-            <a href="/">{{ HTML::image('images/Logo.png') }}</a>
+            <a href="/">{{ HTML::image('images/Logo.png','kaizen',array('class'=>'img-responsive')) }}</a>
         </div>
         <div class="col-md-4 col-sm-4 visible-lg visible-md visible-sm top30">
             @yield('login')

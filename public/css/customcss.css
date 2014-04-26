@@ -35,12 +35,12 @@ html, body, h1, h2, h3, h4, a, div, span {
 .panel-body {
     padding-top: 25px;
     overflow: hidden !important;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #E0E0E0), color-stop(1, #C7C7C7));
-    background-image: -o-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
-    background-image: -moz-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
-    background-image: -webkit-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
-    background-image: -ms-linear-gradient(bottom, #E0E0E0 0%, #C7C7C7 100%);
-    background-image: linear-gradient(to bottom, #E0E0E0 0%, #C7C7C7 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #E6E6E6), color-stop(1, #C7C7C7));
+    background-image: -o-linear-gradient(bottom, #E6E6E6 0%, #C7C7C7 100%);
+    background-image: -moz-linear-gradient(bottom, #E6E6E6 0%, #C7C7C7 100%);
+    background-image: -webkit-linear-gradient(bottom, #E6E6E6 0%, #C7C7C7 100%);
+    background-image: -ms-linear-gradient(bottom, #E6E6E6 0%, #C7C7C7 100%);
+    background-image: linear-gradient(to bottom, #E6E6E6 0%, #C7C7C7 100%);
 }
 
 #side-instagram .panel-default {
