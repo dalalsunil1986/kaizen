@@ -49,7 +49,7 @@
 <div class="row">
     <div class="form-group col-md-12">
         {{ Form::label('description_en', 'Description in English:') }}
-        {{ Form::textarea('description_en',NULL,array('class'=>'form-control')) }}
+        {{ Form::textarea('description_en',NULL,array('class'=>'form-control wysihtml5')) }}
     </div>
 </div>
 
