@@ -68,15 +68,18 @@ class BlogsController extends BaseController {
 
 
     public function consultancy() {
-//        $posts=  $this->model
-//            ->with(array('category','photos','author'))
-////            ->leftJoin('categories','categories.id','=','posts.category_id')
+        $posts=  $this->model
+            ->with(array('category','photos','author'))
+            ->select('posts.*')
+            ->leftJoin('categories','categories.id','=','posts.category_id')
 ////            ->leftJoin('photos','photos.imageable_id','=','posts.id')
 ////            ->where('photos.imageable_type','=','Post')
+            ->where('categories.name','=','consultancy')
 //            ->where('category_id','=','5')
-//            ->orderBy('created_at','DESC')
-//            ->paginate(4);
-        $posts = $this->model->getConsultancies();
+            ->orderBy('posts.created_at','DESC')
+            ->paginate(4);
+//        $posts = $this->model->getConsultancies();
+
         $this->layout->login = View::make('site.layouts.login');
 //        $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav = view::make('site.layouts.nav');

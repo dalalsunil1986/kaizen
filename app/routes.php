@@ -143,6 +143,8 @@ Route::group(array('prefix' => 'admin','before'=>array('Auth','Moderator')), fun
     //contact-us
     Route::resource('contact-us','AdminContactsController',array('only'=>array('index','store')));
 
+    Route::resource('photo','AdminPhotosController');
+
     Route::get('/', 'AdminEventsController@index');
 });
 

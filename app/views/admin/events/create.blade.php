@@ -41,7 +41,7 @@
 <div class="row">
     <div class="form-group col-md-12">
         {{ Form::label('description', 'Description in Arabic:*') }}
-        {{ Form::textarea('description',NULL,array('class'=>'form-control')) }}
+        {{ Form::textarea('description',NULL,array('class'=>'form-control wysihtml5')) }}
     </div>
 </div>
 

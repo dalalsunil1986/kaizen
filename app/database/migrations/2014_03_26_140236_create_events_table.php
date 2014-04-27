@@ -23,7 +23,7 @@ class CreateEventsTable extends Migration {
             $table->text('description');
             $table->text('description_en');
             $table->boolean('free');
-            $table->decimal('price',5,2);
+            $table->string('price');
             $table->integer('total_seats');
             $table->integer('available_seats');
             $table->string('slug');

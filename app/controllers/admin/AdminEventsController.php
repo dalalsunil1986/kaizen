@@ -95,7 +95,7 @@ class AdminEventsController extends AdminBaseController
     public function edit($id)
     {
         {
-            $event = $this->model->find($id);
+            $event = $this->model->with('photos')->find($id);
             $category = $this->category->getEventCategories()->lists('name', 'id');
             $author = $this->user->getRoleByName('author')->lists('username', 'id');
             $location = Location::all()->lists('name', 'id');
@@ -118,7 +118,7 @@ class AdminEventsController extends AdminBaseController
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
         if (Input::hasFile('thumbnail')) {
-            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','0')) {
+            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','1')) {
                 return Redirect::back()->withErrors($this->photo->getErrors());
             }
         }

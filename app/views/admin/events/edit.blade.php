@@ -2,6 +2,7 @@
 
 {{-- Content --}}
 @section('content')
+
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="{{ asset('js/address.picker.js') }}"></script>
@@ -177,6 +178,32 @@
     </div>
 </div>
 {{ Form::close() }}
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped custab">
+            <thead>
+            <a href="#" class="btn btn-primary btn-xs"> Delete Photos </a>
+            <tr>
+                <th>Image </th>
+                <th class="text-center">Action</th>
+            </tr>
+            @foreach($event->photos as $photo)
+               <tr>
+                   <td> {{ HTML::image('uploads/thumbnail/'.$photo->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }} </td>
+                   <td>
+
+                   {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminPhotosController@destroy', $photo->id))) }}
+                   {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                   {{ Form::close() }}
+                   </td>
+               </tr>
+
+            @endforeach
+        </table>
+    </div>
+</div>
+
 @if ($errors->any())
 <div class="row">
     <ul>

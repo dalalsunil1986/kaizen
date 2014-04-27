@@ -2,6 +2,9 @@
 use Intervention\Image\Facades\Image;
 
 class Photo extends BaseModel {
+
+    protected $image_path;
+
     protected $guarded = array('id');
     public static $rules = array(
         'name' => 'required'
@@ -25,6 +28,8 @@ class Photo extends BaseModel {
     }
 
     public  function attachImage($id,$image, $type, $featured='0') {
+//        Image::make(Input::file('photo')->getRealPath())->resize(300, 200)->save('foo.jpg');
+        // set random unique image name
 //        Image::make(Input::file('photo')->getRealPath())->resize(300, 200)->save('foo.jpg');
         // set random unique image name
 
@@ -56,22 +61,7 @@ class Photo extends BaseModel {
 
             if($data) {
                 //delete old files
-                $old_image = $image_path.$data->name;
-                $old_thumbnail_image = $image_path.'thumbnail/'.$data->name;
-                $old_medium_image = $image_path.'medium/'.$data->name;
-                $old_large_image = $image_path.'large/'.$data->name;
-                if(file_exists($old_image)) {
-                    unlink($old_image);
-                }
-                if(file_exists($old_thumbnail_image)) {
-                    unlink($old_thumbnail_image);
-                }
-                if(file_exists($old_medium_image)) {
-                    unlink($old_medium_image);
-                }
-                if(file_exists($old_large_image)) {
-                    unlink($old_large_image);
-                }
+                $this->destroyFile($image_path,$data->name);
                 // set the image name to save in database
                 $data->name = $image_name;
             } else {
@@ -92,6 +82,26 @@ class Photo extends BaseModel {
             // invalid iamges
             $this->errors = $e->getMessage();
             return false;
+        }
+    }
+
+    public function destroyFile($imageName) {
+        $this->image_path = public_path() . '/uploads/';
+        $originalImage = $this->image_path.$imageName;
+        $thumbnailImage = $this->image_path.'thumbnail/'.$imageName;
+        $mediumImage = $this->image_path.'medium/'.$imageName;
+        $largeImage = $this->image_path.'large/'.$imageName;
+        if(file_exists($originalImage)) {
+            unlink($originalImage);
+        }
+        if(file_exists($thumbnailImage)) {
+            unlink($thumbnailImage);
+        }
+        if(file_exists($mediumImage)) {
+            unlink($mediumImage);
+        }
+        if(file_exists($largeImage)) {
+            unlink($largeImage);
         }
     }
 

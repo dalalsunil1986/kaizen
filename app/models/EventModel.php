@@ -202,12 +202,12 @@ class EventModel extends BaseModel {
     public function formatEventDate($column)
     {
         $dt = Carbon::createFromTimestamp(strtotime($column));
-        return $dt->format('l jS \\of F Y');
+        return $dt->format('D, jS \\of M Y');
     }
     public function formatEventTime($column)
     {
         $dt = Carbon::createFromTimestamp(strtotime($column));
-        return $dt->format('h:i:s A');
+        return $dt->format('g a');
     }
 
     public static function latest($count) {

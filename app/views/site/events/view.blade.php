@@ -1,5 +1,6 @@
 @extends('site.layouts.home')
 @section('maincontent')
+
 <link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvY9Begj4WZQpP8b6IGFBACdnUhulMCok&sensor=false"></script>
 
@@ -48,48 +49,50 @@
     <div class="col-md-7">
         <h1>
             @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-                @if($event->title_en)
-                    {{ $event->title_en }}
-                @else
-                    {{ $event->title }}
-                @endif
+            @if($event->title_en)
+            {{ $event->title_en }}
             @else
-                {{ $event->title }}
+            {{ $event->title }}
+            @endif
+            @else
+            {{ $event->title }}
             @endif
         </h1>
     </div>
 
     <div class="col-md-5 {{ !Auth::user()? 'btns_disabled' :'' }}">
-        <h1></h1>
-        <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 btn btn-default btn-sm events_btns favorite_btn bg-blue"
-        data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite')  }}">
-        <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
-        {{ Lang::get('site.general.fv_btn_desc')}}</button>
 
-        <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 events_btns btn btn-default btn-sm follow_btn bg-blue"
-        data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow')  }}">
-        <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
-        {{ Lang::get('site.general.follow_btn_desc')}}</button>
+        <div class="row top20">
+            <button
+            {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+            data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
+            <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
+            <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
 
-        <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-4 events_btns btn btn-default btn-sm subscribe_btn bg-blue"
-        data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
-        <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-        <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
+            <button
+            {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
+            data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow')  }}">
+            <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
+            {{ Lang::get('site.general.follow_btn_desc')}}</button>
+
+            <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 events_btns btn btn-default btn-sm  favorite_btn bg-blue top5"
+            data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite')  }}">
+            <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
+            {{ Lang::get('site.general.fv_btn_desc')}}</button>
+        </div>
     </div>
 
 </div>
 @if(count($event->photos))
-    <div class="row" id="event_images">
-        <div id="links">
-            @foreach($event->photos as $photo)
-            <a href="{{ URL::route('base').'/uploads/'.$photo->name }}" data-gallery>
-                {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
-            </a>
-            @endforeach
-        </div>
+<div class="row" id="event_images">
+    <div id="links">
+        @foreach($event->photos as $photo)
+        <a href="{{ URL::route('base').'/uploads/'.$photo->name }}" data-gallery>
+            {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
+        </a>
+        @endforeach
     </div>
+</div>
 <br><br><br>
 @endif
 <div class="row">
@@ -112,28 +115,28 @@
             </tr>
             <tr>
                 <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
-                <td> {{ $event->formatEventTime($event->time_start) }}</td>
+                <td> {{ $event->date_start->format('g a') }}</td>
                 <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
-                <td> {{ $event->formatEventTime($event->time_end) }}</td>
+                <td> {{ $event->date_end->format('g a') }}</td>
             </tr>
             @if($event->phone || $event->email)
             <tr>
                 @if($event->phone)
-                    <td><b>{{ Lang::get('site.general.phone') }}</b></td>
-                    <td> {{ $event->phone }}</td>
+                <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                <td> {{ $event->phone }}</td>
                 @endif
                 @if($event->email)
-                    <td><b>{{ Lang::get('site.general.email') }}</b> </td>
-                    <td> {{ $event->email }}</td>
+                <td><b>{{ Lang::get('site.general.email') }}</b> </td>
+                <td> {{ $event->email }}</td>
                 @endif
             </tr>
             @endif
             <tr>
                 <td><b>{{ Lang::get('site.event.price') }}</b></td>
                 @if($event->price)
-                    <td>{{ $event->price }} KD</td>
+                <td>{{ $event->price }} KD</td>
                 @else
-                    <td>{{ Lang::get('site.event.free') }}</td>
+                <td>{{ Lang::get('site.event.free') }}</td>
                 @endif
             </tr>
         </table>
@@ -142,46 +145,47 @@
     <div class="col-md-12">
         <p>
             @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-                @if($event->description_en)
-                    {{ $event->description_en }}
-                @else
-                    {{ $event->description }}
-                @endif
+            @if($event->description_en)
+            {{ $event->description_en }}
             @else
-                {{ $event->description }}
+            {{ $event->description }}
+            @endif
+            @else
+            {{ $event->description }}
             @endif
         </p>
     </div>
 
     @if($event->latitude && $event->longitude)
-        <div id="map_canvas" style="height: 400px"></div>
-    @endif
+
     <div class="col-md-12">
+        <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#map">
+            Show / Hide Map
+        </button>
+        <div id="map" class="collapse in top10">
+            <div id="map_canvas"></div>
+        </div>
+    </div>
+
+    @endif
+    <div class="col-md-12 top15">
         <option selected disabled>Address</option>
         <address>
             <strong> {{ $event->address}} </strong><br>
-            <abbr title="Phone">P:</abbr> (123) 456-7890
+            @if($event->phone)
+            <abbr title="Phone">Phome:</abbr>
+            {{ $event->phont }}
+            @endif
         </address>
     </div>
 
     <div class="col-md-12 {{ !Auth::user()? 'btns_disabled' :'' }}">
         <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-offset-3 col-md-2 col-sm-4 btn btn-default btn-sm events_btns favorite_btn bg-blue"
-        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.favorite') }}">
-        <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
-        {{ Lang::get('site.general.fv_btn_desc')}}</button>
-
-        <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-2 col-sm-4 events_btns btn btn-default btn-sm follow_btn bg-blue"
-        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.follow') }}">
-        <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
-        {{ Lang::get('site.general.follow_btn_desc')}}</button>
-
-        <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-2 col-sm-4 events_btns btn btn-default btn-sm subscribe_btn bg-blue"
-        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.subscribe') }}">
+        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+        data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
         <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-        {{ Lang::get('site.general.subscribe_btn_desc')}}</button>
+        <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
+
     </div>
 </div>
 
@@ -211,8 +215,7 @@
         {{ Form::open(array( 'action' => array('CommentsController@store', $event->id))) }}
         <div class="form-group">
             <label for="comment"></label>
-            <textarea type="text" style="width: 97%;" class="form-control" id="content" name="content"
-                      placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
+            <textarea type="text"  class="form-control" id="content" name="content" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
         </div>
         <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }}</button>
         {{ Form::close() }}
@@ -287,16 +290,15 @@
         var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
         var marker = new google.maps.Marker({
             position: myLatlng,
-            map: map,
-            title: 'Hello World!'
+            map: map
         });
 
+        // collapse the map div
+        $('.collapse').collapse();
     }
 
     google.maps.event.addDomListener(window, 'load', initialize);
 
-
-
 </script>
 @endif
-@stop                                                                                     
+@stop

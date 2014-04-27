@@ -5,23 +5,24 @@
 
     <ul class="dropdown">
         @if(!Auth::user())
-        <a class="dropdown-toggle
+
+        <a type="button" class="btn btn-default btn-sm dropdown-toggle
                     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                         pull-right
                     @else
                         pull-left
                     @endif"
-           data-toggle="dropdown" href="#">{{ Lang::get('site.nav.login') }} <span class="caret"></span>
+           data-toggle="dropdown" href="#"><i class="glyphicon  glyphicon-lock"></i> &nbsp;{{ Lang::get('site.nav.login') }} <span class="caret"></span>
         </a>
         @else
-        <a class="dropdown-toggle
+        <a type="button" class="btn btn-default btn-sm dropdown-toggle
                     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                         pull-right
                     @else
                         pull-left
                     @endif"
            data-toggle="dropdown" href="#">
-            {{ Lang::get('site.general.settings') }} <span class="caret"></span>
+            <i class="glyphicon  glyphicon-cog"></i> &nbsp;{{ Lang::get('site.general.settings') }} <span class="caret"></span>
         </a>
         @endif
         <br>
