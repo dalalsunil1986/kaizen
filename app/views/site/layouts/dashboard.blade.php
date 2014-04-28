@@ -2,7 +2,7 @@
 
 <div id="youtube_main">
 
-   <iframe style="width:100%; min-height:250px; height: 350px; max-height: 350px; padding-top: 18px; margin:0px; "
+   <iframe style="width:100%; min-height:250px; height: 350px; max-height: 350px; margin:0px; "
             src="//www.youtube.com/embed/N6KpbdJVWIY?list=PLgziGzRnamoJ4ESrNu5Yhtzqc4j-Mer3_" frameborder="0" allowfullscreen></iframe>
     <script src="https://apis.google.com/js/platform.js"></script>
     <div class="g-ytsubscribe" data-channel="KaizenYC"></div>
