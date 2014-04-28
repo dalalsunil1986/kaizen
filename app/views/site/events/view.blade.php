@@ -64,7 +64,7 @@
 
         <div class="row top20">
             <button
-            {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+            {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue top5 "
             data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
             <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
             <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>

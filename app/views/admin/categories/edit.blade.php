@@ -6,11 +6,14 @@
 <h1>Edit Category</h1>
 
 {{ Form::model($category, array('method' => 'PATCH', 'role'=>'form', 'action' => array('AdminCategoriesController@update', $category->id))) }}
-	<div class="form-group">
-
-        {{ Form::label('name', 'Category Name:',array('class'=>'control-label')) }}
-        {{ Form::text('name',NULL,array('class'=>'form-control')) }}
-	</div>
+    <div class="form-group">
+        {{ Form::label('arabic_name', 'Arabic Name:') }}
+        {{ Form::text('name', NULL,array('class'=>'form-control')) }}
+    </div>
+    <div class="form-group">
+        {{ Form::label('english_name', 'English Name:') }}
+        {{ Form::text('name_en', NULL,array('class'=>'form-control')) }}
+    </div>
 
     <div class="form-group">
         {{ Form::label('type', 'Type:',array('class'=>'control-label')) }}

@@ -1,7 +1,7 @@
 @extends('site.layouts.home')
 @section('maincontent')
 
-<div class="row">
+
     <div class="alert alert-warning">{{ Lang::get('site.general.warning_msg')}}</div>
 
     {{ Form::open(array('method' => 'POST', 'action'=>array('UserController@store'),'class'=>'form')) }}
@@ -42,16 +42,16 @@
     {{ Form::text('mobile',NULL,array('class'=>'form-control input-lg','placeholder'=> Lang::get('site.general.telelphone'))) }}
     </br>
 
-    {{ Form::select('country_id', array('0'=>'Choose Country',$countries), NULL ,['class' => 'form-control']) }}
+    {{ Form::select('country_id', array('0'=> Lang::get('site.event.choose_country'),$countries), NULL ,['class' => 'form-control']) }}
 
     </br>
     <label>{{ Lang::get('site.general.gender') }}</label>
     <label class="radio-inline">
-        {{ Form::radio('gender', 'M', true,  ['id' => 'male']) }}
+        {{ Form::radio('gender', 'M', true,  ['id' => Lang::get('site.general.male')]) }}
         Male
     </label>
     <label class="radio-inline">
-        {{ Form::radio('gender', 'F', null,  ['id' => 'female']) }}
+        {{ Form::radio('gender', 'F', null,  ['id' => Lang::get('site.general.female')]) }}
         Female
     </label>
     <br/>
@@ -77,5 +77,4 @@
     {{ Form::close() }}
 
 
-</div>
 @stop

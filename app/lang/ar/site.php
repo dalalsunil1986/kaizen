@@ -67,6 +67,7 @@ return array(
             'newsletter' => 'Newsletter',
             'instagram' =>'انستجرام',
             'twitter' => 'تويتر',
+            'username' => 'اسم الدخول',
             'youtube' => 'يو تيوب',
             'newsletter_subscribe' => 'Subscribe to Newletter',
             'youlog'=>'انت مسجل لدينا باسم',

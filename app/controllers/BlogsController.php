@@ -74,7 +74,7 @@ class BlogsController extends BaseController {
             ->leftJoin('categories','categories.id','=','posts.category_id')
 ////            ->leftJoin('photos','photos.imageable_id','=','posts.id')
 ////            ->where('photos.imageable_type','=','Post')
-            ->where('categories.name','=','consultancy')
+            ->where('categories.name_en','=','consultancy')
 //            ->where('category_id','=','5')
             ->orderBy('posts.created_at','DESC')
             ->paginate(4);

@@ -6,8 +6,12 @@
 <h1>Edit Location</h1>
 {{ Form::model($location, array('method' => 'PATCH', 'action' => array ('AdminLocationsController@update', $location->id))) }}
     <div class="form-group">
-        {{ Form::label('name', 'Name:',array('class'=>'control-label')) }}
-        {{ Form::text('name',NULL,array('class'=>'form-control')) }}
+        {{ Form::label('arabic_name', 'Arabic Name:') }}
+        {{ Form::text('name', NULL,array('class'=>'form-control')) }}
+    </div>
+    <div class="form-group">
+        {{ Form::label('english_name', 'English Name:') }}
+        {{ Form::text('name_en', NULL,array('class'=>'form-control')) }}
     </div>
     <div class="form-group">
         {{ Form::label('country_id', 'Country_id:',array('class'=>'control-label')) }}

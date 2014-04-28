@@ -9,10 +9,14 @@
 {{ Form::open(array('action' => 'AdminLocationsController@store')) }}
 <!-- CSRF Token -->
 
-    <div class="form-group">
-        {{ Form::label('name', 'Name:') }}
-        {{ Form::text('name', NULL,array('class'=>'form-control')) }}
-    </div>
+<div class="form-group">
+    {{ Form::label('arabic_name', 'Arabic Name:') }}
+    {{ Form::text('name', NULL,array('class'=>'form-control')) }}
+</div>
+<div class="form-group">
+    {{ Form::label('english_name', 'English Name:') }}
+    {{ Form::text('name_en', NULL,array('class'=>'form-control')) }}
+</div>
     <div class="form-group">
         {{ Form::label('country_id', 'Country:') }}
         {{ Form::select('country_id', $countries,NULL,array('class'=>'form-control')) }}
