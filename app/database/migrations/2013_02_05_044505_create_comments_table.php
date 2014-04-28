@@ -15,7 +15,7 @@ class CreateCommentsTable extends Migration {
 		Schema::create('comments', function($table)
 		{
             $table->engine = 'InnoDB';
-			$table->increments('id')->unsigned();
+			$table->increments('id');
 			$table->integer('user_id')->unsigned()->index();
             $table->morphs('commentable');
 			$table->text('content');

@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder {
         'photos',
         'posts',
         'subscriptions',
-        'users'
+        'users',
+        'types',
+        'statuses'
     ];
     public function run()
     {
@@ -36,7 +38,7 @@ class DatabaseSeeder extends Seeder {
         $this->call('CountriesTableSeeder');
         $this->call('LocationsTableSeeder');
         $this->call('CategoriesTableSeeder');
-//        $this->call('PostsTableSeeder');
+        $this->call('PostsTableSeeder');
 		$this->call('EventsTableSeeder');
         $this->call('CommentsTableSeeder');
         $this->call('FollowersTableSeeder');
@@ -45,6 +47,8 @@ class DatabaseSeeder extends Seeder {
 		$this->call('PhotosTableSeeder');
 		$this->call('AuthorsTableSeeder');
         $this->call('ContactsTableSeeder');
+        $this->call('StatusesTableSeeder');
+        $this->call('TypesTableSeeder');
 	}
 
     private function cleanDatabase()

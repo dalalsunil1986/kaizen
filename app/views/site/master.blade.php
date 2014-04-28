@@ -23,6 +23,8 @@
 
     <!-- arabic and english switcher -->
     {{ HTML::style('css/bootstrap.min.css') }}
+    {{ HTML::style('css/font-awesome.min.css') }}
+
     @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
     {{ HTML::style('css/bootstrap-rtl.min.css') }}
     @endif
@@ -40,13 +42,13 @@
 <div class="container">
     <!-- header -->
     <div class="row">
-        <div class="col-md-7 col-sm-7 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <a href="/">{{ HTML::image('images/Logo.png','kaizen',array('class'=>'img-responsive')) }}</a>
         </div>
-        <div class="col-md-4 col-sm-4 visible-lg visible-md visible-sm top30">
+        <div class="col-md-5 col-sm-5 visible-lg visible-md visible-sm top30">
             @yield('login')
         </div>
-        <div class="col-md-1 col-sm-1 visible-lg visible-md visible-sm top30">
+        <div class="col-md-1 col-sm-1  visible-lg visible-md visible-sm top30">
             @include('site.layouts.locale')
         </div>
     </div>
@@ -57,7 +59,7 @@
         <div class="col-xs-2">
             @include('site.layouts.locale')
         </div>
-        <div class="col-xs-10 pull-right">
+        <div class="col-xs-10">
             @yield('login')
         </div>
     </div>
@@ -90,9 +92,7 @@
         <!-- end of sidedivision content-->
     </div>
     <div class="row">
-        <div class="col-md-12">
-            @yield('footer')
-        </div>
+        @yield('footer')
     </div>
 
 </div>

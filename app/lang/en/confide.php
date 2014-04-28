@@ -18,7 +18,7 @@ return array(
     'login' => array(
         'title' => 'Login',
         'desc' => 'Enter your credentials',
-        'forgot_password' => '(forgot password)',
+        'forgot_password' => 'Forgot Password',
         'remember' => 'Remember me',
         'submit' => 'Login',
     ),

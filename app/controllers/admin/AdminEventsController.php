@@ -39,7 +39,8 @@ class AdminEventsController extends AdminBaseController
     public function index()
     {
         $events = parent::all();
-        return View::make('admin.events.index', ['events'=> $events]);
+        $statuses = Status::all();
+        return View::make('admin.events.index', compact('events'));
     }
 
 

@@ -62,8 +62,8 @@
                             <input type="checkbox" id="remember" value="1">&nbsp;{{ Lang::get('site.general.remember')}}
                         </div>
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-default">{{ Lang::get('site.nav.login') }}</button>
-                            <a href="{{ action('UserController@create') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
+                            <button type="submit" class="btn btn-primary">{{ Lang::get('site.nav.login') }}</button>
+                            <a href="{{ action('UserController@create') }}" type="submit" class="btn btn-primary">{{ Lang::get('site.nav.register') }}</a>
                             <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
                         </div>
                     </form>

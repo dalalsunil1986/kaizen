@@ -15,8 +15,8 @@ class CreateAuthorsTable extends Migration {
 		Schema::create('authors', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('event_id');
+            $table->integer('user_id')->unsigned()->index();
+            $table->integer('event_id')->unsigned()->index();
             $table->timestamps();
 		});
 	}
