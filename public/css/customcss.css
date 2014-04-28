@@ -31,7 +31,6 @@ body {
 }
 
 .panel-heading {
-    top: 20px;
     position: relative;
     background-color: transparent !important;
     border-color: none !important;
@@ -39,7 +38,6 @@ body {
     background-size: 60%;
     background-position: right;
     background-repeat: no-repeat;
-    padding: 16px 27px !important;
     color: #FFF !important;
 
 }

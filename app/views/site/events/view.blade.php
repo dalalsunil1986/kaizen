@@ -62,23 +62,27 @@
 
     <div class="col-md-5 {{ !Auth::user()? 'btns_disabled' :'' }}">
 
-        <div class="row top20">
-            <button
-            {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue top5 "
-            data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
-            <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-            <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <button
+                {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
+                <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
+                <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
+            </div>
 
-            <button
-            {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
-            data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow')  }}">
-            <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
-            {{ Lang::get('site.general.follow_btn_desc')}}</button>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <button
+                {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
+                data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow')  }}">
+                <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
+                {{ Lang::get('site.general.follow_btn_desc')}}</button>
 
-            <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 events_btns btn btn-default btn-sm  favorite_btn bg-blue top5"
-            data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite')  }}">
-            <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
-            {{ Lang::get('site.general.fv_btn_desc')}}</button>
+                <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm  favorite_btn bg-blue top5"
+                data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite')  }}">
+                <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
+                {{ Lang::get('site.general.fv_btn_desc')}}</button>
+            </div>
         </div>
     </div>
 
@@ -179,13 +183,12 @@
         </address>
     </div>
 
-    <div class="col-md-12 {{ !Auth::user()? 'btns_disabled' :'' }}">
+    <div class="col-md-12 col-sm-12 col-xs-12">
         <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
         data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
         <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
         <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
-
     </div>
 </div>
 
