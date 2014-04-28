@@ -424,6 +424,7 @@ body {
     padding-left: 3px;
     padding-right: 3px;
     margin-top: 0;
+    opacity: 0.95;
 }
 
 .subscribe-button {
