@@ -242,5 +242,13 @@ class EventModel extends BaseModel {
         $this->attributes['date_end'] = $this->dateStringToCarbon($value);
     }
 
+    public function type() {
+        return $this->hasOne('Type','event_id');
+    }
+
+    public function statuses() {
+        return $this->belongsToMany('User', 'statuses','event_id','user_id')->withPivot(array('id','event_id','user_id','status'));
+//        return $this->hasMany('Subscription','event_id');
+    }
 }
 

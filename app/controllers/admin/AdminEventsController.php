@@ -66,7 +66,7 @@ class AdminEventsController extends AdminBaseController
     public function store()
     {
         //validate and save
-        $validation = new $this->model(Input::except(array('thumbnail','addresspicker_map')));
+        $validation = new $this->model(Input::except(array('thumbnail','addresspicker_map','type','approval_type')));
         if (!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
@@ -76,6 +76,15 @@ class AdminEventsController extends AdminBaseController
             if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','1')) {
                 return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($this->photo->getErrors());
             }
+        }
+
+        $type = new Type();
+        $type->event_id= $validation->id;
+        $type->type = Input::get('type');
+        $type->approval_type = Input::get('approval_type');
+
+        if (!$type->save()) {
+            return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($type->getErrors());
         }
 
         //update available seats
@@ -96,12 +105,12 @@ class AdminEventsController extends AdminBaseController
     public function edit($id)
     {
         {
-            $event = $this->model->with('photos')->find($id);
+            $event = $this->model->with('photos','type')->find($id);
             $category = $this->category->getEventCategories()->lists('name', 'id');
             $author = $this->user->getRoleByName('author')->lists('username', 'id');
             $location = Location::all()->lists('name', 'id');
             $country = Country::all()->lists('name', 'id');
-            return View::make('admin.events.edit', compact('event', 'category', 'author', 'location','country'));
+            return View::make('admin.events.edit', compact('event', 'category', 'author', 'location','country','type'));
         }
     }
 
@@ -114,7 +123,7 @@ class AdminEventsController extends AdminBaseController
     public function update($id)
     {
         $validation = $this->model->find($id);
-        $validation->fill(Input::except(array('thumbnail','addresspicker_map')));
+        $validation->fill(Input::except(array('thumbnail','addresspicker_map','type','approval_type')));
         if (!$validation->save()) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
@@ -123,6 +132,18 @@ class AdminEventsController extends AdminBaseController
                 return Redirect::back()->withErrors($this->photo->getErrors());
             }
         }
+
+        //update type
+        $type = Type::where('event_id',$id)->first();
+        if(!$type) {
+            $type = new Type();
+        }
+        $type->type = Input::get('type');
+        $type->approval_type = Input::get('approval_type');
+        if (!$type->save()) {
+            return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($type->getErrors());
+        }
+
         //update available seats
         $event = $this->model->find($validation->id);
         $total_seats = $event->total_seats;
@@ -193,7 +214,8 @@ class AdminEventsController extends AdminBaseController
         $subscriptions_count =$event->subscriptions()->count();
         $favorites_count =$event->favorites()->count();
         $followers_count =$event->followers()->count();
-        return View::make('admin.events.settings',compact('event','subscriptions_count','favorites_count','followers_count'));
+        $requests_count = $event->statuses()->count();
+        return View::make('admin.events.settings',compact('event','subscriptions_count','favorites_count','followers_count','requests_count'));
     }
     /**
      * @param $id
@@ -231,4 +253,9 @@ class AdminEventsController extends AdminBaseController
         return View::make('admin.events.subscriptions',compact('users','event'));
     }
 
+    public function getRequests($id)
+    {
+        $event = $this->model->with('statuses')->find($id);
+        return View::make('admin.events.requests',compact('event'));
+    }
 }

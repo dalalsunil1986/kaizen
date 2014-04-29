@@ -43,6 +43,7 @@ class EventsController extends BaseController
         $perPage = 10;
         //find countries,authors,and categories to display in search form
         $categories = [0 => Lang::get('site.event.choose_category')] + $this->category->getEventCategories()->lists('name', 'id');
+
         $authors = [0 => Lang::get('site.event.choose_author')] +$this->user->getRoleByName('author')->lists('username', 'id');
         $countries = [0 => Lang::get('site.event.choose_country')] + Country::all()->lists('name','id');
 

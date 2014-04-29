@@ -20,6 +20,9 @@ body {
 .container {
     background: #ffffff;
 }
+a:hover{
+    color:#5bb75b;
+}
 .panel {
     /*margin-bottom: 5px !important;*/
 }
@@ -111,14 +114,8 @@ body {
 }
 
 
-
-
-
-
-
 #ads-section {
-    margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 #map_canvas {
@@ -199,14 +196,12 @@ body {
 }
 
 .comments_dev {
-    width: 98%;
     border-bottom: 1px solid #dcdbd8;
     margin-bottom: 3px;
+    font-size:.9em;
+    color: #112233;
 }
 
-.comments_dev p {
-    margin: 0px !important;
-}
 
 .timeline {
     list-style: none;
@@ -422,7 +417,7 @@ body {
     padding-left: 3px;
     padding-right: 3px;
     margin-top: 0;
-    opacity: 0.95;
+    opacity: 0.85;
 }
 
 .subscribe-button {
@@ -447,33 +442,29 @@ body {
 }
 
 .slider .text-left {
+    margin-top: 10px;
     padding-left: 10px;
     text-align: left;
 }
 
 .slider .text-right {
+    margin-top: 10px;
     padding-right: 10px;
     text-align: right;
 }
 
 a.kaizen-button {
-    margin: 50px 5px 0 0;
-    padding: 10px;
+
     text-align: center;
-    background: #C5C5C5; /* Old browsers */
-    background: -moz-linear-gradient(top, #C5C5C5 0%, #C5C5C5 50%, #C5C5C5 51%, #C5C5C5 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #C5C5C5), color-stop(50%, #C5C5C5), color-stop(51%, #C5C5C5), color-stop(100%, #C5C5C5)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #C5C5C5 0%, #C5C5C5 50%, #C5C5C5 51%, #C5C5C5 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #C5C5C5 0%, #C5C5C5 50%, #C5C5C5 51%, #C5C5C5 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #C5C5C5 0%, #C5C5C5 50%, #C5C5C5 51%, #C5C5C5 100%); /* IE10+ */
-    background: linear-gradient(top, #C5C5C5 0%, #C5C5C5 50%, #C5C5C5 51%, #C5C5C5 100%); /* W3C */
     color: #fff;
     font-family: sans-serif;
     font-weight: bold;
     font-size: 2em;
-    text-decoration: none;
+    text-decoration: nonecolor:
 }
-
+a.kaizen-button:hover {
+    color:#5bb75b;
+}
 span.tag {
     margin:14px 5px;
     position:relative;
@@ -634,10 +625,18 @@ span.tag:after {
     height: 400px;
     border: 1px solid #ccc;
 }
+#footer {
+    margin:20px 0;
+}
 .social-icons a {
     font-size: 1.5em;
     color:#532F8F;
 }
 .social-icons a:hover {
     color:#5bb75b;
+}
+
+.unstyled {
+    list-style: none;
+    margin-left: -20px;
 }

@@ -9,6 +9,15 @@
 <h1>Edit Event</h1>
 {{ Form::model($event, array('method' => 'PATCH', 'action' => array('AdminEventsController@update', $event->id), 'role'=>'form', 'files' => true)) }}
 <div class="row">
+    <div class="form-group col-md-6">
+        {{ Form::label('approval_type', 'Event Type:') }}
+        {{ Form::select('type', array(''=>'Select','FREE' => 'FREE', 'PAID' => 'PAID'),$event->type->type,array('class'=>'form-control')) }}
+    </div>
+
+    <div class="form-group col-md-6">
+        {{ Form::label('approval_type', 'Approval Type:') }}
+        {{ Form::select('approval_type', array(''=>'Select','DIRECT' => 'DIRECT', 'MOD' => 'MOD'),$event->type->approval_type,array('class'=>'form-control')) }}
+    </div>
     <div class="form-group col-md-4">
         {{ Form::label('user_id', 'Author:',array('class'=>'control-label')) }}
         {{ Form::select('user_id', $author,NULL,array('class'=>'form-control')) }}

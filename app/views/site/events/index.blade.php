@@ -66,15 +66,21 @@
     {{ $event->date_end->format('Y-m-d')}} |
 
     <i class="glyphicon glyphicon-globe">
-        {{ link_to_action('EventsController@index', $event->location->country->name,array('search'=>'','country'=>$event->location->country->id))  }}
+        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            <?php $country =  ($event->location->country->name_en) ? $event->location->country->name_en : $event->location->country->name ;?>
+            <?php $category =  ($event->category->name_en) ? $event->category->name_en : $event->category->name ;?>
+        @else
+            <?php $country =  ($event->location->country->name) ? $event->location->country->name : $event->location->country->name_en ;?>
+            <?php $category =  ($event->category->name) ? $event->category->name : $event->category->name_en ;?>
+        @endif
+        {{ link_to_action('EventsController@index', $country ,array('search'=>'','country'=>$event->location->country->id))  }}
         |</i>
-
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
     <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;
     {{ link_to_action('EventsController@index', $event->category->name_en,array('search'=>'','category'=>$event->category->id))  }}
     @else
     <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;
-    {{ link_to_action('EventsController@index', $event->category->name,array('search'=>'','category'=>$event->category->id))  }}
+    {{ link_to_action('EventsController@index', $category,array('search'=>'','category'=>$event->category->id))  }}
     @endif</div>
 <hr>
 @endforeach

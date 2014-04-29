@@ -106,6 +106,40 @@
                 <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
             </tr>
             <tr>
+                <td><b>{{ Lang::get('site.general.country') }} </b></td>
+                <td>
+                @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                    @if($event->location->country->name_en)
+                        {{ $event->location->country->name_en }}
+                    @else
+                        {{ $event->location->country->name }}
+                    @endif
+                @else
+                    @if($event->location->country->name)
+                        {{ $event->location->country->name }}
+                    @else
+                        {{ $event->location->country->name_en }}
+                    @endif
+                @endif
+                </td>
+                <td><b>{{ Lang::get('site.general.location') }}</b></td>
+                <td>
+                @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                    @if($event->location->name_en)
+                        {{ $event->location->name_en }}
+                    @else
+                        {{ $event->location->name }}
+                    @endif
+                @else
+                    @if($event->location->name)
+                        {{ $event->location->name }}
+                    @else
+                        {{ $event->location->name_en }}
+                    @endif
+                @endif
+                </td>
+            </tr>
+            <tr>
                 <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
                 <td> {{ $event->total_seats}}</td>
                 <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
@@ -138,7 +172,7 @@
             <tr>
                 <td><b>{{ Lang::get('site.event.price') }}</b></td>
                 @if($event->price)
-                <td>{{ $event->price }} KD</td>
+                <td>{{ $event->price }}</td>
                 @else
                 <td>{{ Lang::get('site.event.free') }}</td>
                 @endif
@@ -163,8 +197,8 @@
     @if($event->latitude && $event->longitude)
 
     <div class="col-md-12">
-        <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#map">
-            Show / Hide Map
+        <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#map">
+           <b><i class="glyphicon glyphicon-map-marker"></i> Show / Hide Map </b>
         </button>
         <div id="map" class="collapse in top10">
             <div id="map_canvas"></div>
@@ -173,42 +207,72 @@
 
     @endif
     <div class="col-md-12 top15">
-        <option selected disabled>Address</option>
+        <b>{{ Lang::get('site.general.address') }} </b>
         <address>
-            <strong> {{ $event->address}} </strong><br>
+            <strong>
+            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                @if($event->address_en)
+                    {{ $event->address_en }}
+                @else
+                    {{ $event->address }}
+                @endif
+                -
+                @if($event->street_en)
+                    {{ $event->street_en }}
+                @else
+                    {{ $event->street }}
+                @endif
+            @else
+                @if($event->address)
+                    {{ $event->address }}
+                @else
+                    {{ $event->address_en }}
+                @endif
+                -
+                @if($event->street)
+                    {{ $event->street }}
+                @else
+                    {{ $event->street_en }}
+                @endif
+            @endif
+            </strong>
+            <br>
             @if($event->phone)
-            <abbr title="Phone">Phome:</abbr>
-            {{ $event->phont }}
+                <abbr title="Phone">Phone:</abbr>
+                {{ $event->phone }}
             @endif
         </address>
     </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12">
         <button
-        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+        {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
         data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
-        <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-        <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
+        <h2><i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>&nbsp;
+            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                {{ ($event->button_en) ? $event->button_en : $event->button }}
+            @else
+                {{ ($event->button) ? $event->button : $event->button_en }}
+            @endif
+        </h2></button>
     </div>
 </div>
-
+<hr>
 <div class="row">
     <div class="col-md-12">
         @if(count($event->comments) > 0)
-        <h3 class="comments_title"> {{Lang::get('site.event.comment') }}</h3>
+        <h3> <i class=" glyphicon glyphicon-comment"></i>&nbsp;{{Lang::get('site.event.comment') }}</h3>
         @foreach($event->comments as $comment)
         <div class="comments_dev">
-            <p class="text-muted">
-                {{ $comment->content }}
-            </p>
-
+            <p>{{ $comment->content }}</p>
             <p
             @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-            class="text-right text-primary"
-            @else
             class="text-left text-primary"
+            @else
+            class="text-right text-primary"
             @endif
-            >{{ $comment->user->username}}</p>
+            >{{ $comment->user->username}}
+            <span class="text-muted"> - {{ $comment->getHumanCreatedAtAttribute()}} </span></p>
         </div>
         @endforeach
         @endif

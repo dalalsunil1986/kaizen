@@ -9,13 +9,13 @@
 {{ Form::open(array('method' => 'POST', 'action' => array('AdminEventsController@store'), 'role'=>'form', 'files' => true)) }}
 <div class="row">
     <div class="form-group col-md-6">
-        {{ Form::select('type', array(''=>'Select','APPROVED' => 'APPROVED', 'REJECTED' => 'REJECTED', 'CONFIRMED'=>'CONFIRMED','PENDING'=>'PENDING')) }}
+        {{ Form::label('approval_type', 'Event Type:') }}
+        {{ Form::select('type', array(''=>'Select','FREE' => 'FREE', 'PAID' => 'PAID'),NULL,array('class'=>'form-control')) }}
     </div>
 
     <div class="form-group col-md-6">
         {{ Form::label('approval_type', 'Approval Type:') }}
-        {{ Form::select('approval_type', array(''=>'Select','APPROVED' => 'APPROVED', 'REJECTED' => 'REJECTED', 'CONFIRMED'=>'CONFIRMED','PENDING'=>'PENDING')) }}
-
+        {{ Form::select('approval_type', array(''=>'Select','DIRECT' => 'DIRECT', 'MOD' => 'MOD'),NULL,array('class'=>'form-control')) }}
     </div>
 
 

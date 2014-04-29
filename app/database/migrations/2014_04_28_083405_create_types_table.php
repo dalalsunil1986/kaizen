@@ -17,6 +17,7 @@ class CreateTypesTable extends Migration {
 			$table->increments('id');
             $table->integer('event_id')->unsigned()->index();
             $table->string('type');
+            $table->string('approval_type');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 			$table->timestamps();
 		});

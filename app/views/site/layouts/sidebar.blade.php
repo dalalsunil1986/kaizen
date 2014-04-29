@@ -19,7 +19,7 @@ extends('site.layouts.home')
             <ul>
                 @if($latest_event_posts)
                     @foreach($latest_event_posts as $event)
-                    <li><a href="{{URL::action('EventsController@show',$event->id)}}"> {{ (LaravelLocalization::getCurrentLocaleName() == 'English') ? $event->title_en : $event->title }}</a></li>
+                    <li class="unstyled"><i class="glyphicon glyphicon-calendar"></i> <a href="{{URL::action('EventsController@show',$event->id)}}"> {{ (LaravelLocalization::getCurrentLocaleName() == 'English') ? $event->title_en : $event->title }}</a></li>
                     @endforeach
                 @endif
             </ul>
@@ -34,7 +34,7 @@ extends('site.layouts.home')
             <ul>
                 @if($latest_blog_posts)
                     @foreach($latest_blog_posts as $post)
-                    <li><a href="{{URL::action('BlogsController@show',$post->slug)}}"> {{ $post->title }}</a></li>
+                    <li class="unstyled"><i class="glyphicon glyphicon-book"></i><a href="{{URL::action('BlogsController@show',$post->slug)}}"> {{ $post->title }}</a></li>
                     @endforeach
                 @endif
             </ul>

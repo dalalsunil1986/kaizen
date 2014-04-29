@@ -8,10 +8,6 @@ class AdminTypesController extends AdminBaseController {
      * @var Post
      */
     protected $model;
-    /**
-     * @var Photo
-     */
-    protected $photo;
 
     /**
      * Inject the models.
@@ -26,5 +22,14 @@ class AdminTypesController extends AdminBaseController {
         $this->beforeFilter('Admin');
     }
 
+    public function store()
+    {
+        $validation = new $this->model(Input::all());
+        if (!$validation->save())
+        {
+            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+        }
+        return Redirect::home();
+    }
 
 }

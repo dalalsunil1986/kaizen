@@ -17,6 +17,7 @@ class StatusesTableSeeder extends Seeder {
                 [
                     'user_id'=> $user,
                     'event_id' => $event,
+                    'status' =>$faker->randomElement(['PENDING','APPROVED','CONFIRMED','REJECTED']),
                     'created_at' => new DateTime,
                     'updated_at' => new DateTime
                 ]

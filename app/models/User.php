@@ -170,6 +170,11 @@ class User extends ConfideUser implements PresentableInterface {
 //        return $this->hasMany('Favorite');
     }
 
+    public function statuses() {
+        return $this->belongsToMany('EventModel', 'statuses','user_id','event_id');
+//        return $this->hasMany('Favorite');
+    }
+
     /**
      * @param String $roleName
      * @return mixed users

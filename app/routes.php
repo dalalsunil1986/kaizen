@@ -144,7 +144,10 @@ Route::group(array('prefix' => 'admin','before'=>array('Auth','Moderator')), fun
     Route::resource('contact-us','AdminContactsController',array('only'=>array('index','store')));
 
     Route::resource('photo','AdminPhotosController');
+    Route::resource('requests','AdminStatusesController');
+    Route::resource('type','AdminTypesController');
 
+    Route::get('event/{id}/requests',array('uses'=>'AdminEventsController@getRequests'));
     Route::get('/', 'AdminEventsController@index');
 });
 
