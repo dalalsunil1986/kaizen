@@ -137,6 +137,7 @@ class AdminEventsController extends AdminBaseController
         $type = Type::where('event_id',$id)->first();
         if(!$type) {
             $type = new Type();
+            $type->event_id = $id;
         }
         $type->type = Input::get('type');
         $type->approval_type = Input::get('approval_type');
