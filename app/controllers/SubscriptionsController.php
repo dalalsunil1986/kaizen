@@ -119,7 +119,7 @@ class SubscriptionsController extends BaseController {
             $args['body'] = 'You have been confirmed to the event ' . $event->title;
             $this->mailer->sendMail($user, $args);
         }
-        return done;
+        return 'done';
     }
 
     /**
