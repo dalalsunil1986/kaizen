@@ -1,19 +1,19 @@
 # Laravel
 /bootstrap/compiled.php
-/vendor
+/vendor/
 
 # Configuration
-/app/config/local
-/app/config/staging
+/app/config/local/
+/app/config/staging/
 
 #/app/config/production
-/app/storage
+/app/storage/
 /bootstrap/start.php
 
 # Basset development collections
-/public/assets/compiled/public
-/public/assets/compiled/admin
-/public/uploads
+/public/assets/compiled/
+/public/assets/compiled/
+/public/uploads/
 
 #vagrant
 VagrantFile
