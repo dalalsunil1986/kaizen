@@ -397,7 +397,6 @@ class EventsController extends BaseController
         //        // dd($available_seats);
         //        return $available_seats->getAvailableSeats();
         return $event->available_seats;
-
     }
 
     public function getSliderEvents()

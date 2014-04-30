@@ -64,11 +64,13 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
+                <a href="{{ action('SubscriptionsController@subscribe',$event->id) }}">
                 <button
                 {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                 data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
                 <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
                 <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
+                </a>
             </div>
 
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -245,6 +247,7 @@
     </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12">
+
         <button
         {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
         data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">

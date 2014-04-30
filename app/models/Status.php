@@ -17,4 +17,16 @@ class Status extends BaseModel {
         return $this->belongsTo('EventModel');
     }
 
+
+    /**
+     * @param $id eventId
+     * @param $userId int
+     * @return boolean
+     * Is User subsribed to this event
+     */
+    public static function getStatus($id,$userId) {
+        $query = Status::where('user_id', '=', $userId)->where('event_id', '=', $id)->first();
+        return $query;
+    }
+
 }

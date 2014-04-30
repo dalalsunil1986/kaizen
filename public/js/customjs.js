@@ -59,31 +59,31 @@ $(document).ready(function () {
         });
     });
 
-    $('.subscribe_btn').click(function () {
-        $('.subscribe_btn').tooltip('hide');
-        if($('.subscribe').hasClass('active')) {
-            var behavior = 'unsubscribe'
-        } else {
-            var behavior = 'subscribe'
-        }
-        toggleTooltip(behavior);
-        $.ajax({
-            url: '/event/' + id + '/'+ behavior,
-            type: 'GET',
-            cache : true,
-            dataType: "json",
-            error: function(xhr, textStatus, errorThrown) {
-                //
-            },
-            success: function(data) {
-                if(data.success) {
-                    $('.subscribe').toggleClass('active');
-                }
-                alert(data.message);
-                // to insert href.location line here in order to activate the Knet !!!! Usama - 24.3.14
-            }
-        });
-    });
+//    $('.subscribe_btn').click(function () {
+//        $('.subscribe_btn').tooltip('hide');
+//        if($('.subscribe').hasClass('active')) {
+//            var behavior = 'unsubscribe'
+//        } else {
+//            var behavior = 'subscribe'
+//        }
+//        toggleTooltip(behavior);
+//        $.ajax({
+//            url: '/event/' + id + '/'+ behavior,
+//            type: 'GET',
+//            cache : true,
+//            dataType: "json",
+//            error: function(xhr, textStatus, errorThrown) {
+//                //
+//            },
+//            success: function(data) {
+//                if(data.success) {
+//                    $('.subscribe').toggleClass('active');
+//                }
+//                alert(data.message);
+//                // to insert href.location line here in order to activate the Knet !!!! Usama - 24.3.14
+//            }
+//        });
+//    });
 
     jQuery(function($) {
         $("tr[data-link]").click(function() {

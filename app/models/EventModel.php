@@ -250,5 +250,18 @@ class EventModel extends BaseModel {
         return $this->belongsToMany('User', 'statuses','event_id','user_id')->withPivot(array('id','event_id','user_id','status'));
 //        return $this->hasMany('Subscription','event_id');
     }
+    public function updateAvailableSeats($event)
+    {
+        $totalSeats = $event->total_seats;
+        if($totalSeats > 0 ) {
+//            $totalSubscriptions =   DB::table('events as e')
+//                ->join('subscriptions as s','e.id','=','s.event_id','LEFT')
+//                ->where('s.event_id', '=', $event->id)
+//                ->count();
+            $totalSubscriptions = $event->subscriptions->count();
+            $event->available_seats = $totalSeats - $totalSubscriptions;
+            $event->save();
+        }
+    }
 }
 

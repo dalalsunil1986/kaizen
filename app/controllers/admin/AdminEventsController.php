@@ -258,4 +258,7 @@ class AdminEventsController extends AdminBaseController
         $event = $this->model->with('statuses')->find($id);
         return View::make('admin.events.requests',compact('event'));
     }
+
+
+
 }

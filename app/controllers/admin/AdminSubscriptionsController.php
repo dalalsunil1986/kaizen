@@ -2,7 +2,7 @@
 
 use Acme\Mail\SubscriptionMailer;
 
-class SubscriptionsController extends BaseController {
+class AdminSubscriptionsController extends AdminBaseController {
     protected $model;
     protected $user;
     protected $mailer;
@@ -17,6 +17,8 @@ class SubscriptionsController extends BaseController {
         $this->status = $status;
         $this->mailer = $mailer;
         parent::__construct();
+        $this->beforeFilter('Admin');
+
     }
 
     /**
@@ -75,7 +77,16 @@ class SubscriptionsController extends BaseController {
                             case 'FREE':
                                 // set status to confirmed
                                 // create subscription record
-                                return $this->confirm($event, $user, $status);
+                                // send email
+                                //@todo email
+                                $event->subscriptions()->attach($user);
+                                $status->status = 'CONFIRMED';
+                                $status->save();
+                                $event->available_seats = $event->available_seats - 1;
+                                $event->save();
+                                $args['subject'] = 'Kaizen Event Subscription';
+                                $args['body'] = 'You have been confirmed to the event '.$event->title ;
+                                $this->mailer->sendMail($user,$args);
                                 //send mail
                                 return Response::json(array(
                                     'success' => true,
@@ -91,9 +102,22 @@ class SubscriptionsController extends BaseController {
                         break;
                 }
             } else {
-                //create a new record and set status to pending
-                return $this->pending($event,$user,$status);
+                $status = new $this->status;
+                $status->user_id = $user->id;
+                $status->event_id = $event->id;
+                $status->status = 'PENDING';
+                $status->save();
+                // mail user about await moderation
             }
+
+            // if request pending
+
+            // if request
+            // if request approved
+
+
+            // if approved and direct
+
 
         }
         // notify user not authenticated
@@ -104,43 +128,13 @@ class SubscriptionsController extends BaseController {
 
     }
 
-    /**
-     * @param $event
-     * @param $user
-     * @param $status
-     */
-    public function confirm($event, $user, $status)
+    protected function availableSeats($event)
     {
-        $status->status = 'CONFIRMED';
-        if($status->save()) {
-            $event->subscriptions()->attach($user);
-            $event->updateAvailableSeats($event);
-            $args['subject'] = 'Kaizen Event Subscription';
-            $args['body'] = 'You have been confirmed to the event ' . $event->title;
-            $this->mailer->sendMail($user, $args);
-        }
-        return done;
+        return $event->available_seats;
     }
 
-    /**
-     * @param $event
-     * @param $user
-     * @param $status
-     */
-    public function pending($event, $user, $status)
-    {
-        $status = new $this->status;
-        $status->user_id = $user->id;
-        $status->event_id = $event->id;
-        $status->status = 'PENDING';
-        if($status->save()) {
-            $event->subscriptions()->detach($user);
-            $event->updateAvailableSeats($event);
-            $args['subject'] = 'Kaizen Event Subscription';
-            $args['body'] = 'Your Request for the event ' . $event->title.' is awaiting for admin approval. You will be notified shortly ';
-            $this->mailer->sendMail($user, $args);
-        }
-        return done;
+    public function setStatus($userId,$eventId,$status) {
+        dd($status);
     }
 
 }
