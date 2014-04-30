@@ -110,7 +110,7 @@ class AdminEventsController extends AdminBaseController
             $author = $this->user->getRoleByName('author')->lists('username', 'id');
             $location = Location::all()->lists('name', 'id');
             $country = Country::all()->lists('name', 'id');
-            return View::make('admin.events.edit', compact('event', 'category', 'author', 'location','country','type'));
+            return View::make('admin.events.edit', compact('event', 'category', 'author', 'location','country'));
         }
     }
 

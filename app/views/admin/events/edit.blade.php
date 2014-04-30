@@ -10,13 +10,22 @@
 {{ Form::model($event, array('method' => 'PATCH', 'action' => array('AdminEventsController@update', $event->id), 'role'=>'form', 'files' => true)) }}
 <div class="row">
     <div class="form-group col-md-6">
+        <?php
+        if($event->type) {
+            $type = $event->type->type;
+            $approval_type = $event->type->approval_type;
+        } else {
+            $type = NULL;
+            $approval_type = NULL;
+        }
+        ?>
         {{ Form::label('approval_type', 'Event Type:') }}
-        {{ Form::select('type', array(''=>'Select','FREE' => 'FREE', 'PAID' => 'PAID'),$event->type->type,array('class'=>'form-control')) }}
+        {{ Form::select('type', array(''=>'Select','FREE' => 'FREE', 'PAID' => 'PAID'),$type,array('class'=>'form-control')) }}
     </div>
 
     <div class="form-group col-md-6">
         {{ Form::label('approval_type', 'Approval Type:') }}
-        {{ Form::select('approval_type', array(''=>'Select','DIRECT' => 'DIRECT', 'MOD' => 'MOD'),$event->type->approval_type,array('class'=>'form-control')) }}
+        {{ Form::select('approval_type', array(''=>'Select','DIRECT' => 'DIRECT', 'MOD' => 'MOD'),$approval_type,array('class'=>'form-control')) }}
     </div>
     <div class="form-group col-md-4">
         {{ Form::label('user_id', 'Author:',array('class'=>'control-label')) }}
