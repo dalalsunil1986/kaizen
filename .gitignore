@@ -8,7 +8,6 @@
 
 #/app/config/production
 /app/storage/
-/bootstrap/start.php
 
 # Basset development collections
 /public/assets/compiled/
