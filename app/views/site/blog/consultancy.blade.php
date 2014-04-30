@@ -14,7 +14,7 @@
                         @if(count($post->photos))
                             {{ HTML::image('uploads/medium/'.$post->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
                         @else
-                            <img src="http://placehold.it/450x400/{{ $colors[array_rand($colors)] }}/ffffff&text={{ $post->category->name }}" class="img-responsive img-thumbnail" />
+                            <img src="http://placehold.it/450x400/{{ $colors[array_rand($colors)] }}/ffffff&text={{ $post->category->name_en }}" class="img-responsive img-thumbnail" />
                         @endif
                         </a>
                     </div>
