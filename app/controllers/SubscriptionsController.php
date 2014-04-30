@@ -140,7 +140,7 @@ class SubscriptionsController extends BaseController {
             $args['body'] = 'Your Request for the event ' . $event->title.' is awaiting for admin approval. You will be notified shortly ';
             $this->mailer->sendMail($user, $args);
         }
-        return done;
+        return 'done';
     }
 
 }
