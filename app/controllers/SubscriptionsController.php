@@ -37,15 +37,6 @@ class SubscriptionsController extends BaseController {
                     'message'=> Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed'))
                 ), 400 );
             }
-            // if seats available
-            if ($event->available_seats < 1) {
-                // notify no seats available
-                return Response::json(array(
-                    'success' => false,
-                    'message'=> Lang::get('site.subscription.no_seats_available')
-                ), 400);
-            }
-
             // get status of this user
             $status = $this->status->getStatus($event->id,$user->id);
             if($status) {
@@ -53,7 +44,7 @@ class SubscriptionsController extends BaseController {
                     case 'CONFIRMED':
                         return Response::json(array(
                             'success' => false,
-                            'message'=> 'You are subscribed to this event already'
+                            'message'=> Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed'))
                         ), 400 );
                         break;
                     case 'PENDING':
@@ -76,11 +67,6 @@ class SubscriptionsController extends BaseController {
                                 // set status to confirmed
                                 // create subscription record
                                 return $this->confirm($event, $user, $status);
-                                //send mail
-                                return Response::json(array(
-                                    'success' => true,
-                                    'message'=>  Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed'))
-                                ), 200);
                                 break;
                             case 'PAID':
                                 break;
@@ -108,17 +94,37 @@ class SubscriptionsController extends BaseController {
      * @param $event
      * @param $user
      * @param $status
+     * @return \Illuminate\Http\JsonResponse|string
      */
     public function confirm($event, $user, $status)
     {
-        $status->status = 'CONFIRMED';
-        if($status->save()) {
-            $event->subscriptions()->attach($user);
-            $event->updateAvailableSeats($event);
-            $args['subject'] = 'Kaizen Event Subscription';
-            $args['body'] = 'You have been confirmed to the event ' . $event->title;
-            $this->mailer->sendMail($user, $args);
+        if($event->availableSeats >= 1) {
+            $status->status = 'CONFIRMED';
+            if($status->save()) {
+                $event->subscriptions()->attach($user);
+                $event->updateAvailableSeats($event);
+                $args['subject'] = 'Kaizen Event Subscription';
+                $args['body'] = 'You have been confirmed to the event ' . $event->title;
+                $this->mailer->sendMail($user, $args);
+                return Response::json(array(
+                    'success' => true,
+                    'message'=>  Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed'))
+                ), 200);
+            } else {
+                return Response::json(array(
+                    'success' => false,
+                    'message' => 'could not subscribe'
+                ), 200);
+                return $this->approved($event, $user, $status);
+                //@todo reset status
+            }
+        } else {
+            return Response::json(array(
+                'success' => false,
+                'message'=> Lang::get('site.subscription.no_seats_available')
+            ), 400);
         }
+
         return 'done';
     }
 

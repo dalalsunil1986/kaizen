@@ -90,27 +90,61 @@ class AdminStatusesController extends AdminBaseController {
      * @param $status
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function confirm($event, $user, $status)
     {
-        $status->status = 'CONFIRMED';
-        if( $status->save()) {
-            $event->subscriptions()->attach($user);
-            $event->updateAvailableSeats($event);
-            $args['subject'] = 'Kaizen Event Subscription';
-            $args['body'] = 'You have been confirmed to the event ' . $event->title;
-            $this->mailer->sendMail($user, $args);
-            //send mail
-            return Response::json(array(
-                'success' => true,
-                'message' => Lang::get('site.subscription.subscribed', array('attribute' => 'subscribed'))
-            ), 200);
+        if($event->availableSeats >= 1) {
+            $status->status = 'CONFIRMED';
+            if($status->save()) {
+                $event->subscriptions()->attach($user);
+                $event->updateAvailableSeats($event);
+                $args['subject'] = 'Kaizen Event Subscription';
+                $args['body'] = 'You have been confirmed to the event ' . $event->title;
+                $this->mailer->sendMail($user, $args);
+                return Response::json(array(
+                    'success' => true,
+                    'message'=>  Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed'))
+                ), 200);
+            } else {
+                return Response::json(array(
+                    'success' => false,
+                    'message' => 'could not subscribe'
+                ), 200);
+                return $this->approved($event, $user, $status);
+                //@todo reset status
+            }
         } else {
             return Response::json(array(
                 'success' => false,
-                'message' => 'could not subscribe'
-            ), 200);
-            return $this->approved($event, $user, $status);
-            //@todo reset status
+                'message'=> Lang::get('site.subscription.no_seats_available')
+            ), 400);
+        }
+        return $this->approved($event, $user, $status);
+    }
+
+    public function confirm_old($event, $user, $status)
+    {
+        if($event->availableSeats >= 1) {
+            $status->status = 'CONFIRMED';
+            if( $status->save()) {
+                $event->subscriptions()->attach($user);
+                $event->updateAvailableSeats($event);
+                $args['subject'] = 'Kaizen Event Subscription';
+                $args['body'] = 'You have been confirmed to the event ' . $event->title;
+                $this->mailer->sendMail($user, $args);
+                //send mail
+                return Response::json(array(
+                    'success' => true,
+                    'message' => Lang::get('site.subscription.subscribed', array('attribute' => 'subscribed'))
+                ), 200);
+            } else {
+                return Response::json(array(
+                    'success' => false,
+                    'message' => 'could not subscribe'
+                ), 200);
+                return $this->approved($event, $user, $status);
+                //@todo reset status
+            }
         }
     }
 
