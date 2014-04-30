@@ -38,7 +38,7 @@
                     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                         <div class="carousel-caption hidden-xs" >
                             <span class="slider-title {{ ($event->title_en) ? 'text-left':'text-right' }}">
-                                <a href="{{ action('EventsController@show',$event->id) }}" class="top10">
+                                <a href="{{ action('EventsController@show',$event->id) }}" >
                                     {{  ($event->title_en ) ? $event->title_en  : $event->title  }}
                                 </a>
                             </span>
@@ -52,7 +52,7 @@
                     @else
                     <div class="carousel-caption hidden-xs" >
                             <span class="slider-title {{ ($event->title_en) ? 'text-left':'text-right' }}">
-                                <a href="{{ action('EventsController@show',$event->id) }}">
+                                <a href="{{ action('EventsController@show',$event->id) }}" class="top15">
                                     {{  $event->title }}
                                 </a>
                             </span>
