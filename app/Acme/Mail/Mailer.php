@@ -1,4 +1,5 @@
 <?php namespace Acme\Mail;
+use App;
 use Mail;
 
 /**
