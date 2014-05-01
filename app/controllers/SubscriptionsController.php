@@ -98,7 +98,7 @@ class SubscriptionsController extends BaseController {
      */
     public function confirm($event, $user, $status)
     {
-        if($event->availableSeats >= 1) {
+        if($event->available_seats >= 1) {
             $status->status = 'CONFIRMED';
             if($status->save()) {
                 $event->subscriptions()->attach($user);
