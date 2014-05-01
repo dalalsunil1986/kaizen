@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'default' => 'sync',
+	'default' => 'iron',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -48,12 +48,12 @@ return array(
 			'region' => 'us-east-1',
 		),
 
-		'iron' => array(
-			'driver'  => 'iron',
-			'project' => 'your-project-id',
-			'token'   => 'your-token',
-			'queue'   => 'your-queue-name',
-		),
+        'iron' => array(
+            'driver'  => 'iron',
+            'project' => '5331ac420651c00005000065',
+            'token'   => 'ZZPWI8R7LQ7j0gUDjvSORUnU5DI',
+            'queue'   => 'kaizen-mail',
+        ),
 
 		'redis' => array(
 			'driver' => 'redis',
