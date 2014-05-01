@@ -78,7 +78,6 @@ class AdminSubscriptionsController extends AdminBaseController {
                                 // set status to confirmed
                                 // create subscription record
                                 // send email
-                                //@todo email
                                 $event->subscriptions()->attach($user);
                                 $status->status = 'CONFIRMED';
                                 $status->save();
