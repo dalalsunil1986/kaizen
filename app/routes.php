@@ -155,3 +155,7 @@ Route::get('forbidden',function() {
    return View::make('error.forbidden');
 });
 Route::get('/', array('as'=>'base', 'uses' => 'EventsController@dashboard'));
+//push queue worker
+Route::get('/queue/email',function(){
+   return Queue::marshal();
+});
