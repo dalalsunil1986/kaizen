@@ -52,7 +52,7 @@ return array(
             'driver'  => 'iron',
             'project' => '5331ac420651c00005000065',
             'token'   => 'ZZPWI8R7LQ7j0gUDjvSORUnU5DI',
-            'queue'   => 'kaizen-mail',
+            'queue'   => 'mails',
         ),
 
 		'redis' => array(
