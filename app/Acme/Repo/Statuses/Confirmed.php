@@ -22,13 +22,11 @@ class Confirmed extends Status implements StatusInterface {
                 $this->mailer->sendMail($user, $args);
                 return Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed'));
             } else {
-                $repo =  new $this->setAction($event,$user,$status);
-                $repo->create(new Approved())->setStatus();
+                return $this->create(new Approved())->setStatus($event,$user,$status);
                 return 'could not subscribe';
             }
         } else {
-            $repo =  new $this->setAction($event,$user,$status);
-            $repo->create(new Approved())->setStatus();
+            return $this->create(new Approved())->setStatus($event,$user,$status);
             return Lang::get('site.subscription.no_seats_available');
         }
 
