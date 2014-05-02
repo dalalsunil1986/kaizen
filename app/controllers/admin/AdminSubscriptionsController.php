@@ -18,7 +18,6 @@ class AdminSubscriptionsController extends AdminBaseController {
         $this->mailer = $mailer;
         parent::__construct();
         $this->beforeFilter('Admin');
-
     }
 
     /**
@@ -125,15 +124,6 @@ class AdminSubscriptionsController extends AdminBaseController {
             'message'=> Lang::get('site.subscription.not_authenticated')
         ), 401);
 
-    }
-
-    protected function availableSeats($event)
-    {
-        return $event->available_seats;
-    }
-
-    public function setStatus($userId,$eventId,$status) {
-        dd($status);
     }
 
 }
