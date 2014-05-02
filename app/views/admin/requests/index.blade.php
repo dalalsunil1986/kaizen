@@ -19,7 +19,7 @@
     <tbody>
     @foreach ($requests as $request)
     <tr>
-        <td>{{ $request->event->name }}</td>
+        <td>{{ $request->event->title }}</td>
         <td>{{ $request->user->username }}</td>
         <td>{{ $request->status }} </td>
         <td><a href="{{ URL::action('AdminStatusesController@edit',  array($request->id), array('class' => 'btn btn-info')) }}">Edit</a></td>

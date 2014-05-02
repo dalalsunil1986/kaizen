@@ -21,7 +21,7 @@ class AdminStatusesController extends AdminBaseController {
     }
 
     public function index(){
-        $requests = $this->status->with(array('user','event'))->all();
+        $requests = $this->status->with(array('user','event'))->latest()->get();
         return View::make('admin.requests.index', compact('requests'));
     }
 
@@ -51,16 +51,16 @@ class AdminStatusesController extends AdminBaseController {
         $repo =  new \Acme\Repo\Statuses\Status($event,$user,$status);
         switch($setStatus) {
             case 'CONFIRMED':
-                return $repo->setup(new \Acme\Repo\Statuses\Confirmed())->setAction();
+                return $repo->create(new \Acme\Repo\Statuses\Confirmed())->setStatus();
                 break;
             case 'PENDING':
-                return $repo->setup(new \Acme\Repo\Statuses\Pending())->setAction();
+                return $repo->create(new \Acme\Repo\Statuses\Pending())->setStatus();
                 break;
             case 'REJECTED' :
-                return $repo->setup(new \Acme\Repo\Statuses\Rejected())->setAction();
+                return $repo->create(new \Acme\Repo\Statuses\Rejected())->setStatus();
                 break;
             case 'APPROVED' :
-                return $repo->setup(new \Acme\Repo\Statuses\Approved())->setAction();
+                return $repo->create(new \Acme\Repo\Statuses\Approved())->setStatus();
                 break;
             default :
                 break;

@@ -4,7 +4,7 @@ use Lang;
 
 class Confirmed extends Status implements StatusInterface {
     public function __construct() {
-//        parent::__construct($this->event,$this->user,$this->status);
+        parent::__construct($this->event,$this->user,$this->status);
     }
 
     public function setStatus($event, $user, $status)
@@ -26,7 +26,7 @@ class Confirmed extends Status implements StatusInterface {
                 return 'could not subscribe';
             }
         } else {
-            return Lang::get('site.subscription.no_seats_available'));
+            return Lang::get('site.subscription.no_seats_available');
         }
         return $this->approved($event, $user, $status);
     }

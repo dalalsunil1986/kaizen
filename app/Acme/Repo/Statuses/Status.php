@@ -30,14 +30,13 @@ class Status extends AdminBaseController{
         $this->mailer = new SubscriptionMailer();
     }
 
-    public function setup(StatusInterface $repo)
+    public function create(StatusInterface $repo)
     {
         $this->repo = $repo;
         return $this;
     }
 
-    public function setAction() {
-        return $this->repo->setStatus($this->event,$this->user,$this->status,$this->mailer);
+    public function setStatus() {
+        return $this->repo->setStatus($this->event,$this->user,$this->status);
     }
-
-} 
+}
