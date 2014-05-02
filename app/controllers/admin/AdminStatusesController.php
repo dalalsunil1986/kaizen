@@ -1,6 +1,7 @@
 <?php
 
 use Acme\Mail\SubscriptionMailer;
+use Acme\Repo\Statuses\Confirmed;
 use Acme\Repo\Statuses\StatusInterface;
 
 class AdminStatusesController extends AdminBaseController {
@@ -56,23 +57,12 @@ class AdminStatusesController extends AdminBaseController {
         $status = $this->status->findOrFail($id);
         $event  = $this->event->findOrFail($status->event_id);
         $user   = $this->user->findOrFail($status->user_id);
-        switch($setStatus) {
-            case 'CONFIRMED':
-                return $this->create(new \Acme\Repo\Statuses\Confirmed())->setStatus($event,$user,$status);
-                break;
-            case 'PENDING':
-                return $this->create(new \Acme\Repo\Statuses\Pending())->setStatus($event,$user,$status);
-                break;
-            case 'REJECTED' :
-                return $this->create(new \Acme\Repo\Statuses\Rejected())->setStatus($event,$user,$status);
-                break;
-            case 'APPROVED' :
-                return $this->create(new \Acme\Repo\Statuses\Approved())->setStatus($event,$user,$status);
-                break;
-            default :
-                break;
-        }
-
+        // filter the input value ..
+        // make the input value classname convention
+        // instantiate the class
+        // set status
+        $class = 'Acme\\Repo\\Statuses\\'. ucfirst(strtolower($setStatus));
+        return $this->create(new $class)->setStatus($event,$user,$status);
     }
 
     public function destroy($id)
