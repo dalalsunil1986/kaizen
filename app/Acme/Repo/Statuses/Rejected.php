@@ -12,11 +12,18 @@ namespace Acme\Repo\Statuses;
 class Rejected extends Status implements StatusInterface {
 
     public function __construct() {
-
+        parent::__construct($this->event,$this->user,$this->status);
     }
 
-    public function setStatus($event, $user, $status)
+    public function setAction($event, $user, $status)
     {
-        // TODO: Implement setStatus() method.
+        $status->status = 'REJECTED';
+        if( $status->save()) {
+            $event->subscriptions()->detach($user);
+            $event->updateAvailableSeats($event);
+            $args['subject'] = 'Kaizen Event Subscription';
+            $args['body'] = 'Your Request have been rejected for the event ' . $event->title;
+            return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
+        }
     }
 }

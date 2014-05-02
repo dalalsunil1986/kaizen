@@ -102,7 +102,7 @@ class SubscriptionsController extends BaseController {
             $status->status = 'CONFIRMED';
             if($status->save()) {
                 $event->subscriptions()->attach($user);
-                $event->updateAvailableSeats($event);
+                $event->updateSeats();
                 $args['subject'] = 'Kaizen Event Subscription';
                 $args['body'] = 'You have been confirmed to the event ' . $event->title;
                 $this->mailer->sendMail($user, $args);
@@ -141,7 +141,7 @@ class SubscriptionsController extends BaseController {
         $status->status = 'PENDING';
         if($status->save()) {
             $event->subscriptions()->detach($user);
-            $event->updateAvailableSeats($event);
+            $event->updateSeats();
             $args['subject'] = 'Kaizen Event Subscription';
             $args['body'] = 'Your Request for the event ' . $event->title.' is awaiting for admin approval. You will be notified shortly ';
             $this->mailer->sendMail($user, $args);

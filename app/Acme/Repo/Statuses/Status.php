@@ -37,6 +37,6 @@ class Status extends AdminBaseController{
     }
 
     public function setStatus() {
-        return $this->repo->setStatus($this->event,$this->user,$this->status);
+        return $this->repo->setAction($this->event,$this->user,$this->status);
     }
 }

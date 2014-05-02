@@ -12,18 +12,39 @@ namespace Acme\Repo\Statuses;
 class Approved extends Status implements StatusInterface {
 
     public function __construct() {
-
+        parent::__construct($this->event,$this->user,$this->status);
     }
 
-    public function setStatus($event, $user, $status)
+    public function setAction($event, $user, $status)
     {
-        $status->status = 'APPROVED';
-        if( $status->save()) {
-            $event->subscriptions()->detach($user);
-            $event->updateAvailableSeats($event);
-            $args['subject'] = 'Kaizen Event Subscription';
-            $args['body'] = 'You have been approved for the event ' . $event->title. '. Please '. link_to_action('SubscriptionsController@subscribe', 'Click Here', $event->id).' to confirm the subscriptions';
-            return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
+        $type = $event->type;
+        switch($type->type) {
+            case 'FREE':
+                // Check the Event Approval Type ( Direct or Mod )
+                switch($type->approval_type) {
+                    // If Direct, Whenever Admin Changes The Status To Approved Subscribe Him
+                    case 'DIRECT':
+                        $repo =  new Status($event,$user,$status);
+                        return $repo->create(new Confirmed())->setStatus();
+                        break;
+                    // If Mod, Whever Admin Changes The Status To Approves, Send User an Email to Subscribe
+                    case 'MOD':
+                        $status->status = 'APPROVED';
+                        if( $status->save()) {
+                            $event->subscriptions()->detach($user);
+                            $event->updateSeats();
+                            $args['subject'] = 'Kaizen Event Subscription';
+                            $args['body'] = 'You have been approved for the event ' . $event->title. '. Please '. link_to_action('SubscriptionsController@subscribe', 'Click Here', $event->id).' to confirm the subscriptions';
+                            return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
+                        }
+                        break;
+                }
+                break;
+            // if event is a paid event
+            case 'PAID':
+                break;
+            default:
+                break;
         }
     }
 }

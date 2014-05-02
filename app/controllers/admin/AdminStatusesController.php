@@ -144,28 +144,26 @@ class AdminStatusesController extends AdminBaseController {
     }
 
     public function reject($event,$user,$status) {
-        $status->status = 'REJECTED';
-        if( $status->save()) {
-            $event->subscriptions()->detach($user);
-            $event->updateAvailableSeats($event);
-            $args['subject'] = 'Kaizen Event Subscription';
-            $args['body'] = 'Your Request have been rejected for the event ' . $event->title;
-            return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
-        }
+
     }
 
     public function pending($event,$user,$status) {
-        $status->status = 'PENDING';
-        if( $status->save()) {
+
+    }
+
+    public function destroy($id)
+    {
+        $status = $this->status->findOrFail($id);
+        $event  = $this->event->findOrFail($status->event_id);
+        $user   = $this->user->findOrFail($status->user_id);
+        if ($status->find($id)->delete()) {
             $event->subscriptions()->detach($user);
-            $event->updateAvailableSeats($event);
-            $args['subject'] = 'Kaizen Event Subscription';
-            $args['body'] = 'You have been put on pending list for the event ' . $event->title.'';
-            return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
+            $event->updateSeats();
+            return Redirect::action('AdminStatusesController@index')->with(array('success'=>'Request Deleted'));
+        } else {
+            return Redirect::action('AdminStatusesController@index')->with(array('error'=>'Request Could not be Deleted'));
         }
-    }
-
-    public function destroy() {
 
     }
+
 }

@@ -10,5 +10,5 @@ namespace Acme\Repo\Statuses;
 
 
 interface StatusInterface {
-    public function setStatus($event,$user,$status);
+    public function setAction($event,$user,$status);
 }

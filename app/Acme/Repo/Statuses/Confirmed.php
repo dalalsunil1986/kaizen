@@ -7,7 +7,7 @@ class Confirmed extends Status implements StatusInterface {
         parent::__construct($this->event,$this->user,$this->status);
     }
 
-    public function setStatus($event, $user, $status)
+    public function setAction($event, $user, $status)
     {
         if ($user->isSubscribed($event->id,$user->id)) {
             return Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed'));
@@ -16,18 +16,21 @@ class Confirmed extends Status implements StatusInterface {
             $status->status = 'CONFIRMED';
             if ($status->save()) {
                 $event->subscriptions()->attach($user);
-                $event->updateAvailableSeats($event);
+                $event->updateSeats();
                 $args['subject'] = 'Kaizen Event Subscription';
                 $args['body'] = 'You have been confirmed to the event ' . $event->title;
                 $this->mailer->sendMail($user, $args);
                 return Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed'));
             } else {
-                $this->approved($event, $user, $status);
+                $repo =  new Status($event,$user,$status);
+                $repo->create(new Approved())->setStatus();
                 return 'could not subscribe';
             }
         } else {
+            $repo =  new Status($event,$user,$status);
+            $repo->create(new Approved())->setStatus();
             return Lang::get('site.subscription.no_seats_available');
         }
-        return $this->approved($event, $user, $status);
+
     }
 }

@@ -12,11 +12,18 @@ namespace Acme\Repo\Statuses;
 class Pending extends Status implements StatusInterface {
 
     public function __construct() {
-
+        parent::__construct($this->event,$this->user,$this->status);
     }
 
-    public function setStatus($event, $user, $status)
+    public function setAction($event, $user, $status)
     {
-        // TODO: Implement setStatus() method.
+        $status->status = 'PENDING';
+        if( $status->save()) {
+            $event->subscriptions()->detach($user);
+            $event->updateSeats();
+            $args['subject'] = 'Kaizen Event Subscription';
+            $args['body'] = 'You have been put on pending list for the event ' . $event->title.'';
+            return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
+        }
     }
 }
