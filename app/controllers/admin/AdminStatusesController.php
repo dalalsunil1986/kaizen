@@ -40,44 +40,23 @@ class AdminStatusesController extends AdminBaseController {
     public function update($id)
     {
         $setStatus = Input::get('status');
-
         $status = $this->status->findOrFail($id);
         $event  = $this->event->findOrFail($status->event_id);
         $user   = $this->user->findOrFail($status->user_id);
-
+        $repo =  new \Acme\Repo\Statuses\Status($event,$user,$status);
         switch($setStatus) {
             case 'CONFIRMED':
-                return $this->confirm($event, $user, $status);
+                return $repo->setup(new \Acme\Repo\Statuses\Confirmed())->setAction();
                 break;
             case 'PENDING':
-                return $this->pending($event, $user, $status);
+                return $repo->setup(new \Acme\Repo\Statuses\Pending())->setAction();
                 break;
             case 'REJECTED' :
-                return $this->reject($event, $user, $status);
+                return $repo->setup(new \Acme\Repo\Statuses\Rejected())->setAction();
                 break;
             case 'APPROVED' :
-                // Check the Event Type ( Free, Or Paid )
-                $type = $event->type;
-                switch($type->type) {
-                    case 'FREE':
-                        // Check the Event Approval Type ( Direct or Mod )
-                        switch($type->approval_type) {
-                            // If Direct, Whenever Admin Changes The Status To Approved Subscribe Him
-                            case 'DIRECT':
-                                return $this->confirm($event, $user, $status);
-                                break;
-                            // If Mod, Whever Admin Changes The Status To Approves, Send User an Email to Subscribe
-                            case 'MOD':
-                                return $this->approve($event, $user, $status);
-                                break;
-                        }
-                        break;
-                    // if event is a paid event
-                    case 'PAID':
-                        break;
-                    default:
-                        break;
-                }
+                return $repo->setup(new \Acme\Repo\Statuses\Approved())->setAction();
+                break;
             default :
                 break;
         }
