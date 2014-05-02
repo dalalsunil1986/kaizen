@@ -192,4 +192,9 @@ class User extends ConfideUser implements PresentableInterface {
     public function country() {
         return $this->belongsTo('Country');
     }
+
+    public static function isSubscribed($id,$userId) {
+        $query = Subscription::where('user_id', '=', $userId)->where('event_id', '=', $id)->count();
+        return ($query >= 1 ) ? true : false;
+    }
 }

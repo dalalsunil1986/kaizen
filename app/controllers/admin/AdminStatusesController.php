@@ -20,6 +20,11 @@ class AdminStatusesController extends AdminBaseController {
         $this->beforeFilter('admin');
     }
 
+    public function index(){
+        $requests = $this->status->with(array('user','event'))->all();
+        return View::make('admin.requests.index', compact('requests'));
+    }
+
     public function edit($id)
     {
         $request = $this->status->with(array('user','event'))->find($id);
@@ -160,4 +165,7 @@ class AdminStatusesController extends AdminBaseController {
         }
     }
 
+    public function destroy() {
+
+    }
 }

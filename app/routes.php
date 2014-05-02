@@ -148,6 +148,8 @@ Route::group(array('prefix' => 'admin','before'=>array('Auth','Moderator')), fun
     Route::resource('type','AdminTypesController');
 
     Route::get('event/{id}/requests',array('uses'=>'AdminEventsController@getRequests'));
+    Route::resource('requests','AdminStatusesController');
+
     Route::get('/', 'AdminEventsController@index');
 });
 
