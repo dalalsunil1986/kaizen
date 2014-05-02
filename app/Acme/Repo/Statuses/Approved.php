@@ -9,12 +9,11 @@
 namespace Acme\Repo\Statuses;
 
 
-class Approved extends Status implements StatusInterface {
+class Approved extends Status implements StatusInterface{
 
     public function __construct() {
-        parent::__construct($this->event,$this->user,$this->status);
+        parent::__construct();
     }
-
     public function setAction($event, $user, $status)
     {
         $type = $event->type;
@@ -24,8 +23,7 @@ class Approved extends Status implements StatusInterface {
                 switch($type->approval_type) {
                     // If Direct, Whenever Admin Changes The Status To Approved Subscribe Him
                     case 'DIRECT':
-                        $repo =  new Status($event,$user,$status);
-                        return $repo->create(new Confirmed())->setStatus();
+                        return $this->create(new Confirmed())->setStatus($event,$user,$status);
                         break;
                     // If Mod, Whever Admin Changes The Status To Approves, Send User an Email to Subscribe
                     case 'MOD':
