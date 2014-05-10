@@ -9,6 +9,8 @@
 namespace Acme\Repo\Statuses;
 
 
+use Redirect;
+
 class Rejected extends Status implements StatusInterface {
     public function __construct() {
         parent::__construct();
@@ -18,7 +20,7 @@ class Rejected extends Status implements StatusInterface {
         $status->status = 'REJECTED';
         if( $status->save()) {
             $event->subscriptions()->detach($user);
-            $event->updateAvailableSeats($event);
+            $event->updateSeats();
             $args['subject'] = 'Kaizen Event Subscription';
 
             if(!empty($reason)) {
@@ -26,7 +28,11 @@ class Rejected extends Status implements StatusInterface {
             } else {
                 $args['body'] = 'Your Request have been rejected for the event ' . $event->title;
             }
-            return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
+            if($this->mailer->sendMail($user, $args)) {
+                return Redirect::action('AdminStatusesController@index')->with(array('success'=>'Success'));
+            } else {
+                return Redirect::action('AdminStatusesController@index')->with(array('error'=>'Error please try again'));
+            }
         }
     }
 }

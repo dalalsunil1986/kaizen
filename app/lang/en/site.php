@@ -109,7 +109,8 @@ return array(
         'not_authenticated' => 'Sorry, You must sign in before you perform this action',
         'wrong_access'=> 'Sorry, Wrong Acces',
         'error'=> 'Sorry, Could not :attribute you',
-        'not_subscribed' => 'Sorry, you havent :attribute this event in first place'
+        'not_subscribed' => 'Sorry, you havent :attribute this event in first place',
+        'rejected' => 'Sorry, You cannot Register this event'
     )
 
 );

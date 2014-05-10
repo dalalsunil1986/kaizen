@@ -9,6 +9,8 @@
 namespace Acme\Repo\Statuses;
 
 
+use Redirect;
+
 class Pending extends Status implements StatusInterface {
     public function __construct() {
         parent::__construct();
@@ -27,7 +29,11 @@ class Pending extends Status implements StatusInterface {
             } else {
                 $args['body'] = 'You have been put on pending list for the event ' . $event->title.'';
             }
-            return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
+            if($this->mailer->sendMail($user, $args)) {
+                return Redirect::action('AdminStatusesController@index')->with(array('success'=>'Success'));
+            } else {
+                return Redirect::action('AdminStatusesController@index')->with(array('error'=>'Error please try again'));
+            }
         }
     }
 }

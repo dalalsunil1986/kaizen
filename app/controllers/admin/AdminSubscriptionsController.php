@@ -33,10 +33,7 @@ class AdminSubscriptionsController extends AdminBaseController {
             // if already subscribed
             if ($this->model->isSubscribed($id,$user->id)) {
                 // return you are already subscribed to this event
-                return Response::json(array(
-                    'success' => false,
-                    'message'=> Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed'))
-                ), 400 );
+                return Redirect::action('AdminSubscriptionsController@index')->with('error','This Person is already subscribed to this event');
             }
             // if seats available
             if ($event->available_seats < 1) {

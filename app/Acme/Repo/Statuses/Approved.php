@@ -9,6 +9,8 @@
 namespace Acme\Repo\Statuses;
 
 
+use Redirect;
+
 class Approved extends Status implements StatusInterface{
 
     public function __construct() {
@@ -37,7 +39,11 @@ class Approved extends Status implements StatusInterface{
                             } else {
                                 $args['body'] = 'You have been approved for the event ' . $event->title. '. Please '. link_to_action('SubscriptionsController@subscribe', 'Click Here', $event->id).' to confirm the subscriptions';
                             }
-                            return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
+                            if($this->mailer->sendMail($user, $args)) {
+                                return Redirect::action('AdminStatusesController@index')->with(array('success'=>'Success'));
+                            } else {
+                                return Redirect::action('AdminStatusesController@index')->with(array('error'=>'Error please try again'));
+                            }
                         }
                         break;
                 }

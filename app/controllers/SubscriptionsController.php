@@ -31,33 +31,24 @@ class SubscriptionsController extends BaseController {
             $event = $this->event->findOrFail($id);
             // if already subscribed
             if ($this->model->isSubscribed($id,$user->id)) {
-                // return you are already subscribed to this event
-                return Response::json(array(
-                    'success' => false,
-                    'message'=> Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed'))
-                ), 400 );
+                return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed')));
             }
+
             // get status of this user
             $status = $this->status->getStatus($event->id,$user->id);
             if($status) {
                 switch($status->status) {
                     case 'CONFIRMED':
-                        return Response::json(array(
-                            'success' => false,
-                            'message'=> Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed'))
-                        ), 400 );
+                        return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed')));
                         break;
+
                     case 'PENDING':
-                        return Response::json(array(
-                            'success' => false,
-                            'message'=> 'You request is awaiting for admin approval'
-                        ), 400 );
+
+                        return Redirect::action('EventsController@show',$id)->with('success', 'You request is awaiting for admin approval');
+
                         break;
                     case 'REJECTED' :
-                        return Response::json(array(
-                            'success' => false,
-                            'message'=> 'Sorry, You cannot Register to this Event'
-                        ), 400 );
+                        return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.rejected'));
                         break;
                     case 'APPROVED' :
                         // subscribe the user
@@ -106,32 +97,22 @@ class SubscriptionsController extends BaseController {
                 $args['subject'] = 'Kaizen Event Subscription';
                 $args['body'] = 'You have been confirmed to the event ' . $event->title;
                 $this->mailer->sendMail($user, $args);
-                return Response::json(array(
-                    'success' => true,
-                    'message'=>  Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed'))
-                ), 200);
+                return Redirect::action('EventsController@show',$event->id)->with('success', Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed')));
             } else {
-                return Response::json(array(
-                    'success' => false,
-                    'message' => 'could not subscribe'
-                ), 200);
-                return $this->approved($event, $user, $status);
+                $this->approved($event, $user, $status);
+                return Redirect::action('EventsController@show',$event->id)->with('error', Lang::get('site.subscription.error', array('attribute'=>'subscribed')));
                 //@todo reset status
             }
         } else {
-            return Response::json(array(
-                'success' => false,
-                'message'=> Lang::get('site.subscription.no_seats_available')
-            ), 400);
+            return Redirect::action('EventsController@show',$event->id)->with('error',  Lang::get('site.subscription.no_seats_available'));
         }
-
-        return 'done';
     }
 
     /**
      * @param $event
      * @param $user
      * @param $status
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function pending($event, $user, $status)
     {
@@ -145,8 +126,8 @@ class SubscriptionsController extends BaseController {
             $args['subject'] = 'Kaizen Event Subscription';
             $args['body'] = 'Your Request for the event ' . $event->title.' is awaiting for admin approval. You will be notified shortly ';
             $this->mailer->sendMail($user, $args);
+            return Redirect::action('EventsController@show',$event->id)->with('success', 'Your Request for the event ' . $event->title.' is awaiting for admin approval. You will be notified shortly' );
         }
-        return 'done';
     }
 
 }

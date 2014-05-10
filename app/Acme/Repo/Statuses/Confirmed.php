@@ -1,6 +1,7 @@
 <?php namespace Acme\Repo\Statuses;
 
 use Lang;
+use Redirect;
 
 class Confirmed extends Status implements StatusInterface {
 
@@ -10,7 +11,7 @@ class Confirmed extends Status implements StatusInterface {
     public function setAction($event, $user, $status,$reason)
     {
         if ($user->isSubscribed($event->id,$user->id)) {
-            return Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed'));
+            return Redirect::action('AdminStatusesController@index')->with(array('error'=>'This Person is already subscribed to this Event'));
         }
         if($event->available_seats >= 1) {
             $status->status = 'CONFIRMED';
@@ -24,15 +25,16 @@ class Confirmed extends Status implements StatusInterface {
                 } else {
                     $args['body'] = 'You have been confirmed to the event ' . $event->title;
                 }
-                $this->mailer->sendMail($user, $args);
-                return Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed'));
+                if($this->mailer->sendMail($user, $args)) {
+                    return Redirect::action('AdminStatusesController@index')->with(array('success'=>'Success'));
+                } else {
+                    return Redirect::action('AdminStatusesController@index')->with(array('error'=>'Error please try again'));
+                }
             } else {
                 return $this->create(new Approved())->setStatus($event,$user,$status,$reason);
-                return 'could not subscribe';
             }
         } else {
-            return $this->create(new Approved())->setStatus($event,$user,$status);
-            return Lang::get('site.subscription.no_seats_available');
+            return $this->create(new Approved())->setStatus($event,$user,$status,$reason);
         }
 
     }

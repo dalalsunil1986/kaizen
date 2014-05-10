@@ -11,7 +11,7 @@
             {{ Form::select('status', array('APPROVED'=>'APPROVED','CONFIRMED'=>'CONFIRMED','PENDING'=>'PENDING','REJECTED'=>'REJECTED'),NULL,array('class'=>'form-control')) }}
         </div>
         <div class="form-group col-md-6">
-            {{ Form::textarea('reason', 'Your request have been ... ' ,array('class'=>'form-control')) }}
+            {{ Form::textarea('reason', NULL,array('class'=>'form-control','placeholder'=>'Your request have been ... ')) }}
         </div>
 
         <div class="form-group col-md-6">
