@@ -53,6 +53,7 @@ class AdminStatusesController extends AdminBaseController {
     public function update($id)
     {
         $setStatus = Input::get('status');
+        $reason = Input::get('body');
         $status = $this->status->findOrFail($id);
         $event  = $this->event->findOrFail($status->event_id);
         $user   = $this->user->findOrFail($status->user_id);
@@ -61,7 +62,7 @@ class AdminStatusesController extends AdminBaseController {
         // instantiate the class
         // set status
         $class = 'Acme\\Repo\\Statuses\\'. ucfirst(strtolower($setStatus));
-        return $this->create(new $class)->setStatus($event,$user,$status);
+        return $this->create(new $class)->setStatus($event,$user,$status,$reason);
     }
 
     public function destroy($id)
@@ -86,8 +87,8 @@ class AdminStatusesController extends AdminBaseController {
      * @return mixed
      * Set the Status of an Event
      */
-    public function setStatus($event,$user,$status) {
-        return $this->repo->setAction($event,$user,$status);
+    public function setStatus($event,$user,$status,$reason) {
+        return $this->repo->setAction($event,$user,$status,$reason);
     }
 
 }

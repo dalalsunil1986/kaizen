@@ -15,14 +15,18 @@ class Pending extends Status implements StatusInterface {
     }
 
 
-    public function setAction($event, $user, $status)
+    public function setAction($event, $user, $status,$reason)
     {
         $status->status = 'PENDING';
         if( $status->save()) {
             $event->subscriptions()->detach($user);
             $event->updateSeats();
             $args['subject'] = 'Kaizen Event Subscription';
-            $args['body'] = 'You have been put on pending list for the event ' . $event->title.'';
+            if(!empty($reason)) {
+                $args['body'] = $reason;
+            } else {
+                $args['body'] = 'You have been put on pending list for the event ' . $event->title.'';
+            }
             return ($this->mailer->sendMail($user, $args)) ? 'done' : 'not done';
         }
     }

@@ -11,6 +11,10 @@
             {{ Form::select('status', array('APPROVED'=>'APPROVED','CONFIRMED'=>'CONFIRMED','PENDING'=>'PENDING','REJECTED'=>'REJECTED'),NULL,array('class'=>'form-control')) }}
         </div>
         <div class="form-group col-md-6">
+            {{ Form::textarea('reason', 'Your request have been ... ' ,array('class'=>'form-control')) }}
+        </div>
+
+        <div class="form-group col-md-6">
             {{ Form::submit('Update', array('class' => 'btn btn-info')) }}
             {{ link_to_action('AdminEventsController@getRequests', 'Cancel', $request->event_id, array('class' => 'btn')) }}
         </div>
