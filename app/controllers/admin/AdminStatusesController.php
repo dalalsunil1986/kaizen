@@ -1,7 +1,6 @@
 <?php
 
 use Acme\Mail\SubscriptionMailer;
-use Acme\Repo\Statuses\Confirmed;
 use Acme\Repo\Statuses\StatusInterface;
 
 class AdminStatusesController extends AdminBaseController {
@@ -80,6 +79,13 @@ class AdminStatusesController extends AdminBaseController {
 
     }
 
+    /**
+     * @param $event
+     * @param $user
+     * @param $status
+     * @return mixed
+     * Set the Status of an Event
+     */
     public function setStatus($event,$user,$status) {
         return $this->repo->setAction($event,$user,$status);
     }

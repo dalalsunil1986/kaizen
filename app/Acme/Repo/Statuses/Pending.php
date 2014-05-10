@@ -13,6 +13,8 @@ class Pending extends Status implements StatusInterface {
     public function __construct() {
         parent::__construct();
     }
+
+
     public function setAction($event, $user, $status)
     {
         $status->status = 'PENDING';

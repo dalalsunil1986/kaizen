@@ -32,11 +32,13 @@
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
     {{ HTML::style('css/customen.css') }}
     @endif
+    {{ HTML::style('css/pongstagr.am.min.css') }}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/customjs.js') }}"></script>
+    <script src="{{ asset('js/pongstagr.am.min.js') }}"></script>
 </head>
 <body>
 <div class="container">
@@ -96,7 +98,7 @@
     </div>
 
 </div>
-<!--end of container-->
+
 
 </body>
 </html>

@@ -21,20 +21,21 @@
     echo $playlistdiv;
     ?>
 </div>
-<div id="side-instagram" class="hidden-xs">
-    <div class="panel panel-default">
-        <div class="panel-heading">{{ Lang::get('site.general.instagram') }}</div>
-        <div class="panel-body">
-            <iframe src="http://snapwidget.com/in/?u=a2FpemVuX2NvfGlufDE1MHwzfDN8ZTZlNmU2fHllc3w1fG5vbmV8b25TdGFydHxubw==&v=26414" title="Instagram Widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:495px; height:495px"></iframe>
-        </div>
+<div class="col-xs-12">
+
+    <div id="recent" class="well well-sm pongstagrm row" data-type="recent">
     </div>
 </div>
-<div id="side-instagram" class="visible-xs">
-    <div class="panel panel-default">
-        <div class="panel-heading">{{ Lang::get('site.general.instagram') }}</div>
-        <div class="panel-body">
-            <iframe src="http://snapwidget.com/in/?u=a2FpemVuX2NvfGlufDEwMHwyfDN8ZTZlNmU2fHllc3w1fG5vbmV8b25TdGFydHxubw==&v=26414" title="Instagram Widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:230px; height:345px"></iframe>
-        </div>
-    </div>
-</div>
+<!--end of container-->
+<script>
+    $(document).ready(function(){
+        $('#recent').pongstgrm({
+            accessId    : 'cd971aa718234a51bb809f74f34c4c04',
+            accessToken : 'c354705aa343451a8f15d77317daf6d0',
+            show        : 'recent',
+            count       : 8,
+            pager       : true
+        });
+    });
+</script>
 @stop
