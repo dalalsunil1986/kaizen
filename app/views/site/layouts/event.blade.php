@@ -33,7 +33,7 @@
                 @foreach ($events as $event)
                 <div class="slider item {{$first}}" data-order="{{$order}}">
                     <!-- <img alt="" src="{{ URL::asset($event->name) }}"> -->
-                    <a href="{{ action('EventsController@show',$event->id) }}"> {{ HTML::image('uploads/large/'.$event->name.'','image2',array('class'=>'img-responsive','style'=>'width:400,height:400')) }} </a>
+                    <a href="{{ action('EventsController@show',$event->id) }}"> {{ HTML::image('uploads/medium/'.$event->name.'','image2',array('class'=>'img-responsive','style'=>'height:auto')) }} </a>
 
                     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
                         <div class="carousel-caption hidden-xs" >

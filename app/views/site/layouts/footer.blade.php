@@ -3,10 +3,9 @@
 <!--footer start-->
 <div id="footer">
     <div class="col-md-4 col-xs-12 ">
-        <div class="col-md-1 col-xs-3 social-icons"><a href="http://www.twiiter.com"><i class="fa fa-twitter "></i></a> </div>
-        <div class="col-md-1 col-xs-3 social-icons"><a href="http://www.twiiter.com"><i class="fa fa-facebook "></i></a></div>
-        <div class="col-md-1 col-xs-3 social-icons"><a href="http://www.twiiter.com"><i class="fa fa-youtube "></i></a></div>
-        <div class="col-md-1 col-xs-3 social-icons"><a href="http://www.twiiter.com"><i class="fa fa-instagram "></i></a></div>
+        <div class="col-md-1 col-xs-4 social-icons"><a href="https://twitter.com/laila_kaizen8"><i class="fa fa-twitter "></i></a> </div>
+        <div class="col-md-1 col-xs-4 social-icons"><a href="www.youtube.com/user/KaizenYC"><i class="fa fa-youtube "></i></a></div>
+        <div class="col-md-1 col-xs-4 social-icons"><a href="http://http://instagram.com/laila_kaizen"><i class="fa fa-instagram "></i></a></div>
     </div>
     <div class="col-md-8 col-xs-12 copyright">
         <div class="row">

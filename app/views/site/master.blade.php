@@ -32,22 +32,20 @@
     @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
     {{ HTML::style('css/customen.css') }}
     @endif
-    {{ HTML::style('css/pongstagr.am.min.css') }}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/customjs.js') }}"></script>
-    <script src="{{ asset('js/pongstagr.am.min.js') }}"></script>
 </head>
 <body>
 <div class="container">
     <!-- header -->
     <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <a href="/">{{ HTML::image('images/Logo.png','kaizen',array('class'=>'img-responsive')) }}</a>
         </div>
-        <div class="col-md-5 col-sm-5 visible-lg visible-md visible-sm top30">
+        <div class="col-md-7 col-sm-7 visible-lg visible-md visible-sm top30">
             @yield('login')
         </div>
         <div class="col-md-1 col-sm-1  visible-lg visible-md visible-sm top30">
@@ -98,7 +96,7 @@
     </div>
 
 </div>
-
+<!--end of container-->
 
 </body>
 </html>
