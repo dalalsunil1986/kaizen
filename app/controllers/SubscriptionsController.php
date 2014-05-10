@@ -43,9 +43,7 @@ class SubscriptionsController extends BaseController {
                         break;
 
                     case 'PENDING':
-
                         return Redirect::action('EventsController@show',$id)->with('success', 'You request is awaiting for admin approval');
-
                         break;
                     case 'REJECTED' :
                         return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.rejected'));
@@ -73,12 +71,7 @@ class SubscriptionsController extends BaseController {
             }
 
         }
-        // notify user not authenticated
-        return Response::json(array(
-            'success' => false,
-            'message'=> Lang::get('site.subscription.not_authenticated')
-        ), 401);
-
+        return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.not_authenticated'));
     }
 
     /**
