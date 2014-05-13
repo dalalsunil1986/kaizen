@@ -56,7 +56,7 @@ class BlogsController extends BaseController {
 	public function show($slug)
 	{
 		// Get this blog post data
-		$post = $this->model->where('slug', '=', $slug)->first();
+		$post = $this->model->with(array('category','photos','author'))->where('slug', '=', $slug)->first();
 		// Show the page
         $this->layout->login = View::make('site.layouts.login');
         $this->layout->ads = view::make('site.layouts.ads');

@@ -36,7 +36,7 @@ class CommentsController extends BaseController {
         $event = $this->event->find($id);
         $validation = Validator::make(Input::all(),Comment::getRules());
         if(!$validation->passes()) {
-            return Redirect::to(LaravelLocalization::localizeURL('event/'.$id))->withInput()->withErrors($validation->errors());
+            return Redirect::to('event/'.$id)->withInput()->withErrors($validation->errors());
         } else {
             $data = array();
             $data['content'] = Input::get('content');

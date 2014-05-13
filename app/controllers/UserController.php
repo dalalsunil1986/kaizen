@@ -1,7 +1,5 @@
 <?php
 
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-
 class UserController extends BaseController {
 
     /**
@@ -200,7 +198,7 @@ class UserController extends BaseController {
             } else {
                 $err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
             }
-            return Redirect::intended(LaravelLocalization::localizeUrl('user/login'))
+            return Redirect::intended('user/login')
                 ->withInput(Input::except('password'))
                 ->with('error', $err_msg );
 

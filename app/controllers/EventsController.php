@@ -1,22 +1,17 @@
 <?php
 
 use Acme\Mail\EventsMailer;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class EventsController extends BaseController
 {
-
     protected $model;
     protected $user;
     protected $mailer;
     protected $category;
     protected $photo;
     protected $currentTime;
-
 
     function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
     {
@@ -39,7 +34,6 @@ class EventsController extends BaseController
 
     public function index()
     {
-
         $perPage = 10;
         //find countries,authors,and categories to display in search form
         $categories = [0 => Lang::get('site.event.choose_category')] + $this->category->getEventCategories()->lists('name', 'id');
@@ -76,7 +70,7 @@ class EventsController extends BaseController
                     $locations = Country::find($country)->locations()->lists('id');
                     $query->whereIn('location_id',$locations);
                 }
-            })->orderBy('date_start', 'DESC')->paginate($perPage);
+            })->orderBy('date_start', 'ASC')->paginate($perPage);
 
         } else {
             $events = $this->getEvents($perPage);
