@@ -25,7 +25,7 @@
 				<tr>
                     <td>{{{ $event->id }}}</td>
 					<td>{{{ $event->category->name }}}</td>
-					<td>{{{ $event->location->name }}}</td>
+<!--					<td>{{{ $event->location->name }}}</td>-->
 					<td>{{{ $event->title }}}</td>
 					<td>{{{ $event->date_start }}}</td>
 					<td>{{{ $event->date_end }}}</td>
