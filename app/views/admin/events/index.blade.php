@@ -24,12 +24,12 @@
 			@foreach ($events as $event)
 				<tr>
                     <td>{{{ $event->id }}}</td>
-					<td>{{{ $event->category->name }}}</td>
+<!--					<td>{{{ $event->category->name }}}</td>-->
 <!--					<td>{{{ $event->location->name }}}</td>-->
-					<td>{{{ $event->title }}}</td>
-					<td>{{{ $event->date_start }}}</td>
-					<td>{{{ $event->date_end }}}</td>
-					<td>{{{ $event->address }}}</td>
+<!--					<td>{{{ $event->title }}}</td>-->
+<!--					<td>{{{ $event->date_start }}}</td>-->
+<!--					<td>{{{ $event->date_end }}}</td>-->
+<!--					<td>{{{ $event->address }}}</td>-->
                     <td>{{{ $event->getHumanCreatedAtAttribute() }}} </td>
                     <td><a href="{{ URL::action('AdminEventsController@settings',$event->id)}}">Settings</a></td>
                     <td><a href="{{ URL::action('AdminEventsController@edit', array($event->id), array('class' => 'btn btn-info')) }}">Edit</a></td>
