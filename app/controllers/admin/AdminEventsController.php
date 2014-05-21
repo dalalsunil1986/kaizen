@@ -38,8 +38,7 @@ class AdminEventsController extends AdminBaseController
 
     public function index()
     {
-        $events = parent::all();
-        $statuses = Status::all();
+        $events =  $this->model->with(array('category','location.country'))->paginate(10);
         return View::make('admin.events.index', compact('events'));
     }
 

@@ -22,7 +22,31 @@
 
 		<tbody>
 			@foreach ($events as $event)
-
+				<tr>
+                    <td>{{{ $event->id }}}</td>
+					<td>
+                        @if($event->category)
+                            {{{ $event->category->name }}}
+                        @endif
+                    </td>
+					<td>
+                        @if($event->location)
+                            {{{ $event->location->name }}}
+                        @endif
+                    </td>
+					<td>{{{ $event->title }}}</td>
+					<td>{{{ $event->date_start }}}</td>
+					<td>{{{ $event->date_end }}}</td>
+					<td>{{{ $event->address }}}</td>
+                    <td>{{{ $event->getHumanCreatedAtAttribute() }}} </td>
+                    <td><a href="{{ URL::action('AdminEventsController@settings',$event->id)}}">Settings</a></td>
+                    <td><a href="{{ URL::action('AdminEventsController@edit', array($event->id), array('class' => 'btn btn-info')) }}">Edit</a></td>
+                    <td>
+                        {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminEventsController@destroy', $event->id))) }}
+                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                        {{ Form::close() }}
+                    </td>
+				</tr>
 			@endforeach
 		</tbody>
 	</table>

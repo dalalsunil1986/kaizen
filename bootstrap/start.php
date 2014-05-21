@@ -29,7 +29,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-    'local' => array('Zal-PC'),
+    'local' => array('ZaL-PC'),
 //    return getenv('ENV') ? :'local';
 
 ));
