@@ -27,9 +27,9 @@
     <div class="col-sm-10 col-md-10">
                 <span class="event-title">
                     <a href="event/{{$event->id}}">
-                        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-                        @if($event->description_en)
-                        {{ $event->title_en }}
+                    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                        @if($event->title_en)
+                            {{ $event->title_en }}
                         @else
                         {{ $event->title }}
 
@@ -42,14 +42,13 @@
 
         <p>
             @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
-
-            @if($event->description_en)
-            {{ Str::limit($event->description, 150) }}
-            @else
-            {{ $event->description }}
-            @endif
-            @else
-            {{ Str::limit($event->description, 150) }}
+                @if($event->description_en)
+                    {{ Str::limit($event->description_en, 150) }}
+                @else
+                    {{ $event->description }}
+                @endif
+                @else
+                {{ Str::limit($event->description, 150) }}
             @endif
             <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
         </p>

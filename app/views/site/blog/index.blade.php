@@ -4,7 +4,7 @@
 @foreach ($posts as $post)
     <!-- Post Title -->
 
-        <h4><strong><a href="{{action('BlogsController@show',$post->slug) }}">{{ String::title($post->title) }}</a></strong></h4>
+    <h4><strong><a href="{{action('BlogsController@show',$post->slug) }}">{{ String::title($post->title) }}</a></strong></h4>
 
     <!-- ./ post title -->
 

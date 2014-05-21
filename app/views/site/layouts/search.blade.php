@@ -5,7 +5,6 @@
             <input type="text" class="form-control" id="search" name="search" value="@if(isset($search)) {{ $search }} @endif "  placeholder="Keyword">
         </div>
         <div class="form-group col-md-4 top7">
-
             {{ Form::select('category', $categories, $category ,['class' => 'form-control']) }}
         </div>
 
