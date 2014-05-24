@@ -8,7 +8,7 @@ class CommentsTableSeeder extends Seeder {
 //        DB::table('comments')->truncate();
 
         $faker = Faker\Factory::create();
-        for ($i = 0; $i < 50; $i++)
+        for ($i = 0; $i < 1; $i++)
         {
             $user = User::orderBy(DB::raw('RAND()'))->first()->id;
             $event = EventModel::orderBy(DB::raw('RAND()'))->first()->id;

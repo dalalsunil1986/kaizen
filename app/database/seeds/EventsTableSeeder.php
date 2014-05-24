@@ -13,8 +13,8 @@ class EventsTableSeeder extends Seeder {
         $dt = Carbon::now();
         $dateNow = $dt->toDateTimeString();
 
-        for ($i = 0; $i < 50; $i++)
-        {
+//        for ($i = 0; $i < 1; $i++)
+//        {
             $this->setDateStart($dt->addDays($faker->randomNumber(1,20))->toDateTimeString());
 
             $this->setDateEnd($dt->addDays($faker->randomNumber(2,20))->toDateTimeString());
@@ -32,10 +32,10 @@ class EventsTableSeeder extends Seeder {
                     'category_id' => $category,
                     'user_id' => $user,
                     'location_id' => $location,
-                    'title' => $faker->sentence(3),
-                    'title_en' => $faker->sentence(3),
-                    'description' => $faker->sentence(50),
-                    'description_en'=>$faker->sentence(50),
+                    'title' => 'كايزن ',
+                    'title_en' => 'Kaizen Events',
+                    'description' => $faker->sentence(20),
+                    'description_en'=>$faker->sentence(20),
                     'price'=> '440',
                     'total_seats' => $total_seats,
                     'available_seats' => $available_seats,
@@ -65,7 +65,7 @@ class EventsTableSeeder extends Seeder {
         }
 
 		// Uncomment the below to run the seeder
-	}
+//	}
 
     /**
      * @return mixed

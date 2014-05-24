@@ -30,7 +30,6 @@ class DatabaseSeeder extends Seeder {
     {
         Eloquent::unguard();
         $this->cleanDatabase();
-
         // Add calls to Seeders here
         $this->call('UsersTableSeeder');
         $this->call('RolesTableSeeder');
@@ -41,14 +40,14 @@ class DatabaseSeeder extends Seeder {
         $this->call('PostsTableSeeder');
 		$this->call('EventsTableSeeder');
         $this->call('CommentsTableSeeder');
-        $this->call('FollowersTableSeeder');
-		$this->call('FavoritesTableSeeder');
-		$this->call('SubscriptionsTableSeeder');
-		$this->call('PhotosTableSeeder');
-		$this->call('AuthorsTableSeeder');
+//        $this->call('FollowersTableSeeder');
+//		$this->call('FavoritesTableSeeder');
+//		$this->call('SubscriptionsTableSeeder');
+//		$this->call('PhotosTableSeeder');
+//		$this->call('AuthorsTableSeeder');
         $this->call('ContactsTableSeeder');
-        $this->call('StatusesTableSeeder');
-        $this->call('TypesTableSeeder');
+//        $this->call('StatusesTableSeeder');
+//        $this->call('TypesTableSeeder');
 	}
 
     private function cleanDatabase()
@@ -58,7 +57,6 @@ class DatabaseSeeder extends Seeder {
             DB::table($table)->truncate();
         }
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
-
     }
 
 }

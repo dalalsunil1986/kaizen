@@ -5,7 +5,7 @@ class PostsTableSeeder extends Seeder {
     {
 //        DB::table('posts')->truncate();
         $faker = Faker\Factory::create();
-        for ($i = 0; $i < 30; $i++)
+        for ($i = 0; $i < 1; $i++)
         {
             $sentence = $faker->sentence(5);
             $slug = Str::slug($sentence);
