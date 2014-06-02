@@ -12,8 +12,12 @@ class EventsController extends BaseController
     protected $category;
     protected $photo;
     protected $currentTime;
+    /**
+     * @var Status
+     */
+    private $status;
 
-    function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo)
+    function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo, Status $status)
     {
         $this->model = $model;
         $this->user = $user;
@@ -21,6 +25,7 @@ class EventsController extends BaseController
         $this->category = $category;
         $this->photo = $photo;
         parent::__construct();
+        $this->status = $status;
     }
 
     /**
@@ -208,6 +213,13 @@ class EventsController extends BaseController
                     // reset available seats
                     $event->available_seats = $event->available_seats + 1;
                     $event->save();
+
+                    //delete entry from status
+                    $status = $this->status->getStatus($event->id,$user->id);
+                    if($status) {
+                        $status->delete();
+                    }
+
                     return Response::json(array(
                         'success' => true,
                         'message'=> Lang::get('site.subscription.unsubscribed', array('attribute'=>'unsubscribed'))

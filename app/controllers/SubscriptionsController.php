@@ -74,6 +74,38 @@ class SubscriptionsController extends BaseController {
         return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.not_authenticated'));
     }
 
+    public function unsubscribe($id)
+    {
+        // check whether user authenticated
+        $event = $this->event->findOrFail($id);
+        $user = Auth::user();
+        if (! empty($user->id)) {
+            if ($this->model->isSubscribed($event->id, $user->id)) {
+                // check whether user already subscribed
+                if ($this->model->unsubscribe($event->id, $user->id)) {
+                    // reset available seats
+                    $event->available_seats = $event->available_seats + 1;
+
+                    // remove status from statuses table
+                    $status = $this->status->getStatus($event->id,$user->id);
+                    if($status) {
+                        $status->delete();
+                    }
+                    $event->save();
+                    return Redirect::action('EventsController@show',$id)->with('success', 'You have been unsubscribed from this course');
+                } else {
+                    return Redirect::action('EventsController@show',$id)->with('error', 'Sorry, Could not unsubscribe you from this course, try again');
+                }
+            } else {
+                return Redirect::action('EventsController@show',$id)->with('error', 'Sorry, Wrong Access');
+
+            }
+        } else {
+            return Redirect::action('EventsController@show',$id)->with('error', 'Sorry, You are not logged in');
+        }
+
+    }
+
     /**
      * @param $event
      * @param $user
