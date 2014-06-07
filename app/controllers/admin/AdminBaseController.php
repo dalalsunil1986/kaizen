@@ -19,7 +19,6 @@ abstract class AdminBaseController extends BaseController
     public function __construct()
     {
         $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
-
     }
 
     protected function redirectToAdmin()
