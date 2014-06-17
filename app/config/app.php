@@ -112,7 +112,6 @@ return array(
         'Zizaco\Confide\ConfideServiceProvider', // Confide Provider
         'Zizaco\Entrust\EntrustServiceProvider', // Entrust Provider for roles
         'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider',
-        'Bllim\Datatables\DatatablesServiceProvider', // Datatables
         'Acme\Providers\NotificationServiceProvider',
         'Acme\Providers\EmailBlastServiceProvider',
         'Intervention\Image\ImageServiceProvider',
@@ -123,7 +122,6 @@ return array(
 //        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 
         'Basset\BassetServiceProvider', // Better Asset Management
-        'Robbo\Presenter\PresenterServiceProvider', // Presenter
 	),
 
 	/*

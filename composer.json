@@ -3,22 +3,14 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/stknerd/entrust"
-        }
-    ],
 	"require": {
-		"laravel/framework": "4.1.*",
+		"laravel/framework": "4.2.*",
         "mcamara/laravel-localization": "0.12.*",
         "laravelbook/ardent": "dev-master",
         "zizaco/confide": "3.2.x",
         "zizaco/entrust": "dev-master",
-        "bllim/datatables": "*",
         "twbs/bootstrap":  "3.0.0",
         "jasonlewis/basset": "dev-master",
-        "robclancy/presenter": "1.2.*",
         "j20/php-uuid": "dev-master",
         "mailchimp/mailchimp": "2.0.4",
         "intervention/image": "dev-master",

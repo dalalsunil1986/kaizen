@@ -3,7 +3,7 @@
 /vendor/
 
 # Configuration
-/app/config/local/
+/app/config/
 /app/config/staging/
 
 #/app/config/production
