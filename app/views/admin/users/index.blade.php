@@ -2,24 +2,25 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{{{ $title }}} :: @parent
+{{{ $title }}} :: @parent
 @stop
 
 {{-- Content --}}
 @section('content')
-	<div class="page-header">
-		<h3>
-			{{{ $title }}}
 
-			<div class="pull-right">
-				<a href="{{{ URL::to('admin/users/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
-			</div>
-		</h3>
-	</div>
+<div class="page-header">
+    <h3>
+        {{{ $title }}}
 
-	<table id="users" class="table table-striped table-hover">
-		<thead>
-			<tr>
+        <div class="pull-right">
+            <a href="{{{ URL::to('admin/users/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+        </div>
+    </h3>
+</div>
+<div id="wrap">
+    <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
+        <thead>
+        <tr>
 				<th class="col-md-2">{{{ Lang::get('admin/users/table.username') }}}</th>
 				<th class="col-md-2">{{{ Lang::get('admin/users/table.email') }}}</th>
 				<th class="col-md-2">{{{ Lang::get('admin/users/table.roles') }}}</th>
@@ -28,29 +29,24 @@
 				<th class="col-md-2">{{{ Lang::get('table.actions') }}}</th>
 			</tr>
 		</thead>
-		<tbody>
+        <tbody>
+        @foreach($users as $user)
+        <tr class="gradeX">
+            <td>{{ $user->username }}</td>
+            <td>{{ $user->email }}</td>
+            <td>{{ $user->rolename }}</td>
+            <td>{{ $user->created_at }}</td>
+            <td>{{ $user->expires_at }}</td>
+
+            <td>
+                <a href="{{  URL::to('admin/users/' . $user->id . '/print' ) }}" class="iframe btn btn-xs btn-default"><i class="glyphicon glyphicon-print"></i> Print</a>
+                <a href="{{  URL::to('admin/users/' . $user->id . '/edit' ) }}" class="iframe btn btn-xs btn-default">{{{ Lang::get('button.edit') }}}</a>
+                <a href="{{  URL::to('admin/users/' . $user->id . '/delete' ) }}" class="iframe btn btn-xs btn-danger">{{{ Lang::get('button.delete') }}}</a>
+            </td>
+        </tr>
+        @endforeach
+
 		</tbody>
 	</table>
-@stop
-
-{{-- Scripts --}}
-@section('scripts')
-	<script type="text/javascript">
-		var oTable;
-		$(document).ready(function() {
-				oTable = $('#users').dataTable( {
-				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
-				"sPaginationType": "bootstrap",
-				"oLanguage": {
-					"sLengthMenu": "_MENU_ records per page"
-				},
-				"bProcessing": true,
-		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('admin/users/data') }}",
-		        "fnDrawCallback": function ( oSettings ) {
-	           		$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
-	     		}
-			});
-		});
-	</script>
+</div>
 @stop

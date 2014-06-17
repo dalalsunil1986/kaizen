@@ -18,8 +18,8 @@ class CreateStatusesTable extends Migration {
             $table->integer('event_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
             $table->string('status');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+//            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+//            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 			$table->timestamps();
 		});
 	}

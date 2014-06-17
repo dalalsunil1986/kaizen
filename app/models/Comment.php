@@ -1,8 +1,6 @@
 <?php
 
-use Robbo\Presenter\PresentableInterface;
-
-class Comment extends BaseModel implements PresentableInterface{
+class Comment extends BaseModel {
 
     protected $guarded = ['id'];
 

@@ -20,7 +20,7 @@ class CreateLocationsTable extends Migration {
 			$table->string('name');
 			$table->string('name_en');
 			$table->timestamps();
-            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+//            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
 
         });
 	}

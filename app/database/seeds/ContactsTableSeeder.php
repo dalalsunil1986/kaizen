@@ -13,8 +13,8 @@ class ContactsTableSeeder extends Seeder {
         $contacts = array([
             'address' => $faker->address,
             'email'   =>'z4ls@live.com',
-            'phone'   => $faker->phoneNumber,
-            'mobile'  => $faker->phoneNumber,
+            'phone'   => '53234',
+            'mobile'  => '2122',
             'username'=> 'Kaizen Admin'
         ]);
         DB::table('contacts')->insert($contacts);

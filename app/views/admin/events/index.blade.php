@@ -6,7 +6,9 @@
 <p>{{ link_to_action('AdminEventsController@create', 'Add new event') }}</p>
 
 @if ($events->count())
-	<table class="table table-striped table-bordered">
+<div id="wrap">
+    <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
+
 		<thead>
 			<tr>
                 <td>Event Id</td>
@@ -17,6 +19,7 @@
 				<th>Date_end</th>
 				<th>Address</th>
                 <th>Posted</th>
+                <th>Action</th>
 			</tr>
 		</thead>
 
@@ -39,17 +42,18 @@
 					<td>{{{ $event->date_end }}}</td>
 					<td>{{{ $event->address }}}</td>
                     <td>{{{ $event->getHumanCreatedAtAttribute() }}} </td>
-                    <td><a href="{{ URL::action('AdminEventsController@settings',$event->id)}}">Settings</a></td>
-                    <td><a href="{{ URL::action('AdminEventsController@edit', array($event->id), array('class' => 'btn btn-info')) }}">Edit</a></td>
-                    <td>
+                    <td><a href="{{ URL::action('AdminEventsController@settings',$event->id)}}">Settings</a>
+                    <button class="btn btn-xs btn-info"> <a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}">Edit</a></button>
+
                         {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminEventsController@destroy', $event->id))) }}
-                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                            {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
                         {{ Form::close() }}
                     </td>
 				</tr>
 			@endforeach
 		</tbody>
 	</table>
+</div>
     <div class="row">
         <div class="col-md-12">
             {{ $events->links() }}

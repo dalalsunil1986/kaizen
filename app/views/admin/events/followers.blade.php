@@ -2,7 +2,7 @@
 
 {{-- Content --}}
 @section('content')
-<h1>Followers For {{ $event->title }}</h1>
+<h1>Followers For <a href="{{ action('AdminEventsController@index') }}"> {{ $event->title }}</a></h1>
 @if(count($users))
 <!-- Button trigger modal -->
 <a class="btn btn-default " data-toggle="modal" data-target="#contact" data-original-title>

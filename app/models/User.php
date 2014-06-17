@@ -4,10 +4,9 @@ use Zizaco\Confide\ConfideUser;
 use Zizaco\Confide\Confide;
 use Zizaco\Confide\ConfideEloquentRepository;
 use Zizaco\Entrust\HasRole;
-use Robbo\Presenter\PresentableInterface;
 use Carbon\Carbon;
 
-class User extends ConfideUser implements PresentableInterface {
+class User extends ConfideUser  {
     use HasRole;
     protected $guarded = array('confirmation_code','confirmed','id');
 

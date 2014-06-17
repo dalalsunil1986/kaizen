@@ -24,8 +24,8 @@ class EventsController extends BaseController
         $this->mailer = $mailer;
         $this->category = $category;
         $this->photo = $photo;
-        parent::__construct();
         $this->status = $status;
+        parent::__construct();
     }
 
     /**

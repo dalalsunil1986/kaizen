@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Database\Migrations\Migration;
 
-class ConfideSetupUsersTable extends Migration {
+class CreateUsersTable extends Migration {
 
     /**
      * Run the migrations.
@@ -18,16 +18,16 @@ class ConfideSetupUsersTable extends Migration {
             $table->string('username');
             $table->string('email');
             $table->string('password');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->integer('mobile');
-            $table->integer('phone');
-            $table->string('country_id');
-            $table->string('gender');
-            $table->string('instagram');
-            $table->string('twitter');
-            $table->text('prev_event_comment');
-            $table->string('confirmation_code');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->integer('mobile')->nullable();
+            $table->integer('phone')->nullable();
+            $table->string('country_id')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('twitter')->nullable();
+            $table->text('prev_event_comment')->nullable();
+            $table->string('confirmation_code')->nullable();
             $table->boolean('confirmed')->default(false);
             $table->timestamps();
         });

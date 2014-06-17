@@ -48,8 +48,17 @@
     <!--    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">-->
     <style>
         body {
-            padding: 60px 0;
+            font-size:1.2em;
+            margin: 50px 0;
         }
+        .nav > li > a {
+            padding-right:0px;
+        }
+        .alert {
+            margin:15px 0 0 0;
+        }
+
+
     </style>
 
     @yield('styles')
@@ -154,13 +163,30 @@
 
 <!-- Javascripts -->
 <!--    <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>-->
+
 {{ Basset::show('admin.js') }}
 
 <script type="text/javascript">
     $('.wysihtml5').wysihtml5();
     $(prettyPrint);
 </script>
-
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.datatable').dataTable({
+            "sPaginationType": "bs_four_button"
+        });
+        $('.datatable').each(function(){
+            var datatable = $(this);
+            // SEARCH - Add the placeholder for Search and Turn this into in-line form control
+            var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+            search_input.attr('placeholder', 'Search');
+            search_input.addClass('form-control');
+            // LENGTH - Inline-Form control
+            var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+            length_sel.addClass('form-control input-sm');
+        });
+    });
+</script>
 @yield('scripts')
 
 </body>

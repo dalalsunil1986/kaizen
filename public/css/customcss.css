@@ -8,14 +8,7 @@ html, body, h1, h2, h3, h4, a, div, span {
     font-family: arial, helvetica;
 }
 body {
-    background: #532f8f;
-    background: -moz-linear-gradient(top, #532f8f 0%, #311c54 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #532f8f), color-stop(100%, #311c54));
-    background: -webkit-linear-gradient(top, #532f8f 0%, #311c54 100%);
-    background: -o-linear-gradient(top, #532f8f 0%, #311c54 100%);
-    background: -ms-linear-gradient(top, #532f8f 0%, #311c54 100%);
-    background: linear-gradient(to bottom, #532f8f 0%, #311c54 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#532f8f', endColorstr='#311c54', GradientType=0);
+    background: #fff;
 }
 .container {
     background: #ffffff;

@@ -1,9 +1,8 @@
 <?php
 
 use Zizaco\Entrust\EntrustRole;
-use Robbo\Presenter\PresentableInterface;
 
-class Role extends EntrustRole implements PresentableInterface
+class Role extends EntrustRole
 {
 
     /**
