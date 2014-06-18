@@ -1,13 +1,18 @@
-# Laravel
+.env.*.php
+.env.php
+Thumbs.db
 /bootstrap/compiled.php
-/vendor/
+/vendor
+.DS_Store
+.vagrant
+.idea
 
-# Configuration
-/app/config/
-/app/config/staging/
+app/storage/cache/*
+app/storage/views/*
+app/storage/sessions/*
+app/storage/debugbar/*
 
-#/app/config/production
-/app/storage/
+_ide_helper.php
 
 # Basset development collections
 /public/assets/compiled/
