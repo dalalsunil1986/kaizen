@@ -4,22 +4,17 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.1.*",
-        "mcamara/laravel-localization": "0.12.*",
-        "laravelbook/ardent": "dev-master",
-        "zizaco/confide": "3.2.x",
+		"laravel/framework": "4.2.*",
         "zizaco/entrust": "dev-master",
-        "twbs/bootstrap":  "3.0.0",
-        "jasonlewis/basset": "dev-master",
-        "j20/php-uuid": "dev-master",
         "mailchimp/mailchimp": "2.0.4",
         "intervention/image": "dev-master",
-		"pda/pheanstalk": "dev-master",
-        "leafo/lessphp": "v0.4.0",
-        "iron-io/iron_mq": "1.5.1"
+        "iron-io/iron_mq": "1.5.1",
+        "mccool/laravel-auto-presenter": "2.*"
 	},
     "require-dev": {
-        "fzaninotto/faker": "1.4.*@dev"
+        "fzaninotto/faker": "1.4.*@dev",
+        "barryvdh/laravel-debugbar": "1.*",
+        "barryvdh/laravel-ide-helper": "v1.9.1"
     },
 	"autoload": {
 		"classmap": [
@@ -31,22 +26,22 @@
 			"app/database/seeds",
 			"app/tests/TestCase.php"
 		],
-        "psr-0": {
-            "Acme": "app/"
+        "psr-4": {
+            "Acme\\": "src/"
         }
 	},
 	"scripts": {
-		"post-install-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
-		],
-		"post-update-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
-		],
-		"post-create-project-cmd": [
-			"php artisan key:generate"
-		]
+        "post-install-cmd": [
+            "php artisan clear-compiled",
+            "php artisan optimize"
+        ],
+        "post-update-cmd": [
+            "php artisan clear-compiled",
+            "php artisan optimize"
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ]
 	},
 	"config": {
 		"preferred-install": "dist"

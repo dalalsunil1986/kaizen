@@ -1,12 +1,9 @@
 <?php
 
-use Zizaco\Confide\ConfideUser;
-use Zizaco\Confide\Confide;
-use Zizaco\Confide\ConfideEloquentRepository;
 use Zizaco\Entrust\HasRole;
 use Carbon\Carbon;
 
-class User extends ConfideUser  {
+class User extends BaseModel  {
     use HasRole;
     protected $guarded = array('confirmation_code','confirmed','id');
 
@@ -18,45 +15,6 @@ class User extends ConfideUser  {
      * @var string
      */
     protected $table = 'users';
-
-    public static $rules = array(
-        'username' => 'required|alpha_dash|unique:users',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|between:4,11|confirmed',
-        'password_confirmation' => 'between:4,11',
-        'first_name' => 'between:3,30',
-        'last_name' =>  'between:3,30',
-        'mobile' =>   'numeric',
-        'phone' =>    'numeric',
-        'twitter' =>    'url',
-        'instagram' =>   'url',
-        'prev_event_comment' =>  'min:5'
-    );
-
-    public static $update_rules = array(
-        'password' => 'between:4,11|confirmed',
-        'password_confirmation' => 'between:4,11',
-        'first_name' => 'between:3,30',
-        'last_name' =>  'between:3,30',
-        'mobile' =>   'numeric',
-        'phone' =>    'numeric',
-        'twitter' =>    'url',
-        'instagram' =>   'url',
-        'prev_event_comment' =>  'min:5'
-    );
-
-    public function getRules() {
-        return self::$rules;
-    }
-
-    public function getUpdateRules() {
-        return self::$update_rules;
-    }
-
-    public function getPresenter()
-    {
-        return new UserPresenter($this);
-    }
 
     /**
      * Get user by username
@@ -107,38 +65,6 @@ class User extends ConfideUser  {
             }
         }
         return $roleIds;
-    }
-
-    /**
-     * Redirect after auth.
-     * If ifValid is set to true it will redirect a logged in user.
-     * @param $redirect
-     * @param bool $ifValid
-     * @return mixed
-     */
-    public static function checkAuthAndRedirect($redirect, $ifValid=false)
-    {
-        // Get the user information
-        $user = Auth::user();
-        $redirectTo = false;
-
-        if(empty($user->id) && ! $ifValid) // Not logged in redirect, set session.
-        {
-            Session::put('loginRedirect', $redirect);
-            $redirectTo = Redirect::to('user/login')
-                ->with( 'notice', Lang::get('user/user.login_first') );
-        }
-        elseif(!empty($user->id) && $ifValid) // Valid user, we want to redirect.
-        {
-            $redirectTo = Redirect::to($redirect);
-        }
-
-        return array($user, $redirectTo);
-    }
-
-    public function currentUser()
-    {
-        return (new Confide(new ConfideEloquentRepository()))->user();
     }
 
     /**

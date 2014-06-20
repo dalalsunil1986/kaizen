@@ -10,13 +10,13 @@ class EventModel extends BaseModel {
         'category_id' => 'required',
         'location_id' =>'required'
     );
+
     /**
      * @var
      */
 
     protected static function boot()
     {
-
         parent::boot();
 
         static::saving(function($model)
@@ -223,13 +223,10 @@ class EventModel extends BaseModel {
 
         return null;
     }
-//
-//    public function getDates() {
-//        return array('created_at','updated_at','date_start','date_end');
-//    }
+
     public function getDates()
     {
-        return array_merge(array(static::CREATED_AT, static::UPDATED_AT, static::DELETED_AT), array('date_start','date_end'));
+        return array_merge(array(static::CREATED_AT, static::UPDATED_AT), array('date_start','date_end'));
     }
 
     public function setDateStartAttribute($value)

@@ -5,7 +5,7 @@ class AuthorsTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-//		 DB::table('authors')->truncate();
+		 DB::table('authors')->truncate();
 
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 40; $i++)
@@ -23,7 +23,7 @@ class AuthorsTableSeeder extends Seeder {
                 ]
             );
 	        // Uncomment the below to run the seeder
-		     DB::table('authors')->insert($authors);
+		    DB::table('authors')->insert($authors);
         }
 	}
 

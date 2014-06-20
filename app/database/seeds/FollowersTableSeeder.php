@@ -8,7 +8,7 @@ class FollowersTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-//		 DB::table('followers')->truncate();
+		 DB::table('followers')->truncate();
         $dt = Carbon::now();
         $dateNow = $dt->toDateTimeString();
         $faker = Faker\Factory::create();

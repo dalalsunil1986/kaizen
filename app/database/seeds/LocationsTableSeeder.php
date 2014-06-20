@@ -5,7 +5,7 @@ class LocationsTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-//		 DB::table('locations')->truncate();
+		 DB::table('locations')->truncate();
 
         $country = Country::where('name_en','Kuwait')->first();
         $locations = array(

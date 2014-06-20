@@ -7,7 +7,8 @@ class UsersTableSeeder extends Seeder {
     public function run()
     {
 
-//        DB::table('users')->truncate();
+        DB::table('users')->truncate();
+
         $users = array(
             array(
                 'username'      => 'ad_user',
@@ -40,24 +41,6 @@ class UsersTableSeeder extends Seeder {
 
         DB::table('users')->insert( $users );
 
-//        $faker = Faker\Factory::create();
-//        for ($i = 0; $i < 5; $i++)
-//        {
-//            $users = array([
-//                'username' => $faker->userName,
-//                'email' => $faker->email,
-//                'password'=> Hash::make('123'),
-//                'first_name'=> $faker->firstName,
-//                'second_name'=>$faker->lastName,
-//                'last_name' =>$faker->lastName,
-//                'phone' => $faker->phoneNumber,
-//                'mobile'=> $faker->phoneNumber,
-//                'gender' => $faker->randomElement(['male', 'female']),
-//                'created_at' => new DateTime,
-//                'updated_at' => new DateTime
-//            ]);
-//            DB::table('users')->insert( $users );
-//        }
 
     }
 

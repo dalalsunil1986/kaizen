@@ -6,7 +6,8 @@ class PhotosTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-//		 DB::table('photos')->truncate();
+		 DB::table('photos')->truncate();
+
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 50; $i++)
         {

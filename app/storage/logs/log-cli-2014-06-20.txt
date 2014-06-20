@@ -1,0 +1,180 @@
+[2014-06-20 12:07:04] local.ERROR: 500 - Argument 2 passed to Mcamara\LaravelLocalization\LaravelLocalization::__construct() must be an instance of Illuminate\View\Environment, instance of Illuminate\View\Factory given, called in /Users/ZaL/vaprobash/kaizen/vendor/mcamara/laravel-localization/src/Mcamara/LaravelLocalization/LaravelLocalizationServiceProvider.php on line 38 and defined @ /
+exception 'ErrorException' with message 'Argument 2 passed to Mcamara\LaravelLocalization\LaravelLocalization::__construct() must be an instance of Illuminate\View\Environment, instance of Illuminate\View\Factory given, called in /Users/ZaL/vaprobash/kaizen/vendor/mcamara/laravel-localization/src/Mcamara/LaravelLocalization/LaravelLocalizationServiceProvider.php on line 38 and defined' in /Users/ZaL/vaprobash/kaizen/vendor/mcamara/laravel-localization/src/Mcamara/LaravelLocalization/LaravelLocalization.php:81
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/mcamara/laravel-localization/src/Mcamara/LaravelLocalization/LaravelLocalization.php(81): Illuminate\Exception\Handler->handleError(4096, 'Argument 2 pass...', '/Users/ZaL/vapr...', 81, Array)
+#1 /Users/ZaL/vaprobash/kaizen/vendor/mcamara/laravel-localization/src/Mcamara/LaravelLocalization/LaravelLocalizationServiceProvider.php(38): Mcamara\LaravelLocalization\LaravelLocalization->__construct(Object(Illuminate\Config\Repository), Object(Illuminate\View\Factory), Object(Illuminate\Translation\Translator))
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Container/Container.php(207): Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider->Mcamara\LaravelLocalization\{closure}(Object(Illuminate\Foundation\Application))
+#3 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Container/Container.php(498): Illuminate\Container\Container->Illuminate\Container\{closure}(Object(Illuminate\Foundation\Application), Array)
+#4 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Container/Container.php(425): Illuminate\Container\Container->build(Object(Closure), Array)
+#5 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(463): Illuminate\Container\Container->make('laravellocaliza...', Array)
+#6 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Container/Container.php(809): Illuminate\Foundation\Application->make('laravellocaliza...')
+#7 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(146): Illuminate\Container\Container->offsetGet('laravellocaliza...')
+#8 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(116): Illuminate\Support\Facades\Facade::resolveFacadeInstance('laravellocaliza...')
+#9 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(200): Illuminate\Support\Facades\Facade::getFacadeRoot()
+#10 /Users/ZaL/vaprobash/kaizen/app/routes.php(27): Illuminate\Support\Facades\Facade::__callStatic('setLocale', Array)
+#11 /Users/ZaL/vaprobash/kaizen/app/routes.php(27): Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()
+#12 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/start.php(269): require('/Users/ZaL/vapr...')
+#13 [internal function]: {closure}(Object(Illuminate\Foundation\Application))
+#14 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(792): call_user_func(Object(Closure), Object(Illuminate\Foundation\Application))
+#15 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(569): Illuminate\Foundation\Application->fireAppCallbacks(Array)
+#16 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(552): Illuminate\Foundation\Application->bootApplication()
+#17 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Application.php(44): Illuminate\Foundation\Application->boot()
+#18 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Application.php(33): Illuminate\Console\Application::make(Object(Illuminate\Foundation\Application))
+#19 /Users/ZaL/vaprobash/kaizen/artisan(46): Illuminate\Console\Application::start(Object(Illuminate\Foundation\Application))
+#20 {main} [] []
+[2014-06-20 12:07:04] local.ERROR: exception 'ErrorException' with message 'Argument 2 passed to Mcamara\LaravelLocalization\LaravelLocalization::__construct() must be an instance of Illuminate\View\Environment, instance of Illuminate\View\Factory given, called in /Users/ZaL/vaprobash/kaizen/vendor/mcamara/laravel-localization/src/Mcamara/LaravelLocalization/LaravelLocalizationServiceProvider.php on line 38 and defined' in /Users/ZaL/vaprobash/kaizen/vendor/mcamara/laravel-localization/src/Mcamara/LaravelLocalization/LaravelLocalization.php:81
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/mcamara/laravel-localization/src/Mcamara/LaravelLocalization/LaravelLocalization.php(81): Illuminate\Exception\Handler->handleError(4096, 'Argument 2 pass...', '/Users/ZaL/vapr...', 81, Array)
+#1 /Users/ZaL/vaprobash/kaizen/vendor/mcamara/laravel-localization/src/Mcamara/LaravelLocalization/LaravelLocalizationServiceProvider.php(38): Mcamara\LaravelLocalization\LaravelLocalization->__construct(Object(Illuminate\Config\Repository), Object(Illuminate\View\Factory), Object(Illuminate\Translation\Translator))
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Container/Container.php(207): Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider->Mcamara\LaravelLocalization\{closure}(Object(Illuminate\Foundation\Application))
+#3 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Container/Container.php(498): Illuminate\Container\Container->Illuminate\Container\{closure}(Object(Illuminate\Foundation\Application), Array)
+#4 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Container/Container.php(425): Illuminate\Container\Container->build(Object(Closure), Array)
+#5 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(463): Illuminate\Container\Container->make('laravellocaliza...', Array)
+#6 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Container/Container.php(809): Illuminate\Foundation\Application->make('laravellocaliza...')
+#7 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(146): Illuminate\Container\Container->offsetGet('laravellocaliza...')
+#8 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(116): Illuminate\Support\Facades\Facade::resolveFacadeInstance('laravellocaliza...')
+#9 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(200): Illuminate\Support\Facades\Facade::getFacadeRoot()
+#10 /Users/ZaL/vaprobash/kaizen/app/routes.php(27): Illuminate\Support\Facades\Facade::__callStatic('setLocale', Array)
+#11 /Users/ZaL/vaprobash/kaizen/app/routes.php(27): Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()
+#12 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/start.php(269): require('/Users/ZaL/vapr...')
+#13 [internal function]: {closure}(Object(Illuminate\Foundation\Application))
+#14 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(792): call_user_func(Object(Closure), Object(Illuminate\Foundation\Application))
+#15 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(569): Illuminate\Foundation\Application->fireAppCallbacks(Array)
+#16 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(552): Illuminate\Foundation\Application->bootApplication()
+#17 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Application.php(44): Illuminate\Foundation\Application->boot()
+#18 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Application.php(33): Illuminate\Console\Application::make(Object(Illuminate\Foundation\Application))
+#19 /Users/ZaL/vaprobash/kaizen/artisan(46): Illuminate\Console\Application::start(Object(Illuminate\Foundation\Application))
+#20 {main} [] []
+[2014-06-20 12:10:32] local.ERROR: 500 - Class 'LaravelLocalization' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'LaravelLocalization' not found' in /Users/ZaL/vaprobash/kaizen/app/routes.php:27
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:10:32] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'LaravelLocalization' not found' in /Users/ZaL/vaprobash/kaizen/app/routes.php:27
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:13:33] local.ERROR: 500 - Class 'Zizaco\Confide\ConfideUser' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Zizaco\Confide\ConfideUser' not found' in /Users/ZaL/vaprobash/kaizen/app/models/User.php:9
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:13:33] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Zizaco\Confide\ConfideUser' not found' in /Users/ZaL/vaprobash/kaizen/app/models/User.php:9
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:17:32] local.ERROR: 500 - Undefined class constant 'DELETED_AT' @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Undefined class constant 'DELETED_AT'' in /Users/ZaL/vaprobash/kaizen/app/models/EventModel.php:232
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:17:32] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Undefined class constant 'DELETED_AT'' in /Users/ZaL/vaprobash/kaizen/app/models/EventModel.php:232
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:20:36] local.ERROR: 500 - SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'manage_blogs' for key 'permissions_name_unique' (SQL: insert into `permissions` (`display_name`, `name`) values (manage blogs, manage_blogs), (manage posts, manage_posts), (manage comments, manage_comments), (manage users, manage_users), (manage roles, manage_roles), (post comment, post_comment)) @ /
+exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'manage_blogs' for key 'permissions_name_unique' (SQL: insert into `permissions` (`display_name`, `name`) values (manage blogs, manage_blogs), (manage posts, manage_posts), (manage comments, manage_comments), (manage users, manage_users), (manage roles, manage_roles), (post comment, post_comment))' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php:555
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(338): Illuminate\Database\Connection->run('insert into `pe...', Array, Object(Closure))
+#1 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(295): Illuminate\Database\Connection->statement('insert into `pe...', Array)
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1820): Illuminate\Database\Connection->insert('insert into `pe...', Array)
+#3 /Users/ZaL/vaprobash/kaizen/app/database/seeds/PermissionsTableSeeder.php(37): Illuminate\Database\Query\Builder->insert(Array)
+#4 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(37): PermissionsTableSeeder->run()
+#5 /Users/ZaL/vaprobash/kaizen/app/database/seeds/DatabaseSeeder.php(36): Illuminate\Database\Seeder->call('PermissionsTabl...')
+#6 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Console/SeedCommand.php(57): DatabaseSeeder->run()
+#7 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(112): Illuminate\Database\Console\SeedCommand->fire()
+#8 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(252): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\SeedCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#14 {main} [] []
+[2014-06-20 12:20:36] local.ERROR: exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'manage_blogs' for key 'permissions_name_unique' (SQL: insert into `permissions` (`display_name`, `name`) values (manage blogs, manage_blogs), (manage posts, manage_posts), (manage comments, manage_comments), (manage users, manage_users), (manage roles, manage_roles), (post comment, post_comment))' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php:555
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(338): Illuminate\Database\Connection->run('insert into `pe...', Array, Object(Closure))
+#1 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(295): Illuminate\Database\Connection->statement('insert into `pe...', Array)
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1820): Illuminate\Database\Connection->insert('insert into `pe...', Array)
+#3 /Users/ZaL/vaprobash/kaizen/app/database/seeds/PermissionsTableSeeder.php(37): Illuminate\Database\Query\Builder->insert(Array)
+#4 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(37): PermissionsTableSeeder->run()
+#5 /Users/ZaL/vaprobash/kaizen/app/database/seeds/DatabaseSeeder.php(36): Illuminate\Database\Seeder->call('PermissionsTabl...')
+#6 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Console/SeedCommand.php(57): DatabaseSeeder->run()
+#7 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(112): Illuminate\Database\Console\SeedCommand->fire()
+#8 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(252): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\SeedCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#14 {main} [] []
+[2014-06-20 12:22:53] local.ERROR: 500 - SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1-1' for key 'permission_role_permission_id_role_id_unique' (SQL: insert into `permission_role` (`permission_id`, `role_id`) values (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (6, 2)) @ /
+exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1-1' for key 'permission_role_permission_id_role_id_unique' (SQL: insert into `permission_role` (`permission_id`, `role_id`) values (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (6, 2))' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php:555
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(338): Illuminate\Database\Connection->run('insert into `pe...', Array, Object(Closure))
+#1 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(295): Illuminate\Database\Connection->statement('insert into `pe...', Array)
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1820): Illuminate\Database\Connection->insert('insert into `pe...', Array)
+#3 /Users/ZaL/vaprobash/kaizen/app/database/seeds/PermissionsTableSeeder.php(71): Illuminate\Database\Query\Builder->insert(Array)
+#4 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(37): PermissionsTableSeeder->run()
+#5 /Users/ZaL/vaprobash/kaizen/app/database/seeds/DatabaseSeeder.php(36): Illuminate\Database\Seeder->call('PermissionsTabl...')
+#6 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Console/SeedCommand.php(57): DatabaseSeeder->run()
+#7 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(112): Illuminate\Database\Console\SeedCommand->fire()
+#8 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(252): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\SeedCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#14 {main} [] []
+[2014-06-20 12:22:53] local.ERROR: exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1-1' for key 'permission_role_permission_id_role_id_unique' (SQL: insert into `permission_role` (`permission_id`, `role_id`) values (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (6, 2))' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php:555
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(338): Illuminate\Database\Connection->run('insert into `pe...', Array, Object(Closure))
+#1 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(295): Illuminate\Database\Connection->statement('insert into `pe...', Array)
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1820): Illuminate\Database\Connection->insert('insert into `pe...', Array)
+#3 /Users/ZaL/vaprobash/kaizen/app/database/seeds/PermissionsTableSeeder.php(71): Illuminate\Database\Query\Builder->insert(Array)
+#4 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(37): PermissionsTableSeeder->run()
+#5 /Users/ZaL/vaprobash/kaizen/app/database/seeds/DatabaseSeeder.php(36): Illuminate\Database\Seeder->call('PermissionsTabl...')
+#6 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Console/SeedCommand.php(57): DatabaseSeeder->run()
+#7 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(112): Illuminate\Database\Console\SeedCommand->fire()
+#8 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(252): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\SeedCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#14 {main} [] []
+[2014-06-20 12:23:27] local.ERROR: 500 - Undefined class constant 'DELETED_AT' @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Undefined class constant 'DELETED_AT'' in /Users/ZaL/vaprobash/kaizen/app/models/EventModel.php:231
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:23:27] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Undefined class constant 'DELETED_AT'' in /Users/ZaL/vaprobash/kaizen/app/models/EventModel.php:231
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:43:45] local.ERROR: 500 - Class 'Pheanstalk_Pheanstalk' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Pheanstalk_Pheanstalk' not found' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Queue/Connectors/BeanstalkdConnector.php:16
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:43:45] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Pheanstalk_Pheanstalk' not found' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Queue/Connectors/BeanstalkdConnector.php:16
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:47:54] local.ERROR: 500 - Class 'Pheanstalk_Pheanstalk' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Pheanstalk_Pheanstalk' not found' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Queue/Connectors/BeanstalkdConnector.php:16
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:47:54] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Pheanstalk_Pheanstalk' not found' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Queue/Connectors/BeanstalkdConnector.php:16
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:54:10] local.ERROR: 500 - Class 'Pheanstalk_Pheanstalk' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Pheanstalk_Pheanstalk' not found' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Queue/Connectors/BeanstalkdConnector.php:16
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-20 12:54:10] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Pheanstalk_Pheanstalk' not found' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Queue/Connectors/BeanstalkdConnector.php:16
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []

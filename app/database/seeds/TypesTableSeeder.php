@@ -4,7 +4,7 @@ class TypesTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-		// DB::table('subscriptions')->truncate();
+		 DB::table('subscriptions')->truncate();
 
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 40; $i++)
