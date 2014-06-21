@@ -23,11 +23,11 @@
 
     <!-- arabic and english switcher -->
     {{ HTML::style('css/bootstrap.min.css') }}
-    @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
+    @if ( App::getLocale() == 'ar')
     {{ HTML::style('css/bootstrap-rtl.min.css') }}
     @endif
     {{ HTML::style('css/customcss.css') }}
-    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+    @if ( App::getLocale() == 'en')
     {{ HTML::style('css/customen.css') }}
     @endif
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -62,7 +62,7 @@
         @yield('ads')
         <div class="row">
             <div id="sidecontent" class="col-md-4
-               @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
+               @if ( App::getLocale() == 'ar')
                 pull-right
                @else
                 pull-left

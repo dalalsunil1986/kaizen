@@ -4,7 +4,7 @@ use Acme\Mail\EventsMailer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 class AdminEventsController extends AdminBaseController
 {

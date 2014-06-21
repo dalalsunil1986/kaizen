@@ -1,4 +1,4 @@
-<?php namespace Kuwaitii\Core\Validators;
+<?php namespace Acme\Core\Validators;
 
 interface Validable {
 

@@ -110,8 +110,8 @@ return array(
 
         /* Additional Providers */
         'Zizaco\Entrust\EntrustServiceProvider', // Entrust Provider for roles
-        'Acme\Providers\NotificationServiceProvider',
-        'Acme\Providers\EmailBlastServiceProvider',
+//        'Acme\Providers\NotificationServiceProvider',
+//        'Acme\Providers\EmailBlastServiceProvider',
         'Intervention\Image\ImageServiceProvider',
 
         /* Uncomment for use in development */

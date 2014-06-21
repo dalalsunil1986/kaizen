@@ -1,5 +1,5 @@
 <?php
-namespace Kuwaitii\Core\Validators;
+namespace Acme\Core\Validators;
 
 
 class StubValidator extends LaravelValidator implements Validable {

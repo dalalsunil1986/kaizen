@@ -1,8 +1,8 @@
-<?php namespace Kuwaitii\Core\ServiceProviders;
+<?php namespace Acme\Core\ServiceProviders;
 
 use Illuminate\Support\ServiceProvider;
-use Kuwaitii\Users\Validators\UserCreateValidator;
-use Kuwaitii\Users\Validators\UserUpdateValidator;
+use Acme\Users\Validators\UserCreateValidator;
+use Acme\Users\Validators\UserUpdateValidator;
 
 class ValidatorsServiceProvider extends ServiceProvider {
 

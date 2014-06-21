@@ -1,4 +1,4 @@
-<?php namespace Kuwaitii\Core\Repositories;
+<?php namespace Acme\Core\Repositories;
 
 use StdClass;
 use Illuminate\Support\MessageBag;

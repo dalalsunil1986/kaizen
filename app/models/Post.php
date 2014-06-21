@@ -58,7 +58,7 @@ class Post extends BaseModel {
 
     public function getDates()
     {
-        return array_merge(array(static::CREATED_AT, static::UPDATED_AT, static::DELETED_AT));
+        return array_merge(array(static::CREATED_AT, static::UPDATED_AT));
     }
 	/**
 	 * Get the URL to the post.

@@ -24,7 +24,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 form-group
-                        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                        @if ( App::getLocale() == 'en')
                             pull-right
                         @else
                             pull-left
@@ -40,7 +40,7 @@
                 </form>
 
                 <a type="button" class="btn btn-default btn-sm dropdown-toggle visible-xs
-                        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                        @if ( App::getLocale() == 'en')
                             pull-right
                         @else
                             pull-left
@@ -50,7 +50,7 @@
 
         @else
             <a type="button" class="btn btn-default btn-sm dropdown-toggle
-                        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                        @if ( App::getLocale() == 'en')
                             pull-right
                         @else
                             pull-left
@@ -61,14 +61,14 @@
         @endif
         <br>
         <div class="dropdown-menu
-                @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                @if ( App::getLocale() == 'en')
                     pull-right
                 @else
                     pull-left
                 @endif">
             <div class="row">
                 <div class="col-md-12
-                        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                        @if ( App::getLocale() == 'en')
                         pull-right
                         @else
                         pull-left

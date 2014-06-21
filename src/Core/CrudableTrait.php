@@ -1,15 +1,7 @@
-<?php namespace Acme\Core\Repositories;
+<?php
+namespace Acme\Core;
 
-interface Crudable {
-
-    /**
-     * Find a single entity
-     *
-     * @param int $id
-     * @param array $with
-     * @return Illuminate\Database\Eloquent\Model
-     */
-    public function find($id, array $with = array());
+trait CrudableTrait {
 
     /**
      * Create a new entity
@@ -18,7 +10,10 @@ interface Crudable {
      * @internal param array $data
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function create(array $input);
+    public function create(array $input)
+    {
+        return $this->model->create($input);
+    }
 
     /**
      * Update an existing entity
@@ -27,7 +22,10 @@ interface Crudable {
      * @internal param array $data
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function update(array $input);
+    public function update(array $input)
+    {
+        // TODO: Implement update() method.
+    }
 
     /**
      * Delete an existing entity
@@ -35,6 +33,9 @@ interface Crudable {
      * @param int $id
      * @return boolean
      */
-    public function delete($id);
+    public function delete($id)
+    {
+        // TODO: Implement delete() method.
+    }
 
-}
+} 

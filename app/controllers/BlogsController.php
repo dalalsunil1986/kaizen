@@ -37,12 +37,7 @@ class BlogsController extends BaseController {
 		// Get all the blog posts
         $posts = $this->model->with(array('category','photos','author'))->paginate(10);
 		// Show the page
-        $this->layout->login = View::make('site.layouts.login');
-        $this->layout->ads = view::make('site.layouts.ads');
-        $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.blog.index', compact('posts'));
-        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-        $this->layout->footer = view::make('site.layouts.footer');
+        $this->layout->render = view::make('site.blog.index', compact('posts'));
 
 	}
 

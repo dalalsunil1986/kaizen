@@ -1,4 +1,4 @@
-<?php namespace Kuwaitii\Core\Cache;
+<?php namespace Acme\Core\Cache;
 
 use Illuminate\Cache\CacheManager;
 

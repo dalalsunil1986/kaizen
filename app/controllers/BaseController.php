@@ -2,11 +2,7 @@
 
 abstract class BaseController extends Controller
 {
-
-    //Inject the Model into the Constructor method of the controller
-
-    protected $model;
-//    protected $layout = 'site.layouts.default';
+    protected $layout = 'site.layouts.master';
 
     /**
      * Initializer.
@@ -17,8 +13,31 @@ abstract class BaseController extends Controller
     public function __construct()
     {
         $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
-        $this->sidebarPosts();
-        $this->getAds();
+//        $this->sidebarPosts();
+//        $this->getAds();
+    }
+
+    protected function setupLayout()
+    {
+        if ( ! is_null($this->layout))
+        {
+            $this->layout = View::make($this->layout);
+        }
+    }
+
+    protected function render($path, $data = [])
+    {
+        $this->layout->title = $this->title;
+        $this->layout->content = View::make($path, $data);
+    }
+
+    protected function redirectIntended($default = null)
+    {
+        $intended = Session::get('auth.intended_redirect_url');
+        if ($intended) {
+            return Redirect::to($intended);
+        }
+        return Redirect::to($default);
     }
 
     public function sidebarPosts() {
@@ -40,13 +59,6 @@ abstract class BaseController extends Controller
 
     protected function findByType($id,$type,$type_string) {
         return $this->model->find($id)->where($type_string, '=', $type);
-    }
-
-    protected function setupLayout()
-    {
-        if (!is_null($this->layout)) {
-            $this->layout = View::make($this->layout);
-        }
     }
 
     /**
@@ -120,11 +132,6 @@ abstract class BaseController extends Controller
     protected function redirectBack($data = [])
     {
         return Redirect::back()->withInput()->with($data);
-    }
-
-    protected function redirectIntended($default = null)
-    {
-        return Redirect::intended($default);
     }
 
 }

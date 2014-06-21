@@ -11,7 +11,7 @@
         <b>{{ $post->title }} </b>
 
         <span class="label label-default
-        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+        @if ( App::getLocale() == 'en')
         pull-right
         @else
         pull-left

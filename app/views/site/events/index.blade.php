@@ -1,12 +1,12 @@
-@extends('site.layouts.home')
-@section('maincontent')
+@extends('site.layouts.master')
+@section('content')
 <style>
     .padded {
         padding:0;
         margin:0 5px 0 5px;
     }
 </style>
-@include('site.layouts.search')
+
 </br>
 @if(count($events))
 @foreach($events as $event)
@@ -27,7 +27,7 @@
     <div class="col-sm-10 col-md-10">
                 <span class="event-title">
                     <a href="event/{{$event->id}}">
-                    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                    @if ( App::getLocale() == 'en')
                         @if($event->title_en)
                             {{ $event->title_en }}
                         @else
@@ -41,7 +41,7 @@
                 </span>
 
         <p>
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            @if ( App::getLocale() == 'en')
                 @if($event->description_en)
                     {{ Str::limit($event->description_en, 150) }}
                 @else
@@ -65,7 +65,7 @@
     {{ $event->date_end->format('Y-m-d')}} |
 
     <i class="glyphicon glyphicon-globe">
-        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+        @if ( App::getLocale() == 'en')
             <?php $country =  ($event->location->country->name_en) ? $event->location->country->name_en : $event->location->country->name ;?>
             <?php $category =  ($event->category->name_en) ? $event->category->name_en : $event->category->name ;?>
         @else
@@ -74,7 +74,7 @@
         @endif
         {{ link_to_action('EventsController@index', $country ,array('search'=>'','country'=>$event->location->country->id))  }}
         |</i>
-    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+    @if ( App::getLocale() == 'en')
     <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;
     {{ link_to_action('EventsController@index', $event->category->name_en,array('search'=>'','category'=>$event->category->id))  }}
     @else

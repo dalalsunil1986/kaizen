@@ -1,4 +1,4 @@
-<?php namespace Kuwaitii\Core\Exceptions;
+<?php namespace Acme\Core\Exceptions;
 
 class MailSendingFailedException extends \Exception {
 

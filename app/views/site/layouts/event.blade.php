@@ -7,7 +7,7 @@
             <?php $i = 0; ?>
             @foreach($events as $event)
                 <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 15px;">
-                    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                    @if ( App::getLocale() == 'en')
                         {{  ($event->title_en ) ? $event->title_en  : $event->title  }}
                     @else
                         {{   $event->title  }}
@@ -35,7 +35,7 @@
                     <!-- <img alt="" src="{{ URL::asset($event->name) }}"> -->
                     <a href="{{ action('EventsController@show',$event->id) }}"> {{ HTML::image('uploads/medium/'.$event->name.'','image2',array('class'=>'img-responsive','style'=>'height:auto')) }} </a>
 
-                    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                    @if ( App::getLocale() == 'en')
                         <div class="carousel-caption hidden-xs" >
                             <span class="slider-title {{ ($event->title_en) ? 'text-left':'text-right' }}">
                                 <a href="{{ action('EventsController@show',$event->id) }}" >

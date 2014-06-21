@@ -33,7 +33,7 @@ class User extends BaseModel  {
      */
     public function joined()
     {
-        return String::date(Carbon::createFromFormat('Y-n-j G:i:s', $this->created_at));
+        return Carbon::createFromFormat('Y-n-j G:i:s', $this->created_at);
     }
 
     /**
@@ -100,26 +100,17 @@ class User extends BaseModel  {
 //        return $this->hasMany('Favorite');
     }
 
+    public function country() {
+        return $this->belongsTo('Country');
+    }
+
     /**
      * @param String $roleName
      * @return mixed users
      * get user by their role .. ex: Admin, Author, Moderator
      */
-    public function getRoleByName($roleName) {
-        $query=  $this->with('roles')->whereHas('roles', function($q) use ($roleName)
-        {
-            $q->where('name', '=', $roleName);
 
-        })->get();
-        return $query;
-    }
 
-    public function country() {
-        return $this->belongsTo('Country');
-    }
 
-    public static function isSubscribed($id,$userId) {
-        $query = Subscription::where('user_id', '=', $userId)->where('event_id', '=', $id)->count();
-        return ($query >= 1 ) ? true : false;
-    }
+
 }

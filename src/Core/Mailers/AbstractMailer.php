@@ -1,4 +1,4 @@
-<?php namespace Kuwaitii\Core\Mailers;
+<?php namespace Acme\Core\Mailers;
 
 use Config;
 use Illuminate\Mail\Mailer;

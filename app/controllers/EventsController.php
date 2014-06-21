@@ -1,50 +1,52 @@
 <?php
 
-use Acme\Mail\EventsMailer;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
+use Acme\Events\CountryRepository;
+use Acme\Events\EloquentCategoryRepository;
+use Acme\Events\EloquentEventRepository;
+use Acme\Users\EloquentUserRepository;
+use Carbon\Carbon;
 
 class EventsController extends BaseController {
 
-    protected $model;
-    protected $user;
-    protected $mailer;
-    protected $category;
-    protected $photo;
+    protected $repository;
+
     protected $currentTime;
     /**
      * @var Status
      */
     private $status;
-
-    function __construct(EventModel $model, User $user, EventsMailer $mailer, Category $category, Photo $photo, Status $status)
-    {
-        $this->model    = $model;
-        $this->user     = $user;
-        $this->mailer   = $mailer;
-        $this->category = $category;
-        $this->photo    = $photo;
-        $this->status   = $status;
-        parent::__construct();
-    }
-
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @var Acme\Users\EloquentCategoryRepository
      */
+    private $category;
+    /**
+     * @var Acme\Users\CountryRepository
+     */
+    private $country;
+    /**
+     * @var Acme\Users\UserRepository
+     */
+    private $user;
 
-    // master layout
-    protected $layout = 'site.layouts.home';
+    function __construct(EloquentEventRepository $repository, EloquentCategoryRepository $category, CountryRepository $country, EloquentUserRepository $user)
+    {
+        $this->repository    = $repository;
+        $this->category = $category;
+        parent::__construct();
+        $this->country = $country;
+        $this->user = $user;
+    }
 
     public function index()
     {
+        $this->title = 'Events';
         $perPage = 10;
+        $events = $this->repository->findAll($perPage);
         //find countries,authors,and categories to display in search form
-        if ( LaravelLocalization::getCurrentLocaleName() == 'English' ) {
-            $countries = [0 => Lang::get('site.event.choose_country')] + Country::all()->lists('name_en', 'id');
+        if ( App::getLocale() == 'en' ) {
+            $countries = [0 => Lang::get('site.event.choose_country')] + $this->country->all()->lists('name_en', 'id');
         } else {
-            $countries = [0 => Lang::get('site.event.choose_country')] + Country::all()->lists('name', 'id');
+            $countries = [0 => Lang::get('site.event.choose_country')] + $this->country->all()->lists('name', 'id');
         }
         $categories = [0 => Lang::get('site.event.choose_category')] + $this->category->getEventCategories()->lists('name', 'id');
         $authors    = [0 => Lang::get('site.event.choose_author')] + $this->user->getRoleByName('author')->lists('username', 'id');
@@ -59,7 +61,7 @@ class EventsController extends BaseController {
         // if the form is selected
         // perform search
         if ( ! empty($search) || ! empty($category) || ! empty($author) || ! empty($country) ) {
-            $events = $this->model->with(array('category', 'location.country', 'photos', 'author'))
+            $events = $this->repository->model->with(array('category', 'location.country', 'photos', 'author'))
                 ->where('date_start', '>', $this->currentTime)
                 ->where(function ($query) use ($search, $category, $author, $country) {
                     if ( ! empty($search) ) {
@@ -84,14 +86,7 @@ class EventsController extends BaseController {
             $events = $this->getEvents($perPage);
         }
 
-        //  $this->layout->events = View::make('site.layouts.event', ['events'=>$events]); // slider section
-        $this->layout->login = View::make('site.layouts.login');
-        $this->layout->nav   = view::make('site.layouts.nav');
-        //  $this->layout->slider = view::make('site.layouts.event', ['events' => $events] );
-        $this->layout->maincontent = view::make('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country'));
-        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-        $this->layout->footer      = view::make('site.layouts.footer');
-
+        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country'));
     }
 
 
@@ -100,14 +95,14 @@ class EventsController extends BaseController {
         //        $events = parent::all();
         // get only 4 images for slider
         $events                    = $this->getSliderEvents();
-        $this->layout->events      = View::make('site.layouts.event', ['events' => $events]); // slider section
-        $this->layout->login       = View::make('site.layouts.login');
-        $this->layout->ads         = view::make('site.layouts.ads');
-        $this->layout->nav         = view::make('site.layouts.nav');
-        $this->layout->slider      = view::make('site.layouts.event', ['events' => $events]);
-        $this->layout->maincontent = view::make('site.layouts.dashboard');
-        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-        $this->layout->footer      = view::make('site.layouts.footer');
+//        $this->layout->events      = View::make('site.layouts.event', ['events' => $events]); // slider section
+//        $this->layout->login       = View::make('site.layouts.login');
+//        $this->layout->ads         = view::make('site.layouts.ads');
+//        $this->layout->nav         = view::make('site.layouts.nav');
+//        $this->layout->slider      = view::make('site.layouts.event', ['events' => $events]);
+//        $this->layout->maincontent = view::make('site.layouts.dashboard');
+//        $this->layout->sidecontent = view::make('site.layouts.sidebar');
+//        $this->layout->footer      = view::make('site.layouts.footer');
     }
 
 
@@ -119,7 +114,7 @@ class EventsController extends BaseController {
      */
     public function show($id)
     {
-        $event               = $this->model->with('comments', 'author', 'photos', 'subscribers', 'followers', 'favorites')->findOrFail($id);
+        $event               = $this->repository->with('comments', 'author', 'photos', 'subscribers', 'followers', 'favorites')->findOrFail($id);
         $this->layout->login = View::make('site.layouts.login');
 //        $this->layout->ads = view::make('site.layouts.ads');
         $this->layout->nav         = view::make('site.layouts.nav');
@@ -152,7 +147,7 @@ class EventsController extends BaseController {
         //check whether user logged in
         $user = Auth::user();
         if ( ! empty($user->id) ) {
-            $event = $this->model->findOrFail($id);
+            $event = $this->repository->findOrFail($id);
 
             if ( Subscription::isSubscribed($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -203,7 +198,7 @@ class EventsController extends BaseController {
     public function unsubscribe($id)
     {
         // check whether user authenticated
-        $event = $this->model->findOrFail($id);
+        $event = $this->repository->findOrFail($id);
         $user  = Auth::user();
         if ( ! empty($user->id) ) {
             if ( Subscription::isSubscribed($event->id, $user->id) ) {
@@ -259,7 +254,7 @@ class EventsController extends BaseController {
         $user = Auth::user();
         if ( ! empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->model->findOrFail($id);
+            $event = $this->repository->findOrFail($id);
 
             if ( Follower::isFollowing($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -291,7 +286,7 @@ class EventsController extends BaseController {
         $user = Auth::user();
         if ( ! empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->model->findOrFail($id);
+            $event = $this->repository->findOrFail($id);
 
             if ( Follower::isFollowing($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -335,7 +330,7 @@ class EventsController extends BaseController {
         $user = Auth::user();
         if ( ! empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->model->findOrFail($id);
+            $event = $this->repository->findOrFail($id);
 
             if ( Favorite::hasFavorited($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -368,7 +363,7 @@ class EventsController extends BaseController {
         $user = Auth::user();
         if ( ! empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->model->findOrFail($id);
+            $event = $this->repository->findOrFail($id);
 
             if ( Favorite::hasFavorited($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -424,15 +419,15 @@ class EventsController extends BaseController {
         // order by event date, date created, featured
         // combines them into one query to return for slider
 
-        $latestEvents   = $this->model->latestEvents();
-        $featuredEvents = $this->model->feautredEvents();
+        $latestEvents   = $this->repository->latestEvents();
+        $featuredEvents = $this->repository->feautredEvents();
         $events         = array_merge((array) $latestEvents, (array) $featuredEvents);
         if ( $events ) {
             foreach ( $events as $event ) {
                 $array[] = $event->id;
             }
             $events_unique = array_unique($array);
-            $sliderEvents  = $this->model->getSliderEvents(6, $events_unique);
+            $sliderEvents  = $this->repository->getSliderEvents(6, $events_unique);
 
             return $sliderEvents;
         } else {
@@ -448,7 +443,7 @@ class EventsController extends BaseController {
 
     public function getAuthor($id)
     {
-        $event  = $this->model->find($id);
+        $event  = $this->repository->find($id);
         $author = $event->author;
 
         return $author;
@@ -462,7 +457,7 @@ class EventsController extends BaseController {
      */
     public function getEvents($perPage)
     {
-        return $this->model
+        return $this->repository->model
             ->with(array('category', 'location.country', 'photos', 'author'))
             ->where('date_start', '>', $this->currentTime)->orderBy('date_start', 'DESC')
             ->paginate($perPage);

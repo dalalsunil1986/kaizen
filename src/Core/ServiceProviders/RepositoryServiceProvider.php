@@ -1,12 +1,12 @@
-<?php namespace Kuwaitii\Core\ServiceProviders;
+<?php namespace Acme\Core\ServiceProviders;
 
 use Illuminate\Support\MessageBag;
-use Kuwaitii\Users\AuthService;
-use Kuwaitii\Users\EloquentAuthRepository;
-use Kuwaitii\Users\UserEventSubscriber;
+use Acme\Users\AuthService;
+use Acme\Users\EloquentAuthRepository;
+use Acme\Users\UserEventSubscriber;
 use Post;
 use Illuminate\Support\ServiceProvider;
-use Kuwaitii\Users\EloquentUserRepository;
+use Acme\Users\EloquentUserRepository;
 use User;
 
 class RepositoryServiceProvider extends ServiceProvider {

@@ -3,7 +3,7 @@ extends('site.layouts.home')
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header
-        @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+        @if ( App::getLocale() == 'en')
             col-md-12 pull-left
         @else
             pull-right

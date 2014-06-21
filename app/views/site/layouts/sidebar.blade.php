@@ -19,7 +19,7 @@ extends('site.layouts.home')
             <ul>
                 @if($latest_event_posts)
                     @foreach($latest_event_posts as $event)
-                    <li class="unstyled"><i class="glyphicon glyphicon-calendar"></i> <a href="{{URL::action('EventsController@show',$event->id)}}"> {{ (LaravelLocalization::getCurrentLocaleName() == 'English') ? $event->title_en : $event->title }}</a></li>
+                    <li class="unstyled"><i class="glyphicon glyphicon-calendar"></i> <a href="{{URL::action('EventsController@show',$event->id)}}"> {{ (App::getLocale() == 'en') ? $event->title_en : $event->title }}</a></li>
                     @endforeach
                 @endif
             </ul>

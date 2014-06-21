@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-md-7">
         <h1>
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            @if ( App::getLocale() == 'en')
             @if($event->title_en)
             {{ $event->title_en }}
             @else
@@ -110,7 +110,7 @@
             <tr>
                 <td><b>{{ Lang::get('site.general.country') }} </b></td>
                 <td>
-                @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                @if ( App::getLocale() == 'en')
                     @if($event->location->country->name_en)
                         {{ $event->location->country->name_en }}
                     @else
@@ -126,7 +126,7 @@
                 </td>
                 <td><b>{{ Lang::get('site.general.location') }}</b></td>
                 <td>
-                @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+                @if ( App::getLocale() == 'en')
                     @if($event->location->name_en)
                         {{ $event->location->name_en }}
                     @else
@@ -184,7 +184,7 @@
 
     <div class="col-md-12">
         <p>
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            @if ( App::getLocale() == 'en')
             @if($event->description_en)
             {{ $event->description_en }}
             @else
@@ -212,7 +212,7 @@
         <b>{{ Lang::get('site.general.address') }} </b>
         <address>
             <strong>
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            @if ( App::getLocale() == 'en')
                 @if($event->address_en)
                     {{ $event->address_en }}
                 @else
@@ -251,7 +251,7 @@
         <button type="button" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
         data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
         <h2><i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>&nbsp;
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            @if ( App::getLocale() == 'en')
                 {{ ($event->button_en) ? $event->button_en : $event->button }}
             @else
                 {{ ($event->button) ? $event->button : $event->button_en }}
@@ -269,7 +269,7 @@
         <div class="comments_dev">
             <p>{{ $comment->content }}</p>
             <p
-            @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+            @if ( App::getLocale() == 'en')
             class="text-left text-primary"
             @else
             class="text-right text-primary"

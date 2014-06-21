@@ -1,6 +1,6 @@
 <?php
 
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 abstract class AdminBaseController extends BaseController
 {

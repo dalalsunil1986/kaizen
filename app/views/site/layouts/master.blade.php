@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Kaizen Courses</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,11 +26,11 @@
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/font-awesome.min.css') }}
 
-    @if ( LaravelLocalization::getCurrentLocaleName() == 'Arabic')
+    @if ( App::getLocale() == 'ar')
     {{ HTML::style('css/bootstrap-rtl.min.css') }}
     @endif
     {{ HTML::style('css/customcss.css') }}
-    @if ( LaravelLocalization::getCurrentLocaleName() == 'English')
+    @if ( App::getLocale() == 'en')
     {{ HTML::style('css/customen.css') }}
     @endif
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -82,7 +83,7 @@
     <div class="row">
         <!-- main content division -->
         <div class="col-md-8">
-            @yield('maincontent')
+            @yield('content')
         </div>
         <!-- end of main content-->
 
