@@ -1,5 +1,3 @@
-@extends('site.layouts.home')
-@section('footer')
 <!--footer start-->
 <div id="footer">
     <div class="col-md-4 col-xs-12 ">
@@ -21,4 +19,3 @@
         </div>
     </div>
 </div><!-- end of footer-->
-@stop

@@ -1,4 +1,3 @@
-@extends('site.layouts.master')
 @section('content')
 <style>
     .padded {

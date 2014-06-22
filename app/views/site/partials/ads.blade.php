@@ -1,5 +1,3 @@
-extends('site.layout.home')
-@section('ads')
 <!-- Advertisment section-->
 <div id="ads-section" class="row hidden-sm hidden-xs">
     @if($ad1)
@@ -18,4 +16,3 @@ extends('site.layout.home')
     </div>
     @endif
 </div>
-@stop

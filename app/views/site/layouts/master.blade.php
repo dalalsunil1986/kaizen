@@ -2,102 +2,91 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Kaizen Courses</title>
+    <title>{{ ! empty($title) ? $title . ' - ' : '' }} Kuwaitii.com</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file://
-    ==========================
-    some hints : Usama : 19-2-2014
-    to change or hide a division
-    1-  make one blade template with the name of the targeted division
-    2- extends this template to site.layouts.home which will be the master template temporarly
-    3- add that section of this division within the new template
-    ==========================
+    @section('style')
 
-    -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- arabic and english switcher -->
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/font-awesome.min.css') }}
 
     @if ( App::getLocale() == 'ar')
-    {{ HTML::style('css/bootstrap-rtl.min.css') }}
+        {{ HTML::style('css/bootstrap-rtl.min.css') }}
     @endif
-    {{ HTML::style('css/customcss.css') }}
+
+    {{ HTML::style('css/custom.css') }}
+
     @if ( App::getLocale() == 'en')
-    {{ HTML::style('css/customen.css') }}
+        {{ HTML::style('css/custom-en.css') }}
     @endif
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/customjs.js') }}"></script>
+
+    @show
+
 </head>
 <body>
-<div class="container">
-    <!-- header -->
-    <div class="row">
-        <div class="col-md-4 col-sm-4 col-xs-12">
-            <a href="/">{{ HTML::image('images/Logo.png','kaizen',array('class'=>'img-responsive')) }}</a>
+    <div class="container">
+        <!-- header -->
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <a href="/">{{ HTML::image('images/Logo.png','kaizen',array('class'=>'img-responsive')) }}</a>
+            </div>
+            <div class="col-md-7 col-sm-7 visible-lg visible-md visible-sm top30">
+                @include('site.partials.login')
+            </div>
+            <div class="col-md-1 col-sm-1  visible-lg visible-md visible-sm top30">
+                @include('site.partials.locale')
+            </div>
         </div>
-        <div class="col-md-7 col-sm-7 visible-lg visible-md visible-sm top30">
-            @yield('login')
+        <div class="row">
+            @yield('nav')
         </div>
-        <div class="col-md-1 col-sm-1  visible-lg visible-md visible-sm top30">
-            @include('site.layouts.locale')
+        <div class="row visible-xs">
+            <div class="col-xs-2">
+                @include('site.partials.locale')
+            </div>
+            <div class="col-xs-10">
+                @include('site.partials.login')
+            </div>
         </div>
-    </div>
-    <div class="row">
-        @yield('nav')
-    </div>
-    <div class="row visible-xs">
-        <div class="col-xs-2">
-            @include('site.layouts.locale')
-        </div>
-        <div class="col-xs-10">
-            @yield('login')
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            @include('notifications')
+        <div class="row">
+            <div class="col-md-12">
+                @include('site.partials.notifications')
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @yield('slider')
+        <div class="row">
+            <div class="col-md-12">
+                @section('slider')
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @yield('ads')
+        <div class="row">
+            <div class="col-md-12">
+                @section('ads')
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <!-- main content division -->
-        <div class="col-md-8">
-            @yield('content')
+        <div class="row">
+            <!-- main content division -->
+            <div class="col-md-8">
+                @yield('content')
+            </div>
+            <!-- end of main content-->
         </div>
-        <!-- end of main content-->
+        <div class="row">
+            @include('site.partials.footer')
+        </div>
 
-        <div class="col-md-4">
-            @yield('sidecontent')
-        </div>
-        <!-- end of sidedivision content-->
     </div>
-    <div class="row">
-        @yield('footer')
-    </div>
+    <!--end of container-->
 
-</div>
-<!--end of container-->
+    <!-- Javascript -->
+    @section('script')
+
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
+
+    @show
 
 </body>
 </html>

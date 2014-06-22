@@ -4,13 +4,14 @@ use Acme\Events\CountryRepository;
 use Acme\Events\EloquentCategoryRepository;
 use Acme\Events\EloquentEventRepository;
 use Acme\Users\EloquentUserRepository;
-use Carbon\Carbon;
 
 class EventsController extends BaseController {
 
+    /**
+     * @var Acme\Events\EloquentEventRepository
+     */
     protected $repository;
 
-    protected $currentTime;
     /**
      * @var Status
      */
@@ -39,9 +40,8 @@ class EventsController extends BaseController {
 
     public function index()
     {
-        $this->title = 'Events';
         $perPage = 10;
-        $events = $this->repository->findAll($perPage);
+        $this->title = 'Events';
         //find countries,authors,and categories to display in search form
         if ( App::getLocale() == 'en' ) {
             $countries = [0 => Lang::get('site.event.choose_country')] + $this->country->all()->lists('name_en', 'id');
@@ -56,13 +56,12 @@ class EventsController extends BaseController {
         $category          = Request::get('category');
         $author            = Request::get('author');
         $country           = Request::get('country');
-        $this->currentTime = Carbon::now()->toDateTimeString();
 
         // if the form is selected
         // perform search
         if ( ! empty($search) || ! empty($category) || ! empty($author) || ! empty($country) ) {
-            $events = $this->repository->model->with(array('category', 'location.country', 'photos', 'author'))
-                ->where('date_start', '>', $this->currentTime)
+            $events = $this->repository->findAll()
+
                 ->where(function ($query) use ($search, $category, $author, $country) {
                     if ( ! empty($search) ) {
                         $query->where('title', 'LIKE', "%$search%")
@@ -77,13 +76,13 @@ class EventsController extends BaseController {
                         $query->where('user_id', $author);
                     }
                     if ( ! empty($country) ) {
-                        $locations = Country::find($country)->locations()->lists('id');
+                        $locations = $this->country->find($country)->locations()->lists('id');
                         $query->whereIn('location_id', $locations);
                     }
                 })->orderBy('date_start', 'ASC')->paginate($perPage);
 
         } else {
-            $events = $this->getEvents($perPage);
+            $events = $this->repository->getEvents($perPage);
         }
 
         $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country'));
@@ -449,18 +448,6 @@ class EventsController extends BaseController {
         return $author;
     }
 
-    /**
-     * Return Events For Event Index Page
-     * @param $perPage
-     * @return mixed
-     *
-     */
-    public function getEvents($perPage)
-    {
-        return $this->repository->model
-            ->with(array('category', 'location.country', 'photos', 'author'))
-            ->where('date_start', '>', $this->currentTime)->orderBy('date_start', 'DESC')
-            ->paginate($perPage);
-    }
+
 
 }

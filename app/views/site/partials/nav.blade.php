@@ -1,5 +1,3 @@
-extends('site.layouts.home')
-@section('nav')
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header
@@ -27,4 +25,3 @@ extends('site.layouts.home')
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-@stop

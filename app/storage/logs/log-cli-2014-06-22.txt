@@ -1,0 +1,58 @@
+[2014-06-22 00:25:27] local.ERROR: 500 - Class 'Carbon' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Carbon' not found' in /Users/ZaL/vaprobash/kaizen/app/database/seeds/EventsTableSeeder.php:13
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-22 00:25:27] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Carbon' not found' in /Users/ZaL/vaprobash/kaizen/app/database/seeds/EventsTableSeeder.php:13
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-22 00:25:55] local.ERROR: 500 - Call to undefined method Illuminate\Database\Query\Builder::getEventCategories() @ /
+exception 'BadMethodCallException' with message 'Call to undefined method Illuminate\Database\Query\Builder::getEventCategories()' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php:2094
+Stack trace:
+#0 [internal function]: Illuminate\Database\Query\Builder->__call('getEventCategor...', Array)
+#1 [internal function]: Illuminate\Database\Query\Builder->getEventCategories()
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(914): call_user_func_array(Array, Array)
+#3 [internal function]: Illuminate\Database\Eloquent\Builder->__call('getEventCategor...', Array)
+#4 [internal function]: Illuminate\Database\Eloquent\Builder->getEventCategories()
+#5 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2980): call_user_func_array(Array, Array)
+#6 [internal function]: Illuminate\Database\Eloquent\Model->__call('getEventCategor...', Array)
+#7 [internal function]: Category->getEventCategories()
+#8 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2994): call_user_func_array(Array, Array)
+#9 /Users/ZaL/vaprobash/kaizen/app/database/seeds/EventsTableSeeder.php(26): Illuminate\Database\Eloquent\Model::__callStatic('getEventCategor...', Array)
+#10 /Users/ZaL/vaprobash/kaizen/app/database/seeds/EventsTableSeeder.php(26): Category::getEventCategories()
+#11 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(37): EventsTableSeeder->run()
+#12 /Users/ZaL/vaprobash/kaizen/app/database/seeds/DatabaseSeeder.php(41): Illuminate\Database\Seeder->call('EventsTableSeed...')
+#13 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Console/SeedCommand.php(57): DatabaseSeeder->run()
+#14 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(112): Illuminate\Database\Console\SeedCommand->fire()
+#15 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(252): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#16 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#17 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#18 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\SeedCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#19 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#20 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#21 {main} [] []
+[2014-06-22 00:25:55] local.ERROR: exception 'BadMethodCallException' with message 'Call to undefined method Illuminate\Database\Query\Builder::getEventCategories()' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php:2094
+Stack trace:
+#0 [internal function]: Illuminate\Database\Query\Builder->__call('getEventCategor...', Array)
+#1 [internal function]: Illuminate\Database\Query\Builder->getEventCategories()
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(914): call_user_func_array(Array, Array)
+#3 [internal function]: Illuminate\Database\Eloquent\Builder->__call('getEventCategor...', Array)
+#4 [internal function]: Illuminate\Database\Eloquent\Builder->getEventCategories()
+#5 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2980): call_user_func_array(Array, Array)
+#6 [internal function]: Illuminate\Database\Eloquent\Model->__call('getEventCategor...', Array)
+#7 [internal function]: Category->getEventCategories()
+#8 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2994): call_user_func_array(Array, Array)
+#9 /Users/ZaL/vaprobash/kaizen/app/database/seeds/EventsTableSeeder.php(26): Illuminate\Database\Eloquent\Model::__callStatic('getEventCategor...', Array)
+#10 /Users/ZaL/vaprobash/kaizen/app/database/seeds/EventsTableSeeder.php(26): Category::getEventCategories()
+#11 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(37): EventsTableSeeder->run()
+#12 /Users/ZaL/vaprobash/kaizen/app/database/seeds/DatabaseSeeder.php(41): Illuminate\Database\Seeder->call('EventsTableSeed...')
+#13 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Console/SeedCommand.php(57): DatabaseSeeder->run()
+#14 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(112): Illuminate\Database\Console\SeedCommand->fire()
+#15 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(252): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#16 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#17 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#18 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\SeedCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#19 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#20 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#21 {main} [] []

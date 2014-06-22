@@ -1,5 +1,3 @@
-@extends('site.layouts.home')
-@section('login')
     <ul class="dropdown">
         @if(!Auth::user())
                 <form class="form hidden-xs" role="form" method="POST" action="{{ URL::route('login') }}">
@@ -126,6 +124,3 @@
             </div>
         </div>
     </ul>
-
-
-@stop

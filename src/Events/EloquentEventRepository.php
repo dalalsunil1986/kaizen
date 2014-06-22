@@ -1,16 +1,15 @@
 <?php namespace Acme\Events;
 
-use Acme\Users\UserRepository;
+use Acme\Core\CrudableTrait;
+use Carbon\Carbon;
 use EventModel;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\Crudable;
 use Acme\Core\Repositories\Illuminate;
-use Acme\Core\Repositories\Paginable;
-use Acme\Core\Repositories\Repository;
 use Acme\Core\Repositories\AbstractRepository;
 
-class EloquentEventRepository extends AbstractRepository implements Repository, Paginable, Crudable, UserRepository {
+class EloquentEventRepository extends AbstractRepository  {
 
+    use CrudableTrait;
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
@@ -19,7 +18,7 @@ class EloquentEventRepository extends AbstractRepository implements Repository, 
     /**
      * Construct
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \EventModel|\Illuminate\Database\Eloquent\Model $model
      * @internal param \Illuminate\Database\Eloquent\Model $user
      */
     public function __construct(EventModel $model)
@@ -29,50 +28,28 @@ class EloquentEventRepository extends AbstractRepository implements Repository, 
         $this->model = $model;
     }
 
-    public function findAll($perPage = 5)
+    public function findAll()
     {
-        $events = $this->model->with(array('category', 'location.country', 'photos', 'author'));
+        $currentTime = Carbon::now()->toDateTimeString();
+
+        $events = $this->model->with(array('category', 'location.country', 'photos', 'author'))
+                    ->where('date_start', '>', $currentTime)
+        ;
 
         return $events;
-
-
-//        return $events;
     }
 
     /**
-     * Create a new entity
+     * Return Events For Event Index Page
+     * @param $perPage
+     * @return mixed
      *
-     * @param array $input
-     * @internal param array $data
-     * @return Illuminate\Database\Eloquent\Model
      */
-    public function create(array $input)
+    public function getEvents($perPage = 10)
     {
-        return $this->model->create($input);
+        return $this->findAll()
+            ->orderBy('date_start', 'DESC')
+            ->paginate($perPage);
     }
-
-    /**
-     * Update an existing entity
-     *
-     * @param array $input
-     * @internal param array $data
-     * @return Illuminate\Database\Eloquent\Model
-     */
-    public function update(array $input)
-    {
-        // TODO: Implement update() method.
-    }
-
-    /**
-     * Delete an existing entity
-     *
-     * @param int $id
-     * @return boolean
-     */
-    public function delete($id)
-    {
-        // TODO: Implement delete() method.
-    }
-
 
 }

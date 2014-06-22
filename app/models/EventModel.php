@@ -5,10 +5,10 @@ class EventModel extends BaseModel {
 
 	public static $rules = array(
         'title'=>'required',
-        'description'=>'required',
-        'user_id' => 'required',
-        'category_id' => 'required',
-        'location_id' =>'required'
+//        'description'=>'required',
+//        'user_id' => 'required',
+//        'category_id' => 'required',
+//        'location_id' =>'required'
     );
 
     /**

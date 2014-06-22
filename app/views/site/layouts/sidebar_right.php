@@ -13,14 +13,14 @@ extends('site.layouts.home')
 <div id="side-1">
     <div class="panel panel-default">
         <div class="panel-heading">
-           {{ Lang::get('site.general.latest_events') }}
+            {{ Lang::get('site.general.latest_events') }}
         </div>
         <div class="panel-body">
             <ul>
                 @if($latest_event_posts)
-                    @foreach($latest_event_posts as $event)
-                    <li class="unstyled"><i class="glyphicon glyphicon-calendar"></i> <a href="{{URL::action('EventsController@show',$event->id)}}"> {{ (App::getLocale() == 'en') ? $event->title_en : $event->title }}</a></li>
-                    @endforeach
+                @foreach($latest_event_posts as $event)
+                <li class="unstyled"><i class="glyphicon glyphicon-calendar"></i> <a href="{{URL::action('EventsController@show',$event->id)}}"> {{ (App::getLocale() == 'en') ? $event->title_en : $event->title }}</a></li>
+                @endforeach
                 @endif
             </ul>
         </div>
@@ -33,9 +33,9 @@ extends('site.layouts.home')
         <div class="panel-body">
             <ul>
                 @if($latest_blog_posts)
-                    @foreach($latest_blog_posts as $post)
-                    <li class="unstyled"><i class="glyphicon glyphicon-book"></i><a href="{{URL::action('BlogsController@show',$post->slug)}}"> {{ $post->title }}</a></li>
-                    @endforeach
+                @foreach($latest_blog_posts as $post)
+                <li class="unstyled"><i class="glyphicon glyphicon-book"></i><a href="{{URL::action('BlogsController@show',$post->slug)}}"> {{ $post->title }}</a></li>
+                @endforeach
                 @endif
             </ul>
         </div>
@@ -52,15 +52,15 @@ extends('site.layouts.home')
                 <div class="form-group">
                     <span class="mute">{{ Lang::get('site.general.newsletter_subscribe') }}</span>
                     {{ Form::open(array('action'=>'NewslettersController@store')) }}
-                        <div class="input-group">
+                    <div class="input-group">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-envelope"></i>
                             </span>
-                            {{Form::input('email','email',NULL,array('class'=>'form-control','placeholder'=>'Email','required'=>'"required"'))}}
+                        {{Form::input('email','email',NULL,array('class'=>'form-control','placeholder'=>'Email','required'=>'"required"'))}}
                             <span class="input-group-btn">
                                 <button id="submit" class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-arrow-left glyphicon-fw"></i> </button>
                             </span>
-                        </div>
+                    </div>
                     {{Form::close()}}
                 </div>
             </div>
