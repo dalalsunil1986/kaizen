@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{{ ! empty($title) ? $title . ' - ' : '' }} Kuwaitii.com</title>
+    <title>{{ ! empty($title) ? $title . ' - ' : '' }} Kaizen</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -32,14 +32,16 @@
                 <a href="/">{{ HTML::image('images/Logo.png','kaizen',array('class'=>'img-responsive')) }}</a>
             </div>
             <div class="col-md-7 col-sm-7 visible-lg visible-md visible-sm top30">
-                @include('site.partials.login')
+                @section('login')
+                    @include('site.partials.login')
+                @show
             </div>
             <div class="col-md-1 col-sm-1  visible-lg visible-md visible-sm top30">
                 @include('site.partials.locale')
             </div>
         </div>
         <div class="row">
-            @yield('nav')
+            @include('site.partials.navigation')
         </div>
         <div class="row visible-xs">
             <div class="col-xs-2">
@@ -52,25 +54,12 @@
 
         <div class="row">
             <div class="col-md-12">
-                @include('site.partials.notifications')
+                @include('site.partials.notification')
             </div>
         </div>
+
         <div class="row">
-            <div class="col-md-12">
-                @section('slider')
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                @section('ads')
-            </div>
-        </div>
-        <div class="row">
-            <!-- main content division -->
-            <div class="col-md-8">
-                @yield('content')
-            </div>
-            <!-- end of main content-->
+            {{ $content }}
         </div>
         <div class="row">
             @include('site.partials.footer')

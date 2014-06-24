@@ -1,8 +1,9 @@
-@extends('site.layouts.home')
-@section('maincontent')
-@if(Helper::isOwner($user->id))
+@extends('site.layouts._one_column')
+@section('content')
 
-    <div class="row well">
+@if($user->isOwner($user->id))
+
+    <div class="row">
         <div class="col-md-12">
             <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>

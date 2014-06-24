@@ -4,7 +4,6 @@ use Illuminate\Support\MessageBag;
 use Acme\Users\AuthService;
 use Acme\Users\EloquentAuthRepository;
 use Acme\Users\UserEventSubscriber;
-use Post;
 use Illuminate\Support\ServiceProvider;
 use Acme\Users\EloquentUserRepository;
 use User;
@@ -30,36 +29,33 @@ class RepositoryServiceProvider extends ServiceProvider {
      */
     private function registerUserRepository()
     {
-        $this->app->bind('Kuwaitii\Users\UserRepository', function ($app) {
+        $this->app->bind('Acme\Users\UserRepository', function ($app) {
             $user = new EloquentUserRepository(new User);
+
+            $user->registerValidator(
+                'update', $app->make('Acme\Users\Validators\UserUpdateValidator')
+            );
+
             return $user;
-            // return new CacheDecorator($user, new LaravelCache($app['cache'], 'user'));
         });
 
     }
 
     private function registerAuthService()
     {
-        $this->app->bind('Kuwaitii\Users\AuthService', function ($app) {
-//            $user = new AuthService();
-            $user = new AuthService($app->make('Kuwaitii\Users\UserRepository'), new MessageBag);
-//            $user = new EloquentAuthRepository(new User);
+        $this->app->bind('Acme\Users\AuthService', function ($app) {
+            $user = new AuthService($app->make('Acme\Users\UserRepository'), new MessageBag);
 
             $user->registerValidator(
-                'create', $app->make('Kuwaitii\Users\Validators\UserCreateValidator')
+                'create', $app->make('Acme\Users\Validators\UserCreateValidator')
             );
 
             $user->registerValidator(
-                'update', $app->make('Kuwaitii\Users\Validators\UserUpdateValidator')
-            );
-
-            $user->registerValidator(
-                'reset', $app->make('Kuwaitii\Users\Validators\UserResetValidator')
+                'reset', $app->make('Acme\Users\Validators\UserResetValidator')
             );
 
             return $user;
         });
     }
-
 
 }

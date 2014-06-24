@@ -1,15 +1,16 @@
 <?php namespace Acme\Users;
 
+use Acme\Core\CrudableTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\Crudable;
 use Acme\Core\Repositories\Illuminate;
 use Acme\Core\Repositories\Paginable;
 use Acme\Core\Repositories\Repository;
 use Acme\Core\Repositories\AbstractRepository;
-use User;
 
-class EloquentUserRepository extends AbstractRepository implements Repository, Paginable, Crudable{
+class EloquentUserRepository extends AbstractRepository implements Repository, Paginable, UserRepository {
 
+    use CrudableTrait;
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
@@ -18,50 +19,14 @@ class EloquentUserRepository extends AbstractRepository implements Repository, P
     /**
      * Construct
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \Acme\Users\Model|\Illuminate\Database\Eloquent\Model $model
      * @internal param \Illuminate\Database\Eloquent\Model $user
      */
-    public function __construct(User $model)
+    public function __construct(Model $model)
     {
         parent::__construct(new MessageBag);
 
         $this->model = $model;
-    }
-
-
-    /**
-     * Create a new entity
-     *
-     * @param array $input
-     * @internal param array $data
-     * @return Illuminate\Database\Eloquent\Model
-     */
-    public function create(array $input)
-    {
-        return $this->model->create($input);
-    }
-
-    /**
-     * Update an existing entity
-     *
-     * @param array $input
-     * @internal param array $data
-     * @return Illuminate\Database\Eloquent\Model
-     */
-    public function update(array $input)
-    {
-        // TODO: Implement update() method.
-    }
-
-    /**
-     * Delete an existing entity
-     *
-     * @param int $id
-     * @return boolean
-     */
-    public function delete($id)
-    {
-        // TODO: Implement delete() method.
     }
 
     public static function isSubscribed($id,$userId) {

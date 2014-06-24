@@ -107,6 +107,9 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
+        //app
+        'Acme\Core\ServiceProviders\RepositoryServiceProvider',
+        'Acme\Core\ServiceProviders\ValidatorsServiceProvider',
 
         /* Additional Providers */
         'Zizaco\Entrust\EntrustServiceProvider', // Entrust Provider for roles
@@ -187,6 +190,7 @@ return array(
         /* Additional Aliases */
         'Entrust'         => 'Zizaco\Entrust\EntrustFacade', // Entrust Alias
         'Intervention' => 'Intervention\Image\Facades\Image',
+        'Debugbar' => 'Barryvdh\Debugbar\Facade',
     ),
 
 

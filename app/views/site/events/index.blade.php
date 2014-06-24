@@ -1,3 +1,5 @@
+@extends('site.layouts._two_column')
+
 @section('content')
 <style>
     .padded {

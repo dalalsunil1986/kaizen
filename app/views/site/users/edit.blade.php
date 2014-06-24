@@ -1,20 +1,16 @@
-@extends('site.layouts.home')
-@section('maincontent')
+@extends('site.layouts._one_column')
+@section('content')
 
-<div class="alert alert-warning">{{ Lang::get('site.general.warning_msg')}}</div>
+<div class="alert alert-info">{{ Lang::get('site.general.warning_msg')}}</div>
 
-{{ Form::model($user,array('method' => 'PATCH', 'action'=>array('UserController@update',$user->id),'class'=>'form')) }}
-
-    @if ( Session::get('errors') )
-        <div class="alert alert-danger">Please fix the Errors<br/>{{ implode('', $errors->all('<p> - :message</p>')) }}</div>
-    @endif
+{{ Form::model($user,array('method' => 'PATCH', 'action'=>array('UserController@update', $user->id),'class'=>'form')) }}
 
     <div class="row">
         <div class="col-xs-6 col-md-6">
-            {{ Form::text('first_name',NULL,array('class'=>'form-control input-lg','placeholder'=>Lang::get('site.general.first_name'))) }}
+            {{ Form::text('name_ar',NULL,array('class'=>'form-control input-lg','placeholder'=>Lang::get('site.general.first_name'))) }}
         </div>
         <div class="col-xs-6 col-md-6">
-            {{ Form::text('last_name',NULL,array('class'=>'form-control input-lg','placeholder'=> Lang::get('site.general.last_name'))) }}
+            {{ Form::text('name_en',NULL,array('class'=>'form-control input-lg','placeholder'=> Lang::get('site.general.last_name'))) }}
         </div>
     </div>
     </br>

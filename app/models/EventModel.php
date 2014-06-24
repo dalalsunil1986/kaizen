@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class EventModel extends BaseModel {
 	protected $guarded = array();
 
@@ -146,52 +148,6 @@ class EventModel extends BaseModel {
         return $this->morphMany('Photo','imageable');
     }
 
-    /**
-     * Fetches posts for latest Event
-     * @return array
-     *
-     */
-    public  function latestEvents()
-    {
-        return DB::table('events as e')
-            ->join('photos as p', 'e.id', '=', 'p.imageable_id', 'LEFT')
-            ->where('p.imageable_type', '=', 'EventModel')
-            ->where('e.date_start','>',Carbon::now()->toDateTimeString())
-            ->orderBy('e.date_start','DESC')
-            ->orderBy('e.created_at','DESC')
-            ->take('5')
-            ->get(array('e.id'))
-            ;
-    }
-
-    /**
-     * Fetches posts for latest Event
-     * @return array
-     *
-     */
-    public  function feautredEvents()
-    {
-        return DB::table('events AS e')
-            ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
-            ->where('p.imageable_type', '=', 'EventModel')
-            ->where('e.date_start','>',Carbon::now()->toDateTimeString())
-            ->where('e.featured','1')
-            ->orderBy('e.date_start','DESC')
-            ->orderBy('e.created_at','DESC')
-            ->take('5')
-            ->get(array('e.id'))
-            ;
-    }
-
-    public function getSliderEvents($limit, $array) {
-        $events = DB::table('events AS e')
-            ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
-            ->whereIn('e.id',$array)
-            ->take($limit)
-            ->groupBy('e.id')
-            ->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name','e.button','e.button_en'));
-        return $events;
-    }
 
     public static  function fixEventCounts($id,$count) {
         $event = EventModel::find($id);

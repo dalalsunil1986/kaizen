@@ -8,7 +8,7 @@ trait CrudableTrait {
      *
      * @param array $input
      * @internal param array $data
-     * @return Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $input)
     {
@@ -18,24 +18,33 @@ trait CrudableTrait {
     /**
      * Update an existing entity
      *
+     * @param $id
      * @param array $input
      * @internal param array $data
-     * @return Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function update(array $input)
+    public function update($id, array $input)
     {
-        // TODO: Implement update() method.
+        $record = $this->requireById($id);
+        $record->fill($input);
+
+        if($this->save($record)) {
+            return true;
+        }
+        $this->addError('Could Not Update');
+        return false;
     }
 
     /**
      * Delete an existing entity
      *
-     * @param int $id
+     * @param Model $model
+     * @internal param int $id
      * @return boolean
      */
-    public function delete($id)
+    public function delete(Model $model)
     {
-        // TODO: Implement delete() method.
+        return $model->delete();
     }
 
 } 

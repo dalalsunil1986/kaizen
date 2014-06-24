@@ -4,23 +4,22 @@
 |--------------------------------------------------------------------------
 | Application & Route Filters
 |--------------------------------------------------------------------------
-|
-| Below you will find the "before" and "after" events for the application
-| which may be used to do any work before or after a request into your
-| application. Here you may also register your custom route filters.
-|
 */
 
-App::before(function($request)
-{
-    //
+App::before(function($request) {
+    // enforce no www
+    if (preg_match('/^http:\/\/www./', $request->url())) {
+        $newUrl = preg_replace('/^http:\/\/www./', 'http://', $request->url());
+        return Redirect::to($newUrl);
+    }
 });
 
-
-App::after(function($request, $response)
-{
-    //
+App::after(function($request, $response) {
+    if (Auth::guest()) {
+        if ( ! stristr($request->path(), 'login') && ! stristr($request->path(), 'signup')) Session::put('auth.intended_redirect_url', $request->url());
+    }
 });
+
 /*
 |--------------------------------------------------------------------------
 | Authentication Filters

@@ -3,7 +3,7 @@
 abstract class BaseController extends Controller
 {
     protected $layout = 'site.layouts.master';
-
+    protected $title = '';
     /**
      * Initializer.
      *
@@ -13,8 +13,8 @@ abstract class BaseController extends Controller
     public function __construct()
     {
         $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
-//        $this->sidebarPosts();
-//        $this->getAds();
+        $this->sidebarPosts();
+        $this->getAds();
     }
 
     protected function setupLayout()
@@ -41,13 +41,18 @@ abstract class BaseController extends Controller
     }
 
     public function sidebarPosts() {
-        View::composer('site.layouts.sidebar', function($view)
+        View::composer('site.events.latest', function($view)
         {
             $latest_event_posts = EventModel::latest(4);
+            $view->with(array('latest_event_posts'=>$latest_event_posts));
+        });
+        View::composer('site.blog.latest', function($view)
+        {
             $latest_blog_posts  = Post::latest(4);
-            $view->with(array('latest_event_posts'=>$latest_event_posts,'latest_blog_posts'=>$latest_blog_posts));
+            $view->with(array('latest_blog_posts'=>$latest_blog_posts));
         });
     }
+
     public function getAds() {
         View::composer('site.layouts.ads', function($view)
         {

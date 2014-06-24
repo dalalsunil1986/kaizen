@@ -3,14 +3,6 @@
 interface Repository {
 
     /**
-     * Retrieve all entities
-     *
-     * @param array $with
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function all(array $with = array());
-
-    /**
      * Search by key and value
      *
      * @param string $key
@@ -29,6 +21,7 @@ interface Repository {
 
     /**
      * Add error to MessageBag
+     * @param $errorMsg
      * @return \Illuminate\Support\MessageBag
      */
     public function addError($errorMsg);

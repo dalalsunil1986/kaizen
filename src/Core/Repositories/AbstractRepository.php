@@ -1,5 +1,6 @@
 <?php namespace Acme\Core\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
 use StdClass;
 use Illuminate\Support\MessageBag;
 
@@ -23,6 +24,52 @@ abstract class AbstractRepository {
     public function __construct(MessageBag $errors)
     {
         $this->errors = $errors;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+    }
+
+    public function getAll()
+    {
+        return $this->model->all();
+    }
+
+    public function getAllPaginated($count)
+    {
+        return $this->model->paginate($count);
+    }
+
+    public function getById($id, array $with = [] )
+    {
+        if (isset($with) && (!empty($with))) {
+
+            return $this->model->with($with)->find($id);
+        }
+
+        return $this->model->find($id);
+    }
+
+    public function requireById($id, array $with = [])
+    {
+        $model = $this->getById($id, $with);
+
+        if ( ! $model) {
+            throw new EntityNotFoundException;
+        }
+
+        return $model;
+    }
+
+    public function getNew($attributes = array())
+    {
+        return $this->model->newInstance($attributes);
     }
 
     /**
@@ -66,33 +113,6 @@ abstract class AbstractRepository {
     }
 
     /**
-     * Retrieve all entities
-     *
-     * @param array $with
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function all(array $with = array())
-    {
-        $entity = $this->make($with);
-
-        return $entity->get();
-    }
-
-    /**
-     * Find a single entity
-     *
-     * @param int $id
-     * @param array $with
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function find($id, array $with = array())
-    {
-        $entity = $this->make($with);
-
-        return $entity->find($id);
-    }
-
-    /**
      * Get Results by Page
      *
      * @param int $page
@@ -128,7 +148,7 @@ abstract class AbstractRepository {
      * @param array $with
      * @return \Illuminate\Database\Query\Builders
      */
-    public function getBy($key, $value, array $with = array())
+    public function getBy($key, $value, array $with = [])
     {
         return $this->make($with)->where($key, '=', $value)->get();
     }
@@ -156,4 +176,27 @@ abstract class AbstractRepository {
         return $this->errors->add($key,$errorMsg);
     }
 
+    protected function storeEloquentModel($model)
+    {
+        if ($model->getDirty()) {
+            return $model->save();
+        } else {
+            return $model->touch();
+        }
+    }
+
+    protected function storeArray($data)
+    {
+        $model = $this->getNew($data);
+        return $this->storeEloquentModel($model);
+    }
+
+    public function save(Model $model)
+    {
+        if ($model->getDirty()) {
+            return $model->save();
+        } else {
+            return $model->touch();
+        }
+    }
 }

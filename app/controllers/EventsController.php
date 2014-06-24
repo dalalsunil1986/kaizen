@@ -4,6 +4,7 @@ use Acme\Events\CountryRepository;
 use Acme\Events\EloquentCategoryRepository;
 use Acme\Events\EloquentEventRepository;
 use Acme\Users\EloquentUserRepository;
+use Acme\Users\UserRepository;
 
 class EventsController extends BaseController {
 
@@ -29,7 +30,7 @@ class EventsController extends BaseController {
      */
     private $user;
 
-    function __construct(EloquentEventRepository $repository, EloquentCategoryRepository $category, CountryRepository $country, EloquentUserRepository $user)
+    function __construct(EloquentEventRepository $repository, EloquentCategoryRepository $category, CountryRepository $country, UserRepository $user)
     {
         $this->repository    = $repository;
         $this->category = $category;
@@ -91,17 +92,10 @@ class EventsController extends BaseController {
 
     public function dashboard()
     {
-        //        $events = parent::all();
+        // $events = parent::all();
         // get only 4 images for slider
-        $events                    = $this->getSliderEvents();
-//        $this->layout->events      = View::make('site.layouts.event', ['events' => $events]); // slider section
-//        $this->layout->login       = View::make('site.layouts.login');
-//        $this->layout->ads         = view::make('site.layouts.ads');
-//        $this->layout->nav         = view::make('site.layouts.nav');
-//        $this->layout->slider      = view::make('site.layouts.event', ['events' => $events]);
-//        $this->layout->maincontent = view::make('site.layouts.dashboard');
-//        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-//        $this->layout->footer      = view::make('site.layouts.footer');
+        $events  = $this->repository->getSliderEvents();
+        $this->render('site.home', compact('events'));
     }
 
 
@@ -113,13 +107,12 @@ class EventsController extends BaseController {
      */
     public function show($id)
     {
-        $event               = $this->repository->with('comments', 'author', 'photos', 'subscribers', 'followers', 'favorites')->findOrFail($id);
-        $this->layout->login = View::make('site.layouts.login');
-//        $this->layout->ads = view::make('site.layouts.ads');
-        $this->layout->nav         = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.events.view', ['event' => $event]);
-        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-        $this->layout->footer      = view::make('site.layouts.footer');
+        $event = $this->repository->find( $id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites'] );
+
+        if(!$event)
+            App::abort('404');
+
+        $this->layout->render('site.events.view', compact('event'));
 
         if ( Auth::check() ) {
             $user = Auth::user();

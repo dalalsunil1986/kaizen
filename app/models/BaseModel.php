@@ -1,182 +1,156 @@
 <?php
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Validation\Validator;
-use Carbon\Carbon;
 
-class BaseModel extends Eloquent
-{
+use Illuminate\Database\Eloquent\Model;
 
-    // fallback $guarded
-    protected $guarded = array('_token', '_method', 'id');
-
-    //fallback $rules
+class BaseModel extends Model {
 
     /**
-     * Error message bag
+     * Create a new model.
      *
-     * @var Illuminate\Support\MessageBag
+     * @param  array $input
+     * @throws Exception
+     * @return mixed
      */
-    protected $errors;
-
-    /**
-     * Validation rules
-     *
-     * @var Array
-     */
-    protected static $rules = array();
-
-    /**
-     * Custom error messages
-     *
-     * @var array
-     */
-    protected static $messages = array();
-
-    /**
-     * Validator instance
-     *
-     * @var Illuminate\Validation\Validators
-     */
-    protected $validator;
-
-    public function __construct(array $attributes = array(), Validator $validator = null)
+    public static  function create(array $input)
     {
-        parent::__construct($attributes);
+        DB::beginTransaction();
 
-        $this->validator = $validator ?: \App::make('validator');
-    }
+        try {
+            Event::fire(static::$name . '.creating', array($input));
+            static::beforeCreate($input);
+            $return = parent::create($input);
+            static::afterCreate($input, $return);
+            Event::fire(static::$name . '.created', array($input));
 
-    /**
-     * Listen for save event
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function($model)
-        {
-            return $model->validate();
-        });
-    }
-
-    /**
-     * Validates current attributes against rules
-     */
-    public function validate()
-    {
-        $replace = ($this->getKey() > 0) ? $this->getKey() : '';
-        foreach (static::$rules as $key => $rule)
-        {
-            static::$rules[$key] = str_replace(':id', $replace, $rule);
+            DB::commit();
+        }
+        catch ( \Exception $e ) {
+            DB::rollBack();
+            throw $e;
         }
 
-        $validator = $this->validator->make($this->attributes, static::$rules, static::$messages);
-
-        if ($validator->passes()) return true;
-
-        $this->setErrors($validator->messages());
-
-        return false;
+        return $return;
     }
 
     /**
-     * Set error message bag
+     * Before creating a new model.
      *
-     * @var Illuminate\Support\MessageBag
+     * @param  array $input
+     * @return mixed
      */
-    protected function setErrors($errors)
+    public static function beforeCreate(array $input)
     {
-        $this->errors = $errors;
+        // can be overwritten by extending class
     }
 
     /**
-     * Retrieve error message bag
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-
-    /**
-     * Return if there are any errors
+     * After creating a new model.
      *
-     * @return bool
+     * @param  array $input
+     * @param  mixed $return
+     * @return mixed
      */
-    public function hasErrors()
+    public static function afterCreate(array $input, $return)
     {
-        return ! empty($this->errors);
+        // can be overwritten by extending class
     }
 
-    protected function getHumanTimestampAttribute($column)
+    /**
+     * Update an existing model.
+     *
+     * @param  array $input
+     * @throws Exception
+     * @return mixed
+     */
+    public function update(array $input = [])
     {
-        if ($this->attributes[$column])
-        {
-            return Carbon::parse($this->attributes[$column])->diffForHumans();
+        DB::beginTransaction();
+
+        try {
+            Event::fire(static::$name . '.updating', array($input));
+            $this->beforeUpdate($input);
+            $return = parent::update($input);
+            $this->afterUpdate($input, $return);
+            Event::fire(static::$name . '.updated', array($input));
+
+            DB::commit();
+        }
+        catch ( \Exception $e ) {
+            DB::rollBack();
+            throw $e;
         }
 
-        return null;
+        return $return;
     }
-
-    public function getHumanCreatedAtAttribute()
-    {
-        return $this->getHumanTimestampAttribute("created_at");
-    }
-
-    public function getNiceDate($date)
-    {
-        return $this->getHumanTimestampAttribute($date);
-    }
-
-
-    public function getHumanEventDateStartAtAttribute()
-    {
-        return $this->getHumanTimestampAttribute("date_start");
-    }
-
-    public function getHumanEventDateEndAtAttribute()
-    {
-        return $this->getHumanTimestampAttribute("date_end");
-    }
-
-
-    public function getHumanUpdatedAtAttribute()
-    {
-        return $this->getHumanTimestampAttribute("updated_at");
-    }
-
 
     /**
-     * Get single model by slug
+     * Before updating an existing new model.
      *
-     * @param string slug
-     * @return object object of model
+     * @param  array $input
+     * @return mixed
      */
-    public  function bySlug($slug)
+    public function beforeUpdate(array $input)
     {
-        return $this->model->whereSlug($slug)->first();
+        // can be overwritten by extending class
     }
 
-    protected function dateStringToCarbon($date, $format = 'm/d/Y')
+    /**
+     * After updating an existing model.
+     *
+     * @param  array $input
+     * @param  mixed $return
+     * @return mixed
+     */
+    public function afterUpdate(array $input, $return)
     {
-        if(!$date instanceof Carbon) {
-            $validDate = false;
-            try {
-                $date = Carbon::createFromFormat($format, $date);
-                $validDate = true;
-            } catch(Exception $e) { }
+        // can be overwritten by extending class
+    }
 
-            if(!$validDate) {
-                try {
-                    $date = Carbon::parse($date);
-                    $validDate = true;
-                } catch(Exception $e) { }
-            }
+    /**
+     * Delete an existing model.
+     *
+     * @return mixed
+     */
+    public function delete()
+    {
+        DB::beginTransaction();
 
-            if(!$validDate) {
-                $date = NULL;
-            }
+        try {
+            Event::fire(static::$name . '.deleting', $this);
+            $this->beforeDelete();
+            $return = parent::delete();
+            $this->afterDelete($return);
+            Event::fire(static::$name . '.deleted', $this);
+
+            DB::commit();
         }
-        return $date;
+        catch ( \Exception $e ) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $return;
+    }
+
+    /**
+     * Before deleting an existing model.
+     *
+     * @return mixed
+     */
+    public function beforeDelete()
+    {
+        // can be overwritten by extending class
+    }
+
+    /**
+     * After deleting an existing model.
+     *
+     * @param  mixed $return
+     * @return mixed
+     */
+    public function afterDelete($return)
+    {
+        // can be overwritten by extending class
     }
 
 }
