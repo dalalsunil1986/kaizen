@@ -1,12 +1,13 @@
 <?php namespace Acme\Users;
 
 use Acme\Core\CrudableTrait;
+use Acme\Users\Validators\UserUpdateValidator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\Illuminate;
 use Acme\Core\Repositories\Paginable;
 use Acme\Core\Repositories\Repository;
 use Acme\Core\Repositories\AbstractRepository;
+use Subscription;
 
 class EloquentUserRepository extends AbstractRepository implements Repository, Paginable, UserRepository {
 
@@ -19,7 +20,7 @@ class EloquentUserRepository extends AbstractRepository implements Repository, P
     /**
      * Construct
      *
-     * @param \Acme\Users\Model|\Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      * @internal param \Illuminate\Database\Eloquent\Model $user
      */
     public function __construct(Model $model)
@@ -43,5 +44,9 @@ class EloquentUserRepository extends AbstractRepository implements Repository, P
         return $query;
     }
 
+    public function getEditForm($id)
+    {
+        return new UserUpdateValidator($id);
+    }
 
 }

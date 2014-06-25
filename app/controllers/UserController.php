@@ -28,22 +28,6 @@ class UserController extends BaseController {
     }
 
     /**
-     * Users settings page
-     *
-     * @return View
-     */
-    public function index()
-    {
-        list($user, $redirect) = $this->userRepository->checkAuthAndRedirect('user');
-        if ( $redirect ) {
-            return $redirect;
-        }
-
-        // Show the page
-        return View::make('site/user/index', compact('user'));
-    }
-
-    /**
      * @param $id
      * @return redirect to get profile
      * just a RESTful wrapper
@@ -84,19 +68,18 @@ class UserController extends BaseController {
     {
         $this->userRepository->requireById($id);
 
-        $data = Input::only('name_ar', 'name_en', 'password', 'country_id', 'twitter', 'phone', 'mobile');
+        $val  = $this->userRepository->getEditForm($id);
 
-        $val = $this->userRepository->validators['update']->with($data);
-
-        if ( $val->passes() ) {
-            if ( $user = $this->userRepository->update(id, $data) ) {
-                return Redirect::action('UserController@getProfile', $id)->with('success', 'Updated');
-            } else {
-                return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
-            }
-        } else {
-            return Redirect::back()->with('errors', $val->errors())->withInput();
+        if (! $val->isValid()) {
+            return Redirect::back()->with( 'errors',$val->getErrors())->withInput();
         }
+
+        if ( $user = $this->userRepository->update($id, $val->getInputData()) ) {
+            return Redirect::action('UserController@getProfile', $id)->with('success', 'Updated');
+        } else {
+            return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
+        }
+
     }
 
     public function destroy($id)

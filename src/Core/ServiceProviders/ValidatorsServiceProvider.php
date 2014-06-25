@@ -2,7 +2,6 @@
 
 use Illuminate\Support\ServiceProvider;
 use Acme\Users\Validators\UserCreateValidator;
-use Acme\Users\Validators\UserUpdateValidator;
 
 class ValidatorsServiceProvider extends ServiceProvider {
 
@@ -20,9 +19,6 @@ class ValidatorsServiceProvider extends ServiceProvider {
             return new UserCreateValidator($app['validator']);
         });
 
-        $this->app->bind('Cribbb\Users\UserUpdateValidator', function ($app) {
-            return new UserUpdateValidator($app['validator']);
-        });
     }
 
 }

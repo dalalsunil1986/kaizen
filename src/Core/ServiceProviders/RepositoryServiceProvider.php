@@ -2,7 +2,6 @@
 
 use Illuminate\Support\MessageBag;
 use Acme\Users\AuthService;
-use Acme\Users\EloquentAuthRepository;
 use Acme\Users\UserEventSubscriber;
 use Illuminate\Support\ServiceProvider;
 use Acme\Users\EloquentUserRepository;
@@ -29,12 +28,8 @@ class RepositoryServiceProvider extends ServiceProvider {
      */
     private function registerUserRepository()
     {
-        $this->app->bind('Acme\Users\UserRepository', function ($app) {
+        $this->app->bind('Acme\Users\UserRepository', function () {
             $user = new EloquentUserRepository(new User);
-
-            $user->registerValidator(
-                'update', $app->make('Acme\Users\Validators\UserUpdateValidator')
-            );
 
             return $user;
         });
