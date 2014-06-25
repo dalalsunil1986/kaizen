@@ -13,15 +13,11 @@ class AuthController extends BaseController {
     {
         $this->service = $service;
         parent::__construct();
+        $this->beforeFilter('noAuth', ['*']);
     }
 
     public function getLogin()
     {
-        if ( Auth::check() ) {
-
-            return Redirect::home()->with('info', 'You already logged in');
-        }
-
         $this->title = 'Login to your Account';
         $this->render('site.auth.login');
     }
@@ -39,7 +35,7 @@ class AuthController extends BaseController {
             return Redirect::intended('/');
         } else {
 
-            return Redirect::action('AuthController@getLogin')->with('errors', Lang::get('site.auth.alerts.wrong_credentials'));
+            return Redirect::action('AuthController@getLogin')->with('error', Lang::get('site.auth.alerts.wrong_credentials'));
         }
     }
 
@@ -57,29 +53,24 @@ class AuthController extends BaseController {
 
     public function postRegister()
     {
-        // allow only these inputs
-        $data = Input::only(
-            'email', 'password', 'password_confirmation', 'name_ar', 'name_en', 'username', 'phone'
-        );
+        // get the registration form
+        $val = $this->service->getRegistrationForm();
 
-        $val = $this->service->validators['create']->with($data);
+        // check if the form is valid
+        if ( ! $val->isValid() ) {
 
-        if ( $val->passes() ) {
-
-            // If Validation Passes
-            if ( $this->service->register($data) ) {
-
-                return Redirect::action('AuthController@getLogin')->with('success', 'Email confirmation link has been sent to your email. PLease confirm your account');
-            } else {
-
-                return Redirect::route('cars.index')->with('errors', $this->service->errors());
-            }
-
-        } else {
-
-            // If validation Fails
-            return Redirect::back()->with('errors', $val->errors())->withInput($data);
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
+
+        // If Auth Sevice Fails to Register the User
+        if ( ! $this->service->register($val->getInputData()) ) {
+
+            return Redirect::home()->with('errors', $this->service->errors());
+        }
+
+        // If User got Registered
+        return Redirect::action('AuthController@getLogin')->with('success', 'Email confirmation link has been sent to your email. PLease confirm your account');
+
     }
 
 
@@ -147,6 +138,16 @@ class AuthController extends BaseController {
     }
 
     /**
+     * Logout a User
+     */
+    public function getLogout()
+    {
+        Auth::logout();
+
+        return Redirect::home();
+    }
+
+    /**
      * @param $token
      * Confirm the User and Activate
      * Lands on this page When User Clicks the Activation Link in Email
@@ -160,23 +161,6 @@ class AuthController extends BaseController {
             // errors
             dd($this->service->errors());
         }
-    }
-
-    /**
-     * Logout a User
-     */
-    public function getLogout()
-    {
-        Auth::logout();
-        return Redirect::home();
-    }
-
-    public function getProfile($id)
-    {
-
-        $this->title = 'Profile';
-        $user        = User::find($id);
-        $this->render('site.users.profile', compact('user'));
     }
 
 }

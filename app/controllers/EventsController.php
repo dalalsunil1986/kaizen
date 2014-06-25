@@ -1,67 +1,66 @@
 <?php
 
-use Acme\Events\CountryRepository;
-use Acme\Events\EloquentCategoryRepository;
-use Acme\Events\EloquentEventRepository;
-use Acme\Users\EloquentUserRepository;
+use Acme\Category\CategoryRepository;
+use Acme\Country\CountryRepository;
+use Acme\Events\EventRepository;
 use Acme\Users\UserRepository;
 
 class EventsController extends BaseController {
 
     /**
-     * @var Acme\Events\EloquentEventRepository
+     * @var Acme\Events\EventRepository
      */
-    protected $repository;
-
+    protected $eventRepository;
     /**
      * @var Status
      */
     private $status;
     /**
-     * @var Acme\Users\EloquentCategoryRepository
+     * @var Acme\Users\CategoryRepository
      */
-    private $category;
+    private $categoryRepository;
     /**
      * @var Acme\Users\CountryRepository
      */
-    private $country;
+    private $countryRepository;
     /**
      * @var Acme\Users\UserRepository
      */
-    private $user;
+    private $userRepository;
 
-    function __construct(EloquentEventRepository $repository, EloquentCategoryRepository $category, CountryRepository $country, UserRepository $user)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository)
     {
-        $this->repository    = $repository;
-        $this->category = $category;
+        $this->eventRepository    = $eventRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->countryRepository  = $countryRepository;
+        $this->userRepository     = $userRepository;
         parent::__construct();
-        $this->country = $country;
-        $this->user = $user;
     }
+
 
     public function index()
     {
-        $perPage = 10;
+        $perPage     = 10;
         $this->title = 'Events';
         //find countries,authors,and categories to display in search form
         if ( App::getLocale() == 'en' ) {
-            $countries = [0 => Lang::get('site.event.choose_country')] + $this->country->all()->lists('name_en', 'id');
+            $countries = [0 => Lang::get('site.event.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
         } else {
-            $countries = [0 => Lang::get('site.event.choose_country')] + $this->country->all()->lists('name', 'id');
+            $countries = [0 => Lang::get('site.event.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
         }
-        $categories = [0 => Lang::get('site.event.choose_category')] + $this->category->getEventCategories()->lists('name', 'id');
-        $authors    = [0 => Lang::get('site.event.choose_author')] + $this->user->getRoleByName('author')->lists('username', 'id');
+        $categories = [0 => Lang::get('site.event.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name', 'id');
+        $authors    = [0 => Lang::get('site.event.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
 
         // find selected form values
-        $search            = trim(Input::get('search'));
-        $category          = Request::get('category');
-        $author            = Request::get('author');
-        $country           = Request::get('country');
+        $search   = trim(Input::get('search'));
+        $category = Request::get('category');
+        $author   = Request::get('author');
+        $country  = Request::get('country');
 
         // if the form is selected
         // perform search
         if ( ! empty($search) || ! empty($category) || ! empty($author) || ! empty($country) ) {
-            $events = $this->repository->findAll()
+            $events = $this->eventRepository->getAll()
 
                 ->where(function ($query) use ($search, $category, $author, $country) {
                     if ( ! empty($search) ) {
@@ -77,13 +76,13 @@ class EventsController extends BaseController {
                         $query->where('user_id', $author);
                     }
                     if ( ! empty($country) ) {
-                        $locations = $this->country->find($country)->locations()->lists('id');
+                        $locations = $this->countryRepository->find($country)->locations()->lists('id');
                         $query->whereIn('location_id', $locations);
                     }
                 })->orderBy('date_start', 'ASC')->paginate($perPage);
 
         } else {
-            $events = $this->repository->getEvents($perPage);
+            $events = $this->eventRepository->getEvents($perPage);
         }
 
         $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country'));
@@ -94,7 +93,7 @@ class EventsController extends BaseController {
     {
         // $events = parent::all();
         // get only 4 images for slider
-        $events  = $this->repository->getSliderEvents();
+        $events = $this->eventRepository->getSliderEvents();
         $this->render('site.home', compact('events'));
     }
 
@@ -107,10 +106,7 @@ class EventsController extends BaseController {
      */
     public function show($id)
     {
-        $event = $this->repository->find( $id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites'] );
-
-        if(!$event)
-            App::abort('404');
+        $event = $this->eventRepository->requireById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
 
         $this->layout->render('site.events.view', compact('event'));
 
@@ -139,7 +135,7 @@ class EventsController extends BaseController {
         //check whether user logged in
         $user = Auth::user();
         if ( ! empty($user->id) ) {
-            $event = $this->repository->findOrFail($id);
+            $event = $this->eventRepository->findOrFail($id);
 
             if ( Subscription::isSubscribed($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -190,7 +186,7 @@ class EventsController extends BaseController {
     public function unsubscribe($id)
     {
         // check whether user authenticated
-        $event = $this->repository->findOrFail($id);
+        $event = $this->eventRepository->findOrFail($id);
         $user  = Auth::user();
         if ( ! empty($user->id) ) {
             if ( Subscription::isSubscribed($event->id, $user->id) ) {
@@ -246,7 +242,7 @@ class EventsController extends BaseController {
         $user = Auth::user();
         if ( ! empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->repository->findOrFail($id);
+            $event = $this->eventRepository->findOrFail($id);
 
             if ( Follower::isFollowing($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -278,7 +274,7 @@ class EventsController extends BaseController {
         $user = Auth::user();
         if ( ! empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->repository->findOrFail($id);
+            $event = $this->eventRepository->findOrFail($id);
 
             if ( Follower::isFollowing($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -322,7 +318,7 @@ class EventsController extends BaseController {
         $user = Auth::user();
         if ( ! empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->repository->findOrFail($id);
+            $event = $this->eventRepository->findOrFail($id);
 
             if ( Favorite::hasFavorited($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -355,7 +351,7 @@ class EventsController extends BaseController {
         $user = Auth::user();
         if ( ! empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->repository->findOrFail($id);
+            $event = $this->eventRepository->findOrFail($id);
 
             if ( Favorite::hasFavorited($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -411,15 +407,15 @@ class EventsController extends BaseController {
         // order by event date, date created, featured
         // combines them into one query to return for slider
 
-        $latestEvents   = $this->repository->latestEvents();
-        $featuredEvents = $this->repository->feautredEvents();
+        $latestEvents   = $this->eventRepository->latestEvents();
+        $featuredEvents = $this->eventRepository->feautredEvents();
         $events         = array_merge((array) $latestEvents, (array) $featuredEvents);
         if ( $events ) {
             foreach ( $events as $event ) {
                 $array[] = $event->id;
             }
             $events_unique = array_unique($array);
-            $sliderEvents  = $this->repository->getSliderEvents(6, $events_unique);
+            $sliderEvents  = $this->eventRepository->getSliderEvents(6, $events_unique);
 
             return $sliderEvents;
         } else {
@@ -435,12 +431,11 @@ class EventsController extends BaseController {
 
     public function getAuthor($id)
     {
-        $event  = $this->repository->find($id);
+        $event  = $this->eventRepository->find($id);
         $author = $event->author;
 
         return $author;
     }
-
 
 
 }

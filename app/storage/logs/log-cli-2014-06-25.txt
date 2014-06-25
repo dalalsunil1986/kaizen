@@ -1,0 +1,23 @@
+[2014-06-25 15:23:01] local.ERROR: 500 - Too many arguments. @ /
+exception 'RuntimeException' with message 'Too many arguments.' in /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Input/ArgvInput.php:181
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Input/ArgvInput.php(90): Symfony\Component\Console\Input\ArgvInput->parseArgument('reset')
+#1 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Input/Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#2 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(234): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#3 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\Migrations\MigrateCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#8 {main} [] []
+[2014-06-25 15:23:01] local.ERROR: exception 'RuntimeException' with message 'Too many arguments.' in /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Input/ArgvInput.php:181
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Input/ArgvInput.php(90): Symfony\Component\Console\Input\ArgvInput->parseArgument('reset')
+#1 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Input/Input.php(61): Symfony\Component\Console\Input\ArgvInput->parse()
+#2 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(234): Symfony\Component\Console\Input\Input->bind(Object(Symfony\Component\Console\Input\InputDefinition))
+#3 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\Migrations\MigrateCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#8 {main} [] []

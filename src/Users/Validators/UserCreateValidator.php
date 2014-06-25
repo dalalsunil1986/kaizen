@@ -1,9 +1,8 @@
 <?php namespace Acme\Users\Validators;
 
-use Acme\Core\Validators\Validable;
-use Acme\Core\Validators\LaravelValidator;
+use Acme\Core\Validators\AbstractValidator;
 
-class UserCreateValidator extends LaravelValidator implements Validable {
+class UserCreateValidator extends AbstractValidator {
 
     /**
      * Validation rules
@@ -13,9 +12,10 @@ class UserCreateValidator extends LaravelValidator implements Validable {
     protected $rules = array(
         'email'    => 'required|email|unique:users,email',
         'password' => 'required|alpha_num|between:6,12|confirmed',
-        'name_ar'  => 'required',
-        'name_en'  => 'required',
-        'phone'    => 'required',
+        'name_ar'  => 'required|between:3,40',
+        'name_en'  => 'required|alpha|between:3,40',
+        'mobile'   => 'required|numeric',
+        'username' => 'required|alpha_num|between:3,40',
     );
 
 }

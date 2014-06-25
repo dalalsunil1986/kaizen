@@ -1,63 +1,124 @@
-<?php namespace Acme\Core\Validators;
+<?php
 
-abstract class AbstractValidator {
+namespace Acme\Core\Validators;
+
+use Acme\Core\Exceptions\NoValidationRulesFoundException;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Validator;
+
+abstract class AbstractValidator
+{
+    /**
+     * The input data of the current request.
+     *
+     * @var array
+     */
+    protected $inputData;
 
     /**
-     * The validator instance
+     * The validation rules to validate the input data against.
      *
-     * @var object
+     * @var array
+     */
+    protected $rules = [];
+
+    /**
+     * The validator instance.
+     *
+     * @var \Illuminate\Validation\Validator
      */
     protected $validator;
 
     /**
-     * Data to be validated
+     * Array of custom validation messages.
      *
      * @var array
      */
-    protected $data = array();
+    protected $messages = [];
 
     /**
-     * Validation Rules
+     * Create a new Form instance.
      *
-     * @var array
+     * @return void
      */
-    protected $rules = array();
-
-    /**
-     * Validation errors
-     *
-     * @var \Illuminate\Support\MessageBag
-     */
-    protected $errors;
-
-    /**
-     * Set data to validate
-     *
-     * @param array $data
-     * @return self
-     */
-    public function with(array $data)
+    public function __construct()
     {
-        $this->data = $data;
-
-        return $this;
+        $this->inputData = App::make('request')->all();
     }
 
     /**
-     * Pass the data and the rules to the validator
+     * Get the prepared input data.
      *
-     * @return boolean
+     * @return array
      */
-    abstract function passes();
+    public function getInputData()
+    {
+        return $this->inputData;
+    }
 
     /**
-     * Return errors
+     * Returns whether the input data is valid.
+     *
+     * @throws NoValidationRulesFoundException
+     * @return bool
+     */
+    public function isValid()
+    {
+        $this->beforeValidation();
+
+        if ( ! isset($this->rules)) {
+            throw new NoValidationRulesFoundException('no validation rules found in class ' . get_called_class());
+        }
+
+        $this->validator = Validator::make(
+            $this->getInputData(),
+            $this->getPreparedRules(),
+            $this->getMessages()
+        );
+
+        return $this->validator->passes();
+    }
+
+    /**
+     * Get the validation errors off of the Validator instance.
      *
      * @return \Illuminate\Support\MessageBag
      */
-    public function errors()
+    public function getErrors()
     {
-        return $this->errors;
+        return $this->validator->errors();
     }
+
+    /**
+     * Set error message bag
+     *
+     * @var Illuminate\Support\MessageBag
+     */
+    protected function setErrors()
+    {
+        $this->messages[] = $errors;
+    }
+
+    /**
+     * Get the prepared validation rules.
+     *
+     * @return array
+     */
+    protected function getPreparedRules()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * Get the custom validation messages.
+     *
+     * @return array
+     */
+    protected function getMessages()
+    {
+        return $this->messages;
+    }
+
+    protected function beforeValidation() {}
 
 }

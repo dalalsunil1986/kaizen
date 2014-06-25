@@ -1,6 +1,8 @@
 <?php namespace Acme\Users;
 
 use Acme\Core\CrudableTrait;
+use Acme\Users\Validators\UserCreateValidator;
+use Acme\Users\Validators\UserResetValidator;
 use Acme\Users\Validators\UserUpdateValidator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\MessageBag;
@@ -44,9 +46,19 @@ class EloquentUserRepository extends AbstractRepository implements Repository, P
         return $query;
     }
 
+    public function getCreationForm()
+    {
+        return new UserCreateValidator();
+    }
+
     public function getEditForm($id)
     {
         return new UserUpdateValidator($id);
+    }
+
+    public function getPasswordResetForm()
+    {
+        return new UserResetValidator();
     }
 
 }

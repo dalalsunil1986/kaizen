@@ -1,9 +1,8 @@
 <?php namespace Acme\Users\Validators;
 
-use Acme\Core\Validators\Validable;
-use Acme\Core\Validators\LaravelValidator;
+use Acme\Core\Validators\AbstractValidator;
 
-class UserResetValidator extends LaravelValidator implements Validable {
+class UserResetValidator extends AbstractValidator {
 
     /**
      * Validation rules

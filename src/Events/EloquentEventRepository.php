@@ -4,11 +4,12 @@ use Acme\Core\CrudableTrait;
 use Carbon\Carbon;
 use DB;
 use EventModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\Illuminate;
 use Acme\Core\Repositories\AbstractRepository;
 
-class EloquentEventRepository extends AbstractRepository {
+class EloquentEventRepository extends AbstractRepository implements EventRepository{
 
     use CrudableTrait;
 
@@ -23,14 +24,14 @@ class EloquentEventRepository extends AbstractRepository {
      * @param \EventModel|\Illuminate\Database\Eloquent\Model $model
      * @internal param \Illuminate\Database\Eloquent\Model $user
      */
-    public function __construct(EventModel $model)
+    public function __construct(Model $model)
     {
         parent::__construct(new MessageBag);
 
         $this->model = $model;
     }
 
-    public function findAll()
+    public function getAll()
     {
         $currentTime = Carbon::now()->toDateTimeString();
 
@@ -55,9 +56,6 @@ class EloquentEventRepository extends AbstractRepository {
 //        return $events;
 //    }
 
-
-
-
     /**
      * Return Events For Event Index Page
      * @param $perPage
@@ -66,7 +64,7 @@ class EloquentEventRepository extends AbstractRepository {
      */
     public function getEvents($perPage = 10)
     {
-        return $this->findAll()
+        return $this->getAll()
             ->orderBy('date_start', 'DESC')
             ->paginate($perPage);
     }

@@ -1,24 +1,22 @@
-@if ($message = Session::get('success'))
-<div class="alert alert-success alert-block">
-	<button type="button" class="close" data-dismiss="alert">&times;</button>
-	<h4>Success</h4>
-    @if(is_array($message))
-        @foreach ($message as $m)
-            {{ $m }}
-        @endforeach
-    @else
-        {{ $message }}
-    @endif
+@if ( Session::get('errors') )
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<div class="alert alert-danger alert-block"><h2>Errors</h2>
+    @foreach($errors->all('<li>:message</li>') as $message)
+        {{$message}}
+    @endforeach
 </div>
 @endif
 
-@if ( Session::get('errors') )
-<button type="button" class="close" data-dismiss="alert">&times;</button>
-<div class="alert alert-danger alert-block"><h2>Please fix the Errors</h2>
-    @if(count($errors) >= 1)
-        {{ implode('', $errors->all('<p> - :message</p>')) }}
+@if ($message = Session::get('error'))
+<div class="alert alert-danger alert-block">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>Error</h4>
+    @if(is_array($message))
+        @foreach ($message as $m)
+        {{ $m }}
+        @endforeach
     @else
-        <p>: {{ $errors }}</p>
+        {{ $message }}
     @endif
 </div>
 @endif

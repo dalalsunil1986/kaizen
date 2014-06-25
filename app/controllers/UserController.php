@@ -38,18 +38,6 @@ class UserController extends BaseController {
     }
 
     /**
-     * Get user's profile
-     * @param $id
-     * @internal param $username
-     * @return mixed
-     */
-    public function getProfile($id)
-    {
-        $user = $this->userRepository->requireById($id, ['favorites', 'subscriptions', 'followings', 'country']);
-        $this->render('site.users.profile', compact('user'));
-    }
-
-    /**
      * Edit Profile
      */
     public function edit($id)
@@ -91,7 +79,19 @@ class UserController extends BaseController {
         }
 
         return Redirect::back('/')->with('errors', 'Could Not Delete Account.');
-
     }
+
+    /**
+     * Get user's profile
+     * @param $id
+     * @internal param $username
+     * @return mixed
+     */
+    public function getProfile($id)
+    {
+        $user = $this->userRepository->requireById($id, ['favorites', 'subscriptions', 'followings', 'country']);
+        $this->render('site.users.profile', compact('user'));
+    }
+
 
 }

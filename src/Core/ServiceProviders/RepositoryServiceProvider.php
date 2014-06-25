@@ -1,5 +1,11 @@
 <?php namespace Acme\Core\ServiceProviders;
 
+use Acme\Country\EloquentCountryRepository;
+use Acme\Events\EloquentEventRepository;
+use Acme\Category\EloquentCategoryRepository;
+use Category;
+use Country;
+use EventModel;
 use Illuminate\Support\MessageBag;
 use Acme\Users\AuthService;
 use Acme\Users\UserEventSubscriber;
@@ -21,6 +27,9 @@ class RepositoryServiceProvider extends ServiceProvider {
     {
         $this->registerUserRepository();
         $this->registerAuthService();
+        $this->registerEventRepository();
+        $this->registerCountryRepository();
+        $this->registerCategoryRepository();
     }
 
     /**
@@ -41,15 +50,34 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind('Acme\Users\AuthService', function ($app) {
             $user = new AuthService($app->make('Acme\Users\UserRepository'), new MessageBag);
 
-            $user->registerValidator(
-                'create', $app->make('Acme\Users\Validators\UserCreateValidator')
-            );
-
-            $user->registerValidator(
-                'reset', $app->make('Acme\Users\Validators\UserResetValidator')
-            );
-
             return $user;
+        });
+    }
+
+    private function registerEventRepository()
+    {
+        $this->app->bind('Acme\Events\EventRepository', function () {
+            $country = new EloquentEventRepository(new EventModel());
+
+            return $country;
+        });
+    }
+
+    private function registerCountryRepository()
+    {
+        $this->app->bind('Acme\Country\CountryRepository', function () {
+            $country = new EloquentCountryRepository(new Country());
+
+            return $country;
+        });
+    }
+
+    private function registerCategoryRepository()
+    {
+        $this->app->bind('Acme\Category\CategoryRepository', function () {
+            $category = new EloquentCategoryRepository(new Category());
+
+            return $category;
         });
     }
 

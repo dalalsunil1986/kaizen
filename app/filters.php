@@ -33,10 +33,6 @@ App::after(function($request, $response) {
 
 Route::filter('auth', function()
 {
-//    if (Auth::guest()) {
-//        Session::put('loginRedirect', Request::url());
-//        return Redirect::to('/');
-//    }
     if (Auth::guest()) return Redirect::guest('/');
 });
 
@@ -58,7 +54,7 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-    if (Auth::check()) return Redirect::to('user/login/');
+    if (Auth::check()) return Redirect::action('AuthController@getLogin');
 });
 
 /*
@@ -108,3 +104,13 @@ Route::filter('owner', function($route, $request)
         }
     return Redirect::action('UserController@getLogin')->with('error','Please login');
 });
+
+/**
+ * Route filter to allow users who are only not logged in
+ */
+Route::filter('noAuth', function()
+{
+    if (Auth::check()) return Redirect::home()->with('info', 'You are already logged in');
+});
+
+

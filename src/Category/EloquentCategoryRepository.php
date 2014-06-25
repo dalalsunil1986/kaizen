@@ -1,8 +1,7 @@
-<?php namespace Acme\Events;
+<?php namespace Acme\Category;
 
-use Acme\Users\UserRepository;
-use Category;
 use DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\Crudable;
 use Acme\Core\Repositories\Illuminate;
@@ -10,7 +9,7 @@ use Acme\Core\Repositories\Paginable;
 use Acme\Core\Repositories\Repository;
 use Acme\Core\Repositories\AbstractRepository;
 
-class EloquentCategoryRepository extends AbstractRepository implements Repository, Paginable, Crudable, UserRepository {
+class EloquentCategoryRepository extends AbstractRepository implements Repository, Paginable, CategoryRepository {
 
     /**
      * @var \Illuminate\Database\Eloquent\Model
@@ -23,7 +22,7 @@ class EloquentCategoryRepository extends AbstractRepository implements Repositor
      * @param \Illuminate\Database\Eloquent\Model $model
      * @internal param \Illuminate\Database\Eloquent\Model $user
      */
-    public function __construct(Category $model)
+    public function __construct(Model $model)
     {
         parent::__construct(new MessageBag);
 
