@@ -4,7 +4,7 @@
 
     <div class="alert alert-info">{{ Lang::get('site.general.warning_msg')}}</div>
 
-    {{ Form::open(array('method' => 'POST', 'action'=>array('AuthController@postRegister'),'class'=>'form')) }}
+    {{ Form::open(array('method' => 'POST', 'action'=>array('AuthController@postSignup'),'class'=>'form')) }}
 
     <div class="row">
 

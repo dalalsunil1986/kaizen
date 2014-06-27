@@ -200,4 +200,24 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
 
         return false;
     }
+
+    public function setMobileAttribute($value)
+    {
+        $this->attributes['mobile'] = (int)($value);
+    }
+
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = (int)($value);
+    }
+
+    /**
+     * @param $password
+     * Auto Has the Password
+     */
+    public function setPasswordAttribute($password){
+
+        $this->attributes['password'] = Hash::make($password);
+
+    }
 }

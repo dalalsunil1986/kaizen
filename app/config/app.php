@@ -109,7 +109,6 @@ return array(
 
         //app
         'Acme\Core\ServiceProviders\RepositoryServiceProvider',
-        'Acme\Core\ServiceProviders\ValidatorsServiceProvider',
 
         /* Additional Providers */
         'Zizaco\Entrust\EntrustServiceProvider', // Entrust Provider for roles

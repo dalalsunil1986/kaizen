@@ -27,8 +27,7 @@ class AuthService extends AbstractRepository {
      */
     public function register(array $data)
     {
-        $data['password']          = Hash::make($data['password']);
-        $data['confirmation_code'] = $this->getToken();
+        $data['confirmation_code'] = $this->generateToken();
 
         if ( ! $user = $this->repository->create($data) ) {
 
@@ -38,13 +37,11 @@ class AuthService extends AbstractRepository {
         }
 
         return true;
-
     }
 
 
     /**
      * Update
-     *
      * @param array $data
      * @return \Illuminate\Database\Eloquent\Model
      */
@@ -55,7 +52,6 @@ class AuthService extends AbstractRepository {
 
     /**
      * Delete
-     *
      * @param int $id
      * @return boolean
      */
@@ -145,7 +141,7 @@ class AuthService extends AbstractRepository {
                 return false;
             }
             // new confirmation code
-            $user->token = $this->getToken();
+            $user->token = $this->generateToken();
             $user->save();
             Event::fire('user.reset', $user);
 
@@ -160,7 +156,7 @@ class AuthService extends AbstractRepository {
     /**
      * @return string
      */
-    public function getToken()
+    public function generateToken()
     {
         return md5(uniqid(mt_rand(), true));
     }

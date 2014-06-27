@@ -1,5 +1,6 @@
 <?php namespace Acme\Core\Repositories;
 
+use Acme\Core\Exceptions\EntityNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use StdClass;
 use Illuminate\Support\MessageBag;
@@ -26,16 +27,38 @@ abstract class AbstractRepository {
         $this->errors = $errors;
     }
 
+    /**
+     * @param array $attributes
+     * @return Model|static
+     * Get new instance of the Model
+     */
+    public function getNew($attributes = array())
+    {
+        return $this->model->newInstance($attributes);
+    }
+
+    /**
+     * @return Model
+     * get the current model
+     */
     public function getModel()
     {
         return $this->model;
     }
 
+    /**
+     * @param $model
+     * Set the model
+     */
     public function setModel($model)
     {
         $this->model = $model;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * wrapper for eloquent all();
+     */
     public function getAll()
     {
         return $this->model->all();
@@ -46,9 +69,14 @@ abstract class AbstractRepository {
         return $this->model->paginate($count);
     }
 
-    public function getById($id, array $with = [] )
+    /**
+     * @param $id
+     * @param array $with
+     * @return \Illuminate\Database\Eloquent\Collection|Model|null|static
+     */
+    public function getById($id, array $with = [])
     {
-        if (isset($with) && (!empty($with))) {
+        if ( isset($with) && (! empty($with)) ) {
 
             return $this->model->with($with)->find($id);
         }
@@ -56,20 +84,25 @@ abstract class AbstractRepository {
         return $this->model->find($id);
     }
 
+    /**
+     * @param $id
+     * @param array $with
+     * @return \Illuminate\Database\Eloquent\Collection|Model|null|static
+     * @throws EntityNotFoundException
+     */
     public function requireById($id, array $with = [])
     {
         $model = $this->getById($id, $with);
 
-        if ( ! $model) {
+        if ( ! $model ) {
             throw new EntityNotFoundException;
         }
 
         return $model;
     }
 
-    public function getNew($attributes = array())
-    {
-        return $this->model->newInstance($attributes);
+    public function getFirst() {
+        return $this->model->firstOrFail();
     }
 
     /**
@@ -81,35 +114,6 @@ abstract class AbstractRepository {
     public function make(array $with = array())
     {
         return $this->model->with($with);
-    }
-
-    /**
-     * Register Validators
-     *
-     * @param string $name
-     * @param Validible $validator
-     */
-    public function registerValidator($name, $validator)
-    {
-        $this->validators[$name] = $validator;
-    }
-
-    /**
-     * Check to see if the input data is valid
-     *
-     * @param $name
-     * @param array $data
-     * @return boolean
-     */
-    public function isValid($name, array $data)
-    {
-        if( $this->validators[$name]->with($data)->passes() )
-        {
-            return true;
-        }
-
-        $this->errors = $this->validators[$name]->errors();
-        return false;
     }
 
     /**
@@ -173,27 +177,41 @@ abstract class AbstractRepository {
     {
         //@todo enhance snake_case to remove spaces
         $key = snake_case($errorMsg);
-        return $this->errors->add($key,$errorMsg);
+
+        return $this->errors->add($key, $errorMsg);
     }
 
+    /**
+     * @param $model
+     * @return mixed
+     */
     protected function storeEloquentModel($model)
     {
-        if ($model->getDirty()) {
+        if ( $model->getDirty() ) {
             return $model->save();
         } else {
             return $model->touch();
         }
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     protected function storeArray($data)
     {
         $model = $this->getNew($data);
+
         return $this->storeEloquentModel($model);
     }
 
+    /**
+     * @param Model $model
+     * @return bool
+     */
     public function save(Model $model)
     {
-        if ($model->getDirty()) {
+        if ( $model->getDirty() ) {
             return $model->save();
         } else {
             return $model->touch();

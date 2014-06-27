@@ -70,9 +70,9 @@ Route::post('account/login', ['as' => 'user.login.post', 'uses' => 'AuthControll
 
 Route::get('account/logout', ['as' => 'user.logout', 'uses' => 'AuthController@getLogout']);
 
-Route::get('account/register', ['as' => 'user.register.get', 'uses' => 'AuthController@getRegister']);
+Route::get('account/signup', ['as' => 'user.register.get', 'uses' => 'AuthController@getSignup']);
 
-Route::post('account/register', ['as' => 'user.register.post', 'uses' => 'AuthController@postRegister']);
+Route::post('account/signup', ['as' => 'user.register.post', 'uses' => 'AuthController@postSignup']);
 
 Route::get('account/forgot', ['as' => 'user.forgot.get', 'uses' => 'AuthController@getForgot']);
 

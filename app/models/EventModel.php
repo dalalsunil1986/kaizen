@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 
-class EventModel extends BaseModel {
+class EventModel extends BaseModel implements \McCool\LaravelAutoPresenter\PresenterInterface {
 	protected $guarded = array();
 
 	public static $rules = array(
@@ -170,15 +170,7 @@ class EventModel extends BaseModel {
         return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->remember(10)->limit($count)->get();
     }
 
-    protected function getHumanTimestampAttribute($column)
-    {
-        if ($this->attributes[$column])
-        {
-            return Carbon::parse($this->attributes[$column])->diffForHumans();
-        }
 
-        return null;
-    }
 
     public function getDates()
     {
@@ -214,5 +206,24 @@ class EventModel extends BaseModel {
             return $this;
         }
     }
+
+    /**
+     * Get the presenter class.
+     *
+     * @return string The class path to the presenter.
+     */
+    public function getPresenter()
+    {
+        return 'Acme\Events\EventPresenter';
+    }
+
+    protected function getHumanCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->diffForHumans();
+
+        return null;
+    }
+
+
 }
 

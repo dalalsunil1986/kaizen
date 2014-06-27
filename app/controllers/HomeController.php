@@ -1,12 +1,12 @@
 <?php
 
-use Acme\Events\EloquentEventRepository;
+use Acme\Events\EventRepository;
 
 class HomeController extends BaseController {
     /**
      * @var
      */
-    private $repository;
+    private $eventRepository;
 
     /*
     |--------------------------------------------------------------------------
@@ -20,9 +20,9 @@ class HomeController extends BaseController {
     |	Route::get('/', 'HomeController@showWelcome');
     |
     */
-    function __construct(EloquentEventRepository $repository)
+    function __construct(EventRepository $eventRepository)
     {
-        $this->repository = $repository;
+        $this->eventRepository = $eventRepository;
         parent::__construct();
     }
 
@@ -31,7 +31,7 @@ class HomeController extends BaseController {
     {
         // $events = parent::all();
         // get only 4 images for slider
-        $events  = $this->repository->getSliderEvents();
+        $events  = $this->eventRepository->getSliderEvents();
         $this->render('site.home', compact('events'));
     }
 

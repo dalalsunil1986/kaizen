@@ -9,11 +9,9 @@ class EventPresenter extends AbstractPresenter {
      * Present the created_at property
      * using a different format
      *
-     * @param User $model
-     * @internal param \Kuwaitii\Users\User $user
-     * @return \Kuwaitii\Users\UserPresenter
+     * @param \Acme\Events\EventModel|\User $model
      */
-    public function __construct(User $model) {
+    public function __construct(EventModel $model) {
         $this->resource = $model;
     }
 

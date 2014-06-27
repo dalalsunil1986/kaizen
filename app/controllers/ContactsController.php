@@ -1,6 +1,6 @@
 <?php
 
-use Acme\Mail\ContactsMailer;
+use Acme\Contact\ContactRepository;
 
 class ContactsController extends BaseController {
 
@@ -9,18 +9,11 @@ class ContactsController extends BaseController {
      *
      * @var Category
      */
-    protected $model;
+    protected $contactRepository;
 
-    protected $layout = 'site.layouts.home';
-    /**
-     * @var Acme\Mail\ContactsMailer
-     */
-    private $mailer;
-
-    public function __construct(Contact $model, ContactsMailer $mailer)
+    public function __construct(ContactRepository $contactRepository)
     {
-        $this->model = $model;
-        $this->mailer = $mailer;
+        $this->contactRepository = $contactRepository;
         parent::__construct();
     }
 	/**
@@ -30,14 +23,11 @@ class ContactsController extends BaseController {
 	 */
 	public function index()
 	{
-		//
-        $contact = $this->model->first();
-        $this->layout->login = View::make('site.layouts.login');
-        $this->layout->ads = view::make('site.layouts.ads');
-        $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.layouts.contactus', ['contact'=> $contact]);
-        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-        $this->layout->footer = view::make('site.layouts.footer');
+        $contact = $this->contactRepository->getFirst();
+
+        dd($contact->toArray());
+
+        $this->render('site.layouts.contact', compact('contact'));
 	}
 
 	/**
@@ -47,20 +37,12 @@ class ContactsController extends BaseController {
 	 */
 	public function contact()
 	{
-        $args = Input::all();
-        $rules = array(
-            'email'=>'required|email',
-            'name'=>'required',
-            'comment'=>'required|min:5'
-        );
-        $user = $this->model->first();
-        $validate = Validator::make($args,$rules);
-        if($validate->passes()) {
+        $user = $this->contactRepository->first();
             if($this->mailer->sendMail($user,$args)) {
                 return Redirect::home()->with('success','Mail Sent');
             }
             return Redirect::home()->with('error','Error Sending Mail');
-        }
+
         return Redirect::back()->withInput()->with('error',$validate->errors()->all());
 
 	}

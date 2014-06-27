@@ -26,12 +26,13 @@ trait CrudableTrait {
     public function update($id, array $input)
     {
         $record = $this->requireById($id);
+
         $record->fill($input);
 
-        if($this->save($record)) {
-            return true;
-        }
+        if ( $this->save($record) ) return true;
+
         $this->addError('Could Not Update');
+
         return false;
     }
 

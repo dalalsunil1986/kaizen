@@ -1,11 +1,11 @@
-@extends('site.layouts.home')
-@section('maincontent')
+@extends('site.layouts._one_column')
+
+@section('content')
 
     <div class="row">
        <div class="col-md-12">
            <address>
                <h2 style="background-color: rgba(221, 220, 219, 0.83); padding:10px;">Contact Us</h2>
-
                @if($contact)
                Phone   : {{ $contact->phone }} </br>
                Address : {{ $contact->address }}</br>

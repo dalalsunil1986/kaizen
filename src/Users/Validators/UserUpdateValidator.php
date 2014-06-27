@@ -2,7 +2,7 @@
 
 use Acme\Core\Validators\AbstractValidator;
 
-class UserUpdateValidator extends AbstractValidator{
+class UserUpdateValidator extends AbstractValidator {
 
     /**
      * Validation rules
@@ -11,11 +11,10 @@ class UserUpdateValidator extends AbstractValidator{
      */
 
     protected $rules = array(
-        'password' => 'alpha_num|between:6,12|confirmed',
-        'phone' => 'numeric',
-        'mobile' => 'numeric',
-        'name_en' => 'alpha_num|between:3,40',
-        'name_ar' => 'between:3,40',
+        'phone'    => 'numeric',
+        'mobile'   => 'required|numeric',
+        'name_en'  => 'required|alpha_num|between:3,40',
+        'name_ar'  => 'required|between:3,40',
         'password' => 'alpha_num|between:6,12|confirmed',
     );
 
@@ -34,8 +33,19 @@ class UserUpdateValidator extends AbstractValidator{
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'name_ar', 'name_en', 'password', 'country_id', 'twitter', 'phone', 'mobile'
+            'name_ar', 'name_en', 'password', 'password_confirmation', 'country_id', 'twitter', 'phone', 'mobile'
         ]);
     }
+
+    /**
+     * Remove Password field if empty
+     */
+    public function beforeValidation()
+    {
+        if ( empty($this->inputData['password']) )
+            unset($this->inputData['password']);
+
+    }
+
 
 }

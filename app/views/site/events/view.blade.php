@@ -361,7 +361,7 @@
                 class="text-right text-primary"
                 @endif
                 >{{ $comment->user->username}}
-                <span class="text-muted"> - {{ $comment->getHumanCreatedAtAttribute()}} </span></p>
+                <span class="text-muted"> - {{ $comment->created_at->format('Y-m-d')}} </span></p>
             </div>
             @endforeach
             @endif

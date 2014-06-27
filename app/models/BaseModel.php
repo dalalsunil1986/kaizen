@@ -17,9 +17,13 @@ class BaseModel extends Model {
 
         try {
             Event::fire(static::$name . '.creating', array($input));
+
             static::beforeCreate($input);
+
             $return = parent::create($input);
+
             static::afterCreate($input, $return);
+
             Event::fire(static::$name . '.created', array($input));
 
             DB::commit();
@@ -38,10 +42,7 @@ class BaseModel extends Model {
      * @param  array $input
      * @return mixed
      */
-    public static function beforeCreate(array $input)
-    {
-        // can be overwritten by extending class
-    }
+    public static function beforeCreate(array $input) {}
 
     /**
      * After creating a new model.
@@ -50,10 +51,7 @@ class BaseModel extends Model {
      * @param  mixed $return
      * @return mixed
      */
-    public static function afterCreate(array $input, $return)
-    {
-        // can be overwritten by extending class
-    }
+    public static function afterCreate(array $input, $return) {}
 
     /**
      * Update an existing model.
@@ -67,13 +65,19 @@ class BaseModel extends Model {
         DB::beginTransaction();
 
         try {
+
             Event::fire(static::$name . '.updating', array($input));
+
             $this->beforeUpdate($input);
+
             $return = parent::update($input);
+
             $this->afterUpdate($input, $return);
+
             Event::fire(static::$name . '.updated', array($input));
 
             DB::commit();
+
         }
         catch ( \Exception $e ) {
             DB::rollBack();
@@ -89,10 +93,7 @@ class BaseModel extends Model {
      * @param  array $input
      * @return mixed
      */
-    public function beforeUpdate(array $input)
-    {
-        // can be overwritten by extending class
-    }
+    public function beforeUpdate(array $input) {}
 
     /**
      * After updating an existing model.
@@ -101,14 +102,12 @@ class BaseModel extends Model {
      * @param  mixed $return
      * @return mixed
      */
-    public function afterUpdate(array $input, $return)
-    {
-        // can be overwritten by extending class
-    }
+    public function afterUpdate(array $input, $return) {}
 
     /**
      * Delete an existing model.
      *
+     * @throws Exception
      * @return mixed
      */
     public function delete()
@@ -137,10 +136,7 @@ class BaseModel extends Model {
      *
      * @return mixed
      */
-    public function beforeDelete()
-    {
-        // can be overwritten by extending class
-    }
+    public function beforeDelete() {}
 
     /**
      * After deleting an existing model.
@@ -148,10 +144,6 @@ class BaseModel extends Model {
      * @param  mixed $return
      * @return mixed
      */
-    public function afterDelete($return)
-    {
-        // can be overwritten by extending class
-    }
+    public function afterDelete($return) {}
 
 }
-?>

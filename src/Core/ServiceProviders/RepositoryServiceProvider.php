@@ -1,5 +1,6 @@
 <?php namespace Acme\Core\ServiceProviders;
 
+use Acme\Contact\EloquentContactRepository;
 use Acme\Country\EloquentCountryRepository;
 use Acme\Events\EloquentEventRepository;
 use Acme\Category\EloquentCategoryRepository;
@@ -30,6 +31,7 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->registerEventRepository();
         $this->registerCountryRepository();
         $this->registerCategoryRepository();
+        $this->registerContactRepository();
     }
 
     /**
@@ -78,6 +80,15 @@ class RepositoryServiceProvider extends ServiceProvider {
             $category = new EloquentCategoryRepository(new Category());
 
             return $category;
+        });
+    }
+
+    private function registerContactRepository()
+    {
+        $this->app->bind('Acme\Contact\ContactRepository', function () {
+            $contact = new EloquentContactRepository(new Contact());
+
+            return $contact;
         });
     }
 

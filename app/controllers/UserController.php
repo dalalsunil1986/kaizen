@@ -1,6 +1,6 @@
 <?php
 
-use Acme\Events\CountryRepository;
+use Acme\Country\CountryRepository;
 use Acme\Users\UserRepository;
 
 class UserController extends BaseController {
@@ -18,11 +18,11 @@ class UserController extends BaseController {
     /**
      * Inject the models.
      * @param \Acme\Users\UserRepository|\User $userRepository
-     * @param Acme\Events\CountryRepository $countryRepository
+     * @param \Acme\Country\CountryRepository|\Acme\Events\CountryRepository $countryRepository
      */
     public function __construct(UserRepository $userRepository, CountryRepository $countryRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->userRepository    = $userRepository;
         $this->countryRepository = $countryRepository;
         parent::__construct();
     }
@@ -56,18 +56,19 @@ class UserController extends BaseController {
     {
         $this->userRepository->requireById($id);
 
-        $val  = $this->userRepository->getEditForm($id);
+        $val = $this->userRepository->getEditForm($id);
 
-        if (! $val->isValid()) {
-            return Redirect::back()->with( 'errors',$val->getErrors())->withInput();
+        if ( ! $val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
-        if ( $user = $this->userRepository->update($id, $val->getInputData()) ) {
-            return Redirect::action('UserController@getProfile', $id)->with('success', 'Updated');
-        } else {
+        if (! $this->userRepository->update($id, $val->getInputData()) ) {
+
             return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
         }
 
+        return Redirect::action('UserController@getProfile', $id)->with('success', 'Updated');
     }
 
     public function destroy($id)
@@ -75,6 +76,7 @@ class UserController extends BaseController {
         $user = $this->userRepository->requireById($id);
 
         if ( $this->userRepository->delete($user) ) {
+
             return Redirect::home()->with('success', 'Account Deleted');
         }
 

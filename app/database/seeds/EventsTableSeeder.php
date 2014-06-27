@@ -23,7 +23,7 @@ class EventsTableSeeder extends Seeder {
 
             $this->checkDate();
 
-            $category = \Acme\Events\EloquentCategoryRepository::getEventCategories()->orderBY(DB::raw('RAND()'))->first()->id;
+            $category = \Acme\Category\EloquentCategoryRepository::getEventCategories()->orderBY(DB::raw('RAND()'))->first()->id;
             $user = User::orderBy(DB::raw('RAND()'))->first()->id;
             $location = Location::orderBy(DB::raw('RAND()'))->first()->id;
             $max_seats = 15;

@@ -31,7 +31,7 @@
                     {{ Lang::get('site.general.remember')}}
 
                     <button type="submit" class="btn btn-default">{{ Lang::get('site.nav.login') }}</button>
-                    <a href="{{ action('AuthController@getRegister') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
+                    <a href="{{ action('AuthController@getSignup') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
                    <!--<button type="submit" class="btn btn-default">{{ Lang::get('button.register') }}</button> -->
                 </div>
             </div>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-primary">{{ Lang::get('site.nav.login') }}</button>
-                        <a href="{{ action('AuthController@getRegister') }}" type="submit" class="btn btn-primary">{{ Lang::get('site.nav.register') }}</a>
+                        <a href="{{ action('AuthController@getSignup') }}" type="submit" class="btn btn-primary">{{ Lang::get('site.nav.register') }}</a>
                     </div>
                 </form>
 

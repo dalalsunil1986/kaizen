@@ -21,3 +21,47 @@ Stack trace:
 #6 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #7 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
 #8 {main} [] []
+[2014-06-25 16:51:49] local.ERROR: 500 - SQLSTATE[42S22]: Column not found: 1054 Unknown column 'confirmed' in 'field list' (SQL: insert into `users` (`confirmation_code`, `confirmed`, `created_at`, `email`, `password`, `updated_at`, `username`) values (cf174f36e2971f8af8bfd5ffdb6e43b6, 1, 2014-06-25 16:51:49, z4ls@live.com, y$JvISLiIRWssQVyPoYX7aEuWVCQCVCNr07XZOV7PNbLZf6YTsH9vMW, 2014-06-25 16:51:49, ad_user), (941aea69e31c1867ff64736a645d0e4c, 1, 2014-06-25 16:51:49, moderator@gmail.com, y$gQXupJUAQkHimRWQxLKL/uDqwAVBRE3TI7t1HLk4zLxvIVtXinXVq, 2014-06-25 16:51:49, moderator), (cd05f7b967c2c6f982afec1635f70031, 1, 2014-06-25 16:51:49, author@gmail.com, y$n0Tq7LmjdJQ.11fzYaT3nenUH2JRZO/yy67.wqbV4j2HVLrQyMEJa, 2014-06-25 16:51:49, author)) @ /
+exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'confirmed' in 'field list' (SQL: insert into `users` (`confirmation_code`, `confirmed`, `created_at`, `email`, `password`, `updated_at`, `username`) values (cf174f36e2971f8af8bfd5ffdb6e43b6, 1, 2014-06-25 16:51:49, z4ls@live.com, y$JvISLiIRWssQVyPoYX7aEuWVCQCVCNr07XZOV7PNbLZf6YTsH9vMW, 2014-06-25 16:51:49, ad_user), (941aea69e31c1867ff64736a645d0e4c, 1, 2014-06-25 16:51:49, moderator@gmail.com, y$gQXupJUAQkHimRWQxLKL/uDqwAVBRE3TI7t1HLk4zLxvIVtXinXVq, 2014-06-25 16:51:49, moderator), (cd05f7b967c2c6f982afec1635f70031, 1, 2014-06-25 16:51:49, author@gmail.com, y$n0Tq7LmjdJQ.11fzYaT3nenUH2JRZO/yy67.wqbV4j2HVLrQyMEJa, 2014-06-25 16:51:49, author))' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php:555
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(338): Illuminate\Database\Connection->run('insert into `us...', Array, Object(Closure))
+#1 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(295): Illuminate\Database\Connection->statement('insert into `us...', Array)
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1836): Illuminate\Database\Connection->insert('insert into `us...', Array)
+#3 /Users/ZaL/vaprobash/kaizen/app/database/seeds/UsersTableSeeder.php(42): Illuminate\Database\Query\Builder->insert(Array)
+#4 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(37): UsersTableSeeder->run()
+#5 /Users/ZaL/vaprobash/kaizen/app/database/seeds/DatabaseSeeder.php(34): Illuminate\Database\Seeder->call('UsersTableSeede...')
+#6 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Console/SeedCommand.php(57): DatabaseSeeder->run()
+#7 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(112): Illuminate\Database\Console\SeedCommand->fire()
+#8 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(252): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\SeedCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#14 {main} [] []
+[2014-06-25 16:51:49] local.ERROR: exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'confirmed' in 'field list' (SQL: insert into `users` (`confirmation_code`, `confirmed`, `created_at`, `email`, `password`, `updated_at`, `username`) values (cf174f36e2971f8af8bfd5ffdb6e43b6, 1, 2014-06-25 16:51:49, z4ls@live.com, y$JvISLiIRWssQVyPoYX7aEuWVCQCVCNr07XZOV7PNbLZf6YTsH9vMW, 2014-06-25 16:51:49, ad_user), (941aea69e31c1867ff64736a645d0e4c, 1, 2014-06-25 16:51:49, moderator@gmail.com, y$gQXupJUAQkHimRWQxLKL/uDqwAVBRE3TI7t1HLk4zLxvIVtXinXVq, 2014-06-25 16:51:49, moderator), (cd05f7b967c2c6f982afec1635f70031, 1, 2014-06-25 16:51:49, author@gmail.com, y$n0Tq7LmjdJQ.11fzYaT3nenUH2JRZO/yy67.wqbV4j2HVLrQyMEJa, 2014-06-25 16:51:49, author))' in /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php:555
+Stack trace:
+#0 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(338): Illuminate\Database\Connection->run('insert into `us...', Array, Object(Closure))
+#1 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Connection.php(295): Illuminate\Database\Connection->statement('insert into `us...', Array)
+#2 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1836): Illuminate\Database\Connection->insert('insert into `us...', Array)
+#3 /Users/ZaL/vaprobash/kaizen/app/database/seeds/UsersTableSeeder.php(42): Illuminate\Database\Query\Builder->insert(Array)
+#4 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Seeder.php(37): UsersTableSeeder->run()
+#5 /Users/ZaL/vaprobash/kaizen/app/database/seeds/DatabaseSeeder.php(34): Illuminate\Database\Seeder->call('UsersTableSeede...')
+#6 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Database/Console/SeedCommand.php(57): DatabaseSeeder->run()
+#7 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(112): Illuminate\Database\Console\SeedCommand->fire()
+#8 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Command/Command.php(252): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /Users/ZaL/vaprobash/kaizen/vendor/laravel/framework/src/Illuminate/Console/Command.php(100): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(887): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(193): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\SeedCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 /Users/ZaL/vaprobash/kaizen/vendor/symfony/console/Symfony/Component/Console/Application.php(124): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 /Users/ZaL/vaprobash/kaizen/artisan(59): Symfony\Component\Console\Application->run()
+#14 {main} [] []
+[2014-06-25 16:52:32] local.ERROR: 500 - Class 'Acme\Events\EloquentCategoryRepository' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Acme\Events\EloquentCategoryRepository' not found' in /Users/ZaL/vaprobash/kaizen/app/database/seeds/EventsTableSeeder.php:26
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-06-25 16:52:32] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Acme\Events\EloquentCategoryRepository' not found' in /Users/ZaL/vaprobash/kaizen/app/database/seeds/EventsTableSeeder.php:26
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []

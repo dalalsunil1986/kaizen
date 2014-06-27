@@ -39,7 +39,7 @@ abstract class AbstractValidator
     /**
      * Create a new Form instance.
      *
-     * @return void
+     * @return \Acme\Core\Validators\AbstractValidator
      */
     public function __construct()
     {
@@ -87,16 +87,6 @@ abstract class AbstractValidator
     public function getErrors()
     {
         return $this->validator->errors();
-    }
-
-    /**
-     * Set error message bag
-     *
-     * @var Illuminate\Support\MessageBag
-     */
-    protected function setErrors()
-    {
-        $this->messages[] = $errors;
     }
 
     /**

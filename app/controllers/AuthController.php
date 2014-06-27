@@ -13,7 +13,9 @@ class AuthController extends BaseController {
     {
         $this->service = $service;
         parent::__construct();
-        $this->beforeFilter('noAuth', ['*']);
+
+        // restrict authenticated users from pages except logout
+        $this->beforeFilter('noAuth', ['except'=> ['getLogout']]);
     }
 
     public function getLogin()
@@ -28,22 +30,21 @@ class AuthController extends BaseController {
         $password = Input::get('password');
         $remember = Input::has('remember') ? true : false;
 
-        if ( Auth::attempt(array('email' => $email, 'password' => $password), $remember) ) {
+        if ( ! Auth::attempt(array('email' => $email, 'password' => $password), $remember) ) {
 
-            $this->service->updateLastLoggedAt();
-
-            return Redirect::intended('/');
-        } else {
-
-            return Redirect::action('AuthController@getLogin')->with('error', Lang::get('site.auth.alerts.wrong_credentials'));
+            return Redirect::action('AuthController@getLogin')->with('error', 'Wrong Username Password');
         }
+
+        $this->service->updateLastLoggedAt();
+
+        return Redirect::intended('/');
     }
 
 
     /**
      * User Registeration Page
      */
-    public function getRegister()
+    public function getSignup()
     {
         $this->title = 'Create an Account';
         $this->render('site.auth.signup');
@@ -51,7 +52,7 @@ class AuthController extends BaseController {
     }
 
 
-    public function postRegister()
+    public function postSignup()
     {
         // get the registration form
         $val = $this->service->getRegistrationForm();
@@ -151,16 +152,18 @@ class AuthController extends BaseController {
      * @param $token
      * Confirm the User and Activate
      * Lands on this page When User Clicks the Activation Link in Email
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function activate($token)
     {
-        if ( $this->service->activateUser($token) ) {
-            // redirec to home with active message
-            dd('mail sent');
-        } else {
-            // errors
-            dd($this->service->errors());
+        // If not activated ( errors )
+        if (! $this->service->activateUser($token) ) {
+
+            return Redirect::home()->with('errors', $this->service->errors());
         }
+        // redirect to home with active message
+        return Redirect::action('AuthController@getLogin')->with('success', 'Your account is activated, please login');
+
     }
 
 }

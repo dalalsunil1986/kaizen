@@ -37,7 +37,6 @@ class EventsController extends BaseController {
         parent::__construct();
     }
 
-
     public function index()
     {
         $perPage     = 10;
@@ -97,7 +96,6 @@ class EventsController extends BaseController {
         $this->render('site.home', compact('events'));
     }
 
-
     /**
      * Display the event by Id and the regardig comments.
      *
@@ -108,22 +106,23 @@ class EventsController extends BaseController {
     {
         $event = $this->eventRepository->requireById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
 
-        $this->layout->render('site.events.view', compact('event'));
-
         if ( Auth::check() ) {
             $user = Auth::user();
             View::composer('site.events.view', function ($view) use ($id, $user) {
                 $favorited  = Favorite::hasFavorited($id, $user->id);
                 $subscribed = Subscription::isSubscribed($id, $user->id);
                 $followed   = Follower::isFollowing($id, $user->id);
-                $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));
 
+                $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));
             });
         } else {
             View::composer('site.events.view', function ($view) {
                 $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false));
             });
         }
+
+        $this->render('site.events.view', compact('event'));
+
     }
 
     /* @param eventId $id
@@ -176,7 +175,6 @@ class EventsController extends BaseController {
         ), 401);
 
     }
-
 
     /**
      * @param $id eventId
@@ -388,15 +386,6 @@ class EventsController extends BaseController {
      */
     protected function availableSeats($event)
     {
-        //        $total_seats = $event->total_seats;
-        ////        dd($total_seats);
-        //        $seats_taken = $event->subscriptions->count();
-        //        dd($seats_taken);
-        //
-        //        $available_seats = $total_seats - $seats_taken;
-        //        // $available_seats = $seats_taken;
-        //        // dd($available_seats);
-        //        return $available_seats->getAvailableSeats();
         return $event->available_seats;
     }
 
