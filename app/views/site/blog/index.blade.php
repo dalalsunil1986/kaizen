@@ -1,10 +1,10 @@
-@extends('site.layouts.home')
-@section('maincontent')
+@extends('site.layouts._one_column')
+@section('content')
 
 @foreach ($posts as $post)
     <!-- Post Title -->
 
-    <h4><strong><a href="{{action('BlogsController@show',$post->slug) }}">{{ String::title($post->title) }}</a></strong></h4>
+    <h4><strong><a href="{{action('BlogsController@show',$post->id) }}">{{ $post->title }}</a></strong></h4>
 
     <!-- ./ post title -->
 
@@ -14,15 +14,15 @@
             @if(count($post->photos))
                 {{ HTML::image('uploads/medium/'.$post->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
             @else
-            <a href="{{action('BlogsController@show',$post->slug) }}">
+            <a href="{{action('BlogsController@show',$post->id) }}">
                 <img src="http://placehold.it/100x100/2980b9/ffffff&text={{ $post->category->name }}" class="img-responsive img-thumbnail" />
             </a>
             @endif
         </div>
         <p style="width: 98%;">
-            {{ String::tidy(Str::limit($post->content, 200)) }}
+            {{ Str::limit($post->content, 200) }}
         </p>
-        <p><a class="btn btn-mini btn-default" href="{{action('BlogsController@show',$post->slug) }}">Read more</a></p>
+        <p><a class="btn btn-mini btn-default" href="{{action('BlogsController@show',$post->id) }}">Read more</a></p>
 
     <!-- ./ post content -->
 

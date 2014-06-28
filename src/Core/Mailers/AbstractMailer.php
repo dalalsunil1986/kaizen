@@ -7,8 +7,8 @@ class AbstractMailer implements MailerInterface {
 
     protected $mailer;
     protected $senderEmail;
-    protected $sender;
-    protected $recepient;
+    protected $senderName;
+    protected $recepientEmail;
     protected $recepientName;
     protected $subject;
     protected $view;
@@ -17,18 +17,18 @@ class AbstractMailer implements MailerInterface {
     {
         $this->mailer      = $mailer;
         $this->senderEmail = Config::get('mail.from.address');
-        $this->sender      = Config::get('mail.from.name');
+        $this->senderName      = Config::get('mail.from.name');
         $this->view        = 'emails.default';
     }
 
-    public function fire(array $data)
+    public function fire(array $array)
     {
         try {
-            $this->mailer->send($this->view, $data, function ($message) {
+            $this->mailer->send($this->view, $array, function ($message) {
                 $message
-                ->from($this->senderEmail,$this->sender)
-                ->sender($this->senderEmail,$this->sender)
-                ->to($this->recepient, $this->recepientName)
+                ->from($this->senderEmail,$this->senderName)
+                ->sender($this->senderEmail,$this->senderName)
+                ->to($this->recepientEmail, $this->recepientName)
                 ->subject($this->subject);
             });
         }

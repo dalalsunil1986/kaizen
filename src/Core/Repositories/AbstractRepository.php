@@ -56,17 +56,29 @@ abstract class AbstractRepository {
     }
 
     /**
+     * @param array $with
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      * wrapper for eloquent all();
      */
-    public function getAll()
+    public function getAll($with = [])
     {
+        if ( isset($with) && (! empty($with)) ) {
+
+            return $this->model->with($with)->all();
+        }
+
         return $this->model->all();
     }
 
-    public function getAllPaginated($count)
+    public function getAllPaginated($with = [], $perPage = 10)
     {
-        return $this->model->paginate($count);
+        if ( isset($with) && (! empty($with)) ) {
+
+            return $this->model->with($with)->paginate($perPage);
+
+        }
+
+        return $this->model->paginate($perPage);
     }
 
     /**

@@ -1,10 +1,14 @@
 <?php namespace Acme\Core\ServiceProviders;
 
+use Acme\Blog\BlogEventSubscriber;
+use Acme\Blog\EloquentBlogRepository;
+use Acme\Contact\ContactEventSubscriber;
 use Acme\Contact\EloquentContactRepository;
 use Acme\Country\EloquentCountryRepository;
 use Acme\Events\EloquentEventRepository;
 use Acme\Category\EloquentCategoryRepository;
 use Category;
+use Contact;
 use Country;
 use EventModel;
 use Illuminate\Support\MessageBag;
@@ -12,6 +16,7 @@ use Acme\Users\AuthService;
 use Acme\Users\UserEventSubscriber;
 use Illuminate\Support\ServiceProvider;
 use Acme\Users\EloquentUserRepository;
+use Post;
 use User;
 
 class RepositoryServiceProvider extends ServiceProvider {
@@ -22,6 +27,8 @@ class RepositoryServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->app['events']->subscribe(new UserEventSubscriber($this->app['mailer']));
+        $this->app['events']->subscribe(new ContactEventSubscriber($this->app['mailer']));
+        $this->app['events']->subscribe(new BlogEventSubscriber($this->app['mailer']));
     }
 
     public function register()
@@ -32,6 +39,7 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->registerCountryRepository();
         $this->registerCategoryRepository();
         $this->registerContactRepository();
+        $this->registerBlogRepository();
     }
 
     /**
@@ -87,6 +95,15 @@ class RepositoryServiceProvider extends ServiceProvider {
     {
         $this->app->bind('Acme\Contact\ContactRepository', function () {
             $contact = new EloquentContactRepository(new Contact());
+
+            return $contact;
+        });
+    }
+
+    private function registerBlogRepository()
+    {
+        $this->app->bind('Acme\Blog\BlogRepository', function () {
+            $contact = new EloquentBlogRepository(new Post());
 
             return $contact;
         });

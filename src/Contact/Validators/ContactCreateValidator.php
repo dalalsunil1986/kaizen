@@ -10,9 +10,9 @@ class ContactCreateValidator extends AbstractValidator {
      * @var array
      */
     protected $rules = array(
-        'email'=>'required|email',
-        'name'=>'required',
-        'comment'=>'required|min:5'
+        'sender_email'=>'required|email',
+        'sender_name'=>'required',
+        'body' => 'required|min:5'
     );
 
 }

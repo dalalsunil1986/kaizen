@@ -6,7 +6,7 @@
 
     <body>
         <h1>Hey Kaizen Admin</h1>
-        <p> {{ $comment }} </p>
+        <p> {{ $body }} </p>
     </body>
 </head>
 </html>

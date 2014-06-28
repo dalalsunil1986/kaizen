@@ -1,5 +1,6 @@
 <?php namespace Acme\Contact;
 
+use Acme\Contact\Validators\ContactCreateValidator;
 use Acme\Core\CrudableTrait;
 use Country;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,10 @@ class EloquentContactRepository extends AbstractRepository implements ContactRep
         parent::__construct(new MessageBag);
 
         $this->model = $model;
+    }
+
+    public function getContactForm() {
+        return new ContactCreateValidator();
     }
 
 }

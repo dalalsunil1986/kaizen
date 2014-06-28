@@ -24,7 +24,7 @@ class UserEventHandler extends AbstractMailer {
     public function sendActivationMail($user)
     {
         $this->view          = 'emails.auth.default';
-        $this->recepient     = $user['email'];
+        $this->recepientEmail     = $user['email'];
         $this->recepientName = $user['name_en'];
         $this->subject       = 'Please Activate Your Email';
         $user['body']        = 'To activate your Kuwaitii.com Account,<a href="' . action('AuthController@activate', $user['confirmation_code']) . '"> Click this link </a> ';
@@ -50,7 +50,7 @@ class UserEventHandler extends AbstractMailer {
     private function sendPasswordResetMail(User $user)
     {
         $this->view          = 'emails.auth.default';
-        $this->recepient     = $user->email;
+        $this->recepientEmail     = $user->email;
         $this->recepientName = $user->name;
         $this->subject       = 'Please Reset Your Email';
         $user->body          = 'To Reset your Kuwaitii.com Password,<a href="' . action('AuthController@getReset', $user->confirmation_code) . '"> Click this link </a> ';

@@ -1,9 +1,9 @@
-@extends('site.layouts.home')
-@section('maincontent')
+@extends('site.layouts._one_column')
+@section('content')
 
     {{-- Web site Title --}}
     @section('title')
-    {{{ String::title($post->title) }}} ::
+    {{ $post->title }} ::
     @parent
     @stop
 

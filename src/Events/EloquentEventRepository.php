@@ -31,11 +31,11 @@ class EloquentEventRepository extends AbstractRepository implements EventReposit
         $this->model = $model;
     }
 
-    public function getAll()
+    public function getAll( $with = [])
     {
         $currentTime = Carbon::now()->toDateTimeString();
 
-        $events = $this->model->with(array('category', 'location.country', 'photos', 'author'))
+        $events = $this->model->with($with)
             ->where('date_start', '>', $currentTime);
 
         return $events;

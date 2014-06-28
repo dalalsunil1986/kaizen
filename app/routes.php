@@ -54,7 +54,10 @@ Route::resource('contact', 'ContactsController', array('only' => array('index'))
 
 Route::post('contact/contact', 'ContactsController@contact');
 
-# Posts - Second to last set, match slug
+/*********************************************************************************************************
+ * Posts
+ ********************************************************************************************************/
+
 Route::get('consultancy', array('as' => 'consultancy', 'uses' => 'BlogsController@consultancy'));
 
 Route::resource('blog', 'BlogsController', array('only' => array('index', 'show', 'view')));

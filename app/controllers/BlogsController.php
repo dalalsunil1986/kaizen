@@ -1,30 +1,24 @@
 <?php
 
+use Acme\Blog\BlogRepository;
+use Acme\Users\UserRepository;
+
 class BlogsController extends BaseController {
 
-    /**
-     * Post Model
-     * @var Post
-     */
     protected $model;
-
     /**
-     * User Model
-     * @var User
+     * @var Acme\Blog\BlogRepository
      */
-    protected $user;
-
+    private $blogRepository;
     /**
-     * Inject the models.
-     * @param Post $post
-     * @param User $user
+     * @var Acme\Users\UserRepository
      */
-    protected $layout = 'site.layouts.home';
-    public function __construct(Post $model, User $user)
-    {
-        parent::__construct();
-        $this->model = $model;
-        $this->user = $user;
+    private $userRepository;
+
+    public function __construct(BlogRepository $blogRepository, UserRepository $userRepository){
+
+        $this->blogRepository = $blogRepository;
+        $this->userRepository = $userRepository;
     }
     
 	/**
@@ -35,51 +29,31 @@ class BlogsController extends BaseController {
 	public function index()
 	{
 		// Get all the blog posts
-        $posts = $this->model->with(array('category','photos','author'))->paginate(10);
-		// Show the page
-        $this->layout->render = view::make('site.blog.index', compact('posts'));
+        $posts = $this->blogRepository->getAllPaginated(['category','photos','author']);
 
+		// Show the page
+        $this->render('site.blog.index', compact('posts'));
 	}
 
-	/**
-	 * View a blog post.
-	 *
-	 * @param  string  $slug
-	 * @return View
-	 * @throws NotFoundHttpException
-	 */
-	public function show($slug)
+    /**
+     * View a blog post.
+     *
+     * @param $id
+     * @internal param string $slug
+     * @return View
+     */
+	public function show($id)
 	{
 		// Get this blog post data
-		$post = $this->model->with(array('category','photos','author'))->where('slug', '=', $slug)->first();
-		// Show the page
-        $this->layout->login = View::make('site.layouts.login');
-        $this->layout->ads = view::make('site.layouts.ads');
-        $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.blog.view', compact('post', 'comments', 'canComment'));
-        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-        $this->layout->footer = view::make('site.layouts.footer');
+		$post = $this->blogRepository->requireById($id,['category','photos','author']);
+
+        $this->render('site.blog.view', compact('post'));
 	}
 
 
     public function consultancy() {
-        $posts=  $this->model
-            ->with(array('category','photos','author'))
-            ->select('posts.*')
-            ->leftJoin('categories','categories.id','=','posts.category_id')
-////            ->leftJoin('photos','photos.imageable_id','=','posts.id')
-////            ->where('photos.imageable_type','=','Post')
-            ->where('categories.name_en','=','consultancy')
-//            ->where('category_id','=','5')
-            ->orderBy('posts.created_at','DESC')
-            ->paginate(4);
-//        $posts = $this->model->getConsultancies();
+        $posts=  $this->blogRepository->getConsultancyPosts();
 
-        $this->layout->login = View::make('site.layouts.login');
-//        $this->layout->ads = view::make('site.layouts.ads');
-        $this->layout->nav = view::make('site.layouts.nav');
-        $this->layout->maincontent = view::make('site.blog.consultancy', compact('posts'));
-        $this->layout->sidecontent = view::make('site.layouts.sidebar');
-        $this->layout->footer = view::make('site.layouts.footer');
+        $this->render('site.blog.consultancy', compact('posts'));
     }
 }

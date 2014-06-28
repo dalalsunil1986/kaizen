@@ -15,35 +15,42 @@ class ContactsController extends BaseController {
     {
         $this->contactRepository = $contactRepository;
         parent::__construct();
+        $this->beforeFilter('csrf', ['only'=> ['contact']]);
     }
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
         $contact = $this->contactRepository->getFirst();
 
-        dd($contact->toArray());
-
         $this->render('site.layouts.contact', compact('contact'));
-	}
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function contact()
-	{
-        $user = $this->contactRepository->first();
-            if($this->mailer->sendMail($user,$args)) {
-                return Redirect::home()->with('success','Mail Sent');
-            }
-            return Redirect::home()->with('error','Error Sending Mail');
+    /**
+     * Send Contact Email.
+     *
+     * @return Response
+     */
+    public function contact()
+    {
+        // Get the contact info from DB
+        $user = $this->contactRepository->getFirst();
 
-        return Redirect::back()->withInput()->with('error',$validate->errors()->all());
+        // Validate the input data
+        $val = $this->contactRepository->getContactForm();
 
-	}
+        if ( ! $val->isValid() ) {
+            return Redirect::back()->withInput()->with('errors', $val->getErrors());
+        }
+
+        $input = array_merge(Input::only(['sender_name','sender_email','body']), $user->toArray());
+
+        Event::fire('contact.contact', [$input]);
+
+        return Redirect::home()->with('success', 'Mail Sent');
+    }
 }

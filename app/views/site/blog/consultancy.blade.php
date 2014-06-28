@@ -1,5 +1,5 @@
-@extends('site.layouts.home')
-@section('maincontent')
+@extends('site.layouts._one_column')
+@section('content')
 
 <div class="row">
 
@@ -10,7 +10,7 @@
             <div class="col-sm-6 col-md-6">
                 <div class="post">
                     <div class="post-img-content">
-                        <a href="{{action('BlogsController@show',$post->slug) }}" >
+                        <a href="{{action('BlogsController@show',$post->id) }}" >
                         @if(count($post->photos))
                             {{ HTML::image('uploads/medium/'.$post->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
                         @else
@@ -20,14 +20,14 @@
                     </div>
                     <div class="content">
                         <div class="post-title-wrapper">
-                            <div class="post-title"><a href="{{action('BlogsController@show',$post->slug) }}" >{{ $post->title }}</a></div>
+                            <div class="post-title"><a href="{{action('BlogsController@show',$post->id) }}" >{{ $post->title }}</a></div>
                         </div>
                         <div class="post-author">
 
                             By <b> {{ $post->author->username }} </b>
                         </div>
                         <div class="post-description">{{ Str::limit($post->content,150) }}</div>
-                        <div class="post-button"><a href="{{action('BlogsController@show',$post->slug) }}" class="btn btn-primary btn-sm">Read more</a></div>
+                        <div class="post-button"><a href="{{action('BlogsController@show',$post->id) }}" class="btn btn-primary btn-sm">Read more</a></div>
                     </div>
                 </div>
             </div>
