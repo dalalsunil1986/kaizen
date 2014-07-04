@@ -11,6 +11,7 @@ app/storage/cache/*
 app/storage/views/*
 app/storage/sessions/*
 app/storage/debugbar/*
+app/storage/logs/*
 
 _ide_helper.php
 
