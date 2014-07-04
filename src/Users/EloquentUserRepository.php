@@ -61,4 +61,12 @@ class EloquentUserRepository extends AbstractRepository implements Repository, P
         return new UserResetValidator();
     }
 
+    public function findByToken($token){
+        return $this->model->whereConfirmationCode($token)->first();
+    }
+
+    public function findByEmail($email) {
+        return $this->model->whereEmail($email)->first();
+    }
+
 }

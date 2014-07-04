@@ -50,7 +50,9 @@ class BlogsController extends BaseController {
         $this->render('site.blog.view', compact('post'));
 	}
 
-
+    /**
+     * Get Posts For Consultancies
+     */
     public function consultancy() {
         $posts=  $this->blogRepository->getConsultancyPosts();
 

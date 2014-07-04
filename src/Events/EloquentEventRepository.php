@@ -35,26 +35,10 @@ class EloquentEventRepository extends AbstractRepository implements EventReposit
     {
         $currentTime = Carbon::now()->toDateTimeString();
 
-        $events = $this->model->with($with)
-            ->where('date_start', '>', $currentTime);
+        return $this->model->with($with)
+                ->where('date_start', '>', $currentTime);
 
-        return $events;
     }
-
-//    public function find($id)
-//    {
-//        $event = $this->model->with('comments', 'author', 'photos', 'subscribers', 'followers', 'favorites')->findOrFail($id)->get();
-//
-//        if(!$event)
-//            App::abort('404');
-//
-//        $currentTime = Carbon::now()->toDateTimeString();
-//
-//        $events = $this->model->with(array('category', 'location.country', 'photos', 'author'))
-//            ->where('date_start', '>', $currentTime);
-//
-//        return $events;
-//    }
 
     /**
      * Return Events For Event Index Page
@@ -65,8 +49,8 @@ class EloquentEventRepository extends AbstractRepository implements EventReposit
     public function getEvents($perPage = 10)
     {
         return $this->getAll()
-            ->orderBy('date_start', 'DESC')
-            ->paginate($perPage);
+                ->orderBy('date_start', 'DESC')
+                ->paginate($perPage);
     }
 
     /**

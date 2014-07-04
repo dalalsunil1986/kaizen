@@ -112,6 +112,7 @@ Route::get('country/{id}/events', array('uses' => 'CountriesController@getEvents
  * Newsletter Routes
  ********************************************************************************************************/
 Route::post('newsletter', 'NewslettersController@store');
+Route::get('newsletter', 'NewslettersController@index');
 
 /*********************************************************************************************************
  * MISC ROUTES
@@ -199,3 +200,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::get('/', 'AdminEventsController@index');
 });
+/*********************************************************************************************************
+ * Mailchimp Test
+ ********************************************************************************************************/
+

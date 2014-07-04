@@ -11,12 +11,12 @@ use Password;
 class AuthService extends AbstractRepository {
 
     public $errors;
-    public $repository;
+    public $userRepository;
 
     public function __construct(UserRepository $repository, MessageBag $errors)
     {
-        $this->repository = $repository;
-        $this->errors     = $errors;
+        $this->userRepository = $repository;
+        $this->errors  = $errors;
     }
 
     /**
@@ -29,7 +29,7 @@ class AuthService extends AbstractRepository {
     {
         $data['confirmation_code'] = $this->generateToken();
 
-        if ( ! $user = $this->repository->create($data) ) {
+        if ( ! $user = $this->userRepository->create($data) ) {
 
             $this->addError('could not create user');
 
@@ -47,7 +47,7 @@ class AuthService extends AbstractRepository {
      */
     public function update(array $data)
     {
-        return $this->repository->update($data);
+        return $this->userRepository->update($data);
     }
 
     /**
@@ -112,7 +112,7 @@ class AuthService extends AbstractRepository {
      */
     private function findByToken($token)
     {
-        $user = $this->repository->model->where('confirmation_code', $token)->first();
+        $user = $this->userRepository->findByToken($token);
 
         return $user;
     }
@@ -130,7 +130,7 @@ class AuthService extends AbstractRepository {
     public function sendResetLink($email)
     {
         // check for valid user
-        $user = $this->repository->model->where('email', $email['email'])->first();
+        $user = $this->userRepository->findByEmail($email['email']);
 
         // Check if Valid User
         if ( $user ) {
@@ -178,11 +178,11 @@ class AuthService extends AbstractRepository {
 
     public function getRegistrationForm()
     {
-        return $this->repository->getCreationForm();
+        return $this->userRepository->getCreationForm();
     }
 
     public function getPasswordResetForm()
     {
-        return $this->repository->getPasswordResetForm();
+        return $this->userRepository->getPasswordResetForm();
     }
 }

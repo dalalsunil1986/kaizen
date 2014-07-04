@@ -74,7 +74,6 @@ class AuthController extends BaseController {
 
     }
 
-
     /**
      * Display The  Forgot Password Form
      * @return Response
