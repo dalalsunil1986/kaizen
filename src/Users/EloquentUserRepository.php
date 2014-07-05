@@ -10,6 +10,7 @@ use Acme\Core\Repositories\Paginable;
 use Acme\Core\Repositories\Repository;
 use Acme\Core\Repositories\AbstractRepository;
 //use Subscription;
+//use Subscription;errors
 
 class EloquentUserRepository extends AbstractRepository implements Repository, Paginable, UserRepository {
 

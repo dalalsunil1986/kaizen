@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Kaizen Courses</title>
+    <title>Kaizen Courses - usama ??? `</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,6 +25,13 @@
     {{ HTML::style('css/bootstrap.min.css') }}
     @if ( App::getLocale() == 'ar')
     {{ HTML::style('css/bootstrap-rtl.min.css') }}
+    <style type="text/css">
+        @import url(http://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
+        html,body,p,h1,h2,h3,h4,div,span {
+            font-family: 'Droid Arabic Kufi', serif !important;
+        }
+    </style>
+    test
     @endif
     {{ HTML::style('css/customcss.css') }}
     @if ( App::getLocale() == 'en')

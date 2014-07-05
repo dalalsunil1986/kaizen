@@ -28,7 +28,7 @@ class AuthService extends AbstractRepository {
     public function register(array $data)
     {
         $data['confirmation_code'] = $this->generateToken();
-
+        // going to UserRepository Empty !! no methods registered
         if ( ! $user = $this->repository->create($data) ) {
 
             $this->addError('could not create user');
@@ -178,6 +178,8 @@ class AuthService extends AbstractRepository {
 
     public function getRegistrationForm()
     {
+        return new UserCreateValidator();
+
         return $this->repository->getCreationForm();
     }
 

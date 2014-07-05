@@ -65,6 +65,7 @@ abstract class AbstractRepository {
         if ( isset($with) && (! empty($with)) ) {
 
             return $this->model->with($with)->all();
+
         }
 
         return $this->model->all();

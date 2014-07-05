@@ -3,7 +3,7 @@
 abstract class BaseController extends Controller
 {
     protected $layout = 'site.layouts.master';
-    protected $title = '';
+    protected $title = 'Kaizen ';
     /**
      * Initializer.
      *
