@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePermissionRole extends Migration {
+class CreatePermissionRoleTable extends Migration {
 
     /**
      * Run the migrations.
