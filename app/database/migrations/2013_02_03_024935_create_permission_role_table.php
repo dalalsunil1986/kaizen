@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Database\Migrations\Migration;
 
-class EntrustPermissions extends Migration {
+class CreatePermissionRole extends Migration {
 
     /**
      * Run the migrations.
@@ -10,16 +10,6 @@ class EntrustPermissions extends Migration {
      */
     public function up()
     {
-
-        // Creates the permissions table
-        Schema::create('permissions', function($table)
-        {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->string('name')->unique();
-            $table->string('display_name')->unique();
-        });
-
         // Creates the permission_role (Many-to-Many relation) table
         Schema::create('permission_role', function($table)
         {
@@ -38,7 +28,6 @@ class EntrustPermissions extends Migration {
     public function down()
     {
         Schema::drop('permission_role');
-        Schema::drop('permissions');
     }
 
 }
