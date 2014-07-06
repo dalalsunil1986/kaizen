@@ -1,14 +1,14 @@
-<?php namespace Acme\Contact;
+<?php namespace Acme\Location;
 
-use Acme\Contact\Validators\ContactCreateValidator;
 use Acme\Core\CrudableTrait;
 use Country;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\Illuminate;
 use Acme\Core\Repositories\AbstractRepository;
+use Location;
 
-class EloquentContactRepository extends AbstractRepository implements ContactRepository {
+class LocationRepository extends AbstractRepository {
 
     use CrudableTrait;
 
@@ -23,15 +23,11 @@ class EloquentContactRepository extends AbstractRepository implements ContactRep
      * @param \Country|\Illuminate\Database\Eloquent\Model $model
      * @internal param \Illuminate\Database\Eloquent\Model $user
      */
-    public function __construct(Model $model)
+    public function __construct(Location $model)
     {
         parent::__construct(new MessageBag);
 
         $this->model = $model;
-    }
-
-    public function getContactForm() {
-        return new ContactCreateValidator();
     }
 
 }

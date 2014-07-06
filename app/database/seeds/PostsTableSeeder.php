@@ -20,9 +20,6 @@ class PostsTableSeeder extends Seeder {
                     'title'      => $sentence,
                     'slug'       => $slug,
                     'content'    => $faker->sentence(200),
-                    'meta_title' => 'meta_title1',
-                    'meta_description' => 'meta_description1',
-                    'meta_keywords' => 'meta_keywords1',
                     'created_at' => $faker->DateTime(),
                     'updated_at' => $faker->DateTime()
                 ]

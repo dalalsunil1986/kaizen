@@ -13,9 +13,9 @@ class AuthService extends AbstractRepository {
     public $errors;
     public $userRepository;
 
-    public function __construct(UserRepository $repository, MessageBag $errors)
+    public function __construct(UserRepository $userRepository,MessageBag $errors)
     {
-        $this->userRepository = $repository;
+        $this->userRepository = $userRepository;
         $this->errors  = $errors;
     }
 

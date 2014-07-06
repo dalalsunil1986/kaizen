@@ -1,16 +1,15 @@
-<?php namespace Acme\Country;
+<?php namespace Acme\Photos;
 
 use Acme\Core\CrudableTrait;
-use Country;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\MessageBag;
+use Acme\Core\Repositories\Crudable;
 use Acme\Core\Repositories\Illuminate;
 use Acme\Core\Repositories\AbstractRepository;
+use Photo;
 
-class EloquentCountryRepository extends AbstractRepository implements CountryRepository {
+class PhotoRepository extends AbstractRepository {
 
     use CrudableTrait;
-
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
@@ -19,10 +18,10 @@ class EloquentCountryRepository extends AbstractRepository implements CountryRep
     /**
      * Construct
      *
-     * @param \Country|\Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Database\Eloquent\Model|\Photo $model
      * @internal param \Illuminate\Database\Eloquent\Model $user
      */
-    public function __construct(Model $model)
+    public function __construct(Photo $model)
     {
         parent::__construct(new MessageBag);
 

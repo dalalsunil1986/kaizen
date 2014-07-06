@@ -2,7 +2,10 @@
 
 abstract class BaseController extends Controller
 {
-    protected $layout = 'site.layouts.master';
+    // define the master layout for the site
+    protected $layout = 'site.master';
+
+    // title of the page
     protected $title = '';
     /**
      * Initializer.
@@ -25,6 +28,11 @@ abstract class BaseController extends Controller
         }
     }
 
+    /**
+     * @param $path
+     * @param array $data
+     * render the view
+     */
     protected function render($path, $data = [])
     {
         $this->layout->title = $this->title;

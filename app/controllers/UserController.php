@@ -2,6 +2,7 @@
 
 use Acme\Country\CountryRepository;
 use Acme\Users\UserRepository;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends BaseController {
 

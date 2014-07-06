@@ -1,0 +1,12 @@
+body {
+    font-size:1.2em;
+    margin: 50px 0;
+}
+.nav > li > a {
+    padding-right:0px;
+}
+.alert {
+    margin:15px 0 0 0;
+}
+ul {list-style-type: none}
+li {list-style-type: none}

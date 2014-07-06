@@ -1,10 +1,74 @@
-@extends('admin.layouts.default')
+@extends('admin.master')
 
-{{-- Content --}}
-@section('content')
+@section('scripts')
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="{{ asset('js/address.picker.js') }}"></script>
+
+<script>
+    $(function() {
+        var latitude = '<?php echo $latitude?>';
+        var longitude = '<?php echo $longitude ?>';
+
+
+        get_map(latitude,longitude);
+
+        var addresspicker = $( "#addresspicker" ).addresspicker();
+        var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+//            regionBias: "KW",
+            updateCallback: showCallback,
+            elements: {
+                map:      "#map",
+                lat:      "#latitude",
+                lng:      "#longitude"
+            }
+
+        });
+
+        var gmarker = addresspickerMap.addresspicker( "marker");
+        gmarker.setVisible(true);
+        addresspickerMap.addresspicker("updatePosition");
+
+        $('#reverseGeocode').change(function(){
+            $("#addresspicker_map").addresspicker("option", "reverseGeocode", ($(this).val() === 'true'));
+        });
+
+        function showCallback(geocodeResult, parsedGeocodeResult) {
+            $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
+
+//            alert(JSON.stringify(parsedGeocodeResult, null, 4));
+        }
+
+
+    });
+
+    $(function(){
+        $('#date_start').datetimepicker({
+            format:'Y-m-d H:i',
+            onShow:function( ct ){
+//                this.setOptions({
+//                    maxDate:$('#date_end').val()?$('#date_end').val():false
+//                })
+            }
+        });
+        $('#date_end').datetimepicker({
+            format:'Y-m-d H:i',
+            onShow:function( ct ){
+//                this.setOptions({
+//                    minDate:$('#date_start').val()?$('#date_start').val():false
+//                })
+            }
+        });
+
+    });
+
+</script>
+
+@stop
+
+{{-- Content --}}
+@section('content')
+
 <h1>Edit Event</h1>
 {{ Form::open(array('method' => 'POST', 'action' => array('AdminEventsController@store'), 'role'=>'form', 'files' => true)) }}
 <div class="row">
@@ -47,7 +111,6 @@
         {{ Form::text('title_en',NULL,array('class'=>'form-control')) }}
     </div>
 </div>
-
 
 <div class="row">
     <div class="form-group col-md-12">
@@ -199,62 +262,4 @@
 $latitude = '29.357';
 $longitude = '47.951';
 ?>
-<script>
-    $(function() {
-        var latitude = '<?php echo $latitude?>';
-        var longitude = '<?php echo $longitude ?>';
-
-
-        get_map(latitude,longitude);
-
-        var addresspicker = $( "#addresspicker" ).addresspicker();
-        var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
-//            regionBias: "KW",
-            updateCallback: showCallback,
-                elements: {
-                map:      "#map",
-                    lat:      "#latitude",
-                    lng:      "#longitude"
-            }
-
-        });
-
-        var gmarker = addresspickerMap.addresspicker( "marker");
-        gmarker.setVisible(true);
-        addresspickerMap.addresspicker("updatePosition");
-
-        $('#reverseGeocode').change(function(){
-            $("#addresspicker_map").addresspicker("option", "reverseGeocode", ($(this).val() === 'true'));
-        });
-
-        function showCallback(geocodeResult, parsedGeocodeResult) {
-            $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
-
-//            alert(JSON.stringify(parsedGeocodeResult, null, 4));
-        }
-
-
-    });
-
-    $(function(){
-        $('#date_start').datetimepicker({
-            format:'Y-m-d H:i',
-            onShow:function( ct ){
-//                this.setOptions({
-//                    maxDate:$('#date_end').val()?$('#date_end').val():false
-//                })
-            }
-        });
-        $('#date_end').datetimepicker({
-            format:'Y-m-d H:i',
-            onShow:function( ct ){
-//                this.setOptions({
-//                    minDate:$('#date_start').val()?$('#date_start').val():false
-//                })
-            }
-        });
-
-    });
-
-</script>
 @stop
