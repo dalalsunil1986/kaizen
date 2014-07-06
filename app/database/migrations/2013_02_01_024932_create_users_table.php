@@ -33,7 +33,6 @@ class CreateUsersTable extends Migration {
             $table->timestamps();
         });
 
-
         // Creates password reminders table
         Schema::create('password_reminders', function ($table) {
             $table->engine = 'InnoDB';

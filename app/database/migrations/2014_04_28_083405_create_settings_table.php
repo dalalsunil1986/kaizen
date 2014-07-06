@@ -15,10 +15,10 @@ class CreateTypesTable extends Migration {
 		Schema::create('types', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->integer('event_id')->unsigned()->index();
-            $table->string('type');
-            $table->string('approval_type');
-//            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->string('fee_type')->nullable(); // [Free, Paid]
+            $table->string('approval_type')->nullable(); // [CONFIRM,DIRECT]
+            $table->string('registration_type')->nullable(); // [VIP, ONLINE]
+            $table->morphs('settable'); // [Event,Package]
 			$table->timestamps();
 		});
 	}

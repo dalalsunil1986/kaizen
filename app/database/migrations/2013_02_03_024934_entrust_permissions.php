@@ -27,8 +27,6 @@ class EntrustPermissions extends Migration {
             $table->integer('permission_id')->unsigned()->index();
             $table->integer('role_id')->unsigned()->index();
             $table->unique(array('permission_id','role_id'));
-//            $table->foreign('permission_id')->references('id')->on('permissions');
-//            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 

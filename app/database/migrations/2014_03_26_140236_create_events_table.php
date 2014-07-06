@@ -22,11 +22,10 @@ class CreateEventsTable extends Migration {
             $table->string('title_ar')->nullable();
             $table->text('description_en')->nullable();
             $table->text('description_ar')->nullable();
-            $table->boolean('free')->nullable();
+            $table->string('slug')->nullable();
             $table->string('price')->nullable();
             $table->integer('total_seats')->nullable();
             $table->integer('available_seats')->nullable();
-            $table->string('slug')->nullable();
             $table->timestamp('date_start')->nullable();
             $table->timestamp('date_end')->nullable();
             $table->integer('phone')->nullable();
@@ -37,11 +36,11 @@ class CreateEventsTable extends Migration {
             $table->string('street_ar')->nullable();
             $table->float('latitude', 10, 6)->nullable();
             $table->float('longitude', 10, 6)->nullable();
-            $table->boolean('active')->nullable();
             $table->boolean('featured')->nullable();
             $table->string('button_en')->nullable();
             $table->string('button_ar')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
