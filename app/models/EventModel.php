@@ -108,11 +108,9 @@ class EventModel extends BaseModel implements \McCool\LaravelAutoPresenter\Prese
         return $dt->format('g a');
     }
 
-    public static function latest($count) {
+    public  function latest($count) {
 //        return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->remember(10)->limit($count)->get();
     }
-
-
 
     public function getDates()
     {
@@ -159,7 +157,7 @@ class EventModel extends BaseModel implements \McCool\LaravelAutoPresenter\Prese
         return 'Acme\Events\EventPresenter';
     }
 
-    protected function getHumanCreatedAtAttribute()
+    public function getHumanCreatedAtAttribute()
     {
         return Carbon::parse($this->attributes['created_at'])->diffForHumans();
 

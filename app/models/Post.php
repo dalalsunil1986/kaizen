@@ -91,7 +91,7 @@ class Post extends BaseModel {
         return new PostPresenter($this);
     }
 
-    public static function latest($count) {
+    public function latest($count) {
         return Post::orderBy('created_at', 'DESC')->select('id','title','slug')->remember(10)->limit($count)->get();
     }
 

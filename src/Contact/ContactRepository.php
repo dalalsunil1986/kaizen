@@ -24,9 +24,8 @@ class ContactRepository extends AbstractRepository {
      */
     public function __construct(Contact $model)
     {
-        parent::__construct(new MessageBag);
-
         $this->model = $model;
+        parent::__construct(new MessageBag);
     }
 
     public function getContactForm() {

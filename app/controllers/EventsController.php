@@ -47,7 +47,7 @@ class EventsController extends BaseController {
         } else {
             $countries = [0 => Lang::get('site.event.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
         }
-        $categories = [0 => Lang::get('site.event.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name', 'id');
+        $categories = [0 => Lang::get('site.event.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
         $authors    = [0 => Lang::get('site.event.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
 
         // find selected form values
@@ -63,7 +63,7 @@ class EventsController extends BaseController {
 
                 ->where(function ($query) use ($search, $category, $author, $country) {
                     if ( ! empty($search) ) {
-                        $query->where('title', 'LIKE', "%$search%")
+                        $query->where('title_ar', 'LIKE', "%$search%")
                             ->orWhere('title_en', 'LIKE', "%$search%");
                         //  ->orWhere('description','LIKE',"%$search%")
                         //  ->orWhere('description_en','LIKE',"%$search%");

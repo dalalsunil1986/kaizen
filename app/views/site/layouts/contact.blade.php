@@ -8,7 +8,7 @@
                <h2 style="background-color: rgba(221, 220, 219, 0.83); padding:10px;">Contact Us</h2>
                @if($contact)
                <b>{{ Lang::get('site.general.email')  }}</b> : {{ $contact->email }}</br>
-               <b>{{ Lang::get('site.general.address')}}</b> : {{ $contact->address }}</br>
+               <b>{{ Lang::get('site.general.address')}}</b> : {{ $contact->address_en }}</br>
                <b>{{ Lang::get('site.general.phone')  }}</b> : {{ $contact->phone }} </br>
                <b>{{ Lang::get('site.general.mobile') }}</b> : {{ $contact->mobile }} </br>
                @endif

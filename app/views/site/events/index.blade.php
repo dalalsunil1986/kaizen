@@ -32,12 +32,11 @@
                         @if($event->title_en)
                             {{ $event->title_en }}
                         @else
-                        {{ $event->title }}
-
+                        {{ $event->title_ar }}
                         @endif
-                        @else
-                        {{ $event->title }}
-                        @endif
+                    @else
+                        {{ $event->title_ar }}
+                    @endif
                     </a>
                 </span>
 
@@ -46,10 +45,10 @@
                 @if($event->description_en)
                     {{ Str::limit($event->description_en, 150) }}
                 @else
-                    {{ $event->description }}
+                    {{ $event->description_ar }}
                 @endif
-                @else
-                {{ Str::limit($event->description, 150) }}
+            @else
+                {{ Str::limit($event->description_ar, 150) }}
             @endif
             <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
         </p>
@@ -67,11 +66,11 @@
 
     <i class="glyphicon glyphicon-globe">
         @if ( App::getLocale() == 'en')
-            <?php $country =  ($event->location->country->name_en) ? $event->location->country->name_en : $event->location->country->name ;?>
-            <?php $category =  ($event->category->name_en) ? $event->category->name_en : $event->category->name ;?>
+            <?php $country =  ($event->location->country->name_en) ? $event->location->country->name_en : $event->location->country->name_ar ;?>
+            <?php $category =  ($event->category->name_en) ? $event->category->name_en : $event->category->name_ar ;?>
         @else
-            <?php $country =  ($event->location->country->name) ? $event->location->country->name : $event->location->country->name_en ;?>
-            <?php $category =  ($event->category->name) ? $event->category->name : $event->category->name_en ;?>
+            <?php $country =  ($event->location->country->name_ar) ? $event->location->country->name_ar : $event->location->country->name_en ;?>
+            <?php $category =  ($event->category->name_ar) ? $event->category->name_ar : $event->category->name_en ;?>
         @endif
         {{ link_to_action('EventsController@index', $country ,array('search'=>'','country'=>$event->location->country->id))  }}
         |</i>

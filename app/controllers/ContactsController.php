@@ -14,8 +14,8 @@ class ContactsController extends BaseController {
     public function __construct(ContactRepository $contactRepository)
     {
         $this->contactRepository = $contactRepository;
-        parent::__construct();
         $this->beforeFilter('csrf', ['only'=> ['contact']]);
+        parent::__construct();
     }
 
     /**

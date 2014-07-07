@@ -28,15 +28,7 @@ class UserRepository extends AbstractRepository  {
 
         $this->model = $model;
 
-        // subscribe the UserEventSubscriber class, so that this class is available when we fire events
-//        $this->app->subscribe(new UserEventSubscriber($this->app['mailer']));
-
     }
-
-//    public static function isSubscribed($id,$userId) {
-//        $query = Subscription::where('user_id', '=', $userId)->where('event_id', '=', $id)->count();
-//        return ($query >= 1 ) ? true : false;
-//    }
 
     public function getRoleByName($roleName) {
         $query=  $this->model->with('roles')->whereHas('roles', function($q) use ($roleName)
