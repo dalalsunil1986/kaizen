@@ -1,4 +1,4 @@
-<?php namespace Acme\Users\Events;
+<?php namespace Acme\User\Events;
 
 use Acme\Core\Mailers\AbstractMailer;
 use User;

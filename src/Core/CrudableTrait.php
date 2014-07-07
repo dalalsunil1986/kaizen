@@ -4,6 +4,29 @@ namespace Acme\Core;
 trait CrudableTrait {
 
     /**
+     * @return validator class
+     * Initialize Validator Class for Creating Form
+     */
+    public function getCreateForm()
+    {
+        $classPath = $this->initValidatorClass();
+        $validator = $classPath.'CreateValidator';
+        return new $validator;
+    }
+
+    /**
+     * @param $id
+     * @return validator class
+     * Initialize Validator Class for Updating Form
+     */
+    public function getEditForm($id)
+    {
+        $classPath = $this->initValidatorClass();
+        $validator = $classPath.'UpdateValidator';
+        return new $validator($id);
+    }
+
+    /**
      * Create a new entity
      *
      * @param array $input
@@ -47,5 +70,6 @@ trait CrudableTrait {
     {
         return $model->delete();
     }
+
 
 } 

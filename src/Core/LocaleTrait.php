@@ -13,17 +13,17 @@ trait LocaleTrait {
     public function __get($name)
     {
         if ( in_array($name, $this->localeStrings) ) {
+
             $locale = App::getLocale();
             if ( $locale == 'en' ) {
-                if ( ! is_null($this->{$name . '_en'}) ) {
-                    return $this->{$name . '_en'};
-                }
+
+                if ( ! is_null($this->{$name . '_en'}) ) return $this->{$name . '_en'};
 
                 return $this->{$name . '_ar'};
+
             } else {
-                if ( ! is_null($this->{$name . '_ar'}) ) {
-                    return $this->{$name . '_ar'};
-                }
+
+                if ( ! is_null($this->{$name . '_ar'}) ) return $this->{$name . '_ar'};
 
                 return $this->{$name . '_en'};
             }

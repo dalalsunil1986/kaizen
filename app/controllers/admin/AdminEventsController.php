@@ -1,29 +1,30 @@
 <?php
 use Acme\Category\CategoryRepository;
-use Acme\Country\CountryRepository;
-use Acme\Events\EventRepository;
+use Acme\Event\EventRepository;
+use Acme\Location\LocationRepository;
 use Acme\Photos\PhotoRepository;
-use Acme\Users\UserRepository;
+use Acme\User\UserRepository;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
 
-class AdminEventsController extends AdminBaseController
-{
+class AdminEventsController extends AdminBaseController {
+
     protected $eventRepository;
     protected $user;
     protected $mailer;
     protected $category;
     protected $photo;
-    private $photoRepository;
+    protected $photoRepository;
+    protected $locationRepository;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository, PhotoRepository $photoRepository)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository)
     {
         $this->eventRepository    = $eventRepository;
         $this->categoryRepository = $categoryRepository;
-        $this->countryRepository  = $countryRepository;
         $this->userRepository     = $userRepository;
-        $this->photoRepository = $photoRepository;
+        $this->photoRepository    = $photoRepository;
+        $this->locationRepository = $locationRepository;
         parent::__construct();
     }
 
@@ -35,8 +36,8 @@ class AdminEventsController extends AdminBaseController
 
     public function index()
     {
-        $events =  $this->eventRepository->getAll(array('category','location.country'))->paginate(10);
-        $this->render('admin.events.index',compact('events'));
+        $events = $this->eventRepository->getAll(array('category', 'location.country'))->paginate(10);
+        $this->render('admin.events.index', compact('events'));
     }
 
 
@@ -47,11 +48,12 @@ class AdminEventsController extends AdminBaseController
      */
     public function create()
     {
-        $category = $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
-        $author = $this->userRepository->getRoleByName('author')->lists('username', 'id');
-        $location = Location::all()->lists('name', 'id');
-        $country = Country::all()->lists('name', 'id');
-        return View::make('admin.events.create', compact('category', 'author', 'location','country'));
+        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $feeTypes  = $this->eventRepository->feeTypes;
+        $approvalTypes  = $this->eventRepository->approvalTypes;
+        return View::make('admin.events.create', compact('category', 'author', 'location','feeTypes','approvalTypes'));
     }
 
     /**
@@ -62,33 +64,58 @@ class AdminEventsController extends AdminBaseController
     public function store()
     {
         //validate and save
-        $validation = new $this->eventRepository(Input::except(array('thumbnail','addresspicker_map','type','approval_type')));
-        if (!$validation->save()) {
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+//        $validation = new $this->eventRepository(Input::except(array('thumbnail', 'addresspicker_map', 'type', 'approval_type')));
+//        $this->userRepository->requireById($id);
+//
+//        $val = $this->userRepository->getEditForm($id);
+//
+//        if ( ! $val->isValid() ) {
+//
+//            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+//        }
+//
+//        if (! $this->userRepository->update($id, $val->getInputData()) ) {
+//
+//            return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
+//        }
+//
+//        return Redirect::action('UserController@getProfile', $id)->with('success', 'Updated');
+
+        $val = $this->eventRepository->getCreateForm();
+
+        if ( ! $val->isValid() ) {
+            return Redirect::back()->withInput()->withErrors($val->getErrors());
+        }
+
+        if (! $this->eventRepository->create($val->getInputData()))
+        {
+            return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
         // if file is uploaded, try to attach it and save it the db
-        if(Input::hasFile('thumbnail')) {
+        if ( Input::hasFile('thumbnail') ) {
             // call the attach image function from Photo class
-            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','1')) {
-                return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($this->photo->getErrors());
+            if ( ! $this->photo->attachImage($val->id, Input::file('thumbnail'), 'EventModel', '1') ) {
+                return Redirect::to('admin/event/' . $val->id . '/edit')->withErrors($this->photo->getErrors());
             }
         }
 
-        $type = new Type();
-        $type->event_id= $validation->id;
-        $type->type = Input::get('type');
+        //todo .. refactor
+        $type                = new Type();
+        $type->event_id      = $val->id;
+        $type->type          = Input::get('type');
         $type->approval_type = Input::get('approval_type');
 
-        if (!$type->save()) {
-            return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($type->getErrors());
+        if ( ! $type->save() ) {
+            return Redirect::to('admin/event/' . $val->id . '/edit')->withErrors($type->getErrors());
         }
 
         //update available seats
-        $event = $this->eventRepository->find($validation->id);
-        if(!empty($event->total_seats))
+        $event = $this->eventRepository->find($val->id);
+        if ( ! empty($event->total_seats) )
             $event->available_seats = $event->total_seats;
-            $event->save();
-        return parent::redirectToAdmin()->with('success','Added Event to the Database');
+        $event->save();
+
+        return parent::redirectToAdmin()->with('success', 'Added Event to the Database');
     }
 
 
@@ -100,14 +127,14 @@ class AdminEventsController extends AdminBaseController
      */
     public function edit($id)
     {
-        {
-            $event = $this->eventRepository->with('photos','type')->find($id);
-            $category = $this->category->getEventCategories()->lists('name', 'id');
-            $author = $this->user->getRoleByName('author')->lists('username', 'id');
-            $location = Location::all()->lists('name', 'id');
-            $country = Country::all()->lists('name', 'id');
-            return View::make('admin.events.edit', compact('event', 'category', 'author', 'location','country'));
-        }
+        $event    = $this->eventRepository->requireById($id,['photos', 'type']);
+        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $feeTypes  = $this->eventRepository->feeTypes;
+        $approvalTypes  = $this->eventRepository->approvalTypes;
+
+        return View::make('admin.events.edit', compact('event', 'category', 'author', 'location','feeTypes','approvalTypes'));
     }
 
     /**
@@ -119,36 +146,37 @@ class AdminEventsController extends AdminBaseController
     public function update($id)
     {
         $validation = $this->eventRepository->find($id);
-        $validation->fill(Input::except(array('thumbnail','addresspicker_map','type','approval_type')));
-        if (!$validation->save()) {
+        $validation->fill(Input::except(array('thumbnail', 'addresspicker_map', 'type', 'approval_type')));
+        if ( ! $validation->save() ) {
             return Redirect::back()->withInput()->withErrors($validation->getErrors());
         }
-        if (Input::hasFile('thumbnail')) {
-            if(!$this->photo->attachImage($validation->id,Input::file('thumbnail'),'EventModel','1')) {
+        if ( Input::hasFile('thumbnail') ) {
+            if ( ! $this->photo->attachImage($validation->id, Input::file('thumbnail'), 'EventModel', '1') ) {
                 return Redirect::back()->withErrors($this->photo->getErrors());
             }
         }
 
         //update type
-        $type = Type::where('event_id',$id)->first();
-        if(!$type) {
-            $type = new Type();
+        $type = Type::where('event_id', $id)->first();
+        if ( ! $type ) {
+            $type           = new Type();
             $type->event_id = $id;
         }
-        $type->type = Input::get('type');
+        $type->type          = Input::get('type');
         $type->approval_type = Input::get('approval_type');
-        if (!$type->save()) {
+        if ( ! $type->save() ) {
             return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($type->getErrors());
         }
 
         //update available seats
-        $event = $this->eventRepository->find($validation->id);
-        $total_seats = $event->total_seats;
-        $total_seats_taken = Subscription::findEventCount($event->id);
-        $available_seats = $total_seats - $total_seats_taken;
+        $event                  = $this->eventRepository->find($validation->id);
+        $total_seats            = $event->total_seats;
+        $total_seats_taken      = Subscription::findEventCount($event->id);
+        $available_seats        = $total_seats - $total_seats_taken;
         $event->available_seats = $available_seats;
         $event->save();
-        return parent::redirectToAdmin()->with('success','Updated Event '. $validation->title);
+
+        return parent::redirectToAdmin()->with('success', 'Updated Event ' . $validation->title);
     }
 
     /**
@@ -159,11 +187,12 @@ class AdminEventsController extends AdminBaseController
      */
     public function destroy($id)
     {
-        if ($this->eventRepository->findOrFail($id)->delete()) {
+        if ( $this->eventRepository->findOrFail($id)->delete() ) {
             //  return Redirect::home();
-            return parent::redirectToAdmin()->with('success','Event Deleted');
+            return parent::redirectToAdmin()->with('success', 'Event Deleted');
         }
-        return parent::redirectToAdmin()->with('error','Error: Event Not Found');
+
+        return parent::redirectToAdmin()->with('error', 'Error: Event Not Found');
     }
 
 
@@ -177,43 +206,52 @@ class AdminEventsController extends AdminBaseController
     {
         $event = $this->eventRepository->find($id)->followers;
         try {
-            $this->mailer->sendMail($event,Input::all());
-        } catch(\Exception $e) {
-            return Redirect::back()->with('error','Email Could not send');
+            $this->mailer->sendMail($event, Input::all());
         }
-        return Redirect::back()->with('success','Email Sent');
+        catch ( \Exception $e ) {
+            return Redirect::back()->with('error', 'Email Could not send');
+        }
+
+        return Redirect::back()->with('success', 'Email Sent');
     }
 
     public function mailFavorites($id)
     {
         $event = $this->eventRepository->find($id)->favorites;
         try {
-           $this->mailer->sendMail($event,Input::all());
-        } catch(\Exception $e) {
-            return Redirect::back()->with('error','Email Could not send');
+            $this->mailer->sendMail($event, Input::all());
         }
-        return Redirect::back()->with('success','Email Sent');
+        catch ( \Exception $e ) {
+            return Redirect::back()->with('error', 'Email Could not send');
+        }
+
+        return Redirect::back()->with('success', 'Email Sent');
     }
+
     public function mailSubscribers($id)
     {
         $event = $this->eventRepository->find($id)->subscribers;
         try {
-            $this->mailer->sendMail($event,Input::all());
-        } catch(\Exception $e) {
-            return Redirect::back()->with('error','Email Could not send');
+            $this->mailer->sendMail($event, Input::all());
         }
-        return Redirect::back()->with('success','Email Sent');
+        catch ( \Exception $e ) {
+            return Redirect::back()->with('error', 'Email Could not send');
+        }
+
+        return Redirect::back()->with('success', 'Email Sent');
     }
 
     public function settings($id)
     {
-        $event = $this->eventRepository->find($id);
-        $subscriptions_count =$event->subscriptions()->count();
-        $favorites_count =$event->favorites()->count();
-        $followers_count =$event->followers()->count();
-        $requests_count = $event->statuses()->count();
-        return View::make('admin.events.settings',compact('event','subscriptions_count','favorites_count','followers_count','requests_count'));
+        $event               = $this->eventRepository->find($id);
+        $subscriptions_count = $event->subscriptions()->count();
+        $favorites_count     = $event->favorites()->count();
+        $followers_count     = $event->followers()->count();
+        $requests_count      = $event->statuses()->count();
+
+        return View::make('admin.events.settings', compact('event', 'subscriptions_count', 'favorites_count', 'followers_count', 'requests_count'));
     }
+
     /**
      * @param $id
      * @return mixed
@@ -223,7 +261,8 @@ class AdminEventsController extends AdminBaseController
     {
         $users = $this->eventRepository->find($id)->followers;
         $event = $this->eventRepository->find($id);
-        return View::make('admin.events.followers',compact('users','event'));
+
+        return View::make('admin.events.followers', compact('users', 'event'));
     }
 
     /**
@@ -235,7 +274,8 @@ class AdminEventsController extends AdminBaseController
     {
         $users = $this->eventRepository->find($id)->favorites;
         $event = $this->eventRepository->find($id);
-        return View::make('admin.events.favorites',compact('users','event'));
+
+        return View::make('admin.events.favorites', compact('users', 'event'));
     }
 
     /**
@@ -247,15 +287,16 @@ class AdminEventsController extends AdminBaseController
     {
         $users = $this->eventRepository->find($id)->subscriptions;
         $event = $this->eventRepository->find($id);
-        return View::make('admin.events.subscriptions',compact('users','event'));
+
+        return View::make('admin.events.subscriptions', compact('users', 'event'));
     }
 
     public function getRequests($id)
     {
         $event = $this->eventRepository->with('statuses')->find($id);
-        return View::make('admin.events.requests',compact('event'));
-    }
 
+        return View::make('admin.events.requests', compact('event'));
+    }
 
 
 }

@@ -1,4 +1,4 @@
-<?php namespace Acme\Users;
+<?php namespace Acme\User;
 
 use Auth;
 use Carbon\Carbon;

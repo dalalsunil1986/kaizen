@@ -1,4 +1,4 @@
-<?php namespace Acme\Users;
+<?php namespace Acme\User;
 
 class UserEventSubscriber {
 

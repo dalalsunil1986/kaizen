@@ -1,4 +1,4 @@
-<?php namespace Acme\Events;
+<?php namespace Acme\Event;
 
 use Acme\Core\CrudableTrait;
 use Carbon\Carbon;
@@ -12,17 +12,13 @@ class EventRepository extends AbstractRepository {
 
     use CrudableTrait;
 
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
+    public $registrationTypes = ['VIP','ONLINE'];
+    public $feeTypes = ['FREE','PAID'];
+    public $approvalTypes = ['DIRECT','CONFIRM'];
+    public $subscriptionStatuses = ['REJECTED','PENDING','APPROVED','CONFIRMED'];
+
     public $model;
 
-    /**
-     * Construct
-     *
-     * @param \EventModel|\Illuminate\Database\Eloquent\Model $model
-     * @internal param \Illuminate\Database\Eloquent\Model $user
-     */
     public function __construct(EventModel $model)
     {
         parent::__construct(new MessageBag);

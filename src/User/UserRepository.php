@@ -1,4 +1,4 @@
-<?php namespace Acme\Users;
+<?php namespace Acme\User;
 
 use Acme\Core\CrudableTrait;
 use Acme\Users\Validators\UserCreateValidator;
@@ -37,16 +37,6 @@ class UserRepository extends AbstractRepository  {
 
         })->get();
         return $query;
-    }
-
-    public function getCreationForm()
-    {
-        return new UserCreateValidator();
-    }
-
-    public function getEditForm($id)
-    {
-        return new UserUpdateValidator($id);
     }
 
     public function getPasswordResetForm()

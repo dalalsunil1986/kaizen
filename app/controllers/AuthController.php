@@ -1,6 +1,6 @@
 <?php
 
-use Acme\Users\AuthService;
+use Acme\User\AuthService;
 
 class AuthController extends BaseController {
 

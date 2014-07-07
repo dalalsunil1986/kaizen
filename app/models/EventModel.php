@@ -14,14 +14,10 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     protected  $table = "events";
 
-    protected $name = "event";
+    protected static $name = "event";
 
     public static $rules = array(
-        'title_ar'=>'required',
-        'description_ar'=>'required',
-        'user_id' => 'required',
-        'category_id' => 'required',
-        'location_id' =>'required'
+
     );
 
     public function comments() {
@@ -170,9 +166,31 @@ class EventModel extends BaseModel implements PresenterInterface {
         return null;
     }
 
-    public function setTitleAr(){
-        dd('a');
-        return null;
+    protected function dateStringToCarbon($date, $format = 'm/d/Y')
+    {
+        if(!$date instanceof Carbon) {
+            $validDate = false;
+            try {
+                $date = Carbon::createFromFormat($format, $date);
+                $validDate = true;
+            } catch(Exception $e) { }
+
+            if(!$validDate) {
+                try {
+                    $date = Carbon::parse($date);
+                    $validDate = true;
+                } catch(Exception $e) { }
+            }
+
+            if(!$validDate) {
+                $date = NULL;
+            }
+        }
+        return $date;
+    }
+
+    public function setTotalSeatsAttribute($value){
+        $this->attributes['total_seats'] = (int)($value);
     }
 
 }

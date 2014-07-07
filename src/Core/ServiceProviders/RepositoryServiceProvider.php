@@ -1,9 +1,9 @@
 <?php namespace Acme\Core\ServiceProviders;
 
 use Acme\Contact\ContactEventSubscriber;
-use Acme\Users\UserEventSubscriber;
+use Acme\User\UserEventSubscriber;
 use Illuminate\Support\ServiceProvider;
-use Acme\Users\EloquentUserRepository;
+use Acme\User\EloquentUserRepository;
 
 class RepositoryServiceProvider extends ServiceProvider {
 

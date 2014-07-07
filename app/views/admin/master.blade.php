@@ -48,17 +48,11 @@
     {{ HTML::script('assets/js/bootstrap.min.js') }}
     {{ HTML::script('assets/js/wysihtml5/wysihtml5-0.3.0.js') }}
     {{ HTML::script('assets/js/wysihtml5/bootstrap-wysihtml5.js') }}
-    {{ HTML::script('assets/js/datatables.min.js') }}
     {{ HTML::script('assets/js/datatables-bootstrap.js') }}
     {{ HTML::script('assets/js/datatables.js') }}
-    {{ HTML::script('assets/js/jquery.colorbox.js') }}
-    {{ HTML::script('assets/js/prettify.js') }}
-    {{ HTML::script('assets/js/prettify.js') }}
-    {{ HTML::script('assets/js/bootbox.min.js') }}
 
     <script type="text/javascript">
         $('.wysihtml5').wysihtml5();
-        $(prettyPrint);
 
         $(document).ready(function() {
             $('.datatable').dataTable({

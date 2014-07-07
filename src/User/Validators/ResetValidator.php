@@ -1,4 +1,4 @@
-<?php namespace Acme\Users\Validators;
+<?php namespace Acme\User\Validators;
 
 use Acme\Core\Validators\AbstractValidator;
 

@@ -17,7 +17,7 @@ class CategoryRepository extends AbstractRepository  {
     /**
      * Construct
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \Category|\Illuminate\Database\Eloquent\Model $model
      * @internal param \Illuminate\Database\Eloquent\Model $user
      */
     public function __construct(Category $model)

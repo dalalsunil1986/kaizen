@@ -2,8 +2,8 @@
 
 use Acme\Category\CategoryRepository;
 use Acme\Country\CountryRepository;
-use Acme\Events\EventRepository;
-use Acme\Users\UserRepository;
+use Acme\Event\EventRepository;
+use Acme\User\UserRepository;
 
 class EventsController extends BaseController {
 

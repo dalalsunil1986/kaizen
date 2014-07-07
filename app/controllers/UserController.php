@@ -1,7 +1,7 @@
 <?php
 
 use Acme\Country\CountryRepository;
-use Acme\Users\UserRepository;
+use Acme\User\UserRepository;
 use Illuminate\Support\Facades\Redirect;
 
 class UserController extends BaseController {
