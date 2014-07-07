@@ -28,28 +28,12 @@
     <div class="col-sm-10 col-md-10">
                 <span class="event-title">
                     <a href="event/{{$event->id}}">
-                    @if ( App::getLocale() == 'en')
-                        @if($event->title_en)
-                            {{ $event->title_en }}
-                        @else
-                        {{ $event->title_ar }}
-                        @endif
-                    @else
-                        {{ $event->title_ar }}
-                    @endif
+                    {{ $event->title }}
                     </a>
                 </span>
-
         <p>
-            @if ( App::getLocale() == 'en')
-                @if($event->description_en)
-                    {{ Str::limit($event->description_en, 150) }}
-                @else
-                    {{ $event->description_ar }}
-                @endif
-            @else
-                {{ Str::limit($event->description_ar, 150) }}
-            @endif
+            {{ Str::limit($event->description, 150) }}
+
             <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
         </p>
 

@@ -1,10 +1,16 @@
 <?php
 
+use Acme\Core\LocaleTrait;
 use Carbon\Carbon;
+use McCool\LaravelAutoPresenter\PresenterInterface;
 
-class EventModel extends BaseModel implements \McCool\LaravelAutoPresenter\PresenterInterface {
+class EventModel extends BaseModel implements PresenterInterface {
+
+    use LocaleTrait;
 
 	protected $guarded = ['id'];
+
+    protected $localeStrings = ['title','description','address','street','button'];
 
     protected  $table = "events";
 
@@ -164,6 +170,10 @@ class EventModel extends BaseModel implements \McCool\LaravelAutoPresenter\Prese
         return null;
     }
 
+    public function setTitleAr(){
+        dd('a');
+        return null;
+    }
 
 }
 
