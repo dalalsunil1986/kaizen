@@ -11,34 +11,6 @@
 <h1>Edit Event</h1>
 {{ Form::open(array('method' => 'POST', 'action' => array('AdminEventsController@store'), 'role'=>'form', 'files' => true)) }}
 <div class="row">
-    <div class="form-group col-md-6">
-        {{ Form::label('approval_type', 'Event Type:') }}
-        <select name="fee_type" id="fee_type" class="form-control">
-            <option value="">Select one</option>
-            @foreach($feeTypes as $feeType)
-                <option value="{{ $feeType }}"
-                    @if( Form::getValueAttribute('fee_type') == $feeType)
-                        selected = "selected"
-                    @endif
-                    >{{ $feeType }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="form-group col-md-6">
-        {{ Form::label('approval_type', 'Approval Type:') }}
-        <select name="approval_type" id="approval_type" class="form-control">
-            <option value="">Select one</option>
-            @foreach($approvalTypes as $approvalType)
-            <option value="{{ $approvalType }}"
-            @if( Form::getValueAttribute('approval_type') == $approvalType)
-            selected = "selected"
-            @endif
-            >{{ $approvalType }}</option>
-            @endforeach
-        </select>
-    </div>
-
 
     <div class="form-group col-md-4">
         {{ Form::label('user_id', 'Author:',array('class'=>'control-label')) }}
@@ -92,11 +64,11 @@
     <div class="form-group col-md-2 col-sm-4 col-xs-4">
         {{ Form::label('free_event', 'Is this a Free Event ?:') }}
         <br/>
-        {{ Form::checkbox('free', '1', true) }}
+        {{ Form::checkbox('free', '1', true,['class'=>'free']) }}
     </div>
     <div class="form-group col-md-10 col-sm-8 col-xs-8">
         {{ Form::label('price', 'Event Price:') }}
-        {{ Form::text('price',NULL,array('class'=>'form-control')) }}
+        {{ Form::text('price',NULL,array('class'=>'form-control','id'=>'price')) }}
     </div>
 </div>
 
@@ -232,6 +204,29 @@ $longitude = '47.951';
 {{HTML::script('assets/js/address.picker.js') }}
 
 <script type="text/javascript">
+
+    $('document').ready(function() {
+        // initial load
+        if ($('.free').is(':checked')) {
+            $("#price").prop('disabled', true);
+            $("#price").val('0');
+        } else if ($('#price').val() == 0) {
+            // on a reload
+            $('.free').prop('checked', true);
+            $("#price").prop('disabled', true);
+        }
+    });
+
+    $(".free").change(function() {
+        if(this.checked) {
+            $("#price").val('0');
+            $("#price").prop('disabled', true);
+        } else {
+            $("#price").val('0');
+            $("#price").prop('disabled', false);
+        }
+    });
+
     $(function() {
         var latitude = '<?php echo $latitude?>';
         var longitude = '<?php echo $longitude ?>';
@@ -271,6 +266,8 @@ $longitude = '47.951';
         });
 
     });
+
+
 
 </script>
 

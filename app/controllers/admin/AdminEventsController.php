@@ -48,12 +48,13 @@ class AdminEventsController extends AdminBaseController {
      */
     public function create()
     {
-        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
-        $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
-        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
-        $feeTypes  = $this->eventRepository->feeTypes;
-        $approvalTypes  = $this->eventRepository->approvalTypes;
-        return View::make('admin.events.create', compact('category', 'author', 'location','feeTypes','approvalTypes'));
+        $category      = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $feeTypes      = $this->eventRepository->feeTypes;
+        $approvalTypes = $this->eventRepository->approvalTypes;
+
+        return View::make('admin.events.create', compact('category', 'author', 'location', 'feeTypes', 'approvalTypes'));
     }
 
     /**
@@ -63,23 +64,6 @@ class AdminEventsController extends AdminBaseController {
      */
     public function store()
     {
-        //validate and save
-//        $validation = new $this->eventRepository(Input::except(array('thumbnail', 'addresspicker_map', 'type', 'approval_type')));
-//        $this->userRepository->requireById($id);
-//
-//        $val = $this->userRepository->getEditForm($id);
-//
-//        if ( ! $val->isValid() ) {
-//
-//            return Redirect::back()->with('errors', $val->getErrors())->withInput();
-//        }
-//
-//        if (! $this->userRepository->update($id, $val->getInputData()) ) {
-//
-//            return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
-//        }
-//
-//        return Redirect::action('UserController@getProfile', $id)->with('success', 'Updated');
 
         $val = $this->eventRepository->getCreateForm();
 
@@ -87,35 +71,15 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
 
-        if (! $this->eventRepository->create($val->getInputData()))
-        {
+        if ( ! $record = $this->eventRepository->create($val->getInputData()) ) {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
-        // if file is uploaded, try to attach it and save it the db
-        if ( Input::hasFile('thumbnail') ) {
-            // call the attach image function from Photo class
-            if ( ! $this->photo->attachImage($val->id, Input::file('thumbnail'), 'EventModel', '1') ) {
-                return Redirect::to('admin/event/' . $val->id . '/edit')->withErrors($this->photo->getErrors());
-            }
-        }
 
-        //todo .. refactor
-        $type                = new Type();
-        $type->event_id      = $val->id;
-        $type->type          = Input::get('type');
-        $type->approval_type = Input::get('approval_type');
+        // Create a settings record for the inserted event
+        // Settings Record needs to know Which type of Record and The Foreign Key it needs to Create
+        // So pass these fields with Session (settableType,settableId)
+        return Redirect::action('AdminSettingsController@create')->with(['settableType' => 'SINGLE', 'settableId' => $record->id]);
 
-        if ( ! $type->save() ) {
-            return Redirect::to('admin/event/' . $val->id . '/edit')->withErrors($type->getErrors());
-        }
-
-        //update available seats
-        $event = $this->eventRepository->find($val->id);
-        if ( ! empty($event->total_seats) )
-            $event->available_seats = $event->total_seats;
-        $event->save();
-
-        return parent::redirectToAdmin()->with('success', 'Added Event to the Database');
     }
 
 
@@ -127,14 +91,14 @@ class AdminEventsController extends AdminBaseController {
      */
     public function edit($id)
     {
-        $event    = $this->eventRepository->requireById($id,['photos', 'type']);
-        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
-        $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
-        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
-        $feeTypes  = $this->eventRepository->feeTypes;
-        $approvalTypes  = $this->eventRepository->approvalTypes;
+        $event         = $this->eventRepository->requireById($id, ['photos', 'type']);
+        $category      = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $feeTypes      = $this->eventRepository->feeTypes;
+        $approvalTypes = $this->eventRepository->approvalTypes;
 
-        return View::make('admin.events.edit', compact('event', 'category', 'author', 'location','feeTypes','approvalTypes'));
+        return View::make('admin.events.edit', compact('event', 'category', 'author', 'location', 'feeTypes', 'approvalTypes'));
     }
 
     /**
@@ -298,5 +262,10 @@ class AdminEventsController extends AdminBaseController {
         return View::make('admin.events.requests', compact('event'));
     }
 
+
+    public function selectType()
+    {
+        $this->render('admin.events.select-type');
+    }
 
 }

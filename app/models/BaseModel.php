@@ -163,4 +163,13 @@ class BaseModel extends Model {
     public function setMobileAttribute($value){
         $this->attributes['mobile'] = (int)($value);
     }
+
+    /**
+     * @param $value
+     * Set Price Attribute to Double
+     * Match Type Case with database column type
+     */
+    public function setPriceAttribute($value){
+        $this->attributes['price'] = (double)($value);
+    }
 }

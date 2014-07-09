@@ -23,7 +23,8 @@ class CreateEventsTable extends Migration {
             $table->text('description_en')->nullable();
             $table->text('description_ar')->nullable();
             $table->string('slug')->nullable();
-            $table->string('price')->nullable();
+            $table->boolean('free')->default(1);
+            $table->decimal('price',6,2)->nullable();
             $table->integer('total_seats')->nullable();
             $table->integer('available_seats')->nullable();
             $table->timestamp('date_start')->nullable();

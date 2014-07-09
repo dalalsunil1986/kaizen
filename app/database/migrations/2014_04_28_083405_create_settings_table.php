@@ -15,7 +15,6 @@ class CreateSettingsTable extends Migration {
 		Schema::create('settings', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->string('fee_type')->nullable(); // [Free, Paid]
             $table->string('approval_type')->nullable(); // [CONFIRM,DIRECT]
             $table->string('registration_type')->nullable(); // [VIP, ONLINE]
             $table->morphs('settable'); // [Event,Package]

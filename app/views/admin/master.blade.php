@@ -9,6 +9,7 @@
     @section('style')
 
         {{ HTML::style('assets/css/bootstrap.min.css') }}
+        {{ HTML::style('css/font-awesome.min.css') }}
         {{ HTML::style('assets/css/wysihtml5/prettify.css') }}
         {{ HTML::style('assets/css/wysihtml5/bootstrap-wysihtml5.css') }}
         {{ HTML::style('assets/css/datatables.css') }}

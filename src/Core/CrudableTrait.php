@@ -1,6 +1,8 @@
 <?php
 namespace Acme\Core;
 
+use Illuminate\Database\Eloquent\Model;
+
 trait CrudableTrait {
 
     /**

@@ -213,7 +213,19 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::get('event/{id}/settings', 'AdminEventsController@settings');
 
+    Route::get('event/type/create', 'AdminEventsController@selectType');
+
     Route::resource('event', 'AdminEventsController');
+
+    /*********************************************************************************************************
+     * Package routes
+     ********************************************************************************************************/
+    Route::resource('package', 'AdminPackagesController');
+
+    /*********************************************************************************************************
+     * Event Settings Routes
+     ********************************************************************************************************/
+    Route::resource('settings','AdminSettingsController');
 
     /*********************************************************************************************************
      * Category Routes
