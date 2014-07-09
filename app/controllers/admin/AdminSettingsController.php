@@ -2,6 +2,7 @@
 
 use Acme\Setting\SettingRepository;
 use Acme\Event\EventRepository;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminSettingsController extends AdminBaseController {
 
@@ -43,9 +44,6 @@ class AdminSettingsController extends AdminBaseController {
     {
         // check for valid session
         $this->checkValidSession();
-
-        //create the record
-        $this->store();
     }
 
 
@@ -56,34 +54,20 @@ class AdminSettingsController extends AdminBaseController {
      */
     public function store()
     {
-        // check for valid session
-        $this->checkValidSession();
 
-        $settableType = Session::get('settableType');
-        $settableId   = Session::get('settableId');
-
-        // If could not create an entry
-        // delete the event and redirect
-        if ( ! $record = $this->settingRepository->create(['settable_type' => $settableType, 'settable_id' => $settableId]) ) {
-            $event = $this->eventRepository->getById($settableId);
-            $this->eventRepository->delete($event);
-
-            //@todo redirect
-            dd('could not create event');
-        }
-
-        // success
-        // redirect to edit
-        return Redirect::action('AdminSettingsController@edit',$record->id);
-        return $this->edit($record->id);
     }
 
+    /**
+     * @param $id
+     * Event ID or Package ID .. settable_id
+     */
     public function edit($id)
     {
-        $setting = $this->settingRepository->requireById($id);
-        $feeTypes      = $this->eventRepository->feeTypes;
-        $approvalTypes = $this->eventRepository->approvalTypes;
-        $this->render('admin.packages.edit',compact($setting,$feeTypes,$approvalTypes));
+        $setting           = $this->settingRepository->requireById($id);
+        $feeTypes          = $this->eventRepository->feeTypes;
+        $approvalTypes     = $this->eventRepository->approvalTypes;
+        $registrationTypes = $this->eventRepository->registrationTypes;
+        $this->render('admin.settings.edit', compact('setting', 'feeTypes', 'approvalTypes', 'registrationTypes'));
     }
 
     /**
@@ -94,7 +78,32 @@ class AdminSettingsController extends AdminBaseController {
      */
     public function update($id)
     {
+//        dd(Input::all());
+        $setting = $this->settingRepository->requireById($id);
 
+        // check for an invalid registration type
+        if ( ! empty(Input::get('registration_type')) ) {
+            foreach ( Input::get('registration_type') as $registrationType ) {
+                if ( ! in_array($registrationType, $this->eventRepository->registrationTypes) ) {
+                    return Redirect::back()->with('error', 'Wrong Value ')->withInput();
+                }
+            }
+        }
+
+        $val = $this->settingRepository->getEditForm($id);
+
+        if ( ! $val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+        }
+
+        if ( ! $this->settingRepository->update($id, $val->getInputData()) ) {
+
+            return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
+        }
+
+        dd('done');
+//        return Redi/rect::back('AdminPhotosController@')
     }
 
     /**
@@ -105,22 +114,6 @@ class AdminSettingsController extends AdminBaseController {
      */
     public function destroy($id)
     {
-    }
-
-    /**
-     * @return bool
-     * If the Session is invalid
-     */
-    public function checkValidSession()
-    {
-        if ( empty(Session::get('settableType')) || (empty(Session::get('settableId'))) ) {
-            $event = $this->eventRepository->getById(Session::get('settableId'));
-            if ($event) $this->eventRepository->delete($event);
-            // redirect user
-            dd('session not set');
-        }
-
-        return true;
     }
 
 }

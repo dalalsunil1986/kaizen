@@ -18,7 +18,7 @@ class UserController extends BaseController {
 
     /**
      * Inject the models.
-     * @param \Acme\Users\UserRepository|\User $userRepository
+     * @param \Acme\User\UserRepository|\Acme\Users\UserRepository|\User $userRepository
      * @param \Acme\Country\CountryRepository|\Acme\Events\CountryRepository $countryRepository
      */
     public function __construct(UserRepository $userRepository, CountryRepository $countryRepository)

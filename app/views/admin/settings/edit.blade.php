@@ -3,13 +3,32 @@
 @section('style')
 @parent
 {{ HTML::style('assets/css/jquery.datetimepicker.css') }}
+{{ HTML::style('assets/vendors/select2/select2.css') }}
+{{ HTML::style('assets/vendors/select2/select2-bootstrap.css') }}
+{{ HTML::style('assets/css/jquery.datetimepicker.css') }}
+@stop
+
+@section('script')
+@parent
+{{ HTML::script('assets/vendors/select2/select2.min.js') }}
+<script>
+    $(document).ready(function() {
+        $('#registration_type').select2({
+            placeholder: "Select Reigstration Types",
+            allowClear: true,
+            maximumSelectionSize: 2
+        });
+    });
+</script>
 @stop
 
 {{-- Content --}}
 @section('content')
 
-<h1>Edit Event</h1>
-{{ Form::model($setting, array('method' => 'POST', 'action' => array('AdminEventsController@store'), 'role'=>'form')) }}
+@include('admin.events.breadcrumb',['active'=>'options'])
+
+{{ Form::model($setting, array('method' => 'PATCH', 'action' => array('AdminSettingsController@update',$setting->id), 'role'=>'form')) }}
+
 <div class="row">
 
     <div class="form-group col-md-6">
@@ -27,17 +46,14 @@
     </div>
 
     <div class="form-group col-md-6">
-        {{ Form::label('approval_type', 'Registration Type:') }}
-        <select name="approval_type" id="approval_type" class="form-control">
-            <option value="">Select one</option>
-            @foreach($approvalTypes as $approvalType)
-            <option value="{{ $approvalType }}"
-            @if( Form::getValueAttribute('approval_type') == $approvalType)
-            selected = "selected"
-            @endif
-            >{{ $approvalType }}</option>
-            @endforeach
-        </select>
+        {{ Form::label('registration_type', 'Registration Type:') }}
+
+        {{ Form::select('registration_type[]', $registrationTypes , null , ['class' => 'form-control', 'id' => 'registration_type', 'multiple' => 'multiple' ]) }}
+
+    </div>
+
+    <div class="form-group col-md-12">
+        {{ Form::submit('Save', array('class' => 'btn btn-info')) }}
     </div>
 </div>
 
@@ -52,62 +68,6 @@
 </div>
 @endif
 
-<?php
-$latitude = '29.357';
-$longitude = '47.951';
-?>
-
 @stop
 
-@section('script')
-@parent
-<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
-{{HTML::script('assets/js/jquery-ui.min.js') }}
-{{HTML::script('assets/js/jquery.datetimepicker.js') }}
-{{HTML::script('assets/js/address.picker.js') }}
-
-<script type="text/javascript">
-    $(function() {
-        var latitude = '<?php echo $latitude?>';
-        var longitude = '<?php echo $longitude ?>';
-
-        get_map(latitude,longitude);
-
-        var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
-            updateCallback: showCallback,
-            elements: {
-                map:      "#map",
-                lat:      "#latitude",
-                lng:      "#longitude"
-            }
-
-        });
-
-        var gmarker = addresspickerMap.addresspicker( "marker");
-        gmarker.setVisible(true);
-        addresspickerMap.addresspicker("updatePosition");
-
-        $('#reverseGeocode').change(function(){
-            $("#addresspicker_map").addresspicker("option", "reverseGeocode", ($(this).val() === 'true'));
-        });
-
-        function showCallback(geocodeResult, parsedGeocodeResult) {
-            $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
-        }
-
-    });
-
-    $(function(){
-        $('#date_start').datetimepicker({
-            format:'Y-m-d H:i'
-        });
-        $('#date_end').datetimepicker({
-            format:'Y-m-d H:i'
-        });
-
-    });
-
-</script>
-
-@stop

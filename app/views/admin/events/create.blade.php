@@ -8,8 +8,9 @@
 {{-- Content --}}
 @section('content')
 
-<h1>Edit Event</h1>
+@include('admin.events.breadcrumb',['active'=>'info'])
 {{ Form::open(array('method' => 'POST', 'action' => array('AdminEventsController@store'), 'role'=>'form', 'files' => true)) }}
+
 <div class="row">
 
     <div class="form-group col-md-4">

@@ -1,13 +1,15 @@
 <?php
 
+use Acme\Photos\PhotoRepository;
+
 class AdminPhotosController extends BaseController {
 
-    function __construct(Photo $model)
-    {
-        $this->model = $model;
+    private $photoRepository;
 
+    function __construct(PhotoRepository $photoRepository)
+    {
+        $this->photoRepository = $photoRepository;
         parent::__construct();
-        $this->beforeFilter('Admin');
     }
 	public function destroy($id)
 	{

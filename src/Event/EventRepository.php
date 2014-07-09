@@ -12,7 +12,7 @@ class EventRepository extends AbstractRepository {
 
     use CrudableTrait;
 
-    public $registrationTypes = ['VIP','ONLINE'];
+    public $registrationTypes = ['VIP'=>'VIP','ONLINE'=>'ONLINE'];
     public $feeTypes = ['FREE','PAID'];
     public $approvalTypes = ['DIRECT','CONFIRM'];
     public $subscriptionStatuses = ['REJECTED','PENDING','APPROVED','CONFIRMED'];
@@ -21,8 +21,6 @@ class EventRepository extends AbstractRepository {
 
     public function __construct(EventModel $model)
     {
-        parent::__construct(new MessageBag);
-
         $this->model = $model;
     }
 

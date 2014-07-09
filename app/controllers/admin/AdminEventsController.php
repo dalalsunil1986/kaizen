@@ -3,6 +3,7 @@ use Acme\Category\CategoryRepository;
 use Acme\Event\EventRepository;
 use Acme\Location\LocationRepository;
 use Acme\Photos\PhotoRepository;
+use Acme\Setting\SettingRepository;
 use Acme\User\UserRepository;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -17,14 +18,19 @@ class AdminEventsController extends AdminBaseController {
     protected $photo;
     protected $photoRepository;
     protected $locationRepository;
+    /**
+     * @var Acme\Setting\SettingRepository
+     */
+    private $settingRepository;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository)
     {
         $this->eventRepository    = $eventRepository;
         $this->categoryRepository = $categoryRepository;
         $this->userRepository     = $userRepository;
         $this->photoRepository    = $photoRepository;
         $this->locationRepository = $locationRepository;
+        $this->settingRepository = $settingRepository;
         parent::__construct();
     }
 
@@ -51,10 +57,8 @@ class AdminEventsController extends AdminBaseController {
         $category      = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
         $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
-        $feeTypes      = $this->eventRepository->feeTypes;
-        $approvalTypes = $this->eventRepository->approvalTypes;
 
-        return View::make('admin.events.create', compact('category', 'author', 'location', 'feeTypes', 'approvalTypes'));
+        return View::make('admin.events.create', compact('category', 'author', 'location'));
     }
 
     /**
@@ -71,14 +75,21 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
 
-        if ( ! $record = $this->eventRepository->create($val->getInputData()) ) {
+        if ( ! $event = $this->eventRepository->create($val->getInputData()) ) {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
+        }
+
+        if ( ! $setting = $this->settingRepository->create(['settable_type' => 'SINGLE', 'settable_id' => $event->id]) ) {
+            $this->eventRepository->delete($event);
+            //@todo redirect
+            dd('could not create event');
         }
 
         // Create a settings record for the inserted event
         // Settings Record needs to know Which type of Record and The Foreign Key it needs to Create
         // So pass these fields with Session (settableType,settableId)
-        return Redirect::action('AdminSettingsController@create')->with(['settableType' => 'SINGLE', 'settableId' => $record->id]);
+
+        return Redirect::action('AdminSettingsController@edit',$setting->id);
 
     }
 
@@ -95,10 +106,9 @@ class AdminEventsController extends AdminBaseController {
         $category      = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
         $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
-        $feeTypes      = $this->eventRepository->feeTypes;
-        $approvalTypes = $this->eventRepository->approvalTypes;
 
-        return View::make('admin.events.edit', compact('event', 'category', 'author', 'location', 'feeTypes', 'approvalTypes'));
+
+        return View::make('admin.events.edit', compact('event', 'category', 'author', 'location'));
     }
 
     /**

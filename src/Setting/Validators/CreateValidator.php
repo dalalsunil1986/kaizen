@@ -1,8 +1,16 @@
 <?php namespace Acme\Setting\Validators;
 
 use Acme\Core\Validators\AbstractValidator;
+use Acme\Event\EventRepository;
 
 class CreateValidator extends AbstractValidator {
+
+    protected  $eventRepository;
+    public function __constrcut(EventRepository $eventRepository)
+    {
+        $this->eventRepository = $eventRepository;
+        parent::__construct();
+    }
 
     /**
      * Validation rules
@@ -10,13 +18,7 @@ class CreateValidator extends AbstractValidator {
      * @var array
      */
     protected $rules = [
-        'title_ar'=>'required',
-        'description_ar'=>'required',
-        'user_id' => 'required',
-        'category_id' => 'required',
-        'location_id' =>'required',
-        'free' => 'required_if:price,0',
-        'price' => 'integer'
+        'approval_type'=>'required|array',
     ];
 
     /**
