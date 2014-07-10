@@ -2,7 +2,7 @@
 
 use Acme\Photos\PhotoRepository;
 
-class AdminPhotosController extends BaseController {
+class AdminPhotosController extends AdminBaseController {
 
     private $photoRepository;
 
@@ -11,6 +11,11 @@ class AdminPhotosController extends BaseController {
         $this->photoRepository = $photoRepository;
         parent::__construct();
     }
+
+    public function create(){
+        $this->render('admin.events.photo');
+    }
+
 	public function destroy($id)
 	{
         $photo=  $this->model->findOrFail($id);

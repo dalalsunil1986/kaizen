@@ -102,7 +102,7 @@ class AdminSettingsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
         }
 
-        dd('done');
+        return Redirect::action('AdminPhotosController@create');
 //        return Redi/rect::back('AdminPhotosController@')
     }
 
