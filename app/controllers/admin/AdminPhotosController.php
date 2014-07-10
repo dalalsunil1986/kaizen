@@ -1,19 +1,30 @@
 <?php
 
-use Acme\Photos\PhotoRepository;
+use Acme\Photo\PhotoRepository;
 
 class AdminPhotosController extends AdminBaseController {
 
     private $photoRepository;
+    /**
+     * @var Acme\Event\EventPhotoService
+     */
+    private $eventPhotoService;
 
-    function __construct(PhotoRepository $photoRepository)
+    function __construct(PhotoRepository $photoRepository, \Acme\Event\EventPhotoService $eventPhotoService)
     {
         $this->photoRepository = $photoRepository;
         parent::__construct();
+        $this->eventPhotoService = $eventPhotoService;
     }
 
     public function create(){
         $this->render('admin.events.photo');
+    }
+
+    public function store()
+    {
+        $image = Input::get('filename');
+        $this->eventPhotoService->process($image);
     }
 
 	public function destroy($id)

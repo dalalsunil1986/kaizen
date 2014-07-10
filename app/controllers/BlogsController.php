@@ -45,7 +45,7 @@ class BlogsController extends BaseController {
 	public function show($id)
 	{
 		// Get this blog post data
-		$post = $this->blogRepository->requireById($id,['category','photos','author']);
+		$post = $this->blogRepository->findById($id,['category','photos','author']);
 
         $this->render('site.blog.view', compact('post'));
 	}

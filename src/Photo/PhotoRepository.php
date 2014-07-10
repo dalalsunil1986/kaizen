@@ -1,4 +1,4 @@
-<?php namespace Acme\Photos;
+<?php namespace Acme\Photo;
 
 use Acme\Core\CrudableTrait;
 use Illuminate\Support\MessageBag;

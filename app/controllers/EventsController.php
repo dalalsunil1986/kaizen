@@ -8,7 +8,7 @@ use Acme\User\UserRepository;
 class EventsController extends BaseController {
 
     /**
-     * @var Acme\Events\EventRepository
+     * @var Acme\Event\EventRepository
      */
     protected $eventRepository;
     /**
@@ -16,15 +16,15 @@ class EventsController extends BaseController {
      */
     private $status;
     /**
-     * @var Acme\Users\CategoryRepository
+     * @var Acme\User\CategoryRepository
      */
     private $categoryRepository;
     /**
-     * @var Acme\Users\CountryRepository
+     * @var Acme\User\CountryRepository
      */
     private $countryRepository;
     /**
-     * @var Acme\Users\UserRepository
+     * @var Acme\User\UserRepository
      */
     private $userRepository;
 
@@ -104,7 +104,7 @@ class EventsController extends BaseController {
      */
     public function show($id)
     {
-        $event = $this->eventRepository->requireById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
+        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
 
         if ( Auth::check() ) {
             $user = Auth::user();

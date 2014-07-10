@@ -43,7 +43,7 @@ class UserController extends BaseController {
      */
     public function edit($id)
     {
-        $user      = $this->userRepository->requireById($id);
+        $user      = $this->userRepository->findById($id);
         $countries = $this->countryRepository->getAll()->lists('name_en', 'id');
         $this->render('site.users.edit', compact('user', 'countries'));
     }
@@ -55,7 +55,7 @@ class UserController extends BaseController {
      */
     public function update($id)
     {
-        $this->userRepository->requireById($id);
+        $this->userRepository->findById($id);
 
         $val = $this->userRepository->getEditForm($id);
 
@@ -74,7 +74,7 @@ class UserController extends BaseController {
 
     public function destroy($id)
     {
-        $user = $this->userRepository->requireById($id);
+        $user = $this->userRepository->findById($id);
 
         if ( $this->userRepository->delete($user) ) {
 
@@ -92,7 +92,7 @@ class UserController extends BaseController {
      */
     public function getProfile($id)
     {
-        $user = $this->userRepository->requireById($id, ['favorites', 'subscriptions', 'followings', 'country']);
+        $user = $this->userRepository->findById($id, ['favorites', 'subscriptions', 'followings', 'country']);
         $this->render('site.users.profile', compact('user'));
     }
 

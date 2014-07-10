@@ -1,8 +1,9 @@
 <?php
 use Acme\Category\CategoryRepository;
+use Acme\Event\EventPhotoService;
 use Acme\Event\EventRepository;
 use Acme\Location\LocationRepository;
-use Acme\Photos\PhotoRepository;
+use Acme\Photo\PhotoRepository;
 use Acme\Setting\SettingRepository;
 use Acme\User\UserRepository;
 use Illuminate\Support\Facades\Input;
@@ -22,8 +23,12 @@ class AdminEventsController extends AdminBaseController {
      * @var Acme\Setting\SettingRepository
      */
     private $settingRepository;
+    /**
+     * @var Acme\Event\EventPhotoService
+     */
+    private $photoService;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository, EventPhotoService $photoService)
     {
         $this->eventRepository    = $eventRepository;
         $this->categoryRepository = $categoryRepository;
@@ -32,6 +37,7 @@ class AdminEventsController extends AdminBaseController {
         $this->locationRepository = $locationRepository;
         $this->settingRepository = $settingRepository;
         parent::__construct();
+        $this->photoService = $photoService;
     }
 
     /**
@@ -102,7 +108,7 @@ class AdminEventsController extends AdminBaseController {
      */
     public function edit($id)
     {
-        $event         = $this->eventRepository->requireById($id, ['photos', 'type']);
+        $event         = $this->eventRepository->findById($id, ['photos', 'type']);
         $category      = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
         $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
@@ -278,4 +284,9 @@ class AdminEventsController extends AdminBaseController {
         $this->render('admin.events.select-type');
     }
 
+    public function storeImage(){
+        $image = Input::file('filename');
+        $photo = $this->photoService->store($image);
+        dd($photo);
+    }
 }

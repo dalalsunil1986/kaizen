@@ -63,7 +63,7 @@ class AdminSettingsController extends AdminBaseController {
      */
     public function edit($id)
     {
-        $setting           = $this->settingRepository->requireById($id);
+        $setting           = $this->settingRepository->findById($id);
         $feeTypes          = $this->eventRepository->feeTypes;
         $approvalTypes     = $this->eventRepository->approvalTypes;
         $registrationTypes = $this->eventRepository->registrationTypes;
@@ -79,7 +79,7 @@ class AdminSettingsController extends AdminBaseController {
     public function update($id)
     {
 //        dd(Input::all());
-        $setting = $this->settingRepository->requireById($id);
+        $setting = $this->settingRepository->findById($id);
 
         // check for an invalid registration type
         if ( ! empty(Input::get('registration_type')) ) {

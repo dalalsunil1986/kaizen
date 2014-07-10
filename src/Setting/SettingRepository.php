@@ -18,7 +18,7 @@ class SettingRepository extends AbstractRepository {
 
     public function update($id, array $input)
     {
-        $record = $this->requireById($id);
+        $record = $this->findById($id);
 
         // join the assosiate array and convert it to string
         if ( ! empty($input['registration_type']) ) {

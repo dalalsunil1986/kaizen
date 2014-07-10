@@ -102,7 +102,7 @@ abstract class AbstractRepository {
      * @return \Illuminate\Database\Eloquent\Collection|Model|null|static
      * @throws EntityNotFoundException
      */
-    public function requireById($id, array $with = [])
+    public function findById($id, array $with = [])
     {
         $model = $this->getById($id, $with);
 

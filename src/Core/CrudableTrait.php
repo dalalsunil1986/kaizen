@@ -50,7 +50,7 @@ trait CrudableTrait {
      */
     public function update($id, array $input)
     {
-        $record = $this->requireById($id);
+        $record = $this->findById($id);
 
         $record->fill($input);
 

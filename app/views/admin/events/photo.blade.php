@@ -66,7 +66,7 @@
 @section('content')
 @include('admin.events.breadcrumb',['active'=>'photos'])
 
-{{ Form::open(array('method' => 'POST', 'action' => array('AdminPhotosController@store'), 'class'=>'dropzone', 'id'=>'my-dropzone')) }}
+{{ Form::open(array('method' => 'POST', 'action' => array('AdminEventsController@storeImage'), 'class'=>'dropzone', 'id'=>'my-dropzone',  'files'=> true)) }}
 
 <!-- Single file upload
 <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
@@ -75,6 +75,10 @@
 <div class="fallback">
     <input name="file" type="file" multiple />
 </div>
+
+{{ Form::file('filename', ['class' => 'form-control']) }}
+
+{{ Form::submit('Submit', ['class' => 'form-control']) }}
 
 {{ Form::close() }}
 

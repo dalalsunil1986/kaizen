@@ -215,6 +215,8 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::get('event/type/create', 'AdminEventsController@selectType');
 
+    Route::post('photo/create', 'AdminEventsController@storeImage');
+
     Route::resource('event', 'AdminEventsController');
 
     /*********************************************************************************************************
