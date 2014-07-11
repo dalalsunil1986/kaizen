@@ -1,12 +1,15 @@
 <?php
 namespace Acme\Event;
 
-use Acme\Photo\PhotoService;
+use Acme\Core\ImageService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class EventPhotoService extends PhotoService {
+class EventImageService extends ImageService {
 
     public function store(UploadedFile $image) {
-        $this->process($image,['thumbnail']);
+
+        $this->process($image,['thumbnail','large','medium']);
+
     }
+
 } 

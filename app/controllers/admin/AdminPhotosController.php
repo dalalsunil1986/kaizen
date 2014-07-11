@@ -1,40 +1,39 @@
 <?php
 
+use Acme\Photo\PhotoImageService;
 use Acme\Photo\PhotoRepository;
 
 class AdminPhotosController extends AdminBaseController {
 
     private $photoRepository;
     /**
-     * @var Acme\Event\EventPhotoService
+     * @var Acme\Core\PhotoService
      */
-    private $eventPhotoService;
+    private $imageService;
 
-    function __construct(PhotoRepository $photoRepository, \Acme\Event\EventPhotoService $eventPhotoService)
+    function __construct(PhotoRepository $photoRepository, PhotoImageService $imageService)
     {
         $this->photoRepository = $photoRepository;
+        $this->imageService = $imageService;
         parent::__construct();
-        $this->eventPhotoService = $eventPhotoService;
     }
 
-    public function create(){
+    public function create()
+    {
         $this->render('admin.events.photo');
     }
 
-    public function store()
+    public function destroy($id)
     {
-        $image = Input::get('filename');
-        $this->eventPhotoService->process($image);
-    }
+        $photo = $this->photoRepository->findById($id);
 
-	public function destroy($id)
-	{
-        $photo=  $this->model->findOrFail($id);
-        if ($photo->delete()) {
-            //  return Redirect::home();
-            $this->model->destroyFile($photo->name);
-            return Redirect::back()->with('success','Photo Deleted');
+        if ( $photo->delete() ) {
+
+            $this->imageService->destory($photo->name);
+
+            return Redirect::back()->with('success', 'Photo Deleted');
         }
-        return Redirect::back()->with('error','Error: Photo Not Found');
-	}
+
+        return Redirect::back()->with('error', 'Error: Photo Not Found');
+    }
 }

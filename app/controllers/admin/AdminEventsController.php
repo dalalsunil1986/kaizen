@@ -1,5 +1,6 @@
 <?php
 use Acme\Category\CategoryRepository;
+use Acme\Event\EventImageService;
 use Acme\Event\EventPhotoService;
 use Acme\Event\EventRepository;
 use Acme\Location\LocationRepository;
@@ -26,9 +27,9 @@ class AdminEventsController extends AdminBaseController {
     /**
      * @var Acme\Event\EventPhotoService
      */
-    private $photoService;
+    private $imageService;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository, EventPhotoService $photoService)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository, EventImageService $imageService)
     {
         $this->eventRepository    = $eventRepository;
         $this->categoryRepository = $categoryRepository;
@@ -36,8 +37,8 @@ class AdminEventsController extends AdminBaseController {
         $this->photoRepository    = $photoRepository;
         $this->locationRepository = $locationRepository;
         $this->settingRepository = $settingRepository;
+        $this->imageService = $imageService;
         parent::__construct();
-        $this->photoService = $photoService;
     }
 
     /**
@@ -284,9 +285,9 @@ class AdminEventsController extends AdminBaseController {
         $this->render('admin.events.select-type');
     }
 
-    public function storeImage(){
-        $image = Input::file('filename');
-        $photo = $this->photoService->store($image);
-        dd($photo);
+    public function storeImage() {
+        $image = Input::file('file');
+        $this->imageService->store($image);
     }
+
 }
