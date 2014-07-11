@@ -19,7 +19,8 @@ class CreatePackagesTable extends Migration {
             $table->string('title_ar');
             $table->string('description_en');
             $table->string('description_ar');
-            $table->decimal('price',6,2);
+            $table->boolean('free')->default(1);
+            $table->decimal('price',6,2)->nullable();
 			$table->timestamps();
             $table->softDeletes();
 		});

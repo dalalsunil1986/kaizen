@@ -16,6 +16,7 @@ class EventRepository extends AbstractRepository {
     public $feeTypes = ['FREE','PAID'];
     public $approvalTypes = ['DIRECT','CONFIRM'];
     public $subscriptionStatuses = ['REJECTED','PENDING','APPROVED','CONFIRMED'];
+    public $eventTypes = ['EVENT'=>'EVENT','PACKAGE'=>'PACKAGE'];
 
     public $model;
 

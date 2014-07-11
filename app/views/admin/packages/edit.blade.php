@@ -6,5 +6,5 @@
 
 {{-- Content --}}
 @section('content')
-
+@include
 @stop

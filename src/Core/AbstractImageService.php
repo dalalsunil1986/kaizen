@@ -1,11 +1,13 @@
 <?php
 namespace Acme\Core;
 
+use Acme\Core\Repositories\AbstractRepository;
 use Exception;
+use Illuminate\Support\MessageBag;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-abstract class ImageService {
+abstract class AbstractImageService extends AbstractRepository{
 
     private $hashedName;
 
@@ -29,12 +31,13 @@ abstract class ImageService {
 
     protected $thumbnailImageHeight = '200';
 
-    public function __construct()
+    public function __construct(MessageBag $errors)
     {
         $this->uploadDir          = public_path() . '/uploads/';
         $this->largeImagePath     = $this->getUploadDir() . 'large/';
         $this->mediumImagePath    = $this->getUploadDir() . 'medium/';
         $this->thumbnailImagePath = $this->getUploadDir() . 'thumbnail/';
+        $this->errors = $errors;
     }
 
     abstract function store(UploadedFile $image);
@@ -59,11 +62,13 @@ abstract class ImageService {
                         break;
                 }
             }
-            return true;
         }
         catch( Exception $e) {
+            $this->addError($e->getMessage());
             return false;
         }
+
+        return $this;
     }
 
     /**
@@ -103,7 +108,12 @@ abstract class ImageService {
         $this->hashedName = md5(uniqid(rand() * (time()))) . '.' . $image->getClientOriginalExtension();
     }
 
-    public function destory($name)
+    public function getHashedName()
+    {
+        return $this->hashedName;
+    }
+
+    public function destroy($name)
     {
         if(file_exists($this->getThumbnailImagePath().$name)) {
             unlink($this->getThumbnailImagePath().$name);

@@ -1,7 +1,5 @@
 <?php
 use Acme\Category\CategoryRepository;
-use Acme\Event\EventImageService;
-use Acme\Event\EventPhotoService;
 use Acme\Event\EventRepository;
 use Acme\Location\LocationRepository;
 use Acme\Photo\PhotoRepository;
@@ -29,7 +27,7 @@ class AdminEventsController extends AdminBaseController {
      */
     private $imageService;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository, EventImageService $imageService)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository)
     {
         $this->eventRepository    = $eventRepository;
         $this->categoryRepository = $categoryRepository;
@@ -37,7 +35,6 @@ class AdminEventsController extends AdminBaseController {
         $this->photoRepository    = $photoRepository;
         $this->locationRepository = $locationRepository;
         $this->settingRepository = $settingRepository;
-        $this->imageService = $imageService;
         parent::__construct();
     }
 
@@ -86,7 +83,7 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
 
-        if ( ! $setting = $this->settingRepository->create(['settable_type' => 'SINGLE', 'settable_id' => $event->id]) ) {
+        if ( ! $setting = $this->settingRepository->create(['settable_type' => 'Event', 'settable_id' => $event->id]) ) {
             $this->eventRepository->delete($event);
             //@todo redirect
             dd('could not create event');
@@ -285,9 +282,6 @@ class AdminEventsController extends AdminBaseController {
         $this->render('admin.events.select-type');
     }
 
-    public function storeImage() {
-        $image = Input::file('file');
-        $this->imageService->store($image);
-    }
+
 
 }

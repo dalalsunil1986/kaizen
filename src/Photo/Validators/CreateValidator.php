@@ -1,18 +1,19 @@
-<?php namespace Acme\Setting\Validators;
+<?php namespace Acme\Photo\Validators;
 
 use Acme\Core\Validators\AbstractValidator;
 
-class UpdateValidator extends AbstractValidator {
+class CreateValidator extends AbstractValidator {
 
     /**
      * Validation rules
      *
      * @var array
      */
-    protected $rules = array(
-        'approval_type'=>'required',
-        'registration_type'=>'sometimes | array',
-    );
+    protected $rules = [
+        'imageable_type'=>'required',
+        'imageable_id'=>'required | integer',
+        'featured' => 'boolean'
+    ];
 
     /**
      * Get the prepared input data.
@@ -22,7 +23,7 @@ class UpdateValidator extends AbstractValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'approval_type','registration_type'
+             'imageable_type','imageable_id','featured'
         ]);
     }
 
