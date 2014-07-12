@@ -19,6 +19,7 @@ class CreateSettingsTable extends Migration {
             $table->string('registration_type')->nullable(); // [VIP, ONLINE]
             $table->morphs('settable'); // [Event,Package]
 			$table->timestamps();
+            $table->softDeletes();
 		});
 	}
 

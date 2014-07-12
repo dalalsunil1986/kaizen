@@ -17,9 +17,10 @@ class CreateSubscriptionsTable extends Migration {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->morphs('subscribable');
-            $table->string('status'); // [PENDING, REJECTED, CONFIRMED, APPROVED]
+            $table->string('status'); // [PENDING, REJECTED, CONFIRMED, APPROVED, WAITING]
             $table->string('registration_type'); // [VIP, ONLINE, NORMAL]
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

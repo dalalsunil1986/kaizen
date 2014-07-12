@@ -20,7 +20,6 @@ class CreateLocationsTable extends Migration {
 			$table->string('name_en');
 			$table->string('name_ar');
 			$table->timestamps();
-
         });
 	}
 
