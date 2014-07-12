@@ -17,7 +17,7 @@ class AbstractMailer implements MailerInterface {
     {
         $this->mailer      = $mailer;
         $this->senderEmail = Config::get('mail.from.address');
-        $this->senderName      = Config::get('mail.from.name');
+        $this->senderName  = Config::get('mail.from.name');
         $this->view        = 'emails.default';
     }
 
@@ -26,12 +26,13 @@ class AbstractMailer implements MailerInterface {
         try {
             $this->mailer->send($this->view, $array, function ($message) {
                 $message
-                ->from($this->senderEmail,$this->senderName)
-                ->sender($this->senderEmail,$this->senderName)
-                ->to($this->recepientEmail, $this->recepientName)
-                ->subject($this->subject);
+                    ->from($this->senderEmail, $this->senderName)
+                    ->sender($this->senderEmail, $this->senderName)
+                    ->to($this->recepientEmail, $this->recepientName)
+                    ->subject($this->subject);
             });
         }
-        catch ( \Exception $e ) {}
+        catch ( \Exception $e ) {
+        }
     }
 }

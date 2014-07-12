@@ -1,6 +1,7 @@
 <?php namespace Acme\Event;
 
 use Acme\Core\AbstractPresenter;
+use EventModel;
 use User;
 
 class EventPresenter extends AbstractPresenter {
@@ -9,8 +10,10 @@ class EventPresenter extends AbstractPresenter {
      * Present the created_at property
      * using a different format
      *
-     * @param \Acme\Events\EventModel|\User $model
+     * @param \Acme\Event\EventModel|\User $model
      */
+    public  $resource;
+
     public function __construct(EventModel $model) {
         $this->resource = $model;
     }
@@ -22,6 +25,11 @@ class EventPresenter extends AbstractPresenter {
 
     public function email() {
         return 'haha ' . $this->resource->email;
+    }
+
+    public function date_start()
+    {
+        return $this->resource->date_start->format('Y-m-d');
     }
 
 }
