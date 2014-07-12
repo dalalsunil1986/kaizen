@@ -1,7 +1,32 @@
 <?php
 namespace Acme\Core;
 
+use Illuminate\Database\Eloquent\Model;
+
 trait CrudableTrait {
+
+    /**
+     * @return validator class
+     * Initialize Validator Class for Creating Form
+     */
+    public function getCreateForm()
+    {
+        $classPath = $this->initValidatorClass();
+        $validator = $classPath.'CreateValidator';
+        return new $validator;
+    }
+
+    /**
+     * @param $id
+     * @return validator class
+     * Initialize Validator Class for Updating Form
+     */
+    public function getEditForm($id)
+    {
+        $classPath = $this->initValidatorClass();
+        $validator = $classPath.'UpdateValidator';
+        return new $validator($id);
+    }
 
     /**
      * Create a new entity
@@ -25,7 +50,7 @@ trait CrudableTrait {
      */
     public function update($id, array $input)
     {
-        $record = $this->requireById($id);
+        $record = $this->findById($id);
 
         $record->fill($input);
 
@@ -47,5 +72,6 @@ trait CrudableTrait {
     {
         return $model->delete();
     }
+
 
 } 

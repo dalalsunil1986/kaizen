@@ -1,38 +1,12 @@
 <?php
 
-
-
 abstract class AdminBaseController extends BaseController
 {
+    protected $layout = 'admin.master';
 
-    //Inject the Model into the Constructor method of the controller
+    protected $select = [ 'Select one'];
 
-    protected $model;
-//    protected $layout = 'site.layouts.default';
-
-    /**
-     * Initializer.
-     *
-     * @access   public
-     * @return \AdminBaseController
-     */
-    public function __construct()
-    {
-        $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
+    public function __construct() {
+        parent::__construct();
     }
-
-    protected function redirectToAdmin()
-    {
-        return Redirect::to('admin');
-    }
-    protected function redirectToUser()
-    {
-        return Redirect::to('admin/users');
-    }
-
-    protected function redirectToAdminBlog()
-    {
-        return Redirect::to('admin/blogs');
-    }
-
 }

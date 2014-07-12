@@ -1,14 +1,11 @@
-@extends('admin.layouts.default')
+@extends('admin.master')
 
-{{-- Content --}}
 @section('content')
-<h1>Events</h1>
-<p>{{ link_to_action('AdminEventsController@create', 'Add new event') }}</p>
+<p class="btn btn-default">{{ link_to_action('AdminEventsController@selectType', 'Add new event') }}</p>
 
 @if ($events->count())
 <div id="wrap">
     <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
-
 		<thead>
 			<tr>
                 <td>Event Id</td>
@@ -60,7 +57,9 @@
         </div>
     </div>
 @else
-	There are no events
+<div class="alert alert-danger alert-block">
+        There are no events
+	</div>
 @endif
 
 @stop

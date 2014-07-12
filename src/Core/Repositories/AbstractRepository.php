@@ -103,7 +103,7 @@ abstract class AbstractRepository {
      * @return \Illuminate\Database\Eloquent\Collection|Model|null|static
      * @throws EntityNotFoundException
      */
-    public function requireById($id, array $with = [])
+    public function findById($id, array $with = [])
     {
         $model = $this->getById($id, $with);
 
@@ -114,7 +114,8 @@ abstract class AbstractRepository {
         return $model;
     }
 
-    public function getFirst() {
+    public function getFirst()
+    {
         return $this->model->firstOrFail();
     }
 
@@ -229,5 +230,26 @@ abstract class AbstractRepository {
         } else {
             return $model->touch();
         }
+    }
+
+    /**
+     * @return namespaced class path
+     * Initiatialize the class path for validation
+     */
+    public function initValidatorClass()
+    {
+        $calledClass     = new \ReflectionClass($this);
+        $baseClass = $this->filterClassName($calledClass->getShortName());
+        $fullPath  = 'Acme\\' . $baseClass . '\\Validators\\';
+
+        return $fullPath;
+    }
+
+    /**
+     * Remove Repository Word From the param
+     */
+    public function filterClassName($className)
+    {
+        return str_replace('Repository', '', $className);
     }
 }

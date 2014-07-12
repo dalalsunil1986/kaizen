@@ -2,8 +2,13 @@
 
 abstract class BaseController extends Controller
 {
-    protected $layout = 'site.layouts.master';
-    protected $title = 'Kaizen ';
+
+    // define the master layout for the site
+    protected $layout = 'site.master';
+
+    // title of the page
+    protected $title = '';
+
     /**
      * Initializer.
      *
@@ -25,6 +30,11 @@ abstract class BaseController extends Controller
         }
     }
 
+    /**
+     * @param $path
+     * @param array $data
+     * render the view
+     */
     protected function render($path, $data = [])
     {
         $this->layout->title = $this->title;
@@ -43,12 +53,12 @@ abstract class BaseController extends Controller
     public function sidebarPosts() {
         View::composer('site.events.latest', function($view)
         {
-            $latest_event_posts = EventModel::latest(4);
+            $latest_event_posts = App::make('EventModel')->latest(4);
             $view->with(array('latest_event_posts'=>$latest_event_posts));
         });
         View::composer('site.blog.latest', function($view)
         {
-            $latest_blog_posts  = Post::latest(4);
+            $latest_blog_posts  = App::make('Post')->latest(4);
             $view->with(array('latest_blog_posts'=>$latest_blog_posts));
         });
     }
@@ -56,8 +66,8 @@ abstract class BaseController extends Controller
     public function getAds() {
         View::composer('site.layouts.ads', function($view)
         {
-            $ad1 = Ad::getAd1();
-            $ad2 = Ad::getAd2();
+            $ad1 = App::make('ad')->getAd1();
+            $ad2 = App::make('ad')->getAd2();
             $view->with(array('ad1'=>$ad1,'ad2'=>$ad2));
         });
     }

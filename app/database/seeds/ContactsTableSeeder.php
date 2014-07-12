@@ -11,11 +11,13 @@ class ContactsTableSeeder extends Seeder {
         $faker = Faker::create();
 
         $contacts = array([
-            'address' => $faker->address,
+            'address_en' => $faker->address,
+            'address_ar' => $faker->address,
             'email'   =>'z4ls@live.com',
             'phone'   => '53234',
             'mobile'  => '2122',
-            'username'=> 'Kaizen Admin'
+            'name_en'=> 'Kaizen Admin',
+            'name_ar'=> 'Kaizen Admin'
         ]);
         DB::table('contacts')->insert($contacts);
 	}

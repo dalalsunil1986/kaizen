@@ -15,8 +15,10 @@ class CreateContactsTable extends Migration {
 		Schema::create('contacts', function(Blueprint $table) {
             $table->engine = 'InnoDB';
 			$table->increments('id');
-            $table->string('username');
-			$table->text('address');
+            $table->string('name_en');
+            $table->string('name_ar');
+			$table->text('address_en');
+			$table->text('address_ar');
             $table->string('email');
             $table->integer('phone');
             $table->integer('mobile');

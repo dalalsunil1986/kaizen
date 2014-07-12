@@ -6,10 +6,11 @@
 	"require": {
 		"laravel/framework": "4.2.*",
         "zizaco/entrust": "dev-master",
-        "mailchimp/mailchimp": "2.0.4",
+        "mailchimp/mailchimp": "dev-master",
         "intervention/image": "dev-master",
         "iron-io/iron_mq": "1.5.1",
-        "mccool/laravel-auto-presenter": "2.*"
+        "mccool/laravel-auto-presenter": "2.*",
+        "codeception/codeception": "2.0.*@dev"
 	},
     "require-dev": {
         "fzaninotto/faker": "1.4.*@dev",
@@ -23,8 +24,7 @@
 			"app/models",
             "app/library",
 			"app/database/migrations",
-			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"app/database/seeds"
 		],
         "psr-4": {
             "Acme\\": "src/"

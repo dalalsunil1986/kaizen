@@ -1,6 +1,6 @@
 <?php
 
-use Acme\Events\EventRepository;
+use Acme\Event\EventRepository;
 
 class HomeController extends BaseController {
     /**

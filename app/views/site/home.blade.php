@@ -6,12 +6,12 @@
 
 <!-- Sidebar Section -->
 @section('sidebar')
-    @parent
+@parent
 @stop
 
 <!-- Content Section -->
 @section('content')
-    @parent
-    @include('site.partials.youtube')
-    @include('site.partials.instagram')
+@parent
+@include('site.partials.youtube')
+@include('site.partials.instagram')
 @stop
