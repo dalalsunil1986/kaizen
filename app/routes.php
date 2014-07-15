@@ -279,3 +279,9 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     Route::get('/', 'AdminEventsController@index');
 
 });
+
+Route::get('test', function() {
+    $test = new Acme\Subscription\State\Subscriber('Confirmed');
+    $test->subscribe(1,1,1);
+//    dd($test->subscribe(1,1,1));
+});

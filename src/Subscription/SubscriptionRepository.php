@@ -3,7 +3,7 @@
 use Acme\Core\CrudableTrait;
 use Acme\Core\Repositories\AbstractRepository;
 use Acme\Core\Repositories\Illuminate;
-use Setting;
+use Subscription;
 
 class SubscriptionRepository extends AbstractRepository {
 

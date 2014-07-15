@@ -1,36 +1,44 @@
 <?php
 
-use Acme\Mail\SubscriptionMailer;
+use Acme\Subscription\SubscriptionRepository;
 
 class SubscriptionsController extends BaseController {
-    protected $model;
-    protected $user;
-    protected $mailer;
-    protected $category;
-    protected $status;
 
-    function __construct(Subscription $model, User $user, EventModel $event, User $user, Status $status, SubscriptionMailer  $mailer )
+    /**
+     * @var Acme\Subscription\SubscriptionRepository
+     */
+    protected $subscriptionRepository;
+
+    public function __construct(SubscriptionRepository $subscriptionRepository)
     {
-        $this->model = $model;
-        $this->user = $user;
-        $this->event = $event;
-        $this->status = $status;
-        $this->mailer = $mailer;
         parent::__construct();
+        $this->subscriptionRepository = $subscriptionRepository;
     }
 
     /**
-     * @param $id eventId
-     * @return \Illuminate\Http\JsonResponse
+     * @param $userId
+     * @param $eventId
+     * @param $eventType
      */
-    public function subscribe($id)
+    public function subscribe($userId,$eventId,$eventType)
     {
 
     }
 
-    public function unsubscribe($id)
+    /**
+     * @param $subscriptionId
+     */
+    public function unsubscribe($subscriptionId)
     {
 
+    }
+
+    /**
+     * @param $subscriptionId
+     */
+    public function makePayment($subscriptionId)
+    {
+        // process payment
     }
 
 }
