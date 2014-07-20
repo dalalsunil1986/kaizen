@@ -3,13 +3,10 @@
 interface SubscriberState {
 
     /**
-     * @param $userId
-     * @param $eventId
-     * @param $eventType
      * @return mixed
      */
-    public function subscribe($userId,$eventId,$eventType);
+    public function createSubscription();
 
-    public function unsubscribe($id);
+    public function cancelSubscription();
 
 } 

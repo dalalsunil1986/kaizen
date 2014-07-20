@@ -26,7 +26,7 @@ Route::get('event/{id}/category', 'EventsController@getCategory');
 
 Route::get('event/{id}/author', 'EventsController@getAuthor');
 
-Route::get('event/{id}/subscribe', array('as' => 'event.subscribe', 'uses' => 'SubscriptionsController@subscribe'));
+//Route::get('event/{id}/subscribe', array('as' => 'event.subscribe', 'uses' => 'SubscriptionsController@subscribe'));
 
 Route::get('event/{id}/unsubscribe', array('as' => 'event.unsubscribe', 'uses' => 'EventsController@unsubscribe'));
 
@@ -125,6 +125,7 @@ Route::get('forbidden', function () {
 Route::post('queue/mails', function () {
     return Queue::marshal();
 });
+
 
 Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 
@@ -280,8 +281,4 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
 });
 
-Route::get('test', function() {
-    $test = new Acme\Subscription\State\Subscriber('Confirmed');
-    $test->subscribe(1,1,1);
-//    dd($test->subscribe(1,1,1));
-});
+Route::get('sub', 'SubscriptionsController@subscribe');

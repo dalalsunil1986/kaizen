@@ -3,6 +3,8 @@
 class Subscription extends BaseModel {
 	protected $guarded = array('id');
 
+    protected static $name = 'subscription';
+
 	public static $rules = array(
         'user_id' => 'required | integer',
         'event_id' => 'required | integer'
@@ -14,6 +16,11 @@ class Subscription extends BaseModel {
 
     public  function events() {
         return $this->belongsToMany('EventModel');
+    }
+
+    public function totalSubscriptions()
+    {
+        // return count of total subscriptions
     }
 
     /**
@@ -41,5 +48,9 @@ class Subscription extends BaseModel {
     public static function findEventCount($id) {
         $query = Subscription::where('event_id',$id)->count();
         return $query;
+    }
+
+    public function subscribable(){
+        return $this->morphTo();
     }
 }

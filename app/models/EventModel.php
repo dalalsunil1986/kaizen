@@ -193,5 +193,6 @@ class EventModel extends BaseModel implements PresenterInterface {
         $this->attributes['total_seats'] = (int)($value);
     }
 
+
 }
 

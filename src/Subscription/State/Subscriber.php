@@ -1,7 +1,5 @@
 <?php namespace Acme\Subscription\State;
 
-use Acme\Event\EventRepository;
-use Acme\Subscription\SubscriptionRepository;
 use Subscription;
 
 class Subscriber {
@@ -15,38 +13,40 @@ class Subscriber {
 
     public $subscriptionState;
 
-    public function __construct($status = '')
+    public function __construct(Subscription $subscription, EventModel $eventModel)
     {
-        $status           = strtolower($status);
-        $this->confirmed  = new Confirmed($this);
-        $this->waiting    = new Waiting($this);
-        $this->rejected   = new Rejected($this);
-        $this->pending    = new Pending($this);
-        $this->approved   = new Approved($this);
-        $this->repository = new SubscriptionRepository(new Subscription);
+        $this->confirmed  = new ConfirmedState($this);
+        $this->waiting    = new WaitingState($this);
+        $this->rejected   = new RejectedState($this);
+        $this->pending    = new PendingState($this);
+        $this->approved   = new ApprovedState($this);
+        $this->repository = $subscription;
 
-        if ( empty($status) ) {
+        if ( empty($this->repository->status) ) {
             $this->subscriptionState = $this->pending;
         } else {
+            $status                  = strtolower($this->repository->status);
             $this->subscriptionState = $this->{$status};
         }
+
     }
 
-    public function setSubscriptionState(StateInterface $newSubscriptionState)
+    public function setSubscriptionState($newSubscriptionState)
     {
         $this->subscriptionState = $newSubscriptionState;
     }
 
-    public function subscribe($userId, $eventId, $eventType)
+    public function subscribe()
     {
-        $this->subscriptionState->subscribe($userId, $eventId, $eventType);
+//        if ( ! $this->subscriptionState == $this->repository->status ) {
+            $this->subscriptionState->createSubscription();
+//        }
     }
 
-    public function unsubscribe($id)
+    public function unsubscribe()
     {
-        $this->subscriptionState->unsubscribe($id);
+        $this->subscriptionState->cancelSubscription();
     }
-
 
     public function getConfirmedState()
     {
