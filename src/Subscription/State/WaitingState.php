@@ -12,10 +12,9 @@ class WaitingState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
-        $this->subscriber->repository->status = 'WAITING';
-        $this->subscriber->repository->save();
-        $this->subscriber->messages->add('errors', 'Seats are full, Sorry');
-        $this->subscriber->messages->add('errors', 'Seats are full, Sorry again');
+        $this->subscriber->messages->add('errors', 'Sorry, Seats are full. We have put you on Waiting List, Admin Will Soon Notify You');
+        $this->subscriber->model->status = 'WAITING';
+        $this->subscriber->model->save();
     }
 
 }

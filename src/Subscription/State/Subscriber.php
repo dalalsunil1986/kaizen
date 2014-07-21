@@ -10,7 +10,7 @@ class Subscriber {
     public $waiting;
     public $rejected;
     public $pending;
-    public $repository;
+    public $model;
 
     public $subscriptionState;
 
@@ -24,14 +24,13 @@ class Subscriber {
         $this->pending   = new PendingState($this);
         $this->approved  = new ApprovedState($this);
         $this->messages  = new MessageBag();
+        $this->model     = $subscription;
 
-        $this->repository = $subscription;
-
-        if ( empty($this->repository->status) ) {
+        if ( empty($this->model->status) ) {
             $this->subscriptionState = $this->pending;
 
         } else {
-            $status                  = strtolower($this->repository->status);
+            $status                  = strtolower($this->model->status);
             $this->subscriptionState = $this->{$status};
         }
 

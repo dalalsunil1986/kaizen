@@ -2,9 +2,6 @@
 
 interface SubscriberState {
 
-    /**
-     * @return mixed
-     */
     public function createSubscription();
 
     public function cancelSubscription();

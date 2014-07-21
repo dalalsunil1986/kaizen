@@ -12,13 +12,13 @@ class PendingState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
-        $this->subscriber->repository->status = 'PENDING';
-        $this->subscriber->repository->save();
+        $this->subscriber->model->status = 'PENDING';
+        $this->subscriber->model->save();
     }
 
     public function cancelSubscription()
     {
-        $this->subscriber->repository->delete();
+        $this->subscriber->model->delete();
         echo 'unsubscribed';
     }
 }
