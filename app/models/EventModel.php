@@ -205,5 +205,6 @@ class EventModel extends BaseModel implements PresenterInterface {
     public function subscriptions() {
         return $this->morphMany('Subscription','subscribable');
     }
+
 }
 

@@ -16,24 +16,28 @@ class ApprovedState extends AbstractState implements SubscriberState {
         // if paid .. check columns if the payment was successfull. subcribe.
         $availableSeats = $this->subscriber->repository->subscribable->available_seats;
 
-        if ( $availableSeats <= 0 ) {
+//        if ( $availableSeats <= 0 ) {
+//            return $this->subscriber->setSubscriptionState($this->subscriber->getWaitingState());
+//        }
+
+        if ( ! $this->subscriber->repository->hasAvailableSeats() ) {
+            // If No Seats Available, Set user status to Waiting List
             return $this->subscriber->setSubscriptionState($this->subscriber->getWaitingState());
         }
 
         // @todo : more efficient way to determine the free or paid event
         if ( $this->subscriber->repository->subscribable->price > 0 ) {
             // Paid Event
-            $this->sendPaymentLink();
+            return $this->sendPaymentLink();
         } else {
             // Free Event
-            $this->confirmSubscription();
+            return $this->confirmSubscription();
         }
 
     }
 
     private function confirmSubscription()
     {
-        dd('confirmed');
         $this->subscriber->repository->status = 'CONFIRMED';
         $this->subscriber->repository->save();
         echo 'subscription confirmed';
@@ -42,6 +46,6 @@ class ApprovedState extends AbstractState implements SubscriberState {
     private function sendPaymentLink()
     {
         //@todo Send Payment Link
-        $this->subscriber->messages->add('success','Payment Email Sent');
+        $this->subscriber->messages->add('success', 'Payment Email Sent');
     }
 }

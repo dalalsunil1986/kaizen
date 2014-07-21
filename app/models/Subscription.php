@@ -53,4 +53,9 @@ class Subscription extends BaseModel {
     public function subscribable(){
         return $this->morphTo();
     }
+
+    public function hasAvailableSeats()
+    {
+        return $this->available_seats > 0 ? true : false;
+    }
 }

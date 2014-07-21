@@ -30,21 +30,24 @@ class SubscriptionsController extends BaseController {
      * @param $userId
      * @param $eventId
      * @param $eventType
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function subscribe($userId = 1, $eventId = 1, $eventType = 'EventModel')
     {
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId, $eventType);
+
+        dd($subscription->toArray());
         if ( ! $subscription ) {
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'subscribable_id' => $eventId, 'subscribable_type' => $eventType, 'status' => '', 'registration_type' => 'ONLINE']);
         }
 
         $subscription = new Subscriber($subscription);
         $subscription->subscribe();
-        if($subscription->messages->has('errors')) {
+        if ( $subscription->messages->has('errors') ) {
             return Redirect::home()->with('errors', $subscription->messages);
         }
+
         return Redirect::home()->with('success', $subscription->messages);
-//        dd($subscription->messages);
     }
 
     /**
@@ -52,8 +55,7 @@ class SubscriptionsController extends BaseController {
      */
     public function unsubscribe($id)
     {
-        $subscription        = $this->subscriptionRepository->findById($id);
-
+        $subscription = $this->subscriptionRepository->findById($id);
 
         $subscription = new Subscriber($subscription);
         $subscription->unsubscribe();
