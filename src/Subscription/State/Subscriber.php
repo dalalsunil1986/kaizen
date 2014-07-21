@@ -1,5 +1,6 @@
 <?php namespace Acme\Subscription\State;
 
+use Illuminate\Support\MessageBag;
 use Subscription;
 
 class Subscriber {
@@ -13,17 +14,22 @@ class Subscriber {
 
     public $subscriptionState;
 
-    public function __construct(Subscription $subscription, EventModel $eventModel)
+    public $messages;
+
+    public function __construct(Subscription $subscription)
     {
-        $this->confirmed  = new ConfirmedState($this);
-        $this->waiting    = new WaitingState($this);
-        $this->rejected   = new RejectedState($this);
-        $this->pending    = new PendingState($this);
-        $this->approved   = new ApprovedState($this);
+        $this->confirmed = new ConfirmedState($this);
+        $this->waiting   = new WaitingState($this);
+        $this->rejected  = new RejectedState($this);
+        $this->pending   = new PendingState($this);
+        $this->approved  = new ApprovedState($this);
+        $this->messages  = new MessageBag();
+
         $this->repository = $subscription;
 
         if ( empty($this->repository->status) ) {
             $this->subscriptionState = $this->pending;
+
         } else {
             $status                  = strtolower($this->repository->status);
             $this->subscriptionState = $this->{$status};
@@ -34,13 +40,12 @@ class Subscriber {
     public function setSubscriptionState($newSubscriptionState)
     {
         $this->subscriptionState = $newSubscriptionState;
+        $this->subscribe();
     }
 
     public function subscribe()
     {
-//        if ( ! $this->subscriptionState == $this->repository->status ) {
-            $this->subscriptionState->createSubscription();
-//        }
+        $this->subscriptionState->createSubscription();
     }
 
     public function unsubscribe()

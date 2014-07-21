@@ -1,7 +1,7 @@
 <?php
 namespace Acme\Subscription\State;
 
-class WaitingState implements SubscriberState {
+class WaitingState extends AbstractState implements SubscriberState {
 
     public $subscriber;
 
@@ -12,11 +12,10 @@ class WaitingState implements SubscriberState {
 
     public function createSubscription()
     {
-        echo 'event seats full';
+        $this->subscriber->repository->status = 'WAITING';
+        $this->subscriber->repository->save();
+        $this->subscriber->messages->add('errors', 'Seats are full, Sorry');
+        $this->subscriber->messages->add('errors', 'Seats are full, Sorry again');
     }
 
-    public function cancelSubscription()
-    {
-        echo 'not subscribed at first place ';
-    }
 }

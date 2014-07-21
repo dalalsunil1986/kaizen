@@ -1,7 +1,7 @@
 <?php
 namespace Acme\Subscription\State;
 
-class ConfirmedState implements SubscriberState{
+class ConfirmedState extends AbstractState implements SubscriberState{
 
     public $subscriber;
 
@@ -15,8 +15,4 @@ class ConfirmedState implements SubscriberState{
         'already subscribed';
     }
 
-    public function cancelSubscription()
-    {
-
-    }
 }

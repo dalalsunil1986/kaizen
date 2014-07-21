@@ -23,10 +23,6 @@ class EventPresenter extends AbstractPresenter {
         return $this->resource->created_at->format('Y-m-d');
     }
 
-    public function email() {
-        return 'haha ' . $this->resource->email;
-    }
-
     public function date_start()
     {
         return $this->resource->date_start->format('Y-m-d');

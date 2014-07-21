@@ -41,9 +41,10 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $followers;
     }
 
-    public function subscriptions() {
-        return $this->belongsToMany('User', 'subscriptions','event_id','user_id');
-    }
+//    public function subscriptions() {
+//        return $this->belongsToMany('User', 'subscriptions','event_id','user_id');
+//    }
+
     public function subscribers() {
         return $this->belongsToMany('User', 'subscriptions','event_id','user_id');
     }
@@ -156,7 +157,7 @@ class EventModel extends BaseModel implements PresenterInterface {
      */
     public function getPresenter()
     {
-        return 'Acme\Events\EventPresenter';
+        return 'Acme\Event\EventPresenter';
     }
 
     public function getHumanCreatedAtAttribute()
@@ -193,6 +194,16 @@ class EventModel extends BaseModel implements PresenterInterface {
         $this->attributes['total_seats'] = (int)($value);
     }
 
+    public function setLatitudeAttribute($value){
+        $this->attributes['latitude'] = floatval('238.8');
+    }
 
+    public function setLongitudeAttribute($value){
+        $this->attributes['longitude'] = floatval('238.8');
+    }
+
+    public function subscriptions() {
+        return $this->morphMany('Subscription','subscribable');
+    }
 }
 

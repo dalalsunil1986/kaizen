@@ -16,7 +16,7 @@ class CreateValidator extends AbstractValidator {
         'category_id' => 'required',
         'location_id' =>'required',
         'free' => 'required_if:price,0',
-        'price' => 'integer'
+        'price' => 'numeric'
     ];
 
     /**

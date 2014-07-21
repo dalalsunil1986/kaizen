@@ -1,7 +1,7 @@
 <?php
 namespace Acme\Subscription\State;
 
-class RejectedState implements SubscriberState {
+class RejectedState extends AbstractState implements SubscriberState {
 
 
     public $subscriber;
@@ -16,8 +16,4 @@ class RejectedState implements SubscriberState {
         echo 'you cannot subscribe';
     }
 
-    public function cancelSubscription()
-    {
-        echo 'not subscribed at first place ';
-    }
 }

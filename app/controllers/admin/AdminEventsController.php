@@ -106,11 +106,10 @@ class AdminEventsController extends AdminBaseController {
      */
     public function edit($id)
     {
-        $event         = $this->eventRepository->findById($id, ['photos', 'type']);
+        $event         = $this->eventRepository->findById($id, ['photos']);
         $category      = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
         $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
-
 
         return View::make('admin.events.edit', compact('event', 'category', 'author', 'location'));
     }
@@ -123,38 +122,50 @@ class AdminEventsController extends AdminBaseController {
      */
     public function update($id)
     {
-        $validation = $this->eventRepository->find($id);
-        $validation->fill(Input::except(array('thumbnail', 'addresspicker_map', 'type', 'approval_type')));
-        if ( ! $validation->save() ) {
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
-        }
-        if ( Input::hasFile('thumbnail') ) {
-            if ( ! $this->photo->attachImage($validation->id, Input::file('thumbnail'), 'EventModel', '1') ) {
-                return Redirect::back()->withErrors($this->photo->getErrors());
-            }
+
+//        dd(Input::all());
+        $this->eventRepository->findById($id);
+
+        $val = $this->eventRepository->getEditForm($id);
+
+        if ( ! $val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
-        //update type
-        $type = Type::where('event_id', $id)->first();
-        if ( ! $type ) {
-            $type           = new Type();
-            $type->event_id = $id;
+        if (! $this->eventRepository->update($id, $val->getInputData()) ) {
+
+            return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
-        $type->type          = Input::get('type');
-        $type->approval_type = Input::get('approval_type');
-        if ( ! $type->save() ) {
-            return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($type->getErrors());
-        }
+
+        return Redirect::action('AdminEventsController@edit', $id)->with('success', 'Updated');
+
+//        $validation->fill(Input::except(array('thumbnail', 'addresspicker_map', 'type', 'approval_type')));
+//        if ( ! $validation->save() ) {
+//            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+//        }
+//
+//        //update type
+//        $type = Type::where('event_id', $id)->first();
+//        if ( ! $type ) {
+//            $type           = new Type();
+//            $type->event_id = $id;
+//        }
+//        $type->type          = Input::get('type');
+//        $type->approval_type = Input::get('approval_type');
+//        if ( ! $type->save() ) {
+//            return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($type->getErrors());
+//        }
 
         //update available seats
-        $event                  = $this->eventRepository->find($validation->id);
-        $total_seats            = $event->total_seats;
-        $total_seats_taken      = Subscription::findEventCount($event->id);
-        $available_seats        = $total_seats - $total_seats_taken;
-        $event->available_seats = $available_seats;
-        $event->save();
+//        $event                  = $this->eventRepository->find($validation->id);
+//        $total_seats            = $event->total_seats;
+//        $total_seats_taken      = Subscription::findEventCount($event->id);
+//        $available_seats        = $total_seats - $total_seats_taken;
+//        $event->available_seats = $available_seats;
+//        $event->save();
 
-        return parent::redirectToAdmin()->with('success', 'Updated Event ' . $validation->title);
+//        return parent::redirectToAdmin()->with('success', 'Updated Event ' . $validation->title);
     }
 
     /**

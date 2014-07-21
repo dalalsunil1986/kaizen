@@ -1,7 +1,7 @@
 <?php
 namespace Acme\Subscription\State;
 
-class PendingState implements SubscriberState {
+class PendingState extends AbstractState implements SubscriberState {
 
     public $subscriber;
 
