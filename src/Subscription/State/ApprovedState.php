@@ -12,25 +12,34 @@ class ApprovedState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
-        if ( ! $this->subscriber->model->subscribable->hasAvailableSeats() ) {
+        if ( ! $this->subscriber->model->event->hasAvailableSeats() ) {
             // If No Seats Available, Set user status to Waiting List
             return $this->subscriber->setSubscriptionState($this->subscriber->getWaitingState());
         }
 
-        $this->checkIfValidRegistrationType();
+        // If its a package event
+//        if ( $this->subscriber->model->settings[0]->settingable_type == 'Package' ) {
+//        }
 
-        // Find Event Type
-        if ($this->subscriber->model->subscribable->settings->settingable_type == 'EventModel') {
-            dd('this is an event');
-        } elseif($this->subscriber->model->subscribable->settings->settingable_type == 'Package') {
-            dd('this is package');
+        // check whether already subscribed
+        if ( $this->subscriber->model->subscriptionConfirmed()) {
+            $this->subscriber->messages->add('errors','Already Subscribed');
+            return false;
         }
-        dd($this->subscriber->model->subscribable->settings->toArray());
 
+        $this->checkInvalidRegistrationType();
+        // Find Event Type
 
+//        if ( $this->subscriber->model->settings[0]->settingable_type == 'EventModel' ) {
+//            dd('this is an event');
+//        } elseif ( $this->subscriber->model->settings[0]->settingable_type == 'Package' ) {
+//            dd('this is package');
+//        }
+
+//        dd($this->subscriber->model->settings[0]->toArray());
 
         // @todo : more efficient way to determine the free or paid event
-        if ( $this->subscriber->model->subscribable->price > 0 ) {
+        if ( $this->subscriber->model->event->price > 0 ) {
             // Paid Event
             return $this->sendPaymentLink();
         } else {
@@ -56,15 +65,13 @@ class ApprovedState extends AbstractState implements SubscriberState {
     /**
      * Check If the User Registration Type is in the available option of the Event's Registration System
      */
-    private function checkIfValidRegistrationType()
+    private function checkInvalidRegistrationType()
     {
-        $available_registration_types = $this->subscriber->model->subscribable->settings->registration_type;
-        $available_registration_types = explode(',',$available_registration_types);
-
-        if(!in_array($this->subscriber->model->registration_type,$available_registration_types)) {
-            dd('option not available');
-        } else {
-            dd('option available');
+        $available_registration_types = $this->subscriber->model->settings[0]->registration_types;
+        $available_registration_types = explode(',', $available_registration_types);
+        if ( ! in_array($this->subscriber->model->registration_type, $available_registration_types) ) {
+            $this->subscriber->messages->add('errors','Option not available');
+            return false;
         }
     }
 

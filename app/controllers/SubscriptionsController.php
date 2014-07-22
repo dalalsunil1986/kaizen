@@ -27,17 +27,17 @@ class SubscriptionsController extends BaseController {
     }
 
     /**
-     * @param $userId
-     * @param $eventId
-     * @param $eventType
+     * @param int $userId
+     * @param int $eventId
+     * @internal param $eventType
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function subscribe($userId = 1, $eventId = 1, $eventType = 'EventModel')
+    public function subscribe($userId = 1, $eventId = 1)
     {
-        $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId, $eventType);
+        $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
 
         if ( ! $subscription ) {
-            $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'subscribable_id' => $eventId, 'subscribable_type' => $eventType, 'status' => '', 'registration_type' => 'ONLINE']);
+            $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => 'ONLINE']);
         }
 
         $subscription = new Subscriber($subscription);

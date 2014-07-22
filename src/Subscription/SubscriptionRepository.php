@@ -22,9 +22,9 @@ class SubscriptionRepository extends AbstractRepository {
         return $this->registrationType;
     }
 
-    public function findByEvent($userId, $eventId, $eventType)
+    public function findByEvent($userId, $eventId)
     {
-        $record = $this->model->where('user_id', $userId)->where('subscribable_id', $eventId)->where('subscribable_type', $eventType)->first();
+        $record = $this->model->where('user_id', $userId)->where('event_id', $eventId)->first();
         if ( ! $record ) return false;
 
         return $record;
@@ -32,14 +32,12 @@ class SubscriptionRepository extends AbstractRepository {
 
     /**
      * @param $subscribableId
-     * @param $subscribableType
      * @return mixed
      * Count no of subscriptions for an Event
      */
-    public function countAll($subscribableId, $subscribableType)
+    public function countAll($eventId)
     {
-        return $this->model->where('subscribable_id', $subscribableId)
-            ->where('subscribable_type', $subscribableType)
+        return $this->model->where('event_id', $eventId)
             ->get([
                 DB::raw('COUNT(id) as subscription_count')
             ]);
