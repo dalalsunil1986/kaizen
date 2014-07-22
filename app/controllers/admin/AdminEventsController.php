@@ -83,7 +83,7 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
 
-        if ( ! $setting = $this->settingRepository->create(['settable_type' => 'Event', 'settable_id' => $event->id]) ) {
+        if ( ! $setting = $this->settingRepository->create(['settingable_type' => 'EventModel', 'settingable_id' => $event->id]) ) {
             $this->eventRepository->delete($event);
             //@todo redirect
             dd('could not create event');

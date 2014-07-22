@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder {
         $this->call('CommentsTableSeeder');
 //        $this->call('FollowersTableSeeder');
 //		$this->call('FavoritesTableSeeder');
-		$this->call('SubscriptionsTableSeeder');
+//		$this->call('SubscriptionsTableSeeder');
 //		$this->call('PhotosTableSeeder');
 //		$this->call('AuthorsTableSeeder');
         $this->call('ContactsTableSeeder');

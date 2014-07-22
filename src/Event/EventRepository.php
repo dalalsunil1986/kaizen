@@ -4,7 +4,6 @@ use Acme\Core\CrudableTrait;
 use Carbon\Carbon;
 use DB;
 use EventModel;
-use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\Illuminate;
 use Acme\Core\Repositories\AbstractRepository;
 
@@ -16,7 +15,7 @@ class EventRepository extends AbstractRepository {
     public $feeTypes = ['FREE', 'PAID'];
     public $approvalTypes = ['DIRECT', 'CONFIRM'];
     public $subscriptionStatuses = ['REJECTED', 'PENDING', 'APPROVED', 'CONFIRMED'];
-    public $eventTypes = ['EVENT' => 'EVENT', 'PACKAGE' => 'PACKAGE'];
+    public $eventTypes = ['EventModel' => 'EVENT', 'Package' => 'PACKAGE'];
 
     public $model;
 
@@ -128,13 +127,4 @@ class EventRepository extends AbstractRepository {
         return $events;
     }
 
-    /**
-     * @return bool
-     * Find if Available Seats
-     */
-    public function hasAvailableSeats()
-    {
-//        return $this->available_seats > 0 ? true : false;
-        return $this->model->subscriptions->available_seats > 0 ? true : false;
-    }
 }

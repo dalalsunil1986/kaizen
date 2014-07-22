@@ -102,7 +102,7 @@ class AdminSettingsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
         }
 
-        return Redirect::action('AdminPhotosController@create',['imageable_type' => $setting->settable_type , 'imageable_id'=> $setting->settable_id]);
+        return Redirect::action('AdminPhotosController@create',['imageable_type' => $setting->settingable_type , 'imageable_id'=> $setting->settingable_id]);
     }
 
     /**

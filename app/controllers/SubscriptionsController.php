@@ -36,7 +36,6 @@ class SubscriptionsController extends BaseController {
     {
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId, $eventType);
 
-        dd($subscription->toArray());
         if ( ! $subscription ) {
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'subscribable_id' => $eventId, 'subscribable_type' => $eventType, 'status' => '', 'registration_type' => 'ONLINE']);
         }
