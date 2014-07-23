@@ -62,7 +62,7 @@ class AdminPackagesController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->packageRepository->errors())->withInput();
         }
 
-        if ( ! $setting = $this->settingRepository->create(['settable_type' => 'Package', 'settable_id' => $package->id]) ) {
+        if ( ! $setting = $this->settingRepository->create(['settingable_type' => 'Package', 'settingable_id' => $package->id]) ) {
             $this->eventRepository->delete($package);
             //@todo redirect
             dd('could not create event');
@@ -99,6 +99,10 @@ class AdminPackagesController extends AdminBaseController {
      */
     public function destroy($id)
     {
+    }
+
+    public function  settings($id){
+
     }
 
 }

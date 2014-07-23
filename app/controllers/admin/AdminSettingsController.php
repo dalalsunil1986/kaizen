@@ -82,8 +82,8 @@ class AdminSettingsController extends AdminBaseController {
         $setting = $this->settingRepository->findById($id);
 
         // check for an invalid registration type
-        if ( ! empty(Input::get('registration_type')) ) {
-            foreach ( Input::get('registration_type') as $registrationType ) {
+        if ( ! empty(Input::get('registration_types')) ) {
+            foreach ( Input::get('registration_types') as $registrationType ) {
                 if ( ! in_array($registrationType, $this->eventRepository->registrationTypes) ) {
                     return Redirect::back()->with('error', 'Wrong Value ')->withInput();
                 }
@@ -114,5 +114,7 @@ class AdminSettingsController extends AdminBaseController {
     public function destroy($id)
     {
     }
+
+
 
 }

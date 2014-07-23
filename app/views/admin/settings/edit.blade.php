@@ -13,7 +13,7 @@
 {{ HTML::script('assets/vendors/select2/select2.min.js') }}
 <script>
     $(document).ready(function() {
-        $('#registration_type').select2({
+        $('#registration_types').select2({
             placeholder: "Select Reigstration Types",
             allowClear: true,
             maximumSelectionSize: 2
@@ -46,9 +46,9 @@
     </div>
 
     <div class="form-group col-md-6">
-        {{ Form::label('registration_type', 'Registration Type:') }}
+        {{ Form::label('registration_types', 'Registration Type:') }}
 
-        {{ Form::select('registration_type[]', $registrationTypes , null , ['class' => 'form-control', 'id' => 'registration_type', 'multiple' => 'multiple' ]) }}
+        {{ Form::select('registration_types[]', $registrationTypes , null , ['class' => 'form-control', 'id' => 'registration_types', 'multiple' => 'multiple' ]) }}
 
     </div>
 

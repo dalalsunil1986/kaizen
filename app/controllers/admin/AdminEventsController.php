@@ -2,6 +2,7 @@
 use Acme\Category\CategoryRepository;
 use Acme\Event\EventRepository;
 use Acme\Location\LocationRepository;
+use Acme\Package\PackageRepository;
 use Acme\Photo\PhotoRepository;
 use Acme\Setting\SettingRepository;
 use Acme\User\UserRepository;
@@ -26,8 +27,12 @@ class AdminEventsController extends AdminBaseController {
      * @var Acme\Event\EventPhotoService
      */
     private $imageService;
+    /**
+     * @var Acme\Package\PackageRepository
+     */
+    private $packageRepository;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository, PackageRepository $packageRepository)
     {
         $this->eventRepository    = $eventRepository;
         $this->categoryRepository = $categoryRepository;
@@ -36,6 +41,7 @@ class AdminEventsController extends AdminBaseController {
         $this->locationRepository = $locationRepository;
         $this->settingRepository = $settingRepository;
         parent::__construct();
+        $this->packageRepository = $packageRepository;
     }
 
     /**
@@ -47,7 +53,8 @@ class AdminEventsController extends AdminBaseController {
     public function index()
     {
         $events = $this->eventRepository->getAll(array('category', 'location.country'))->paginate(10);
-        $this->render('admin.events.index', compact('events'));
+        $packages= $this->packageRepository->getAll();
+        $this->render('admin.events.index', compact('events','packages'));
     }
 
 

@@ -8,6 +8,8 @@ class Package extends BaseModel {
 
     protected $table = 'packages';
 
+    protected $localeStrings = ['title', 'description'];
+
     public function subscriptions()
     {
         return $this->morphMany('Subscription', 'subscribable');
