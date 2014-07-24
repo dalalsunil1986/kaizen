@@ -93,7 +93,7 @@
                             <td>{{ $package->title }}</td>
                         <td>{{ $package->price }}</td>
                         <td>{{ $package->created_at }} </td>
-                        <td><a href="{{ URL::action('AdminPackagesController@settings',$package->id)}}">Settings</a>
+                        <td><a href="{{ URL::action('AdminEventsController@create',['package_id'=>$package->id])}}">Add Event</a>
                             <button class="btn btn-xs btn-info"> <a href="{{ URL::action('AdminPackagesController@edit', array($package->id)) }}">Edit</a></button>
 
                             {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminPackagesController@destroy', $package->id))) }}

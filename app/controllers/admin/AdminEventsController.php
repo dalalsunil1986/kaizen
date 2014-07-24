@@ -57,7 +57,6 @@ class AdminEventsController extends AdminBaseController {
         $this->render('admin.events.index', compact('events','packages'));
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -79,7 +78,6 @@ class AdminEventsController extends AdminBaseController {
      */
     public function store()
     {
-
         $val = $this->eventRepository->getCreateForm();
 
         if ( ! $val->isValid() ) {

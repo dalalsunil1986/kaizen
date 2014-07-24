@@ -166,6 +166,10 @@
     </div>
 </div>
 
+@if(isset($_GET['package_id']))
+{{ Form::hidden('package_id', $_GET['package_id']) }}
+@endif
+
 <div class="row">
     <div class="form-group col-md-12">
         {{ Form::submit('Save', array('class' => 'btn btn-info')) }}
