@@ -33,6 +33,20 @@ class AdminPackagesController extends AdminBaseController {
 
     }
 
+    public function show($id){
+        $packages = $this->packageRepository->findById($id);
+        foreach ( $packages->events as $package ) {
+            foreach ( $package->subscriptions as $p ) {
+                dd($p);
+            }
+        }
+
+
+//        $package = EventModel::find($id);
+//        dd($package->events->subscriptions );
+//        dd($package);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -99,6 +113,14 @@ class AdminPackagesController extends AdminBaseController {
      */
     public function destroy($id)
     {
+        $package = $this->packageRepository->findById($id);
+
+        if ( $this->packageRepository->delete($package) ) {
+            //  return Redirect::home();
+            return Redirect::action('AdminEventsController@index')->with('success', 'Package Deleted');
+        }
+
+        return Redirect::action('AdminEventsController@index')->with('error', 'Error: Package Not Found');
     }
 
     public function  settings($id){

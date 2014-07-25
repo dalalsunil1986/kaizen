@@ -10,14 +10,26 @@ class Package extends BaseModel {
 
     protected $localeStrings = ['title', 'description'];
 
-    public function subscriptions()
+    public function setting()
     {
-        return $this->morphMany('Subscription', 'subscribable');
+        return $this->morphOne('Setting', 'settingable');
     }
 
-    public function settings()
+    public function events()
     {
-        return $this->morphMany('Setting', 'settings');
+        return $this->hasMany('EventModel', 'package_id');
+    }
+
+    public function beforeDelete()
+    {
+        // delete settings that belongs to this model
+        $this->setting()->delete();
+
+        // delete events that belongs to this model
+        foreach ($this->events()->get(array('id')) as $event) {
+            $event->delete();
+        }
+
     }
 
 }

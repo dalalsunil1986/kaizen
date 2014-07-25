@@ -284,12 +284,18 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 });
 
 Route::get('test', function () {
-    $subscription = EventModel::with('subscriptions')->find(1);
-//    dd($subscription->toArray());
+//    $subscription = EventModel::with('subscriptions')->find(1);
+////    dd($subscription->toArray());
+//
+//    $subscription = Subscription::with('subscribable')->find(1);
+//    dd($subscription->subscribable->title);
 
-    $subscription = Subscription::with('subscribable')->find(1);
-    dd($subscription->subscribable->title);
 
+//    $event = EventModel::find(2);
+//
+//    $package = Package::find(1);
+//    dd($package->events);
+//    dd($event->package);
 //    dd($subscription->subscriptions());
 
 });

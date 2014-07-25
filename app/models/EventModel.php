@@ -233,10 +233,10 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function subscriptions()
     {
-        return $this->morphMany('Subscription', 'subscribable');
+        return $this->hasMany('Subscription', 'event_id');
     }
 
-    public function settings()
+    public function setting()
     {
         return $this->morphOne('Setting', 'settingable');
     }
@@ -244,6 +244,21 @@ class EventModel extends BaseModel implements PresenterInterface {
     public function hasAvailableSeats()
     {
         return $this->available_seats > 0 ? true : false;
+    }
+
+    public function package()
+    {
+        return $this->belongsTo('Package');
+    }
+
+    public function beforeDelete(){
+
+        //delete settings
+        $this->setting()->delete();
+
+        foreach ($this->subscriptions()->get(array('id')) as $subscription) {
+            $subscription->delete();
+        }
     }
 }
 

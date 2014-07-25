@@ -78,7 +78,6 @@ class AdminSettingsController extends AdminBaseController {
      */
     public function update($id)
     {
-//        dd(Input::all());
         $setting = $this->settingRepository->findById($id);
 
         // check for an invalid registration type
@@ -89,14 +88,12 @@ class AdminSettingsController extends AdminBaseController {
                 }
             }
         }
-
         $val = $this->settingRepository->getEditForm($id);
 
         if ( ! $val->isValid() ) {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
-
         if ( ! $this->settingRepository->update($id, $val->getInputData()) ) {
 
             return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();

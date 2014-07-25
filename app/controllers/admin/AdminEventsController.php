@@ -173,6 +173,8 @@ class AdminEventsController extends AdminBaseController {
 //        return parent::redirectToAdmin()->with('success', 'Updated Event ' . $validation->title);
     }
 
+
+
     /**
      * Remove the specified resource from storage.
      *
