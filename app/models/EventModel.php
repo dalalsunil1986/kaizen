@@ -260,5 +260,6 @@ class EventModel extends BaseModel implements PresenterInterface {
             $subscription->delete();
         }
     }
+
 }
 

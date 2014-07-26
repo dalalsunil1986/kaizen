@@ -68,7 +68,7 @@ class AdminEventsController extends AdminBaseController {
         $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
 
-        return View::make('admin.events.create', compact('category', 'author', 'location'));
+        $this->render('admin.events.create', compact('category', 'author', 'location'));
     }
 
     /**
@@ -116,7 +116,7 @@ class AdminEventsController extends AdminBaseController {
         $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
 
-        return View::make('admin.events.edit', compact('event', 'category', 'author', 'location'));
+        $this->render('admin.events.edit', compact('event', 'category', 'author', 'location'));
     }
 
     /**

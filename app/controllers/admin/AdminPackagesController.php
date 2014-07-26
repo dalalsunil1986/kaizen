@@ -91,7 +91,9 @@ class AdminPackagesController extends AdminBaseController {
 
     public function edit($id)
     {
-        $this->render('admin.packages.create');
+        $package         = $this->packageRepository->findById($id);
+//        dd($package->toArray());
+        $this->render('admin.packages.edit',compact('package'));
     }
 
     /**
@@ -102,7 +104,21 @@ class AdminPackagesController extends AdminBaseController {
      */
     public function update($id)
     {
+        $this->packageRepository->findById($id);
 
+        $val = $this->packageRepository->getEditForm($id);
+
+        if ( ! $val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+        }
+
+        if (! $this->packageRepository->update($id, $val->getInputData()) ) {
+
+            return Redirect::back()->with('errors', $this->packageRepository->errors())->withInput();
+        }
+
+        return Redirect::action('AdminPackagesController@edit', $id)->with('success', 'Updated');
     }
 
     /**
