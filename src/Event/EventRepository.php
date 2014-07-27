@@ -11,12 +11,6 @@ class EventRepository extends AbstractRepository {
 
     use CrudableTrait;
 
-    public $registrationTypes = ['VIP' => 'VIP', 'ONLINE' => 'ONLINE'];
-    public $feeTypes = ['FREE', 'PAID'];
-    public $approvalTypes = ['DIRECT', 'CONFIRM'];
-    public $subscriptionStatuses = ['REJECTED', 'PENDING', 'APPROVED', 'CONFIRMED'];
-    public $eventTypes = ['EventModel' => 'EVENT', 'Package' => 'PACKAGE'];
-
     public $model;
 
     public function __construct(EventModel $model)

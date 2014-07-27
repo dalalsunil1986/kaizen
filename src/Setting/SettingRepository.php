@@ -11,6 +11,11 @@ class SettingRepository extends AbstractRepository {
 
     public $model;
 
+    public $registrationTypes = ['VIP' => 'VIP', 'ONLINE' => 'ONLINE'];
+    public $feeTypes = ['FREE', 'PAID'];
+    public $approvalTypes = ['DIRECT', 'CONFIRM'];
+    public $eventTypes = ['EventModel' => 'EVENT', 'Package' => 'PACKAGE'];
+
     public function __construct(Setting $model)
     {
         $this->model = $model;

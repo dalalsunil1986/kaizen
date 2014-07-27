@@ -39,9 +39,9 @@ class AdminEventsController extends AdminBaseController {
         $this->userRepository     = $userRepository;
         $this->photoRepository    = $photoRepository;
         $this->locationRepository = $locationRepository;
-        $this->settingRepository = $settingRepository;
+        $this->settingRepository  = $settingRepository;
+        $this->packageRepository  = $packageRepository;
         parent::__construct();
-        $this->packageRepository = $packageRepository;
     }
 
     /**
@@ -52,9 +52,9 @@ class AdminEventsController extends AdminBaseController {
 
     public function index()
     {
-        $events = $this->eventRepository->getAll(array('category', 'location.country'))->paginate(10);
-        $packages= $this->packageRepository->getAll();
-        $this->render('admin.events.index', compact('events','packages'));
+        $events   = $this->eventRepository->getAll(array('category', 'location.country'))->paginate(10);
+        $packages = $this->packageRepository->getAll(   );
+        $this->render('admin.events.index', compact('events', 'packages'));
     }
 
     /**
@@ -64,9 +64,9 @@ class AdminEventsController extends AdminBaseController {
      */
     public function create()
     {
-        $category      = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
-        $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
-        $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
 
         $this->render('admin.events.create', compact('category', 'author', 'location'));
     }
@@ -98,7 +98,7 @@ class AdminEventsController extends AdminBaseController {
         // Settings Record needs to know Which type of Record and The Foreign Key it needs to Create
         // So pass these fields with Session (settableType,settableId)
 
-        return Redirect::action('AdminSettingsController@edit',$setting->id);
+        return Redirect::action('AdminSettingsController@edit', $setting->id);
 
     }
 
@@ -111,10 +111,10 @@ class AdminEventsController extends AdminBaseController {
      */
     public function edit($id)
     {
-        $event         = $this->eventRepository->findById($id, ['photos']);
-        $category      = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
-        $author        = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
-        $location      = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $event    = $this->eventRepository->findById($id, ['photos']);
+        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
 
         $this->render('admin.events.edit', compact('event', 'category', 'author', 'location'));
     }
@@ -138,7 +138,7 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
-        if (! $this->eventRepository->update($id, $val->getInputData()) ) {
+        if ( ! $this->eventRepository->update($id, $val->getInputData()) ) {
 
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
@@ -174,7 +174,6 @@ class AdminEventsController extends AdminBaseController {
     }
 
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -200,7 +199,7 @@ class AdminEventsController extends AdminBaseController {
 
     public function mailFollowers($id)
     {
-        $event = $this->eventRepository->find($id)->followers;
+        $event = $this->eventRepository->findById($id)->followers;
         try {
             $this->mailer->sendMail($event, Input::all());
         }
@@ -213,7 +212,7 @@ class AdminEventsController extends AdminBaseController {
 
     public function mailFavorites($id)
     {
-        $event = $this->eventRepository->find($id)->favorites;
+        $event = $this->eventRepository->findById($id)->favorites;
         try {
             $this->mailer->sendMail($event, Input::all());
         }
@@ -226,7 +225,7 @@ class AdminEventsController extends AdminBaseController {
 
     public function mailSubscribers($id)
     {
-        $event = $this->eventRepository->find($id)->subscribers;
+        $event = $this->eventRepository->findById($id)->subscribers;
         try {
             $this->mailer->sendMail($event, Input::all());
         }
@@ -239,13 +238,13 @@ class AdminEventsController extends AdminBaseController {
 
     public function settings($id)
     {
-        $event               = $this->eventRepository->find($id);
+        $event               = $this->eventRepository->findById($id);
         $subscriptions_count = $event->subscriptions()->count();
         $favorites_count     = $event->favorites()->count();
         $followers_count     = $event->followers()->count();
         $requests_count      = $event->statuses()->count();
 
-        return View::make('admin.events.settings', compact('event', 'subscriptions_count', 'favorites_count', 'followers_count', 'requests_count'));
+        $this->render('admin.events.settings', compact('event', 'subscriptions_count', 'favorites_count', 'followers_count', 'requests_count'));
     }
 
     /**
@@ -255,10 +254,10 @@ class AdminEventsController extends AdminBaseController {
      */
     public function getFollowers($id)
     {
-        $users = $this->eventRepository->find($id)->followers;
-        $event = $this->eventRepository->find($id);
+        $users = $this->eventRepository->findById($id)->followers;
+        $event = $this->eventRepository->findById($id);
 
-        return View::make('admin.events.followers', compact('users', 'event'));
+        $this->render('admin.events.followers', compact('users', 'event'));
     }
 
     /**
@@ -268,10 +267,10 @@ class AdminEventsController extends AdminBaseController {
      */
     public function getFavorites($id)
     {
-        $users = $this->eventRepository->find($id)->favorites;
-        $event = $this->eventRepository->find($id);
+        $users = $this->eventRepository->findById($id)->favorites;
+        $event = $this->eventRepository->findById($id);
 
-        return View::make('admin.events.favorites', compact('users', 'event'));
+        $this->render('admin.events.favorites', compact('users', 'event'));
     }
 
     /**
@@ -281,17 +280,17 @@ class AdminEventsController extends AdminBaseController {
      */
     public function getSubscriptions($id)
     {
-        $users = $this->eventRepository->find($id)->subscriptions;
-        $event = $this->eventRepository->find($id);
+        $users = $this->eventRepository->findById($id)->subscriptions;
+        $event = $this->eventRepository->findById($id);
 
-        return View::make('admin.events.subscriptions', compact('users', 'event'));
+        $this->render('admin.events.subscriptions', compact('users', 'event'));
     }
 
     public function getRequests($id)
     {
-        $event = $this->eventRepository->with('statuses')->find($id);
+        $event = $this->eventRepository->with('statuses')->findById($id);
 
-        return View::make('admin.events.requests', compact('event'));
+        $this->render('admin.events.requests', compact('event'));
     }
 
 
@@ -299,7 +298,6 @@ class AdminEventsController extends AdminBaseController {
     {
         $this->render('admin.events.select-type');
     }
-
 
 
 }

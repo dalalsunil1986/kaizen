@@ -18,27 +18,26 @@ class ApprovedState extends AbstractState implements SubscriberState {
         }
 
         // If its a package event
-        if ( $this->subscriber->model->event->package ) {
-            dd('this is a package');
-        } else {
-            dd('this is not a package');
-        }
+//        if ( $this->subscriber->model->event->package ) {
+//            dd('this is a package');
+//        } else {
+//            dd('this is not a package');
+//        }
 
-        dd($this->subscriber->model->event->package);
-
-        if ( $this->subscriber->model->settings[0]->settingable_type == 'Package' ) {
-            // find if the user already subscribed any sub events as individual
-            // find all sub events for the package
-            // check whether any event_id that matches the user id is in the subscriptions
-            dd('this is package');
-
-        }
-        dd('this is event');
+//        dd($this->subscriber->model->event->package);
+//
+//        if ( $this->subscriber->model->settings[0]->settingable_type == 'Package' ) {
+//            // find if the user already subscribed any sub events as individual
+//            // find all sub events for the package
+//            // check whether any event_id that matches the user id is in the subscriptions
+//            dd('this is package');
+//
+//        }
+//        dd('this is event');
 
         // check whether already subscribed
         if ( $this->subscriber->model->subscriptionConfirmed() ) {
             $this->subscriber->messages->add('errors', 'Already Subscribed');
-
             return false;
         }
 

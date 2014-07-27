@@ -33,7 +33,6 @@ class Subscriber {
             $status                  = strtolower($this->model->status);
             $this->subscriptionState = $this->{$status};
         }
-
     }
 
     public function setSubscriptionState($newSubscriptionState)

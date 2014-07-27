@@ -1,6 +1,7 @@
 <?php
 
 use Acme\Event\EventRepository;
+use Acme\Package\PackageRepository;
 use Acme\Subscription\State\Subscriber;
 use Acme\Subscription\SubscriptionRepository;
 
@@ -9,7 +10,7 @@ class SubscriptionsController extends BaseController {
     /**
      * @var Acme\Subscription\SubscriptionRepository
      */
-    protected $subscriptionRepository;
+    private $subscriptionRepository;
     /**
      * @var Acme\Subscription\State\Subscriber
      */
@@ -18,12 +19,17 @@ class SubscriptionsController extends BaseController {
      * @var Acme\Event\EventRepository
      */
     private $eventRepository;
+    /**
+     * @var Acme\Package\PackageRepository
+     */
+    private $packageRepository;
 
-    public function __construct(SubscriptionRepository $subscriptionRepository, EventRepository $eventRepository)
+    public function __construct(SubscriptionRepository $subscriptionRepository, EventRepository $eventRepository, PackageRepository $packageRepository)
     {
         $this->subscriptionRepository = $subscriptionRepository;
+        $this->eventRepository   = $eventRepository;
+        $this->packageRepository = $packageRepository;
         parent::__construct();
-        $this->eventRepository = $eventRepository;
     }
 
     /**
@@ -35,7 +41,6 @@ class SubscriptionsController extends BaseController {
     public function subscribe($userId = 1, $eventId = 1)
     {
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
-
         if ( ! $subscription ) {
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => 'ONLINE']);
         }
@@ -60,6 +65,18 @@ class SubscriptionsController extends BaseController {
         $subscription->unsubscribe();
         dd('unsubscribed');
     }
+
+    public function subscribePackage($userId = 1, $packageId = 1)
+    {
+        // loop through packages each events and subscribe
+        $package = $this->packageRepository->findById($packageId);
+
+        foreach ( $package->events as $event ) {
+            $this->subscribe($userId, $event->id);
+        }
+
+    }
+
 
     /**
      * @param $subscriptionId

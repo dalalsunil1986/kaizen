@@ -267,7 +267,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Event Requests Route
      ********************************************************************************************************/
-    Route::resource('requests', 'AdminStatusesController');
+    Route::resource('subscription', 'AdminSubscriptionsController');
 
     Route::get('event/{id}/requests', array('uses' => 'AdminEventsController@getRequests'));
 
@@ -287,8 +287,8 @@ Route::get('test', function () {
 //    $subscription = EventModel::with('subscriptions')->find(1);
 ////    dd($subscription->toArray());
 //
-    $subscription = Subscription::find(1);
-    dd($subscription);
+//    $subscription = Subscription::find(1);
+//    dd($subscription);
 //    dd($subscription->subscribable->title);
 
 
@@ -302,4 +302,5 @@ Route::get('test', function () {
 
 });
 
+Route::get('package','SubscriptionsController@subscribePackage');
 Route::get('sub', 'SubscriptionsController@subscribe');

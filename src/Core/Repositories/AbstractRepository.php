@@ -4,6 +4,7 @@ use Acme\Core\Exceptions\EntityNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use StdClass;
 use Illuminate\Support\MessageBag;
+use Symfony\Component\Process\Exception\InvalidArgumentException;
 
 abstract class AbstractRepository {
 
@@ -57,14 +58,16 @@ abstract class AbstractRepository {
 
     /**
      * @param array $with
+     * @throws \Symfony\Component\Process\Exception\InvalidArgumentException
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      * wrapper for eloquent all();
      */
     public function getAll($with = [])
     {
         if ( isset($with) && (! empty($with)) ) {
+            if ( ! is_array($with) ) throw new InvalidArgumentException;
 
-            return $this->model->with($with)->all();
+            return $this->model->with($with)->get();
         }
 
         return $this->model->all();
@@ -73,6 +76,7 @@ abstract class AbstractRepository {
     public function getAllPaginated($with = [], $perPage = 10)
     {
         if ( isset($with) && (! empty($with)) ) {
+            if ( ! is_array($with) ) throw new InvalidArgumentException;
 
             return $this->model->with($with)->paginate($perPage);
 
@@ -89,6 +93,7 @@ abstract class AbstractRepository {
     public function getById($id, array $with = [])
     {
         if ( isset($with) && (! empty($with)) ) {
+            if ( ! is_array($with) ) throw new InvalidArgumentException;
 
             return $this->model->with($with)->find($id);
         }
@@ -237,9 +242,9 @@ abstract class AbstractRepository {
      */
     public function initValidatorClass()
     {
-        $calledClass     = new \ReflectionClass($this);
-        $baseClass = $this->filterClassName($calledClass->getShortName());
-        $fullPath  = 'Acme\\' . $baseClass . '\\Validators\\';
+        $calledClass = new \ReflectionClass($this);
+        $baseClass   = $this->filterClassName($calledClass->getShortName());
+        $fullPath    = 'Acme\\' . $baseClass . '\\Validators\\';
 
         return $fullPath;
     }

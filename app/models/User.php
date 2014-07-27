@@ -147,7 +147,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
      */
     public function getPresenter()
     {
-        return 'Acme\Users\UserPresenter';
+        return 'Acme\User\UserPresenter';
     }
 
     /**

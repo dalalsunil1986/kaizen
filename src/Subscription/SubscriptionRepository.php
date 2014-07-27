@@ -12,6 +12,8 @@ class SubscriptionRepository extends AbstractRepository {
 
     public $model;
 
+    public $subscriptionStatuses = ['REJECTED', 'PENDING', 'APPROVED', 'CONFIRMED'];
+
     public function __construct(Subscription $model)
     {
         $this->model = $model;
@@ -31,7 +33,8 @@ class SubscriptionRepository extends AbstractRepository {
     }
 
     /**
-     * @param $subscribableId
+     * @param $eventId
+     * @internal param $subscribableId
      * @return mixed
      * Count no of subscriptions for an Event
      */
