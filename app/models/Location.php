@@ -1,22 +1,24 @@
 <?php
 
+use Acme\Core\LocaleTrait;
 
 class Location extends BaseModel {
-	protected $guarded = array('');
-	public static $rules = array(
-        'name' => 'required | unique:locations,name,:id',
-        'country_id' => 'required | integer'
-    );
 
-    public static  function boot() {
-        parent::boot();
-    }
+    use LocaleTrait;
 
-    public function country() {
+    protected $guarded = array('');
+
+    protected $localeStrings = ['name'];
+
+    protected static $name = 'location';
+
+    public function country()
+    {
         return $this->belongsTo('Country');
     }
 
-    public function events() {
+    public function events()
+    {
         return $this->hasMany('EventModel');
     }
 }

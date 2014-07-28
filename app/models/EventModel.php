@@ -57,7 +57,6 @@ class EventModel extends BaseModel implements PresenterInterface {
     public function favorites()
     {
         return $this->belongsToMany('User', 'favorites', 'event_id', 'user_id');
-
     }
 
     /**
@@ -178,7 +177,7 @@ class EventModel extends BaseModel implements PresenterInterface {
      */
     public function getPresenter()
     {
-        return 'Acme\Event\EventPresenter';
+        return 'Acme\Event\Presenter';
     }
 
     public function getHumanCreatedAtAttribute()

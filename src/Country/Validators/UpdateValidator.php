@@ -1,8 +1,8 @@
-<?php namespace Acme\Location\Validators;
+<?php namespace Acme\Country\Validators;
 
 use Acme\Core\Validators\AbstractValidator;
 
-class CreateValidator extends AbstractValidator {
+class UpdateValidator extends AbstractValidator {
 
     /**
      * Validation rules
@@ -11,13 +11,13 @@ class CreateValidator extends AbstractValidator {
      */
     protected $rules = array(
         'name_ar'       => 'required',
-        'country_id'    => 'required|integer'
     );
 
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'name_ar','name_en','country_id'
+            'name_ar','name_en'
         ]);
     }
 }
+

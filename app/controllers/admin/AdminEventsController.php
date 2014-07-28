@@ -242,7 +242,8 @@ class AdminEventsController extends AdminBaseController {
         $subscriptions_count = $event->subscriptions()->count();
         $favorites_count     = $event->favorites()->count();
         $followers_count     = $event->followers()->count();
-        $requests_count      = $event->statuses()->count();
+//        $requests_count      = $event->statuses()->count();
+        $requests_count      = 0;
 
         $this->render('admin.events.settings', compact('event', 'subscriptions_count', 'favorites_count', 'followers_count', 'requests_count'));
     }
@@ -288,7 +289,7 @@ class AdminEventsController extends AdminBaseController {
 
     public function getRequests($id)
     {
-        $event = $this->eventRepository->with('statuses')->findById($id);
+        $events = $this->eventRepository->findById($id);
 
         $this->render('admin.events.requests', compact('event'));
     }

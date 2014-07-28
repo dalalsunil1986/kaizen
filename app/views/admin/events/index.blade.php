@@ -34,7 +34,7 @@
                         <td>{{{ $event->title }}}</td>
                         <td>{{{ $event->date_start }}}</td>
                         <td>{{{ $event->date_end }}}</td>
-                        <td>{{{ $event->getHumanCreatedAtAttribute() }}} </td>
+                        <td>{{{ $event->created_at() }}} </td>
                         <td><a href="{{ URL::action('AdminEventsController@settings',$event->id)}}">Settings</a>
                             <button class="btn btn-xs btn-info"> <a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}">Edit</a></button>
 

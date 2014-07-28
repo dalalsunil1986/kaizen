@@ -15,7 +15,6 @@ class LocationsTableSeeder extends Seeder {
                 'name_en'=> 'Salmiya',
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,
-                'parent_id' => 1
             ]
         );
 

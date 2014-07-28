@@ -5,7 +5,7 @@
 <h1>Events</h1>
 <p>{{ link_to_action('AdminEventsController@create', 'Add new event') }}</p>
 
-@if ($event->count())
+@if ($event)
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>

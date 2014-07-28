@@ -20,8 +20,7 @@ class LocationRepository extends AbstractRepository {
     /**
      * Construct
      *
-     * @param \Country|\Illuminate\Database\Eloquent\Model $model
-     * @internal param \Illuminate\Database\Eloquent\Model $user
+     * @param \Illuminate\Database\Eloquent\Model|\Location $model
      */
     public function __construct(Location $model)
     {

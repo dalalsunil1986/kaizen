@@ -256,4 +256,9 @@ abstract class AbstractRepository {
     {
         return str_replace('Repository', '', $className);
     }
+
+    public function getList($column)
+    {
+        return $this->model->lists($column, 'id');
+    }
 }

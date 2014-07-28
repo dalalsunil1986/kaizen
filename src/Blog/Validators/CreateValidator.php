@@ -1,4 +1,4 @@
-<?php namespace Acme\Location\Validators;
+<?php namespace Acme\Blog\Validators;
 
 use Acme\Core\Validators\AbstractValidator;
 
@@ -10,14 +10,16 @@ class CreateValidator extends AbstractValidator {
      * @var array
      */
     protected $rules = array(
-        'name_ar'       => 'required',
-        'country_id'    => 'required|integer'
+        'title_ar'       => 'required',
+        'description_ar' => 'required',
+        'user_id'        => 'required',
+        'category_id'    => 'required',
     );
 
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'name_ar','name_en','country_id'
+            'user_id', 'category_id', 'title_ar','title_en','description_ar','description_en'
         ]);
     }
 }

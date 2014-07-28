@@ -1,5 +1,7 @@
 <?php
 
+use Acme\Category\CategoryRepository;
+
 class AdminCategoriesController extends AdminBaseController {
 
 	/**
@@ -7,13 +9,13 @@ class AdminCategoriesController extends AdminBaseController {
 	 *
 	 * @var Category
 	 */
-	protected $model;
+	protected $categoryRepository;
 
-	public function __construct(Category $model)
+	public function __construct(CategoryRepository $categoryRepository)
 	{
-		$this->model = $model;
-        parent::__construct();
+		$this->categoryRepository = $categoryRepository;
         $this->beforeFilter('Admin');
+        parent::__construct();
     }
 
 	/**
@@ -23,9 +25,9 @@ class AdminCategoriesController extends AdminBaseController {
 	 */
 	public function index()
 	{
-		$categories = $this->model->all();
+		$categories = $this->categoryRepository->getAll();
 
-		return View::make('admin.categories.index', compact('categories'));
+		return $this->render('admin.categories.index', compact('categories'));
 	}
 
 	/**
@@ -35,7 +37,7 @@ class AdminCategoriesController extends AdminBaseController {
 	 */
 	public function create()
 	{
-		return View::make('admin.categories.create');
+		return $this->render('admin.categories.create');
 	}
 
 	/**
@@ -45,12 +47,17 @@ class AdminCategoriesController extends AdminBaseController {
 	 */
 	public function store()
 	{
-        $validation = new $this->model(Input::all());
-		if (!$validation->save())
-		{
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
-		}
-		return Redirect::home();
+        $val = $this->categoryRepository->getCreateForm();
+
+        if ( ! $val->isValid() ) {
+            return Redirect::back()->withInput()->withErrors($val->getErrors());
+        }
+
+        if ( ! $record = $this->categoryRepository->create($val->getInputData()) ) {
+            return Redirect::back()->with('errors', $this->categoryRepository->errors())->withInput();
+        }
+
+        return Redirect::action('AdminCategoriesController@index')->with('success','Category Created');
 	}
 
 	/**
@@ -61,9 +68,9 @@ class AdminCategoriesController extends AdminBaseController {
 	 */
 	public function show($id)
 	{
-		$category = $this->model->findOrFail($id);
+		$category = $this->categoryRepository->findById($id);
 
-		return View::make('admin.categories.show', compact('category'));
+		return $this->render('admin.categories.show', compact('category'));
 	}
 
 	/**
@@ -74,14 +81,14 @@ class AdminCategoriesController extends AdminBaseController {
 	 */
 	public function edit($id)
 	{
-		$category = $this->model->find($id);
+		$category = $this->categoryRepository->findById($id);
 
 		if (is_null($category))
 		{
 			return Redirect::route('admin.categories.index');
 		}
 
-		return View::make('admin.categories.edit', compact('category'));
+		return $this->render('admin.categories.edit', compact('category'));
 	}
 
 	/**
@@ -92,28 +99,22 @@ class AdminCategoriesController extends AdminBaseController {
 	 */
 	public function update($id)
 	{
-//		$input = array_except(Input::all(), '_method');
-//		$validation = Validator::make($input, Category::$rules);
-//
-//		if ($validation->passes())
-//		{
-//			$category = $this->model->find($id);
-//			$category->update($input);
-//
-//			return Redirect::to('categories.show', $id);
-//		}
-//
-//		return Redirect::to('categories.edit', $id)
-//			->withInput()
-//			->withErrors($validation)
-//			->with('message', 'There were validation errors.');
-        // refer davzie postEdits();
-        $validation = $this->model->find($id);
-        $validation->fill(Input::all());
-        if(!$validation->save()) {
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+        $this->categoryRepository->findById($id);
+
+        $val = $this->categoryRepository->getEditForm($id);
+
+        if ( ! $val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
-        return Redirect::action('AdminCategoriesController@index');
+
+        if ( ! $this->categoryRepository->update($id, $val->getInputData()) ) {
+
+            return Redirect::back()->with('errors', $this->categoryRepository->errors())->withInput();
+        }
+
+        return Redirect::action('AdminCategoriesController@index')->with('success', 'Updated');
+
 	}
 
 	/**
@@ -124,19 +125,19 @@ class AdminCategoriesController extends AdminBaseController {
 	 */
 	public function destroy($id)
 	{
-		$this->model->find($id)->delete();
+		$this->categoryRepository->findById($id)->delete();
 
 		return Redirect::action('AdminCategoriesController@index');
 	}
 
 
     public function getEvents($id){
-        $events = $this->model->find($id)->events;
+        $events = $this->categoryRepository->findById($id)->events;
         return $events;
     }
 
     public function getPosts($id){
-        $posts = $this->model->find($id)->posts;
+        $posts = $this->categoryRepository->findById($id)->posts;
         return $posts;
     }
 }

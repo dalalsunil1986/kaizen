@@ -6,8 +6,7 @@
 @stop
 
 @section('content')
-@include('admin.events.breadcrumb',['active'=>'photos'])
-
+<h1>Add Photos </h1>
 {{ Form::open(array('method' => 'POST', 'action' => array('AdminPhotosController@store'), 'class'=>'dropzone', 'id'=>'my-dropzone',  'files'=> true)) }}
 
 {{ Form::hidden('imageable_type', $imageableType ) }}

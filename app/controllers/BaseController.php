@@ -56,7 +56,7 @@ abstract class BaseController extends Controller {
             $view->with(array('latest_event_posts' => $latest_event_posts));
         });
         View::composer('site.blog.latest', function ($view) {
-            $latest_blog_posts = App::make('Post')->latest(4);
+            $latest_blog_posts = App::make('Blog')->latest(4);
             $view->with(array('latest_blog_posts' => $latest_blog_posts));
         });
     }

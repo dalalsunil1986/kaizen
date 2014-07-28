@@ -1,14 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\URL; # not sure why i need this here :c
+use Acme\Blog\BlogPresenter;
+use Acme\Core\LocaleTrait;
+use McCool\LaravelAutoPresenter\PresenterInterface;
 
-class Post extends BaseModel {
+class Blog extends BaseModel implements PresenterInterface {
+
+    use LocaleTrait;
     protected $guarded = array();
 
-    public static $rules = array(
-        'title'=>'required',
-        'content'=>'required'
-    );
+    protected $table = "posts";
+
+    protected $localeStrings = ['title','description'];
+
+    protected static $name = 'post';
 	/**
 	 * Deletes a blog post and all
 	 * the associated comments.
@@ -25,17 +30,6 @@ class Post extends BaseModel {
 	}
 
 	/**
-	 * Returns a formatted post content entry,
-	 * this ensures that line breaks are returned.
-	 *
-	 * @return string
-	 */
-	public function content()
-	{
-		return nl2br($this->content);
-	}
-
-	/**
 	 * Get the post's author.
 	 *
 	 * @return User
@@ -43,7 +37,6 @@ class Post extends BaseModel {
     public function author() {
         return $this->belongsTo('User','user_id')->select('id','username','email');
     }
-
 
 	/**
 	 * Get the post's comments.
@@ -56,47 +49,18 @@ class Post extends BaseModel {
         return $this->morphMany('Comment','commentable');
 	}
 
-    public function getDates()
-    {
-        return array_merge(array(static::CREATED_AT, static::UPDATED_AT));
-    }
-	/**
-	 * Get the URL to the post.
-	 *
-	 * @return string
-	 */
-	public function url()
-	{
-		return Url::to($this->slug);
-	}
-
-	/**
-	 * Returns the date of the blog post creation,
-	 * on a good and more readable format :)
-	 *
-	 * @return string
-	 */
-
-
-	/**
-	 * Returns the date of the blog post last update,
-	 * on a good and more readable format :)
-	 *
-	 * @return string
-	 */
-
 
     public function getPresenter()
     {
-        return new PostPresenter($this);
+        return 'Acme\Blog\Presenter';
     }
 
     public function latest($count) {
-        return Post::orderBy('created_at', 'DESC')->select('id','title','slug')->remember(10)->limit($count)->get();
+        return $this->orderBy('created_at', 'DESC')->remember(10)->limit($count)->get();
     }
 
     public function  getConsultancies() {
-        $query= DB::table('posts')
+        $query= $this->table('posts')
             ->select(array('posts.*','categories.name as category','categories.name_en as category_en','photos.name as photo','users.username as author'))
             ->leftJoin('categories','categories.id','=','posts.category_id')
             ->join('photos','photos.imageable_id','=','posts.id')

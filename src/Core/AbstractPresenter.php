@@ -10,7 +10,7 @@ class AbstractPresenter extends BasePresenter {
 
     public function created_at()
     {
-        return $this->resource->created_at->format('Y-m-d');
+        return $this->resource->created_at->diffForHumans();
     }
 
 }

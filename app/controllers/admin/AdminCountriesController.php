@@ -7,14 +7,14 @@ class AdminCountriesController extends AdminBaseController {
 	 *
 	 * @var Country
 	 */
-	protected $country;
+	protected $countryRepository;
 
-	public function __construct(Country $country)
+	public function __construct(\Acme\Country\CountryRepository $countryRepository)
 	{
-		$this->country = $country;
-        parent::__construct();
+		$this->countryRepository = $countryRepository;
         $this->beforeFilter('Admin');
-	}
+        parent::__construct();
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -23,7 +23,7 @@ class AdminCountriesController extends AdminBaseController {
 	 */
 	public function index()
 	{
-		$countries = $this->country->all();
+		$countries = $this->countryRepository->getAll();
 
 		return View::make('admin.countries.index', compact('countries'));
 	}
@@ -45,20 +45,17 @@ class AdminCountriesController extends AdminBaseController {
 	 */
 	public function store()
 	{
-		$input = Input::all();
-		$validation = Validator::make($input, Country::$rules);
+        $val = $this->countryRepository->getCreateForm();
 
-		if ($validation->passes())
-		{
-			$this->country->create($input);
+        if ( ! $val->isValid() ) {
+            return Redirect::back()->withInput()->withErrors($val->getErrors());
+        }
 
-			return Redirect::action('AdminCountriesController@index');
-		}
+        if ( ! $record = $this->countryRepository->create($val->getInputData()) ) {
+            return Redirect::back()->with('errors', $this->countryRepository->errors())->withInput();
+        }
 
-		return Redirect::route('countries.create')
-			->withInput()
-			->withErrors($validation)
-			->with('message', 'There were validation errors.');
+        return Redirect::action('AdminCountriesController@index')->with('success','Category Created');
 	}
 
 	/**
@@ -69,7 +66,7 @@ class AdminCountriesController extends AdminBaseController {
 	 */
 	public function show($id)
 	{
-		$country = $this->country->findOrFail($id);
+		$country = $this->countryRepository->findOrFail($id);
 
 		return View::make('admin.countries.show', compact('country'));
 	}
@@ -82,7 +79,7 @@ class AdminCountriesController extends AdminBaseController {
 	 */
 	public function edit($id)
 	{
-		$country = $this->country->find($id);
+		$country = $this->countryRepository->findById($id);
 
 		if (is_null($country))
 		{
@@ -100,21 +97,21 @@ class AdminCountriesController extends AdminBaseController {
 	 */
 	public function update($id)
 	{
-		$input = array_except(Input::all(), '_method');
-		$validation = Validator::make($input, Country::$rules);
+        $this->countryRepository->findById($id);
 
-		if ($validation->passes())
-		{
-			$country = $this->country->find($id);
-			$country->update($input);
+        $val = $this->countryRepository->getEditForm($id);
 
-			return Redirect::action('AdminCountriesController@show', $id);
-		}
+        if ( ! $val->isValid() ) {
 
-		return Redirect::action('AdminCountriesController@edit', $id)
-			->withInput()
-			->withErrors($validation)
-			->with('message', 'There were validation errors.');
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+        }
+
+        if ( ! $this->countryRepository->update($id, $val->getInputData()) ) {
+
+            return Redirect::back()->with('errors', $this->countryRepository->errors())->withInput();
+        }
+
+        return Redirect::action('AdminCountriesController@index')->with('success', 'Updated');
 	}
 
 	/**
@@ -125,7 +122,7 @@ class AdminCountriesController extends AdminBaseController {
 	 */
 	public function destroy($id)
 	{
-		$this->country->find($id)->delete();
+		$this->countryRepository->findById($id)->delete();
 
 		return Redirect::action('AdminCountriesController@index');
 	}

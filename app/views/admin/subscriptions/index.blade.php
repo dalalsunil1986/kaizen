@@ -5,7 +5,6 @@
 
 <h1>Subscriptions</h1>
 
-
 @if ($subscriptions->count())
 <table class="table table-striped table-bordered">
     <thead>
