@@ -16,8 +16,6 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     protected static $name = "event";
 
-    public static $rules = array();
-
     public function comments()
     {
         return $this->morphMany('Comment', 'commentable');

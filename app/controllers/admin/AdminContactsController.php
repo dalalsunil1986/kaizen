@@ -50,12 +50,13 @@ class AdminContactsController extends AdminBaseController {
 
         $contact = $this->contactRepository->getFirst();
 
-        $val = $this->contactRepository->getCreateForm();
+        $val = $this->contactRepository->getEditForm($contact->id);
 
         if ( ! $val->isValid() ) {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
+
         if ( ! $this->contactRepository->update($contact->id, $val->getInputData()) ) {
 
             return Redirect::back()->with('errors', $this->contactRepository->errors())->withInput();
