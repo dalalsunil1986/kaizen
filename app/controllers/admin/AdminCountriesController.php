@@ -25,7 +25,7 @@ class AdminCountriesController extends AdminBaseController {
 	{
 		$countries = $this->countryRepository->getAll();
 
-		return View::make('admin.countries.index', compact('countries'));
+		$this->render('admin.countries.index', compact('countries'));
 	}
 
 	/**
@@ -35,7 +35,7 @@ class AdminCountriesController extends AdminBaseController {
 	 */
 	public function create()
 	{
-		return View::make('admin.countries.create');
+		$this->render('admin.countries.create');
 	}
 
 	/**
@@ -68,7 +68,7 @@ class AdminCountriesController extends AdminBaseController {
 	{
 		$country = $this->countryRepository->findOrFail($id);
 
-		return View::make('admin.countries.show', compact('country'));
+		$this->render('admin.countries.show', compact('country'));
 	}
 
 	/**
@@ -86,7 +86,7 @@ class AdminCountriesController extends AdminBaseController {
 			return Redirect::route('countries.index');
 		}
 
-		return View::make('admin.countries.edit', compact('country'));
+		$this->render('admin.countries.edit', compact('country'));
 	}
 
 	/**

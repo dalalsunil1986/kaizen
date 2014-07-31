@@ -1,18 +1,10 @@
 <?php
-/*********************************************************************************************************
- * Route Model Bindings
- ********************************************************************************************************/
-Route::model('comment', 'Comment');
 
 Route::model('role', 'Role');
 
 /** ------------------------------------------
  *  Route constraint patterns
  *  ------------------------------------------ */
-Route::pattern('comment', '[0-9]+');
-
-Route::pattern('user', '[0-9]+');
-
 Route::pattern('id', '[0-9]+');
 
 Route::pattern('role', '[0-9]+');
@@ -137,16 +129,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Admin Comments Routes
      ********************************************************************************************************/
-    
-    Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
-
-    Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');
-
-    Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
-
-    Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
-
-    Route::controller('comments', 'AdminCommentsController');
+    Route::resource('comments', 'AdminCommentsController');
 
     /*********************************************************************************************************
      * Admin Blog Management Routes

@@ -1,47 +1,41 @@
 <?php
 
-use Acme\Mail\ContactsMailer;
+use Acme\Contact\ContactRepository;
 
-class AdminContactsController extends BaseController {
+class AdminContactsController extends AdminBaseController {
 
     /**
      * Contact Repository
      *
      * @var Category
      */
-    protected $model;
+    protected $contactRepository;
 
-    protected $layout = 'site.layouts.home';
-    /**
-     * @var Acme\Mail\ContactsMailer
-     */
-    private $mailer;
-
-    public function __construct(Contact $model, ContactsMailer $mailer)
+    public function __construct(ContactRepository $contactRepository)
     {
-        $this->model = $model;
-        $this->mailer = $mailer;
-        parent::__construct();
         $this->beforeFilter('Admin');
+        $this->contactRepository = $contactRepository;
+        parent::__construct();
     }
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-        $contact = $this->model->first();
-        return View::make('admin.contacts.create',compact('contact'));
-	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $contact = $this->contactRepository->getFirst();
+        $this->render('admin.contacts.create', compact('contact'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
 //        $validation = $this->model->firstOrNew(Input::except('_token'));
 //        $validation->fill(Input::all());
 //        if(!$validation->save()) {
@@ -49,20 +43,38 @@ class AdminContactsController extends BaseController {
 //        }
 //        return parent::redirectToAdmin()->with('success','Saved Contact Information');
 
-        $validation = $this->model->first();
-        if(!$validation) {
-            //if no records, create one
-            $validation = new Contact();
+//        $validation = $this->contactRepository->getFirst();
+//        if ( ! $validation ) {
+//            $validation = new Contact();
+//        }
+
+        $contact = $this->contactRepository->getFirst();
+
+        $val = $this->contactRepository->getCreateForm();
+
+        if ( ! $val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
-        // else update
-        $validation->username  =Input::get('username');
-        $validation->address  =Input::get('address');
-        $validation->email  =Input::get('email');
-        $validation->phone  =Input::get('phone');
-        $validation->mobile  =Input::get('mobile');
-        if(!$validation->save()) {
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+        if ( ! $this->contactRepository->update($contact->id, $val->getInputData()) ) {
+
+            return Redirect::back()->with('errors', $this->contactRepository->errors())->withInput();
         }
-        return parent::redirectToAdmin()->with('success','Saved Contact Information');
-	}
+//
+        return Redirect::action('AdminContactsController@index')->with('success', 'Updated');
+//
+//        // else update
+//        $validation->name_en  = Input::get('name_en');
+//        $validation->name_ar  = Input::get('name_ar');
+//        $validation->address_en  = Input::get('address_en');
+//        $validation->address_ar  = Input::get('address_ar');
+//        $validation->email    = Input::get('email');
+//        $validation->phone    = Input::get('phone');
+//        $validation->mobile   = Input::get('mobile');
+//        if ( ! $validation->save() ) {
+//            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+//        }
+//
+//        return Redirect::action('AdminContactsController@index')->with('success', 'Saved Contact Information');
+    }
 }

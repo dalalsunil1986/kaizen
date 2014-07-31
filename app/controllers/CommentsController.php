@@ -1,5 +1,8 @@
 <?php
 
+use Acme\Comment\CommentRepository;
+use Acme\Event\EventRepository;
+
 class CommentsController extends BaseController {
 
 	/**
@@ -7,16 +10,16 @@ class CommentsController extends BaseController {
 	 *
 	 * @var Category
 	 */
-	protected $model;
+	protected $commentRepository;
     /**
      * @var Event
      */
-    private $event;
+    private $eventRepository;
 
-    public function __construct(Comment $model, EventModel $event)
+    public function __construct(CommentRepository $commentRepository, EventRepository $eventRepository)
 	{
-		$this->model = $model;
-        $this->event = $event;
+		$this->commentRepository = $commentRepository;
+        $this->eventRepository = $eventRepository;
     }
 
 	/**
@@ -33,16 +36,30 @@ class CommentsController extends BaseController {
      */
 	public function store($id)
 	{
-        $event = $this->event->find($id);
-        $validation = Validator::make(Input::all(),Comment::getRules());
-        if(!$validation->passes()) {
-            return Redirect::to('event/'.$id)->withInput()->withErrors($validation->errors());
-        } else {
-            $data = array();
-            $data['content'] = Input::get('content');
-            $data['user_id'] = Auth::user()->getAuthIdentifier();
-            $event->comments()->create($data);
+//        $event = $this->event->find($id);
+//        $validation = Validator::make(Input::all(),Comment::getRules());
+//        if(!$validation->passes()) {
+//            return Redirect::to('event/'.$id)->withInput()->withErrors($validation->errors());
+//        } else {
+//            $data = array();
+//            $data['content'] = Input::get('content');
+//            $data['user_id'] = Auth::user()->getAuthIdentifier();
+//            $event->comments()->create($data);
+//        }
+//        return Redirect::to('event/'.$id);
+
+        $event = $this->eventRepository->findById($id);
+
+        $val = $this->commentRepository->getCreateForm();
+
+        if ( ! $val->isValid() ) {
+            return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
-        return Redirect::to('event/'.$id);
+
+        if ( ! $record = $event->comments()->create(array_merge(['user_id'=>Auth::user()->id],$val->getInputData())) ) {
+            return Redirect::back()->with('errors', $this->commentRepository->errors())->withInput();
+        }
+
+        return Redirect::action('EventsController@show',$id)->with('success','Category Created');
 	}
 }

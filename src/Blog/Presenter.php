@@ -9,10 +9,4 @@ class Presenter extends AbstractPresenter {
         $this->resource = $model;
     }
 
-
-
-    public function email() {
-        return 'haha ' . $this->resource->email;
-    }
-
 }

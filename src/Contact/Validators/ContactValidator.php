@@ -2,7 +2,7 @@
 
 use Acme\Core\Validators\AbstractValidator;
 
-class ContactCreateValidator extends AbstractValidator {
+class ContactValidator extends AbstractValidator {
 
     /**
      * Validation rules

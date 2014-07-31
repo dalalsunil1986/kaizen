@@ -11,7 +11,7 @@ class Blog extends BaseModel implements PresenterInterface {
 
     protected $table = "posts";
 
-    protected $localeStrings = ['title','description'];
+    protected $localeStrings = ['title', 'description'];
 
     protected static $name = 'post';
 	/**
@@ -57,19 +57,6 @@ class Blog extends BaseModel implements PresenterInterface {
 
     public function latest($count) {
         return $this->orderBy('created_at', 'DESC')->remember(10)->limit($count)->get();
-    }
-
-    public function  getConsultancies() {
-        $query= $this->table('posts')
-            ->select(array('posts.*','categories.name as category','categories.name_en as category_en','photos.name as photo','users.username as author'))
-            ->leftJoin('categories','categories.id','=','posts.category_id')
-            ->join('photos','photos.imageable_id','=','posts.id')
-            ->leftJoin('users','posts.user_id','=','users.id')
-            ->where('photos.imageable_type','=','Post')
-            ->where('categories.name','=','consultancy')
-            ->paginate(20)
-        ;
-        return $query;
     }
 
     public function category() {

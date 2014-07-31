@@ -29,7 +29,7 @@ class ContactRepository extends AbstractRepository {
     }
 
     public function getContactForm() {
-        return new ContactCreateValidator();
+        return new ContactValidator();
     }
 
 }

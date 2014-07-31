@@ -241,9 +241,9 @@
                 </tr>
                 <tr>
                     <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
-                    <td> {{ $event->date_start->format('g a') }}</td>
+                    <td> {{ $event->date_start }}</td>
                     <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
-                    <td> {{ $event->date_end->format('g a') }}</td>
+                    <td> {{ $event->date_end }}</td>
                 </tr>
                 @if($event->phone || $event->email)
                 <tr>
@@ -361,7 +361,7 @@
                 class="text-right text-primary"
                 @endif
                 >{{ $comment->user->username}}
-                <span class="text-muted"> - {{ $comment->created_at->format('Y-m-d')}} </span></p>
+                <span class="text-muted"> - {{ $comment->created_at }} </span></p>
             </div>
             @endforeach
             @endif
