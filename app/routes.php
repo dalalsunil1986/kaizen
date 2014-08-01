@@ -283,6 +283,10 @@ Route::get('test', function () {
 //    dd($event->package);
 //    dd($subscription->subscriptions());
 
+    $a =['1','2','3','4'];
+    $b =['2','3','4','1','5'];
+    $containsAllValues = !array_diff($a, $b);
+    dd($containsAllValues);
 });
 
 Route::get('package','SubscriptionsController@subscribePackage');

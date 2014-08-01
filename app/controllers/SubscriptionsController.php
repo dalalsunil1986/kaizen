@@ -38,7 +38,7 @@ class SubscriptionsController extends BaseController {
      * @internal param $eventType
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function subscribe($userId = 1, $eventId = 1)
+    public function subscribe($userId = 1, $eventId = 3)
     {
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
         if ( ! $subscription ) {

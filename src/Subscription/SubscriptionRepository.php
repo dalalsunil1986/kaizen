@@ -46,4 +46,16 @@ class SubscriptionRepository extends AbstractRepository {
             ]);
     }
 
+    public function findAllSubscriptionsForUser($userId)
+    {
+        $records = $this->model->where('user_id',$userId)->get();
+        return $records;
+    }
+
+    public function findAllPackageSubscriptionsForUser($userId, array $eventId)
+    {
+        $records = $this->model->where('user_id',$userId)->whereIn('event_id',$eventId)->get();
+        return $records;
+    }
+
 }

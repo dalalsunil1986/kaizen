@@ -56,6 +56,7 @@ class ApprovedState extends AbstractState implements SubscriberState {
         if ( $this->subscriber->model->event->price > 0 ) {
             // Paid Event
             return $this->sendPaymentLink();
+            dd('payment link sent');
         } else {
             // Free Event
             return $this->confirmSubscription();
