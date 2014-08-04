@@ -2,7 +2,7 @@
 
 use Acme\Event\EventRepository;
 use Acme\Package\PackageRepository;
-use Acme\Subscription\State\Admin\Subscriber;
+use Acme\Subscription\State\Subscriber;
 use Acme\Subscription\SubscriptionRepository;
 use Acme\User\UserRepository;
 
@@ -56,9 +56,13 @@ class AdminSubscriptionsController extends AdminBaseController {
     {
         $status = Input::get('status');
 
+        // if subscription event has a package parent id,
+        // then find all the subscriptions for that user for the package,
+        // and find all the events for that package
+        // and find if he has subscribed to all events from the package ( if event_id from subscriptions table matches package->events)
+
         $subscription = $this->subscriptionRepository->findById($id);
 
-        // if package requests try looping through all events
         $userId = $subscription->user_id;
 
         if ( $subscription->event->package ) {
@@ -85,34 +89,38 @@ class AdminSubscriptionsController extends AdminBaseController {
 
             if ( $hasSubscribedToWholePackage ) {
 
-                for ( $i = 0; $i < $packageArray; $i++ ) {
-                    $this->subscribe($subscription, $status);
+                foreach ( $packageArray as $package ) {
+                    $this->setStatus($id, $status);
+                    $this->subscribe($subscription);
                 }
+
                 dd('subscribed to whole package');
             } else {
-                $this->subscribe($subscription, $status);
+                $this->setStatus($id, $status);
+                $this->subscribe($subscription);
 
                 dd('subscribed to package event');
 
             }
         } else {
-            $this->subscribe($subscription, $status);
+            $this->setStatus($id, $status);
+            $this->subscribe($subscription);
             dd('subscribed to single event');
         }
 
     }
 
-
-    public function subscribe(Subscription $subscription, $status)
+    public function setStatus($id, $status)
     {
-        $subscription = new Subscriber($subscription, $status);
-        $subscription->subscribe();
-        if ( $subscription->messages->has('errors') ) {
-            dd($subscription->messages->getMessages());
-            return Redirect::home()->with('errors', $subscription->messages);
-        }
+        $subscription         = $this->subscriptionRepository->findById($id);
+        $subscription->status = $status;
+        $subscription->save();
+    }
 
-        return Redirect::home()->with('success', $subscription->messages);
+    public function subscribe($subscription)
+    {
+        $subscription = new Subscriber($subscription);
+        $subscription->subscribe();
     }
 
     public function destroy()
