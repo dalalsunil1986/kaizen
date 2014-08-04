@@ -1,18 +1,10 @@
 <?php
-/*********************************************************************************************************
- * Route Model Bindings
- ********************************************************************************************************/
-Route::model('comment', 'Comment');
 
 Route::model('role', 'Role');
 
 /** ------------------------------------------
  *  Route constraint patterns
  *  ------------------------------------------ */
-Route::pattern('comment', '[0-9]+');
-
-Route::pattern('user', '[0-9]+');
-
 Route::pattern('id', '[0-9]+');
 
 Route::pattern('role', '[0-9]+');
@@ -26,7 +18,7 @@ Route::get('event/{id}/category', 'EventsController@getCategory');
 
 Route::get('event/{id}/author', 'EventsController@getAuthor');
 
-Route::get('event/{id}/subscribe', array('as' => 'event.subscribe', 'uses' => 'SubscriptionsController@subscribe'));
+//Route::get('event/{id}/subscribe', array('as' => 'event.subscribe', 'uses' => 'SubscriptionsController@subscribe'));
 
 Route::get('event/{id}/unsubscribe', array('as' => 'event.unsubscribe', 'uses' => 'EventsController@unsubscribe'));
 
@@ -126,6 +118,7 @@ Route::post('queue/mails', function () {
     return Queue::marshal();
 });
 
+
 Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 
 /*********************************************************************************************************
@@ -136,16 +129,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Admin Comments Routes
      ********************************************************************************************************/
-    
-    Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
-
-    Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');
-
-    Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
-
-    Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
-
-    Route::controller('comments', 'AdminCommentsController');
+    Route::resource('comments', 'AdminCommentsController');
 
     /*********************************************************************************************************
      * Admin Blog Management Routes
@@ -222,6 +206,8 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Package routes
      ********************************************************************************************************/
+    Route::get('package/{id}/settings', 'AdminPackagesController@settings');
+
     Route::resource('package', 'AdminPackagesController');
 
     /*********************************************************************************************************
@@ -264,7 +250,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Event Requests Route
      ********************************************************************************************************/
-    Route::resource('requests', 'AdminStatusesController');
+    Route::resource('subscription', 'AdminSubscriptionsController');
 
     Route::get('event/{id}/requests', array('uses' => 'AdminEventsController@getRequests'));
 
@@ -279,3 +265,29 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     Route::get('/', 'AdminEventsController@index');
 
 });
+
+Route::get('test', function () {
+//    $subscription = EventModel::with('subscriptions')->find(1);
+////    dd($subscription->toArray());
+//
+//    $subscription = Subscription::find(1);
+//    dd($subscription);
+//    dd($subscription->subscribable->title);
+
+
+
+//    $event = EventModel::find(2);
+//
+//    $package = Package::find(1);
+//    dd($package->events);
+//    dd($event->package);
+//    dd($subscription->subscriptions());
+
+    $a =['1','2','3','4'];
+    $b =['2','3','4','1','5'];
+    $containsAllValues = !array_diff($a, $b);
+    dd($containsAllValues);
+});
+
+Route::get('package','SubscriptionsController@subscribePackage');
+Route::get('sub', 'SubscriptionsController@subscribe');

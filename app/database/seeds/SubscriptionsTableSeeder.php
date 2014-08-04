@@ -7,7 +7,7 @@ class SubscriptionsTableSeeder extends Seeder {
 		 DB::table('subscriptions')->truncate();
 
         $faker = Faker\Factory::create();
-        for ($i = 0; $i < 40; $i++)
+        for ($i = 0; $i < 2; $i++)
         {
 
             $event = EventModel::orderBy(DB::raw('RAND()'))->first()->id;
@@ -16,7 +16,10 @@ class SubscriptionsTableSeeder extends Seeder {
             $subscriptions = array(
                 [
                     'user_id'=> $user,
-                    'event_id' => $event,
+                    'subscribable_id' => $event,
+                    'subscribable_type' => $faker->randomElement(['Event','Package']),
+                    'status' => '',
+                    'registration_type' => $faker->randomElement(['VIP','ONLINE']),
                     'created_at' => new DateTime,
                     'updated_at' => new DateTime
                 ]
@@ -26,7 +29,7 @@ class SubscriptionsTableSeeder extends Seeder {
         }
 		// Uncomment the below to run the seeder
 
-        $this->updateEventsTable();
+//        $this->updateEventsTable();
 	}
 
     public function updateEventsTable() {

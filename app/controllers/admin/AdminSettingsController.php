@@ -1,25 +1,15 @@
 <?php
 
 use Acme\Setting\SettingRepository;
-use Acme\Event\EventRepository;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminSettingsController extends AdminBaseController {
 
-
-    /**
-     * @var Acme\Event\EventRepository
-     */
-    private $eventRepository;
-    /**
-     * @var Acme\Setting\SettingRepository
-     */
     private $settingRepository;
 
-    public function __construct(SettingRepository $settingRepository, EventRepository $eventRepository)
+    public function __construct(SettingRepository $settingRepository)
     {
         $this->settingRepository = $settingRepository;
-        $this->eventRepository   = $eventRepository;
         parent::__construct();
     }
 
@@ -64,9 +54,9 @@ class AdminSettingsController extends AdminBaseController {
     public function edit($id)
     {
         $setting           = $this->settingRepository->findById($id);
-        $feeTypes          = $this->eventRepository->feeTypes;
-        $approvalTypes     = $this->eventRepository->approvalTypes;
-        $registrationTypes = $this->eventRepository->registrationTypes;
+        $feeTypes          = $this->settingRepository->feeTypes;
+        $approvalTypes     = $this->settingRepository->approvalTypes;
+        $registrationTypes = $this->settingRepository->registrationTypes;
         $this->render('admin.settings.edit', compact('setting', 'feeTypes', 'approvalTypes', 'registrationTypes'));
     }
 
@@ -78,32 +68,28 @@ class AdminSettingsController extends AdminBaseController {
      */
     public function update($id)
     {
-//        dd(Input::all());
         $setting = $this->settingRepository->findById($id);
 
         // check for an invalid registration type
-        if ( ! empty(Input::get('registration_type')) ) {
-            foreach ( Input::get('registration_type') as $registrationType ) {
-                if ( ! in_array($registrationType, $this->eventRepository->registrationTypes) ) {
+        if ( ! empty(Input::get('registration_types')) ) {
+            foreach ( Input::get('registration_types') as $registrationType ) {
+                if ( ! in_array($registrationType, $this->settingRepository->registrationTypes) ) {
                     return Redirect::back()->with('error', 'Wrong Value ')->withInput();
                 }
             }
         }
-
         $val = $this->settingRepository->getEditForm($id);
 
         if ( ! $val->isValid() ) {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
-
         if ( ! $this->settingRepository->update($id, $val->getInputData()) ) {
 
             return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
         }
 
-        return Redirect::action('AdminPhotosController@create');
-//        return Redi/rect::back('AdminPhotosController@')
+        return Redirect::action('AdminPhotosController@create', ['imageable_type' => $setting->settingable_type, 'imageable_id' => $setting->settingable_id]);
     }
 
     /**
@@ -115,5 +101,6 @@ class AdminSettingsController extends AdminBaseController {
     public function destroy($id)
     {
     }
+
 
 }

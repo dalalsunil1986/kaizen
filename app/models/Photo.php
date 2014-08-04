@@ -4,7 +4,7 @@ class Photo extends BaseModel {
 
     protected $guarded = array('id');
 
-    protected $name = "photo";
+    protected static  $name = "photo";
 
     protected $table = "photos";
 

@@ -1,18 +1,22 @@
 <?php
 
+use Acme\Country\CountryRepository;
+use Acme\Location\LocationRepository;
+use Acme\User\UserRepository;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminLocationsController extends AdminBaseController {
 
-    protected $model;
-    protected $user;
-    public function __construct(Location $model, User $user, Country $country) {
-        $this->model = $model;
-        $this->user = $user;
-        $this->country = $country;
-        parent::__construct();
+    protected $locationRepository;
+    protected $countryRepository;
+    protected $userRepository;
+    public function __construct(LocationRepository $locationRepository, UserRepository $userRepository, CountryRepository $countryRepository) {
+        $this->locationRepository = $locationRepository;
+        $this->userRepository = $userRepository;
+        $this->countryRepository = $countryRepository;
         $this->beforeFilter('Admin');
+        parent::__construct();
     }
 
 	/**
@@ -22,8 +26,8 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function index()
 	{
-        $locations = Location::with('country')->get();
-        return View::make('admin.locations.index',compact('locations'));
+        $locations = $this->locationRepository->getAll();
+        return $this->render('admin.locations.index',compact('locations'));
     }
 
 	/**
@@ -33,8 +37,8 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function create()
 	{
-        $countries = Country::lists('name','id');
-        return View::make('admin.locations.create',compact('countries'));
+        $countries = $this->countryRepository->model->lists('name_en','id');
+        return $this->render('admin.locations.create',compact('countries'));
     }
 
 	/**
@@ -44,12 +48,17 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function store()
 	{
-        $validation = new $this->model(Input::all());
-        if(!$validation->save()) {
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+        $val = $this->locationRepository->getCreateForm();
+
+        if ( ! $val->isValid() ) {
+            return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
-        return Redirect::to('admin/locations/'.$validation->id);
-        // If validation returns true
+
+        if ( ! $record = $this->locationRepository->create($val->getInputData()) ) {
+            return Redirect::back()->with('errors', $this->locationRepository->errors())->withInput();
+        }
+
+        return Redirect::action('AdminLocationsController@index')->with('success','Category Created');
 	}
 
 	/**
@@ -60,9 +69,9 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function show($id)
 	{
-        $location = $this->model->findOrFail($id);
+        $location = $this->locationRepository->findOrFail($id);
 
-        return View::make('admin.locations.show', compact('location'));
+        return $this->render('admin.locations.show', compact('location'));
 	}
 
 	/**
@@ -73,9 +82,9 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function edit($id)
 	{
-        $location = Location::find($id);
-        $countries = $this->country->lists('name','id');
-        return View::make('admin.locations.edit',compact('location','countries'));
+        $location = $this->locationRepository->findById($id);
+        $countries = $this->select + $this->countryRepository->getList('name_ar');
+        return $this->render('admin.locations.edit',compact('location','countries'));
 	}
 
 	/**
@@ -86,13 +95,21 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function update($id)
 	{
-        // refer davzie postEdits();
-        $validation = $this->model->find($id);
-        $validation->fill(Input::all());
-        if(!$validation->save()) {
-            return Redirect::back()->withInput()->withErrors($validation->getErrors());
+        $this->locationRepository->findById($id);
+
+        $val = $this->locationRepository->getEditForm($id);
+
+        if ( ! $val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
-      return Redirect::to('admin/locations/'.$id);
+
+        if ( ! $this->locationRepository->update($id, $val->getInputData()) ) {
+
+            return Redirect::back()->with('errors', $this->locationRepository->errors())->withInput();
+        }
+
+        return Redirect::action('AdminLocationsController@index')->with('success', 'Updated');
     }
 
 
@@ -105,7 +122,7 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function destroy($id)
 	{
-        $this->model->find($id)->delete();
+        $this->locationRepository->find($id)->delete();
         return Redirect::action('AdminLocationsController@index');
 	}
 

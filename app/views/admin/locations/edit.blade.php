@@ -1,4 +1,4 @@
-@extends('admin.layouts.default')
+@extends('admin.master')
 
 {{-- Content --}}
 @section('content')
@@ -7,7 +7,7 @@
 {{ Form::model($location, array('method' => 'PATCH', 'action' => array ('AdminLocationsController@update', $location->id))) }}
     <div class="form-group">
         {{ Form::label('arabic_name', 'Arabic Name:') }}
-        {{ Form::text('name', NULL,array('class'=>'form-control')) }}
+        {{ Form::text('name_ar', NULL,array('class'=>'form-control')) }}
     </div>
     <div class="form-group">
         {{ Form::label('english_name', 'English Name:') }}

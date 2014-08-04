@@ -17,6 +17,7 @@ class CreateEventsTable extends Migration {
             $table->increments('id');
             $table->integer('category_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
+            $table->integer('package_id')->unsigned()->index()->nullable();
             $table->integer('location_id')->nullable();
             $table->string('title_en')->nullable();
             $table->string('title_ar')->nullable();

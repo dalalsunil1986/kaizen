@@ -94,7 +94,6 @@
     </div>
 </div>
 
-
 <div class="row">
     <div class="form-group col-md-6">
         {{ Form::label('address_ar', 'Address in Arabic:*') }}
@@ -166,12 +165,10 @@
         {{ Form::text('button_en','Register',array('class'=>'form-control')) }}
     </div>
 </div>
-<div class="row">
-    <div class="form-group col-md-12">
-        {{ Form::label('thumbnail', 'Event Thumbnail:') }}
-        {{ Form::file('thumbnail',NULL,array('class'=>'form-control')) }}
-    </div>
-</div>
+
+@if(isset($_GET['package_id']))
+{{ Form::hidden('package_id', $_GET['package_id']) }}
+@endif
 
 <div class="row">
     <div class="form-group col-md-12">

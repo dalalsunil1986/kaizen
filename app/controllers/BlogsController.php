@@ -1,7 +1,7 @@
 <?php
 
 use Acme\Blog\BlogRepository;
-use Acme\Users\UserRepository;
+use Acme\User\UserRepository;
 
 class BlogsController extends BaseController {
 

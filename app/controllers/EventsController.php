@@ -110,8 +110,12 @@ class EventsController extends BaseController {
             $user = Auth::user();
             View::composer('site.events.view', function ($view) use ($id, $user) {
 
+//                $favorited  = Favorite::hasFavorited($id, $user->id);
+//                $subscribed = Subscription::isSubscribed($id, $user->id);
+//                $followed   = Follower::isFollowing($id, $user->id);
+
                 $favorited  = Favorite::hasFavorited($id, $user->id);
-                $subscribed = Subscription::isSubscribed($id, $user->id);
+                $subscribed = true;
                 $followed   = Follower::isFollowing($id, $user->id);
 
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));

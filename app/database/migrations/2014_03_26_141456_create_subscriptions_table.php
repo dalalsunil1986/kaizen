@@ -16,10 +16,11 @@ class CreateSubscriptionsTable extends Migration {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
-            $table->morphs('subscribable');
-            $table->string('status'); // [PENDING, REJECTED, CONFIRMED, APPROVED]
+            $table->integer('event_id')->unsigned()->index();
+            $table->string('status'); // [PENDING, REJECTED, CONFIRMED, APPROVED, WAITING]
             $table->string('registration_type'); // [VIP, ONLINE, NORMAL]
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

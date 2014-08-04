@@ -1,158 +1,89 @@
 <?php
 
-use Acme\Mail\SubscriptionMailer;
+use Acme\Event\EventRepository;
+use Acme\Package\PackageRepository;
+use Acme\Subscription\State\Subscriber;
+use Acme\Subscription\SubscriptionRepository;
 
 class SubscriptionsController extends BaseController {
-    protected $model;
-    protected $user;
-    protected $mailer;
-    protected $category;
-    protected $status;
 
-    function __construct(Subscription $model, User $user, EventModel $event, User $user, Status $status, SubscriptionMailer  $mailer )
+    /**
+     * @var Acme\Subscription\SubscriptionRepository
+     */
+    private $subscriptionRepository;
+    /**
+     * @var Acme\Subscription\State\Subscriber
+     */
+    private $subscriber;
+    /**
+     * @var Acme\Event\EventRepository
+     */
+    private $eventRepository;
+    /**
+     * @var Acme\Package\PackageRepository
+     */
+    private $packageRepository;
+
+    public function __construct(SubscriptionRepository $subscriptionRepository, EventRepository $eventRepository, PackageRepository $packageRepository)
     {
-        $this->model = $model;
-        $this->user = $user;
-        $this->event = $event;
-        $this->status = $status;
-        $this->mailer = $mailer;
+        $this->subscriptionRepository = $subscriptionRepository;
+        $this->eventRepository   = $eventRepository;
+        $this->packageRepository = $packageRepository;
         parent::__construct();
     }
 
     /**
-     * @param $id eventId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function subscribe($id)
-    {
-        //check whether user logged in
-        $user = Auth::user();
-        if (!empty($user->id)) {
-            $event = $this->event->findOrFail($id);
-            // if already subscribed
-            if ($this->model->isSubscribed($id,$user->id)) {
-                return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed')));
-            }
-
-            // get status of this user
-            $status = $this->status->getStatus($event->id,$user->id);
-            if($status) {
-                switch($status->status) {
-                    case 'CONFIRMED':
-                        return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.already_subscribed', array('attribute'=>'subscribed')));
-                        break;
-
-                    case 'PENDING':
-                        return Redirect::action('EventsController@show',$id)->with('success', 'You request is awaiting for admin approval');
-                        break;
-                    case 'REJECTED' :
-                        return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.rejected'));
-                        break;
-                    case 'APPROVED' :
-                        // subscribe the user
-                        $type = $event->type;
-                        switch($type->type) {
-                            case 'FREE':
-                                // set status to confirmed
-                                // create subscription record
-                                return $this->confirm($event, $user, $status);
-                                break;
-                            case 'PAID':
-                                break;
-                            default:
-                                break;
-                        }
-                    default :
-                        break;
-                }
-            } else {
-                //create a new record and set status to pending
-                return $this->pending($event,$user,$status);
-            }
-
-        }
-        return Redirect::action('EventsController@show',$id)->with('error', Lang::get('site.subscription.not_authenticated'));
-    }
-
-    public function unsubscribe($id)
-    {
-        // check whether user authenticated
-        $event = $this->event->findOrFail($id);
-        $user = Auth::user();
-        if (! empty($user->id)) {
-            if ($this->model->isSubscribed($event->id, $user->id)) {
-                // check whether user already subscribed
-                if ($this->model->unsubscribe($event->id, $user->id)) {
-                    // reset available seats
-                    $event->available_seats = $event->available_seats + 1;
-
-                    // remove status from statuses table
-                    $status = $this->status->getStatus($event->id,$user->id);
-                    if($status) {
-                        $status->delete();
-                    }
-                    $event->save();
-                    return Redirect::action('EventsController@show',$id)->with('success', 'You have been unsubscribed from this course');
-                } else {
-                    return Redirect::action('EventsController@show',$id)->with('error', 'Sorry, Could not unsubscribe you from this course, try again');
-                }
-            } else {
-                return Redirect::action('EventsController@show',$id)->with('error', 'Sorry, Wrong Access');
-
-            }
-        } else {
-            return Redirect::action('EventsController@show',$id)->with('error', 'Sorry, You are not logged in');
-        }
-
-    }
-
-    /**
-     * @param $event
-     * @param $user
-     * @param $status
-     * @return \Illuminate\Http\JsonResponse|string
-     */
-    public function confirm($event, $user, $status)
-    {
-        if($event->available_seats >= 1) {
-            $status->status = 'CONFIRMED';
-            if($status->save()) {
-                $event->subscriptions()->attach($user);
-                $event->updateSeats();
-                $args['subject'] = 'Kaizen Event Subscription';
-                $args['body'] = 'You have been confirmed to the event ' . $event->title;
-                $this->mailer->sendMail($user, $args);
-                return Redirect::action('EventsController@show',$event->id)->with('success', Lang::get('site.subscription.subscribed', array('attribute'=>'subscribed')));
-            } else {
-                $this->approved($event, $user, $status);
-                return Redirect::action('EventsController@show',$event->id)->with('error', Lang::get('site.subscription.error', array('attribute'=>'subscribed')));
-                //@todo reset status
-            }
-        } else {
-            return Redirect::action('EventsController@show',$event->id)->with('error',  Lang::get('site.subscription.no_seats_available'));
-        }
-    }
-
-    /**
-     * @param $event
-     * @param $user
-     * @param $status
+     * @param int $userId
+     * @param int $eventId
+     * @internal param $eventType
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function pending($event, $user, $status)
+    public function subscribe($userId = 1, $eventId = 2)
     {
-        $status = new $this->status;
-        $status->user_id = $user->id;
-        $status->event_id = $event->id;
-        $status->status = 'PENDING';
-        if($status->save()) {
-            $event->subscriptions()->detach($user);
-            $event->updateSeats();
-            $args['subject'] = 'Kaizen Event Subscription';
-            $args['body'] = 'Your Request for the event ' . $event->title.' is awaiting for admin approval. You will be notified shortly ';
-            $this->mailer->sendMail($user, $args);
-            return Redirect::action('EventsController@show',$event->id)->with('success', 'Your Request for the event ' . $event->title.' is awaiting for admin approval. You will be notified shortly' );
+        $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
+        if ( ! $subscription ) {
+            $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => 'ONLINE']);
         }
+
+        $subscription = new Subscriber($subscription);
+        $subscription->subscribe();
+        if ( $subscription->messages->has('errors') ) {
+            return Redirect::home()->with('errors', $subscription->messages);
+        }
+
+        return Redirect::home()->with('success', $subscription->messages);
+    }
+
+    /**
+     * @param $id
+     */
+    public function unsubscribe($id)
+    {
+        $subscription = $this->subscriptionRepository->findById($id);
+
+        $subscription = new Subscriber($subscription);
+        $subscription->unsubscribe();
+        dd('unsubscribed');
+    }
+
+    public function subscribePackage($userId = 1, $packageId = 1)
+    {
+        // loop through packages each events and subscribe
+        $package = $this->packageRepository->findById($packageId);
+
+        foreach ( $package->events as $event ) {
+            $this->subscribe($userId, $event->id);
+        }
+
+    }
+
+
+    /**
+     * @param $subscriptionId
+     */
+    public function makePayment($subscriptionId)
+    {
+        // process payment
     }
 
 }

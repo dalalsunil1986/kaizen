@@ -1,5 +1,6 @@
 <?php namespace Acme\Category;
 
+use Acme\Core\CrudableTrait;
 use Category;
 use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\Crudable;
@@ -8,6 +9,8 @@ use Acme\Core\Repositories\Illuminate;
 use Acme\Core\Repositories\AbstractRepository;
 
 class CategoryRepository extends AbstractRepository  {
+
+    use CrudableTrait;
 
     /**
      * @var \Illuminate\Database\Eloquent\Model
@@ -26,42 +29,6 @@ class CategoryRepository extends AbstractRepository  {
 
         $this->model = $model;
     }
-
-    /**
-     * Create a new entity
-     *
-     * @param array $input
-     * @internal param array $data
-     * @return Illuminate\Database\Eloquent\Model
-     */
-    public function create(array $input)
-    {
-        return $this->model->create($input);
-    }
-
-    /**
-     * Update an existing entity
-     *
-     * @param array $input
-     * @internal param array $data
-     * @return Illuminate\Database\Eloquent\Model
-     */
-    public function update(array $input)
-    {
-        // TODO: Implement update() method.
-    }
-
-    /**
-     * Delete an existing entity
-     *
-     * @param int $id
-     * @return boolean
-     */
-    public function delete($id)
-    {
-        // TODO: Implement delete() method.
-    }
-
 
     public function getEventCategories() {
         return $this->model->where('type','=', 'EventModel');

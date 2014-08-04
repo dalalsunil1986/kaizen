@@ -1,6 +1,7 @@
 <?php
 
 use Acme\Package\PackageRepository;
+use Acme\Setting\SettingRepository;
 
 class AdminPackagesController extends AdminBaseController {
 
@@ -9,11 +10,16 @@ class AdminPackagesController extends AdminBaseController {
      * @var Acme\Event\PackageRepository
      */
     private $packageRepository;
+    /**
+     * @var Acme\Setting\SettingRepository
+     */
+    private $settingRepository;
 
-    function __construct(PackageRepository $packageRepository)
+    function __construct(PackageRepository $packageRepository, SettingRepository $settingRepository)
     {
         parent::__construct();
         $this->packageRepository = $packageRepository;
+        $this->settingRepository = $settingRepository;
     }
 
     /**
@@ -27,6 +33,20 @@ class AdminPackagesController extends AdminBaseController {
 
     }
 
+    public function show($id){
+        $packages = $this->packageRepository->findById($id);
+        foreach ( $packages->events as $package ) {
+            foreach ( $package->subscriptions as $p ) {
+                dd($p);
+            }
+        }
+
+
+//        $package = EventModel::find($id);
+//        dd($package->events->subscriptions );
+//        dd($package);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -35,7 +55,7 @@ class AdminPackagesController extends AdminBaseController {
      */
     public function create()
     {
-
+        $this->render('admin.packages.create');
     }
 
     /**
@@ -45,25 +65,35 @@ class AdminPackagesController extends AdminBaseController {
      */
     public function store()
     {
-        $val = $this->eventRepository->getCreateForm();
+
+        $val = $this->packageRepository->getCreateForm();
 
         if ( ! $val->isValid() ) {
             return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
 
-        if ( ! $record = $this->eventRepository->create($val->getInputData()) ) {
-            return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
+        if ( ! $package = $this->packageRepository->create($val->getInputData()) ) {
+            return Redirect::back()->with('errors', $this->packageRepository->errors())->withInput();
+        }
+
+        if ( ! $setting = $this->settingRepository->create(['settingable_type' => 'Package', 'settingable_id' => $package->id]) ) {
+            $this->eventRepository->delete($package);
+            //@todo redirect
+            dd('could not create event');
         }
 
         // Create a settings record for the inserted event
         // Settings Record needs to know Which type of Record and The Foreign Key it needs to Create
         // So pass these fields with Session (settableType,settableId)
-        return Redirect::action('AdminSettingsController@create')->with(['settableType' => 'SINGLE', 'settableId' => $record->id]);
+
+        return Redirect::action('AdminSettingsController@edit',$setting->id);
     }
 
     public function edit($id)
     {
-        $this->render('admin.packages.create');
+        $package         = $this->packageRepository->findById($id);
+//        dd($package->toArray());
+        $this->render('admin.packages.edit',compact('package'));
     }
 
     /**
@@ -74,7 +104,21 @@ class AdminPackagesController extends AdminBaseController {
      */
     public function update($id)
     {
+        $this->packageRepository->findById($id);
 
+        $val = $this->packageRepository->getEditForm($id);
+
+        if ( ! $val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+        }
+
+        if (! $this->packageRepository->update($id, $val->getInputData()) ) {
+
+            return Redirect::back()->with('errors', $this->packageRepository->errors())->withInput();
+        }
+
+        return Redirect::action('AdminPackagesController@edit', $id)->with('success', 'Updated');
     }
 
     /**
@@ -85,6 +129,18 @@ class AdminPackagesController extends AdminBaseController {
      */
     public function destroy($id)
     {
+        $package = $this->packageRepository->findById($id);
+
+        if ( $this->packageRepository->delete($package) ) {
+            //  return Redirect::home();
+            return Redirect::action('AdminEventsController@index')->with('success', 'Package Deleted');
+        }
+
+        return Redirect::action('AdminEventsController@index')->with('error', 'Error: Package Not Found');
+    }
+
+    public function  settings($id){
+
     }
 
 }

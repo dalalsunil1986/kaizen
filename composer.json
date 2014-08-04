@@ -9,13 +9,13 @@
         "mailchimp/mailchimp": "dev-master",
         "intervention/image": "dev-master",
         "iron-io/iron_mq": "1.5.1",
-        "mccool/laravel-auto-presenter": "2.*",
-        "codeception/codeception": "2.0.*@dev"
+        "mccool/laravel-auto-presenter": "2.*"
 	},
     "require-dev": {
         "fzaninotto/faker": "1.4.*@dev",
         "barryvdh/laravel-debugbar": "1.*",
-        "barryvdh/laravel-ide-helper": "v1.9.1"
+        "barryvdh/laravel-ide-helper": "v1.9.1",
+        "phpunit/phpunit": "4.2.*"
     },
 	"autoload": {
 		"classmap": [
@@ -24,7 +24,8 @@
 			"app/models",
             "app/library",
 			"app/database/migrations",
-			"app/database/seeds"
+			"app/database/seeds",
+            "app/tests/TestCase.php"
 		],
         "psr-4": {
             "Acme\\": "src/"

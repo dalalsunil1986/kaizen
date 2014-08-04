@@ -15,9 +15,9 @@ class CreatePhotosTable extends Migration {
 		Schema::create('photos', function(Blueprint $table) {
             $table->engine = 'InnoDB';
 			$table->increments('id');
-			$table->string('name');
+			$table->string('name')->nullable();
             $table->morphs('imageable');
-            $table->boolean('featured');
+            $table->boolean('featured')->default(0)->nullable();
 			$table->timestamps();
 		});
 	}

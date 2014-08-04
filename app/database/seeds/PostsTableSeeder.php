@@ -1,9 +1,12 @@
 <?php
 
+use Carbon\Carbon;
+
 class PostsTableSeeder extends Seeder {
     public function run()
     {
         DB::table('posts')->truncate();
+        $dt = Carbon::now();
 
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 1; $i++)
@@ -17,11 +20,12 @@ class PostsTableSeeder extends Seeder {
                 [
                     'user_id'    => $user,
                     'category_id'=> $category,
-                    'title'      => $sentence,
-                    'slug'       => $slug,
-                    'content'    => $faker->sentence(200),
-                    'created_at' => $faker->DateTime(),
-                    'updated_at' => $faker->DateTime()
+                    'title_ar'      => $sentence,
+                    'title_en'      => $sentence,
+                    'description_ar'    => $faker->sentence(200),
+                    'description_en'    => $faker->sentence(200),
+                    'created_at' => $dt,
+                    'updated_at' => $dt
                 ]
             );
             DB::table('posts')->insert($posts);

@@ -16,11 +16,9 @@ class CreateLocationsTable extends Migration {
             $table->engine = 'InnoDB';
 			$table->increments('id');
 			$table->integer('country_id')->unsigned()->index();
-			$table->integer('parent_id');
 			$table->string('name_en');
 			$table->string('name_ar');
 			$table->timestamps();
-
         });
 	}
 

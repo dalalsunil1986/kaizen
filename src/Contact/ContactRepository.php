@@ -2,10 +2,10 @@
 
 use Acme\Contact\Validators\ContactCreateValidator;
 use Acme\Core\CrudableTrait;
+use Acme\Core\Repositories\AbstractRepository;
+use Acme\Core\Repositories\Illuminate;
 use Contact;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\Illuminate;
-use Acme\Core\Repositories\AbstractRepository;
 
 class ContactRepository extends AbstractRepository {
 
@@ -19,8 +19,7 @@ class ContactRepository extends AbstractRepository {
     /**
      * Construct
      *
-     * @param \Country|\Illuminate\Database\Eloquent\Model $model
-     * @internal param \Illuminate\Database\Eloquent\Model $user
+     * @param \Contact|\Illuminate\Database\Eloquent\Model $model
      */
     public function __construct(Contact $model)
     {
@@ -29,7 +28,7 @@ class ContactRepository extends AbstractRepository {
     }
 
     public function getContactForm() {
-        return new ContactCreateValidator();
+        return new ContactValidator();
     }
 
 }

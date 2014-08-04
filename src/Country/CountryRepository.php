@@ -15,12 +15,6 @@ class CountryRepository extends AbstractRepository  {
      */
     public $model;
 
-    /**
-     * Construct
-     *
-     * @param \Country|\Illuminate\Database\Eloquent\Model $model
-     * @internal param \Illuminate\Database\Eloquent\Model $user
-     */
     public function __construct(Country $model)
     {
         parent::__construct(new MessageBag);

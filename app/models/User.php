@@ -4,7 +4,6 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Auth\UserInterface;
 use McCool\LaravelAutoPresenter\PresenterInterface;
 use Zizaco\Entrust\HasRole;
-use Carbon\Carbon;
 
 class User extends BaseModel implements UserInterface, RemindableInterface, PresenterInterface {
 
@@ -147,7 +146,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
      */
     public function getPresenter()
     {
-        return 'Acme\Users\UserPresenter';
+        return 'Acme\User\Presenter';
     }
 
     /**

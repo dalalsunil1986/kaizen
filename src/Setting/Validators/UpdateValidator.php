@@ -11,7 +11,7 @@ class UpdateValidator extends AbstractValidator {
      */
     protected $rules = array(
         'approval_type'=>'required',
-        'registration_type'=>'required | array',
+        'registration_types'=>'sometimes | array',
     );
 
     /**
@@ -22,7 +22,7 @@ class UpdateValidator extends AbstractValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'approval_type','registration_type'
+            'approval_type','registration_types'
         ]);
     }
 

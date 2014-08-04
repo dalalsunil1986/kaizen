@@ -16,9 +16,10 @@ class CreateSettingsTable extends Migration {
 		{
 			$table->increments('id');
             $table->string('approval_type')->nullable(); // [CONFIRM,DIRECT]
-            $table->string('registration_type')->nullable(); // [VIP, ONLINE]
-            $table->morphs('settable'); // [Event,Package]
+            $table->string('registration_types')->nullable(); // [VIP, ONLINE]
+            $table->morphs('settingable'); // [Event,Package]
 			$table->timestamps();
+            $table->softDeletes();
 		});
 	}
 

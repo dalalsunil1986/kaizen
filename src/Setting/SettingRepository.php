@@ -11,6 +11,11 @@ class SettingRepository extends AbstractRepository {
 
     public $model;
 
+    public $registrationTypes = ['VIP' => 'VIP', 'ONLINE' => 'ONLINE'];
+    public $feeTypes = ['FREE', 'PAID'];
+    public $approvalTypes = ['DIRECT', 'CONFIRM'];
+    public $eventTypes = ['EventModel' => 'EVENT', 'Package' => 'PACKAGE'];
+
     public function __construct(Setting $model)
     {
         $this->model = $model;
@@ -21,8 +26,8 @@ class SettingRepository extends AbstractRepository {
         $record = $this->findById($id);
 
         // join the assosiate array and convert it to string
-        if ( ! empty($input['registration_type']) ) {
-            $input['registration_type'] = implode(',', $input['registration_type']);
+        if ( ! empty($input['registration_types']) ) {
+            $input['registration_types'] = implode(',', $input['registration_types']);
         }
 
         $record->fill($input);

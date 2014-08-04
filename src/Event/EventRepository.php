@@ -4,18 +4,12 @@ use Acme\Core\CrudableTrait;
 use Carbon\Carbon;
 use DB;
 use EventModel;
-use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\Illuminate;
 use Acme\Core\Repositories\AbstractRepository;
 
 class EventRepository extends AbstractRepository {
 
     use CrudableTrait;
-
-    public $registrationTypes = ['VIP'=>'VIP','ONLINE'=>'ONLINE'];
-    public $feeTypes = ['FREE','PAID'];
-    public $approvalTypes = ['DIRECT','CONFIRM'];
-    public $subscriptionStatuses = ['REJECTED','PENDING','APPROVED','CONFIRMED'];
 
     public $model;
 
@@ -24,12 +18,12 @@ class EventRepository extends AbstractRepository {
         $this->model = $model;
     }
 
-    public function getAll( $with = [])
+    public function getAll($with = [])
     {
         $currentTime = Carbon::now()->toDateTimeString();
 
         return $this->model->with($with)
-                ->where('date_start', '>', $currentTime);
+            ->where('date_start', '>', $currentTime);
 
     }
 
@@ -42,8 +36,8 @@ class EventRepository extends AbstractRepository {
     public function getEvents($perPage = 10)
     {
         return $this->getAll()
-                ->orderBy('date_start', 'DESC')
-                ->paginate($perPage);
+            ->orderBy('date_start', 'DESC')
+            ->paginate($perPage);
     }
 
     /**
@@ -115,13 +109,16 @@ class EventRepository extends AbstractRepository {
      * @return array|static[]
      * Merge Slider Events
      */
-    public function mergeSliderEvents($limit, $array) {
+    public function mergeSliderEvents($limit, $array)
+    {
         $events = DB::table('events AS e')
             ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
-            ->whereIn('e.id',$array)
+            ->whereIn('e.id', $array)
             ->take($limit)
             ->groupBy('e.id')
-            ->get(array('e.id','e.title','e.title_en','e.description','e.description_en','p.name','e.button','e.button_en'));
+            ->get(array('e.id', 'e.title', 'e.title_en', 'e.description', 'e.description_en', 'p.name', 'e.button', 'e.button_en'));
+
         return $events;
     }
+
 }

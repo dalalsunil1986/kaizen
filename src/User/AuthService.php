@@ -41,17 +41,6 @@ class AuthService extends AbstractRepository {
         return true;
     }
 
-
-    /**
-     * Update
-     * @param array $data
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function update(array $data)
-    {
-        return $this->userRepository->update($data);
-    }
-
     /**
      * Delete
      * @param int $id

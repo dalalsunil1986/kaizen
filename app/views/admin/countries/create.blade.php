@@ -1,4 +1,4 @@
-@extends('admin.layouts.default')
+@extends('admin.master')
 
 {{-- Content --}}
 @section('content')
@@ -10,7 +10,7 @@
     <!-- CSRF Token -->
     <div class="form-group">
         {{ Form::label('arabic_name', 'Arabic Name:') }}
-        {{ Form::text('name', NULL,array('class'=>'form-control')) }}
+        {{ Form::text('name_ar', NULL,array('class'=>'form-control')) }}
     </div>
     <div class="form-group">
         {{ Form::label('english_name', 'English Name:') }}

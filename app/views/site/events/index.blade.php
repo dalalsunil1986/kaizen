@@ -45,8 +45,8 @@
     <i class="glyphicon glyphicon-user">
         {{ link_to_action('EventsController@index', $event->author->username,array('search'=>'','author'=>$event->author->id))  }}
         |</i>
-    <i class="glyphicon glyphicon-calendar"></i> {{ $event->date_start->format('Y-m-d')}} -
-    {{ $event->date_end->format('Y-m-d')}} |
+    <i class="glyphicon glyphicon-calendar"></i> {{ $event->date_start }} -
+    {{ $event->date_end }} |
 
     <i class="glyphicon glyphicon-globe">
         @if ( App::getLocale() == 'en')

@@ -1,14 +1,17 @@
 <?php
 
+use Acme\Core\LocaleTrait;
+
 class Category extends BaseModel {
-	protected $guarded = array();
-    protected  $table = "categories";
 
-    public static $rules = array(
-        'name' => 'required',
-        'type' => 'required'
-    );
+    use LocaleTrait;
 
+    protected $guarded = array();
 
+    protected $table = "categories";
+
+    protected static $name = "category";
+
+    protected $localeStrings = ['name'];
 
 }
