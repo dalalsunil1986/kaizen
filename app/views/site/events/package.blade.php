@@ -281,12 +281,12 @@
                 @endif
             @else
                 <div class="panel-group" id="accordion">
-                    <div class="panel panel-default">
-                @for($i=0;$i<=2;$i++)
 
+                @for($i=0;$i<=2;$i++)
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i;?>">
                                     @if ( App::getLocale() == 'en')
                                     @if($event->title_en)
                                     {{ $event->description_en }}
@@ -299,7 +299,7 @@
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseOne" class="panel-collapse collapse in">
+                        <div id="collapse<?php echo $i;?>" class="panel-collapse collapse <?php if($i != 0) {echo 'in';}?>">
                             <div class="panel-body">
                                 @if ( App::getLocale() == 'en')
                                 @if($event->description_en)
@@ -312,9 +312,9 @@
                                 @endif
                             </div>
                         </div>
-
+                    </div>
                 @endfor
-                </div>
+
             </div>
             @endif
         </div>
