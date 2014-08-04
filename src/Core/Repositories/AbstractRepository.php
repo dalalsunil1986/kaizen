@@ -67,12 +67,8 @@ abstract class AbstractRepository {
         if ( isset($with) && (! empty($with)) ) {
             if ( ! is_array($with) ) throw new InvalidArgumentException;
 
-<<<<<<< HEAD
-            return $this->model->with($with)->all();
 
-=======
-            return $this->model->with($with)->get();
->>>>>>> e6d961a3bc0d3eb4c04f9aedaf21e880a5c5973e
+            return $this->model->with($with)->all();
         }
 
         return $this->model->all();

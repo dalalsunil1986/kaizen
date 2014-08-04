@@ -108,7 +108,7 @@ class EventsController extends BaseController {
 
         if ( Auth::check() ) {
             $user = Auth::user();
-            View::composer('site.events.view', function ($view) use ($id, $user) {
+            View::composer('site.events.package', function ($view) use ($id, $user) {
 
 //                $favorited  = Favorite::hasFavorited($id, $user->id);
 //                $subscribed = Subscription::isSubscribed($id, $user->id);
@@ -121,12 +121,12 @@ class EventsController extends BaseController {
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));
             });
         } else {
-            View::composer('site.events.view', function ($view) {
+            View::composer('site.events.package', function ($view) {
                 $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false));
             });
         }
 
-        $this->render('site.events.view', compact('event'));
+        $this->render('site.events.package', compact('event'));
 
     }
 
