@@ -18,12 +18,12 @@
                     <div class="col-md-2">
                         <nav class="nav-sidebar">
                             <ul class="nav tabs">
-                                <li class="active"><a href="#tab-single-1" data-toggle="tab">Confirmed</a></li>
-                                <li class=""><a href="#tab-single-2" data-toggle="tab">Waiting</a></li>
-                                <li class=""><a href="#tab-single-3" data-toggle="tab">Approved</a></li>
-                                <li class=""><a href="#tab-single-4" data-toggle="tab">Pending</a></li>
-                                <li class=""><a href="#tab-single-5" data-toggle="tab">Rejected</a></li>
-                                <li class=""><a href="#tab-single-6" data-toggle="tab">All</a></li>
+                                <li class="{{ !isset($_GET['status']) ? 'active':'' }} "><a href="{{ action('AdminSubscriptionsController@index') }}" >All</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'confirmed' ) ? 'active' :'' }}"><a href="?status=confirmed" >Confirmed</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'waiting' ) ? 'active' :'' }}"><a href="?status=waiting">Waiting</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'approved' ) ? 'active' :''  }}"><a href="?status=approved">Approved</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'pending' ) ? 'active' :'' }}"><a href="?status=pending">Pending</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'rejected' ) ? 'active' :'' }}"><a href="?status=rejected">Rejected</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -65,22 +65,6 @@
                                 @endif
 
                             </div>
-                            <div class="tab-pane text-style" id="tab-single-2">
-                                <h2>Dolor asit amet</h2>
-                                <p>D voluptua.</p>
-                            </div>
-                            <div class="tab-pane text-style" id="tab-single-3">
-                                <h2>Stet clita</h2>
-                                <p>Sre te feugait nulla facilisi. Lorem ipsum dolor sit amet,</p>
-                            </div>
-                            <div class="tab-pane text-style" id="tab-single-4">
-                                <h2>Stet clita</h2>
-                                <p>Sre te feugait nulla facilisi. Lorem ipsum dolor sit amet,</p>
-                            </div>
-                            <div class="tab-pane text-style" id="tab-single-5">
-                                <h2>Stet clita</h2>
-                                <p>Sre te feugait nulla facilisi. Lorem ipsum dolor sit amet,</p>
-                            </div>
                         </div>
 
                     </div>
@@ -93,12 +77,12 @@
                     <div class="col-md-2">
                         <nav class="nav-sidebar">
                             <ul class="nav tabs">
-                                <li class="active"><a href="#tab-package-1" data-toggle="tab">Confirmed</a></li>
-                                <li class=""><a href="#tab-package-2" data-toggle="tab">Waiting</a></li>
-                                <li class=""><a href="#tab-package-3" data-toggle="tab">Approved</a></li>
-                                <li class=""><a href="#tab-package-4" data-toggle="tab">Pending</a></li>
-                                <li class=""><a href="#tab-package-5" data-toggle="tab">Rejected</a></li>
-                                <li class=""><a href="#tab-package-6" data-toggle="tab">All</a></li>
+                                <li class="{{ !isset($_GET['status']) ? 'active':'' }}"><a href="{{ action('AdminSubscriptionsController@index') }}" >All</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'confirmed' ) ? 'active' :'' }}"><a href="?status=confirmed" >Confirmed</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'waiting' ) ? 'active' :'' }}"><a href="?status=waiting">Waiting</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'approved' ) ? 'active' :''  }}"><a href="?status=approved">Approved</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'pending' ) ? 'active' :'' }}"><a href="?status=pending">Pending</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'rejected' ) ? 'active' :'' }}"><a href="?status=rejected">Rejected</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -140,22 +124,7 @@
                                 @endif
 
                             </div>
-                            <div class="tab-pane text-style" id="tab-package-2">
-                                <h2>Dolor asit amet</h2>
-                                <p>D voluptua.</p>
-                            </div>
-                            <div class="tab-pane text-style" id="tab-package-3">
-                                <h2>Stet clita</h2>
-                                <p>Sre te feugait nulla facilisi. Lorem ipsum dolor sit amet,</p>
-                            </div>
-                            <div class="tab-pane text-style" id="tab-package-4">
-                                <h2>Stet clita</h2>
-                                <p>Sre te feugait nulla facilisi. Lorem ipsum dolor sit amet,</p>
-                            </div>
-                            <div class="tab-pane text-style" id="tab-package-5">
-                                <h2>Stet clita</h2>
-                                <p>Sre te feugait nulla facilisi. Lorem ipsum dolor sit amet,</p>
-                            </div>
+
                         </div>
 
                     </div>
