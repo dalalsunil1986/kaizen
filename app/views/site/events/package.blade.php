@@ -304,11 +304,248 @@
                                 @if ( App::getLocale() == 'en')
                                 @if($event->description_en)
                                 {{ $event->description_en }}
+                                <div class="col-md-12">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.general.country') }} </b></td>
+                                            <td>
+                                                @if ( App::getLocale() == 'en')
+                                                @if($event->location->country->name_en)
+                                                {{ $event->location->country->name_en }}
+                                                @else
+                                                {{ $event->location->country->name }}
+                                                @endif
+                                                @else
+                                                @if($event->location->country->name)
+                                                {{ $event->location->country->name }}
+                                                @else
+                                                {{ $event->location->country->name_en }}
+                                                @endif
+                                                @endif
+                                            </td>
+                                            <td><b>{{ Lang::get('site.general.location') }}</b></td>
+                                            <td>
+                                                @if ( App::getLocale() == 'en')
+                                                @if($event->location->name_en)
+                                                {{ $event->location->name_en }}
+                                                @else
+                                                {{ $event->location->name }}
+                                                @endif
+                                                @else
+                                                @if($event->location->name)
+                                                {{ $event->location->name }}
+                                                @else
+                                                {{ $event->location->name_en }}
+                                                @endif
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
+                                            <td> {{ $event->total_seats}}</td>
+                                            <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
+                                            <td> {{ $event->available_seats}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
+                                            <td> {{ $event->formatEventDate($event->date_start) }}</td>
+                                            <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
+                                            <td> {{ $event->formatEventDate($event->date_end) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
+                                            <td> {{ $event->date_start }}</td>
+                                            <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
+                                            <td> {{ $event->date_end }}</td>
+                                        </tr>
+                                        @if($event->phone || $event->email)
+                                        <tr>
+                                            @if($event->phone)
+                                            <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                                            <td> {{ $event->phone }}</td>
+                                            @endif
+                                            @if($event->email)
+                                            <td><b>{{ Lang::get('site.general.email') }}</b> </td>
+                                            <td> {{ $event->email }}</td>
+                                            @endif
+                                        </tr>
+                                        @endif
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.price') }}</b></td>
+                                            @if($event->price)
+                                            <td>{{ $event->price }}</td>
+                                            @else
+                                            <td>{{ Lang::get('site.event.free') }}</td>
+                                            @endif
+                                        </tr>
+                                    </table>
+                                </div>
                                 @else
                                 {{ $event->description }}
+                                <div class="col-md-12">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.general.country') }} </b></td>
+                                            <td>
+                                                @if ( App::getLocale() == 'en')
+                                                @if($event->location->country->name_en)
+                                                {{ $event->location->country->name_en }}
+                                                @else
+                                                {{ $event->location->country->name }}
+                                                @endif
+                                                @else
+                                                @if($event->location->country->name)
+                                                {{ $event->location->country->name }}
+                                                @else
+                                                {{ $event->location->country->name_en }}
+                                                @endif
+                                                @endif
+                                            </td>
+                                            <td><b>{{ Lang::get('site.general.location') }}</b></td>
+                                            <td>
+                                                @if ( App::getLocale() == 'en')
+                                                @if($event->location->name_en)
+                                                {{ $event->location->name_en }}
+                                                @else
+                                                {{ $event->location->name }}
+                                                @endif
+                                                @else
+                                                @if($event->location->name)
+                                                {{ $event->location->name }}
+                                                @else
+                                                {{ $event->location->name_en }}
+                                                @endif
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
+                                            <td> {{ $event->total_seats}}</td>
+                                            <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
+                                            <td> {{ $event->available_seats}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
+                                            <td> {{ $event->formatEventDate($event->date_start) }}</td>
+                                            <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
+                                            <td> {{ $event->formatEventDate($event->date_end) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
+                                            <td> {{ $event->date_start }}</td>
+                                            <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
+                                            <td> {{ $event->date_end }}</td>
+                                        </tr>
+                                        @if($event->phone || $event->email)
+                                        <tr>
+                                            @if($event->phone)
+                                            <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                                            <td> {{ $event->phone }}</td>
+                                            @endif
+                                            @if($event->email)
+                                            <td><b>{{ Lang::get('site.general.email') }}</b> </td>
+                                            <td> {{ $event->email }}</td>
+                                            @endif
+                                        </tr>
+                                        @endif
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.price') }}</b></td>
+                                            @if($event->price)
+                                            <td>{{ $event->price }}</td>
+                                            @else
+                                            <td>{{ Lang::get('site.event.free') }}</td>
+                                            @endif
+                                        </tr>
+                                    </table>
+                                </div>
                                 @endif
                                 @else
                                 {{ $event->description }}
+                                <div class="col-md-12">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.general.country') }} </b></td>
+                                            <td>
+                                                @if ( App::getLocale() == 'en')
+                                                @if($event->location->country->name_en)
+                                                {{ $event->location->country->name_en }}
+                                                @else
+                                                {{ $event->location->country->name }}
+                                                @endif
+                                                @else
+                                                @if($event->location->country->name)
+                                                {{ $event->location->country->name }}
+                                                @else
+                                                {{ $event->location->country->name_en }}
+                                                @endif
+                                                @endif
+                                            </td>
+                                            <td><b>{{ Lang::get('site.general.location') }}</b></td>
+                                            <td>
+                                                @if ( App::getLocale() == 'en')
+                                                @if($event->location->name_en)
+                                                {{ $event->location->name_en }}
+                                                @else
+                                                {{ $event->location->name }}
+                                                @endif
+                                                @else
+                                                @if($event->location->name)
+                                                {{ $event->location->name }}
+                                                @else
+                                                {{ $event->location->name_en }}
+                                                @endif
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
+                                            <td> {{ $event->total_seats}}</td>
+                                            <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
+                                            <td> {{ $event->available_seats}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
+                                            <td> {{ $event->formatEventDate($event->date_start) }}</td>
+                                            <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
+                                            <td> {{ $event->formatEventDate($event->date_end) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
+                                            <td> {{ $event->date_start }}</td>
+                                            <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
+                                            <td> {{ $event->date_end }}</td>
+                                        </tr>
+                                        @if($event->phone || $event->email)
+                                        <tr>
+                                            @if($event->phone)
+                                            <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                                            <td> {{ $event->phone }}</td>
+                                            @endif
+                                            @if($event->email)
+                                            <td><b>{{ Lang::get('site.general.email') }}</b> </td>
+                                            <td> {{ $event->email }}</td>
+                                            @endif
+                                        </tr>
+                                        @endif
+                                        <tr>
+                                            <td><b>{{ Lang::get('site.event.price') }}</b></td>
+                                            @if($event->price)
+                                            <td>{{ $event->price }}</td>
+                                            @else
+                                            <td>{{ Lang::get('site.event.free') }}</td>
+                                            @endif
+                                        </tr>
+                                    </table>
+                                </div>
                                 @endif
                             </div>
                         </div>
