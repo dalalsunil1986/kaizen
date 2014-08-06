@@ -6,7 +6,7 @@ use Acme\Subscription\State\Subscriber;
 use Acme\Subscription\SubscriptionRepository;
 use Acme\User\UserRepository;
 
-class AdminSubscriptionsController extends AdminBaseController {
+class AdminSubscriptionsController_Backup extends AdminBaseController {
 
     /**
      * @var Acme\Subscription\SubscriptionRepository

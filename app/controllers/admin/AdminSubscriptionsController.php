@@ -36,7 +36,13 @@ class AdminSubscriptionsController extends AdminBaseController {
 
     public function index()
     {
-        $subscriptions = $this->subscriptionRepository->getAll(['user', 'event']);
+        $status = Input::get('status');
+        if ( isset($status) ) {
+            $subscriptions = $this->subscriptionRepository->getAllByStatus($status, ['user', 'event']);
+        } else {
+            $subscriptions = $this->subscriptionRepository->getAll(['user', 'event']);
+        }
+
         $this->render('admin.subscriptions.index', compact('subscriptions'));
     }
 
@@ -85,7 +91,7 @@ class AdminSubscriptionsController extends AdminBaseController {
 
             if ( $hasSubscribedToWholePackage ) {
 
-                for ( $i = 0; $i < $packageArray; $i++ ) {
+                for ( $i = 0; $i < $packageArray; $i ++ ) {
                     $this->subscribe($subscription, $status);
                 }
                 dd('subscribed to whole package');
@@ -109,6 +115,7 @@ class AdminSubscriptionsController extends AdminBaseController {
         $subscription->subscribe();
         if ( $subscription->messages->has('errors') ) {
             dd($subscription->messages->getMessages());
+
             return Redirect::home()->with('errors', $subscription->messages);
         }
 

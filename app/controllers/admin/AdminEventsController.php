@@ -289,7 +289,8 @@ class AdminEventsController extends AdminBaseController {
 
     public function getRequests($id)
     {
-        $events = $this->eventRepository->findById($id);
+        $event = $this->eventRepository->findById($id);
+//        dd($event->subscriptions);
 
         $this->render('admin.events.requests', compact('event'));
     }

@@ -25,3 +25,25 @@ li {list-style-type: none}
 .ui-group-buttons .btn{float:left;border-radius:0}
 .ui-group-buttons .btn:first-child{margin-left:0;border-top-left-radius:.25em;border-bottom-left-radius:.25em;padding-right:15px}
 .ui-group-buttons .btn:last-child{border-top-right-radius:.25em;border-bottom-right-radius:.25em;padding-left:15px}
+
+.nav-sidebar {
+    width: 100%;
+}
+.nav-sidebar a {
+    color: #333;
+}
+.nav-sidebar .active a {
+    cursor: default;
+    background-color: #0b56a8;
+    color: #fff;
+}
+.nav-sidebar .active a:hover {
+    background-color: #E50000;
+}
+.nav-sidebar .text-overflow a,
+.nav-sidebar .text-overflow .media-body {
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}

@@ -39,4 +39,9 @@ class Subscription extends BaseModel {
         return $this->status == 'CONFIRMED' ? true : false;
     }
 
+    public function scopeOfStatus($query, $status)
+    {
+        return $query->whereStatus($status);
+    }
+
 }

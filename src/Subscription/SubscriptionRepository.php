@@ -58,4 +58,9 @@ class SubscriptionRepository extends AbstractRepository {
         return $records;
     }
 
+    public function getAllByStatus($status, $array)
+    {
+        return $this->model->ofStatus($status)->with($array)->get();
+    }
+
 }
