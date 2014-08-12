@@ -11,7 +11,8 @@ class ConfirmedState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
-        if ( ! empty($this->subscriber->messages) ) {
+        if ( $this->subscriber->messages->has('errors') ) {
+            dd($this->subscriber->messages);
             return false;
         }
         $this->subscriber->model->status = 'CONFIRMED';

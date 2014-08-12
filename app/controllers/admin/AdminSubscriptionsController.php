@@ -95,9 +95,7 @@ class AdminSubscriptionsController extends AdminBaseController {
             foreach ( $package->events as $event ) {
                 $packageArray[] = $event->id;
             }
-
             $packageSubscriptions = $this->subscriptionRepository->findAllPackageSubscriptionsForUser($userId, $packageArray);
-
             foreach ( $packageSubscriptions as $subscription ) {
                 $subscriptionArray[] = $subscription->event_id;
             }
@@ -106,12 +104,13 @@ class AdminSubscriptionsController extends AdminBaseController {
             $hasSubscribedToWholePackage = ! array_diff($packageArray, $subscriptionArray);
 
             if ( $hasSubscribedToWholePackage ) {
-
-                for ( $i = 0; $i < $packageArray; $i ++ ) {
+                dd('yes whole package');
+                for ( $i = 0; $i < count($packageArray); $i ++ ) {
                     $this->subscribe($subscription, $status);
                 }
                 dd('subscribed to whole package');
             } else {
+                dd('no');
                 $this->subscribe($subscription, $status);
 
                 dd('subscribed to package event');

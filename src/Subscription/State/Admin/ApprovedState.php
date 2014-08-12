@@ -40,7 +40,7 @@ class ApprovedState extends AbstractState implements SubscriberState {
             return false;
         }
 
-        $this->checkValidRegistrationType();
+//        $this->checkValidRegistrationType();
         // Find Event Type
 
 //        if ( $this->subscriber->model->settings[0]->settingable_type == 'EventModel' ) {
