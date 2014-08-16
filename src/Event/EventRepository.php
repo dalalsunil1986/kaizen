@@ -23,7 +23,8 @@ class EventRepository extends AbstractRepository {
         $currentTime = Carbon::now()->toDateTimeString();
 
         return $this->model->with($with)
-            ->where('date_start', '>', $currentTime);
+//            ->where('date_start', '>', $currentTime)
+            ;
 
     }
 

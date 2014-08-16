@@ -37,13 +37,29 @@ class AdminSubscriptionsController extends AdminBaseController {
     public function index()
     {
         $status = Input::get('status');
-        if ( isset($status) ) {
-            $subscriptions = $this->subscriptionRepository->getAllByStatus($status, ['user', 'event']);
+        $type   = Input::get('type');
+
+        if ( ! isset($type) ) {
+            $type = 'event';
         } else {
-            $subscriptions = $this->subscriptionRepository->getAll(['user', 'event']);
+            $type = Input::get('type');
         }
 
-        $this->render('admin.subscriptions.index', compact('subscriptions'));
+        if ($type == 'event') {
+            if ( isset($status) ) {
+                $subscriptions = $this->subscriptionRepository->getAllByStatus($status, ['user', 'event']);
+            } else {
+                $subscriptions = $this->subscriptionRepository->getAll(['user', 'event']);
+            }
+        } else {
+            if ( isset($status) ) {
+                $subscriptions = $this->packageRepository->getAll(['user', 'event']);
+            } else {
+                $subscriptions = $this->packageRepository->getAll(['user', 'event']);
+            }
+        }
+
+        $this->render('admin.subscriptions.index', compact('subscriptions', 'type'));
     }
 
     public function show($id)
@@ -73,11 +89,11 @@ class AdminSubscriptionsController extends AdminBaseController {
             // find the package Id
             $packageId = $subscription->event->package_id;
 
-            $packages = $this->packageRepository->findById($packageId);
+            $package = $this->packageRepository->findById($packageId);
 
             // Store all the package events in an array
-            foreach ( $packages->events as $package ) {
-                $packageArray[] = $package->id;
+            foreach ( $package->events as $event ) {
+                $packageArray[] = $event->id;
             }
 
             $packageSubscriptions = $this->subscriptionRepository->findAllPackageSubscriptionsForUser($userId, $packageArray);

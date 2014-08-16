@@ -2,44 +2,28 @@
 
 {{-- Content --}}
 @section('content')
-<div class="row ">
+<div class="row " >
     <div class="col-md-12 ">
         <!-- Nav tabs category -->
         <ul class="nav nav-tabs faq-cat-tabs">
-            <li class="{{ $type == 'event' ? 'active' :'' }}">
-                <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event']) }}">Event Subscriptions&nbsp;</a>
-            </li>
-            <li class="{{ $type == 'package'  ? 'active' :'' }}">
-                <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package']) }}">Package Subscriptions&nbsp;</a>
-            </li>
+            <li class="{{ (isset($_GET['type']) && $_GET['type'] != 'package' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event']) }}">Event Subscriptions&nbsp;</a></li>
+            <li class="{{ (isset($_GET['type']) && $_GET['type'] == 'package' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package']) }}" >Package Subscriptions&nbsp;</a></li>
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content faq-cat-content" style="margin-top:20px;">
             <div class="tab-pane active in fade " id="event-tab">
 
-                @if($type == 'event')
                 <div class="row">
                     <div class="col-md-2">
                         <nav class="nav-sidebar">
                             <ul class="nav tabs">
-                                <li class="{{ !isset($_GET['status']) ? 'active':'' }} ">
-                                    <a href="{{ action('AdminSubscriptionsController@index') }}">All</a></li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'confirmed' ) ? 'active' :'' }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'confirmed']) }}">Confirmed</a>
-                                </li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'waiting' ) ? 'active' :'' }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'waiting']) }}">Waiting</a>
-                                </li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'approved' ) ? 'active' :''  }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'approved']) }}">Approved</a>
-                                </li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'pending' ) ? 'active' :'' }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'pending']) }}">Pending</a>
-                                </li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'rejected' ) ? 'active' :'' }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'rejected']) }}">Rejected</a>
-                                </li>
+                                <li class="{{ !isset($_GET['status']) ? 'active':'' }} "><a href="{{ action('AdminSubscriptionsController@index') }}" >All</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'confirmed' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'confirmed']) }}" >Confirmed</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'waiting' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'waiting']) }}">Waiting</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'approved' ) ? 'active' :''  }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'approved']) }}">Approved</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'pending' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'pending']) }}">Pending</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'rejected' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'rejected']) }}">Rejected</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -85,28 +69,20 @@
 
                     </div>
                 </div>
-                @else
+
+            </div>
+            <div class="tab-pane fade" id="package-tab">
+
                 <div class="row">
                     <div class="col-md-2">
                         <nav class="nav-sidebar">
                             <ul class="nav tabs">
-                                <li class="{{ !isset($_GET['status']) ? 'active':'' }} ">
-                                    <a href="{{ action('AdminSubscriptionsController@index') }}">All</a></li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'confirmed' ) ? 'active' :'' }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'confirmed']) }}">Confirmed</a>
-                                </li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'waiting' ) ? 'active' :'' }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'waiting']) }}">Waiting</a>
-                                </li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'approved' ) ? 'active' :''  }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'approved']) }}">Approved</a>
-                                </li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'pending' ) ? 'active' :'' }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'pending']) }}">Pending</a>
-                                </li>
-                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'rejected' ) ? 'active' :'' }}">
-                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'rejected']) }}">Rejected</a>
-                                </li>
+                                <li class="{{ !isset($_GET['status']) ? 'active':'' }} "><a href="{{ action('AdminSubscriptionsController@index') }}" >All</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'confirmed' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'confirmed']) }}" >Confirmed</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'waiting' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'waiting']) }}">Waiting</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'approved' ) ? 'active' :''  }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'approved']) }}">Approved</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'pending' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'pending']) }}">Pending</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'rejected' ) ? 'active' :'' }}"><a href="{{ action('AdminSubscriptionsController@index', ['type'=>'package','status'=>'rejected']) }}">Rejected</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -153,10 +129,8 @@
 
                     </div>
                 </div>
-                @endif
 
             </div>
-
         </div>
     </div>
 </div>
