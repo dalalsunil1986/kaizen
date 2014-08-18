@@ -1,32 +1,20 @@
-@extends('admin.layouts.default')
+@extends('admin.master')
+
+@section('style')
+@parent
+{{ HTML::style('assets/css/jquery.datetimepicker.css') }}
+@stop
 
 {{-- Content --}}
 @section('content')
 
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script src="{{ asset('js/address.picker.js') }}"></script>
+@include('admin.events.breadcrumb',['active'=>'info'])
+
+
 <h1>Edit Event</h1>
 {{ Form::model($event, array('method' => 'PATCH', 'action' => array('AdminEventsController@update', $event->id), 'role'=>'form', 'files' => true)) }}
 <div class="row">
-    <div class="form-group col-md-6">
-        <?php
-        if($event->type) {
-            $type = $event->type->type;
-            $approval_type = $event->type->approval_type;
-        } else {
-            $type = NULL;
-            $approval_type = NULL;
-        }
-        ?>
-        {{ Form::label('approval_type', 'Event Type:') }}
-        {{ Form::select('type', array(''=>'Select','FREE' => 'FREE', 'PAID' => 'PAID'),$type,array('class'=>'form-control')) }}
-    </div>
 
-    <div class="form-group col-md-6">
-        {{ Form::label('approval_type', 'Approval Type:') }}
-        {{ Form::select('approval_type', array(''=>'Select','DIRECT' => 'DIRECT', 'MOD' => 'MOD'),$approval_type,array('class'=>'form-control')) }}
-    </div>
     <div class="form-group col-md-4">
         {{ Form::label('user_id', 'Author:',array('class'=>'control-label')) }}
         {{ Form::select('user_id', $author,NULL,array('class'=>'form-control')) }}
@@ -44,8 +32,8 @@
 </div>
 <div class="row">
     <div class="form-group col-md-12">
-        {{ Form::label('title', 'Title in Arabic:*') }}
-        {{ Form::text('title',NULL,array('class'=>'form-control')) }}
+        {{ Form::label('title_ar', 'Title in Arabic:*') }}
+        {{ Form::text('title_ar',NULL,array('class'=>'form-control')) }}
     </div>
 </div>
 
@@ -59,8 +47,8 @@
 
 <div class="row">
     <div class="form-group col-md-12">
-        {{ Form::label('description', 'Description in Arabic:*') }}
-        {{ Form::textarea('description',NULL,array('class'=>'form-control')) }}
+        {{ Form::label('description_ar', 'Description in Arabic:*') }}
+        {{ Form::textarea('description_ar',NULL,array('class'=>'form-control')) }}
     </div>
 </div>
 
@@ -81,7 +69,8 @@
     <div class="form-group col-md-2 col-sm-4 col-xs-4">
         {{ Form::label('free_event', 'Is this a Free Event ?:') }}
         <br/>
-        {{ Form::checkbox('free', '1', true) }}
+        {{ Form::checkbox('free', '1', null ,['class'=>'free']) }}
+
     </div>
     <div class="form-group col-md-10 col-sm-8 col-xs-8">
         {{ Form::label('price', 'Event Price:') }}
@@ -112,13 +101,13 @@
 
 <div class="row">
     <div class="form-group col-md-6">
-        {{ Form::label('address', 'Address in Arabic:*') }}
-        {{ Form::text('address',NULL,array('class'=>'form-control')) }}
+        {{ Form::label('address_ar', 'Address in Arabic:*') }}
+        {{ Form::text('address_ar',NULL,array('class'=>'form-control')) }}
     </div>
 
     <div class="form-group col-md-6">
-        {{ Form::label('street', 'Street Name in Arabic:*') }}
-        {{ Form::text('street',NULL,array('class'=>'form-control')) }}
+        {{ Form::label('street_ar', 'Street Name in Arabic:*') }}
+        {{ Form::text('street_ar',NULL,array('class'=>'form-control')) }}
     </div>
 </div>
 <div class="row">
@@ -156,7 +145,7 @@
 
 <div class="row">
     <div class="form-group col-md-12">
-        {{ Form::label('button_en', 'Is this a Featured Event ? : (Featured Event Will be included in Slider)') }}
+        {{ Form::label('featured', 'Is this a Featured Event ? : (Featured Event Will be included in Slider)') }}
         <br>
         {{ Form::checkbox('featured', '1', false) }}
     </div>
@@ -174,18 +163,12 @@
 </div>
 <div class="row">
     <div class="form-group col-md-6">
-        {{ Form::label('button', 'Event Button Text in Arabic:') }}
-        {{ Form::text('button',NULL,array('class'=>'form-control')) }}
+        {{ Form::label('button_ar', 'Event Button Text in Arabic:') }}
+        {{ Form::text('button_ar',NULL,array('class'=>'form-control')) }}
     </div>
     <div class="form-group col-md-6">
         {{ Form::label('button_en', 'Event Button Text English:') }}
         {{ Form::text('button_en',NULL,array('class'=>'form-control')) }}
-    </div>
-</div>
-<div class="row">
-    <div class="form-group col-md-12">
-        {{ Form::label('thumbnail', 'Event Thumbnail:') }}
-        {{ Form::file('thumbnail',NULL,array('class'=>'form-control')) }}
     </div>
 </div>
 
@@ -196,31 +179,6 @@
     </div>
 </div>
 {{ Form::close() }}
-
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-striped custab">
-            <thead>
-            <a href="#" class="btn btn-primary btn-xs"> Delete Photos </a>
-            <tr>
-                <th>Image </th>
-                <th class="text-center">Action</th>
-            </tr>
-            @foreach($event->photos as $photo)
-               <tr>
-                   <td> {{ HTML::image('uploads/thumbnail/'.$photo->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }} </td>
-                   <td>
-
-                   {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminPhotosController@destroy', $photo->id))) }}
-                   {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                   {{ Form::close() }}
-                   </td>
-               </tr>
-
-            @endforeach
-        </table>
-    </div>
-</div>
 
 @if ($errors->any())
 <div class="row">
@@ -233,17 +191,58 @@
 $latitude = $event->latitude ? $event->latitude : '29.357';
 $longitude =  $event->longitude ? $event->longitude : '47.951';
 ?>
+@stop
+
+@section('script')
+@parent
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+{{HTML::script('assets/js/jquery-ui.min.js') }}
+{{HTML::script('assets/js/jquery.datetimepicker.js') }}
+{{HTML::script('assets/js/address.picker.js') }}
+
 <script>
+    $('document').ready(function() {
+
+//        var free = '{{ $event->free }}';
+//        var price = '{{ $event->price }}';
+
+        // initial load
+//        if ($('.free').is(':checked')) {
+//            $("#price").prop('disabled', true);
+//            $("#price").val('0');
+//        } else
+          if ($('#price').val() > 0) {
+//              alert('price is greater than 0');
+              $('.free').prop('checked', false);
+
+          }
+//              alert('price is greater than 0');
+//            // on a reload
+//            $('.free').prop('checked', false);
+//            $("#price").prop('disabled', true);
+//        }
+    });
+//
+    $(".free").change(function() {
+        alert('free');
+        if(this.checked) {
+            $("#price").val('0');
+//            $("#price").prop('disabled', true);
+        } else {
+            $("#price").val('0');
+//            $("#price").prop('disabled', false);
+        }
+    });
+
     $(function() {
-        var latitude = '<?php echo $latitude?>';
-        var longitude = '<?php echo $longitude ?>';
+        var latitude = '{{ $latitude }}';
+        var longitude = '{{ $longitude }}';
 
-
-        get_map(latitude,longitude);
+//        get_map(latitude,longitude);
 
         var addresspicker = $( "#addresspicker" ).addresspicker();
         var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
-//            regionBias: "KW",
             updateCallback: showCallback,
             elements: {
                 map:      "#map",
@@ -254,8 +253,8 @@ $longitude =  $event->longitude ? $event->longitude : '47.951';
         });
 
         var gmarker = addresspickerMap.addresspicker( "marker");
-        gmarker.setVisible(true);
-        addresspickerMap.addresspicker("updatePosition");
+//        gmarker.setVisible(true);
+//        addresspickerMap.addresspicker("updatePosition");
 
         $('#reverseGeocode').change(function(){
             $("#addresspicker_map").addresspicker("option", "reverseGeocode", ($(this).val() === 'true'));
@@ -263,32 +262,24 @@ $longitude =  $event->longitude ? $event->longitude : '47.951';
 
         function showCallback(geocodeResult, parsedGeocodeResult) {
             $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
-
-//            alert(JSON.stringify(parsedGeocodeResult, null, 4));
         }
-
-
     });
 
     $(function(){
         $('#date_start').datetimepicker({
             format:'Y-m-d H:i',
             onShow:function( ct ){
-//                this.setOptions({
-//                    maxDate:$('#date_end').val()?$('#date_end').val():false
-//                })
             }
         });
         $('#date_end').datetimepicker({
             format:'Y-m-d H:i',
             onShow:function( ct ){
-//                this.setOptions({
-//                    minDate:$('#date_start').val()?$('#date_start').val():false
-//                })
             }
         });
 
     });
 
 </script>
+
 @stop
+

@@ -1,7 +1,7 @@
 @extends('site.layouts._one_column')
 @section('content')
 
-@if($user->isOwner($user->id))
+@if($user->isOwner())
 
     <div class="row">
         <div class="col-md-12">

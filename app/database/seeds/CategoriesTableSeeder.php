@@ -11,28 +11,22 @@ class CategoriesTableSeeder extends Seeder {
 
             $categories = array(
                 [
-                    'parent_id' => '0',
-                    'name' => 'دورة ا',
+                    'name_ar' => 'دورة ا',
                     'name_en' => 'Category 1',
-                    'slug' => $faker->name,
                     'type'=> 'EventModel',
                     'created_at' => new DateTime,
                     'updated_at' => new DateTime
                 ],
                 [
-                    'parent_id' => '0',
-                    'name' => 'شسشس',
+                    'name_ar' => 'شسشس',
                     'name_en' => 'Category 2',
-                    'slug' => $faker->name,
                     'type'=>'Post',
                     'created_at' => new DateTime,
                     'updated_at' => new DateTime
                 ],
                 [
-                    'parent_id' => '0',
-                    'name' => 'شسيش',
+                    'name_ar' => 'شسيش',
                     'name_en' => 'Category 3',
-                    'slug' => $faker->name,
                     'type'=>'EventModel',
                     'created_at' => new DateTime,
                     'updated_at' => new DateTime

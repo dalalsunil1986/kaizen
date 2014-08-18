@@ -17,10 +17,10 @@ class CreateSubscriptionsTable extends Migration {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->integer('event_id')->unsigned()->index();
-//            $table->unique(array('user_id','event_id'));
-//            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-//            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->string('status'); // [PENDING, REJECTED, CONFIRMED, APPROVED, WAITING]
+            $table->string('registration_type'); // [VIP, ONLINE, NORMAL]
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

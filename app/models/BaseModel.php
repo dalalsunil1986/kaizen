@@ -146,4 +146,30 @@ class BaseModel extends Model {
      */
     public function afterDelete($return) {}
 
+    /**
+     * @param $value
+     * Set Phone Attribute to Integer
+     * Match Type Case with database column type
+     */
+    public function setPhoneAttribute($value){
+        $this->attributes['phone'] = (int)($value);
+    }
+
+    /**
+     * @param $value
+     * Set Mobile Attribute to Integer
+     * Match Type Case with database column type
+     */
+    public function setMobileAttribute($value){
+        $this->attributes['mobile'] = (int)($value);
+    }
+
+    /**
+     * @param $value
+     * Set Price Attribute to Double
+     * Match Type Case with database column type
+     */
+    public function setPriceAttribute($value){
+        $this->attributes['price'] = (double)($value);
+    }
 }

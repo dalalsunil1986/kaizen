@@ -1,99 +1,71 @@
 <?php
 
+use Acme\Core\LocaleTrait;
 use Carbon\Carbon;
+use McCool\LaravelAutoPresenter\PresenterInterface;
 
-class EventModel extends BaseModel implements \McCool\LaravelAutoPresenter\PresenterInterface {
-	protected $guarded = array();
+class EventModel extends BaseModel implements PresenterInterface {
 
-	public static $rules = array(
-        'title'=>'required',
-//        'description'=>'required',
-//        'user_id' => 'required',
-//        'category_id' => 'required',
-//        'location_id' =>'required'
-    );
+    use LocaleTrait;
 
-    /**
-     * @var
-     */
+    protected $guarded = ['id'];
 
-    protected static function boot()
+    protected $localeStrings = ['title', 'description', 'address', 'street', 'button'];
+
+    protected $table = "events";
+
+    protected static $name = "event";
+
+    public function comments()
     {
-        parent::boot();
-
-        static::saving(function($model)
-        {
-            return $model->validate();
-        });
+        return $this->morphMany('Comment', 'commentable');
     }
 
-    protected  $table = "events";
-
-    public function comments() {
-        return $this->morphMany('Comment','commentable');
-    }
-
-    /**
-     * get the person who added the event
-     */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('User');
     }
 
-    public function author() {
-        return $this->belongsTo('User','user_id')->select('id','username','email');
+    public function author()
+    {
+        return $this->belongsTo('User', 'user_id')->select('id', 'username', 'email');
     }
 
-    // added !!!
-    public function categories() {
-        return $this->belongsTo('Category','category_id')->select('name','name_en','type','slug');
+    public function categories()
+    {
+        return $this->belongsTo('Category', 'category_id')->select('name', 'name_en', 'type', 'slug');
     }
 
+    public function followers()
+    {
+        $followers = $this->belongsToMany('User', 'followers', 'event_id', 'user_id')->select('username', 'email');
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     * get the followers of the Event
-     * @param int eventId
-     */
-    public function followers() {
-//        return $this->hasMany('Follower','event_id');
-        $followers = $this->belongsToMany('User', 'followers','event_id','user_id')->select('username','email');
         return $followers;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     * get the subscribers for the Event
-     * @param int eventId
-     */
-    public function subscriptions() {
-        return $this->belongsToMany('User', 'subscriptions','event_id','user_id');
-//        return $this->hasMany('Subscription','event_id');
-    }
-    public function subscribers() {
-        return $this->belongsToMany('User', 'subscriptions','event_id','user_id');
-//        return $this->hasMany('Subscription','event_id');
+//    public function subscriptions() {
+//        return $this->belongsToMany('User', 'subscriptions','event_id','user_id');
+//    }
+
+    public function subscribers()
+    {
+        return $this->belongsToMany('User', 'subscriptions', 'event_id', 'user_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     * @param int eventId
-     * get the favorites user of the Event
-     */
-    public function favorites() {
-//        return $this->hasMany('Favorite','event_id');
-        return $this->belongsToMany('User', 'favorites','event_id','user_id');
-
+    public function favorites()
+    {
+        return $this->belongsToMany('User', 'favorites', 'event_id', 'user_id');
     }
 
     /**
      * gets the past events
      */
-    public function getPastEvents(){
+    public function getPastEvents()
+    {
         return DB::table('events AS e')
             ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
             ->where('p.imageable_type', '=', 'EventModel')
-            ->where('e.date_start','<',Carbon::now()->toDateTimeString());
+            ->where('e.date_start', '<', Carbon::now()->toDateTimeString());
     }
 
     /**
@@ -101,80 +73,66 @@ class EventModel extends BaseModel implements \McCool\LaravelAutoPresenter\Prese
      * @return \Illuminate\Database\Query\Builder|static
      * get Recent Event by Days
      */
-    public static  function getRecentEvents($days) {
+    public static function getRecentEvents($days)
+    {
         $dt = Carbon::now()->addDays($days);
+
         return DB::table('events AS e')
             ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
             ->where('p.imageable_type', '=', 'EventModel')
-            ->where('e.date_start','<',$dt->toDateTimeString());
+            ->where('e.date_start', '<', $dt->toDateTimeString());
     }
 
-    public function getRelatedEvents() {
+    public function getRelatedEvents()
+    {
 
     }
 
-    public function category() {
-//        return $this->morphMany('Category','categorizable','categorizable_type');
-        return $this->belongsTo('Category','category_id');
+    public function category()
+    {
+        return $this->belongsTo('Category', 'category_id');
     }
 
-    public function  location() {
+    public function  location()
+    {
         return $this->belongsTo('Location');
     }
 
-    /*
-     * @todo fix the query
-     * this method can be eager loaded as nested relationship, ex;location.query and
-     * can be accessed in view as location->country->name
-     *
-     */
-    public function country() {
-//        return $this->hasManyThrough('Country','Location','country_id','id');
-//        return $this->location()->country;
-
+    public function photos()
+    {
+        return $this->morphMany('Photo', 'imageable');
     }
 
-    /**
-     * Return all the categories for Event
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     *
-     */
-//    public function categories() {
-//        return $this->hasMany('Category'); // where
-//    }
-
-
-    public function photos() {
-        return $this->morphMany('Photo','imageable');
-    }
-
-
-    public static  function fixEventCounts($id,$count) {
-        $event = EventModel::find($id);
-        $event->available_seats = $event->total_seats - $count;
-        $event->save();
+    // @todo : replace this func
+    public static function fixEventCounts($id, $count)
+    {
+        //        $event = EventModel::find($id);
+        //        $event->available_seats = $event->total_seats - $count;
+        //        $event->save();
     }
 
     public function formatEventDate($column)
     {
         $dt = Carbon::createFromTimestamp(strtotime($column));
+
         return $dt->format('D, jS \\of M Y');
     }
+
     public function formatEventTime($column)
     {
         $dt = Carbon::createFromTimestamp(strtotime($column));
+
         return $dt->format('g a');
     }
 
-    public static function latest($count) {
-        return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->remember(10)->limit($count)->get();
+    public function latest($count)
+    {
+//        return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->remember(10)->limit($count)->get();
     }
-
-
 
     public function getDates()
     {
-        return array_merge(array(static::CREATED_AT, static::UPDATED_AT), array('date_start','date_end'));
+        return array_merge(array(static::CREATED_AT, static::UPDATED_AT), array('date_start', 'date_end'));
     }
 
     public function setDateStartAttribute($value)
@@ -187,22 +145,25 @@ class EventModel extends BaseModel implements \McCool\LaravelAutoPresenter\Prese
         $this->attributes['date_end'] = $this->dateStringToCarbon($value);
     }
 
-    public function type() {
-        return $this->hasOne('Type','event_id');
+    public function type()
+    {
+        return $this->hasOne('Type', 'event_id');
     }
 
-    public function statuses() {
-        return $this->belongsToMany('User', 'statuses','event_id','user_id')->withPivot(array('id','event_id','user_id','status'));
+    public function statuses()
+    {
+        return $this->belongsToMany('User', 'statuses', 'event_id', 'user_id')->withPivot(array('id', 'event_id', 'user_id', 'status'));
 //        return $this->hasMany('Subscription','event_id');
     }
 
     public function updateSeats()
     {
         $totalSeats = $this->total_seats;
-        if ($totalSeats > 0 ) {
-            $totalSubscriptions = $this->subscriptions->count();
+        if ( $totalSeats > 0 ) {
+            $totalSubscriptions    = $this->subscriptions->count();
             $this->available_seats = $totalSeats - $totalSubscriptions;
             $this->save();
+
             return $this;
         }
     }
@@ -214,16 +175,88 @@ class EventModel extends BaseModel implements \McCool\LaravelAutoPresenter\Prese
      */
     public function getPresenter()
     {
-        return 'Acme\Events\EventPresenter';
+        return 'Acme\Event\Presenter';
     }
 
-    protected function getHumanCreatedAtAttribute()
+    public function getHumanCreatedAtAttribute()
     {
         return Carbon::parse($this->attributes['created_at'])->diffForHumans();
 
         return null;
     }
 
+    protected function dateStringToCarbon($date, $format = 'm/d/Y')
+    {
+        if ( ! $date instanceof Carbon ) {
+            $validDate = false;
+            try {
+                $date      = Carbon::createFromFormat($format, $date);
+                $validDate = true;
+            }
+            catch ( Exception $e ) {
+            }
+
+            if ( ! $validDate ) {
+                try {
+                    $date      = Carbon::parse($date);
+                    $validDate = true;
+                }
+                catch ( Exception $e ) {
+                }
+            }
+
+            if ( ! $validDate ) {
+                $date = null;
+            }
+        }
+
+        return $date;
+    }
+
+    public function setTotalSeatsAttribute($value)
+    {
+        $this->attributes['total_seats'] = (int) ($value);
+    }
+
+    public function setLatitudeAttribute($value)
+    {
+        $this->attributes['latitude'] = floatval($value);
+    }
+
+    public function setLongitudeAttribute($value)
+    {
+        $this->attributes['longitude'] = floatval($value);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany('Subscription', 'event_id');
+    }
+
+    public function setting()
+    {
+        return $this->morphOne('Setting', 'settingable');
+    }
+
+    public function hasAvailableSeats()
+    {
+        return $this->available_seats > 0 ? true : false;
+    }
+
+    public function package()
+    {
+        return $this->belongsTo('Package');
+    }
+
+    public function beforeDelete(){
+
+        //delete settings
+        $this->setting()->delete();
+
+        foreach ($this->subscriptions()->get(array('id')) as $subscription) {
+            $subscription->delete();
+        }
+    }
 
 }
 

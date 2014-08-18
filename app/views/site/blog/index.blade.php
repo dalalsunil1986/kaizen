@@ -30,7 +30,7 @@
 
         <p>
             <i class="glyphicon glyphicon-user"></i> by <span class="muted">{{{ $post->author->username }}}</span>
-            | <i class="glyphicon glyphicon-calendar"></i> <!--Sept 16th, 2012-->{{{ $post->created_at->format('Y-m-d') }}}
+            | <i class="glyphicon glyphicon-calendar"></i> <!--Sept 16th, 2012-->{{{ $post->created_at }}}
         </p>
 
     <!-- ./ post footer -->

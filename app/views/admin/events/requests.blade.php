@@ -1,10 +1,10 @@
-@extends('admin.layouts.default')
+@extends('admin.master')
 
 {{-- Content --}}
 @section('content')
 <h2>User Requests for {{ $event->title }}</h2>
-@if(count($event->statuses))
-    <h3>Total {{count($event->statuses)}} User Requests</h3>
+@if(count($event->subscriptions))
+    <h3>Total {{count($event->subscriptions)}} User Requests</h3>
 @else
     <h3>No User Requests Yet</h3>
 @endif
@@ -21,12 +21,12 @@
     </thead>
 
     <tbody>
-    @if(count($event->statuses))
-        @foreach($event->statuses as $user)
+    @if(count($event->subscriptions))
+        @foreach($event->subscriptions as $subscription)
         <tr>
-            <td><a href="">{{{ $user->username }}} ({{ $user->email }})</a></td>
-            <td><span class=""> {{{ $user->pivot->status }}} </span></td>
-            <td><a href="{{ URL::action('AdminStatusesController@edit', array($user->pivot->id), array('class' => 'btn btn-info')) }}">Edit</a></td>
+            <td><a href="">{{{ $subscription->user->username }}} ({{ $subscription->user->email }})</a></td>
+            <td><span class=""> {{{ $subscription->status }}} </span></td>
+            <td><a href="{{ URL::action('AdminSubscriptionsController@edit', array($subscription->id), array('class' => 'btn btn-info')) }}">Edit</a></td>
         </tr>
         @endforeach
     @endif

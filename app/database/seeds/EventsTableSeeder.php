@@ -23,7 +23,7 @@ class EventsTableSeeder extends Seeder {
 
             $this->checkDate();
 
-            $category = \Acme\Category\EloquentCategoryRepository::getEventCategories()->orderBY(DB::raw('RAND()'))->first()->id;
+            $category = App::make('\Acme\Category\CategoryRepository')->getEventCategories()->orderBY(DB::raw('RAND()'))->first()->id;
             $user = User::orderBy(DB::raw('RAND()'))->first()->id;
             $location = Location::orderBy(DB::raw('RAND()'))->first()->id;
             $max_seats = 15;
@@ -34,10 +34,10 @@ class EventsTableSeeder extends Seeder {
                     'category_id' => $category,
                     'user_id' => $user,
                     'location_id' => $location,
-                    'title' => 'كايزن ',
                     'title_en' => 'Kaizen Events',
-                    'description' => $faker->sentence(20),
+                    'title_ar' => 'كايزن ',
                     'description_en'=>$faker->sentence(20),
+                    'description_ar' => $faker->sentence(20),
                     'price'=> '440',
                     'total_seats' => $total_seats,
                     'available_seats' => $available_seats,
@@ -46,19 +46,17 @@ class EventsTableSeeder extends Seeder {
                     'date_end' => $this->getDateEnd(),
                     'phone' => '98989',
                     'email'=>$faker->email,
-                    'address' => $faker->address,
                     'address_en' => $faker->address,
-                    'street' => $faker->streetAddress,
+                    'address_ar' => $faker->address,
                     'street_en' => $faker->streetAddress,
+                    'street_ar' => $faker->streetAddress,
                     'latitude' => $faker->latitude,
                     'longitude' => $faker->longitude,
-                    'active' =>(bool) rand(0, 1),
                     'featured'=>(bool) rand(0,1),
                     'created_at' => $dateNow,
                     'updated_at' => $dateNow,
-                    'free' => $faker->boolean(),
-                    'button' => 'سجل',
-                    'button_en'=>'Subscribe'
+                    'button_en'=>'Subscribe',
+                    'button_ar' => 'سجل'
                 ]
 
 		    );

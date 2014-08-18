@@ -1,18 +1,10 @@
 <?php
-/*********************************************************************************************************
- * Route Model Bindings
- ********************************************************************************************************/
-Route::model('comment', 'Comment');
 
 Route::model('role', 'Role');
 
 /** ------------------------------------------
  *  Route constraint patterns
  *  ------------------------------------------ */
-Route::pattern('comment', '[0-9]+');
-
-Route::pattern('user', '[0-9]+');
-
 Route::pattern('id', '[0-9]+');
 
 Route::pattern('role', '[0-9]+');
@@ -26,7 +18,7 @@ Route::get('event/{id}/category', 'EventsController@getCategory');
 
 Route::get('event/{id}/author', 'EventsController@getAuthor');
 
-Route::get('event/{id}/subscribe', array('as' => 'event.subscribe', 'uses' => 'SubscriptionsController@subscribe'));
+//Route::get('event/{id}/subscribe', array('as' => 'event.subscribe', 'uses' => 'SubscriptionsController@subscribe'));
 
 Route::get('event/{id}/unsubscribe', array('as' => 'event.unsubscribe', 'uses' => 'EventsController@unsubscribe'));
 
@@ -112,6 +104,7 @@ Route::get('country/{id}/events', array('uses' => 'CountriesController@getEvents
  * Newsletter Routes
  ********************************************************************************************************/
 Route::post('newsletter', 'NewslettersController@store');
+Route::get('newsletter', 'NewslettersController@index');
 
 /*********************************************************************************************************
  * MISC ROUTES
@@ -125,77 +118,176 @@ Route::post('queue/mails', function () {
     return Queue::marshal();
 });
 
+
 Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 
 /*********************************************************************************************************
  * Admin Routes
  ********************************************************************************************************/
 Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')), function () {
-    # Comment Management
-    Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
-    Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');
-    Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
-    Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
-    Route::controller('comments', 'AdminCommentsController');
 
-    # Blog Management
+    /*********************************************************************************************************
+     * Admin Comments Routes
+     ********************************************************************************************************/
+    Route::resource('comments', 'AdminCommentsController');
+
+    /*********************************************************************************************************
+     * Admin Blog Management Routes
+     ********************************************************************************************************/
     Route::get('blogs/{id}/delete', 'AdminBlogsController@getDelete');
+
     Route::get('blogs/data', 'AdminBlogsController@getData');
+
     Route::resource('blogs', 'AdminBlogsController');
 
-    # User Management
+    /*********************************************************************************************************
+     * User Management Routes
+     ********************************************************************************************************/
     Route::get('users/{user}/show', array('uses' => 'AdminUsersController@getShow'));
-    Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
-    Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
-    Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
-    Route::post('users/{user}/delete', 'AdminUsersController@postDelete');
-    Route::get('users/{id}/report', 'AdminUsersController@getReport');
-    Route::post('users/{id}/report', 'AdminUsersController@postReport');
-    Route::controller('users', 'AdminUsersController');
 
-    # User Role Management
+    Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
+
+    Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
+
+    Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
+
+    Route::post('users/{user}/delete', 'AdminUsersController@postDelete');
+
+    Route::get('users/{id}/report', 'AdminUsersController@getReport');
+
+    Route::post('users/{id}/report', 'AdminUsersController@postReport');
+
+    Route::controller('users', 'AdminUsersController');
+    
+    /*********************************************************************************************************
+     * Admin User Role Management Routes
+     ********************************************************************************************************/
     Route::get('roles/{role}/show', 'AdminRolesController@getShow');
+
     Route::get('roles/{role}/edit', 'AdminRolesController@getEdit');
+
     Route::post('roles/{role}/edit', 'AdminRolesController@postEdit');
+
     Route::get('roles/{role}/delete', 'AdminRolesController@getDelete');
+
     Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
+
     Route::controller('roles', 'AdminRolesController');
 
-    // Admin Event Route
+    /*********************************************************************************************************
+     * Admin Events Routes
+     ********************************************************************************************************/
     Route::get('event/{id}/followers', 'AdminEventsController@getFollowers');
+
     Route::get('event/{id}/favorites', 'AdminEventsController@getFavorites');
+
     Route::get('event/{id}/subscriptions', 'AdminEventsController@getSubscriptions');
+
     Route::get('event/{id}/country', 'AdminEventsController@getCountry');
+
     Route::get('event/{id}/location', 'AdminEventsController@getLocation');
+
     Route::post('event/{id}/mailFollowers', 'AdminEventsController@mailFollowers');
+
     Route::post('event/{id}/mailSubscribers', 'AdminEventsController@mailSubscribers');
+
     Route::post('event/{id}/mailFavorites', 'AdminEventsController@mailFavorites');
+
     Route::get('event/{id}/location', 'AdminEventsController@getLocation');
+
     Route::get('event/{id}/settings', 'AdminEventsController@settings');
+
+    Route::get('event/type/create', 'AdminEventsController@selectType');
+
+    Route::post('photo/create', 'AdminEventsController@storeImage');
+
     Route::resource('event', 'AdminEventsController');
 
-    //category
+    /*********************************************************************************************************
+     * Package routes
+     ********************************************************************************************************/
+    Route::get('package/{id}/settings', 'AdminPackagesController@settings');
+
+    Route::resource('package', 'AdminPackagesController');
+
+    /*********************************************************************************************************
+     * Event Settings Routes
+     ********************************************************************************************************/
+    Route::resource('settings','AdminSettingsController');
+
+    /*********************************************************************************************************
+     * Category Routes
+     ********************************************************************************************************/
     Route::resource('category', 'AdminCategoriesController');
 
-    //countries
+    /*********************************************************************************************************
+     * Country Routes
+     ********************************************************************************************************/
     Route::resource('country', 'AdminCountriesController');
 
-    //Location Routes
+    /*********************************************************************************************************
+     * Location Routes
+     ********************************************************************************************************/
     Route::get('location/{id}/events', array('as' => 'LocationEvents', 'uses' => 'AdminLocationsController@getEvents'));
+
     Route::resource('locations', 'AdminLocationsController');
 
-    //ads
+    /*********************************************************************************************************
+     * Ads Route
+     ********************************************************************************************************/
     Route::resource('ads', 'AdminAdsController', array('only' => array('index', 'store')));
 
-    //contact-us
+    /*********************************************************************************************************
+     * Contact US Routes
+     ********************************************************************************************************/
     Route::resource('contact-us', 'AdminContactsController', array('only' => array('index', 'store')));
 
+    /*********************************************************************************************************
+     * Photo Routes
+     ********************************************************************************************************/
     Route::resource('photo', 'AdminPhotosController');
-    Route::resource('requests', 'AdminStatusesController');
-    Route::resource('type', 'AdminTypesController');
+
+    /*********************************************************************************************************
+     * Event Requests Route
+     ********************************************************************************************************/
+    Route::resource('subscription', 'AdminSubscriptionsController');
 
     Route::get('event/{id}/requests', array('uses' => 'AdminEventsController@getRequests'));
-    Route::resource('requests', 'AdminStatusesController');
 
+    /*********************************************************************************************************
+     * Event Type Routes
+     ********************************************************************************************************/
+    Route::resource('type', 'AdminTypesController');
+
+    /*********************************************************************************************************
+     * Admin Dashboard
+     ********************************************************************************************************/
     Route::get('/', 'AdminEventsController@index');
+
 });
+
+Route::get('test', function () {
+//    $subscription = EventModel::with('subscriptions')->find(1);
+////    dd($subscription->toArray());
+//
+//    $subscription = Subscription::find(1);
+//    dd($subscription);
+//    dd($subscription->subscribable->title);
+
+
+
+//    $event = EventModel::find(2);
+//
+//    $package = Package::find(1);
+//    dd($package->events);
+//    dd($event->package);
+//    dd($subscription->subscriptions());
+
+    $a =['1','2','3','4'];
+    $b =['2','3','4','1','5'];
+    $containsAllValues = !array_diff($a, $b);
+    dd($containsAllValues);
+});
+
+Route::get('package','SubscriptionsController@subscribePackage');
+Route::get('sub', 'SubscriptionsController@subscribe');

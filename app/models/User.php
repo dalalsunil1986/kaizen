@@ -4,7 +4,6 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Auth\UserInterface;
 use McCool\LaravelAutoPresenter\PresenterInterface;
 use Zizaco\Entrust\HasRole;
-use Carbon\Carbon;
 
 class User extends BaseModel implements UserInterface, RemindableInterface, PresenterInterface {
 
@@ -16,33 +15,14 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
 
     protected $hidden = array('password');
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
+
     protected $table = 'users';
 
     protected static $name = 'user';
 
-    /**
-     * Get user by username
-     * @param $username
-     * @return mixed
-     */
     public function getUserByUsername($username)
     {
         return $this->where('username', '=', $username)->first();
-    }
-
-    /**
-     * Get the date the user was created.
-     *
-     * @return string
-     */
-    public function joined()
-    {
-        return Carbon::createFromFormat('Y-n-j G:i:s', $this->created_at);
     }
 
     /**
@@ -92,27 +72,21 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
     public function followings()
     {
         return $this->belongsToMany('EventModel', 'followers', 'user_id', 'event_id');
-
-//        return $this->hasMany('Follower');
     }
 
     public function subscriptions()
     {
-//        return $this->hasMany('Subscription');
         return $this->belongsToMany('EventModel', 'subscriptions', 'user_id', 'event_id');
-        // the second query returns Events for the subscriptions
     }
 
     public function favorites()
     {
         return $this->belongsToMany('EventModel', 'favorites', 'user_id', 'event_id');
-//        return $this->hasMany('Favorite');
     }
 
     public function statuses()
     {
         return $this->belongsToMany('EventModel', 'statuses', 'user_id', 'event_id');
-//        return $this->hasMany('Favorite');
     }
 
     public function country()
@@ -172,7 +146,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
      */
     public function getPresenter()
     {
-        return 'Acme\Users\UserPresenter';
+        return 'Acme\User\Presenter';
     }
 
     /**
@@ -188,14 +162,12 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
     /**
      * Check if the User is owner of the profile, post etc
      */
-    public function isOwner($id)
+    public function isOwner()
     {
         if ( Auth::check() ) {
-            if ( $this->isAdmin() || Auth::user()->id == $id ) {
-                return true;
-            }
+            if (! ($this->isAdmin() || Auth::user()->id == $this->id )) return false;
 
-            return false;
+            return true;
         }
 
         return false;

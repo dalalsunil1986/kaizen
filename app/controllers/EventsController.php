@@ -2,13 +2,13 @@
 
 use Acme\Category\CategoryRepository;
 use Acme\Country\CountryRepository;
-use Acme\Events\EventRepository;
-use Acme\Users\UserRepository;
+use Acme\Event\EventRepository;
+use Acme\User\UserRepository;
 
 class EventsController extends BaseController {
 
     /**
-     * @var Acme\Events\EventRepository
+     * @var Acme\Event\EventRepository
      */
     protected $eventRepository;
     /**
@@ -16,15 +16,15 @@ class EventsController extends BaseController {
      */
     private $status;
     /**
-     * @var Acme\Users\CategoryRepository
+     * @var Acme\User\CategoryRepository
      */
     private $categoryRepository;
     /**
-     * @var Acme\Users\CountryRepository
+     * @var Acme\User\CountryRepository
      */
     private $countryRepository;
     /**
-     * @var Acme\Users\UserRepository
+     * @var Acme\User\UserRepository
      */
     private $userRepository;
 
@@ -47,7 +47,7 @@ class EventsController extends BaseController {
         } else {
             $countries = [0 => Lang::get('site.event.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
         }
-        $categories = [0 => Lang::get('site.event.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name', 'id');
+        $categories = [0 => Lang::get('site.event.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
         $authors    = [0 => Lang::get('site.event.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
 
         // find selected form values
@@ -63,7 +63,7 @@ class EventsController extends BaseController {
 
                 ->where(function ($query) use ($search, $category, $author, $country) {
                     if ( ! empty($search) ) {
-                        $query->where('title', 'LIKE', "%$search%")
+                        $query->where('title_ar', 'LIKE', "%$search%")
                             ->orWhere('title_en', 'LIKE', "%$search%");
                         //  ->orWhere('description','LIKE',"%$search%")
                         //  ->orWhere('description_en','LIKE',"%$search%");
@@ -104,24 +104,29 @@ class EventsController extends BaseController {
      */
     public function show($id)
     {
-        $event = $this->eventRepository->requireById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
+        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
 
         if ( Auth::check() ) {
             $user = Auth::user();
-            View::composer('site.events.view', function ($view) use ($id, $user) {
+            View::composer('site.events.package', function ($view) use ($id, $user) {
+
+//                $favorited  = Favorite::hasFavorited($id, $user->id);
+//                $subscribed = Subscription::isSubscribed($id, $user->id);
+//                $followed   = Follower::isFollowing($id, $user->id);
+
                 $favorited  = Favorite::hasFavorited($id, $user->id);
-                $subscribed = Subscription::isSubscribed($id, $user->id);
+                $subscribed = true;
                 $followed   = Follower::isFollowing($id, $user->id);
 
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));
             });
         } else {
-            View::composer('site.events.view', function ($view) {
+            View::composer('site.events.package', function ($view) {
                 $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false));
             });
         }
 
-        $this->render('site.events.view', compact('event'));
+        $this->render('site.events.package', compact('event'));
 
     }
 

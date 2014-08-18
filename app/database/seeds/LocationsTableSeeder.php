@@ -11,11 +11,10 @@ class LocationsTableSeeder extends Seeder {
         $locations = array(
             [
                 'country_id' => $country->id,
-                'name' => 'سالمية',
+                'name_ar' => 'سالمية',
                 'name_en'=> 'Salmiya',
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,
-                'parent_id' => 1
             ]
         );
 

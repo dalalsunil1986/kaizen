@@ -8,37 +8,37 @@ class CountriesTableSeeder extends Seeder {
 
         $countries = array(
             array(
-                'name' => 'الكويت',
+                'name_ar' => 'الكويت',
                 'name_en' =>'Kuwait',
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,
             ),
             array(
-                'name' => 'السعودية',
+                'name_ar' => 'السعودية',
                 'name_en' =>'Saudi',
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,
             ),
             array(
-                'name' => 'عمان',
+                'name_ar' => 'عمان',
                 'name_en' =>'Oman',
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,
             ),
             array(
-                'name' => 'الإمارات',
+                'name_ar' => 'الإمارات',
                 'name_en' =>'UAE',
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,
             ),
             array(
-                'name' => 'قطر',
+                'name_ar' => 'قطر',
                 'name_en' =>'Qatar',
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,
             ),
             array(
-                'name' => 'بحرين',
+                'name_ar' => 'بحرين',
                 'name_en' =>'Bahrain',
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,

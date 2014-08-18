@@ -2,8 +2,9 @@
 
 class Contact extends BaseModel {
 
-	protected $fillable = [];
+	protected $guared = ['id'];
 
     protected $table = 'contacts';
 
+    protected static $name = 'contact';
 }

@@ -1,6 +1,6 @@
 <?php
 
-use Acme\Users\AuthService;
+use Acme\User\AuthService;
 
 class AuthController extends BaseController {
 
@@ -73,7 +73,6 @@ class AuthController extends BaseController {
         return Redirect::action('AuthController@getLogin')->with('success', 'Email confirmation link has been sent to your email. PLease confirm your account');
 
     }
-
 
     /**
      * Display The  Forgot Password Form

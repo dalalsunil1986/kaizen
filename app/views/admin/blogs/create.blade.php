@@ -1,62 +1,60 @@
-@extends('admin.layouts.modal')
+@extends('admin.master')
 
-{{-- Content --}}
 @section('content')
+    <h1>Add Blog Post</h1>
 
-
-	{{-- Edit Blog Form --}}
     {{ Form::open(array('method' => 'POST', 'action' => array('AdminBlogsController@store'), 'role'=>'form', 'files' => true)) }}
-		<!-- ./ csrf token -->
-			<!-- General tab -->
-        <div class="col-md-12">
-            <div class="form-group col-md-6">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
                 {{ Form::label('user_id', 'Author:',array('class'=>'control-label')) }}
                 {{ Form::select('user_id', $author,NULL,array('class'=>'form-control')) }}
             </div>
+        </div>
 
-            <div class="form-group col-md-6">
+        <div class="col-md-6">
+            <div class="form-group">
                 {{ Form::label('category_id', 'Category:') }}
                 {{ Form::select('category_id', $category,NULL,array('class'=>'form-control')) }}
             </div>
         </div>
-        <br><br><br>
-				<!-- Post Title -->
-        <div class="form-group {{{ $errors->has('title') ? 'error' : '' }}}">
-            <div class="col-md-12">
-                <label class="control-label" for="title">Post Title</label>
-                <input class="form-control" type="text" name="title" id="title" value="{{{ Input::old('title', isset($post) ? $post->title : null) }}}" />
-                {{{ $errors->first('title', '<span class="help-inline">:message</span>') }}}
-            </div>
-        </div>
-        <!-- ./ post title -->
 
-        <!-- Content -->
-        <div class="form-group {{{ $errors->has('content') ? 'error' : '' }}}">
-            <div class="col-md-12">
-                <label class="control-label" for="content">Content</label>
-                <textarea class="form-control full-width wysihtml5" name="content" value="content" rows="10">{{{ Input::old('content', isset($post) ? $post->content : null) }}}</textarea>
-                {{{ $errors->first('content', '<span class="help-inline">:message</span>') }}}
-            </div>
-        </div>
-        <!-- ./ content -->
-
-        <div class="form-group {{{ $errors->has('thumbnail') ? 'error' : '' }}}">
-            <div class="col-md-12">
-                <label class="control-label" for="meta_keywords">Upload Image</label>
-                <input type="file" name="thumbnail" id="thumbnail" />
-                {{{ $errors->first('thumbnail', '<span class="help-inline">:message</span>') }}}
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label" for="title">Post Title in Arabic</label>
+                {{ Form::text('title_ar', null, ['class' => 'form-control']) }}
             </div>
         </div>
 
-		<!-- Form Actions -->
-		<div class="form-group">
-			<div class="col-md-12">
-				<element class="btn-cancel close_popup">Cancel</element>
-				<button type="reset" class="btn btn-default">Reset</button>
-				<button type="submit" class="btn btn-success">Save</button>
-			</div>
-		</div>
-		<!-- ./ form actions -->
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label" for="title">Post Title in English</label>
+                {{ Form::text('title_en', null, ['class' => 'form-control']) }}
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label" for="content">Description in Arabic</label>
+                {{ Form::textarea('description_ar', null, ['class' => 'form-control wysihtml5']) }}
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label" for="content">Description in English</label>
+                {{ Form::textarea('description_en', null, ['class' => 'form-control wysihtml5']) }}
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </div>
+
+    </div>
+
 	{{ Form::close() }}
     @if ($errors->any())
     <div class="row">

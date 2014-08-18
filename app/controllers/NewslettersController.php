@@ -1,31 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ZaL
- * Date: 2/27/14
- * Time: 6:57 PM
- */
+use Acme\Core\Mailers\Bulk\MailchimpMailer;
 
 class NewslettersController extends BaseController{
 
+protected $bulkMailer;
+
 
     public function __contstruct() {
-        parent::__construct();
+
+        $this->bulkMailer = new MailchimpMailer(new Mailchimp('107025e4b301304e9a4e226b1668b370-us3'));
+
+//        $getEmail = Input::get('email');
+//        $email['email'] = $getEmail;
+//        try {
+//            Notify::subscribeUser('de1f937717',$email);
+//            return Redirect::home()->with(array('message'=>'You have been subscribed'));
+//        } catch (\Exception $e) {
+//            return Redirect::home()->withErrors($e->getMessage());
+//        }
     }
 
-    /**
-     * @internal param array $email Add a user to the newsletter list* Add a user to the newsletter list
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store() {
-        $getEmail = Input::get('email');
-        $email['email'] = $getEmail;
-        try {
-            Notify::subscribeUser('de1f937717',$email);
-            return Redirect::home()->with(array('message'=>'You have been subscribed'));
-        } catch (\Exception $e) {
-            return Redirect::home()->withErrors($e->getMessage());
-        }
+    public function index(){
+        dd($this->bulkMailer);
     }
 
 } 

@@ -109,11 +109,11 @@ return array(
 
         //app
         'Acme\Core\ServiceProviders\RepositoryServiceProvider',
+        'McCool\LaravelAutoPresenter\LaravelAutoPresenterServiceProvider',
+
 
         /* Additional Providers */
         'Zizaco\Entrust\EntrustServiceProvider', // Entrust Provider for roles
-//        'Acme\Providers\NotificationServiceProvider',
-//        'Acme\Providers\EmailBlastServiceProvider',
         'Intervention\Image\ImageServiceProvider',
 
         /* Uncomment for use in development */

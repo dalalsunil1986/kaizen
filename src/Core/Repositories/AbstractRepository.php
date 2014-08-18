@@ -4,6 +4,7 @@ use Acme\Core\Exceptions\EntityNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use StdClass;
 use Illuminate\Support\MessageBag;
+use Symfony\Component\Process\Exception\InvalidArgumentException;
 
 abstract class AbstractRepository {
 
@@ -57,14 +58,17 @@ abstract class AbstractRepository {
 
     /**
      * @param array $with
+     * @throws \Symfony\Component\Process\Exception\InvalidArgumentException
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      * wrapper for eloquent all();
      */
     public function getAll($with = [])
     {
         if ( isset($with) && (! empty($with)) ) {
+            if ( ! is_array($with) ) throw new InvalidArgumentException;
 
-            return $this->model->with($with)->all();
+
+            return $this->model->with($with)->get();
         }
 
         return $this->model->all();
@@ -73,6 +77,7 @@ abstract class AbstractRepository {
     public function getAllPaginated($with = [], $perPage = 10)
     {
         if ( isset($with) && (! empty($with)) ) {
+            if ( ! is_array($with) ) throw new InvalidArgumentException;
 
             return $this->model->with($with)->paginate($perPage);
 
@@ -89,6 +94,7 @@ abstract class AbstractRepository {
     public function getById($id, array $with = [])
     {
         if ( isset($with) && (! empty($with)) ) {
+            if ( ! is_array($with) ) throw new InvalidArgumentException;
 
             return $this->model->with($with)->find($id);
         }
@@ -102,7 +108,7 @@ abstract class AbstractRepository {
      * @return \Illuminate\Database\Eloquent\Collection|Model|null|static
      * @throws EntityNotFoundException
      */
-    public function requireById($id, array $with = [])
+    public function findById($id, array $with = [])
     {
         $model = $this->getById($id, $with);
 
@@ -113,7 +119,8 @@ abstract class AbstractRepository {
         return $model;
     }
 
-    public function getFirst() {
+    public function getFirst()
+    {
         return $this->model->firstOrFail();
     }
 
@@ -228,5 +235,31 @@ abstract class AbstractRepository {
         } else {
             return $model->touch();
         }
+    }
+
+    /**
+     * @return namespaced class path
+     * Initiatialize the class path for validation
+     */
+    public function initValidatorClass()
+    {
+        $calledClass = new \ReflectionClass($this);
+        $baseClass   = $this->filterClassName($calledClass->getShortName());
+        $fullPath    = 'Acme\\' . $baseClass . '\\Validators\\';
+
+        return $fullPath;
+    }
+
+    /**
+     * Remove Repository Word From the param
+     */
+    public function filterClassName($className)
+    {
+        return str_replace('Repository', '', $className);
+    }
+
+    public function getList($column)
+    {
+        return $this->model->lists($column, 'id');
     }
 }
