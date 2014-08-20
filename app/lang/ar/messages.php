@@ -1,9 +1,11 @@
 <?php
 
 return array(
-    'success' => 'Success',
-    'warning' => 'Warning',
-    'error'   => 'Error',
-    'info'    => 'Info',
-    'error-message' => 'Please check the form below for errors'
+    'success' => 'عملية ناجحة',
+    'warning' => 'تحذير',
+    'error'   => 'خطأ',
+    'info'    => 'معلومة',
+    'error-message' => 'يرجى مراجعة البيانات',
+    'pending-message' => 'طلبك بانتظار موافقة مدير الموقع ..',
+
 );

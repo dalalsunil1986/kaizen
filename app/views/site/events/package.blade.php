@@ -150,7 +150,7 @@
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <a href="{{ action('SubscriptionsController@subscribe',$event->id) }}">
+                    <a href="{{ URL::action('SubscriptionsController@subscribe', array('userId' => $event->user_id, 'eventId'=>$event->id)) }}"/>
                     <button
                     type="button" class="col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                     data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">

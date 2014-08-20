@@ -290,4 +290,4 @@ Route::get('test', function () {
 });
 
 Route::get('package','SubscriptionsController@subscribePackage');
-Route::get('sub', 'SubscriptionsController@subscribe');
+Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
