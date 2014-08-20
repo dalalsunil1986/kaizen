@@ -12,7 +12,8 @@ app/storage/views/*
 app/storage/sessions/*
 app/storage/debugbar/*
 app/storage/logs/*
-use-cases/
+app/config/production/database.php
+use-cases/f5987289f961fe2beef0082fd96becfb5fdf1f37
 
 _ide_helper.php
 
