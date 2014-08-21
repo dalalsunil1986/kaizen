@@ -288,6 +288,8 @@ Route::get('test', function () {
     $containsAllValues = !array_diff($a, $b);
     dd($containsAllValues);
 });
-
+// AUTH USER - SUBSCRIPTION ROUTE
+// no Auth for the following routes but btns disabled within the view .. can not be accessed unless user is registered
 Route::get('package','SubscriptionsController@subscribePackage');
 Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
+

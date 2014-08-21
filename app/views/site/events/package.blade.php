@@ -146,13 +146,14 @@
             </h1>
         </div>
 
-        <div class="col-md-5 {{ !Auth::user()? 'btns_disabled' :'' }}">
+        <div class="col-md-5">
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <a href="{{ URL::action('SubscriptionsController@subscribe', array('userId' => $event->user_id, 'eventId'=>$event->id)) }}"/>
+
                     <button
-                    type="button" class="col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                    type="button" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                     data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
                     <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
                     <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>

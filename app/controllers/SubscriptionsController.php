@@ -40,24 +40,18 @@ class SubscriptionsController extends BaseController {
      */
 
     public function subscribe ($userId, $eventId) {
+
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
         if ( ! $subscription ) {
-
-             /*if a user is not registered why the $subscription btn is activated ? !!!!
-            even though still when the subscription btn is clicked .. a success message is shown .. means there is a value for subscriptionRepostory findByEvent ? !!
-             please explain this .. the user is not registered then there is no userId thank you - usama 20.8.14
-             */
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => 'ONLINE']);
-            return Redirect::home()->with('errors', Lang::get('messages.'.$subscription->messages->toAlert().'-message'));
+            return Redirect::home()->with('errors', Lang::get('messages.subscription-error-message'));
         }
         $subscription = new Subscriber($subscription);
         $subscription->subscribe();
-        if ( $subscription->messages->has('errors') ) {
-            //pending-message
-            return Redirect::home()->with('errors', Lang::get('messages.'.$subscription->messages->toAlert().'-message'));
+        if ( $subscription->messages->has('status') ) {
+            return Redirect::home()->with('success', Lang::get('messages.subscription-pending-message'));
         }
-
-        return Redirect::home()->with('success', Lang::get('messages.'.$subscription->messages->toAlert().'-message'));
+        return Redirect::home()->with('success', Lang::get('messages.subscription-conflict-message'));
     }
 
     /**

@@ -24,7 +24,7 @@ class SubscriptionRepository extends AbstractRepository {
         return $this->registrationType;
     }
 
-    public function findByEvent($userId, $eventId)
+    public function findByEvent($userId,$eventId)
     {
         $record = $this->model->where('user_id', $userId)->where('event_id', $eventId)->first();
         if ( ! $record ) return false;

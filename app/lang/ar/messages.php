@@ -6,6 +6,8 @@ return array(
     'error'   => 'خطأ',
     'info'    => 'معلومة',
     'error-message' => 'يرجى مراجعة البيانات',
-    'pending-message' => 'طلبك بانتظار موافقة مدير الموقع ..',
+    'subscription-pending-message' => 'طلبك بانتظار موافقة مدير الموقع ..',
+    'subscription-error-message' => 'حدث خطأ ما اثناء الاشتراك بالفعاليه .. يرجى المحاولة مرة أخرى أو التواصل مع إدارة الموقع ...',
+    'subscription-success-message' => 'تم تسجيلك بنحاح في هذه الفعالية .. شكرا'
 
 );

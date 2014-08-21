@@ -149,7 +149,7 @@
         <div class="col-md-5 {{ !Auth::user()? 'btns_disabled' :'' }}">
 
             <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12">test
                     <a href="{{ action('SubscriptionsController@subscribe',$event->id) }}">
                     <button
                     type="button" class="col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
