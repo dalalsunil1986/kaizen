@@ -49,6 +49,12 @@ class SubscriptionsController extends BaseController {
         $subscription = new Subscriber($subscription);
         $subscription->subscribe();
         if ( $subscription->messages->has('status') ) {
+            $event = $this->eventRepository->findById($eventId);
+
+            Mail::later(1,'site.emails.subscriptions', array('id'=>$event->id,'title_en'=>$event->title_en, 'description_en'=> $event->description_en), function($message) use ($userId, $event){
+                $user = user::find($userId);
+                $message->to('uusa35@gmail.com', $user->name_en )->subject('Kaizen - Event '.$event->title_en.' : Subscription Pending');
+            });
             return Redirect::home()->with('success', Lang::get('messages.subscription-pending-message'));
         }
         return Redirect::home()->with('success', Lang::get('messages.subscription-conflict-message'));
