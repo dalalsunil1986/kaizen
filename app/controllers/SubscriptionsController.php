@@ -63,17 +63,13 @@ class SubscriptionsController extends BaseController {
     /**
      * @param $id
      */
-    public function unsubscribe($id)
+    public function unsubscribe($userId,$id)
     {
         $subscription = $this->subscriptionRepository->findById($id);
         $event = $this->eventRepository->findById($id);
         $subscription = new Subscriber($subscription);
         $subscription->unsubscribe();
-        $body = "You have unsbscribed from participating in that Event .";
-        $user = user::find($userId);
-        Mail::later(1,'site.emails.subscriptions', array('id'=>$event->id,'title_en'=>$event->title_en, 'description_en'=> $event->description_en, 'body'=> $body), function($message) use ($userId, $event, $user){
-            $message->to($user->email, $user->name_en )->subject('Kaizen -  '.$event->title_en.' : Unsbscription ');
-        });
+        return Redirect::home()->with('success', Lang::get('messages.subscription-unsubscripe-message'));
     }
 
     public function subscribePackage($userId = 1, $packageId = 1)
