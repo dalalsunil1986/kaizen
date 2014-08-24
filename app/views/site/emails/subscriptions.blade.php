@@ -15,17 +15,15 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
+    <div class="row" style="border:1px solid #939393; border-radius: 5px; padding:15px; width: 58%; margin-right:20%; margin-right:20%;">
         <div class="panel panel-default">
-            <div class="panel-heading"> <h2>{{ $title_en }} </h2></div>
-            <div class="panel-body">
-                <a href="#" class="thumbnail">
-                    <img style="width: 50%; height: 50%; border:1px solid #c8c8c8; border-radius: 3px;" src="http://placehold.it/150x150" alt="...">
-                </a>
-                <h3>Please Note that  your subscription request is pending .. waiting for adminstrator approval .. once it's approved, you will be notified .. thanks for using Kaizen Website </br></h3>
+            <div class="panel-heading"> <h2 style="background-color: #C3CBD2; color: #b271d2;">{{ $title_en }} </h2></div>
+            <div class="panel-body" style="padding:5px;">
+                <h3>{{ $body }}</br></h3>
               <h2>{{  $description_en }}</h2>
                 <a href="{{ URL::action('EventsController@show',$id) }}" class="btn btn-primary" role="button">Go to Event</a>
-
+                </br></br>
+                <img src="{{ asset(app_path().'images/logo.png', $title_en, array('width'=>'50%', 'height'=>'auto')) }}" />
             </div>
         </div>
     </div>

@@ -105,6 +105,7 @@ class EventsController extends BaseController {
     public function show($id)
     {
         $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
+        // Afdal :: the photoRepository is not implemented within EventsController !!!
 
         if ( Auth::check() ) {
             $user = Auth::user();
