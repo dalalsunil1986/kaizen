@@ -5,6 +5,8 @@ use Acme\Package\PackageRepository;
 use Acme\Subscription\State\Admin\Subscriber;
 use Acme\Subscription\SubscriptionRepository;
 use Acme\User\UserRepository;
+use Illuminate\Support\MessageBag;
+
 
 class AdminSubscriptionsController extends AdminBaseController {
 
@@ -79,9 +81,11 @@ class AdminSubscriptionsController extends AdminBaseController {
         $status = Input::get('status');
 
         $subscription = $this->subscriptionRepository->findById($id);
+        $event = $this->eventRepository->findById($id);
 
         // if package requests try looping through all events
         $userId = $subscription->user_id;
+
 
         if ( $subscription->event->package ) {
             // If its a package event
@@ -118,8 +122,19 @@ class AdminSubscriptionsController extends AdminBaseController {
 
             }
         } else {
-            $this->subscribe($subscription, $status);
-            dd('subscribed to single event');
+            $subscription->status = $status;
+            $email = new MessageBag();
+            $body = $email->emailBody('subscription',$status);
+            $user = User::find($userId);
+            if($subscription->save()) {
+                Mail::later(1,'site.emails.subscriptions', array('id'=>$event->id,'title_en'=>$event->title_en, 'description_en'=> $event->description_en, 'body'=> $body), function($message) use ($event, $user, $status){
+                    $message->to($user->email, $user->name_en )->subject('Kaizen - '.$event->title_en.' : Subscription '.$status);
+                });
+                return Redirect::back()->with('success', 'Event '.$status.' an email has been sent to the subscriber');
+            }
+            else {
+                return Redirect::back()->with('error', 'Not working');
+            }
         }
 
     }

@@ -4,6 +4,7 @@ use Acme\Event\EventRepository;
 use Acme\Package\PackageRepository;
 use Acme\Subscription\State\Subscriber;
 use Acme\Subscription\SubscriptionRepository;
+use Illuminate\Support\MessageBag;
 
 class SubscriptionsController extends BaseController {
 
@@ -42,15 +43,18 @@ class SubscriptionsController extends BaseController {
     public function subscribe ($userId, $eventId) {
 
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
+        $status = $subscription->status;
         if ( ! $subscription ) {
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => 'ONLINE']);
             return Redirect::home()->with('errors', Lang::get('messages.subscription-error-message'));
         }
         $subscription = new Subscriber($subscription);
         $subscription->subscribe();
+
         if ( $subscription->messages->has('status') ) {
             $event = $this->eventRepository->findById($eventId);
-            $body = "Please Note that  your subscription request is pending .. waiting for adminstrator approval .. once it's approved, you will be notified .. thanks for using Kaizen Website ";
+            $email = new MessageBag();
+            $body = $email->emailBody('subscription',$status);
             $user = user::find($userId);
             Mail::later(1,'site.emails.subscriptions', array('id'=>$event->id,'title_en'=>$event->title_en, 'description_en'=> $event->description_en, 'body'=>$body), function($message) use ($userId, $event, $user){
                 $message->to($user->email, $user->name_en )->subject('Kaizen - '.$event->title_en.' : Subscription Pending');
