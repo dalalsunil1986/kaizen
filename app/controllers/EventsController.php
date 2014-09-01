@@ -107,6 +107,7 @@ class EventsController extends BaseController {
         $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
         // Afdal :: the photoRepository is not implemented within EventsController !!!
 
+
         if ( Auth::check() ) {
             $user = Auth::user();
             View::composer('site.events.package', function ($view) use ($id, $user) {
@@ -114,17 +115,20 @@ class EventsController extends BaseController {
 //                $favorited  = Favorite::hasFavorited($id, $user->id);
 //                $subscribed = Subscription::isSubscribed($id, $user->id);
 //                $followed   = Follower::isFollowing($id, $user->id);
-
+                $event_tag =  $this->eventRepository->findById($id);
+                $tags =  $event_tag->tags;
                 $favorited  = Favorite::hasFavorited($id, $user->id);
                 $subscribed = Subscription::isSubscribed($id, $user->id);
                 $followed   = Follower::isFollowing($id, $user->id);
-                $tags = $this->eventRepository->findById($id)->tags;
 
-                $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));
+
+                $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'tags' => $tags));
             });
         } else {
-            View::composer('site.events.package', function ($view) {
-                $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false));
+            $event_tag =  $this->eventRepository->findById($id);
+            $tags =  $event_tag->tags;
+            View::composer('site.events.package', function ($view) use ($tags) {
+                $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false, 'tags'=> $tags));
             });
         }
 

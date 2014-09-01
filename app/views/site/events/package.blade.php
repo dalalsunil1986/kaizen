@@ -611,8 +611,16 @@
         </div>
 
         <div class="col-md-12 col-sm-12 col-xs-12">
+            <!-- Tags Element -->
+            @if($tags)
+            <div class="row">
+                @for($i=0; $i < count($tags); $i++)
+                    <a href="{{ $tags[$i]->tag_id }}"><span class="label label-info">{{ $tags[$i]->title}}</span></a>
+                @endfor
+            </div>
+            @endif
             <a href="{{ action('SubscriptionsController@subscribe',$event->id) }}">
-            <button type="button" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
+            <button type="button" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn {{ !Auth::user()? 'disabled' :'' }}"
             data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
             <h2><i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>&nbsp;
                 @if ( App::getLocale() == 'en')

@@ -258,5 +258,9 @@ class EventModel extends BaseModel implements PresenterInterface {
         }
     }
 
+    public function tags() {
+        return $this->belongsToMany('Tag', 'event_tag', 'event_id', 'tag_id');
+    }
+
 }
 
