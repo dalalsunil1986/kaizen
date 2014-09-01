@@ -53,7 +53,8 @@ return array(
             'choose_category'=> 'اختر الفئة',
             'choose_author'=> 'اختر المدرب',
             'price' => 'السعر',
-            'free' => 'مجاني'
+            'free' => 'مجاني',
+            'unsubscribe_btn_desc' => 'الغاء الاشتراك'
     ),
     'general' => array(
             'kaizen' => 'كايزن',

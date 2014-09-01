@@ -51,7 +51,8 @@ return array(
                 'choose_category'=> 'Select Category',
                 'choose_author'=> 'Select Author',
                 'price' => 'Event Price',
-                'free' => 'Free'
+                'free' => 'Free',
+                'unsubscribe_btn_desc' => 'Cancel Subscription'
 
                 ),
     'general' => array(

@@ -292,4 +292,5 @@ Route::get('test', function () {
 // no Auth for the following routes but btns disabled within the view .. can not be accessed unless user is registered
 Route::get('package','SubscriptionsController@subscribePackage');
 Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
+Route::get('unsub/{userId}/{eventId}', 'SubscriptionsController@unsubscribe');
 

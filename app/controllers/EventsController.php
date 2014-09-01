@@ -116,8 +116,9 @@ class EventsController extends BaseController {
 //                $followed   = Follower::isFollowing($id, $user->id);
 
                 $favorited  = Favorite::hasFavorited($id, $user->id);
-                $subscribed = true;
+                $subscribed = Subscription::isSubscribed($id, $user->id);
                 $followed   = Follower::isFollowing($id, $user->id);
+                $tags = $this->eventRepository->findById($id)->tags;
 
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));
             });

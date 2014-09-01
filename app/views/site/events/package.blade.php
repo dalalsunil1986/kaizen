@@ -150,13 +150,15 @@
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <a href="{{ URL::action('SubscriptionsController@subscribe', array('userId' => $event->user_id, 'eventId'=>$event->id)) }}"/>
+                    <a href="{{ !$subscribed? URL::action('SubscriptionsController@subscribe', array('userId' => $event->user_id, 'eventId'=>$event->id)) : URL::action('SubscriptionsController@unsubscribe', array('userId'=> $event->user_id,'eventId'=>$event->id)) }}"/>
 
                     <button
                     type="button" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                     data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
                     <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-                    <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
+                    <span class="buttonText">
+                        {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe_btn_desc')  }}
+                        </span></button>
                     </a>
                 </div>
 

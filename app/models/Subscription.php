@@ -4,8 +4,6 @@ class Subscription extends BaseModel {
 
     protected $guarded = array('id');
 
-    // Afdal :: so weird property ?? !! never used within the class itself !!!!
-    // do you mean to define $table ? !!!! please clarify
     protected static $name = 'subscription';
 
     public static $rules = array(
@@ -45,5 +43,11 @@ class Subscription extends BaseModel {
     {
         return $query->whereStatus($status);
     }
+
+    public function cancelSubscription() {
+
+    }
+
+
 
 }

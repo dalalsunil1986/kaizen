@@ -23,6 +23,10 @@ class SubscriptionsController extends BaseController {
     /**
      * @var Acme\Package\PackageRepository
      */
+
+    /*
+     * tagController ==> TagRepository ==>
+     * */
     private $packageRepository;
 
     public function __construct(SubscriptionRepository $subscriptionRepository, EventRepository $eventRepository, PackageRepository $packageRepository)
@@ -67,10 +71,10 @@ class SubscriptionsController extends BaseController {
     /**
      * @param $id
      */
-    public function unsubscribe($userId,$id)
+    public function unsubscribe($userId,$eventId)
     {
-        $subscription = $this->subscriptionRepository->findById($id);
-        $event = $this->eventRepository->findById($id);
+        $subscription = $this->subscriptionRepository->findByEvent($userId,$eventId);
+
         $subscription = new Subscriber($subscription);
         $subscription->unsubscribe();
         return Redirect::home()->with('success', Lang::get('messages.subscription-unsubscripe-message'));
@@ -94,6 +98,12 @@ class SubscriptionsController extends BaseController {
     public function makePayment($subscriptionId)
     {
         // process payment
+    }
+
+    public function isSubscribed ($eventId, $userId) {
+        $subscription = Subscription::whereRaw('user_id = '.$userId.' and event_id = '.$eventId.'')->count();
+        return $subscription;
+
     }
 
 }
