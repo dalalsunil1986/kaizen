@@ -7,7 +7,7 @@ class Tag extends \Eloquent {
     // a Tag has many Events
     // an event has many tags ===>
     public function events () {
-        return $this->belongsToMany('EventModel', 'event_tag' , 'event_id' , 'tag_id');
+        return $this->belongsToMany('EventModel', 'event_tag' , 'tag_id' , 'event_id');
     }
 
 }

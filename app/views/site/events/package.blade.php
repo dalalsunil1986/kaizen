@@ -615,7 +615,7 @@
             @if($tags)
             <div class="row">
                 @for($i=0; $i < count($tags); $i++)
-                    <a href="{{ $tags[$i]->tag_id }}"><span class="label label-info">{{ $tags[$i]->title}}</span></a>
+                    <a href="{{ action('TagsController@show', $tags[$i]->id) }}"><span class="label label-info">{{ $tags[$i]->title}}</span></a>
                 @endfor
             </div>
             @endif

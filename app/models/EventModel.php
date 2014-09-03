@@ -127,7 +127,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function latest($count)
     {
-//        return EventModel::orderBy('created_at', 'DESC')->select('id','title','slug','title_en')->remember(10)->limit($count)->get();
+        return EventModel::orderBy('created_at', 'DESC')->select('id','title_ar','slug','title_en')->remember(10)->limit($count)->get();
     }
 
     public function getDates()

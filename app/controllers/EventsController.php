@@ -83,7 +83,6 @@ class EventsController extends BaseController {
         } else {
             $events = $this->eventRepository->getEvents($perPage);
         }
-
         $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country'));
     }
 
@@ -115,18 +114,16 @@ class EventsController extends BaseController {
 //                $favorited  = Favorite::hasFavorited($id, $user->id);
 //                $subscribed = Subscription::isSubscribed($id, $user->id);
 //                $followed   = Follower::isFollowing($id, $user->id);
-                $event_tag =  $this->eventRepository->findById($id);
-                $tags =  $event_tag->tags;
+                // getTags related to an Event
+                $tags =  $this->eventRepository->findById($id)->tags;
                 $favorited  = Favorite::hasFavorited($id, $user->id);
                 $subscribed = Subscription::isSubscribed($id, $user->id);
                 $followed   = Follower::isFollowing($id, $user->id);
 
-
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'tags' => $tags));
             });
         } else {
-            $event_tag =  $this->eventRepository->findById($id);
-            $tags =  $event_tag->tags;
+            $tags =  $this->eventRepository->findById($id)->tags;
             View::composer('site.events.package', function ($view) use ($tags) {
                 $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false, 'tags'=> $tags));
             });
@@ -406,7 +403,6 @@ class EventsController extends BaseController {
         // fetches 2 featured post
         // order by event date, date created, featured
         // combines them into one query to return for slider
-
         $latestEvents   = $this->eventRepository->latestEvents();
         $featuredEvents = $this->eventRepository->feautredEvents();
         $events         = array_merge((array) $latestEvents, (array) $featuredEvents);
@@ -416,7 +412,6 @@ class EventsController extends BaseController {
             }
             $events_unique = array_unique($array);
             $sliderEvents  = $this->eventRepository->getSliderEvents(6, $events_unique);
-
             return $sliderEvents;
         } else {
             return null;

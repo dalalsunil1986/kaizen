@@ -54,6 +54,11 @@ Route::get('consultancy', array('as' => 'consultancy', 'uses' => 'BlogsControlle
 
 Route::resource('blog', 'BlogsController', array('only' => array('index', 'show', 'view')));
 
+/*********************************************************************************************************
+ * Tags
+ ********************************************************************************************************/
+Route::resource('tag', 'TagsController', array('only'=> array('show')));
+
 // Post Comment
 
 /*********************************************************************************************************

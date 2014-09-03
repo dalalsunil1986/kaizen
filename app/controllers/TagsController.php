@@ -1,8 +1,19 @@
 <?php
 
-class TagsController extends \BaseController {
+class TagsController extends BaseController {
 
-	/**
+
+
+    public $eventModel;
+    private $tag;
+
+    // Dependent Injection Patter - object of EventModel
+    public function __construct(EventModel $eventModel, Tag $tag) {
+    $this->eventModel = $eventModel;
+    $this->tag = $tag;
+    parent::__construct();
+    }
+    /**
 	 * Display a listing of the resource.
 	 * GET /tags
 	 *
@@ -45,6 +56,14 @@ class TagsController extends \BaseController {
 	public function show($id)
 	{
 		//
+        $tag =  $this->tag->find($id);
+        $latest_event_posts = $this->eventModel->latest(4);
+
+        $events = $tag->events()->paginate(15);
+        View::composer('site.events.index', function ($view) use ($tag) {
+            $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false, 'tags'=> $tag));
+        });
+        $this->render('site.events.index', compact('events', 'latest_event_posts'));
 	}
 
 	/**
