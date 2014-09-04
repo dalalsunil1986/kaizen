@@ -44,6 +44,21 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="form-group col-md-12">
+        <p>{{ Form::label('tags', 'Tags:', array('class','pull-left')) }}</p>
+            @foreach($tags as $tag)
+                <div class="controls col-md-3">
+                    @if(in_array($tag->id, $tags_array))
+                        {{ Form::checkbox('tag[]', $tag->id, 'checked')  }}
+                    @else
+                        {{ Form::checkbox('tag[]', $tag->id, false)  }}
+                    @endif
+                    {{ Form::label($tag->title, $tag->title) }}
+                </div>
+            @endforeach
+    </div>
+</div>
 
 <div class="row">
     <div class="form-group col-md-12">

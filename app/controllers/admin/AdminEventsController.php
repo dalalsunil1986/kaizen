@@ -19,6 +19,8 @@ class AdminEventsController extends AdminBaseController {
     protected $photo;
     protected $photoRepository;
     protected $locationRepository;
+    protected $eventTags;
+    protected $tags;
     /**
      * @var Acme\Setting\SettingRepository
      */
@@ -32,7 +34,7 @@ class AdminEventsController extends AdminBaseController {
      */
     private $packageRepository;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository, PackageRepository $packageRepository)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository, PackageRepository $packageRepository, eventModel $eventTags, Tag $tags)
     {
         $this->eventRepository    = $eventRepository;
         $this->categoryRepository = $categoryRepository;
@@ -41,6 +43,8 @@ class AdminEventsController extends AdminBaseController {
         $this->locationRepository = $locationRepository;
         $this->settingRepository  = $settingRepository;
         $this->packageRepository  = $packageRepository;
+        $this->eventTags          = $eventTags;
+        $this->tags               = $tags;
         parent::__construct();
     }
 
@@ -111,12 +115,18 @@ class AdminEventsController extends AdminBaseController {
      */
     public function edit($id)
     {
-        $event    = $this->eventRepository->findById($id, ['photos']);
-        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
-        $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
-        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $event      = $this->eventRepository->findById($id, ['photos']);
+        $tags       = $this->tags->all();
+        $event_tags = $this->eventTags->find($id)->tags()->get();
+        $tags_array = array();
+        foreach($event_tags as $event_tag) {
+            array_push($tags_array, $event_tag->id);
+        }
+        $category   = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $author     = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $location   = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
 
-        $this->render('admin.events.edit', compact('event', 'category', 'author', 'location'));
+        $this->render('admin.events.edit', compact('event', 'category', 'author', 'location', 'tags_array', 'tags'));
     }
 
     /**
@@ -128,7 +138,11 @@ class AdminEventsController extends AdminBaseController {
     public function update($id)
     {
 
-//        dd(Input::all());
+        //dd(Input::all());
+        // where is the function responsible to asign inputs then update records within the DB ? !!! so complicated to the limit it loses efficiency :(
+        // i need to get the Tag Array that i implemented within the Edit Form [BackEnd] .. then update the event_tag table with the new array
+
+
         $this->eventRepository->findById($id);
 
         $val = $this->eventRepository->getEditForm($id);
