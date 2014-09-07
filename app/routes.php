@@ -298,4 +298,5 @@ Route::get('test', function () {
 Route::get('package','SubscriptionsController@subscribePackage');
 Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
 Route::get('unsub/{userId}/{eventId}', 'SubscriptionsController@unsubscribe');
+Route::get('types', 'SubscriptionsController@subscribeTypes');
 

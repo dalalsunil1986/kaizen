@@ -44,8 +44,15 @@ class SubscriptionsController extends BaseController {
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function subscribe($userId, $eventId)
-    {
+
+    public function subscribeTypes () {
+        $this->render('site.events.types');
+    }
+    
+    public function subscribe ($userId, $eventId) {
+
+        $event = $this->eventRepository->findById($eventId);
+
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
         if ( ! $subscription ) {
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => 'ONLINE']);

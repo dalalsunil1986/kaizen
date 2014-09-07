@@ -9,6 +9,7 @@
 </style>
 
 </br>
+
 @if(count($events))
 @foreach($events as $event)
 <div class="row">
