@@ -33,6 +33,7 @@ class HomeController extends BaseController {
         // get only 4 images for slider
         $events  = $this->eventRepository->getSliderEvents();
         $this->render('site.home', compact('events'));
+
     }
 
 }

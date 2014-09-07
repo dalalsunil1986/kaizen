@@ -45,6 +45,9 @@ class EventRepository extends AbstractRepository {
      * @return array|null|static[]
      * Fetch Posts For Sliders
      */
+
+    // Afdal that's so weird .. this function is repeated in EventRepository and EventsController !!!!!!!!!!!!!!!!!!!!!!!!!
+
     public function getSliderEvents()
     {
         // fetch 3 latest post
@@ -121,5 +124,6 @@ class EventRepository extends AbstractRepository {
 
         return $events;
     }
+
 
 }

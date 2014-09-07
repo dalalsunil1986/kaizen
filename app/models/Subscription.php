@@ -44,4 +44,10 @@ class Subscription extends BaseModel {
         return $query->whereStatus($status);
     }
 
+    public function cancelSubscription() {
+
+    }
+
+
+
 }

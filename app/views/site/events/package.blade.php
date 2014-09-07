@@ -150,16 +150,19 @@
         </h1>
     </div>
 
-    <div class="col-md-5 {{ !Auth::user()? 'btns_disabled' :'' }}">
+    <div class="col-md-5">
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <a href="{{ action('SubscriptionsController@subscribe',$event->id) }}">
-                    <button
-                        type="button" class="col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                        data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
-                        <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-                        <span class="buttonText">{{ Lang::get('site.general.subscribe_btn_desc')}}</span></button>
+                <a href="{{ !$subscribed? URL::action('SubscriptionsController@subscribe', array('userId' => $event->user_id, 'eventId'=>$event->id)) : URL::action('SubscriptionsController@unsubscribe', array('userId'=> $event->user_id,'eventId'=>$event->id)) }}"/>
+
+                <button
+                    type="button" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                    data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
+                    <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
+                    <span class="buttonText">
+                        {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe_btn_desc')  }}
+                        </span></button>
                 </a>
             </div>
 
@@ -193,179 +196,188 @@
 <br><br><br>
 @endif
 <div class="row">
-<div class="col-md-12">
-    <table class="table table-striped">
-        <tr>
-            <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
-        </tr>
-        <tr>
-            <td><b>{{ Lang::get('site.general.country') }} </b></td>
-            <td>
-                {{ $event->location->country->name }}
-            </td>
-            <td><b>{{ Lang::get('site.general.location') }}</b></td>
-            <td>
-                {{ $event->location->name }}
-            </td>
-        </tr>
-        <tr>
-            <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
-            <td> {{ $event->total_seats}}</td>
-            <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
-            <td> {{ $event->available_seats}}</td>
-        </tr>
-        <tr>
-            <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
-            <td> {{ $event->formatEventDate($event->date_start) }}</td>
-            <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
-            <td> {{ $event->formatEventDate($event->date_end) }}</td>
-        </tr>
-        <tr>
-            <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
-            <td> {{ $event->date_start }}</td>
-            <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
-            <td> {{ $event->date_end }}</td>
-        </tr>
-        @if($event->phone || $event->email)
-        <tr>
-            @if($event->phone)
-            <td><b>{{ Lang::get('site.general.phone') }}</b></td>
-            <td> {{ $event->phone }}</td>
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <tr>
+                <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+            </tr>
+            <tr>
+                <td><b>{{ Lang::get('site.general.country') }} </b></td>
+                <td>
+                    {{ $event->location->country->name }}
+                </td>
+                <td><b>{{ Lang::get('site.general.location') }}</b></td>
+                <td>
+                    {{ $event->location->name }}
+                </td>
+            </tr>
+            <tr>
+                <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
+                <td> {{ $event->total_seats}}</td>
+                <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
+                <td> {{ $event->available_seats}}</td>
+            </tr>
+            <tr>
+                <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
+                <td> {{ $event->formatEventDate($event->date_start) }}</td>
+                <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
+                <td> {{ $event->formatEventDate($event->date_end) }}</td>
+            </tr>
+            <tr>
+                <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
+                <td> {{ $event->date_start }}</td>
+                <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
+                <td> {{ $event->date_end }}</td>
+            </tr>
+            @if($event->phone || $event->email)
+            <tr>
+                @if($event->phone)
+                <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                <td> {{ $event->phone }}</td>
+                @endif
+                @if($event->email)
+                <td><b>{{ Lang::get('site.general.email') }}</b></td>
+                <td> {{ $event->email }}</td>
+                @endif
+            </tr>
             @endif
-            @if($event->email)
-            <td><b>{{ Lang::get('site.general.email') }}</b></td>
-            <td> {{ $event->email }}</td>
-            @endif
-        </tr>
-        @endif
-        <tr>
-            <td><b>{{ Lang::get('site.event.price') }}</b></td>
-            @if($event->price)
-            <td>{{ $event->price }}</td>
-            @else
-            <td>{{ Lang::get('site.event.free') }}</td>
-            @endif
-        </tr>
-    </table>
-</div>
+            <tr>
+                <td><b>{{ Lang::get('site.event.price') }}</b></td>
+                @if($event->price)
+                <td>{{ $event->price }}</td>
+                @else
+                <td>{{ Lang::get('site.event.free') }}</td>
+                @endif
+            </tr>
+        </table>
+    </div>
 
-<div class="col-md-12" style="margin-bottom: 20px;">
-    <div class="panel-group" id="accordion">
-        @for( $i=0 ; $i<=2; $i++ )
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i; ?>">
-                        {{ $event->title }}
-                    </a>
-                </h4>
-            </div>
-            <div id="collapse<?php echo $i; ?>" class="panel-collapse collapse <?php if ( $i != 0 ) {
-                echo 'in';
-            } ?>">
-                <div class="panel-body">
-                    {{ $event->description }}
-                    <div class="col-md-12">
-                        <table class="table table-striped">
-                            <tr>
-                                <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
-                            </tr>
-                            <tr>
-                                <td><b>{{ Lang::get('site.general.country') }} </b></td>
-                                <td>
-                                    {{ $event->location->country->name }}
-                                </td>
-                                <td><b>{{ Lang::get('site.general.location') }}</b></td>
-                                <td>
-                                    {{ $event->location->name }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
-                                <td> {{ $event->total_seats}}</td>
-                                <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
-                                <td> {{ $event->available_seats}}</td>
-                            </tr>
-                            <tr>
-                                <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
-                                <td> {{ $event->formatEventDate($event->date_start) }}</td>
-                                <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
-                                <td> {{ $event->formatEventDate($event->date_end) }}</td>
-                            </tr>
-                            <tr>
-                                <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
-                                <td> {{ $event->date_start }}</td>
-                                <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
-                                <td> {{ $event->date_end }}</td>
-                            </tr>
-                            @if($event->phone || $event->email)
-                            <tr>
-                                @if($event->phone)
-                                <td><b>{{ Lang::get('site.general.phone') }}</b></td>
-                                <td> {{ $event->phone }}</td>
+    <div class="col-md-12" style="margin-bottom: 20px;">
+        <div class="panel-group" id="accordion">
+            @for( $i=0 ; $i<=2; $i++ )
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i; ?>">
+                            {{ $event->title }}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse<?php echo $i; ?>" class="panel-collapse collapse <?php if ( $i != 0 ) {
+                    echo 'in';
+                } ?>">
+                    <div class="panel-body">
+                        {{ $event->description }}
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <tr>
+                                    <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+                                </tr>
+                                <tr>
+                                    <td><b>{{ Lang::get('site.general.country') }} </b></td>
+                                    <td>
+                                        {{ $event->location->country->name }}
+                                    </td>
+                                    <td><b>{{ Lang::get('site.general.location') }}</b></td>
+                                    <td>
+                                        {{ $event->location->name }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
+                                    <td> {{ $event->total_seats}}</td>
+                                    <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
+                                    <td> {{ $event->available_seats}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
+                                    <td> {{ $event->formatEventDate($event->date_start) }}</td>
+                                    <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
+                                    <td> {{ $event->formatEventDate($event->date_end) }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
+                                    <td> {{ $event->date_start }}</td>
+                                    <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
+                                    <td> {{ $event->date_end }}</td>
+                                </tr>
+                                @if($event->phone || $event->email)
+                                <tr>
+                                    @if($event->phone)
+                                    <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                                    <td> {{ $event->phone }}</td>
+                                    @endif
+                                    @if($event->email)
+                                    <td><b>{{ Lang::get('site.general.email') }}</b></td>
+                                    <td> {{ $event->email }}</td>
+                                    @endif
+                                </tr>
                                 @endif
-                                @if($event->email)
-                                <td><b>{{ Lang::get('site.general.email') }}</b></td>
-                                <td> {{ $event->email }}</td>
-                                @endif
-                            </tr>
-                            @endif
-                            <tr>
-                                <td><b>{{ Lang::get('site.event.price') }}</b></td>
-                                @if($event->price)
-                                <td>{{ $event->price }}</td>
-                                @else
-                                <td>{{ Lang::get('site.event.free') }}</td>
-                                @endif
-                            </tr>
-                        </table>
+                                <tr>
+                                    <td><b>{{ Lang::get('site.event.price') }}</b></td>
+                                    @if($event->price)
+                                    <td>{{ $event->price }}</td>
+                                    @else
+                                    <td>{{ Lang::get('site.event.free') }}</td>
+                                    @endif
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+            @endfor
+
         </div>
-        @endfor
-
     </div>
-</div>
 
-@if($event->latitude && $event->longitude)
+    @if($event->latitude && $event->longitude)
 
-<div class="col-md-12">
-    <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#map">
-        <b><i class="glyphicon glyphicon-map-marker"></i> Show / Hide Map </b>
-    </button>
-    <div id="map" class="collapse in top10">
-        <div id="map_canvas"></div>
+    <div class="col-md-12">
+        <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#map">
+            <b><i class="glyphicon glyphicon-map-marker"></i> Show / Hide Map </b>
+        </button>
+        <div id="map" class="collapse in top10">
+            <div id="map_canvas"></div>
+        </div>
     </div>
-</div>
 
-@endif
-<div class="col-md-12 top15">
-    <b>{{ Lang::get('site.general.address') }} </b>
-    <address>
-        <strong>
-            {{ $event->address }}
-            -
-            {{ $event->street }}
+    @endif
+    <div class="col-md-12 top15">
+        <b>{{ Lang::get('site.general.address') }} </b>
+        <address>
+            <strong>
+                {{ $event->address }}
+                -
+                {{ $event->street }}
 
-        </strong>
-        <br>
-        @if($event->phone)
-        <abbr title="Phone">Phone:</abbr>
-        {{ $event->phone }}
+            </strong>
+            <br>
+            @if($event->phone)
+            <abbr title="Phone">Phone:</abbr>
+            {{ $event->phone }}
+            @endif
+        </address>
+    </div>
+
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <!-- Tags Element -->
+        @if($tags)
+        <div class="row">
+            @for($i=0; $i < count($tags); $i++)
+            <a href="{{ action('TagsController@show', $tags[$i]->id) }}"><span class="label label-info">{{ $tags[$i]->title}}</span></a>
+            @endfor
+        </div>
         @endif
-    </address>
-</div>
-
-<div class="col-md-12 col-sm-12 col-xs-12">
-    <a href="{{ action('SubscriptionsController@subscribe',$event->id) }}">
-        <button type="button" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
-            <h2><i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>&nbsp;
-                {{ $event->button }}
-            </h2></button>
-    </a>
-</div>
+        <a href="{{ action('SubscriptionsController@subscribe',$event->id) }}">
+            <button type="button" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn {{ !Auth::user()? 'disabled' :'' }}"
+                    data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
+                <h2><i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>&nbsp;
+                                                                                                        {{ $event->button }}
+                </h2></button>
+        </a>
+    </div>
 </div>
 <hr>
 <div class="row">

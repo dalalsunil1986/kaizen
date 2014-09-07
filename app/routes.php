@@ -54,6 +54,11 @@ Route::get('consultancy', array('as' => 'consultancy', 'uses' => 'BlogsControlle
 
 Route::resource('blog', 'BlogsController', array('only' => array('index', 'show', 'view')));
 
+/*********************************************************************************************************
+ * Tags
+ ********************************************************************************************************/
+Route::resource('tag', 'TagsController', array('only'=> array('show')));
+
 // Post Comment
 
 /*********************************************************************************************************
@@ -288,6 +293,9 @@ Route::get('test', function () {
     $containsAllValues = !array_diff($a, $b);
     dd($containsAllValues);
 });
-
+// AUTH USER - SUBSCRIPTION ROUTE
+// no Auth for the following routes but btns disabled within the view .. can not be accessed unless user is registered
 Route::get('package','SubscriptionsController@subscribePackage');
-Route::get('sub', 'SubscriptionsController@subscribe');
+Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
+Route::get('unsub/{userId}/{eventId}', 'SubscriptionsController@unsubscribe');
+

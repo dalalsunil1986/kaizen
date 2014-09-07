@@ -15,8 +15,8 @@ class EventsTableSeeder extends Seeder {
         $dt = Carbon::now();
         $dateNow = $dt->toDateTimeString();
 
-//        for ($i = 0; $i < 1; $i++)
-//        {
+        for ($i = 0; $i < 15; $i++)
+        {
             $this->setDateStart($dt->addDays($faker->numberBetween(1,20))->toDateTimeString());
 
             $this->setDateEnd($dt->addDays($faker->numberBetween(2,20))->toDateTimeString());
@@ -64,8 +64,8 @@ class EventsTableSeeder extends Seeder {
 
         }
 
-		// Uncomment the below to run the seeder
-//	}
+//		 Uncomment the below to run the seeder
+	}
 
     /**
      * @return mixed

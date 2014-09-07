@@ -22,16 +22,18 @@ class Subscriber {
         $this->waiting   = new WaitingState($this);
         $this->rejected  = new RejectedState($this);
         $this->pending   = new PendingState($this);
-        $this->approved  = new ApprovedState($this);
         $this->messages  = new MessageBag();
+        $this->approved  = new ApprovedState($this);
+
         $this->model     = $subscription;
 
         if ( empty($this->model->status) ) {
             $this->subscriptionState = $this->pending;
-
+            $this->messages->add('status','pending');
         } else {
             $status                  = strtolower($this->model->status);
             $this->subscriptionState = $this->{$status};
+            $this->messages->add('status', $status);
         }
     }
 
@@ -43,7 +45,9 @@ class Subscriber {
 
     public function subscribe()
     {
+        // what is this function used for ? !!! i can not even find createSubscription Method !!!!!
         $this->subscriptionState->createSubscription();
+
     }
 
     public function unsubscribe()
@@ -83,7 +87,7 @@ class Subscriber {
     /**
      * @return \Acme\Subscription\State\Pending
      */
-    public function getPendingState()
+    public function  getPendingState()
     {
         return $this->pending;
     }

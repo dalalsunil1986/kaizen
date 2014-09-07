@@ -48,19 +48,34 @@ class SubscriptionRepository extends AbstractRepository {
 
     public function findAllSubscriptionsForUser($userId)
     {
-        $records = $this->model->where('user_id',$userId)->get();
+        $records = $this->model->where('user_id', $userId)->get();
+
         return $records;
     }
 
     public function findAllPackageSubscriptionsForUser($userId, array $eventId)
     {
-        $records = $this->model->where('user_id',$userId)->whereIn('event_id',$eventId)->get();
+        $records = $this->model->where('user_id', $userId)->whereIn('event_id', $eventId)->get();
+
         return $records;
     }
 
     public function getAllByStatus($status, $array)
     {
         return $this->model->ofStatus($status)->with($array)->get();
+    }
+
+    /**
+     * @param $id eventId
+     * @param $userId int
+     * @return boolean
+     * Is User subsribed to this event
+     */
+    public function isSubscribed($id, $userId)
+    {
+        $query = $this->model->where('user_id', '=', $userId)->where('event_id', '=', $id)->count();
+
+        return ($query >= 1) ? true : false;
     }
 
 }
