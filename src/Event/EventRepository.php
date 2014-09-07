@@ -125,4 +125,5 @@ class EventRepository extends AbstractRepository {
         return $events;
     }
 
+
 }

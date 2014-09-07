@@ -47,11 +47,11 @@ class SubscriptionsController extends BaseController {
     public function subscribe ($userId, $eventId) {
 
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
-        $status = $subscription->status;
         if ( ! $subscription ) {
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => 'ONLINE']);
             return Redirect::home()->with('errors', Lang::get('messages.subscription-error-message'));
         }
+        $status = $subscription->status;
         $subscription = new Subscriber($subscription);
         $subscription->subscribe();
 

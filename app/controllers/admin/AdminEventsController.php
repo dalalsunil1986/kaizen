@@ -5,6 +5,7 @@ use Acme\Location\LocationRepository;
 use Acme\Package\PackageRepository;
 use Acme\Photo\PhotoRepository;
 use Acme\Setting\SettingRepository;
+use Acme\Tag\TagRepository;
 use Acme\User\UserRepository;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -33,8 +34,12 @@ class AdminEventsController extends AdminBaseController {
      * @var Acme\Package\PackageRepository
      */
     private $packageRepository;
+    /**
+     * @var Acme\Tag\TagRepository
+     */
+    private $tagRepository;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository, PackageRepository $packageRepository, eventModel $eventTags, Tag $tags)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, LocationRepository $locationRepository, UserRepository $userRepository, PhotoRepository $photoRepository, SettingRepository $settingRepository, PackageRepository $packageRepository, eventModel $eventTags, TagRepository $tagRepository)
     {
         $this->eventRepository    = $eventRepository;
         $this->categoryRepository = $categoryRepository;
@@ -46,6 +51,7 @@ class AdminEventsController extends AdminBaseController {
         $this->eventTags          = $eventTags;
         $this->tags               = $tags;
         parent::__construct();
+        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -138,6 +144,12 @@ class AdminEventsController extends AdminBaseController {
     public function update($id)
     {
 
+<<<<<<< HEAD
+=======
+        //dd(Input::all());
+        // where is the function responsible to asign inputs then update records within the DB ? !!! so complicated to the limit it loses efficiency :(
+        // i need to get the Tag Array that i implemented within the Edit Form [BackEnd] .. then update the event_tag table with the new array
+>>>>>>> 4ab049890918b2713aed255da9a5b4ce7eaff927
 
         $this->eventRepository->findById($id);
 
@@ -152,6 +164,12 @@ class AdminEventsController extends AdminBaseController {
 
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
+
+//        if (! $this->tagRepository->create()) {
+//
+//        }
+
+        dd(Input::all());
 
         return Redirect::action('AdminEventsController@edit', $id)->with('success', 'Updated');
 

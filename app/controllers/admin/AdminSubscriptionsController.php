@@ -86,7 +86,6 @@ class AdminSubscriptionsController extends AdminBaseController {
         // if package requests try looping through all events
         $userId = $subscription->user_id;
 
-
         if ( $subscription->event->package ) {
             // If its a package event
 
@@ -99,9 +98,7 @@ class AdminSubscriptionsController extends AdminBaseController {
             foreach ( $package->events as $event ) {
                 $packageArray[] = $event->id;
             }
-
             $packageSubscriptions = $this->subscriptionRepository->findAllPackageSubscriptionsForUser($userId, $packageArray);
-
             foreach ( $packageSubscriptions as $subscription ) {
                 $subscriptionArray[] = $subscription->event_id;
             }
@@ -110,31 +107,32 @@ class AdminSubscriptionsController extends AdminBaseController {
             $hasSubscribedToWholePackage = ! array_diff($packageArray, $subscriptionArray);
 
             if ( $hasSubscribedToWholePackage ) {
-
-                for ( $i = 0; $i < $packageArray; $i ++ ) {
+//                dd('yes whole package');
+                for ( $i = 0; $i < count($packageArray); $i ++ ) {
                     $this->subscribe($subscription, $status);
                 }
                 dd('subscribed to whole package');
             } else {
+                dd('no');
                 $this->subscribe($subscription, $status);
 
                 dd('subscribed to package event');
 
             }
         } else {
-            $subscription->status = $status;
-            $email = new MessageBag();
-            $body = $email->emailBody('subscription',$status);
-            $user = User::find($userId);
-            if($subscription->save()) {
-                Mail::later(1,'site.emails.subscriptions', array('id'=>$event->id,'title_en'=>$event->title_en, 'description_en'=> $event->description_en, 'body'=> $body), function($message) use ($event, $user, $status){
-                    $message->to($user->email, $user->name_en )->subject('Kaizen - '.$event->title_en.' : Subscription '.$status);
-                });
-                return Redirect::back()->with('success', 'Event '.$status.' an email has been sent to the subscriber');
-            }
-            else {
-                return Redirect::back()->with('error', 'Not working');
-            }
+//            $subscription->status = $status;
+//            $email = new MessageBag();
+//            $body = $email->emailBody('subscription',$status);
+//            $user = User::find($userId);
+//            if($subscription->save()) {
+//                Mail::later(1,'site.emails.subscriptions', array('id'=>$event->id,'title_en'=>$event->title_en, 'description_en'=> $event->description_en, 'body'=> $body), function($message) use ($event, $user, $status){
+//                    $message->to($user->email, $user->name_en )->subject('Kaizen - '.$event->title_en.' : Subscription '.$status);
+//                });
+//                return Redirect::back()->with('success', 'Event '.$status.' an email has been sent to the subscriber');
+//            }
+//            else {
+//                return Redirect::back()->with('error', 'Not working');
+//            }
         }
 
     }
