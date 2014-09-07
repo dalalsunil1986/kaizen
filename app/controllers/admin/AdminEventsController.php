@@ -49,9 +49,8 @@ class AdminEventsController extends AdminBaseController {
         $this->settingRepository  = $settingRepository;
         $this->packageRepository  = $packageRepository;
         $this->eventTags          = $eventTags;
-        $this->tags               = $tags;
-        parent::__construct();
         $this->tagRepository = $tagRepository;
+        parent::__construct();
     }
 
     /**
@@ -63,7 +62,7 @@ class AdminEventsController extends AdminBaseController {
     public function index()
     {
         $events   = $this->eventRepository->getAll(array('category', 'location.country'))->paginate(10);
-        $packages = $this->packageRepository->getAll(   );
+        $packages = $this->packageRepository->getAll();
         $this->render('admin.events.index', compact('events', 'packages'));
     }
 
@@ -77,7 +76,6 @@ class AdminEventsController extends AdminBaseController {
         $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
-
         $this->render('admin.events.create', compact('category', 'author', 'location'));
     }
 

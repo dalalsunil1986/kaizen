@@ -29,7 +29,7 @@ class CreateValidator extends AbstractValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'approval_type','registration_types'
+            'approval_type','registration_types','vip_description_en','vip_description_ar','online_description_en','online_description_ar'
         ]);
     }
 

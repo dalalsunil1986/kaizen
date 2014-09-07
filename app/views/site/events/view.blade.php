@@ -184,16 +184,16 @@
 
 </div>
 @if(count($event->photos))
-<div class="row" id="event_images">
-    <div id="links">
-        @foreach($event->photos as $photo)
-        <a href="{{ URL::route('base').'/uploads/'.$photo->name }}" data-gallery>
-            {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
-        </a>
-        @endforeach
+    <div class="row" id="event_images">
+        <div id="links">
+            @foreach($event->photos as $photo)
+            <a href="{{ URL::route('base').'/uploads/'.$photo->name }}" data-gallery>
+                {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
+            </a>
+            @endforeach
+        </div>
     </div>
-</div>
-<br><br><br>
+    <br><br><br>
 @endif
 <div class="row">
     <div class="col-md-12">

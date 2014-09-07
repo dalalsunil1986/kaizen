@@ -32,8 +32,8 @@ class SubscriptionsController extends BaseController {
     public function __construct(SubscriptionRepository $subscriptionRepository, EventRepository $eventRepository, PackageRepository $packageRepository)
     {
         $this->subscriptionRepository = $subscriptionRepository;
-        $this->eventRepository   = $eventRepository;
-        $this->packageRepository = $packageRepository;
+        $this->eventRepository        = $eventRepository;
+        $this->packageRepository      = $packageRepository;
         parent::__construct();
     }
 
@@ -44,39 +44,43 @@ class SubscriptionsController extends BaseController {
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function subscribe ($userId, $eventId) {
-
+    public function subscribe($userId, $eventId)
+    {
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
         if ( ! $subscription ) {
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => 'ONLINE']);
+
             return Redirect::home()->with('errors', Lang::get('messages.subscription-error-message'));
         }
-        $status = $subscription->status;
+        $status       = $subscription->status;
         $subscription = new Subscriber($subscription);
         $subscription->subscribe();
 
         if ( $subscription->messages->has('status') ) {
             $event = $this->eventRepository->findById($eventId);
             $email = new MessageBag();
-            $body = $email->emailBody('subscription',$status);
-            $user = user::find($userId);
-            Mail::later(1,'site.emails.subscriptions', array('id'=>$event->id,'title_en'=>$event->title_en, 'description_en'=> $event->description_en, 'body'=>$body), function($message) use ($userId, $event, $user){
-                $message->to($user->email, $user->name_en )->subject('Kaizen - '.$event->title_en.' : Subscription Pending');
+            $body  = $email->emailBody('subscription', $status);
+            $user  = user::find($userId);
+            Mail::later(1, 'site.emails.subscriptions', array('id' => $event->id, 'title_en' => $event->title_en, 'description_en' => $event->description_en, 'body' => $body), function ($message) use ($userId, $event, $user) {
+                $message->to($user->email, $user->name_en)->subject('Kaizen - ' . $event->title_en . ' : Subscription Pending');
             });
+
             return Redirect::home()->with('success', Lang::get('messages.subscription-pending-message'));
         }
+
         return Redirect::home()->with('success', Lang::get('messages.subscription-conflict-message'));
     }
 
     /**
      * @param $id
      */
-    public function unsubscribe($userId,$eventId)
+    public function unsubscribe($userId, $eventId)
     {
-        $subscription = $this->subscriptionRepository->findByEvent($userId,$eventId);
+        $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
 
         $subscription = new Subscriber($subscription);
         $subscription->unsubscribe();
+
         return Redirect::home()->with('success', Lang::get('messages.subscription-unsubscripe-message'));
     }
 
@@ -100,8 +104,10 @@ class SubscriptionsController extends BaseController {
         // process payment
     }
 
-    public function isSubscribed ($eventId, $userId) {
-        $subscription = Subscription::whereRaw('user_id = '.$userId.' and event_id = '.$eventId.'')->count();
+    public function isSubscribed($eventId, $userId)
+    {
+        $subscription = Subscription::whereRaw('user_id = ' . $userId . ' and event_id = ' . $eventId . '')->count();
+
         return $subscription;
 
     }
