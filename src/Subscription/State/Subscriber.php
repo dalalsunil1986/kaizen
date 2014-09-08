@@ -1,5 +1,7 @@
 <?php namespace Acme\Subscription\State;
 
+use Auth;
+use Event;
 use Illuminate\Support\MessageBag;
 use Subscription;
 
@@ -47,7 +49,10 @@ class Subscriber {
     {
         // what is this function used for ? !!! i can not even find createSubscription Method !!!!!
         $this->subscriptionState->createSubscription();
-
+        $user = Auth::user()->toArray();
+        $event = $this->model->event;
+        $user = array_merge($user,['title'=>$event->title,'status'=>$this->model->status]);
+        Event::fire('subscriptions.created', [$user] );
     }
 
     public function unsubscribe()

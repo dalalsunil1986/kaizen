@@ -79,13 +79,13 @@ class AdminSubscriptionsController extends AdminBaseController {
     public function update($id)
     {
         $status = Input::get('status');
+        $reason = Input::get('reason');
 
         $subscription = $this->subscriptionRepository->findById($id);
         $event = $this->eventRepository->findById($id);
 
         // if package requests try looping through all events
         $userId = $subscription->user_id;
-
         if ( $subscription->event->package ) {
             // If its a package event
 
@@ -109,17 +109,18 @@ class AdminSubscriptionsController extends AdminBaseController {
             if ( $hasSubscribedToWholePackage ) {
 //                dd('yes whole package');
                 for ( $i = 0; $i < count($packageArray); $i ++ ) {
-                    $this->subscribe($subscription, $status);
+                    $this->subscribe($subscription, $status, $reason);
                 }
                 dd('subscribed to whole package');
             } else {
                 dd('no');
-                $this->subscribe($subscription, $status);
+                $this->subscribe($subscription, $status, $reason);
 
                 dd('subscribed to package event');
 
             }
         } else {
+            $this->subscribe($subscription, $status, $reason);
 //            $subscription->status = $status;
 //            $email = new MessageBag();
 //            $body = $email->emailBody('subscription',$status);
@@ -138,9 +139,9 @@ class AdminSubscriptionsController extends AdminBaseController {
     }
 
 
-    public function subscribe(Subscription $subscription, $status)
+    public function subscribe(Subscription $subscription, $status, $reason)
     {
-        $subscription = new Subscriber($subscription, $status);
+        $subscription = new Subscriber($subscription, $status, $reason);
         $subscription->subscribe();
         if ( $subscription->messages->has('errors') ) {
             dd($subscription->messages->getMessages());

@@ -1,10 +1,16 @@
 @if ( Session::get('errors') )
-    {{ dd($errors->first()) }}
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <div class="alert alert-danger alert-block"><h2>{{ Lang::get('messages.errors') }}</h2>
-        @foreach($errors->all('<li>:message</li>') as $message)
-            {{$message}}
-        @endforeach
+
+        @if(!is_array($errors))
+            @foreach($errors->all('<li>:message</li>') as $message)
+                {{ $message }}
+            @endforeach
+        @else
+            @foreach ($errors as $message)
+                <li>{{ $message }}</li>
+            @endforeach
+        @endif
     </div>
 @endif
 
@@ -14,7 +20,7 @@
         <h4>{{ Lang::get('messages.warning') }}</h4>
         @if(is_array($message))
             @foreach ($message as $m)
-            {{ $m }}
+            <li>{{ $m }}</li>
             @endforeach
         @else
             {{ $message }}
@@ -28,9 +34,9 @@
         <h4>{{ Lang::get('messages.warning') }}</h4>
         @if(is_array($message))
             @foreach ($message as $m)
-                {{ $m }}
+                <li>{{ $m }}</li>
             @endforeach
-                @else
+        @else
             {{ $message }}
         @endif
     </div>
@@ -42,9 +48,9 @@
         <h4>{{ Lang::get('messages.info') }}</h4>
         @if(is_array($message))
             @foreach ($message as $m)
-                {{ $m }}
+                <li>{{ $m }}</li>
             @endforeach
-                @else
+        @else
             {{ $message }}
         @endif
     </div>
@@ -55,11 +61,11 @@
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <h4>{{ Lang::get('messages.success') }}</h4>
         @if(is_array($message))
-        @foreach ($message as $m)
-        {{ $m }}
-        @endforeach
+            @foreach ($message as $m)
+                <li>{{ $m }}</li>
+            @endforeach
         @else
-        {{ $message }}
+            {{ $message }}
         @endif
     </div>
 @endif

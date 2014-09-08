@@ -4,7 +4,7 @@ class UserEventSubscriber {
 
     public function subscribe($events)
     {
-        $events->listen('user.*', 'Acme\Users\Events\UserEventHandler');
+        $events->listen('user.*', 'Acme\User\Events\EventHandler');
     }
 
 }

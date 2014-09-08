@@ -4,7 +4,6 @@ use Acme\Event\EventRepository;
 use Acme\Package\PackageRepository;
 use Acme\Subscription\State\Subscriber;
 use Acme\Subscription\SubscriptionRepository;
-use Illuminate\Support\MessageBag;
 
 class SubscriptionsController extends BaseController {
 
@@ -34,7 +33,7 @@ class SubscriptionsController extends BaseController {
         $this->subscriptionRepository = $subscriptionRepository;
         $this->eventRepository        = $eventRepository;
         $this->packageRepository      = $packageRepository;
-        $this->beforeFilter('auth',['subscribe']);
+        $this->beforeFilter('auth', ['subscribe']);
         parent::__construct();
     }
 
@@ -46,7 +45,8 @@ class SubscriptionsController extends BaseController {
      */
 
 
-    public function subscribeTypes () {
+    public function subscribeTypes()
+    {
         $this->render('site.events.types');
     }
 
@@ -56,28 +56,30 @@ class SubscriptionsController extends BaseController {
      * accessed through form action on post request
      * only accessed for logged in users // auth filter
      */
-    public function subscribe() {
+    public function subscribe()
+    {
         $eventId = Input::get('event_id');
-        $userId = Auth::user()->getAuthIdentifier();
-        $event = $this->eventRepository->findById($eventId);
+        $userId  = Auth::user()->getAuthIdentifier();
+        $event   = $this->eventRepository->findById($eventId);
 
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
-        if ( ! $subscription ) {
+        if ( !$subscription ) {
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => 'ONLINE']);
 
             return Redirect::home()->with('errors', Lang::get('messages.subscription-error-message'));
         }
         $status       = $subscription->status;
-        $subscription = new Subscriber($subscription);
-        $subscription->subscribe();
-        $subscription->messages->add('errors','adsasd');
-        if(empty($subscription->messages->has('errors'))) {
+        $subscriber = new Subscriber($subscription);
+        $subscriber->subscribe();
+//        $subscriber->messages->add('errors', 'adsasd');
+        if ( empty($subscriber->messages->has('errors')) ) {
             // mail user
+
             return Redirect::home()->with('success', Lang::get('messages.subscription-pending-message'));
 
         } else {
             // redirect with error
-            return Redirect::home()->with('errors', $subscription->messages->all());
+            return Redirect::home()->with('errors', $subscriber->messages->all());
 
         }
 //        if ( $subscription->messages->has('status') ) {
@@ -96,7 +98,10 @@ class SubscriptionsController extends BaseController {
     }
 
     /**
-     * @param $id
+     * @param $userId
+     * @param $eventId
+     * @return \Illuminate\Http\RedirectResponse
+     * @internal param $id
      */
     public function unsubscribe($userId, $eventId)
     {
@@ -119,21 +124,12 @@ class SubscriptionsController extends BaseController {
 
     }
 
-
     /**
      * @param $subscriptionId
      */
     public function makePayment($subscriptionId)
     {
         // process payment
-    }
-
-    public function isSubscribed($eventId, $userId)
-    {
-        $subscription = Subscription::whereRaw('user_id = ' . $userId . ' and event_id = ' . $eventId . '')->count();
-
-        return $subscription;
-
     }
 
 }
