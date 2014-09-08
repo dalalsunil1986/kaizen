@@ -49,10 +49,10 @@ class EventsController extends BaseController {
         $this->categoryRepository = $categoryRepository;
         $this->countryRepository  = $countryRepository;
         $this->userRepository     = $userRepository;
-        parent::__construct();
         $this->subscriptionRepository = $subscriptionRepository;
         $this->favoriteRepository     = $favoriteRepository;
         $this->followerRepository     = $followerRepository;
+        parent::__construct();
     }
 
     public function index()
@@ -76,23 +76,22 @@ class EventsController extends BaseController {
 
         // if the form is selected
         // perform search
-        if ( ! empty($search) || ! empty($category) || ! empty($author) || ! empty($country) ) {
+        if ( !empty($search) || !empty($category) || !empty($author) || !empty($country) ) {
             $events = $this->eventRepository->getAll()
-
                 ->where(function ($query) use ($search, $category, $author, $country) {
-                    if ( ! empty($search) ) {
+                    if ( !empty($search) ) {
                         $query->where('title_ar', 'LIKE', "%$search%")
                             ->orWhere('title_en', 'LIKE', "%$search%");
                         //  ->orWhere('description','LIKE',"%$search%")
                         //  ->orWhere('description_en','LIKE',"%$search%");
                     }
-                    if ( ! empty($category) ) {
+                    if ( !empty($category) ) {
                         $query->where('category_id', $category);
                     }
-                    if ( ! empty($author) ) {
+                    if ( !empty($author) ) {
                         $query->where('user_id', $author);
                     }
-                    if ( ! empty($country) ) {
+                    if ( !empty($country) ) {
                         $locations = $this->countryRepository->find($country)->locations()->lists('id');
                         $query->whereIn('location_id', $locations);
                     }
@@ -123,7 +122,7 @@ class EventsController extends BaseController {
     {
         $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
         // Afdal :: the photoRepository is not implemented within EventsController !!!
-        $tags       = $this->eventRepository->findById($id)->tags;
+        $tags = $this->eventRepository->findById($id)->tags;
         if ( Auth::check() ) {
             $user = Auth::user();
             View::composer('site.events.view', function ($view) use ($id, $user) {
@@ -141,111 +140,7 @@ class EventsController extends BaseController {
             });
         }
 
-        $this->render('site.events.view', compact('event','tags'));
-
-    }
-
-    /* @param eventId $id
-     * @return boolean
-     * Subscribe an User to the Event
-     */
-    public function subscribe($id)
-    {
-        //check whether user logged in
-        $user = Auth::user();
-        if ( ! empty($user->id) ) {
-            $event = $this->eventRepository->findOrFail($id);
-
-            if ( Subscription::isSubscribed($id, $user->id) ) {
-                // return you are already subscribed to this event
-                return Response::json(array(
-                    'success' => false,
-                    'message' => Lang::get('site.subscription.already_subscribed', array('attribute' => 'subscribed'))
-                ), 400);
-            }
-            //get available seats
-            $available_seats = $this->availableSeats($event);
-            // $available_seats = $event->available_seats;
-            //check whether seats are empty
-            if ( $available_seats >= 1 ) {
-                // subscribe this user
-                $event->subscriptions()->attach($user);
-                //update the event seats_taken colum
-                $event->available_seats = $available_seats - 1;
-                $event->save();
-
-                return Response::json(array(
-                    'success' => true,
-                    'message' => Lang::get('site.subscription.subscribed', array('attribute' => 'subscribed'))
-                ), 200);
-            }
-
-            // notify no seats available
-            return Response::json(array(
-                'success' => false,
-                'message' => Lang::get('site.subscription.no_seats_available')
-            ), 400);
-
-        }
-
-        // notify user not authenticated
-        return Response::json(array(
-            'success' => false,
-            'message' => Lang::get('site.subscription.not_authenticated')
-        ), 401);
-
-    }
-
-    /**
-     * @param $id eventId
-     * @return boolean true false
-     * Unsubscribe a User from an event
-     */
-    public function unsubscribe($id)
-    {
-        // check whether user authenticated
-        $event = $this->eventRepository->findOrFail($id);
-        $user  = Auth::user();
-        if ( ! empty($user->id) ) {
-            if ( Subscription::isSubscribed($event->id, $user->id) ) {
-                // check whether user already subscribed
-                if ( Subscription::unsubscribe($event->id, $user->id) ) {
-
-                    // reset available seats
-                    $event->available_seats = $event->available_seats + 1;
-                    $event->save();
-
-                    //delete entry from status
-                    $status = $this->status->getStatus($event->id, $user->id);
-                    if ( $status ) {
-                        $status->delete();
-                    }
-
-                    return Response::json(array(
-                        'success' => true,
-                        'message' => Lang::get('site.subscription.unsubscribed', array('attribute' => 'unsubscribed'))
-                    ), 200);
-
-                } else {
-                    return Response::json(array(
-                        'success' => false,
-                        // could not unsubscribe
-                        'message' => Lang::get('site.subscription.error', array('attribute' => 'unsubscribe'))
-                    ), 500);
-                }
-            } else {
-                // wrong access
-                return Response::json(array(
-                    'success' => false,
-                    'message' => Lang::get('site.subscription.not_subscribed', array('attribute' => 'subscribed'))
-                ), 400);
-            }
-        } else {
-            return Response::json(array(
-                'success' => false,
-                'message' => Lang::get('site.subscription.not_authenticated')
-            ), 403);
-        }
+        $this->render('site.events.view', compact('event', 'tags'));
 
     }
 
@@ -258,9 +153,9 @@ class EventsController extends BaseController {
     {
         //check whether user logged in
         $user = Auth::user();
-        if ( ! empty($user->id) ) {
+        if ( !empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->eventRepository->findOrFail($id);
+            $event = $this->eventRepository->findById($id);
 
             if ( Follower::isFollowing($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -290,9 +185,9 @@ class EventsController extends BaseController {
     {
         //check whether user logged in
         $user = Auth::user();
-        if ( ! empty($user->id) ) {
+        if ( !empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->eventRepository->findOrFail($id);
+            $event = $this->eventRepository->findById($id);
 
             if ( Follower::isFollowing($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -334,9 +229,9 @@ class EventsController extends BaseController {
     {
         //check whether user logged in
         $user = Auth::user();
-        if ( ! empty($user->id) ) {
+        if ( !empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->eventRepository->findOrFail($id);
+            $event = $this->eventRepository->findById($id);
 
             if ( Favorite::hasFavorited($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -367,9 +262,9 @@ class EventsController extends BaseController {
     {
         //check whether user logged in
         $user = Auth::user();
-        if ( ! empty($user->id) ) {
+        if ( !empty($user->id) ) {
             //check whether seats are empty
-            $event = $this->eventRepository->findOrFail($id);
+            $event = $this->eventRepository->findById($id);
 
             if ( Favorite::hasFavorited($id, $user->id) ) {
                 // return you are already subscribed to this event
@@ -398,15 +293,6 @@ class EventsController extends BaseController {
             'message' => Lang::get('site.subscription.not_authenticated')
         ), 403);
 
-    }
-
-    /**
-     * @param object $event
-     * @return integer
-     */
-    protected function availableSeats($event)
-    {
-        return $event->available_seats;
     }
 
     public function getSliderEvents()
@@ -439,11 +325,33 @@ class EventsController extends BaseController {
 
     public function getAuthor($id)
     {
-        $event  = $this->eventRepository->find($id);
+        $event  = $this->eventRepository->findById($id);
         $author = $event->author;
 
         return $author;
     }
 
+    /**
+     * show the available registration options page before subscription ( VIP, ONLINE )
+     * @param $id
+     */
+    public function showSubscriptionOptions($id)
+    {
+        $event  = $this->eventRepository->findById($id);
+
+        // initialize values with a false boolean
+        $vip    = false;
+        $online = false;
+
+        // find available registration option types
+        $setting   = $event->setting;
+        $reg_types = explode(',', $setting->registration_types);
+
+        // Pass the available options as a boolean
+        if ( in_array('VIP', $reg_types) ) $vip = true;
+        if ( in_array('ONLINE', $reg_types) )  $online = true;
+
+        $this->render('site.events.event-registration-types', compact('event', 'vip', 'online', 'setting'));
+    }
 
 }

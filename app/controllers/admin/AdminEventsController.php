@@ -142,12 +142,9 @@ class AdminEventsController extends AdminBaseController {
     public function update($id)
     {
 
-<<<<<<< HEAD
-=======
         //dd(Input::all());
         // where is the function responsible to asign inputs then update records within the DB ? !!! so complicated to the limit it loses efficiency :(
         // i need to get the Tag Array that i implemented within the Edit Form [BackEnd] .. then update the event_tag table with the new array
->>>>>>> 4ab049890918b2713aed255da9a5b4ce7eaff927
 
         $this->eventRepository->findById($id);
 
@@ -326,6 +323,7 @@ class AdminEventsController extends AdminBaseController {
     {
         $this->render('admin.events.select-type');
     }
+
 
 
 }

@@ -106,8 +106,10 @@ return array(
             'prev_events' => 'هل اشتركت في فعاليات كيزين من قبل .. برجاء ذكر الفعاليات ومكان انعقادها .. شكرا',
             'warning_msg' => 'يرجى العلم بأن البيانات الواردة باستمارة التسجيل سيتم اعتمادها لإصدار الشهادات .. برجاء كتابه البيانات الصحيحة والتأكد منها',
             'settings' => 'خصائص',
-            'address' => 'عنوان'
-
+            'address' => 'عنوان',
+            'vip' => 'VIP',
+            'online' => 'Online',
+            'normal' => 'Normal'
     ),
     'subscription' => array(
             'subscribed' => 'You :attribute this event',

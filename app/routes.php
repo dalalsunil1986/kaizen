@@ -34,6 +34,8 @@ Route::get('events/featured', array('as' => 'event.featured', 'uses' => 'EventsC
 
 Route::get('event/{id}/country', 'EventsController@getCountry');
 
+Route::get('event/{id}/options', 'EventsController@showSubscriptionOptions');
+
 Route::resource('event.comments', 'CommentsController', array('only' => array('store')));
 
 Route::resource('event', 'EventsController', array('only' => array('index', 'show')));
@@ -296,7 +298,8 @@ Route::get('test', function () {
 // AUTH USER - SUBSCRIPTION ROUTE
 // no Auth for the following routes but btns disabled within the view .. can not be accessed unless user is registered
 Route::get('package','SubscriptionsController@subscribePackage');
-Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
+//Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
 Route::get('unsub/{userId}/{eventId}', 'SubscriptionsController@unsubscribe');
 Route::get('types', 'SubscriptionsController@subscribeTypes');
+Route::post('subscribe','SubscriptionsController@subscribe');
 

@@ -17,6 +17,8 @@ class CreateSettingsTable extends Migration {
 			$table->increments('id');
             $table->string('approval_type')->nullable(); // [CONFIRM,DIRECT]
             $table->string('registration_types')->nullable(); // [VIP, ONLINE]
+            $table->text('normal_benefits_ar')->nullable();
+            $table->text('normal_benefits_en')->nullable();
             $table->text('vip_description_en')->nullable();
             $table->text('vip_description_ar')->nullable();
             $table->text('vip_benefits_en')->nullable();

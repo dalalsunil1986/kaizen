@@ -102,6 +102,9 @@ return array(
                 'warning_msg' => 'Please kindly note that these information are important in order to issue your certificates in the future.. please fill in the form properly',
                 'settings' => 'Settings',
                 'address' => 'Address',
+                'vip' => 'VIP',
+                'online' => 'Online',
+                'normal' => 'Normal'
     ),
     'subscription' => array(
         'subscribed' => 'You :attribute this event',
