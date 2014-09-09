@@ -12,7 +12,8 @@ class ConfirmedState extends AbstractState implements SubscriberState{
 
     public function createSubscription()
     {
-        'already subscribed';
+        $this->subscriber->model->status = 'CONFIRMED';
+        $this->subscriber->model->save();
     }
 
 }

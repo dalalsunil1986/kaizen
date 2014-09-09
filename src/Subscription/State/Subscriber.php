@@ -1,6 +1,5 @@
 <?php namespace Acme\Subscription\State;
 
-use Auth;
 use Event;
 use Illuminate\Support\MessageBag;
 use Subscription;
@@ -13,13 +12,12 @@ class Subscriber {
     public $rejected;
     public $pending;
     public $model;
-
     public $subscriptionState;
-
     public $messages;
 
     public function __construct(Subscription $subscription)
     {
+        // Set the class properties to their respective classes
         $this->confirmed = new ConfirmedState($this);
         $this->waiting   = new WaitingState($this);
         $this->rejected  = new RejectedState($this);
@@ -27,39 +25,67 @@ class Subscriber {
         $this->messages  = new MessageBag();
         $this->approved  = new ApprovedState($this);
 
-        $this->model     = $subscription;
+        $this->model = $subscription;
 
         if ( empty($this->model->status) ) {
+            // If the status is empty, Start with Pending State
             $this->subscriptionState = $this->pending;
-            $this->messages->add('status','pending');
+            $this->messages->add('status', 'pending');
         } else {
+            // If the Status is not empty, Asssign the respective status that is retrieved from the database
             $status                  = strtolower($this->model->status);
             $this->subscriptionState = $this->{$status};
+
+            // add the current status to the Message Bag  ( stores the value of status in the session )
             $this->messages->add('status', $status);
         }
     }
 
+    /**
+     * @param $newSubscriptionState
+     * Set SubscriptionState to whatever Argument Passed on the run time
+     */
     public function setSubscriptionState($newSubscriptionState)
     {
         $this->subscriptionState = $newSubscriptionState;
         $this->subscribe();
     }
 
+    /**
+     * Create Subscription for the current subscription state
+     */
     public function subscribe()
     {
-        // what is this function used for ? !!! i can not even find createSubscription Method !!!!!
+        // Create Subscription method is available in all the classes that implements the SubscriberState Interface ( ex: ApprovedState )
         $this->subscriptionState->createSubscription();
-        $user = Auth::user()->toArray();
+
+        if ( $this->messages->has('errors') ) {
+            return false;
+        }
+        // Pass the User and Event Model, and Merge both into one array and pass it to the Event Fired
+        $user  = $this->model->user->toArray();
         $event = $this->model->event;
-        $user = array_merge($user,['title'=>$event->title,'status'=>$this->model->status]);
-        Event::fire('subscriptions.created', [$user] );
+
+        // Merge User and Event Model
+        $user = array_merge($user, ['title' => $event->title, 'status' => $this->model->status]);
+
+        // Fire the Event ( this will also send email to the user )
+        Event::fire('subscriptions.created', [$user]);
+
+
     }
 
+    /**
+     * cancel the subcription of the user
+     */
     public function unsubscribe()
     {
         $this->subscriptionState->cancelSubscription();
     }
 
+    /**
+     * @return ConfirmedState
+     */
     public function getConfirmedState()
     {
         return $this->confirmed;

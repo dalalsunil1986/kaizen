@@ -125,5 +125,11 @@ class EventRepository extends AbstractRepository {
         return $events;
     }
 
+    public function isEventExpired($id) {
+        $now = Carbon::now()->toDateTimeString();
+        $query = $this->model->where('start_date', '<', $now)->where('id', '=', $id)->count();
+        dd($query);
+        return ($query >= 1) ? true : false;
+    }
 
 }

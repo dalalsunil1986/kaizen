@@ -12,63 +12,33 @@ class ApprovedState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
-        if ( ! $this->subscriber->model->event->hasAvailableSeats() ) {
+        // 1 - Find if any seats are available to register the user
+        if ( !$this->subscriber->model->event->hasAvailableSeats() ) {
+
             // If No Seats Available, Set user status to Waiting List
+            $this->subscriber->messages->add('errors', 'No Seats Available');
+
             return $this->subscriber->setSubscriptionState($this->subscriber->getWaitingState());
         }
 
-        // If its a package event
-//        if ( $this->subscriber->model->event->package ) {
-//            dd('this is a package');
-//        } else {
-//            dd('this is not a package');
-//        }
-
-//        dd($this->subscriber->model->event->package);
-//
-//        if ( $this->subscriber->model->settings[0]->settingable_type == 'Package' ) {
-//            // find if the user already subscribed any sub events as individual
-//            // find all sub events for the package
-//            // check whether any event_id that matches the user id is in the subscriptions
-//            dd('this is package');
-//
-//        }
-//        dd('this is event');
-
         // check whether already subscribed
-        if ( $this->subscriber->model->subscriptionConfirmed() ) {
-            $this->subscriber->messages->add('errors', 'Already Subscribed');
-            return false;
-        }
+        if ( ! $this->subscriber->model->subscriptionConfirmed() ) {
+            if ( $this->checkInvalidRegistrationType() ) {
+                // @todo : more efficient way to determine the free or paid event
+                if ( $this->subscriber->model->event->price < 0 ) {
+                    // Paid Event
 
-        $this->checkInvalidRegistrationType();
-        // Find Event Type
-
-//        if ( $this->subscriber->model->settings[0]->settingable_type == 'EventModel' ) {
-//            dd('this is an event');
-//        } elseif ( $this->subscriber->model->settings[0]->settingable_type == 'Package' ) {
-//            dd('this is package');
-//        }
-
-//        dd($this->subscriber->model->settings[0]->toArray());
-
-        // @todo : more efficient way to determine the free or paid event
-        if ( $this->subscriber->model->event->price > 0 ) {
-            // Paid Event
-            return $this->sendPaymentLink();
-            dd('payment link sent');
+                    return $this->sendPaymentLink();
+                } else {
+                    // Free Event
+                    return $this->subscriber->setSubscriptionState($this->subscriber->getConfirmedState());
+                }
+            }
         } else {
-            // Free Event
-            return $this->confirmSubscription();
+
+            $this->subscriber->messages->add('errors', 'Already Subscribed');
         }
 
-    }
-
-    private function confirmSubscription()
-    {
-        $this->subscriber->model->status = 'CONFIRMED';
-        $this->subscriber->model->save();
-        echo 'subscription confirmed';
     }
 
     private function sendPaymentLink()
@@ -84,11 +54,15 @@ class ApprovedState extends AbstractState implements SubscriberState {
     {
         $available_registration_types = $this->subscriber->model->settings[0]->registration_types;
         $available_registration_types = explode(',', $available_registration_types);
-        if ( ! in_array($this->subscriber->model->registration_type, $available_registration_types) ) {
+
+        if ( !in_array($this->subscriber->model->registration_type, $available_registration_types) ) {
+
             $this->subscriber->messages->add('errors', 'Option not available');
 
             return false;
         }
+
+        return true;
     }
 
 

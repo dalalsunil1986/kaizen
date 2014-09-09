@@ -12,8 +12,8 @@ class RejectedState extends AbstractState implements SubscriberState {
     public function createSubscription()
     {
         // @todo : fire events
-        $this->model->status = 'REJECTED';
-        $this->model->save();
+        $this->subscriber->model->status = 'REJECTED';
+        $this->subscriber->model->save();
     }
 
 }
