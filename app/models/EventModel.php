@@ -156,18 +156,29 @@ class EventModel extends BaseModel implements PresenterInterface {
 //        return $this->hasMany('Subscription','event_id');
     }
 
-    public function updateSeats()
+    /**
+     * @return $this
+     * used while a seat is confirmed
+     * decrements availableSeats by 1
+     */
+    public function decrementAvailableSeats()
     {
         $totalSeats = $this->total_seats;
         if ( $totalSeats > 0 ) {
-            $totalSubscriptions    = $this->subscriptions->count();
+            $totalSubscriptions    = DB::table('subscriptions')->where('status','CONFIRMED')->count();
             $this->available_seats = $totalSeats - $totalSubscriptions;
             $this->save();
-
             return $this;
         }
     }
 
+    public function incrementAvailableSeats()
+    {
+        $this->available_seats = $this->available_seats+ 1;
+        $this->save();
+        dd($this->available_seats);
+        return $this;
+    }
     /**
      * Get the presenter class.
      *
