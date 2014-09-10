@@ -66,6 +66,7 @@
                     <span class="col-md-12 lower-panel">
                         {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
                             {{ Form::hidden('event_id',$event->id) }}
+                            {{ Form::hidden('registration_type','VIP') }}
                             {{ Form::submit( Lang::get('site.event.subscribe') , ['class'=>'btn btn-default btn-block']) }}
                         {{ Form::close() }}
                     </span>
@@ -109,7 +110,11 @@
                     </div>
 
                     <span class="col-md-12 lower-panel">
-                       <button type="button" class="btn btn-default btn-block"> {{ Lang::get('site.event.subscribe') }}</button>
+                        {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
+                            {{ Form::hidden('event_id',$event->id) }}
+                            {{ Form::hidden('registration_type','ONLINE') }}
+                            {{ Form::submit( Lang::get('site.event.subscribe') , ['class'=>'btn btn-default btn-block']) }}
+                        {{ Form::close() }}
                     </span>
 
                 </div>
@@ -143,7 +148,11 @@
                  </div>
 
                  <span class="col-md-12 lower-panel">
-                    <button type="button" class="btn btn-default btn-block"> {{ Lang::get('site.event.subscribe') }}</button>
+                        {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
+                            {{ Form::hidden('event_id',$event->id) }}
+                            {{ Form::hidden('registration_type','NORMAL') }}
+                            {{ Form::submit( Lang::get('site.event.subscribe') , ['class'=>'btn btn-default btn-block']) }}
+                        {{ Form::close() }}
                  </span>
 
              </div>

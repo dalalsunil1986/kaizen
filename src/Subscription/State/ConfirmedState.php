@@ -1,7 +1,7 @@
 <?php
 namespace Acme\Subscription\State;
 
-class ConfirmedState extends AbstractState implements SubscriberState{
+class ConfirmedState extends AbstractState implements SubscriberState {
 
     public $subscriber;
 
@@ -12,7 +12,20 @@ class ConfirmedState extends AbstractState implements SubscriberState{
 
     public function createSubscription()
     {
-        'already subscribed';
+        $this->subscriber->model->status = 'CONFIRMED';
+        $this->subscriber->model->save();
+
+        // update available seats .. find the function in EventModel
+        $this->subscriber->model->event->decrementAvailableSeats();
+    }
+
+    public function cancelSubscription()
+    {
+        // delete the subscription
+        $this->subscriber->model->delete();
+
+        // update available seats .. find the function in EventModel
+        $this->subscriber->model->event->incrementAvailableSeats();
     }
 
 }

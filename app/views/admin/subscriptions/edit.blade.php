@@ -12,17 +12,17 @@
             <select name="status" id="status" class="form-control">
                 <option value="">Select one</option>
                 @foreach($subscriptionStatuses as $status)
-                <option value="{{ $status }}"
-                @if( Form::getValueAttribute('status') == $status)
-                selected = "selected"
-                @endif
-                >{{ $status }}</option>
+                    <option value="{{ $status }}"
+                    @if( Form::getValueAttribute('status') == $status)
+                        selected = "selected"
+                    @endif
+                    >{{ $status }}</option>
                 @endforeach
             </select>
         </div>
 
         <div class="form-group col-md-6">
-            {{ Form::textarea('body', NULL ,array('class'=>'form-control','placeholder'=>'Your request have been ... ')) }}
+            {{ Form::textarea('feedback', NULL ,array('class'=>'form-control','placeholder'=>'Your request have been ... ')) }}
         </div>
 
         <div class="form-group col-md-6">

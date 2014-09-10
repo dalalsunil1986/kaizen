@@ -4,7 +4,7 @@ use Acme\Core\Mailers\AbstractMailer;
 use User;
 use Event;
 
-class UserEventHandler extends AbstractMailer {
+class EventHandler extends AbstractMailer {
 
     /**
      * @param array|\User $user

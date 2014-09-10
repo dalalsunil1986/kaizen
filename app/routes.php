@@ -18,10 +18,6 @@ Route::get('event/{id}/category', 'EventsController@getCategory');
 
 Route::get('event/{id}/author', 'EventsController@getAuthor');
 
-//Route::get('event/{id}/subscribe', array('as' => 'event.subscribe', 'uses' => 'SubscriptionsController@subscribe'));
-
-Route::get('event/{id}/unsubscribe', array('as' => 'event.unsubscribe', 'uses' => 'EventsController@unsubscribe'));
-
 Route::get('event/{id}/follow', array('as' => 'event.follow', 'uses' => 'EventsController@follow'));
 
 Route::get('event/{id}/unfollow', array('as' => 'event.unfollow', 'uses' => 'EventsController@unfollow'));
@@ -299,7 +295,12 @@ Route::get('test', function () {
 // no Auth for the following routes but btns disabled within the view .. can not be accessed unless user is registered
 Route::get('package','SubscriptionsController@subscribePackage');
 //Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
-Route::get('unsub/{userId}/{eventId}', 'SubscriptionsController@unsubscribe');
 Route::get('types', 'SubscriptionsController@subscribeTypes');
 Route::post('subscribe','SubscriptionsController@subscribe');
+Route::get('subscribe','SubscriptionsController@subscribe');
+Route::post('unsubscribe','SubscriptionsController@unsubscribe');
 
+Route::get('test', function () {
+    $q = Tag::has('events')->get();
+    dd($q->toArray());
+});

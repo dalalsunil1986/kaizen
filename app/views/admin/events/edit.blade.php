@@ -54,7 +54,7 @@
                     @else
                         {{ Form::checkbox('tag[]', $tag->id, false)  }}
                     @endif
-                    {{ Form::label($tag->title, $tag->title) }}
+                    {{ Form::label($tag->name, $tag->name) }}
                 </div>
             @endforeach
     </div>

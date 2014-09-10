@@ -2,7 +2,7 @@
 
 use Acme\Category\CategoryRepository;
 use Acme\Country\CountryRepository;
-use Acme\Event\EventRepository;
+use Acme\EventModel\EventRepository;
 use Acme\Favorite\FavoriteRepository;
 use Acme\Follower\FollowerRepository;
 use Acme\Subscription\SubscriptionRepository;
@@ -11,7 +11,7 @@ use Acme\User\UserRepository;
 class EventsController extends BaseController {
 
     /**
-     * @var Acme\Event\EventRepository
+     * @var Acme\EventModel\EventRepository
      */
     protected $eventRepository;
     /**

@@ -1,4 +1,4 @@
-<?php namespace Acme\Event;
+<?php namespace Acme\EventModel;
 
 use Acme\Core\AbstractPresenter;
 use EventModel;
@@ -10,7 +10,7 @@ class Presenter extends AbstractPresenter {
      * Present the created_at property
      * using a different format
      *
-     * @param \Acme\Event\EventModel|\User $model
+     * @param \Acme\EventModel\EventModel|\User $model
      */
     public  $resource;
 

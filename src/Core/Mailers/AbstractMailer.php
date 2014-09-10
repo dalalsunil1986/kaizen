@@ -33,6 +33,7 @@ class AbstractMailer implements MailerInterface {
             });
         }
         catch ( \Exception $e ) {
+            dd($e);
         }
     }
 }

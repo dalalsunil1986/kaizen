@@ -52,10 +52,14 @@ class ApprovedState extends AbstractState implements SubscriberState {
 //        dd($this->subscriber->model->settings[0]->toArray());
 
         // @todo : more efficient way to determine the free or paid event
-        if ( $this->subscriber->model->event->price > 0 ) {
+        // change this to 1 ..
+
+        $this->subscriber->model->status = 'APPROVED';
+        $this->subscriber->model->save();
+
+        if ( $this->subscriber->model->event->free == 1 ) {
             // Paid Event
             return $this->sendPaymentLink();
-            dd('payment link sent');
         } else {
             // Free Event
             return $this->subscriber->setSubscriptionState($this->subscriber->getConfirmedState());
@@ -66,6 +70,7 @@ class ApprovedState extends AbstractState implements SubscriberState {
     private function sendPaymentLink()
     {
         //@todo Send Payment Link
+
         $this->subscriber->messages->add('success', 'Payment Email Sent');
     }
 

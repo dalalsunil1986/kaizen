@@ -1,5 +1,5 @@
 <?php
-namespace Acme\Event;
+namespace Acme\EventModel;
 
 use Acme\Core\AbstractImageService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

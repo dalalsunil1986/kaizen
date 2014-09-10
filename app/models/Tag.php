@@ -1,13 +1,22 @@
 <?php
 
-class Tag extends \Eloquent {
+use Acme\Core\LocaleTrait;
+
+class Tag extends Eloquent {
+
+    use LocaleTrait;
+    protected $localeStrings = ['name'];
 	protected $fillable = [];
     protected $table = 'tags';
 
-    // a Tag has many Events
-    // an event has many tags ===>
-    public function events () {
-        return $this->belongsToMany('EventModel', 'event_tag' , 'tag_id' , 'event_id');
+    public function events()
+    {
+        return $this->morphedByMany('EventModel', 'taggable');
+    }
+
+    public function blogs()
+    {
+        return $this->morphedByMany('Blog', 'taggable');
     }
 
 }

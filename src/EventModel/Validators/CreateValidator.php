@@ -1,4 +1,4 @@
-<?php namespace Acme\Event\Validators;
+<?php namespace Acme\EventModel\Validators;
 
 use Acme\Core\Validators\AbstractValidator;
 

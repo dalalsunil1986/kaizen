@@ -1,4 +1,4 @@
-<?php namespace Acme\Event;
+<?php namespace Acme\EventModel;
 
 use Acme\Core\CrudableTrait;
 use Carbon\Carbon;
@@ -22,9 +22,8 @@ class EventRepository extends AbstractRepository {
     {
         $currentTime = Carbon::now()->toDateTimeString();
 
-        return $this->model->with($with)
-//            ->where('date_start', '>', $currentTime)
-            ;
+        return $this->model->with($with)//->where('date_start', '>', $currentTime)
+        ;
 
     }
 
@@ -125,5 +124,13 @@ class EventRepository extends AbstractRepository {
         return $events;
     }
 
+    public function isEventExpired($id)
+    {
+        $now   = Carbon::now()->toDateTimeString();
+        $query = $this->model->where('start_date', '<', $now)->where('id', '=', $id)->count();
+        dd($query);
+
+        return ($query >= 1) ? true : false;
+    }
 
 }

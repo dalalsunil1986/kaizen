@@ -15,8 +15,9 @@ class Subscriber {
     public $subscriptionState;
 
     public $messages;
+    private $reason;
 
-    public function __construct(Subscription $subscription, $status)
+    public function __construct(Subscription $subscription, $status, $reason)
     {
         $this->confirmed = new ConfirmedState($this);
         $this->waiting   = new WaitingState($this);
@@ -27,7 +28,7 @@ class Subscriber {
         $this->model = $subscription;
         $status                  = strtolower($status);
         $this->subscriptionState = $this->{$status};
-
+        $this->reason = $reason;
     }
 
     public function setSubscriptionState($newSubscriptionState)
@@ -39,6 +40,10 @@ class Subscriber {
     public function subscribe()
     {
         $this->subscriptionState->createSubscription();
+//        $user = $this->model->user;
+//        $event = $this->model->event;
+//        $user = array_merge($user,['title'=>$event->title,'status'=>$this->model->status]);
+//        Event::fire('subscriptions.adminCreated',[]);
     }
 
     public function unsubscribe()
