@@ -1,6 +1,6 @@
 <?php
 
-use Acme\Event\EventRepository;
+use Acme\EventModel\EventRepository;
 use Acme\Package\PackageRepository;
 use Acme\Subscription\State\Subscriber;
 use Acme\Subscription\SubscriptionRepository;
@@ -16,7 +16,7 @@ class SubscriptionsController extends BaseController {
      */
     private $subscriber;
     /**
-     * @var Acme\Event\EventRepository
+     * @var Acme\EventModel\EventRepository
      */
     private $eventRepository;
     /**

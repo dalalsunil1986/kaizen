@@ -9,7 +9,7 @@ class Presenter extends AbstractPresenter {
      * Present the created_at property
      * using a different format
      *
-     * @param \Acme\Event\EventModel|\User $model
+     * @param \Acme\EventModel\EventModel|\User $model
      */
     public  $resource;
 

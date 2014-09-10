@@ -1,6 +1,6 @@
 <?php
 use Acme\Category\CategoryRepository;
-use Acme\Event\EventRepository;
+use Acme\EventModel\EventRepository;
 use Acme\Location\LocationRepository;
 use Acme\Package\PackageRepository;
 use Acme\Photo\PhotoRepository;
@@ -27,7 +27,7 @@ class AdminEventsController extends AdminBaseController {
      */
     private $settingRepository;
     /**
-     * @var Acme\Event\EventPhotoService
+     * @var Acme\EventModel\EventPhotoService
      */
     private $imageService;
     /**

@@ -7,7 +7,7 @@ class AdminPackagesController extends AdminBaseController {
 
 
     /**
-     * @var Acme\Event\PackageRepository
+     * @var Acme\EventModel\PackageRepository
      */
     private $packageRepository;
     /**

@@ -1,6 +1,6 @@
 <?php
 
-use Acme\Event\EventRepository;
+use Acme\EventModel\EventRepository;
 use Acme\Package\PackageRepository;
 use Acme\Subscription\State\Admin\Subscriber;
 use Acme\Subscription\SubscriptionRepository;
@@ -15,7 +15,7 @@ class AdminSubscriptionsController extends AdminBaseController {
      */
     private $subscriptionRepository;
     /**
-     * @var Acme\Event\EventRepository
+     * @var Acme\EventModel\EventRepository
      */
     private $eventRepository;
     /**

@@ -1,7 +1,7 @@
 <?php namespace Acme\Setting\Validators;
 
 use Acme\Core\Validators\AbstractValidator;
-use Acme\Event\EventRepository;
+use Acme\EventModel\EventRepository;
 
 class CreateValidator extends AbstractValidator {
 

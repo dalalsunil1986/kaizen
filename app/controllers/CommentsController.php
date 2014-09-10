@@ -1,7 +1,7 @@
 <?php
 
 use Acme\Comment\CommentRepository;
-use Acme\Event\EventRepository;
+use Acme\EventModel\EventRepository;
 
 class CommentsController extends BaseController {
 

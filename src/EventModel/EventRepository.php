@@ -1,4 +1,4 @@
-<?php namespace Acme\Event;
+<?php namespace Acme\EventModel;
 
 use Acme\Core\CrudableTrait;
 use Carbon\Carbon;
