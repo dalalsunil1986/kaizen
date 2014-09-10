@@ -246,7 +246,6 @@ abstract class AbstractRepository {
         $calledClass = new \ReflectionClass($this);
         $baseClass   = $this->filterClassName($calledClass->getShortName());
         $fullPath    = 'Acme\\' . $baseClass . '\\Validators\\';
-
         return $fullPath;
     }
 
@@ -255,7 +254,12 @@ abstract class AbstractRepository {
      */
     public function filterClassName($className)
     {
-        return str_replace('Repository', '', $className);
+        $finalClassName = str_replace('Repository', '', $className);
+
+        // because if Repository stripped out from EventRepository only Event will be returned.
+        if ($finalClassName == 'Event') return 'EventModel';
+
+        return $finalClassName;
     }
 
     public function getList($column)

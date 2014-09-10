@@ -186,7 +186,7 @@ class EventModel extends BaseModel implements PresenterInterface {
      */
     public function getPresenter()
     {
-        return 'Acme\Event\Presenter';
+        return 'Acme\EventModel\Presenter';
     }
 
     public function getHumanCreatedAtAttribute()
@@ -269,8 +269,9 @@ class EventModel extends BaseModel implements PresenterInterface {
         }
     }
 
-    public function tags() {
-        return $this->belongsToMany('Tag', 'event_tag', 'event_id', 'tag_id');
+    public function tags()
+    {
+        return $this->morphToMany('Tag', 'taggable');
     }
 
 }

@@ -36,7 +36,7 @@
                         <td>{{{ $event->date_end }}}</td>
                         <td>{{{ $event->created_at() }}} </td>
                         <td><a href="{{ URL::action('AdminEventsController@settings',$event->id)}}">Settings</a>
-                            <button class="btn btn-xs btn-info"> <a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}">Edit</a></button>
+                            <a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}">Edit</a>
 
                             {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminEventsController@destroy', $event->id))) }}
                             {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
@@ -82,10 +82,10 @@
                             <div class="panel-body">
 
                                 {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminPackagesController@destroy', $package->id))) }}
-                                <a href="{{ action('AdminEventsController@create',['package_id'=>$package->id]) }}" class="btn"><i class="glyphicon glyphicon-plus"></i> <strong>Add Sub Events</strong></a>
-                                <a href="{{ action('AdminPackagesController@show',$package->id) }}" class="btn"><i class="glyphicon glyphicon-pencil"></i> <strong>View</strong></a>
-                                <a href="{{ action('AdminPackagesController@edit',$package->id) }}" class="btn"><i class="glyphicon glyphicon-edit"></i> <strong>Edit</strong></a>
-                                <i class="glyphicon glyphicon-trash"></i>{{ Form::submit('Delete', array('class' => 'btn btn-xs')) }}
+                                    <a href="{{ action('AdminEventsController@create',['package_id'=>$package->id]) }}" class="btn"><i class="glyphicon glyphicon-plus"></i> <strong>Add Sub Events</strong></a>
+                                    <a href="{{ action('AdminPackagesController@show',$package->id) }}" class="btn"><i class="glyphicon glyphicon-pencil"></i> <strong>View</strong></a>
+                                    <a href="{{ action('AdminPackagesController@edit',$package->id) }}" class="btn"><i class="glyphicon glyphicon-edit"></i> <strong>Edit</strong></a>
+                                    <i class="glyphicon glyphicon-trash"></i>{{ Form::submit('Delete', array('class' => 'btn btn-xs')) }}
                                 {{ Form::close() }}
 
                                 <table cellpadding="0" cellspacing="0" border="0" class=" table table-striped table-bordered">
@@ -109,10 +109,10 @@
                                         <td>{{{ $event->date_end }}}</td>
                                         <td>{{{ $event->getHumanCreatedAtAttribute() }}} </td>
                                         <td><a href="{{ URL::action('AdminEventsController@settings',$event->id)}}">Settings</a>
-                                            <button class="btn btn-xs btn-info"> <a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}">Edit</a></button>
+                                            <a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}">Edit</a>
 
                                             {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminEventsController@destroy', $event->id))) }}
-                                            {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
+                                                {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
                                             {{ Form::close() }}
                                         </td>
                                     </tr>

@@ -66,4 +66,9 @@ class Blog extends BaseModel implements PresenterInterface {
     public function photos() {
         return $this->morphMany('Photo','imageable');
     }
+
+    public function tags()
+    {
+        return $this->morphToMany('Tag', 'taggable');
+    }
 }

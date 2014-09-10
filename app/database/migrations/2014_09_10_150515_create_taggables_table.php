@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateEventTagTable extends Migration {
+class CreateTaggablesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,15 +12,14 @@ class CreateEventTagTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('event_tag', function(Blueprint $table)
+		Schema::create('taggables', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('event_id')->unsigned()->index();
-			$table->integer('tag_id')->unsigned()->index();
+            $table->integer('tag_id');
+            $table->morphs('taggable');
 			$table->timestamps();
 		});
 	}
-
 
 	/**
 	 * Reverse the migrations.
@@ -29,7 +28,7 @@ class CreateEventTagTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('event_tag');
+		Schema::drop('taggables');
 	}
 
 }

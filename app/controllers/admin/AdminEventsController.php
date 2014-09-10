@@ -21,7 +21,6 @@ class AdminEventsController extends AdminBaseController {
     protected $photoRepository;
     protected $locationRepository;
     protected $eventTags;
-    protected $tags;
     /**
      * @var Acme\Setting\SettingRepository
      */
@@ -49,7 +48,7 @@ class AdminEventsController extends AdminBaseController {
         $this->settingRepository  = $settingRepository;
         $this->packageRepository  = $packageRepository;
         $this->eventTags          = $eventTags;
-        $this->tagRepository = $tagRepository;
+        $this->tagRepository      = $tagRepository;
         parent::__construct();
     }
 
@@ -88,15 +87,15 @@ class AdminEventsController extends AdminBaseController {
     {
         $val = $this->eventRepository->getCreateForm();
 
-        if ( ! $val->isValid() ) {
+        if ( !$val->isValid() ) {
             return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
 
-        if ( ! $event = $this->eventRepository->create($val->getInputData()) ) {
+        if ( !$event = $this->eventRepository->create($val->getInputData()) ) {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
 
-        if ( ! $setting = $this->settingRepository->create(['settingable_type' => 'EventModel', 'settingable_id' => $event->id]) ) {
+        if ( !$setting = $this->settingRepository->create(['settingable_type' => 'EventModel', 'settingable_id' => $event->id]) ) {
             $this->eventRepository->delete($event);
             //@todo redirect
             dd('could not create event');
@@ -120,15 +119,12 @@ class AdminEventsController extends AdminBaseController {
     public function edit($id)
     {
         $event      = $this->eventRepository->findById($id, ['photos']);
-        $tags       = $this->tags->all();
-        $event_tags = $this->eventTags->find($id)->tags()->get();
-        $tags_array = array();
-        foreach($event_tags as $event_tag) {
-            array_push($tags_array, $event_tag->id);
-        }
-        $category   = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
-        $author     = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
-        $location   = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $tags       = $this->tagRepository->getAll();
+        $tags_array = $event->tags->lists('id');
+
+        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
 
         $this->render('admin.events.edit', compact('event', 'category', 'author', 'location', 'tags_array', 'tags'));
     }
@@ -146,25 +142,22 @@ class AdminEventsController extends AdminBaseController {
         // where is the function responsible to asign inputs then update records within the DB ? !!! so complicated to the limit it loses efficiency :(
         // i need to get the Tag Array that i implemented within the Edit Form [BackEnd] .. then update the event_tag table with the new array
 
-        $this->eventRepository->findById($id);
+        $event = $this->eventRepository->findById($id);
 
         $val = $this->eventRepository->getEditForm($id);
 
-        if ( ! $val->isValid() ) {
+        if ( !$val->isValid() ) {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
-        if ( ! $this->eventRepository->update($id, $val->getInputData()) ) {
+        if ( !$this->eventRepository->update($id, $val->getInputData()) ) {
 
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
 
-//        if (! $this->tagRepository->create()) {
-//
-//        }
-
-        dd(Input::all());
+        // attach related tags
+        $event->tags()->sync(Input::get('tag'), true);
 
         return Redirect::action('AdminEventsController@edit', $id)->with('success', 'Updated');
 
@@ -205,12 +198,12 @@ class AdminEventsController extends AdminBaseController {
      */
     public function destroy($id)
     {
-        if ( $this->eventRepository->findOrFail($id)->delete() ) {
+        if ( $this->eventRepository->findById($id)->delete() ) {
             //  return Redirect::home();
-            return parent::redirectToAdmin()->with('success', 'Event Deleted');
+            return Redirect::action('AdminEventsController@index')->with('success', 'Event Deleted');
         }
 
-        return parent::redirectToAdmin()->with('error', 'Error: Event Not Found');
+        return Redirect::action('AdminEventsController@index')->with('error', 'Error: Event Not Found');
     }
 
 
@@ -266,7 +259,7 @@ class AdminEventsController extends AdminBaseController {
         $favorites_count     = $event->favorites()->count();
         $followers_count     = $event->followers()->count();
 //        $requests_count      = $event->statuses()->count();
-        $requests_count      = 0;
+        $requests_count = 0;
 
         $this->render('admin.events.settings', compact('event', 'subscriptions_count', 'favorites_count', 'followers_count', 'requests_count'));
     }
@@ -323,7 +316,6 @@ class AdminEventsController extends AdminBaseController {
     {
         $this->render('admin.events.select-type');
     }
-
 
 
 }
