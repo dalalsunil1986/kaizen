@@ -52,25 +52,26 @@
                 {{ Form::select('registration_types[]', $registrationTypes , null , ['class' => 'form-control', 'id' => 'registration_types', 'multiple' => 'multiple' ]) }}
             </div>
         </div>
+        <hr>
         <div class="row">
             <div class="form-group col-md-6">
                 {{ Form::label('vip_description_en', 'VIP Description in English') }}
-                {{ Form::textarea('vip_description_en',null,['class'=>'form-control','rows'=>'3'])}}
+                {{ Form::textarea('vip_description_en',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
             </div>
             <div class="form-group col-md-6">
                 {{ Form::label('vip_description_ar', 'VIP Description in Arabic') }}
-                {{ Form::textarea('vip_description_ar',null,['class'=>'form-control','rows'=>'3'])}}
+                {{ Form::textarea('vip_description_ar',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
             </div>
         </div>
-
+        <hr>
         <div class="row">
             <div class="form-group col-md-6">
                 {{ Form::label('online_description_en', 'ONLINE Description in English') }}
-                {{ Form::textarea('online_description_en',null,['class'=>'form-control','rows'=>'3'])}}
+                {{ Form::textarea('online_description_en',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
             </div>
             <div class="form-group col-md-6">
                 {{ Form::label('online_description_ar', 'ONLINE Description in Arabic') }}
-                {{ Form::textarea('online_description_ar',null,['class'=>'form-control','rows'=>'3'])}}
+                {{ Form::textarea('online_description_ar',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
             </div>
         </div>
 
