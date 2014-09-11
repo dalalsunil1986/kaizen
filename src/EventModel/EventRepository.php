@@ -119,7 +119,7 @@ class EventRepository extends AbstractRepository {
             ->whereIn('e.id', $array)
             ->take($limit)
             ->groupBy('e.id')
-            ->get(array('e.id', 'e.title', 'e.title_en', 'e.description', 'e.description_en', 'p.name', 'e.button', 'e.button_en'));
+            ->get(array('e.id', 'e.title_ar', 'e.title_en', 'e.description_ar', 'e.description_en', 'p.name', 'e.button_ar', 'e.button_en'));
 
         return $events;
     }

@@ -7,9 +7,9 @@
                 @foreach($events as $event)
                         <span class="tag tag-gray {{ ($i == 0) ? 'active-tab-slide' : '' }}" id="slide{{ $i }}" style="cursor: pointer; font-size: 15px;">
                             @if ( App::getLocale() == 'en')
-                                {{  ($event->title_en ) ? $event->title_en  : $event->title  }}
+                                {{  ($event->title_en ) ? $event->title_en  : $event->title_ar  }}
                             @else
-                                {{   $event->title  }}
+                                {{   $event->title_ar  }}
                              @endif
                         </span>
                 <?php $i++; ?>
@@ -37,28 +37,28 @@
                         <div class="carousel-caption hidden-xs" >
                                     <span class="slider-title {{ ($event->title_en) ? 'text-left':'text-right' }}">
                                         <a href="{{ action('EventsController@show',$event->id) }}" >
-                                            {{  ($event->title_en ) ? $event->title_en  : $event->title  }}
+                                            {{  ($event->title_en ) ? $event->title_en  : $event->title_ar  }}
                                         </a>
                                     </span>
                                     <span class="slider-description {{ ($event->description_en) ? 'text-left':'text-right' }}">
-                                            {{ ($event->description_en) ? Str::limit($event->description_en,$char_limit) : Str::limit($event->description,$char_limit) }}
+                                            {{ ($event->description_en) ? Str::limit($event->description_en,$char_limit) : Str::limit($event->description_ar,$char_limit) }}
                                     </span>
                             <a class="kaizen-button" href="{{ action('EventsController@show',$event->id) }}">
-                                {{ ($event->button_en) ? $event->button_en : $event->button }}
+                                {{ ($event->button_en) ? $event->button_en : $event->button_ar }}
                             </a>
                         </div>
                         @else
                         <div class="carousel-caption hidden-xs" >
                                     <span class="slider-title {{ ($event->title_en) ? 'text-left':'text-right' }}">
                                         <a href="{{ action('EventsController@show',$event->id) }}" class="top15">
-                                            {{  $event->title }}
+                                            {{  $event->title_ar }}
                                         </a>
                                     </span>
                                     <span class="slider-description {{ ($event->description_en) ? 'text-left':'text-right' }}">
-                                            {{ Str::limit($event->description,$char_limit) }}
+                                            {{ Str::limit($event->description_ar,$char_limit) }}
                                     </span>
                             <a class="kaizen-button" href="{{ action('EventsController@show',$event->id) }}">
-                                {{ $event->button }}
+                                {{ $event->button_ar }}
                             </a>
                         </div>
                         @endif

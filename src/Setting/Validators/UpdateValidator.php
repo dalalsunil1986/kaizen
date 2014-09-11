@@ -12,6 +12,8 @@ class UpdateValidator extends AbstractValidator {
     protected $rules = array(
         'approval_type'=>'required',
         'registration_types'=>'sometimes | array',
+        'vip_price' => 'integer',
+        'online_price' => 'integer',
     );
 
     /**
@@ -22,7 +24,7 @@ class UpdateValidator extends AbstractValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'approval_type','registration_types','vip_description_en','vip_description_ar','online_description_en','online_description_ar'
+            'approval_type','registration_types','vip_description_en','vip_description_ar','online_description_en','online_description_ar','vip_price','online_price'
         ]);
     }
 

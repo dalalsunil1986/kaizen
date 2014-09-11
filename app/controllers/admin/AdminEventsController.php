@@ -137,11 +137,6 @@ class AdminEventsController extends AdminBaseController {
      */
     public function update($id)
     {
-
-        //dd(Input::all());
-        // where is the function responsible to asign inputs then update records within the DB ? !!! so complicated to the limit it loses efficiency :(
-        // i need to get the Tag Array that i implemented within the Edit Form [BackEnd] .. then update the event_tag table with the new array
-
         $event = $this->eventRepository->findById($id);
 
         $val = $this->eventRepository->getEditForm($id);
@@ -156,37 +151,11 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
 
-        // attach related tags
-        $event->tags()->sync(Input::get('tag'), true);
+        // update the tags
+        $this->tagRepository->attachTags($event, Input::get('tag'));
 
         return Redirect::action('AdminEventsController@edit', $id)->with('success', 'Updated');
 
-//        $validation->fill(Input::except(array('thumbnail', 'addresspicker_map', 'type', 'approval_type')));
-//        if ( ! $validation->save() ) {
-//            return Redirect::back()->withInput()->withErrors($validation->getErrors());
-//        }
-//
-//        //update type
-//        $type = Type::where('event_id', $id)->first();
-//        if ( ! $type ) {
-//            $type           = new Type();
-//            $type->event_id = $id;
-//        }
-//        $type->type          = Input::get('type');
-//        $type->approval_type = Input::get('approval_type');
-//        if ( ! $type->save() ) {
-//            return Redirect::to('admin/event/' . $validation->id . '/edit')->withErrors($type->getErrors());
-//        }
-
-        //update available seats
-//        $event                  = $this->eventRepository->find($validation->id);
-//        $total_seats            = $event->total_seats;
-//        $total_seats_taken      = Subscription::findEventCount($event->id);
-//        $available_seats        = $total_seats - $total_seats_taken;
-//        $event->available_seats = $available_seats;
-//        $event->save();
-
-//        return parent::redirectToAdmin()->with('success', 'Updated Event ' . $validation->title);
     }
 
 

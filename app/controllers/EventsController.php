@@ -303,7 +303,14 @@ class EventsController extends BaseController {
         $online = false;
 
         // find available registration option types
-        $setting   = $event->setting;
+        $setting = $event->setting;
+
+        if ( is_null($setting) ) {
+
+            // if not setting for the event found, just redirect
+            return Redirect::action('EventsController@show', $id)->with('warning', 'System Error');
+        }
+
         $reg_types = explode(',', $setting->registration_types);
 
         // Pass the available options as a boolean
@@ -311,6 +318,7 @@ class EventsController extends BaseController {
         if ( in_array('ONLINE', $reg_types) ) $online = true;
 
         $this->render('site.events.event-registration-types', compact('event', 'vip', 'online', 'setting'));
+
     }
 
 }
