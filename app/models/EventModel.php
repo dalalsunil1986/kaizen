@@ -38,9 +38,12 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function followers()
     {
-        $followers = $this->belongsToMany('User', 'followers', 'event_id', 'user_id')->select('username', 'email');
+        return  $this->belongsToMany('User', 'followers', 'event_id', 'user_id');
+    }
 
-        return $followers;
+    public function favorites()
+    {
+        return $this->belongsToMany('User', 'favorites', 'event_id', 'user_id');
     }
 
 //    public function subscriptions() {
@@ -52,10 +55,6 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->belongsToMany('User', 'subscriptions', 'event_id', 'user_id');
     }
 
-    public function favorites()
-    {
-        return $this->belongsToMany('User', 'favorites', 'event_id', 'user_id');
-    }
 
     /**
      * gets the past events

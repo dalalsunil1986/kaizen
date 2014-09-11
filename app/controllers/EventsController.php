@@ -34,24 +34,14 @@ class EventsController extends BaseController {
      * @var Acme\Subscription\SubscriptionRepository
      */
     private $subscriptionRepository;
-    /**
-     * @var Acme\Favorite\FavoriteRepository
-     */
-    private $favoriteRepository;
-    /**
-     * @var Acme\Follower\FollowerRepository
-     */
-    private $followerRepository;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository, FavoriteRepository $favoriteRepository, FollowerRepository $followerRepository)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository)
     {
-        $this->eventRepository    = $eventRepository;
-        $this->categoryRepository = $categoryRepository;
-        $this->countryRepository  = $countryRepository;
-        $this->userRepository     = $userRepository;
+        $this->eventRepository        = $eventRepository;
+        $this->categoryRepository     = $categoryRepository;
+        $this->countryRepository      = $countryRepository;
+        $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
-        $this->favoriteRepository     = $favoriteRepository;
-        $this->followerRepository     = $followerRepository;
         parent::__construct();
     }
 
@@ -123,14 +113,15 @@ class EventsController extends BaseController {
         $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
         // Afdal :: the photoRepository is not implemented within EventsController !!!
         $tags = $this->eventRepository->findById($id)->tags;
+
         if ( Auth::check() ) {
             $user = Auth::user();
-            View::composer('site.events.view', function ($view) use ($id, $user) {
+            View::composer('site.events.view', function ($view) use ($id, $user, $event) {
 
-                // getTags related to an Event
-                $favorited  = $this->favoriteRepository->hasFavorited($id, $user->id);
-                $subscribed = $this->subscriptionRepository->isSubscribed($id, $user->id);
-                $followed   = $this->followerRepository->isFollowing($id, $user->id);
+                // return boolean true false
+                $favorited  = $event->favorites->contains($user->id);
+                $subscribed = $event->subscriptions->contains($user->id);
+                $followed   = $event->followers->contains($user->id);
 
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));
             });
@@ -153,23 +144,18 @@ class EventsController extends BaseController {
     {
         //check whether user logged in
         $user = Auth::user();
-        if ( !empty($user->id) ) {
+        if ( $user ) {
             //check whether seats are empty
             $event = $this->eventRepository->findById($id);
 
-            if ( Follower::isFollowing($id, $user->id) ) {
-                // return you are already subscribed to this event
-                return Response::json(array(
-                    'success' => false,
-                    'message' => Lang::get('site.subscription.already_subscribed', array('attribute' => 'following'))
-                ), 400);
-            }
-            $event->followers()->attach($user);
+            if ( !$event->followers->contains($user->id) ) {
+                $event->followers()->attach($user);
 
-            return Response::json(array(
-                'success' => true,
-                'message' => Lang::get('site.subscription.subscribed', array('attribute' => 'following'))
-            ), 200);
+                return Response::json(array(
+                    'success' => true,
+                    'message' => Lang::get('site.subscription.subscribed', array('attribute' => 'following'))
+                ), 200);
+            }
 
         }
 
@@ -189,26 +175,14 @@ class EventsController extends BaseController {
             //check whether seats are empty
             $event = $this->eventRepository->findById($id);
 
-            if ( Follower::isFollowing($id, $user->id) ) {
-                // return you are already subscribed to this event
+            if ( $event->followers->contains($user->id) ) {
+                $event->followers()->detach($user);
 
-                if ( Follower::unfollow($id, $user->id) ) {
-                    return Response::json(array(
-                        'success' => true,
-                        'message' => Lang::get('site.subscription.unsubscribed', array('attribute' => 'unfollowed'))
-                    ), 200);
-                } else {
-                    return Response::json(array(
-                        'success' => false,
-                        'message' => Lang::get('site.subscription.error', array('attribute' => 'unfollowing'))
-                    ), 500);
-                }
+                return Response::json(array(
+                    'success' => true,
+                    'message' => Lang::get('site.subscription.unsubscribed', array('attribute' => 'unfollowed'))
+                ), 200);
             }
-
-            return Response::json(array(
-                'success' => false,
-                'message' => Lang::get('site.subscription.not_subscribed', array('attribute' => 'following'))
-            ), 400);
 
         }
 
@@ -233,20 +207,15 @@ class EventsController extends BaseController {
             //check whether seats are empty
             $event = $this->eventRepository->findById($id);
 
-            if ( Favorite::hasFavorited($id, $user->id) ) {
-                // return you are already subscribed to this event
+            if ( !$event->favorites->contains($user->id) ) {
+
+                $event->favorites()->attach($user);
+
                 return Response::json(array(
-                    'success' => false,
-                    'message' => Lang::get('site.subscription.already_subscribed', array('attribute' => 'favorited'))
-                ), 400);
+                    'success' => true,
+                    'message' => Lang::get('site.subscription.subscribed', array('attribute' => 'favorited'))
+                ), 200);
             }
-
-            $event->favorites()->attach($user);
-
-            return Response::json(array(
-                'success' => true,
-                'message' => Lang::get('site.subscription.subscribed', array('attribute' => 'favorited'))
-            ), 200);
 
         }
 
@@ -262,30 +231,20 @@ class EventsController extends BaseController {
     {
         //check whether user logged in
         $user = Auth::user();
+
         if ( !empty($user->id) ) {
             //check whether seats are empty
             $event = $this->eventRepository->findById($id);
 
-            if ( Favorite::hasFavorited($id, $user->id) ) {
-                // return you are already subscribed to this event
+            if ( $event->favorites->contains($user->id) ) {
+                $event->favorites()->detach($user);
 
-                if ( Favorite::unfavorite($id, $user->id) ) {
-                    return Response::json(array(
-                        'success' => true,
-                        'message' => Lang::get('site.subscription.unsubscribed', array('attribute' => 'unfavorited'))
-                    ), 200);
-                } else {
-                    return Response::json(array(
-                        'success' => false,
-                        'message' => Lang::get('site.subscription.error', array('attribute' => 'unfavorite'))
-                    ), 500);
-                }
+                return Response::json(array(
+                    'success' => true,
+                    'message' => Lang::get('site.subscription.unsubscribed', array('attribute' => 'unfavorited'))
+                ), 200);
             }
 
-            return Response::json(array(
-                'success' => false,
-                'message' => Lang::get('site.subscription.not_subscribed', array('attribute' => 'favorited'))
-            ), 400);
         }
 
         return Response::json(array(
@@ -337,7 +296,7 @@ class EventsController extends BaseController {
      */
     public function showSubscriptionOptions($id)
     {
-        $event  = $this->eventRepository->findById($id);
+        $event = $this->eventRepository->findById($id);
 
         // initialize values with a false boolean
         $vip    = false;
@@ -349,7 +308,7 @@ class EventsController extends BaseController {
 
         // Pass the available options as a boolean
         if ( in_array('VIP', $reg_types) ) $vip = true;
-        if ( in_array('ONLINE', $reg_types) )  $online = true;
+        if ( in_array('ONLINE', $reg_types) ) $online = true;
 
         $this->render('site.events.event-registration-types', compact('event', 'vip', 'online', 'setting'));
     }

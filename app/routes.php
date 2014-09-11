@@ -301,6 +301,6 @@ Route::get('subscribe','SubscriptionsController@subscribe');
 Route::post('unsubscribe','SubscriptionsController@unsubscribe');
 
 Route::get('test', function () {
-    $q = Tag::has('events')->get();
-    dd($q->toArray());
+    $q = EventModel::find(15);
+    dd($q->followers);
 });

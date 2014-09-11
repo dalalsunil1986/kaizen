@@ -12,6 +12,7 @@
     {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAvY9Begj4WZQpP8b6IGFBACdnUhulMCok&sensor=false') }}
     {{ HTML::script('http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js') }}
     {{ HTML::script('js/bootstrap-image-gallery.js') }}
+    {{ HTML::script('js/app.js') }}
 
     <script>
         var id = '<?php echo $event->id; ?>';

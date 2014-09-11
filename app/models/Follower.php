@@ -16,6 +16,5 @@ class Follower extends BaseModel {
         return $this->belongsTo('EventModel');
     }
 
-
 }
 
