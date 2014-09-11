@@ -304,9 +304,14 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <!-- Tags Element -->
             @if($tags)
-                <div class="row">
+                <div class="row" style="padding:20px;">
                     @for($i=0; $i < count($tags); $i++)
-                        <a href="{{ action('TagsController@show', $tags[$i]->id) }}"><span class="label label-info">{{ $tags[$i]->title}}</span></a>
+                        <a href="{{ action('TagsController@show', $tags[$i]->id) }}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-tags"></span>
+                                {{ $tags[$i]->title}}
+                            </button>
+                            </a>
                     @endfor
                 </div>
             @endif
