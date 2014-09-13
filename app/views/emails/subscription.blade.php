@@ -1,11 +1,4 @@
-<html>
-<head>
-    <title>
-
-    </title>
-
-    <body>
-        <p>{{ $body }} </p>
-    </body>
-</head>
-</html>
+@extends('emails.layouts.default')
+@section('body')
+   {{ $body }}
+@stop

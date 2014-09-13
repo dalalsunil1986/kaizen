@@ -165,13 +165,14 @@
                         {{-- Paid Events --}}
                         @if ( !$subscribed)
                             <a href="{{  URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) }}"/>
-                            <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                data-toggle="tooltip" data-placement="top" title="{{  Lang::get('site.event.subscribe')  }}">
-                                <i class="subscribe glyphicon glyphicon-check "></i>  </br>
-                                <span class="buttonText">
-                                {{ Lang::get('site.event.subscribe')  }}
-                                </span>
-                            </button>
+                                <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                    data-toggle="tooltip" data-placement="top" title="{{  Lang::get('site.event.subscribe')  }}">
+                                    <i class="subscribe glyphicon glyphicon-check "></i>  </br>
+                                    <span class="buttonText">
+                                    {{ Lang::get('site.event.subscribe')  }}
+                                    </span>
+                                </button>
+                            </a>
                         @else
                             {{ Form::open(['action' => 'SubscriptionsController@unsubscribe', 'method' => 'post'], ['class'=>'form']) }}
 

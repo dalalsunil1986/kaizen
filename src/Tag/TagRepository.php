@@ -17,10 +17,9 @@ class TagRepository extends AbstractRepository {
         $this->model = $model;
     }
 
-
-    public function create($array)
+    public function create($tags)
     {
-        dd($array);
+        dd($tags);
     }
 
     /**

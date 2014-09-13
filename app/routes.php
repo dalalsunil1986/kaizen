@@ -107,6 +107,7 @@ Route::get('country/{id}/events', array('uses' => 'CountriesController@getEvents
  * Newsletter Routes
  ********************************************************************************************************/
 Route::post('newsletter', 'NewslettersController@store');
+
 Route::get('newsletter', 'NewslettersController@index');
 
 /*********************************************************************************************************
@@ -269,30 +270,6 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
 });
 
-Route::get('test', function () {
-//    $subscription = EventModel::with('subscriptions')->find(1);
-////    dd($subscription->toArray());
-//
-//    $subscription = Subscription::find(1);
-//    dd($subscription);
-//    dd($subscription->subscribable->title);
-
-
-
-//    $event = EventModel::find(2);
-//
-//    $package = Package::find(1);
-//    dd($package->events);
-//    dd($event->package);
-//    dd($subscription->subscriptions());
-
-    $a =['1','2','3','4'];
-    $b =['2','3','4','1','5'];
-    $containsAllValues = !array_diff($a, $b);
-    dd($containsAllValues);
-});
-// AUTH USER - SUBSCRIPTION ROUTE
-// no Auth for the following routes but btns disabled within the view .. can not be accessed unless user is registered
 Route::get('package','SubscriptionsController@subscribePackage');
 //Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
 Route::get('types', 'SubscriptionsController@subscribeTypes');
@@ -303,4 +280,9 @@ Route::post('unsubscribe','SubscriptionsController@unsubscribe');
 Route::get('test', function () {
     $q = EventModel::find(15);
     dd($q->followers);
+});
+
+Route::get('email',function() {
+    $body = 'asdasdas dasdasdasdasd';
+    return View::make('emails.subscription',compact('body'));
 });

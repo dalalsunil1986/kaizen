@@ -8,13 +8,14 @@
                         <tr>
                             <td align="center" valign="top">
                                 <!-- header section -->
-                                @include('emails.header')
+                                @include('emails.layouts.header')
                             </td>
                         </tr>
                         <tr>
                             <td align="center" valign="top">
-                                {{ $body  }}
-                                @include('emails.footer')
+                                @section('content')
+                                @show
+                                @include('emails.layouts.footer')
                             </td>
                         </tr>
                     </tbody>
