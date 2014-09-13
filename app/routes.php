@@ -55,7 +55,7 @@ Route::resource('blog', 'BlogsController', array('only' => array('index', 'show'
 /*********************************************************************************************************
  * Tags
  ********************************************************************************************************/
-Route::resource('tag', 'TagsController', array('only'=> array('show')));
+Route::resource('tag', 'TagsController', array('only' => array('show')));
 
 // Post Comment
 
@@ -78,7 +78,7 @@ Route::post('account/forgot', ['as' => 'user.forgot.post', 'uses' => 'AuthContro
 
 Route::get('password/reset/{token}', ['as' => 'user.token.get', 'uses' => 'AuthController@getReset']);
 
-Route::post('password/reset/{token}', ['as' => 'user.token.post', 'uses' => 'AuthController@postReset']);
+Route::post('password/reset', ['as' => 'user.token.post', 'uses' => 'AuthController@postReset']);
 
 Route::get('account/activate/{token}', ['as' => 'user.token.confirm', 'uses' => 'AuthController@activate']);
 
@@ -87,7 +87,7 @@ Route::get('account/activate/{token}', ['as' => 'user.token.confirm', 'uses' => 
  * User Routes
  ********************************************************************************************************/
 
-Route::get('user/{id}/profile',  array('as' => 'profile', 'uses' => 'UserController@getProfile'));
+Route::get('user/{id}/profile', array('as' => 'profile', 'uses' => 'UserController@getProfile'));
 
 Route::resource('user', 'UserController');
 
@@ -162,7 +162,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     Route::post('users/{id}/report', 'AdminUsersController@postReport');
 
     Route::controller('users', 'AdminUsersController');
-    
+
     /*********************************************************************************************************
      * Admin User Role Management Routes
      ********************************************************************************************************/
@@ -217,7 +217,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Event Settings Routes
      ********************************************************************************************************/
-    Route::resource('settings','AdminSettingsController');
+    Route::resource('settings', 'AdminSettingsController');
 
     /*********************************************************************************************************
      * Category Routes
@@ -270,19 +270,8 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
 });
 
-Route::get('package','SubscriptionsController@subscribePackage');
-//Route::get('sub/{userId}/{eventId}', 'SubscriptionsController@subscribe');
+Route::get('package', 'SubscriptionsController@subscribePackage');
 Route::get('types', 'SubscriptionsController@subscribeTypes');
-Route::post('subscribe','SubscriptionsController@subscribe');
-Route::get('subscribe','SubscriptionsController@subscribe');
-Route::post('unsubscribe','SubscriptionsController@unsubscribe');
-
-Route::get('test', function () {
-    $q = EventModel::find(15);
-    dd($q->followers);
-});
-
-Route::get('email',function() {
-    $body = 'asdasdas dasdasdasdasd';
-    return View::make('emails.subscription',compact('body'));
-});
+Route::post('subscribe', 'SubscriptionsController@subscribe');
+Route::get('subscribe', 'SubscriptionsController@subscribe');
+Route::post('unsubscribe', 'SubscriptionsController@unsubscribe');

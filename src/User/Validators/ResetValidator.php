@@ -2,7 +2,7 @@
 
 use Acme\Core\Validators\AbstractValidator;
 
-class UserResetValidator extends AbstractValidator {
+class ResetValidator extends AbstractValidator {
 
     /**
      * Validation rules
