@@ -1,14 +1,13 @@
-@extends('admin.layouts.modal')
+@extends('admin.master')
 
 {{-- Content --}}
 @section('content')
-	<!-- Tabs -->
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>
-		</ul>
-	<!-- ./ tabs -->
 
 	{{-- Create User Form --}}
+
+	{{ Form::open(['action' => 'AuthController@postLogin', 'method' => 'post']) }}
+
+
 	<form class="form-horizontal" method="post" action="@if (isset($user)){{ URL::to('admin/users/' . $user->id . '/edit') }}@endif" autocomplete="off">
 		<!-- CSRF Token -->
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />

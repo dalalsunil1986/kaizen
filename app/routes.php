@@ -149,9 +149,9 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
      ********************************************************************************************************/
     Route::get('users/{user}/show', array('uses' => 'AdminUsersController@getShow'));
 
-    Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
-
-    Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
+//    Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
+//
+//    Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
 
     Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
 
@@ -161,7 +161,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::post('users/{id}/report', 'AdminUsersController@postReport');
 
-    Route::controller('users', 'AdminUsersController');
+    Route::resource('users', 'AdminUsersController');
 
     /*********************************************************************************************************
      * Admin User Role Management Routes

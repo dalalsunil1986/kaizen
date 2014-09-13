@@ -1,4 +1,4 @@
-@extends('admin.layouts.default')
+@extends('admin.master')
 
 {{-- Web site Title --}}
 @section('title')
@@ -10,7 +10,7 @@
 
 <div class="page-header">
     <h3>
-        {{{ $title }}}
+         Manage Users
 
         <div class="pull-right">
             <a href="{{{ URL::to('admin/users/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
@@ -35,8 +35,8 @@
             <td>{{ $user->username }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->rolename }}</td>
+            <td>{{ $user->active == 1 ? 'true':'false' }}</td>
             <td>{{ $user->created_at }}</td>
-            <td>{{ $user->expires_at }}</td>
 
             <td>
                 <a href="{{  URL::to('admin/users/' . $user->id . '/print' ) }}" class="iframe btn btn-xs btn-default"><i class="glyphicon glyphicon-print"></i> Print</a>

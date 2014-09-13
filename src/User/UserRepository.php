@@ -4,6 +4,7 @@ use Acme\Core\CrudableTrait;
 use Acme\Users\Validators\UserCreateValidator;
 use Acme\Users\Validators\UserResetValidator;
 use Acme\Users\Validators\UserUpdateValidator;
+use DB;
 use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\AbstractRepository;
 
@@ -52,6 +53,14 @@ class UserRepository extends AbstractRepository  {
 
     public function findByEmail($email) {
         return $this->model->whereEmail($email)->first();
+    }
+
+    public function findUsersForIndex(){
+        $users = DB::table('users')->leftjoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
+            ->leftjoin('roles', 'roles.id', '=', 'assigned_roles.role_id')
+            ->select(array('users.id', 'users.username','users.email', 'roles.name as rolename', 'users.active', 'users.created_at'))
+            ->groupBy('users.email')->get();
+        return $users;
     }
 
 }
