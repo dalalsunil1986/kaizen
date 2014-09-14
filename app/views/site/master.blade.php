@@ -18,7 +18,7 @@
     {{ HTML::style('css/custom.css') }}
 
     @if ( App::getLocale() == 'en')
-        {{ HTML::style('css/custom-en.css') }}
+        {{ HTML::style('css/custom-en.css') }}php ar
     @endif
 
     @show

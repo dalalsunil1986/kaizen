@@ -31,10 +31,10 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->belongsTo('User', 'user_id')->select('id', 'username', 'email');
     }
 
-    public function categories()
+ /*   public function categories()
     {
         return $this->belongsTo('Category', 'category_id')->select('name', 'name_en', 'type', 'slug');
-    }
+    }*/
 
     public function followers()
     {
@@ -87,10 +87,10 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     }
 
-    public function category()
+/*    public function category()
     {
         return $this->belongsTo('Category', 'category_id');
-    }
+    }*/
 
     public function  location()
     {
@@ -271,6 +271,10 @@ class EventModel extends BaseModel implements PresenterInterface {
     public function tags()
     {
         return $this->morphToMany('Tag', 'taggable');
+    }
+
+    public function categories() {
+        return $this->belongsTo('category');
     }
 
 }
