@@ -354,4 +354,39 @@ class EventsController extends BaseController {
         $this->render('site.events.event-registration-types', compact('event', 'vip', 'online', 'setting'));
     }
 
+    /**
+     * Stream event from electa service
+     *
+     */
+    public function eventStream()
+    {
+        $Url = 'http://kaizenlive.e-lectazone.com/apps/token.asp'.'?cid=15829&appkey=WH73FJ63UT62WY76MQ50XX86MI50XQ82&result=xml';
+        if (!function_exists('curl_init')){
+            die('cURL is not installed!');
+        }
+        $ch = curl_init();
+        // Set URL to download and other parameters
+        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        // Download the given URL, and return output
+        $output = curl_exec($ch);
+        // Close the cURL resource, and free system resources
+        curl_close($ch);
+
+        if($output)
+        {
+
+            $tokenRetrive = simplexml_load_string($output);
+
+            foreach ($tokenRetrive->ResponseData as $data)
+            {
+                $token = $data;
+            }
+        }
+
+        return View::make('site.events.online', array('sessionToken' => $token));
+    }
+
 }
