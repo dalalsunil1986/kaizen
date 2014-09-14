@@ -32,6 +32,8 @@ Route::get('event/{id}/country', 'EventsController@getCountry');
 
 Route::get('event/{id}/options', 'EventsController@showSubscriptionOptions');
 
+Route::get('event/{id}/suggest', 'EventsController@getSuggestedEvents');
+
 Route::resource('event.comments', 'CommentsController', array('only' => array('store')));
 
 Route::resource('event', 'EventsController', array('only' => array('index', 'show')));

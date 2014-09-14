@@ -133,4 +133,16 @@ class EventRepository extends AbstractRepository {
         return ($query >= 1) ? true : false;
     }
 
+    function suggestedEvents($eventId) {
+        $current_event = $this->findById($eventId);
+        $current_event_tags = $this->model->tags;
+        $current_event_categories = $this->model->categories()->get();
+        echo '<pre>';
+        print_r( $current_event_tags);
+        echo '<pre>';
+        print_r( $current_event_categories);
+        exit;
+//        $event = $this->get()->where('tag_id' , '=', )
+    }
+
 }

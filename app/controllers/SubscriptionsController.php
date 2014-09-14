@@ -68,7 +68,7 @@ class SubscriptionsController extends BaseController {
         }
 
         // If no errors occured while subscription process
-        return Redirect::home()->with('success', Lang::get('messages.subscription-pending-message'));
+        return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', Lang::get('messages.subscription-pending-message'));
     }
 
     /**

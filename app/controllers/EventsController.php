@@ -321,4 +321,10 @@ class EventsController extends BaseController {
 
     }
 
+    public function getSuggestedEvents ($eventId) {
+        $current_event = $this->eventRepository->findById($eventId);
+        $suggested_event = $this->eventRepository->suggestedEvents($eventId);
+
+    }
+
 }
