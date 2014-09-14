@@ -52,7 +52,23 @@
                 {{ Form::select('registration_types[]', $registrationTypes , null , ['class' => 'form-control', 'id' => 'registration_types', 'multiple' => 'multiple' ]) }}
             </div>
         </div>
+
         <hr>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ Form::label('vip_price', 'VIP Price:') }}
+                {{ Form::text('vip_price',null,['class'=>'form-control'])}}
+            </div>
+
+            <div class="form-group col-md-6">
+                {{ Form::label('online_price', 'Online Price:') }}
+                {{ Form::text('online_price',null,['class'=>'form-control'])}}
+            </div>
+        </div>
+
+        <hr>
+
         <div class="row">
             <div class="form-group col-md-6">
                 {{ Form::label('vip_description_en', 'VIP Description in English') }}

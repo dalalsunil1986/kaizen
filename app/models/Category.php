@@ -14,4 +14,8 @@ class Category extends BaseModel {
 
     protected $localeStrings = ['name'];
 
+    public function events () {
+        return $this->hasMany('EventModel');
+    }
+
 }

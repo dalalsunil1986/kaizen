@@ -119,7 +119,7 @@ class EventRepository extends AbstractRepository {
             ->whereIn('e.id', $array)
             ->take($limit)
             ->groupBy('e.id')
-            ->get(array('e.id', 'e.title', 'e.title_en', 'e.description', 'e.description_en', 'p.name', 'e.button', 'e.button_en'));
+            ->get(array('e.id', 'e.title_ar', 'e.title_en', 'e.description_ar', 'e.description_en', 'p.name', 'e.button_ar', 'e.button_en'));
 
         return $events;
     }
@@ -131,6 +131,18 @@ class EventRepository extends AbstractRepository {
         dd($query);
 
         return ($query >= 1) ? true : false;
+    }
+
+    function suggestedEvents($eventId) {
+        $current_event = $this->findById($eventId);
+        $current_event_tags = $this->model->tags;
+        $current_event_categories = $this->model->categories()->get();
+        echo '<pre>';
+        print_r( $current_event_tags);
+        echo '<pre>';
+        print_r( $current_event_categories);
+        exit;
+//        $event = $this->get()->where('tag_id' , '=', )
     }
 
 }

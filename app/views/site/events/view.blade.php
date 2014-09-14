@@ -12,6 +12,7 @@
     {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAvY9Begj4WZQpP8b6IGFBACdnUhulMCok&sensor=false') }}
     {{ HTML::script('http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js') }}
     {{ HTML::script('js/bootstrap-image-gallery.js') }}
+    {{ HTML::script('js/app.js') }}
 
     <script>
         var id = '<?php echo $event->id; ?>';
@@ -144,13 +145,13 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     @if($event->free)
                         <!-- If Free Event directly subscribe -->
-                        @if(!$subscribed)
+                        @if( !$subscribed)
                             {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
                         @else
                             {{ Form::open(['action' => 'SubscriptionsController@unsubscribe', 'method' => 'post'], ['class'=>'form']) }}
                         @endif
                             {{ Form::hidden('event_id',$event->id) }}
-                            {{ Form::hidden('registration_type','VIP') }}
+                            {{ Form::hidden('registration_type','NORMAL') }}
                             <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                                 data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
                                 <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
@@ -161,15 +162,32 @@
 
                         {{ Form::close() }}
                     @else
-                        <a href="{{ !$subscribed? URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) : URL::action('SubscriptionsController@unsubscribe', array('userId'=> $event->user_id,'eventId'=>$event->id)) }}"/>
-                            <button type="button" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                            data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
-                            <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-                            <span class="buttonText">
-                                {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe')  }}
-                            </span>
-                        </button>
-                        </a>
+                        {{-- Paid Events --}}
+                        @if ( !$subscribed)
+                            <a href="{{  URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) }}"/>
+                                <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                    data-toggle="tooltip" data-placement="top" title="{{  Lang::get('site.event.subscribe')  }}">
+                                    <i class="subscribe glyphicon glyphicon-check "></i>  </br>
+                                    <span class="buttonText">
+                                    {{ Lang::get('site.event.subscribe')  }}
+                                    </span>
+                                </button>
+                            </a>
+                        @else
+                            {{ Form::open(['action' => 'SubscriptionsController@unsubscribe', 'method' => 'post'], ['class'=>'form']) }}
+
+                                {{ Form::hidden('event_id',$event->id) }}
+                                {{ Form::hidden('registration_type','NORMAL') }}
+
+                                <button type="button" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                    data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.unsubscribe')  }}">
+                                    <i class="subscribe glyphicon glyphicon-check active "></i>  </br>
+                                    <span class="buttonText">
+                                        {{ Lang::get('site.event.unsubscribe_btn_desc') }}
+                                    </span>
+                                </button>
+                            {{ Form::close() }}
+                        @endif
                     @endif
 
                 </div>
@@ -195,7 +213,7 @@
         <div class="row" id="event_images">
             <div id="links">
                 @foreach($event->photos as $photo)
-                    <a href="{{ URL::route('base').'/uploads/'.$photo->name }}" data-gallery>
+                    <a href="#" data-gallery>
                         {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
                     </a>
                 @endforeach

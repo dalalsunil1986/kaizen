@@ -1,19 +1,22 @@
-@extends('site.layouts.home')
-@section('maincontent')
+@extends('site.layouts._two_column')
+@section('content')
 <div class="page-header">
 	<h1>Forgot Password</h1>
 </div>
-<form method="POST" action="{{URL::action('UserController@postReset') }}}" accept-charset="UTF-8">
-    <input type="hidden" name="token" value="{{{ $token }}}">
-    <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
+{{ Form::open(['action' => 'AuthController@postReset', 'method' => 'post']) }}
+    <input type="hidden" name="token" value="{{ $token }}">
 
     <div class="form-group">
-        <label for="password">{{{ Lang::get('confide::confide.password') }}}</label>
-        <input class="form-control" placeholder="{{{ Lang::get('confide::confide.password') }}}" type="password" name="password" id="password">
+        <label for="email">{{{ Lang::get('confide.e_mail') }}}</label>
+        {{ Form::text('email', null, ['class' => 'form-control', 'placeholder' => Lang::get('confide.e_mail') ]) }}
     </div>
     <div class="form-group">
-        <label for="password_confirmation">{{{ Lang::get('confide::confide.password_confirmation') }}}</label>
-        <input class="form-control" placeholder="{{{ Lang::get('confide::confide.password_confirmation') }}}" type="password" name="password_confirmation" id="password_confirmation">
+        <label for="password">{{{ Lang::get('confide.password') }}}</label>
+        {{ Form::password('password', ['class' => 'form-control', 'placeholder' =>Lang::get('confide.password') ]) }}
+    </div>
+    <div class="form-group">
+        <label for="password_confirmation">{{{ Lang::get('confide.password_confirmation') }}}</label>
+        {{ Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' =>Lang::get('confide.password_confirmation') ]) }}
     </div>
 
     @if ( Session::get('error') )
@@ -25,8 +28,7 @@
     @endif
 
     <div class="form-actions form-group">
-        <button type="submit" class="btn btn-primary">{{{ Lang::get('confide::confide.forgot.submit') }}}</button>
+        <button type="submit" class="btn btn-primary">{{{ Lang::get('confide.forgot.submit') }}}</button>
     </div>
-</form>
-
+{{ Form::close() }}
 @stop

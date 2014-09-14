@@ -1,4 +1,3 @@
-    @section('header')
         <!-- header table -->
         <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse;background-color:#dddad9;border-top:0;border-bottom:0">
             <tbody><tr>
@@ -11,8 +10,8 @@
                                     <tbody><tr>
 
                                         <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;color:#ffffff;font-family:Helvetica;font-size:11px;line-height:125%;text-align:center">
+                                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;color:#ffffff;font-family:Helvetica;font-size:11px;line-height:125%;text-align:center">
 
-                                            <span style="font-family:arial,helvetica,sans-serif"><span style="color:#ffffff"><span style="font-size:12pt"><span class="aBn" data-term="goog_621291290" tabindex="0"><span class="aQJ">{{ Carbon::now() }}</span></span></span></span></span>
                                         </td>
                                     </tr>
                                     </tbody></table>
@@ -64,21 +63,13 @@
                             </td>
                         </tr>
                         </tbody>
-                    </table><table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#dddad9;border-collapse:collapse">
+                    </table>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#dddad9;border-collapse:collapse">
                         <tbody>
-                        <tr>
-                            <td style="padding:2px 18px 0px">
-                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
-                                    <tbody><tr>
-                                        <td>
-                                            <span></span>
-                                        </td>
-                                    </tr>
-                                    </tbody></table>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                        <tr> <td style="padding:2px 18px 0px"> </td> </tr>
+                    </tbody>
+                    </table>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
                         <tbody>
                         <tr>
                             <td valign="top">
@@ -109,4 +100,3 @@
             </tr>
             </tbody></table>
             <!-- end of header table -->
-            @stop

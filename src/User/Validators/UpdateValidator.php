@@ -2,7 +2,7 @@
 
 use Acme\Core\Validators\AbstractValidator;
 
-class UserUpdateValidator extends AbstractValidator {
+class UpdateValidator extends AbstractValidator {
 
     /**
      * Validation rules

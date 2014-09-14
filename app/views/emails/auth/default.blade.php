@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-    <meta charset="utf-8">
-</head>
-<body>
+@extends('emails.layouts.default')
+@section('body')
     <h2>Hello {{ $name }}, </h2>
     <div>
         {{ $body }}
     </div>
-</body>
-</html>
+@stop

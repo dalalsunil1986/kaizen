@@ -1,13 +1,6 @@
-<html>
-<head>
-    <title>
+@extends('emails.layouts.default')
+@section('body')
+    <h1>Hey Admin.  This is Report About User {{ $report_user_username }} ( {{ $report_user_email }} )</h1>
 
-    </title>
-
-    <body>
-        <h1>Hey Admin.  This is Report About User {{ $report_user_username }} ( {{ $report_user_email }} )</h1>
-
-        <p> {{ $body }} </p>
-    </body>
-</head>
-</html>
+    <p> {{ $body }} </p>
+@stop

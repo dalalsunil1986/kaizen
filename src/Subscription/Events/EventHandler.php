@@ -19,7 +19,7 @@ class EventHandler extends AbstractMailer {
 
     public function sendSubscriptionMail($user)
     {
-        $this->view           = 'emails.subscriptions.default';
+        $this->view           = 'emails.subscription';
         $this->recepientEmail = $user['email'];
         $this->recepientName  = $user['name_en'];
         $this->subject        = 'Kaizen Event Subscription' ;
