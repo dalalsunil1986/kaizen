@@ -115,8 +115,8 @@ class EventsController extends BaseController {
         $tags = $this->eventRepository->findById($id)->tags;
 
         $eventExpired = false;
-        $now = \Carbon\Carbon::now();
-        if($event->date_start < $now->toDateTimeString()) {
+        $now          = \Carbon\Carbon::now();
+        if ( $event->date_start < $now->toDateTimeString() ) {
             $eventExpired = true;
         }
 
@@ -137,7 +137,7 @@ class EventsController extends BaseController {
             });
         }
 
-        $this->render('site.events.view', compact('event', 'tags','eventExpired'));
+        $this->render('site.events.view', compact('event', 'tags', 'eventExpired'));
 
     }
 
@@ -327,13 +327,15 @@ class EventsController extends BaseController {
 
     }
 
-    public function getSuggestedEvents ($eventId) {
-        $current_event = $this->eventRepository->findById($eventId);
+    public function getSuggestedEvents($eventId)
+    {
+        $current_event   = $this->eventRepository->findById($eventId);
         $suggested_event = $this->eventRepository->suggestedEvents($eventId);
 
     }
 
-    public function reorganizeEvents($id){
+    public function reorganizeEvents($id)
+    {
         //check whether user logged in
         $user = Auth::user();
         if ( $user ) {
@@ -341,14 +343,50 @@ class EventsController extends BaseController {
             $event = $this->eventRepository->findById($id);
 
             if ( !$event->requests->contains($user->id) ) {
-                $event->requests()->attach($user,['created_at'=>\Carbon\Carbon::now()->toDateTimeString()]);
+                $event->requests()->attach($user, ['created_at' => \Carbon\Carbon::now()->toDateTimeString()]);
             }
+
             return Response::json(array(
                 'success' => true,
                 'message' => Lang::get('site.subscription.requested')
             ), 200);
         }
+
         return false;
+
+    }
+
+    /**
+     * Stream event from electa service
+     *
+     */
+    public function eventStream()
+    {
+        $Url = 'http://kaizenlive.e-lectazone.com/apps/token.asp' . '?cid=15829&appkey=WH73FJ63UT62WY76MQ50XX86MI50XQ82&result=xml';
+        if ( !function_exists('curl_init') ) {
+            die('cURL is not installed!');
+        }
+        $ch = curl_init();
+        // Set URL to download and other parameters
+        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        // Download the given URL, and return output
+        $output = curl_exec($ch);
+        // Close the cURL resource, and free system resources
+        curl_close($ch);
+
+        if ( $output ) {
+
+            $tokenRetrive = simplexml_load_string($output);
+
+            foreach ( $tokenRetrive->ResponseData as $data ) {
+                $token = $data;
+            }
+        }
+
+        $this->render('site.events.online', array('sessionToken' => $token));
     }
 
 }
