@@ -114,6 +114,12 @@ class EventsController extends BaseController {
         // Afdal :: the photoRepository is not implemented within EventsController !!!
         $tags = $this->eventRepository->findById($id)->tags;
 
+        $eventExpired = false;
+        $now = \Carbon\Carbon::now();
+        if($event->date_start < $now->toDateTimeString()) {
+            $eventExpired = true;
+        }
+
         if ( Auth::check() ) {
             $user = Auth::user();
             View::composer('site.events.view', function ($view) use ($id, $user, $event) {
@@ -131,7 +137,7 @@ class EventsController extends BaseController {
             });
         }
 
-        $this->render('site.events.view', compact('event', 'tags'));
+        $this->render('site.events.view', compact('event', 'tags','eventExpired'));
 
     }
 

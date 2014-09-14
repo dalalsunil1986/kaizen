@@ -52,7 +52,8 @@ return array(
                 'choose_author'=> 'Select Author',
                 'price' => 'Event Price',
                 'free' => 'Free',
-                'unsubscribe_btn_desc' => 'Cancel Subscription'
+                'unsubscribe_btn_desc' => 'Cancel Subscription',
+                'reorganize' => 'Request to Reorganize The Event'
 
                 ),
     'general' => array(

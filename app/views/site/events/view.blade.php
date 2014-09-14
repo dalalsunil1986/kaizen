@@ -142,69 +142,84 @@
         <div class="col-md-5">
 
             <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    @if($event->free)
-                        <!-- If Free Event directly subscribe -->
-                        @if( !$subscribed)
-                            {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
-                        @else
-                            {{ Form::open(['action' => 'SubscriptionsController@unsubscribe', 'method' => 'post'], ['class'=>'form']) }}
-                        @endif
-                            {{ Form::hidden('event_id',$event->id) }}
-                            {{ Form::hidden('registration_type','NORMAL') }}
-                            <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
-                                <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-                                <span class="buttonText">
-                                    {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe')  }}
-                                </span>
-                            </button>
 
-                        {{ Form::close() }}
-                    @else
-                        {{-- Paid Events --}}
-                        @if ( !$subscribed)
-                            <a href="{{  URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) }}"/>
-                                <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                    data-toggle="tooltip" data-placement="top" title="{{  Lang::get('site.event.subscribe')  }}">
-                                    <i class="subscribe glyphicon glyphicon-check "></i>  </br>
-                                    <span class="buttonText">
-                                    {{ Lang::get('site.event.subscribe')  }}
-                                    </span>
-                                </button>
-                            </a>
-                        @else
-                            {{ Form::open(['action' => 'SubscriptionsController@unsubscribe', 'method' => 'post'], ['class'=>'form']) }}
+                @if($eventExpired)
+                    {{ Form::open(['action' => 'SubscriptionsController@reorganizeEvents', 'method' => 'post'], ['class'=>'form']) }}
+                        {{ Form::hidden('event_id',$event->id) }}
+                        <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                            data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.reorganize')  }}">
+                            <i class="subscribe glyphicon glyphicon-check"></i>  </br>
+                            <span class="buttonText">
+                                {{  Lang::get('site.event.reorganize')  }}
+                            </span>
+                        </button>
+                    {{ Form::close() }}
+                @else
+                    <div class="col-md-12 col-sm-12 col-xs-12">
 
+                        @if($event->free)
+                            <!-- If Free Event directly subscribe -->
+                            @if( !$subscribed)
+                                {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
+                            @else
+                                {{ Form::open(['action' => 'SubscriptionsController@unsubscribe', 'method' => 'post'], ['class'=>'form']) }}
+                            @endif
                                 {{ Form::hidden('event_id',$event->id) }}
-                                {{ Form::hidden('registration_type','NORMAL') }}
 
-                                <button type="button" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                    data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.unsubscribe')  }}">
-                                    <i class="subscribe glyphicon glyphicon-check active "></i>  </br>
+                                <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                    data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
+                                    <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
                                     <span class="buttonText">
-                                        {{ Lang::get('site.event.unsubscribe_btn_desc') }}
+                                        {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe')  }}
                                     </span>
                                 </button>
+
                             {{ Form::close() }}
+                        @else
+                            {{-- Paid Events --}}
+                            @if ( !$subscribed)
+                                <a href="{{  URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) }}"/>
+                                    <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                        data-toggle="tooltip" data-placement="top" title="{{  Lang::get('site.event.subscribe')  }}">
+                                        <i class="subscribe glyphicon glyphicon-check "></i>  </br>
+                                        <span class="buttonText">
+                                        {{ Lang::get('site.event.subscribe')  }}
+                                        </span>
+                                    </button>
+                                </a>
+                            @else
+                                {{ Form::open(['action' => 'SubscriptionsController@unsubscribe', 'method' => 'post'], ['class'=>'form']) }}
+
+                                    {{ Form::hidden('event_id',$event->id) }}
+                                    {{ Form::hidden('registration_type','NORMAL') }}
+
+                                    <button type="button" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.unsubscribe')  }}">
+                                        <i class="subscribe glyphicon glyphicon-check active "></i>  </br>
+                                        <span class="buttonText">
+                                            {{ Lang::get('site.event.unsubscribe_btn_desc') }}
+                                        </span>
+                                    </button>
+                                {{ Form::close() }}
+                            @endif
                         @endif
-                    @endif
 
-                </div>
+                    </div>
 
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
-                        data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow') }}">
-                        <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
-                        {{ Lang::get('site.general.follow_btn_desc')}}
-                    </button>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
+                            data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow') }}">
+                            <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
+                            {{ Lang::get('site.general.follow_btn_desc')}}
+                        </button>
 
-                    <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm favorite_btn bg-blue top5"
-                        data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite') }}">
-                        <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
-                        {{ Lang::get('site.general.fv_btn_desc')}}
-                    </button>
-                </div>
+                        <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm favorite_btn bg-blue top5"
+                            data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite') }}">
+                            <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
+                            {{ Lang::get('site.general.fv_btn_desc')}}
+                        </button>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
