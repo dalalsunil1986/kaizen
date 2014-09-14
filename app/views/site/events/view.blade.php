@@ -163,6 +163,8 @@
                             @else
                                 {{ Form::open(['action' => 'SubscriptionsController@unsubscribe', 'method' => 'post'], ['class'=>'form']) }}
                             @endif
+                                {{ Form::hidden('registration_type','NORMAL') }}
+
                                 {{ Form::hidden('event_id',$event->id) }}
 
                                 <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "

@@ -7,6 +7,7 @@ use Acme\Favorite\FavoriteRepository;
 use Acme\Follower\FollowerRepository;
 use Acme\Subscription\SubscriptionRepository;
 use Acme\User\UserRepository;
+use Carbon\Carbon;
 
 class EventsController extends BaseController {
 
@@ -114,11 +115,8 @@ class EventsController extends BaseController {
         // Afdal :: the photoRepository is not implemented within EventsController !!!
         $tags = $this->eventRepository->findById($id)->tags;
 
-        $eventExpired = false;
-        $now          = \Carbon\Carbon::now();
-        if ( $event->date_start < $now->toDateTimeString() ) {
-            $eventExpired = true;
-        }
+
+        $eventExpired = $this->eventRepository->checkIfEventExpired($event->date_start);
 
         if ( Auth::check() ) {
             $user = Auth::user();
@@ -338,21 +336,25 @@ class EventsController extends BaseController {
     {
         //check whether user logged in
         $user = Auth::user();
+
         if ( $user ) {
             //check whether seats are empty
-            $event = $this->eventRepository->findById($id);
+            $event        = $this->eventRepository->findById($id);
+            $eventExpired = $this->eventRepository->checkIfEventExpired($event->date_start);
 
-            if ( !$event->requests->contains($user->id) ) {
-                $event->requests()->attach($user, ['created_at' => \Carbon\Carbon::now()->toDateTimeString()]);
+            if ( !$eventExpired ) {
+                if ( !$event->requests->contains($user->id) ) {
+                    $event->requests()->attach($user, ['created_at' => Carbon::now()->toDateTimeString()]);
+                }
+                return Response::json(array(
+                    'success' => true,
+                    'message' => Lang::get('site.subscription.requested')
+                ), 200);
             }
 
-            return Response::json(array(
-                'success' => true,
-                'message' => Lang::get('site.subscription.requested')
-            ), 200);
         }
+        return null;
 
-        return false;
 
     }
 
@@ -384,9 +386,11 @@ class EventsController extends BaseController {
             foreach ( $tokenRetrive->ResponseData as $data ) {
                 $token = $data;
             }
+
         }
 
         $this->render('site.events.online', array('sessionToken' => $token));
     }
+
 
 }

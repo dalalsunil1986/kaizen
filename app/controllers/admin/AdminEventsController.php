@@ -266,8 +266,13 @@ class AdminEventsController extends AdminBaseController {
      */
     public function getSubscriptions($id)
     {
-        $users = $this->eventRepository->findById($id)->subscriptions;
         $event = $this->eventRepository->findById($id);
+        foreach ($event->user as $user) {
+            dd($user);
+        }
+        dd($event->user->toArray());
+        $users = $event->getConfirmedUsers();
+        dd($users->toArray());
 
         $this->render('admin.events.subscriptions', compact('users', 'event'));
     }

@@ -278,5 +278,17 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->morphToMany('Tag', 'taggable');
     }
 
+    public function getConfirmedUsers(){
+//        $posts = Post::whereHas('categories', function($q)
+//        {
+//            $q->where('slug', '=', Input::get('category_slug'));
+//
+//        })->get();
+        return $this->with('user')->whereHas('subscriptions',function($q)
+        {
+            $q->where('status','=','PENDING');
+        })->get();
+    }
+
 }
 
