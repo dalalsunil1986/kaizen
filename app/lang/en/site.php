@@ -115,7 +115,8 @@ return array(
         'wrong_access'=> 'Sorry, Wrong Acces',
         'error'=> 'Sorry, Could not :attribute you',
         'not_subscribed' => 'Sorry, you havent :attribute this event in first place',
-        'rejected' => 'Sorry, You cannot Register this event'
+        'rejected' => 'Sorry, You cannot Register this event',
+        'requested' => 'Your Request For Re-organizing the Event has been sent to the Admin.'
     ),
 
     'auth' => array(

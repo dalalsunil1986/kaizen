@@ -333,4 +333,22 @@ class EventsController extends BaseController {
 
     }
 
+    public function reorganizeEvents($id){
+        //check whether user logged in
+        $user = Auth::user();
+        if ( $user ) {
+            //check whether seats are empty
+            $event = $this->eventRepository->findById($id);
+
+            if ( !$event->requests->contains($user->id) ) {
+                $event->requests()->attach($user,['created_at'=>\Carbon\Carbon::now()->toDateTimeString()]);
+            }
+            return Response::json(array(
+                'success' => true,
+                'message' => Lang::get('site.subscription.requested')
+            ), 200);
+        }
+        return false;
+    }
+
 }

@@ -54,7 +54,9 @@ return array(
             'choose_author'=> 'اختر المدرب',
             'price' => 'السعر',
             'free' => 'مجاني',
-            'unsubscribe_btn_desc' => 'الغاء الاشتراك'
+            'unsubscribe_btn_desc' => 'الغاء الاشتراك',
+            'reorganize' => 'Request to Reorganize The Event'
+
     ),
     'general' => array(
             'kaizen' => 'كايزن',
@@ -118,7 +120,10 @@ return array(
             'not_authenticated' => 'Sorry, You must sign in before you perform this action',
             'wrong_access'=> 'Sorry, Wrong Acces',
             'error'=> 'Sorry, Could not :attribute you',
-            'not_subscribed' => 'Sorry, you havent :attribute this event in first place'
+            'not_subscribed' => 'Sorry, you havent :attribute this event in first place',
+            'rejected' => 'Sorry, You cannot Register this event',
+            'requested' => 'Your Request For Re-organizing the Event has been sent to the Admin.',
+
     ),
     'auth' => array(
         'username' => 'اسم المستخدم',

@@ -14,8 +14,12 @@ class CreateRequestsTable extends Migration {
 	{
 		Schema::create('requests', function(Blueprint $table)
 		{
-			$table->increments('id');
-			$table->timestamps();
+            $table->engine = 'InnoDB';
+            $table->increments('id');
+            $table->integer('user_id')->unsigned()->index();
+            $table->integer('event_id')->unsigned()->index();
+            $table->timestamps();
+            $table->softDeletes();
 		});
 	}
 

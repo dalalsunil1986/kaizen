@@ -34,6 +34,9 @@ Route::get('event/{id}/options', 'EventsController@showSubscriptionOptions');
 
 Route::get('event/{id}/suggest', 'EventsController@getSuggestedEvents');
 
+Route::post('event/{id}/organize', 'EventsController@reorganizeEvents');
+Route::get('event/{id}/organize', 'EventsController@reorganizeEvents');
+
 Route::resource('event.comments', 'CommentsController', array('only' => array('store')));
 
 Route::resource('event', 'EventsController', array('only' => array('index', 'show')));

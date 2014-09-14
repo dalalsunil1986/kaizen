@@ -144,8 +144,7 @@
             <div class="row">
 
                 @if($eventExpired)
-                    {{ Form::open(['action' => 'SubscriptionsController@reorganizeEvents', 'method' => 'post'], ['class'=>'form']) }}
-                        {{ Form::hidden('event_id',$event->id) }}
+                    {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
                         <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                             data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.reorganize')  }}">
                             <i class="subscribe glyphicon glyphicon-check"></i>  </br>
