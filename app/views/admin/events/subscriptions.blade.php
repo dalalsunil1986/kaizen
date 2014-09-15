@@ -5,8 +5,8 @@
 <h1>Subscriptions For {{ $event->title }}</h1>
 <p>{{ link_to_action('AdminEventsController@create', 'Add new event') }}</p>
 
-@if(count($users))
-<h3>Total {{count($users) }} Users Subscribed for This Event</h3>
+@if(count($subscriptions))
+<h3>Total {{count($subscriptions) }} Users Subscribed for This Event</h3>
 <a class="btn btn-default " data-toggle="modal" data-target="#contact" data-original-title>
    Mail to Subcribed Users
 </a>
@@ -67,12 +67,14 @@
     </thead>
 
     <tbody>
-    @foreach($users as $user)
-    <tr>
-        <td><a href="{{ action('UserController@getProfile',$user->id) }}">{{{ $user->username }}}</a></td>
-        <td>{{{ $user->email }}} </td>
-    </tr>
-    @endforeach
+    @if(count($subscriptions))
+        @foreach($subscriptions as $subscription)
+        <tr>
+           <td><a href="{{ action('UserController@getProfile',$subscription->user->id) }}">{{{ $subscription->user->username }}}</a></td>
+           <td>{{{ $subscription->user->email }}} </td>
+        </tr>
+        @endforeach
+    @endif
     </tbody>
 </table>
 

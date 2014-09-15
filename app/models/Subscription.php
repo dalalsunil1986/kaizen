@@ -11,6 +11,8 @@ class Subscription extends BaseModel {
         'event_id' => 'required | integer'
     );
 
+    protected $with = ['user'];
+
     public function user()
     {
         return $this->belongsTo('User', 'user_id');
@@ -37,10 +39,6 @@ class Subscription extends BaseModel {
     public function subscriptionConfirmed()
     {
         return $this->status == 'CONFIRMED' ? true : false;
-    }
-
-    public function findTotalConfirmedSeats() {
-        return $this->all();
     }
 
     public function scopeOfStatus($query, $status)

@@ -325,10 +325,14 @@ class EventsController extends BaseController {
 
     }
 
-    public function getSuggestedEvents($eventId)
+    public function getSuggestedEvents($id)
     {
-        $current_event   = $this->eventRepository->findById($eventId);
-        $suggested_event = $this->eventRepository->suggestedEvents($eventId);
+        $event   = $this->eventRepository->findById($id);
+        $suggestedEvents = $this->eventRepository->getSuggestedEvents($id);
+
+        $category = $this->categoryRepository->findById($event->category_id);
+        dd($category);
+        dd($suggestedEvents);
 
     }
 

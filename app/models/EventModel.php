@@ -279,14 +279,9 @@ class EventModel extends BaseModel implements PresenterInterface {
     }
 
     public function getConfirmedUsers(){
-//        $posts = Post::whereHas('categories', function($q)
-//        {
-//            $q->where('slug', '=', Input::get('category_slug'));
-//
-//        })->get();
-        return $this->with('user')->whereHas('subscriptions',function($q)
+        return $this->whereHas('subscriptions',function($q)
         {
-            $q->where('status','=','PENDING');
+            $q->where('status','=','CONFIRMED');
         })->get();
     }
 

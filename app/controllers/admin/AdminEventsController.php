@@ -109,7 +109,6 @@ class AdminEventsController extends AdminBaseController {
 
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -224,11 +223,10 @@ class AdminEventsController extends AdminBaseController {
     public function settings($id)
     {
         $event               = $this->eventRepository->findById($id);
-        $subscriptions_count = $event->subscriptions()->count();
+        $subscriptions_count = $event->subscriptions()->where('status','CONFIRMED')->count();
         $favorites_count     = $event->favorites()->count();
         $followers_count     = $event->followers()->count();
-//        $requests_count      = $event->statuses()->count();
-        $requests_count = 0;
+        $requests_count      = $event->subscriptions()->count();
 
         $this->render('admin.events.settings', compact('event', 'subscriptions_count', 'favorites_count', 'followers_count', 'requests_count'));
     }
@@ -267,14 +265,9 @@ class AdminEventsController extends AdminBaseController {
     public function getSubscriptions($id)
     {
         $event = $this->eventRepository->findById($id);
-        foreach ($event->user as $user) {
-            dd($user);
-        }
-        dd($event->user->toArray());
-        $users = $event->getConfirmedUsers();
-        dd($users->toArray());
+        $subscriptions = $event->subscriptions()->ofStatus('CONFIRMED')->get();
 
-        $this->render('admin.events.subscriptions', compact('users', 'event'));
+        $this->render('admin.events.subscriptions', compact('event','subscriptions'));
     }
 
     public function getRequests($id)

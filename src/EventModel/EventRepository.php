@@ -162,4 +162,13 @@ class EventRepository extends AbstractRepository {
 
         return $eventExpired;
     }
+
+    /**
+     * @param $id Event Id
+     */
+    public function getSuggestedEvents($id){
+        // get 1 random post for tags
+        // get 1 random post for categories
+//        $events =
+    }
 }

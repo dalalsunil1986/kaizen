@@ -15,9 +15,9 @@
 				<th>Date_end</th>
                 <th>Posted</th>
                 <th>View Followers</th>
-                <th>View Subscribers</th>
+                <th>View Confirmed Subscriptions</th>
                 <th>View Favorites</th>
-                <th>View Requests</th>
+                <th>View All Subscriptions</th>
 			</tr>
 		</thead>
 
