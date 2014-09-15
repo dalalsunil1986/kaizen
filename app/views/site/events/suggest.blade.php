@@ -28,13 +28,13 @@
     </div>
     <div class="col-sm-10 col-md-10">
         <span class="event-title">
-            <a href="event/{{$event->id}}">
+            <a href="{{ action('EventsController@show',$event->id) }}">
                 {{ $event->title }}
             </a>
         </span>
         <p>
             {{ Str::limit($event->description, 150) }}
-            <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
+            <a href="{{ action('EventsController@show',$event->id) }}">{{ Lang::get('site.general.more')}}</a>
 
         </p>
 
@@ -69,7 +69,6 @@
 </div>
 <hr>
 @endforeach
-<?php echo $events->appends(Request::except('page'))->links(); ?>
 @else
 <h1> No Events Returned </h1>
 @endif
