@@ -328,11 +328,31 @@ class EventsController extends BaseController {
     public function getSuggestedEvents($id)
     {
         $event   = $this->eventRepository->findById($id);
-        $suggestedEvents = $this->eventRepository->getSuggestedEvents($id);
 
+        // find the category Model that is attached to this event
         $category = $this->categoryRepository->findById($event->category_id);
-        dd($category);
-        dd($suggestedEvents);
+
+        // Get Random Events attached to the category
+        $categoryEvents = $category->events()->notExpired()->where('id','!=',$id)->take(10)->get(['id']);
+
+        // fetch one random event
+        $categoryEvent = $categoryEvents->random(1);
+
+        // Get a Random Tag attached to this Event
+        $randomTags = $event->tags->random(1);
+
+        // Get a Event Whose Date is Not Expired and Id not in $id
+        $tagEvents = $randomTags->events()->where('events.date_start','>',Carbon::now()->toDateTimeString())->where('events.id','!=',$id)->take(10)->get(['events.id']);
+
+        // fetch one random event
+        $tagEvent = $tagEvents->random(1);
+
+        $suggestedTagEvent = $this->eventRepository->findById($tagEvent->id);
+        $suggestedCategoryEvent = $this->eventRepository->findById($categoryEvent->id);
+
+        $events = array_merge([$suggestedCategoryEvent->toArray()],[$suggestedTagEvent->toArray()]);
+
+        $this->render('site.events.suggest','events');
 
     }
 
