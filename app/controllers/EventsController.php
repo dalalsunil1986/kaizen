@@ -422,20 +422,39 @@ class EventsController extends BaseController {
      * Stream event from electa service
      * @param $id
      */
-    public function eventStream($id)
+    public function getEventStream($id)
     {
         $event             = $this->eventRepository->findById($id);
         $setting           = $event->setting;
+        $user              = Auth::user();
         $registrationTypes = explode(',', $setting->registration_types);
+
+        // check if this event has online streaming
         if ( !in_array('ONLINE', $registrationTypes) ) {
+
             return Redirect::action('EventsController@index')->with('error', 'There is no online stream for this event');
         }
+
+        // check whether this user subscribed for this and confirmed
+        $subscription = $event->subscriptions()->where('user_id', $user->id)->where('status', 'CONFIRMED')->first();
+
+        if ( !count($subscription) ) {
+
+            return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event, Sorry');
+        }
+
+        // check whether the user has subscribed as online
+        if ( $subscription->registration_type != 'ONLINE' ) {
+
+            return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event as ONLINE, Sorry');
+        }
+
 
         $url = 'http://kaizenlive.e-lectazone.com/apps/token.asp?cid=15829&appkey=WH73FJ63UT62WY76MQ50XX86MI50XQ82&result=xml';
 
         if ( !function_exists('curl_init') ) {
             // If curl is not installed
-            Redirect::home('303')->with('error', 'Sorry System Error. Please Contact Admin');
+            return Redirect::home('303')->with('error', 'Sorry System Error. Please Contact Admin');
         }
 
         $ch = curl_init();
@@ -458,9 +477,80 @@ class EventsController extends BaseController {
             }
 
         }
+//        $data = [
+//            'token' => $token,
+//            'cid' =>  '15829' ,
+//            'roomid' =>  '22352' ,
+//            'usertypeid' =>  '0',
+//            'gender' =>  'M' ,
+//            'firstname' =>  'Ahmed' ,
+//            'lastname' =>  'shalaby' ,
+//            'email' =>  'test@gmail.com',
+//            'externalname' =>  'unique_id_for_GerorgeEdwrds',
+//        ];
+//        header('Location: ' . 'http://kaizenlive.e-lectazone.com/apps/launch.asp?'.http_build_query($data));
+//        die();
 
-        $this->render('site.events.online', array('sessionToken' => $token));
+//        return Redirect::to('http://kaizenlive.e-lectazone.com/apps/launch.asp')->with(['roomid' => $setting->online_room_no]);
+//        echo '
+
+//';
+
+        $this->render('site.events.online', array('sessionToken' => $token,'event'=>$event));
     }
 
 
+    public function postEventStream(){
+
+        $posts = Input::all();
+        header('Location: ' . 'http://kaizenlive.e-lectazone.com/apps/launch.asp?'.http_build_query($posts));
+        exit();
+        // works;
+
+//        $cid = '1';
+//        $roomId = '1';
+//        $usertypeid = '1';
+//        $gender = 'M';
+//        $firstName = 'zal';
+//        $lastName = 'as';
+//        $email = 'z4ls@live.com';
+//        $externameName = 'asdasd';
+//
+//        $url = 'http://kaizenlive.e-lectazone.com/apps/launch.asp';
+//        $fields = array(
+//            'cid' => urlencode($cid),
+//            'firstname' => urlencode($firstName),
+//            'lastname' => urlencode($lastName),
+//            'email' => urlencode($email),
+//            'gender' => urlencode($gender),
+//            'email' => urlencode($email),
+//            'externamname' => urlencode($externameName),
+//            'usertypeid' => urlencode($usertypeid),
+//            'roomid' => $roomId,
+//        );
+//
+//        //url-ify the data for the POST
+//        $fields_string = '';
+//        foreach($fields as $key=>$value)
+//        {
+//            $fields_string .= $key.'='.$value.'&';
+//        }
+//        rtrim($fields_string, '&');
+//
+//        //open connection
+//        $ch = curl_init();
+//
+//        //set the url, number of POST vars, POST data
+//        curl_setopt($ch,CURLOPT_URL, $url);
+//        curl_setopt($ch,CURLOPT_POST, count($fields));
+//        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+//
+//        //execute post
+//        $result = curl_exec($ch);
+//
+//        //close connection
+//        curl_close($ch);
+//        exit();
+
+    }
 }

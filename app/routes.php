@@ -14,7 +14,9 @@ Route::pattern('token', '[0-9a-z]+');
 /*********************************************************************************************************
  * Event Routes
  ********************************************************************************************************/
-Route::get('event/{id}/online', 'EventsController@eventStream');
+Route::get('event/{id}/online', 'EventsController@getEventStream');
+
+Route::post('event/{id}/process', 'EventsController@postEventstream');
 
 Route::get('event/{id}/category', 'EventsController@getCategory');
 
