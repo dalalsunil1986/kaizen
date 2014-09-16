@@ -9,8 +9,6 @@ class Tag extends Eloquent {
 	protected $fillable = [];
     protected $table = 'tags';
 
-    protected $with = 'events';
-
     public function events()
     {
         return $this->morphedByMany('EventModel', 'taggable');

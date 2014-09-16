@@ -55,7 +55,8 @@ return array(
             'price' => 'السعر',
             'free' => 'مجاني',
             'unsubscribe_btn_desc' => 'الغاء الاشتراك',
-            'reorganize' => 'Request to Reorganize The Event'
+            'reorganize' => 'Request to Reorganize The Event',
+            'online' => 'دخول غرفة الفعالية'
 
     ),
     'general' => array(

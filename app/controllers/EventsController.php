@@ -325,68 +325,14 @@ class EventsController extends BaseController {
 
     }
 
-    /**
-     * @param $id
-     * Get Suggested Events
-     */
     public function getSuggestedEvents($id)
     {
-        $event = $this->eventRepository->findById($id);
+        $event   = $this->eventRepository->findById($id);
+        $suggestedEvents = $this->eventRepository->getSuggestedEvents($id);
 
-        // initialize arrays
-        $suggestedCategoryEvent = [];
-        $suggestedTagEvent      = [];
-        $events                 = [];
-
-        // find the category Model that is attached to this event
         $category = $this->categoryRepository->findById($event->category_id);
-
-        if ( $category ) {
-
-            // Get Random Events attached to the category
-            $categoryEvents = $category->events()->notExpired()->where('events.id', '!=', $id)->take(10)->get(['events.id']);
-
-            if ( count($categoryEvents) ) {
-                // fetch one random event
-                $categoryEvent = $categoryEvents->random(1);
-
-                // get the Event Model and store it in an arryay
-                $suggestedCategoryEvent = $this->eventRepository->findById($categoryEvent->id);
-            }
-        }
-
-        // Get a Random Tag attached to this Event
-        $tags = $event->tags->random(1);
-
-        if ( $tags ) {
-
-            if ( isset($categoryEvent) ) {
-                // Get an Event Whose Date is Not Expired and Id not in $id or category event Id ( to avoid duplicate )
-                $tagEvents = $tags->events()->notExpired()->where('events.id', '!=', $id)->where('events.id', '!=', $categoryEvent->id)->take(10)->get(['events.id']);
-
-            } else {
-                // Get an Event Whose Date is Not Expired and Id not in $id
-                $tagEvents = $tags->events()->notExpired()->where('events.id', '!=', $id)->take(10)->get(['events.id']);
-            }
-
-            if ( count($tagEvents) ) {
-                // fetch one random event
-                $tagEvent = $tagEvents->random(1);
-
-                // get the Event Model and store it in an arryay
-                $suggestedTagEvent = $this->eventRepository->findById($tagEvent->id);
-            }
-        }
-
-        // If event fetched from category_id is not empty, add it to the events array
-        if ( !empty($suggestedCategoryEvent) )
-            $events[] = $suggestedCategoryEvent;
-
-        // If event fetched from tags is not empty, add it to the events array
-        if ( !empty($suggestedTagEvent) )
-            $events[] = $suggestedTagEvent;
-
-        $this->render('site.events.suggest',compact('events'));
+        dd($category);
+        dd($suggestedEvents);
 
     }
 
@@ -404,7 +350,6 @@ class EventsController extends BaseController {
                 if ( !$event->requests->contains($user->id) ) {
                     $event->requests()->attach($user, ['created_at' => Carbon::now()->toDateTimeString()]);
                 }
-
                 return Response::json(array(
                     'success' => true,
                     'message' => Lang::get('site.subscription.requested')
@@ -412,8 +357,9 @@ class EventsController extends BaseController {
             }
 
         }
-
         return null;
+
+
     }
 
     /**

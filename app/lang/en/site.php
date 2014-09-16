@@ -53,7 +53,8 @@ return array(
                 'price' => 'Event Price',
                 'free' => 'Free',
                 'unsubscribe_btn_desc' => 'Cancel Subscription',
-                'reorganize' => 'Request to Reorganize The Event'
+                'reorganize' => 'Request to Reorganize The Event',
+                'online' => 'Enter Online Room'
 
                 ),
     'general' => array(
