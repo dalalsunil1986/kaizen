@@ -125,41 +125,42 @@
 
     @endif
 
-    <!-- Normal -->
-    <div class="col-md-4" >
-         <div class="panel panel-default parent_panel">
-             <div class="panel-heading">
-                {{ strtoupper(Lang::get('site.general.normal'))  }}
-             </div>
-             <div class="panel-body" >
-                 <div class="col-md-12">
-                     <div class="form-group">
-                         <p>
-                             <span class="mute"> {{ $setting->normal_benefits }}</span>
-                             <hr class="separator">
-                         </p>
+    @if($normal)
+        <!-- Normal -->
+        <div class="col-md-4" >
+             <div class="panel panel-default parent_panel">
+                 <div class="panel-heading">
+                    {{ strtoupper(Lang::get('site.general.normal'))  }}
+                 </div>
+                 <div class="panel-body" >
+                     <div class="col-md-12">
+                         <div class="form-group">
+                             <p>
+                                 <span class="mute"> {{ $setting->normal_benefits }}</span>
+                                 <hr class="separator">
+                             </p>
 
+                         </div>
                      </div>
+
+                     <div class="col-md-12">
+                        <hr class="separator">
+                        <p> <h3 class="text-center">Price {{ $event->price }} KD</h3></p>
+                     </div>
+
+                     <span class="col-md-12 lower-panel">
+                            {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
+                                {{ Form::hidden('event_id',$event->id) }}
+                                {{ Form::hidden('registration_type','NORMAL') }}
+                                {{ Form::submit( Lang::get('site.event.subscribe') , ['class'=>'btn btn-default btn-block']) }}
+                            {{ Form::close() }}
+                     </span>
+
                  </div>
-
-                 <div class="col-md-12">
-                    <hr class="separator">
-                    <p> <h3 class="text-center">Price {{ $event->price }} KD</h3></p>
-                 </div>
-
-                 <span class="col-md-12 lower-panel">
-                        {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
-                            {{ Form::hidden('event_id',$event->id) }}
-                            {{ Form::hidden('registration_type','NORMAL') }}
-                            {{ Form::submit( Lang::get('site.event.subscribe') , ['class'=>'btn btn-default btn-block']) }}
-                        {{ Form::close() }}
-                 </span>
-
              </div>
+
          </div>
 
-     </div>
-
-
+    @endif
 
 @stop

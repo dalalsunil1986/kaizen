@@ -37,6 +37,7 @@ Route::get('event/{id}/options', 'EventsController@showSubscriptionOptions');
 Route::get('event/{id}/suggest', 'EventsController@getSuggestedEvents');
 
 Route::post('event/{id}/organize', 'EventsController@reorganizeEvents');
+
 Route::get('event/{id}/organize', 'EventsController@reorganizeEvents');
 
 Route::resource('event.comments', 'CommentsController', array('only' => array('store')));
@@ -206,7 +207,10 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::get('event/{id}/location', 'AdminEventsController@getLocation');
 
-    Route::get('event/{id}/settings', 'AdminEventsController@settings');
+    Route::get('event/{id}/settings', 'AdminEventsController@getSettings');
+
+    Route::get('event/{id}/details', 'AdminEventsController@getDetails');
+
 
     Route::get('event/type/create', 'AdminEventsController@selectType');
 
@@ -224,6 +228,11 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Event Settings Routes
      ********************************************************************************************************/
+
+    Route::get('setting/{id}/add-online-room', 'AdminSettingsController@getAddRoom');
+
+    Route::post('setting/{id}/add-online-room', 'AdminSettingsController@postAddRoom');
+
     Route::resource('settings', 'AdminSettingsController');
 
     /*********************************************************************************************************

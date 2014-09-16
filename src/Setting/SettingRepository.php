@@ -3,6 +3,7 @@
 use Acme\Core\CrudableTrait;
 use Acme\Core\Repositories\AbstractRepository;
 use Acme\Core\Repositories\Illuminate;
+use Acme\Setting\Validators\OnlineRoomForm;
 use Setting;
 
 class SettingRepository extends AbstractRepository {
@@ -11,7 +12,7 @@ class SettingRepository extends AbstractRepository {
 
     public $model;
 
-    public $registrationTypes = ['VIP' => 'VIP', 'ONLINE' => 'ONLINE'];
+    public $registrationTypes = ['VIP' => 'VIP', 'ONLINE' => 'ONLINE', 'NORMAL' => 'NORMAL'];
     public $feeTypes = ['FREE', 'PAID'];
     public $approvalTypes = ['DIRECT', 'CONFIRM'];
     public $eventTypes = ['EventModel' => 'EVENT', 'Package' => 'PACKAGE'];
@@ -37,6 +38,11 @@ class SettingRepository extends AbstractRepository {
         $this->addError('Could Not Update');
 
         return false;
+    }
+
+    public function getOnlineRoomForm($id)
+    {
+        return new OnlineRoomForm();
     }
 
 }

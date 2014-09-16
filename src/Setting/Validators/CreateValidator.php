@@ -19,6 +19,7 @@ class CreateValidator extends AbstractValidator {
      */
     protected $rules = [
         'approval_type'=>'required',
+        'registration_types'=>'required | array',
         'vip_price' => 'integer',
         'online_price' => 'integer',
     ];

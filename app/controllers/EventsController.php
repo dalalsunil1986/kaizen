@@ -305,6 +305,7 @@ class EventsController extends BaseController {
         // initialize values with a false boolean
         $vip    = false;
         $online = false;
+        $normal = false;
 
         // find available registration option types
         $setting = $event->setting;
@@ -320,8 +321,9 @@ class EventsController extends BaseController {
         // Pass the available options as a boolean
         if ( in_array('VIP', $reg_types) ) $vip = true;
         if ( in_array('ONLINE', $reg_types) ) $online = true;
+        if ( in_array('NORMAL', $reg_types) ) $normal = true;
 
-        $this->render('site.events.event-registration-types', compact('event', 'vip', 'online', 'setting'));
+        $this->render('site.events.event-registration-types', compact('event', 'vip', 'online', 'setting', 'normal'));
 
     }
 
@@ -386,7 +388,7 @@ class EventsController extends BaseController {
         if ( !empty($suggestedTagEvent) )
             $events[] = $suggestedTagEvent;
 
-        $this->render('site.events.suggest',compact('events'));
+        $this->render('site.events.suggest', compact('events'));
 
     }
 
@@ -418,17 +420,27 @@ class EventsController extends BaseController {
 
     /**
      * Stream event from electa service
-     *
+     * @param $id
      */
-    public function eventStream()
+    public function eventStream($id)
     {
-        $Url = 'http://kaizenlive.e-lectazone.com/apps/token.asp' . '?cid=15829&appkey=WH73FJ63UT62WY76MQ50XX86MI50XQ82&result=xml';
-        if ( !function_exists('curl_init') ) {
-            die('cURL is not installed!');
+        $event             = $this->eventRepository->findById($id);
+        $setting           = $event->setting;
+        $registrationTypes = explode(',', $setting->registration_types);
+        if ( !in_array('ONLINE', $registrationTypes) ) {
+            return Redirect::action('EventsController@index')->with('error', 'There is no online stream for this event');
         }
+
+        $url = 'http://kaizenlive.e-lectazone.com/apps/token.asp?cid=15829&appkey=WH73FJ63UT62WY76MQ50XX86MI50XQ82&result=xml';
+
+        if ( !function_exists('curl_init') ) {
+            // If curl is not installed
+            Redirect::home('303')->with('error', 'Sorry System Error. Please Contact Admin');
+        }
+
         $ch = curl_init();
         // Set URL to download and other parameters
-        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 60);

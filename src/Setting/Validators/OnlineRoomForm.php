@@ -2,7 +2,7 @@
 
 use Acme\Core\Validators\AbstractValidator;
 
-class UpdateValidator extends AbstractValidator {
+class OnlineRoomForm extends AbstractValidator {
 
     /**
      * Validation rules
@@ -10,10 +10,7 @@ class UpdateValidator extends AbstractValidator {
      * @var array
      */
     protected $rules = array(
-        'approval_type'=>'required',
-        'registration_types'=>'required | array',
-        'vip_price' => 'integer',
-        'online_price' => 'integer',
+        'online_room_no' => 'required | integer'
     );
 
     /**
@@ -24,7 +21,7 @@ class UpdateValidator extends AbstractValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'approval_type','registration_types','vip_description_en','vip_description_ar','online_description_en','online_description_ar','vip_price','online_price'
+            'online_room_no'
         ]);
     }
 

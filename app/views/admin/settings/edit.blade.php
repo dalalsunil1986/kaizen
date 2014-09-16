@@ -16,7 +16,7 @@
             $('#registration_types').select2({
                 placeholder: "Select Reigstration Types",
                 allowClear: true,
-                maximumSelectionSize: 2
+                maximumSelectionSize: 3
             });
         });
     </script>
@@ -48,8 +48,15 @@
 
             <div class="form-group col-md-6">
                 {{ Form::label('registration_types', 'Registration Type:') }}
-
-                {{ Form::select('registration_types[]', $registrationTypes , null , ['class' => 'form-control', 'id' => 'registration_types', 'multiple' => 'multiple' ]) }}
+                <select id="registration_types" name="registration_types[]" class="form-control" multiple="multiple" >
+                    @foreach($registrationTypes as $registrationType)
+                        <option value="{{ $registrationType }}"
+                            @if(in_array($registrationType,$currentRegistrationTypes))
+                            selected="selected"
+                            @endif
+                        >{{$registrationType}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
 

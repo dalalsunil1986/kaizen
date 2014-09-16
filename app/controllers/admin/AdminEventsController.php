@@ -60,7 +60,7 @@ class AdminEventsController extends AdminBaseController {
 
     public function index()
     {
-        $events   = $this->eventRepository->getAll(array('category', 'location.country'))->paginate(10);
+        $events   = $this->eventRepository->getAll(array('category', 'location.country','setting'))->paginate(10);
         $packages = $this->packageRepository->getAll();
         $this->render('admin.events.index', compact('events', 'packages'));
     }
@@ -220,7 +220,7 @@ class AdminEventsController extends AdminBaseController {
         return Redirect::back()->with('success', 'Email Sent');
     }
 
-    public function settings($id)
+    public function getSettings($id)
     {
         $event               = $this->eventRepository->findById($id);
         $subscriptions_count = $event->subscriptions()->where('status','CONFIRMED')->count();
@@ -230,6 +230,18 @@ class AdminEventsController extends AdminBaseController {
 
         $this->render('admin.events.settings', compact('event', 'subscriptions_count', 'favorites_count', 'followers_count', 'requests_count'));
     }
+
+    public function getDetails($id)
+    {
+        $event               = $this->eventRepository->findById($id);
+        $subscriptions_count = $event->subscriptions()->where('status','CONFIRMED')->count();
+        $favorites_count     = $event->favorites()->count();
+        $followers_count     = $event->followers()->count();
+        $requests_count      = $event->subscriptions()->count();
+
+        $this->render('admin.events.details', compact('event', 'subscriptions_count', 'favorites_count', 'followers_count', 'requests_count'));
+    }
+
 
     /**
      * @param $id

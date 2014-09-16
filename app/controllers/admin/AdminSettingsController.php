@@ -53,11 +53,12 @@ class AdminSettingsController extends AdminBaseController {
      */
     public function edit($id)
     {
-        $setting           = $this->settingRepository->findById($id);
-        $feeTypes          = $this->settingRepository->feeTypes;
-        $approvalTypes     = $this->settingRepository->approvalTypes;
-        $registrationTypes = $this->settingRepository->registrationTypes;
-        $this->render('admin.settings.edit', compact('setting', 'feeTypes', 'approvalTypes', 'registrationTypes'));
+        $setting                  = $this->settingRepository->findById($id);
+        $feeTypes                 = $this->settingRepository->feeTypes;
+        $approvalTypes            = $this->settingRepository->approvalTypes;
+        $registrationTypes        = $this->settingRepository->registrationTypes;
+        $currentRegistrationTypes = explode(',', $setting->registration_types);
+        $this->render('admin.settings.edit', compact('setting', 'feeTypes', 'approvalTypes', 'registrationTypes', 'currentRegistrationTypes'));
     }
 
     /**
@@ -71,25 +72,25 @@ class AdminSettingsController extends AdminBaseController {
         $setting = $this->settingRepository->findById($id);
 
         // check for an invalid registration type
-        if ( ! empty(Input::get('registration_types')) ) {
+        if ( !empty(Input::get('registration_types')) ) {
             foreach ( Input::get('registration_types') as $registrationType ) {
-                if ( ! in_array($registrationType, $this->settingRepository->registrationTypes) ) {
+                if ( !in_array($registrationType, $this->settingRepository->registrationTypes) ) {
                     return Redirect::back()->with('error', 'Wrong Value ')->withInput();
                 }
             }
         }
         $val = $this->settingRepository->getEditForm($id);
 
-        if ( ! $val->isValid() ) {
+        if ( !$val->isValid() ) {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
-        if ( ! $this->settingRepository->update($id, $val->getInputData()) ) {
+        if ( !$this->settingRepository->update($id, $val->getInputData()) ) {
 
-            return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
+            return Redirect::back()->with('errors', $this->settingRepository->errors())->withInput();
         }
 
-        return Redirect::action('AdminPhotosController@create', ['imageable_type' => $setting->settingable_type, 'imageable_id' => $setting->settingable_id]);
+        return Redirect::action('AdminEventsController@index')->with('success','Event Added');
     }
 
     /**
@@ -102,5 +103,42 @@ class AdminSettingsController extends AdminBaseController {
     {
     }
 
+
+    /**
+     * @param $id
+     * Event Id
+     * Get Add Online Room ( Form )
+     */
+    public function getAddRoom($id)
+    {
+        $setting           = $this->settingRepository->findById($id);
+
+        // get the current available registration types for the event from the db
+        $registrationTypes = explode(',', $setting->registration_types);
+
+        if ( !in_array('ONLINE', $registrationTypes) ) {
+            // if online option is not available, Redirect Back
+            return Redirect::action('AdminEventsController@index')->with('error','This Event has no Online Feature');
+        }
+
+        $this->render('admin.settings.add-room', compact('setting'));
+    }
+
+    public function postAddRoom($id)
+    {
+        $val = $this->settingRepository->getOnlineRoomForm($id);
+
+        if ( !$val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+        }
+        if ( !$this->settingRepository->update($id, $val->getInputData()) ) {
+
+            return Redirect::back()->with('errors', $this->settingRepository->errors())->withInput();
+        }
+
+        return Redirect::action('AdminEventsController@index')->with('success', 'Room Added');
+
+    }
 
 }
