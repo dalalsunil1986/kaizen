@@ -14,9 +14,9 @@ Route::pattern('token', '[0-9a-z]+');
 /*********************************************************************************************************
  * Event Routes
  ********************************************************************************************************/
-Route::get('event/{id}/online', 'EventsController@getEventStream');
+Route::get('event/{id}/online', 'EventsController@streamEvent');
 
-Route::post('event/{id}/process', 'EventsController@postEventstream');
+Route::get('event/{id}/offline', 'EventsController@streamEventOld');
 
 Route::get('event/{id}/category', 'EventsController@getCategory');
 
@@ -292,4 +292,12 @@ Route::get('package', 'SubscriptionsController@subscribePackage');
 Route::get('types', 'SubscriptionsController@subscribeTypes');
 Route::post('subscribe', 'SubscriptionsController@subscribe');
 Route::get('subscribe', 'SubscriptionsController@subscribe');
-Route::post('unsubscribe', 'SubscriptionsController@unsubscribe');
+Route::get('event/{id}/unsubscribe', 'SubscriptionsController@unsubscribe');
+
+Route::get('test', function () {
+    $event = EventModel::find(1);
+    $date = $event->date_start;
+    echo $date->year;
+    echo '<br>';
+    echo $event->date_start->toDateTimeString();
+});

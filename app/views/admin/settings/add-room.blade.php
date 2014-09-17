@@ -9,8 +9,8 @@
 
         <div class="row">
             <div class="form-group col-md-12">
-                {{ Form::label('online_room_no', 'Input the Online Room Number:') }}
-                {{ Form::text('online_room_no',null,['class'=>'form-control'])}}
+                {{ Form::label('online_room_id', 'Input the Online Room Number:') }}
+                {{ Form::text('online_room_id',null,['class'=>'form-control'])}}
             </div>
         </div>
 

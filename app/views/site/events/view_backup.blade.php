@@ -142,14 +142,13 @@
         <div class="col-md-5">
 
             <div class="row">
-
                 @if($eventExpired)
                     {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
                         <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                             data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.reorganize')  }}">
                             <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                             <span class="buttonText">
-                                {{  Lang::get('site.event.reorganize')  }}
+                               {{ Lang::get('site.event.reorganize')  }}
                             </span>
                         </button>
                     {{ Form::close() }}
@@ -167,6 +166,15 @@
 
                                 {{ Form::hidden('event_id',$event->id) }}
 
+                               @if(Carbon::now()->toDateString() ===  date('Y m d',strtotime($event->date_start))))
+                                <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-green "
+                                     data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.online')  }}">
+                                    <i class="subscribe glyphicon glyphicon-check"></i>  </br>
+                                    <span class="buttonText">
+                                       {{ Lang::get('site.event.online')  }}
+                                    </span>
+                                </button>
+                                @else
                                 <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                                     data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
                                     <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
@@ -174,6 +182,7 @@
                                         {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe')  }}
                                     </span>
                                 </button>
+                                @endif
 
                             {{ Form::close() }}
                         @else
@@ -194,6 +203,16 @@
                                     {{ Form::hidden('event_id',$event->id) }}
                                     {{ Form::hidden('registration_type','NORMAL') }}
 
+
+                                    @if(Carbon::now()->toDateString() ===  date('Y m d',strtotime($event->date_start))))
+                                    <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-green "
+                                         data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.online')  }}">
+                                        <i class="subscribe glyphicon glyphicon-check"></i>  </br>
+                                        <span class="buttonText">
+                                           {{ Lang::get('site.event.online')  }}
+                                        </span>
+                                    </button>
+                                    @else
                                     <button type="button" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                                         data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.unsubscribe')  }}">
                                         <i class="subscribe glyphicon glyphicon-check active "></i>  </br>
@@ -201,6 +220,7 @@
                                             {{ Lang::get('site.event.unsubscribe_btn_desc') }}
                                         </span>
                                     </button>
+                                    @endif
                                 {{ Form::close() }}
                             @endif
                         @endif

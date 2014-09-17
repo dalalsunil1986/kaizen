@@ -135,7 +135,7 @@ class EventRepository extends AbstractRepository {
 
     function suggestedEvents($eventId) {
         $current_event = $this->findById($eventId);
-        $current_event_tags = $this->model->tags;
+        $current_event_tags = $this->model->tags->get();
         $current_event_categories = $this->model->categories()->get();
         echo '<pre>';
         print_r( $current_event_tags);

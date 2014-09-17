@@ -286,7 +286,12 @@ class EventModel extends BaseModel implements PresenterInterface {
     }
 
     public function scopeNotExpired($query){
-        return $query->where('events.date_start','>',Carbon::now()->toDateTimeString());
+        return $query->where('date_start','>',Carbon::now()->toDateTimeString());
+    }
+
+    public function isAuthor($userId)
+    {
+        return $this->user_id === $userId ? true : false;
     }
 }
 

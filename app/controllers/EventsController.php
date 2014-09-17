@@ -44,6 +44,7 @@ class EventsController extends BaseController {
         $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
         parent::__construct();
+        $this->beforeFilter('auth',['streamEvent']);
     }
 
     public function index()
@@ -115,18 +116,15 @@ class EventsController extends BaseController {
         // Afdal :: the photoRepository is not implemented within EventsController !!!
         $tags = $this->eventRepository->findById($id)->tags;
 
-
         $eventExpired = $this->eventRepository->checkIfEventExpired($event->date_start);
 
         if ( Auth::check() ) {
             $user = Auth::user();
             View::composer('site.events.view', function ($view) use ($id, $user, $event) {
-
                 // return boolean true false
                 $favorited  = $event->favorites->contains($user->id);
                 $subscribed = $event->subscriptions->contains($user->id);
                 $followed   = $event->followers->contains($user->id);
-
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));
             });
         } else {
@@ -134,7 +132,6 @@ class EventsController extends BaseController {
                 $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false));
             });
         }
-
         $this->render('site.events.view', compact('event', 'tags', 'eventExpired'));
 
     }
@@ -281,10 +278,6 @@ class EventsController extends BaseController {
 
     }
 
-    public function isTheAuthor($user)
-    {
-        return $this->author_id === $user->id ? true : false;
-    }
 
     public function getAuthor($id)
     {
@@ -327,10 +320,6 @@ class EventsController extends BaseController {
 
     }
 
-    /**
-     * @param $id
-     * Get Suggested Events
-     */
     public function getSuggestedEvents($id)
     {
         $event = $this->eventRepository->findById($id);
@@ -390,6 +379,7 @@ class EventsController extends BaseController {
 
         $this->render('site.events.suggest', compact('events'));
 
+
     }
 
     public function reorganizeEvents($id)
@@ -416,17 +406,18 @@ class EventsController extends BaseController {
         }
 
         return null;
+
     }
 
     /**
      * Stream event from electa service
      * @param $id
      */
-    public function getEventStream($id)
+    public function streamEvent($id)
     {
+        $user              = Auth::user();
         $event             = $this->eventRepository->findById($id);
         $setting           = $event->setting;
-        $user              = Auth::user();
         $registrationTypes = explode(',', $setting->registration_types);
 
         // check if this event has online streaming
@@ -449,17 +440,53 @@ class EventsController extends BaseController {
             return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event as ONLINE, Sorry');
         }
 
-
-        $url = 'http://kaizenlive.e-lectazone.com/apps/token.asp?cid=15829&appkey=WH73FJ63UT62WY76MQ50XX86MI50XQ82&result=xml';
-
         if ( !function_exists('curl_init') ) {
             // If curl is not installed
             return Redirect::home('303')->with('error', 'Sorry System Error. Please Contact Admin');
         }
 
-        $ch = curl_init();
+        // get the settings for the live stream
+        list($token, $cid, $launchUrl) = $this->getStreamSettings();
+
+        if ( is_null($token) ) {
+            return Redirect::action('EventsController@show', $id)->with('error', 'Sorry System Error. Please Contact Admin');
+        }
+
+        // Find the user id 
+        $userTypeId = $event->isAuthor($user->id) ? 1000 : 0;
+
+        // user date to pass to streaming server
+        $data = [
+            'token'        => urlencode($token),
+            'cid'          => $cid,
+            'roomid'       => '22352', //todo : change with database room name $setting->online_room_no
+            'usertypeid'   => $userTypeId,
+            'gender'       => $user->gender,
+            'firstname'    => $user->username,
+            'lastname'     => $user->name,
+            'email'        => $user->email,
+            'externalname' => $user->username,
+        ];
+
+        // launch the live stream
+        $this->launchStream($data, $launchUrl);
+    }
+
+    /**
+     * @return array token
+     * Get Token From the Electa Site
+     */
+    public function getStreamSettings()
+    {
+        $cid         = '15829';
+        $appKey      = 'WH73FJ63UT62WY76MQ50XX86MI50XQ82';
+        $api         = 'http://kaizenlive.e-lectazone.com/apps/token.asp?cid='.$cid.'&appkey='.$appKey.'&result=xml';
+        $launchUrl   = 'http://kaizenlive.e-lectazone.com/apps/launch.asp?';
+
+        $token = null;
+        $ch    = curl_init();
         // Set URL to download and other parameters
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, $api);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 60);
@@ -477,80 +504,22 @@ class EventsController extends BaseController {
             }
 
         }
-//        $data = [
-//            'token' => $token,
-//            'cid' =>  '15829' ,
-//            'roomid' =>  '22352' ,
-//            'usertypeid' =>  '0',
-//            'gender' =>  'M' ,
-//            'firstname' =>  'Ahmed' ,
-//            'lastname' =>  'shalaby' ,
-//            'email' =>  'test@gmail.com',
-//            'externalname' =>  'unique_id_for_GerorgeEdwrds',
-//        ];
-//        header('Location: ' . 'http://kaizenlive.e-lectazone.com/apps/launch.asp?'.http_build_query($data));
-//        die();
 
-//        return Redirect::to('http://kaizenlive.e-lectazone.com/apps/launch.asp')->with(['roomid' => $setting->online_room_no]);
-//        echo '
-
-//';
-
-        $this->render('site.events.online', array('sessionToken' => $token,'event'=>$event));
+        return array($token, $cid, $launchUrl);
     }
 
-
-    public function postEventStream(){
-
-        $posts = Input::all();
-        header('Location: ' . 'http://kaizenlive.e-lectazone.com/apps/launch.asp?'.http_build_query($posts));
-        exit();
-        // works;
-
-//        $cid = '1';
-//        $roomId = '1';
-//        $usertypeid = '1';
-//        $gender = 'M';
-//        $firstName = 'zal';
-//        $lastName = 'as';
-//        $email = 'z4ls@live.com';
-//        $externameName = 'asdasd';
-//
-//        $url = 'http://kaizenlive.e-lectazone.com/apps/launch.asp';
-//        $fields = array(
-//            'cid' => urlencode($cid),
-//            'firstname' => urlencode($firstName),
-//            'lastname' => urlencode($lastName),
-//            'email' => urlencode($email),
-//            'gender' => urlencode($gender),
-//            'email' => urlencode($email),
-//            'externamname' => urlencode($externameName),
-//            'usertypeid' => urlencode($usertypeid),
-//            'roomid' => $roomId,
-//        );
-//
-//        //url-ify the data for the POST
-//        $fields_string = '';
-//        foreach($fields as $key=>$value)
-//        {
-//            $fields_string .= $key.'='.$value.'&';
-//        }
-//        rtrim($fields_string, '&');
-//
-//        //open connection
-//        $ch = curl_init();
-//
-//        //set the url, number of POST vars, POST data
-//        curl_setopt($ch,CURLOPT_URL, $url);
-//        curl_setopt($ch,CURLOPT_POST, count($fields));
-//        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-//
-//        //execute post
-//        $result = curl_exec($ch);
-//
-//        //close connection
-//        curl_close($ch);
-//        exit();
-
+    /**
+     * @param $data
+     * @param $launchUrl
+     */
+    public function launchStream($data, $launchUrl)
+    {
+        foreach ( $data as $key => $value ) {
+            $launchUrl .= $key . '=' . $value . '&';
+        }
+        rtrim($launchUrl, '&');
+        header('Location: ' . $launchUrl);
+        die();
     }
+
 }

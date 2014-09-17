@@ -72,19 +72,24 @@ class SubscriptionsController extends BaseController {
     }
 
     /**
+     * @param $id
      * @return \Illuminate\Http\RedirectResponse
      * Unsubscribe a user
      */
-    public function unsubscribe()
+    public function unsubscribe($id)
     {
-        $eventId          = Input::get('event_id');
+        $eventId          = $id;
         $userId           = Auth::user()->getAuthIdentifier();
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
+        
+        if($subscription) {
+            $subscription = new Subscriber($subscription);
+            $subscription->unsubscribe();
+            return Redirect::home()->with('success', Lang::get('messages.subscription-unsubscripe-message'));
+        }
 
-        $subscription = new Subscriber($subscription);
-        $subscription->unsubscribe();
+        return Redirect::action('EventsController@show',$id)->with('error','Wrong Access');
 
-        return Redirect::home()->with('success', Lang::get('messages.subscription-unsubscripe-message'));
     }
 
     public function subscribePackage($userId = 1, $packageId = 1)

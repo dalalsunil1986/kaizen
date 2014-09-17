@@ -29,7 +29,7 @@ class CreateSettingsTable extends Migration {
             $table->text('online_benefits_en')->nullable();
             $table->text('online_benefits_ar')->nullable();
             $table->string('online_price')->nullable();
-            $table->string('online_room_no')->nullable();
+            $table->string('online_room_id')->nullable();
             $table->morphs('settingable'); // [Event,Package]
 			$table->timestamps();
             $table->softDeletes();
