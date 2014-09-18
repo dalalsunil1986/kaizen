@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -15,7 +15,12 @@ return array(
 
 	'contact_us' => 'Contact Us',
 
-    'nav' => array('home' => 'Home','admin' => 'Admin','login' => 'Login', 'logout'=>'Logout','register' => 'Register',
+    'nav' => array(
+                    'home' => 'Home',
+                    'admin' => 'Admin',
+                    'login' => 'Login',
+                    'logout'=>'Logout',
+                    'register' => 'Register',
                     'main' => 'Main Page',
                     'events' => 'Events',
                     'consultancies' => 'Consultancies',
@@ -117,7 +122,11 @@ return array(
         'error'=> 'Sorry, Could not :attribute you',
         'not_subscribed' => 'Sorry, you havent :attribute this event in first place',
         'rejected' => 'Sorry, You cannot Register this event',
-        'requested' => 'Your Request For Re-organizing the Event has been sent to the Admin.'
+        'requested' => 'Your Request For Re-organizing the Event has been sent to the Admin.',
+        'followed' => 'You followed this event.',
+        'unfollowed' => 'You unfollowed this event.',
+        'favorited' => 'You favorited this event.',
+        'unfavorited' => 'You unfavorited this event.',
     ),
 
     'auth' => array(
@@ -163,14 +172,14 @@ return array(
         ),
 
         'email' => array(
-            'account_confirmation' => array(
+                'account_confirmation' => array(
                 'subject' => 'Account Confirmation',
                 'greetings' => 'Hello :name',
                 'body' => 'Please access the link below to confirm your account.',
                 'farewell' => 'Regards',
             ),
 
-            'password_reset' => array(
+        'password_reset' => array(
                 'subject' => 'Password Reset',
                 'greetings' => 'Hello :name',
                 'body' => 'Access the following link to change your password',

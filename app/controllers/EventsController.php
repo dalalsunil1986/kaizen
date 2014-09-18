@@ -112,24 +112,29 @@ class EventsController extends BaseController {
      */
     public function show($id)
     {
-        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'subscribers', 'followers', 'favorites']);
-        // Afdal :: the photoRepository is not implemented within EventsController !!!
+        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos']);
+
         $tags = $this->eventRepository->findById($id)->tags;
 
-        $eventExpired = $this->eventRepository->checkIfEventExpired($event->date_start);
+        // returns true false
+        $eventExpired = $this->eventRepository->ifEventExpired($event->date_start);
 
         if ( Auth::check() ) {
             $user = Auth::user();
+            // returns true false
+
             View::composer('site.events.view', function ($view) use ($id, $user, $event) {
                 // return boolean true false
                 $favorited  = $event->favorites->contains($user->id);
-                $subscribed = $event->subscriptions->contains($user->id);
+                $subscribed = $event->subscribers->contains($user->id);
                 $followed   = $event->followers->contains($user->id);
-                $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed));
+                $canWatchOnline = $this->eventRepository->ifCanWatchOnline($event,$user);
+
+                $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'canWatchOnline'=>$canWatchOnline));
             });
         } else {
             View::composer('site.events.view', function ($view) use ($tags) {
-                $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false));
+                $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false,'canWatchOnline'=>'false'));
             });
         }
         $this->render('site.events.view', compact('event', 'tags', 'eventExpired'));
@@ -154,7 +159,7 @@ class EventsController extends BaseController {
 
                 return Response::json(array(
                     'success' => true,
-                    'message' => Lang::get('site.subscription.subscribed', array('attribute' => 'following'))
+                    'message' => Lang::get('site.subscription.followed')
                 ), 200);
             }
 
@@ -181,7 +186,7 @@ class EventsController extends BaseController {
 
                 return Response::json(array(
                     'success' => true,
-                    'message' => Lang::get('site.subscription.unsubscribed', array('attribute' => 'unfollowed'))
+                    'message' => Lang::get('site.subscription.unfollowed')
                 ), 200);
             }
 
@@ -214,7 +219,7 @@ class EventsController extends BaseController {
 
                 return Response::json(array(
                     'success' => true,
-                    'message' => Lang::get('site.subscription.subscribed', array('attribute' => 'favorited'))
+                    'message' => Lang::get('site.subscription.favorited')
                 ), 200);
             }
 
@@ -242,7 +247,7 @@ class EventsController extends BaseController {
 
                 return Response::json(array(
                     'success' => true,
-                    'message' => Lang::get('site.subscription.unsubscribed', array('attribute' => 'unfavorited'))
+                    'message' => Lang::get('site.subscription.unfavorited')
                 ), 200);
             }
 
@@ -390,7 +395,7 @@ class EventsController extends BaseController {
         if ( $user ) {
             //check whether seats are empty
             $event        = $this->eventRepository->findById($id);
-            $eventExpired = $this->eventRepository->checkIfEventExpired($event->date_start);
+            $eventExpired = $this->eventRepository->ifEventExpired($event->date_start);
 
             if ( !$eventExpired ) {
                 if ( !$event->requests->contains($user->id) ) {

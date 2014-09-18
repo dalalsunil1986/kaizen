@@ -15,9 +15,12 @@ return array(
 
 	'contact_us' => 'اتصل بنا',
 
-     'nav' => array('home' => 'رئيسية',
+     'nav' => array(
+            'home' => 'رئيسية',
             'admin' => 'ادمن',
-            'login' => 'دخول', 'logout'=>'خروج','register' => 'تسجيل',
+            'login' => 'دخول',
+            'logout'=>'خروج',
+            'register' => 'تسجيل',
             'main' => 'الصفحة الرئيسية',
             'events' => 'الفعاليات',
             'consultancies' => 'الإستشارات',
@@ -115,8 +118,8 @@ return array(
             'normal' => 'Normal'
     ),
     'subscription' => array(
-            'subscribed' => 'You :attribute this event',
-            'unsubscribed' => 'You :attribute this event',
+            'subscribed' => 'You subscribed this event',
+            'unsubscribed' => 'You unsubscribed this event',
             'already_subscribed' => 'You  already :attribute this event',
             'not_authenticated' => 'Sorry, You must sign in before you perform this action',
             'wrong_access'=> 'Sorry, Wrong Acces',
@@ -124,7 +127,10 @@ return array(
             'not_subscribed' => 'Sorry, you havent :attribute this event in first place',
             'rejected' => 'Sorry, You cannot Register this event',
             'requested' => 'Your Request For Re-organizing the Event has been sent to the Admin.',
-
+            'followed' => 'You followed this event.',
+            'unfollowed' => 'You unfollowed this event.',
+            'favorited' => 'You favorited this event.',
+            'unfavorited' => 'You unfavorited this event.',
     ),
     'auth' => array(
         'username' => 'اسم المستخدم',

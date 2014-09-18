@@ -37,11 +37,6 @@ class SubscriptionsController extends BaseController {
         parent::__construct();
     }
 
-    public function subscribeTypes()
-    {
-        $this->render('site.events.types');
-    }
-
     /**
      * @return \Illuminate\Http\RedirectResponse
      * Accessed through post form request
@@ -72,23 +67,23 @@ class SubscriptionsController extends BaseController {
     }
 
     /**
-     * @param $id
+     * @param $eventId EventID
      * @return \Illuminate\Http\RedirectResponse
      * Unsubscribe a user
      */
-    public function unsubscribe($id)
+    public function unsubscribe($eventId)
     {
-        $eventId          = $id;
-        $userId           = Auth::user()->getAuthIdentifier();
+        $userId       = Auth::user()->id;
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
-        
-        if($subscription) {
+
+        if ( $subscription ) {
             $subscription = new Subscriber($subscription);
             $subscription->unsubscribe();
+
             return Redirect::home()->with('success', Lang::get('messages.subscription-unsubscripe-message'));
         }
 
-        return Redirect::action('EventsController@show',$id)->with('error','Wrong Access');
+        return Redirect::action('EventsController@show', $eventId)->with('error', 'Wrong Access');
 
     }
 

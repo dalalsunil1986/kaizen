@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="page-header">
-    <h1>{{{ Lang::get('user/user.forgot_password') }}}</h1>
+    <h1>{{{ Lang::get('auth.login.forgot_password') }}}</h1>
 </div>
 <form method="POST" action="{{ URL::action('AuthController@postForgot') }}" accept-charset="UTF-8">
     <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">

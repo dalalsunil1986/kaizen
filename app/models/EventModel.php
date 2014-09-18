@@ -46,6 +46,11 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->belongsToMany('User', 'favorites', 'event_id', 'user_id');
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany('Subscription', 'event_id');
+    }
+
 //    public function subscriptions() {
 //        return $this->belongsToMany('User', 'subscriptions','event_id','user_id');
 //    }
@@ -243,10 +248,6 @@ class EventModel extends BaseModel implements PresenterInterface {
         $this->attributes['longitude'] = floatval($value);
     }
 
-    public function subscriptions()
-    {
-        return $this->hasMany('Subscription', 'event_id');
-    }
 
     public function setting()
     {

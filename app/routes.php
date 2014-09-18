@@ -296,8 +296,43 @@ Route::get('event/{id}/unsubscribe', 'SubscriptionsController@unsubscribe');
 
 Route::get('test', function () {
     $event = EventModel::find(1);
-    $date = $event->date_start;
-    echo $date->year;
+    $date_start = $event->date_start;
+
+    $data_end = $event->date_end;
+//    dd($date_start->toDateString());
+    echo 'Event Start Date: '.$date_start;
     echo '<br>';
-    echo $event->date_start->toDateTimeString();
+    echo 'Event End Date: '.$data_end;
+    echo '<br>';
+    $now = \Carbon\Carbon::now();
+    echo 'Now :' . $now;
+    echo '<br>';
+//    dd($now->toDateString());
+    dd($date_start->diffInHours());
+
+    dd($date_start->diffInHours());
+    if($now->toDateString() == $date_start->toDateString()) {
+        dd('rqual');
+    }
+
+    echo 'Now: '.$now;
+    echo '<br>';
+
+    // Find if Event Expired
+    // Check if current time is greater than start_date [Do not allow subscription, unsubscription]
+
+    // make a user to watch event online
+    // Check if current time is greater than start_date and less than end_date
+
+    // make a user subscribe to event
+    // check if current time is less than start_date
+
+    if ($now > $date_start) {
+        // do not alow subscriptions, unsubscriptions
+        echo 'Event Expired<br>';
+    } elseif($now > $date_start && $now < $data_end) {
+        echo 'Event Not Expired';
+    } else {
+
+    }
 });
