@@ -41,6 +41,7 @@
             </div>
         </div>
         <div class="row">
+        <div class="row">
             @include('site.partials.navigation')
         </div>
         <div class="row visible-xs">

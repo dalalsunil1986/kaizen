@@ -30,7 +30,6 @@ $app = new Illuminate\Foundation\Application;
 $env = $app->detectEnvironment(array(
 
     'local' => array('ZaL-PC','ZaLs-MacBook.local', 'hawally'),
-    'development' => 'localhost'
 //    return getenv('ENV') ? :'local';
 
 ));
