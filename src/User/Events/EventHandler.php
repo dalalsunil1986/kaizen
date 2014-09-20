@@ -27,7 +27,7 @@ class EventHandler extends AbstractMailer {
         $this->recepientEmail     = $user['email'];
         $this->recepientName = $user['name_en'];
         $this->subject       = 'Please Activate Your Email';
-        $user['body']        = 'To activate your Kuwaitii.com Account,<a href="' . action('AuthController@activate', $user['confirmation_code']) . '"> Click this link </a> ';
+        $user['body']        = 'To activate your Kaizen Account,<a href="' . action('AuthController@activate', $user['confirmation_code']) . '"> Click this link </a> ';
 
         // Send Email
         $this->fire($user);
