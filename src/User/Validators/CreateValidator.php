@@ -14,7 +14,7 @@ class CreateValidator extends AbstractValidator {
         'password' => 'required|alpha_num|between:6,12|confirmed',
         'name_ar'  => 'required',
         'name_en'  => 'required',
-        'mobile'   => 'required|numeric',
+        'mobile'   => 'required',
         'username' => 'required',
     );
 

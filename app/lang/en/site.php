@@ -83,6 +83,7 @@ return array(
                 'gender'=> 'Sex',
                 'phone' => 'Phone',
                 'mobile'=> 'Mobile',
+                'country_code' => 'Country Code',
                 'country' => 'Country',
                 'location' => 'Location',
                 'dob'=> 'Date of Birth',
