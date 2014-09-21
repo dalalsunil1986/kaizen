@@ -12,7 +12,6 @@ class CreateValidator extends AbstractValidator {
     protected $rules = array(
         'title_ar'       => 'required',
         'description_ar' => 'required',
-        'user_id'        => 'required',
         'category_id'    => 'required',
     );
 
