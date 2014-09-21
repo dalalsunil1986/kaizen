@@ -66,7 +66,7 @@ class AdminBlogsController extends AdminBaseController {
     public function create()
     {
         // Title
-        $category = $this->select + $this->categoryRepository->getPostCategories()->lists('name_en', 'id');
+        $category = $this->select + $this->categoryRepository->getPostCategories()->lists('name_ar', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $title    = Lang::get('admin.blogs.title.create_a_new_blog');
 
@@ -115,7 +115,7 @@ class AdminBlogsController extends AdminBaseController {
     public function edit($id)
     {
         $title    = Lang::get('admin.blogs.title.blog_update');
-        $category = $this->select +  $this->categoryRepository->getPostCategories()->lists('name_en', 'id');
+        $category = $this->select +  $this->categoryRepository->getPostCategories()->lists('name_ar', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $post     = $this->blogRepository->findById($id);
 

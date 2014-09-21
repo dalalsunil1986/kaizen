@@ -72,9 +72,9 @@ class AdminEventsController extends AdminBaseController {
      */
     public function create()
     {
-        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_ar', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
-        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $location = $this->select + $this->locationRepository->getAll()->lists('name_ar', 'id');
         $this->render('admin.events.create', compact('category', 'author', 'location'));
     }
 
@@ -121,9 +121,9 @@ class AdminEventsController extends AdminBaseController {
         $tags       = $this->tagRepository->getAll();
         $tags_array = $event->tags->lists('id');
 
-        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_ar', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
-        $location = $this->select + $this->locationRepository->getAll()->lists('name_en', 'id');
+        $location = $this->select + $this->locationRepository->getAll()->lists('name_ar', 'id');
 
         $this->render('admin.events.edit', compact('event', 'category', 'author', 'location', 'tags_array', 'tags'));
     }
