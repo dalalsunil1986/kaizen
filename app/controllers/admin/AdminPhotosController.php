@@ -19,11 +19,12 @@ class AdminPhotosController extends AdminBaseController {
 
     public function create()
     {
-        if ( empty(Input::get('imageable_type')) || empty(Input::get('imageable_id')) ) {
-            return Redirect::action('AdminEventsController@index')->with('warning','Wrong Access');
-        }
         $imageableType = Input::get('imageable_type');
         $imageableId   = Input::get('imageable_id');
+        if ( empty($imageableType) || empty($imageableId))  {
+            return Redirect::action('AdminEventsController@index')->with('warning','Wrong Access');
+        }
+
         $this->render('admin.photos.create', compact('imageableType', 'imageableId'));
     }
 
