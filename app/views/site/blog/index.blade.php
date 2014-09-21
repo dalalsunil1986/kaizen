@@ -15,7 +15,9 @@
                 {{ HTML::image('uploads/medium/'.$post->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
             @else
             <a href="{{action('BlogsController@show',$post->id) }}">
-                <img src="http://placehold.it/100x100/2980b9/ffffff&text={{ $post->category->name }}" class="img-responsive img-thumbnail" />
+                @if($post->category)
+                    <img src="http://placehold.it/100x100/2980b9/ffffff&text={{ $post->category->name }}" class="img-responsive img-thumbnail" />
+                @endif
             </a>
             @endif
         </div>
