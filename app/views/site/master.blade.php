@@ -10,7 +10,7 @@
 
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/font-awesome.min.css') }}
-
+    {{ HTML::style(asset('css/intlTelInput.css')); }}
     @if ( App::getLocale() == 'ar')
         {{ HTML::style('css/bootstrap-rtl.min.css') }}
     @endif
