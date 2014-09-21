@@ -22,7 +22,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{{ action('EventsController@index') }}" >{{ Lang::get('site.nav.events') }}</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ action('EventsController@index') }}">{{ Lang::get('site.nav.events') }}</a></li>
+                        <li><a href="{{ action('EventsController@index') }}">{{ Lang::get('site.nav.package') }}</a></li>
                     </ul>
                 </li>
                 <li class="{{ (Request::segment('1') == 'consultancy' ? 'active' :  false ) }}"><a href="{{ action('BlogsController@consultancy') }}">{{ Lang::get('site.nav.consultancies') }}</a></li>

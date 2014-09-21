@@ -44,7 +44,7 @@ class EventsController extends BaseController {
         $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
         parent::__construct();
-        $this->beforeFilter('auth',['streamEvent']);
+//        $this->beforeFilter('auth',['streamEvent']);
     }
 
     public function index()
@@ -449,7 +449,6 @@ class EventsController extends BaseController {
             // If curl is not installed
             return Redirect::home('303')->with('error', 'Sorry System Error. Please Contact Admin');
         }
-
         // get the settings for the live stream
         list($token, $cid, $launchUrl) = $this->getStreamSettings();
 
@@ -509,7 +508,6 @@ class EventsController extends BaseController {
             }
 
         }
-
         return array($token, $cid, $launchUrl);
     }
 

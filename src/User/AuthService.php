@@ -170,7 +170,7 @@ class AuthService extends AbstractRepository {
     public function getRegistrationForm()
     {
 
-        return $this->userRepository->getCreationForm();
+        return $this->userRepository->getCreateForm();
 
     }
 

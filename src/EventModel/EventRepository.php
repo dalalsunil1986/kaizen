@@ -191,11 +191,11 @@ class EventRepository extends AbstractRepository {
 //        }
 
         // If the Current Time is Greater than Event End Date, Do not allow to watch online
-        if ( $now > $event->date_end ) {
-            $canWatchOnline = false;
-        } elseif ( $event->date_start->diffInHours() <= 4 ) {
+        if ( $event->date_start->diffInHours() <= 5 ) {
             // If Date Start is around 4 hours
             $canWatchOnline = true;
+        } elseif ( $now > $event->date_end ) {
+            $canWatchOnline = false;
         } else {
             $canWatchOnline = false;
         }
