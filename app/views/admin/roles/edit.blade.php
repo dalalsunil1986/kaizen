@@ -1,4 +1,4 @@
-@extends('admin.layouts.modal')
+@extends('admin.master')
 
 {{-- Content --}}
 @section('content')
@@ -10,10 +10,8 @@
 	<!-- ./ tabs -->
 
 	{{-- Edit Role Form --}}
-	<form class="form-horizontal" method="post" action="" autocomplete="off">
-		<!-- CSRF Token -->
-		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-		<!-- ./ csrf token -->
+	{{ Form::model($role, array('method' => 'PATCH', 'action' => array('AdminRolesController@update', $role->id), 'role'=>'form')) }}
+
 
 		<!-- Tabs Content -->
 		<div class="tab-content">

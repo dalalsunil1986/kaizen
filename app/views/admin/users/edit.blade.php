@@ -1,68 +1,85 @@
 @extends('admin.master')
 
+{{-- Content --}}
 @section('content')
 
     <div class="row">
 
-        {{ Form::model($user, array('method' => 'PATCH', 'action' => array('AdminUsersController@update', $user->id), 'role'=>'form')) }}
+        <h1> Edit User {{ $user->username }}</h1>
 
-                    <!-- username -->
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="username">Username</label>
+        {{ Form::model($user, array('method' => 'PATCH', 'action' => array('AdminUsersController@update', $user->id), 'role'=>'form')) }}
+                {{ Form::hidden('user_id',$user->id) }}
+                <!-- username -->
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-md-2 " for="username">Username</label>
                         <div class="col-md-10">
                             {{ Form::text('username',null, ['class'=>'form-control']) }}
                         </div>
                     </div>
-                    <!-- ./ username -->
+                </div>
 
-                    <!-- Email -->
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="email">Email</label>
+                <!-- ./ username -->
+
+                <!-- Email -->
+                <div class="form-group">
+                     <div class="row">
+                        <label class="col-md-2" for="email">Email</label>
                         <div class="col-md-10">
                             {{ Form::text('email',null, ['class'=>'form-control']) }}
                         </div>
                     </div>
-                    <!-- ./ email -->
+                </div>
+                <!-- ./ email -->
 
-                    <!-- Password -->
-                    <div class="form-group ">
-                        <label class="col-md-2 control-label" for="password">Password</label>
-                        <div class="col-md-10">
-                            {{ Form::password('password',array('class' => 'form-control input-lg')) }}
-                        </div>
+                <!-- Password -->
+                <div class="form-group ">
+                    <div class="row">
+                         <label class="col-md-2 control-label" for="password">Password</label>
+                         <div class="col-md-10">
+                             {{ Form::password('password',array('class' => 'form-control','autocomplete'=>'off')) }}
+                         </div>
                     </div>
-                    <!-- ./ password -->
+                </div>
+                <!-- ./ password -->
 
-                    <!-- Password Confirm -->
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="password_confirmation">Password Confirm</label>
-                        <div class="col-md-10">
-                            {{ Form::password('password_confirmation',array('class' => 'form-control input-lg')) }}
-                        </div>
+                <!-- Password Confirm -->
+                <div class="form-group">
+                    <div class="row">
+                         <label class="col-md-2 control-label" for="password_confirmation">Password Confirm</label>
+                         <div class="col-md-10">
+                             {{ Form::password('password_confirmation',array('class' => 'form-control')) }}
+                         </div>
                     </div>
-                    <!-- ./ password confirm -->
+                </div>
+                <!-- ./ password confirm -->
 
-                    <!-- Activation Status -->
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="confirm">Activate User?</label>
-                        <div class="col-md-6">
+                <!-- Activation Status -->
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-md-2 control-label text-left" for="confirm">Activate User?</label>
+                        <div class="col-md-10 text-left">
                             @if ($mode == 'create')
-                                <select class="form-control" name="confirm" id="confirm">
-                                    <option value="1"{{{ (Input::old('confirm', 0) === 1 ? ' selected="selected"' : '') }}}>{{{ Lang::get('general.yes') }}}</option>
-                                    <option value="0"{{{ (Input::old('confirm', 0) === 0 ? ' selected="selected"' : '') }}}>{{{ Lang::get('general.no') }}}</option>
+                                <select class="form-control" name="active" id="active">
+                                    <option value="1"{{ (Input::old('active', 0) === 1 ? ' selected="selected"' : '') }}>{{{ Lang::get('general.yes') }}}</option>
+                                    <option value="0"{{ (Input::old('active', 0) === 0 ? ' selected="selected"' : '') }}>{{{ Lang::get('general.no') }}}</option>
                                 </select>
                             @else
-                                <select class="form-control" {{{ ($user->id === Confide::user()->id ? ' disabled="disabled"' : '') }}} name="confirm" id="confirm">
-                                    <option value="1"{{{ ($user->confirmed ? ' selected="selected"' : '') }}}>{{{ Lang::get('general.yes') }}}</option>
-                                    <option value="0"{{{ ( ! $user->confirmed ? ' selected="selected"' : '') }}}>{{{ Lang::get('general.no') }}}</option>
+                                <select class="form-control" {{ ($user->id === Auth::user()->id ? ' disabled="disabled"' : '') }} name="active" id="active">
+                                    <option value="1"{{ ($user->active ? ' selected="selected"' : '') }}>{{{ Lang::get('general.yes') }}}</option>
+                                    <option value="0"{{ ( ! $user->active ? ' selected="selected"' : '') }}>{{{ Lang::get('general.no') }}}</option>
                                 </select>
                             @endif
                         </div>
                     </div>
-                    <!-- ./ activation status -->
 
-                    <!-- Groups -->
-                    <div class="form-group">
+                </div>
+                <!-- ./ activation status -->
+
+                <!-- Groups -->
+                <div class="form-group">
+                    <div class="row">
+
                         <label class="col-md-2 control-label" for="roles">Roles</label>
                         <div class="col-md-6">
                             <select class="form-control" name="roles[]" id="roles[]" multiple>
@@ -80,13 +97,17 @@
                             </span>
                         </div>
                     </div>
+                </div>
 
                 <!-- Form Actions -->
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <element class="btn-cancel close_popup">Cancel</element>
-                        <button type="reset" class="btn btn-default">Reset</button>
-                        <button type="submit" class="btn btn-success">OK</button>
+                    <div class="row">
+
+                        <div class="col-md-offset-2 col-md-10">
+                            <element class="btn-cancel close_popup">Cancel</element>
+                            <button type="reset" class="btn btn-default">Reset</button>
+                            <button type="submit" class="btn btn-success">OK</button>
+                        </div>
                     </div>
                 </div>
             <!-- ./ form actions -->

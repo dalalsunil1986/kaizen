@@ -1,6 +1,8 @@
 <?php namespace Acme\User;
 
 use Acme\Core\CrudableTrait;
+use Acme\User\Validators\AdminCreateValidator;
+use Acme\User\Validators\AdminUpdateValidator;
 use Acme\Users\Validators\UserCreateValidator;
 use Acme\Users\Validators\UserResetValidator;
 use Acme\Users\Validators\UserUpdateValidator;
@@ -33,6 +35,18 @@ class UserRepository extends AbstractRepository  {
 
     }
 
+    public function create(array $data)
+    {
+        $data['confirmation_code'] = md5(uniqid(mt_rand(), true));
+        if ( ! $user = $this->model->create($data) ) {
+
+            $this->addError('could not create user');
+
+            return false;
+        }
+        return $user;
+    }
+
     public function getRoleByName($roleName) {
         $query=  $this->model->with('roles')->whereHas('roles', function($q) use ($roleName)
         {
@@ -63,4 +77,10 @@ class UserRepository extends AbstractRepository  {
         return $users;
     }
 
+    public function getAdminEditForm($id){
+        return new AdminUpdateValidator($id);
+    }
+    public function getAdminCreateForm(){
+        return new AdminCreateValidator();
+    }
 }

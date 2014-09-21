@@ -28,8 +28,6 @@ class AuthService extends AbstractRepository {
     public function register(array $data)
     {
         $data['confirmation_code'] = $this->generateToken();
-
-
         if ( ! $user = $this->userRepository->create($data) ) {
 
 

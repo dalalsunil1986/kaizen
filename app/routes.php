@@ -1,13 +1,13 @@
 <?php
 
-Route::model('role', 'Role');
+//Route::model('role', 'Role');
 
 /** ------------------------------------------
  *  Route constraint patterns
  *  ------------------------------------------ */
 Route::pattern('id', '[0-9]+');
 
-Route::pattern('role', '[0-9]+');
+//Route::pattern('role', '[0-9]+');
 
 Route::pattern('token', '[0-9a-z]+');
 
@@ -176,17 +176,8 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Admin User Role Management Routes
      ********************************************************************************************************/
-    Route::get('roles/{role}/show', 'AdminRolesController@getShow');
 
-    Route::get('roles/{role}/edit', 'AdminRolesController@getEdit');
-
-    Route::post('roles/{role}/edit', 'AdminRolesController@postEdit');
-
-    Route::get('roles/{role}/delete', 'AdminRolesController@getDelete');
-
-    Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
-
-    Route::controller('roles', 'AdminRolesController');
+    Route::resource('roles', 'AdminRolesController');
 
     /*********************************************************************************************************
      * Admin Events Routes

@@ -1,5 +1,6 @@
 <?php
 
+use Acme\User\AuthService;
 use Acme\User\UserRepository;
 
 class AdminUsersController extends AdminBaseController {
@@ -26,14 +27,19 @@ class AdminUsersController extends AdminBaseController {
      * @var Acme\Mail\UserMailer
      */
     private $mailer;
+    /**
+     * @var AuthService
+     */
+    private $authService;
 
     /**
      * Inject the models.
-     * @param User $userRepository
+     * @param UserRepository|User $userRepository
      * @param Role $role
      * @param Permission $permission
+     * @param AuthService $authService
      */
-    public function __construct(UserRepository $userRepository, Role $role, Permission $permission)
+    public function __construct(UserRepository $userRepository, Role $role, Permission $permission, AuthService $authService)
     {
 
         $this->userRepository = $userRepository;
@@ -41,6 +47,7 @@ class AdminUsersController extends AdminBaseController {
         $this->permission = $permission;
         $this->beforeFilter('Admin', array('except' => array('index','getIndex','view','getReport','postReport','getData')));
         parent::__construct();
+        $this->authService = $authService;
     }
 
     /**
@@ -86,7 +93,7 @@ class AdminUsersController extends AdminBaseController {
 		$mode = 'create';
 
 		// Show the page
-		$this->render('admin/users/create_edit', compact('roles', 'permissions', 'selectedRoles', 'selectedPermissions', 'title', 'mode'));
+		$this->render('admin/users/create', compact('roles', 'permissions', 'selectedRoles', 'selectedPermissions', 'title', 'mode'));
     }
 
     /**
@@ -96,39 +103,28 @@ class AdminUsersController extends AdminBaseController {
      */
     public function store()
     {
-        $this->userRepository->username = Input::get( 'username' );
-        $this->userRepository->email = Input::get( 'email' );
-        $this->userRepository->password = Input::get( 'password' );
+        // Validate the inputs
 
-        // The password confirmation will be removed from model
-        // before saving. This field will be used in Ardent's
-        // auto validation.
-        $this->userRepository->password_confirmation = Input::get( 'password_confirmation' );
-        $this->userRepository->confirmed = Input::get( 'confirm' );
+        // get the registration form
+        $val = $this->userRepository->getAdminCreateForm();
 
-        // Permissions are currently tied to roles. Can't do this yet.
-        //$user->permissions = $user->roles()->preparePermissionsForSave(Input::get( 'permissions' ));
+        // check if the form is valid
+        if ( ! $val->isValid() ) {
 
-        // Save if valid. Password field will be hashed before save
-        $this->userRepository->save();
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+        }
 
-        if ( $this->userRepository->id )
-        {
-            // Save roles. Handles updating.
-            $this->userRepository->saveRoles(Input::get( 'roles' ));
+        // If Auth Sevice Fails to Register the User
+        if ( ! $user = $this->userRepository->create($val->getInputData()) ) {
+
+            return Redirect::home()->with('errors', $this->userRepository->errors());
+        }
+        // Save roles. Handles updating.
+        $user->saveRoles(Input::get( 'roles' ));
 
             // Redirect to the new user page
-            return Redirect::to('admin/users/' . $this->userRepository->id . '/edit')->with('success', Lang::get('admin/users/messages.create.success'));
-        }
-        else
-        {
-            // Get validation errors (see Ardent package)
-            $error = $this->userRepository->errors()->all();
+        return Redirect::action('AdminUsersController@index')->with('success', Lang::get('admin/users/messages.create.success'));
 
-            return Redirect::to('admin/users/create')
-                ->withInput(Input::except('password'))
-                ->with( 'error', $error );
-        }
     }
 
     /**
@@ -182,58 +178,22 @@ class AdminUsersController extends AdminBaseController {
     {
         $user = $this->userRepository->findById($id);
         // Validate the inputs
-        $validator = Validator::make(Input::all(), $user->getUpdateRules());
 
-        if ($validator->passes())
-        {
-            $oldUser = clone $user;
-            $user->username = Input::get( 'username' );
-            $user->email = Input::get( 'email' );
-            $user->confirmed = Input::get( 'confirm' );
+        $val = $this->userRepository->getAdminEditForm($id);
 
-            $password = Input::get( 'password' );
-            $passwordConfirmation = Input::get( 'password_confirmation' );
+        if ( ! $val->isValid() ) {
 
-            if(!empty($password)) {
-                if($password === $passwordConfirmation) {
-                    $user->password = $password;
-                    // The password confirmation will be removed from model
-                    // before saving. This field will be used in Ardent's
-                    // auto validation.
-                    $user->password_confirmation = $passwordConfirmation;
-                } else {
-                    // Redirect to the new user page
-                    return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.password_does_not_match'));
-                }
-            } else {
-                unset($user->password);
-                unset($user->password_confirmation);
-            }
-            
-            if($user->confirmed == null) {
-                $user->confirmed = $oldUser->confirmed;
-            }
-
-            $user->prepareRules($oldUser, $user);
-
-            // Save if valid. Password field will be hashed before save
-            $user->amend();
-
-            // Save roles. Handles updating.
-            $user->saveRoles(Input::get( 'roles' ));
-        } else {
-            return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.edit.error'));
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
-        // Get validation errors (see Ardent package)
-        $error = $user->errors()->all();
+        if (! $this->userRepository->update($id, $val->getInputData()) ) {
 
-        if(empty($error)) {
-            // Redirect to the new user page
-            return Redirect::to('admin/users/' . $user->id . '/edit')->with('success', Lang::get('admin/users/messages.edit.success'));
-        } else {
-            return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.edit.error'));
+            return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
         }
+
+        $user->saveRoles(Input::get( 'roles' ));
+
+        return Redirect::action('AdminUsersController@index')->with('success', 'Updated user' );
     }
 
     /**

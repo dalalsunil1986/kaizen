@@ -1,8 +1,10 @@
 <?php namespace Acme\User\Validators;
 
 use Acme\Core\Validators\AbstractValidator;
+use Auth;
+use User;
 
-class UpdateValidator extends AbstractValidator {
+class AdminUpdateValidator extends AbstractValidator {
 
     /**
      * Validation rules
@@ -11,11 +13,14 @@ class UpdateValidator extends AbstractValidator {
      */
 
     protected $rules = array(
-        'phone'    => 'numeric',
-        'mobile'   => 'required|numeric',
-        'name_en'  => 'required|alpha_num|between:3,40',
-        'name_ar'  => 'required|between:3,40',
-        'password' => 'alpha_num|between:6,12|confirmed',
+        'phone'    => 'sometimes|numeric',
+        'mobile'   => 'sometimes|numeric',
+        'username' => 'unique:users,username',
+        'active' => 'boolean',
+        'email'    => 'email|unique:users,email,:id',
+        'password' => 'sometimes|alpha_num|between:6,12|confirmed',
+        'name_ar'  => 'sometimes',
+        'name_en'  => 'sometimes',
     );
 
     public function __construct($id)
@@ -33,7 +38,7 @@ class UpdateValidator extends AbstractValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'name_ar', 'name_en', 'password', 'password_confirmation', 'country_id', 'twitter', 'phone', 'mobile'
+            'name_ar', 'name_en', 'password', 'password_confirmation', 'country_id', 'twitter', 'phone', 'mobile','active','username','email'
         ]);
     }
 
@@ -45,6 +50,19 @@ class UpdateValidator extends AbstractValidator {
         if ( empty($this->inputData['password']) )
             unset($this->inputData['password']);
 
+        {
+            $user = User::find($this->inputData['user_id']);
+            $user->email = $this->inputData['email'];
+            $user->username = $this->inputData['username'];
+
+            if ( ! $user->isDirty('email') ) {
+                unset($this->inputData['email']);
+            }
+            if ( ! $user->isDirty('username') ) {
+                unset($this->inputData['username']);
+            }
+
+        }
     }
 
 

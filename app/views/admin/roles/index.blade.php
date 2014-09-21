@@ -22,6 +22,17 @@
 			</tr>
 		</thead>
 		<tbody>
+		@foreach ($roles as $role)
+        				<tr>
+        					<td>{{{ $role->name }}}</td>
+                            <td>{{ link_to_action('AdminRolesController@edit', 'Edit', array($role->id), array('class' => 'btn btn-info')) }}</td>
+                            <td>
+                                {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminRolesController@destroy', $role->id))) }}
+                                    {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                                {{ Form::close() }}
+                            </td>
+        				</tr>
+        			@endforeach
 		</tbody>
 	</table>
 @stop

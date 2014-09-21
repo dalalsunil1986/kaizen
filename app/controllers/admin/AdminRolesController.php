@@ -31,8 +31,8 @@ class AdminRolesController extends AdminBaseController {
         $this->user = $user;
         $this->role = $role;
         $this->permission = $permission;
-        parent::__construct();
         $this->beforeFilter('Admin');
+        parent::__construct();
     }
 
     /**
@@ -40,16 +40,16 @@ class AdminRolesController extends AdminBaseController {
      *
      * @return Response
      */
-    public function getIndex()
+    public function index()
     {
         // Title
         $title = Lang::get('admin/roles/title.role_management');
 
-        // Grab all the groups
-        $roles = $this->role;
+
+        $roles = Role::select(array('roles.id',  'roles.name', 'roles.id as users', 'roles.created_at'))->get();
 
         // Show the page
-        return View::make('admin/roles/index', compact('roles', 'title'));
+        $this->render('admin.roles/.index', compact('roles', 'title'));
     }
 
     /**
@@ -57,7 +57,7 @@ class AdminRolesController extends AdminBaseController {
      *
      * @return Response
      */
-    public function getCreate()
+    public function create()
     {
         // Get all the available permissions
         $permissions = $this->permission->all();
@@ -69,7 +69,7 @@ class AdminRolesController extends AdminBaseController {
         $title = Lang::get('admin/roles/title.create_a_new_role');
 
         // Show the page
-        return View::make('admin/roles/create', compact('permissions', 'selectedPermissions', 'title'));
+       $this->render('admin/roles/create', compact('permissions', 'selectedPermissions', 'title'));
     }
 
     /**
@@ -77,7 +77,7 @@ class AdminRolesController extends AdminBaseController {
      *
      * @return Response
      */
-    public function postCreate()
+    public function store()
     {
 
         // Declare the rules for the form validation
@@ -123,7 +123,7 @@ class AdminRolesController extends AdminBaseController {
      * @param $id
      * @return Response
      */
-    public function getShow($id)
+    public function show($id)
     {
         // redirect to the frontend
     }
@@ -134,8 +134,9 @@ class AdminRolesController extends AdminBaseController {
      * @param $role
      * @return Response
      */
-    public function getEdit($role)
+    public function edit($id)
     {
+        $role = Role::find($id);
         if(! empty($role))
         {
             $permissions = $this->permission->preparePermissionsForDisplay($role->perms()->get());
@@ -143,14 +144,14 @@ class AdminRolesController extends AdminBaseController {
         else
         {
             // Redirect to the roles management page
-            return Redirect::to('admin/roles')->with('error', Lang::get('admin/roles/messages.does_not_exist'));
+            return Redirect::to('admin.oles')->with('error', Lang::get('admin/roles/messages.does_not_exist'));
         }
 
         // Title
         $title = Lang::get('admin/roles/title.role_update');
 
         // Show the page
-        return View::make('admin/roles/edit', compact('role', 'permissions', 'title'));
+       $this->render('admin/roles/edit', compact('role', 'permissions', 'title'));
     }
 
     /**
@@ -159,8 +160,9 @@ class AdminRolesController extends AdminBaseController {
      * @param $role
      * @return Response
      */
-    public function postEdit($role)
+    public function update($id)
     {
+        $role = Role::find($id);
         // Declare the rules for the form validation
         $rules = array(
             'name' => 'required'
@@ -200,13 +202,14 @@ class AdminRolesController extends AdminBaseController {
      * @param $role
      * @return Response
      */
-    public function getDelete($role)
+    public function delete($id)
     {
+        $role = Role::find($id);
         // Title
         $title = Lang::get('admin/roles/title.role_delete');
 
         // Show the page
-        return View::make('admin/roles/delete', compact('role', 'title'));
+       $this->render('admin/roles/delete', compact('role', 'title'));
     }
 
     /**
@@ -216,9 +219,11 @@ class AdminRolesController extends AdminBaseController {
      * @internal param $id
      * @return Response
      */
-    public function postDelete($role)
+    public function destroy($id)
     {
-            // Was the role deleted?
+        $role = Role::find($id);
+
+        // Was the role deleted?
             if($role->delete()) {
                 // Redirect to the role management page
                 return Redirect::to('admin/roles')->with('success', Lang::get('admin/roles/messages.delete.success'));
@@ -227,27 +232,4 @@ class AdminRolesController extends AdminBaseController {
             // There was a problem deleting the role
             return Redirect::to('admin/roles')->with('error', Lang::get('admin/roles/messages.delete.error'));
     }
-
-    /**
-     * Show a list of all the roles formatted for Datatables.
-     *
-     * @return Datatables JSON
-     */
-    public function getData()
-    {
-        $roles = Role::select(array('roles.id',  'roles.name', 'roles.id as users', 'roles.created_at'));
-        return Datatables::of($roles)
-        // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
-        ->edit_column('users', '{{{ DB::table(\'assigned_roles\')->where(\'role_id\', \'=\', $id)->count()  }}}')
-
-
-        ->add_column('actions', '<a href="{{{ URL::to(\'admin/roles/\' . $id . \'/edit\' ) }}}" class="iframe btn btn-xs btn-default">{{{ Lang::get(\'button.edit\') }}}</a>
-                                <a href="{{{ URL::to(\'admin/roles/\' . $id . \'/delete\' ) }}}" class="iframe btn btn-xs btn-danger">{{{ Lang::get(\'button.delete\') }}}</a>
-                    ')
-
-        ->remove_column('id')
-
-        ->make();
-    }
-
 }

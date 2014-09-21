@@ -1,4 +1,4 @@
-@extends('admin.layouts.modal')
+@extends('admin.master')
 
 {{-- Content --}}
 @section('content')
@@ -10,10 +10,7 @@
 	<!-- ./ tabs -->
 
 	{{-- Create Role Form --}}
-	<form class="form-horizontal" method="post" action="" autocomplete="off">
-		<!-- CSRF Token -->
-		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-		<!-- ./ csrf token -->
+    {{ Form::open(array('method' => 'POST', 'action' => array('AdminRolesController@store'), 'role'=>'form')) }}
 
 		<!-- Tabs Content -->
 		<div class="tab-content">
