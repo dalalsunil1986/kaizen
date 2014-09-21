@@ -79,12 +79,11 @@ class AdminRolesController extends AdminBaseController {
      */
     public function store()
     {
-
         // Declare the rules for the form validation
         $rules = array(
             'name' => 'required'
         );
-
+        $getPermissions = Input::get('permissions');
         // Validate the inputs
         $validator = Validator::make(Input::all(), $rules);
         // Check if the form validates with success
@@ -97,7 +96,13 @@ class AdminRolesController extends AdminBaseController {
             $this->role->save();
 
             // Save permissions
-            $this->role->perms()->sync($this->permission->preparePermissionsForSave($inputs['permissions']));
+            $perms = $this->permission->get();
+            if(count($perms)) {
+                if(isset($getPermissions)) {
+
+                    $this->role->perms()->sync($this->permission->preparePermissionsForSave($getPermissions));
+                }
+            }
 
             // Was the role created?
             if ($this->role->id)
