@@ -83,7 +83,6 @@ class AdminPhotosController extends AdminBaseController {
     public function destroy($id)
     {
         $photo = $this->photoRepository->findById($id);
-
         if ( $photo->delete() ) {
 
             $this->photoImageService->destroy($photo->name);
