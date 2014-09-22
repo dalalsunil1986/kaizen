@@ -122,10 +122,13 @@ class AdminSubscriptionsController extends AdminBaseController {
                 }
             } else {
                 $this->subscribe($subscription, $status, $feedback);
+                
             }
 
         } else {
             $this->subscribe($subscription, $status, $feedback);
+            return Redirect::action('AdminSubscriptionsController@index')->with('success', 'Succes');
+
         }
 
     }
