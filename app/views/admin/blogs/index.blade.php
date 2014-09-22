@@ -21,6 +21,7 @@ Blog Post
         <thead>
 			<tr>
 				<th class="col-md-4">Blog Title</th>
+				<th class="col-md-4">Add Photos</th>
 				<th class="col-md-2">Created at</th>
 				<th class="col-md-2">Actions</th>
 			</tr>
@@ -29,6 +30,7 @@ Blog Post
             @foreach($posts as $post)
             <tr>
                 <td>{{ $post->title }}</td>
+                <td><a href="{{ URL::action('AdminPhotosController@create', ['imageable_type' => 'Blog', 'imageable_id' => $post->id]) }}" class="btn btn-sm btn-success">Add Photos</a></td>
                 <td>{{ $post->created_at }}</td>
                 <td><a href="{{ URL::action('AdminBlogsController@edit', array($post->id)) }}" class="btn">Edit</a></td>
             </tr>
