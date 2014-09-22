@@ -34,7 +34,7 @@ class EventHandler extends AbstractMailer {
             case 'CONFIRMED' :
                 $user['body']  = 'You have been confirmed to the event ' . $user['title'];
                 break;
-            case 'Waiting' :
+            case 'WAITING' :
                 $user['body']  = 'You have been put on waiting list for the event ' . $user['title'];
                 break;
             default :
