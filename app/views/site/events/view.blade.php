@@ -241,24 +241,14 @@
                     <td><b>{{ Lang::get('site.general.location') }}</b></td>
                     <td> {{ $event->location->name }} </td>
                 </tr>
-                <tr>
-                    <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
-                    <td> {{ $event->total_seats}}</td>
-                    <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
-                    <td> {{ $event->available_seats}}</td>
-                </tr>
+
                 <tr>
                     <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
                     <td> {{ $event->formatEventDate($event->date_start) }}</td>
                     <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
                     <td> {{ $event->formatEventDate($event->date_end) }}</td>
                 </tr>
-                <tr>
-                    <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
-                    <td> {{ $event->date_start }}</td>
-                    <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
-                    <td> {{ $event->date_end }}</td>
-                </tr>
+                
                 @if($event->phone || $event->email)
                     <tr>
                         @if($event->phone)
