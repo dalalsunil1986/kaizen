@@ -122,7 +122,7 @@ class AdminSubscriptionsController extends AdminBaseController {
                 }
             } else {
                 $this->subscribe($subscription, $status, $feedback);
-                
+
             }
 
         } else {
@@ -139,7 +139,7 @@ class AdminSubscriptionsController extends AdminBaseController {
         $subscriber = new Subscriber($subscription, $status, $feedback);
         $subscriber->subscribe();
         if ( $subscriber->messages->has('errors') ) {
-            return Redirect::home()->with('errors', [$subscriber->messages->all()]);
+            return Redirect::home()->with('errors',[$subscriber->messages->first()]);
         }
 
         return Redirect::action('AdminSubscriptionsController@index')->with('success', 'Succes');

@@ -54,7 +54,6 @@ class SubscriptionsController extends BaseController {
         $subscription     = $this->subscriptionRepository->findByEvent($userId, $eventId);
 
         $event = $this->eventRepository->findById($eventId);
-
         if( !$event ) {
 
             return Redirect::action('EventsController@show',$eventId)->with('warning',trans('site.general.system-error'));
