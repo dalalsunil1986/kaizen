@@ -37,6 +37,9 @@ class EventHandler extends AbstractMailer {
             case 'WAITING' :
                 $user['body']  = 'You have been put on waiting list for the event ' . $user['title'];
                 break;
+            case 'REJECTED' :
+                $user['body']  = 'Your Request to Subscribe event ' . $user['title'] .' has been rejected.';
+                break;
             default :
                 break;
         }

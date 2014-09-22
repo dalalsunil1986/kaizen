@@ -135,9 +135,7 @@ class AdminSubscriptionsController extends AdminBaseController {
     {
         $subscriber = new Subscriber($subscription, $status, $feedback);
         $subscriber->subscribe();
-
         if ( $subscriber->messages->has('errors') ) {
-
             return Redirect::home()->with('errors', [$subscriber->messages->all()]);
         }
 
