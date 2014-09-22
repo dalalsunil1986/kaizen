@@ -525,4 +525,28 @@ class EventsController extends BaseController {
         die();
     }
 
+    public function onlineTestEvent(){
+        list($token, $cid, $launchUrl) = $this->getStreamSettings();
+
+        if ( is_null($token) ) {
+            return Redirect::action('EventsController@index')->with('error', 'Sorry System Error. Please Contact Admin');
+        }
+
+        // user date to pass to streaming server
+        $data = [
+            'token'        => urlencode($token),
+            'cid'          => $cid,
+            'roomid'       => '22352', //todo : change with database room name $setting->online_room_no
+            'usertypeid'   => '0',
+            'gender'       => 'M',
+            'firstname'    => 'Test-User',
+            'lastname'     => 'Test-User',
+            'email'        => 'testuser@test.com',
+            'externalname' => 'testuser',
+        ];
+
+        // launch the live stream
+        $this->launchStream($data, $launchUrl);
+    }
+
 }
