@@ -31,7 +31,7 @@
                     <?php $first="active"; $order=0;?>
                     @foreach ($events as $event)
                     <div class="slider item {{$first}}" data-order="{{$order}}">
-                        <a href="{{ action('EventsController@show',$event->id) }}"> {{ HTML::image('uploads/medium/'.$event->name.'','image2',array('class'=>'img-responsive','style'=>'height:auto')) }} </a>
+                        <a href="{{ action('EventsController@show',$event->id) }}"> {{ HTML::image('uploads/medium/'.$event->name.'','image2',array('class'=>'img-responsive','style'=>'width:62%;height:auto')) }} </a>
 
                         @if ( App::getLocale() == 'en')
                         <div class="carousel-caption hidden-xs" >
@@ -57,7 +57,7 @@
                                     <span class="slider-description {{ ($event->description_en) ? 'text-left':'text-right' }}">
                                             {{ Str::limit($event->description_ar,$char_limit) }}
                                     </span>
-                            <a class="kaizen-button" href="{{ action('EventsController@show',$event->id) }}">
+                            <a class="btn btn-info kaizen-button" href="{{ action('EventsController@show',$event->id) }}">
                                 {{ $event->button_ar }}
                             </a>
                         </div>

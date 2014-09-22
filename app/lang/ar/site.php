@@ -22,7 +22,7 @@ return array(
         'logout'        => 'خروج',
         'register'      => 'تسجيل',
         'main'          => 'الصفحة الرئيسية',
-        'events'        => 'الفعاليات',
+        'events'        => 'الدورات التدريبية',
         'consultancies' => 'الإستشارات',
         'posts'         => 'المدونة',
         'contactus'     => 'الإتصال بنا',
@@ -30,7 +30,7 @@ return array(
         'username'      => 'اسم الدخول',
         'password'      => 'كلمة المرور',
         'email'         => 'البريد الإلكتروني',
-        'package'       => 'Package'
+        'package'       => 'المواسم التدريبية'
     ),
 
     'event'        => array(

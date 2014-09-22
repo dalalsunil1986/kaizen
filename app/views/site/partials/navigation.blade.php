@@ -1,3 +1,4 @@
+<div class="col-md-12">
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header
@@ -18,7 +19,7 @@
             <ul class="nav navbar-nav">
                 <li class="{{ (Request::is('en') || Request::is('ar') || Request::is('/')) ? 'active' : '' }}" ><a href="{{ route('home') }}">{{ Lang::get('site.nav.home')}}</a></li>
                 <li class="dropdown {{ (Request::segment('1') == 'event' ? 'active' :  false ) }}">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ Lang::get('site.nav.events') }}</a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ Lang::get('site.event.events') }}</a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{{ action('EventsController@index') }}" >{{ Lang::get('site.nav.events') }}</a></li>
                         <li class="divider"></li>
@@ -32,3 +33,4 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+</div>

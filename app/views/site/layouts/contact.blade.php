@@ -3,7 +3,8 @@
 @section('content')
 
     <div class="row">
-       <div class="col-md-12">
+    <div class="col-md-1"></div>
+       <div class="col-md-10">
            <address>
                <h2 style="background-color: rgba(221, 220, 219, 0.83); padding:10px;">Contact Us</h2>
                @if($contact)
@@ -14,11 +15,13 @@
                @endif
            </address>
        </div>
+       <div class="col-md-1"></div>
     </div>
 
 
     <div class="row">
-        <div class="col-md-8">
+    <div class="col-md-1"></div>
+        <div class="col-md-10">
             {{ Form::open(array('method' => 'POST', 'action' => array('ContactsController@contact'), 'role'=>'form')) }}
 
             <div class="form-group">
@@ -36,6 +39,7 @@
             <button type="submit" class="btn btn-default">{{ Lang::get('site.general.submit') }}</button>
             {{ Form::close() }}
         </div>
+        <div class="col-md-1"></div>
     </div>
 
 @stop

@@ -48,16 +48,22 @@
         </a>
 
     @else
-        <a type="button" class="btn btn-default btn-sm dropdown-toggle
-                            @if ( App::getLocale() == 'en')
-                                pull-right
-                            @else
-                                pull-left
-                            @endif"
-           data-toggle="dropdown" href="#">
-            <i class="glyphicon  glyphicon-cog"></i> &nbsp;{{ Lang::get('site.general.settings') }}
-            <span class="caret"></span>
-        </a>
+         <div class="pull-left" style="text-align: right">
+
+                <a type="button" class="btn btn-info btn-default btn-sm" href="{{ action('UserController@getProfile', Auth::user()->id) }}">
+                    <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>&nbsp;{{ Lang::get('site.general.profile') }}
+                </a>
+
+
+                {{ (Helper::isMod()) ? '<a type="button" class="btn btn-default btn-sm" href="'. URL::to('admin') .'">
+                    <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>&nbsp;'. Lang::get('site.general.admin_panel') .'
+                </a>' : '' }}
+
+                <a type="button" class="btn btn-danger btn-default btn-sm" href="{{ action('AuthController@getLogout') }}">
+                    <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>&nbsp;{{ Lang::get('site.nav.logout') }}
+                </a>
+
+        </div>
     @endif
 
     <br>
@@ -103,26 +109,6 @@
                         <a href="{{ action('AuthController@getSignup') }}" type="submit" class="btn btn-primary">{{ Lang::get('site.nav.register') }}</a>
                     </div>
                 </form>
-
-                @else
-                <div style="text-align: right">
-                    <li class="dropdown-header">
-                        <a type="button" class="btn btn-default btn-sm" href="{{ action('AuthController@getLogout') }}">
-                            <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>&nbsp;{{ Lang::get('site.nav.logout') }}
-                        </a>
-                    </li>
-                    <li class="dropdown-header">
-                        <a type="button" class="btn btn-default btn-sm" href="{{ action('UserController@getProfile', Auth::user()->id) }}">
-                            <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>&nbsp;{{ Lang::get('site.general.profile') }}
-                        </a>
-                    </li>
-                    <li class="dropdown-header">
-                        {{ (Helper::isMod()) ? '<a type="button" class="btn btn-default btn-sm" href="'. URL::to('admin') .'">
-                            <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>&nbsp;'. Lang::get('site.general.admin_panel') .'
-                        </a>' : '' }}
-                    </li>
-                </div>
-
                 @endif
             </div>
         </div>
