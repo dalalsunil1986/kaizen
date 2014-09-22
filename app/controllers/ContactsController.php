@@ -26,6 +26,9 @@ class ContactsController extends BaseController {
     public function index()
     {
         $contact = $this->contactRepository->getFirst();
+        if(! $contact) {
+            return Redirect::home()->with('warning','Sorry, You cannot contact admin at this time ');
+        }
 
         $this->render('site.layouts.contact', compact('contact'));
     }

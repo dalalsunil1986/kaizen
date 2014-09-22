@@ -121,6 +121,11 @@ abstract class AbstractRepository {
 
     public function getFirst()
     {
+        return $this->model->first();
+    }
+
+    public function getFirstOrFail()
+    {
         return $this->model->firstOrFail();
     }
 

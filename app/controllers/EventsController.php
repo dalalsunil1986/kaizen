@@ -44,7 +44,7 @@ class EventsController extends BaseController {
         $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
         parent::__construct();
-//        $this->beforeFilter('auth',['streamEvent']);
+        $this->beforeFilter('auth',['showSubscriptionOptions']);
     }
 
     public function index()
@@ -128,7 +128,7 @@ class EventsController extends BaseController {
                 $favorited  = $event->favorites->contains($user->id);
                 $subscribed = $event->subscribers->contains($user->id);
                 $followed   = $event->followers->contains($user->id);
-                $canWatchOnline = $this->eventRepository->ifCanWatchOnline($event,$user);
+                $canWatchOnline = $this->eventRepository->ifOngoingEvent($event);
 
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'canWatchOnline'=>$canWatchOnline));
             });
@@ -311,7 +311,7 @@ class EventsController extends BaseController {
         if ( is_null($setting) ) {
 
             // if not setting for the event found, just redirect
-            return Redirect::action('EventsController@show', $id)->with('warning', 'System Error');
+            return Redirect::action('EventsController@show', $id)->with('info', trans('site.general.system-error'));
         }
 
         $reg_types = explode(',', $setting->registration_types);

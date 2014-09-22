@@ -169,7 +169,7 @@ class EventRepository extends AbstractRepository {
      * @param $dateEnd DateTimeString
      * @return bool
      */
-    public function ifCanWatchOnline(EventModel $event, User $user)
+    public function ifOngoingEvent(EventModel $event)
     {
         $canWatchOnline = false;
         $now            = Carbon::now();

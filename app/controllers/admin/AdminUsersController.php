@@ -305,4 +305,15 @@ class AdminUsersController extends AdminBaseController {
         }
         return Redirect::back()->withInput()->with('error',$validate->errors()->all());
     }
+
+    public function printDetail($id) {
+
+        $user = $this->userRepository->findById($id);
+
+        $pdf = PDF::loadView('admin.users.detail',compact('user'));
+
+        return $pdf->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream(str_random(10).'.pdf');
+//        return View::make('admin.users.detail',compact('user'));
+
+    }
 }

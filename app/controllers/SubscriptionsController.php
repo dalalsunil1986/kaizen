@@ -49,6 +49,18 @@ class SubscriptionsController extends BaseController {
         $userId           = Auth::user()->getAuthIdentifier();
         $subscription     = $this->subscriptionRepository->findByEvent($userId, $eventId);
 
+        $event = $this->eventRepository->findById($eventId);
+
+        if( !$event ) {
+
+            return Redirect::action('EventsController@show',$eventId)->with('warning',trans('site.general.system-error'));
+        }
+
+        if( $this->eventRepository->ifOngoingEvent($event) ) {
+
+            return Redirect::action('EventsController@show',$eventId)->with('warning',trans('site.event.event-expired'));
+        }
+
         if ( !$subscription ) {
             // If no subscription entry in the database, create one
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => $registrationType]);

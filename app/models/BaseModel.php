@@ -151,18 +151,18 @@ class BaseModel extends Model {
      * Set Phone Attribute to Integer
      * Match Type Case with database column type
      */
-    public function setPhoneAttribute($value){
-        $this->attributes['phone'] = (int)($value);
-    }
-
-    /**
-     * @param $value
-     * Set Mobile Attribute to Integer
-     * Match Type Case with database column type
-     */
-    public function setMobileAttribute($value){
-        $this->attributes['mobile'] = (int)($value);
-    }
+//    public function setPhoneAttribute($value){
+//        $this->attributes['phone'] = (int)($value);
+//    }
+//
+//    /**
+//     * @param $value
+//     * Set Mobile Attribute to Integer
+//     * Match Type Case with database column type
+//     */
+//    public function setMobileAttribute($value){
+//        $this->attributes['mobile'] = (int)($value);
+//    }
 
     /**
      * @param $value

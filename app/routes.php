@@ -171,6 +171,8 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::post('users/{id}/report', 'AdminUsersController@postReport');
 
+    Route::get('users/{id}/print','AdminUsersController@printDetail');
+
     Route::resource('users', 'AdminUsersController');
 
     /*********************************************************************************************************

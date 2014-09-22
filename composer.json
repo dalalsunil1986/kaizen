@@ -16,7 +16,8 @@
         "barryvdh/laravel-debugbar": "1.*",
         "barryvdh/laravel-ide-helper": "v1.9.1",
         "phpunit/phpunit": "4.2.*",
-        "way/generators": "2.*"
+        "way/generators": "2.*",
+        "barryvdh/laravel-dompdf": "dev-master"
     },
 	"autoload": {
 		"classmap": [
