@@ -2,7 +2,8 @@
 
 @section('content')
 
-
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
     <div class="alert alert-info">{{ Lang::get('site.general.warning_msg')}}</div>
 
     {{ Form::open(array('method' => 'POST', 'action'=>array('AuthController@postSignup'),'class'=>'form')) }}
@@ -47,6 +48,8 @@
     <br>
 
     {{ Form::close() }}
+    </div>
+    <div class="col-md-1"></div>
 
 
 @stop

@@ -1,17 +1,8 @@
-@font-face {
-    /*font-family: Sultan Medium;*/
-    /*src: url('Sultan Medium.ttf');*/
-}
 
-html, body, h1, h2, h3, h4, a, div, span {
-    /*font-family: 'Sultan Medium' !important;*/
-    font-family: arial, helvetica;
-}
-body {
-    background: #fff;
-}
 .container {
     background: #ffffff;
+    border-right: 15px solid white;
+    border-left: 15px solid white;
 }
 a:hover{
     color:#5bb75b;
@@ -124,9 +115,8 @@ a:hover{
 #event_images {
     margin: auto;
     width: 100%;
-    max-height: 110px;
-    margin-bottom: 15px;
 }
+
 
 #event_images img {
     margin: 5px;

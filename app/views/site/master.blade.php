@@ -7,7 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     @section('style')
-
+        <style>
+        @import url(http://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
+        html,body {
+            font-family: 'Droid Arabic Kufi' !important;
+            background: #f5f5f5 !important;
+        }
+        h1,h2,h3,h4,span,p,div,table {
+        font-family: 'Droid Arabic Kufi' !important;
+        }
+        </style>
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/font-awesome.min.css') }}
     {{ HTML::style(asset('css/intlTelInput.css')); }}

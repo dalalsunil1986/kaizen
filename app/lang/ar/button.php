@@ -5,5 +5,6 @@ return array(
 	'edit'   => 'تعديل',
 	'delete' => 'حذف',
     'sign'   => 'دخول',
-    'register' => 'تسجيل'
+    'register' => 'تسجيل',
+    'read_more' => 'المزيد'
 );
