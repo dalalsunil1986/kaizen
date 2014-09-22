@@ -116,6 +116,8 @@ return array(
         /* Additional Providers */
         'Zizaco\Entrust\EntrustServiceProvider', // Entrust Provider for roles
         'Intervention\Image\ImageServiceProvider',
+        'Barryvdh\DomPDF\ServiceProvider',
+
 
         /* Uncomment for use in development */
         'Barryvdh\Debugbar\ServiceProvider',
@@ -192,6 +194,8 @@ return array(
         'Entrust'         => 'Zizaco\Entrust\EntrustFacade', // Entrust Alias
         'Intervention' => 'Intervention\Image\Facades\Image',
         'Debugbar' => 'Barryvdh\Debugbar\Facade',
+        'PDF' => 'Barryvdh\DomPDF\Facade',
+
     ),
 
 

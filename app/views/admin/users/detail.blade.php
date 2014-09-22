@@ -3,7 +3,7 @@
 <table class=" table ">
     <tr>
         <td></td>
-        <td><b>Name in English<b></td>
+        <td><b>Name in English</b></td>
         <td>
             @if($user->name_en)
                 {{ $user->name_en }}
@@ -13,7 +13,7 @@
         </td>
     </tr>
     <tr>
-        <td><b>Name in Arabic<b></td>
+        <td><b>Name in Arabic</b></td>
         <td>
             @if($user->name_ar)
                 {{ $user->name_ar }}
@@ -23,7 +23,7 @@
         </td>
     </tr>
     <tr>
-        <td><b>Username<b> </td>
+        <td><b>Username</b> </td>
         <td>
             @if($user->username)
             {{ $user->username }}
@@ -56,7 +56,7 @@
     <tr>
         <td><b>Date Registered </b> </td>
         <td>
-            {{ $user->created_at->format('Y-m-d') }}
+            {{ $user->created_at }}
         </td>
     </tr>
 

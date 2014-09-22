@@ -43,8 +43,6 @@ class AdminSubscriptionsController extends AdminBaseController {
 
         if ( !isset($type) ) {
             $type = 'event';
-        } else {
-            $type = Input::get('type');
         }
 
         if ( $type == 'event' ) {
@@ -143,7 +141,7 @@ class AdminSubscriptionsController extends AdminBaseController {
             return Redirect::home()->with('errors', $subscriber->messages->all());
         }
 
-        return Redirect::home()->with('success', $subscriber->messages);
+        return Redirect::action('AdminSubscriptionsController@index')->with('success', 'Succes');
     }
 
     public function destroy()

@@ -285,6 +285,7 @@ Route::get('package', 'SubscriptionsController@subscribePackage');
 Route::get('types', 'SubscriptionsController@subscribeTypes');
 Route::post('subscribe', 'SubscriptionsController@subscribe');
 Route::get('subscribe', 'SubscriptionsController@subscribe');
+Route::get('event/{id}/confirm', 'SubscriptionsController@confirmSubscription');
 Route::get('event/{id}/unsubscribe', 'SubscriptionsController@unsubscribe');
 
 Route::get('test', function () {

@@ -119,7 +119,9 @@ return array(
         'online'               => 'Online',
         'normal'               => 'Normal',
         'system-error'   => 'System Error',
-        'event-expired' => 'Sorry, This Event is Expired'
+        'event-expired' => 'Sorry, This Event is Expired',
+        'check-email' => 'We have sent you an Email with the Details about your Subscription.'
+
     ),
     'subscription' => array(
         'subscribed'         => 'You subscribed this event',
