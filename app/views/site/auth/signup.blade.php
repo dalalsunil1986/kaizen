@@ -43,7 +43,7 @@
     <br>
 
     <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
-        Create my account
+        {{ Lang::get('button.create') }}
     </button>
     <br>
 

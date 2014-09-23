@@ -6,5 +6,6 @@ return array(
 	'delete' => 'حذف',
     'sign'   => 'دخول',
     'register' => 'تسجيل',
-    'read_more' => 'المزيد'
+    'read_more' => 'المزيد',
+    'create' => 'إنشاء حساب جديد'
 );

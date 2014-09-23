@@ -40,7 +40,7 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <a href="/">{{ HTML::image('images/Logo.png','kaizen',array('class'=>'img-responsive')) }}</a>
             </div>
-            <div class="col-md-7 col-sm-7 visible-lg visible-md visible-sm top30">
+            <div class="col-md-7 col-sm-12 visible-lg visible-md visible-sm top30">
                 @section('login')
                     @include('site.partials.login')
                 @show
@@ -57,7 +57,7 @@
             <div class="col-xs-2">
                 @include('site.partials.locale')
             </div>
-            <div class="col-xs-10">
+            <div class="col-xs-12">
                 @include('site.partials.login')
             </div>
         </div>
