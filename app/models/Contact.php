@@ -2,9 +2,11 @@
 
 class Contact extends BaseModel {
 
-	protected $guared = ['id'];
+	protected $guarded = ['id'];
 
     protected $table = 'contacts';
 
     protected static $name = 'contact';
+
+
 }

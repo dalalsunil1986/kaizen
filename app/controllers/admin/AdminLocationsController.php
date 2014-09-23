@@ -122,7 +122,7 @@ class AdminLocationsController extends AdminBaseController {
 	 */
 	public function destroy($id)
 	{
-        $this->locationRepository->find($id)->delete();
+        $this->locationRepository->findById($id)->delete();
         return Redirect::action('AdminLocationsController@index');
 	}
 

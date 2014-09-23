@@ -218,65 +218,23 @@ class AdminUsersController extends AdminBaseController {
      * @param $user
      * @return Response
      */
-    public function postDelete($user)
+    public function destroy($id)
     {
+
         // Check if we are not trying to delete ourselves
-        if ($user->id === Confide::user()->id)
+        if ($id === Auth::user()->id)
         {
             // Redirect to the user management page
             return Redirect::to('admin/users')->with('error', Lang::get('admin/users/messages.delete.impossible'));
         }
 
-        AssignedRoles::where('user_id', $user->id)->delete();
-
-        $id = $user->id;
-        $user->delete();
-
-        // Was the comment post deleted?
-        $user = User::find($id);
-        if ( empty($user) )
-        {
-            // TODO needs to delete all of that user's content
-            return Redirect::to('admin/users')->with('success', Lang::get('admin/users/messages.delete.success'));
+        if ($this->userRepository->findById($id)->delete()) {
+            return Redirect::action('AdminUsersController@index')->with('success','Deleted');
         }
-        else
-        {
-            // There was a problem deleting the user
-            return Redirect::to('admin/users')->with('error', Lang::get('admin/users/messages.delete.error'));
-        }
+        return Redirect::action('AdminUsersController@index')->with('error','Could not Delete');
+
     }
 
-    /**
-     * Show a list of all the users formatted for Datatables.
-     *
-     * @return Datatables JSON
-     */
-    public function getData()
-    {
-        $users = User::leftjoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
-                    ->leftjoin('roles', 'roles.id', '=', 'assigned_roles.role_id')
-                    ->select(array('users.id', 'users.username','users.email', 'roles.name as rolename', 'users.confirmed', 'users.created_at'))
-                    ->groupBy('users.email');
-
-        return Datatables::of($users)
-//         ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
-
-        ->edit_column('confirmed','@if($confirmed)
-                            Yes
-                        @else
-                            No
-                        @endif')
-
-        ->add_column('actions', '<a href="{{{ URL::to(\'admin/users/\' . $id . \'/edit\' ) }}}" class="iframe btn btn-xs btn-default">{{{ Lang::get(\'button.edit\') }}}</a>
-                                 <a href="{{{ URL::to(\'admin/users/\' . $id . \'/report\' ) }}}" class="btn btn-xs btn-default" >Report</a>
-                                 <a href="{{{ URL::to(\'admin/users/\' . $id . \'/delete\' ) }}}" class="iframe btn btn-xs btn-danger">{{{ Lang::get(\'button.delete\') }}}</a>
-
-            ')
-
-        ->remove_column('id')
-
-        ->make();
-    }
 
     public function getReport($id)
     {
@@ -284,6 +242,7 @@ class AdminUsersController extends AdminBaseController {
         $user = $this->userRepository->find($id);
         $this->render('admin.users.report',compact('user','title'));
     }
+
     public function postReport($id) {
         $args = Input::all();
         $report_user = $this->userRepository->find($id);
@@ -316,4 +275,5 @@ class AdminUsersController extends AdminBaseController {
 //        return View::make('admin.users.detail',compact('user'));
 
     }
+
 }

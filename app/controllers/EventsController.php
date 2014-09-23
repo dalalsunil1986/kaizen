@@ -44,7 +44,7 @@ class EventsController extends BaseController {
         $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
         parent::__construct();
-        $this->beforeFilter('auth', ['showSubscriptionOptions']);
+        $this->beforeFilter('auth', array('only' => 'showSubscriptionOptions'));
     }
 
     public function index()
@@ -448,12 +448,18 @@ class EventsController extends BaseController {
 
                 return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event as ONLINE, Sorry');
             }
+
         } else {
             // If user does not have a subscriptoin
             return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event, Sorry');
         }
 
-        if ( !$this->getStreamSettings() ) {
+        // stream the event
+        if ( ! $this->getStreamSettings() ) {
+
+            return Redirect::action('EventsController@show', $id)->with('info', 'Sorry System Error. Please Contact Admin');
+
+        } else {
 
             list($token, $cid, $launchUrl) = $this->getStreamSettings();
 
@@ -479,10 +485,8 @@ class EventsController extends BaseController {
 
             // launch the live stream
             $this->launchStream($data, $launchUrl);
-
         }
 
-        return Redirect::action('EventsController@show', $id)->with('info', 'Sorry System Error. Please Contact Admin');
 
     }
 
@@ -552,7 +556,9 @@ class EventsController extends BaseController {
     public function onlineTestEvent()
     {
         if ( !$this->getStreamSettings() ) {
+            return Redirect::action('EventsController@index')->with('error', 'Sorry System Error. Please Contact Admin');
 
+        } else {
             list($token, $cid, $launchUrl) = $this->getStreamSettings();
 
             if ( is_null($token) ) {
@@ -574,8 +580,6 @@ class EventsController extends BaseController {
 
             // launch the live stream
             $this->launchStream($data, $launchUrl);
-        } else {
-            return Redirect::action('EventsController@index')->with('error', 'Sorry System Error. Please Contact Admin');
         }
     }
 

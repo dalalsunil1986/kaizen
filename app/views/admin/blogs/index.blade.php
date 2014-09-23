@@ -33,6 +33,11 @@ Blog Post
                 <td><a href="{{ URL::action('AdminPhotosController@create', ['imageable_type' => 'Blog', 'imageable_id' => $post->id]) }}" class="btn btn-sm btn-success">Add Photos</a></td>
                 <td>{{ $post->created_at }}</td>
                 <td><a href="{{ URL::action('AdminBlogsController@edit', array($post->id)) }}" class="btn">Edit</a></td>
+                <td>
+                    {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminBlogsController@destroy', $post->id))) }}
+                        {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                    {{ Form::close() }}
+                </td>
             </tr>
             @endforeach
 		</tbody>

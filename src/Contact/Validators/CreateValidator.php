@@ -13,7 +13,6 @@ class CreateValidator extends AbstractValidator {
         'name_ar' => 'required',
         'address_ar' => 'required',
         'email' => 'required',
-        'mobile' => 'required',
         'phone' => 'required'
     );
 

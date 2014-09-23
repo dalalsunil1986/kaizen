@@ -182,13 +182,12 @@ class AdminBlogsController extends AdminBaseController {
 
     public function destroy($id)
     {
-        $post = $this->blogRepository->findOrFail($id);
-        if ( $post->delete() ) {
-            //  return Redirect::home();
-            return Redirect::action('AdminBlogsController@index')->with('success', 'Blog Post Deleted');
-        }
+        if ($this->blogRepository->findById($id)->delete()) {
 
-        return Redirect::action('AdminBlogsController@index')->with('error', 'Error: Blog Post Not Found');
+            return Redirect::action('AdminBlogsController@index')->with('success','Deleted');
+        }
+        return Redirect::action('AdminBlogsController@index')->with('error','Could not Delete');
+
     }
 
 }

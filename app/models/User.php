@@ -190,6 +190,33 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
     public function setPasswordAttribute($password){
 
         $this->attributes['password'] = Hash::make($password);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('Role', 'assigned_roles', 'user_id', 'role_id');
+    }
+
+    public function beforeDelete()
+    {
+        //delete settings
+        $this->comments()->delete();
+
+        foreach ($this->subscriptions()->get(array('subscriptions.id')) as $subscription) {
+            $subscription->delete();
+        }
+
+        foreach ($this->followings()->get(array('followers.id')) as $subscription) {
+            $subscription->delete();
+        }
+
+        foreach ($this->favorites()->get(array('favorites.id')) as $subscription) {
+            $subscription->delete();
+        }
+
+        foreach ($this->roles()->get(array('assigned_roles.id')) as $subscription) {
+            $subscription->delete();
+        }
 
     }
 }

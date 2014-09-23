@@ -112,19 +112,19 @@ class BaseModel extends Model {
      */
     public function delete()
     {
-        DB::beginTransaction();
-
+//        DB::beginTransaction();
+//
         try {
-            Event::fire(static::$name . '.deleting', $this);
+//            Event::fire(static::$name . '.deleting', $this);
             $this->beforeDelete();
             $return = parent::delete();
-            $this->afterDelete($return);
-            Event::fire(static::$name . '.deleted', $this);
-
-            DB::commit();
+//            $this->afterDelete($return);
+//            Event::fire(static::$name . '.deleted', $this);
+//
+//            DB::commit();
         }
         catch ( \Exception $e ) {
-            DB::rollBack();
+//            DB::rollBack();
             throw $e;
         }
 

@@ -37,11 +37,12 @@
             <td>{{ $user->rolename }}</td>
             <td>{{ $user->active == 1 ? 'true':'false' }}</td>
             <td>{{ $user->created_at }}</td>
-
             <td>
                 <a href="{{  URL::to('admin/users/' . $user->id . '/print' ) }}" class="iframe btn btn-xs btn-default"><i class="glyphicon glyphicon-print"></i> Print</a>
                 <a href="{{  URL::to('admin/users/' . $user->id . '/edit' ) }}" class="iframe btn btn-xs btn-default">{{{ Lang::get('button.edit') }}}</a>
-                <a href="{{  URL::to('admin/users/' . $user->id . '/delete' ) }}" class="iframe btn btn-xs btn-danger">{{{ Lang::get('button.delete') }}}</a>
+                {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminUsersController@destroy', $user->id))) }}
+                    {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                {{ Form::close() }}
             </td>
         </tr>
         @endforeach
