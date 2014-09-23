@@ -1,27 +1,62 @@
 <?php
-use Acme\Core\Mailers\Bulk\MailchimpMailer;
 
 class NewslettersController extends BaseController{
 
-protected $bulkMailer;
+    protected $mc;
+    protected $listId;
 
-
-    public function __contstruct() {
-
-        $this->bulkMailer = new MailchimpMailer(new Mailchimp('107025e4b301304e9a4e226b1668b370-us3'));
-
-//        $getEmail = Input::get('email');
-//        $email['email'] = $getEmail;
-//        try {
-//            Notify::subscribeUser('de1f937717',$email);
-//            return Redirect::home()->with(array('message'=>'You have been subscribed'));
-//        } catch (\Exception $e) {
-//            return Redirect::home()->withErrors($e->getMessage());
-//        }
+    public function init() {
+        $this->setMc(new Mailchimp('107025e4b301304e9a4e226b1668b370-us3'));
     }
 
-    public function index(){
-        dd($this->bulkMailer);
+    public function subscribe()
+    {
+        $this->init();
+        $this->setListId('76812be63e');
+        $email = Input::get('email');
+
+        if (isset($email) && !empty($email)) {
+            try {
+                $this->mc->lists->subscribe($this->listId,[ 'email' => $email]);
+            }
+            catch(Exception $e) {
+                return Redirect::home()->with('warning',$e->getMessage());
+            }
+            return Redirect::home()->with('success');
+
+        }
+
     }
 
-} 
+    /**
+     * @return mixed
+     */
+    public function getMc()
+    {
+        return $this->mc;
+    }
+
+    /**
+     * @param mixed $mc
+     */
+    public function setMc($mc)
+    {
+        $this->mc = $mc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListId()
+    {
+        return $this->listId;
+    }
+
+    /**
+     * @param mixed $listId
+     */
+    public function setListId($listId)
+    {
+        $this->listId = $listId;
+    }
+}

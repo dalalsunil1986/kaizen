@@ -130,9 +130,9 @@ Route::get('country/{id}/events', array('uses' => 'CountriesController@getEvents
 /*********************************************************************************************************
  * Newsletter Routes
  ********************************************************************************************************/
-Route::post('newsletter', 'NewslettersController@store');
+Route::post('newsletter/subscribe', 'NewslettersController@subscribe');
 
-Route::get('newsletter', 'NewslettersController@index');
+//Route::get('newsletter', 'NewslettersController@index');
 
 /*********************************************************************************************************
  * MISC ROUTES
@@ -296,4 +296,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 });
 
 
-
+Route::get('test',function() {
+    $mc = new Mailchimp('107025e4b301304e9a4e226b1668b370-us3');
+    $mc->lists->subscribe('76812be63e',['email'=>'uusa35@gmail.com']);
+});
