@@ -45,6 +45,7 @@
         <div class="col-md-offset-2 col-md-10">
             <button tabindex="3" type="submit" class="btn btn-primary">{{ Lang::get('confide.login.submit') }}</button>
             <a class="btn btn-default" href="forgot">{{ Lang::get('confide.login.forgot_password') }}</a>
+            <a href="{{ action('AuthController@getSignup') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
         </div>
     </div>
 </form>
