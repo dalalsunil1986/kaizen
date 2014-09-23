@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <span class="mute">{{ Lang::get('site.general.newsletter_subscribe') }}</span>
-                    {{ Form::open(array('action'=>'NewslettersController@store')) }}
+                    {{ Form::open(array('action'=>'NewslettersController@subscribe')) }}
                     <div class="input-group">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-envelope"></i>

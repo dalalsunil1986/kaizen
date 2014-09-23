@@ -151,7 +151,12 @@ class AdminBlogsController extends AdminBaseController {
 
     public function delete($id)
     {
-        dd('h');
+        $post = $this->blogRepository->find($id);
+        // Title
+        $title = Lang::get('admin.blogs.title.blog_delete');
+
+        // Show the page
+        $this->render('admin.blogs.delete', compact('post', 'title'));
     }
 
 
@@ -165,12 +170,6 @@ class AdminBlogsController extends AdminBaseController {
     public function getDelete($id)
     {
 
-        $post = $this->blogRepository->find($id);
-        // Title
-        $title = Lang::get('admin.blogs.title.blog_delete');
-
-        // Show the page
-        $this->render('admin.blogs.delete', compact('post', 'title'));
     }
 
     /**

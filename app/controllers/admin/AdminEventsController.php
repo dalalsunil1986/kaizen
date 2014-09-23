@@ -175,7 +175,6 @@ class AdminEventsController extends AdminBaseController {
         return Redirect::action('AdminEventsController@index')->with('error', 'Error: Event Not Found');
     }
 
-
     /**
      * @param $id
      * @return statement

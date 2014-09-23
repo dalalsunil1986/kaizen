@@ -44,7 +44,7 @@ class EventsController extends BaseController {
         $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
         parent::__construct();
-        $this->beforeFilter('auth',['showSubscriptionOptions']);
+        $this->beforeFilter('auth', ['showSubscriptionOptions']);
     }
 
     public function index()
@@ -125,16 +125,16 @@ class EventsController extends BaseController {
 
             View::composer('site.events.view', function ($view) use ($id, $user, $event) {
                 // return boolean true false
-                $favorited  = $event->favorites->contains($user->id);
-                $subscribed = $event->subscribers->contains($user->id);
-                $followed   = $event->followers->contains($user->id);
+                $favorited      = $event->favorites->contains($user->id);
+                $subscribed     = $event->subscribers->contains($user->id);
+                $followed       = $event->followers->contains($user->id);
                 $canWatchOnline = $this->eventRepository->ifOngoingEvent($event);
 
-                $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'canWatchOnline'=>$canWatchOnline));
+                $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'canWatchOnline' => $canWatchOnline));
             });
         } else {
             View::composer('site.events.view', function ($view) use ($tags) {
-                $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false,'canWatchOnline'=>'false'));
+                $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false, 'canWatchOnline' => 'false'));
             });
         }
         $this->render('site.events.view', compact('event', 'tags', 'eventExpired'));
@@ -432,48 +432,58 @@ class EventsController extends BaseController {
         }
 
         // check whether this user subscribed for this and confirmed
-        $subscription = $event->subscriptions()->where('user_id', $user->id)->where('status', 'CONFIRMED')->first();
+        $subscription = $event->subscriptions()->where('user_id', $user->id)->first();
 
-        if ( !count($subscription) ) {
+        // find if this user has a subscriptoin
+        if ( $subscription ) {
 
+            // If user has a subscription and subscription is not confirmed
+            if ( $subscription->status != 'CONFIRMED' ) {
+
+                return Redirect::action('EventsController@index')->with('error', 'Sorry, you cannot view this event online. Your Subscription is not confirmed.');
+            }
+
+            // check whether the user has subscribed as online
+            if ( $subscription->registration_type != 'ONLINE' ) {
+
+                return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event as ONLINE, Sorry');
+            }
+        } else {
+            // If user does not have a subscriptoin
             return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event, Sorry');
         }
 
-        // check whether the user has subscribed as online
-        if ( $subscription->registration_type != 'ONLINE' ) {
+        if ( !$this->getStreamSettings() ) {
 
-            return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event as ONLINE, Sorry');
+            list($token, $cid, $launchUrl) = $this->getStreamSettings();
+
+            if ( is_null($token) ) {
+                return Redirect::action('EventsController@show', $id)->with('error', 'Sorry System Error. Please Contact Admin');
+            }
+
+            // Find the user id
+            $userTypeId = $event->isAuthor($user->id) ? 1000 : 0;
+
+            // user date to pass to streaming server
+            $data = [
+                'token'        => urlencode($token),
+                'cid'          => $cid,
+                'roomid'       => '22352', //todo : change with database room name $setting->online_room_no
+                'usertypeid'   => $userTypeId,
+                'gender'       => $user->gender,
+                'firstname'    => $user->username,
+                'lastname'     => $user->name,
+                'email'        => $user->email,
+                'externalname' => $user->username,
+            ];
+
+            // launch the live stream
+            $this->launchStream($data, $launchUrl);
+
         }
 
-        if ( !function_exists('curl_init') ) {
-            // If curl is not installed
-            return Redirect::home('303')->with('error', 'Sorry System Error. Please Contact Admin');
-        }
-        // get the settings for the live stream
-        list($token, $cid, $launchUrl) = $this->getStreamSettings();
+        return Redirect::action('EventsController@show', $id)->with('info', 'Sorry System Error. Please Contact Admin');
 
-        if ( is_null($token) ) {
-            return Redirect::action('EventsController@show', $id)->with('error', 'Sorry System Error. Please Contact Admin');
-        }
-
-        // Find the user id 
-        $userTypeId = $event->isAuthor($user->id) ? 1000 : 0;
-
-        // user date to pass to streaming server
-        $data = [
-            'token'        => urlencode($token),
-            'cid'          => $cid,
-            'roomid'       => '22352', //todo : change with database room name $setting->online_room_no
-            'usertypeid'   => $userTypeId,
-            'gender'       => $user->gender,
-            'firstname'    => $user->username,
-            'lastname'     => $user->name,
-            'email'        => $user->email,
-            'externalname' => $user->username,
-        ];
-
-        // launch the live stream
-        $this->launchStream($data, $launchUrl);
     }
 
     /**
@@ -482,71 +492,91 @@ class EventsController extends BaseController {
      */
     public function getStreamSettings()
     {
-        $cid         = '15829';
-        $appKey      = 'WH73FJ63UT62WY76MQ50XX86MI50XQ82';
-        $api         = 'http://kaizenlive.e-lectazone.com/apps/token.asp?cid='.$cid.'&appkey='.$appKey.'&result=xml';
-        $launchUrl   = 'http://kaizenlive.e-lectazone.com/apps/launch.asp?';
 
-        $token = null;
-        $ch    = curl_init();
-        // Set URL to download and other parameters
-        curl_setopt($ch, CURLOPT_URL, $api);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        // Download the given URL, and return output
-        $output = curl_exec($ch);
-        // Close the cURL resource, and free system resources
-        curl_close($ch);
+        if ( function_exists('curl_init') ) {
 
-        if ( $output ) {
+            // get the settings for the live stream
+            $cid       = '15829';
+            $appKey    = 'WH73FJ63UT62WY76MQ50XX86MI50XQ82';
+            $api       = 'http://kaizenlive.e-lectazone.com/apps/token.asp?cid=' . $cid . '&appkey=' . $appKey . '&result=xml';
+            $launchUrl = 'http://kaizenlive.e-lectazone.com/apps/launch.asp?';
 
-            $tokenRetrive = simplexml_load_string($output);
+            $token = null;
+            $ch    = curl_init();
+            // Set URL to download and other parameters
+            curl_setopt($ch, CURLOPT_URL, $api);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+            // Download the given URL, and return output
+            $output = curl_exec($ch);
+            // Close the cURL resource, and free system resources
+            curl_close($ch);
 
-            foreach ( $tokenRetrive->ResponseData as $data ) {
-                $token = $data;
+            if ( $output ) {
+
+                $tokenRetrive = simplexml_load_string($output);
+
+                foreach ( $tokenRetrive->ResponseData as $data ) {
+                    $token = $data;
+                }
+
             }
 
+            return array($token, $cid, $launchUrl);
+        } else {
+            return false;
         }
-        return array($token, $cid, $launchUrl);
     }
 
     /**
      * @param $data
      * @param $launchUrl
      */
-    public function launchStream($data, $launchUrl)
+    public function launchStream(array $data, $launchUrl)
     {
-        foreach ( $data as $key => $value ) {
-            $launchUrl .= $key . '=' . $value . '&';
+        try {
+            foreach ( $data as $key => $value ) {
+                $launchUrl .= $key . '=' . $value . '&';
+            }
+            rtrim($launchUrl, '&');
+            header('Location: ' . $launchUrl);
+            die();
         }
-        rtrim($launchUrl, '&');
-        header('Location: ' . $launchUrl);
-        die();
+        catch (Exception $e) {
+            return false;
+        }
+
     }
 
-    public function onlineTestEvent(){
-        list($token, $cid, $launchUrl) = $this->getStreamSettings();
+    public function onlineTestEvent()
+    {
+        if ( !$this->getStreamSettings() ) {
 
-        if ( is_null($token) ) {
+            list($token, $cid, $launchUrl) = $this->getStreamSettings();
+
+            if ( is_null($token) ) {
+                return Redirect::action('EventsController@index')->with('error', 'Sorry System Error. Please Contact Admin');
+            }
+
+            // user date to pass to streaming server
+            $data = [
+                'token'        => urlencode($token),
+                'cid'          => $cid,
+                'roomid'       => '22352', //todo : change with database room name $setting->online_room_no
+                'usertypeid'   => '0',
+                'gender'       => 'M',
+                'firstname'    => 'Test-User',
+                'lastname'     => 'Test-User',
+                'email'        => 'testuser@test.com',
+                'externalname' => 'testuser',
+            ];
+
+            // launch the live stream
+            $this->launchStream($data, $launchUrl);
+        } else {
             return Redirect::action('EventsController@index')->with('error', 'Sorry System Error. Please Contact Admin');
         }
-
-        // user date to pass to streaming server
-        $data = [
-            'token'        => urlencode($token),
-            'cid'          => $cid,
-            'roomid'       => '22352', //todo : change with database room name $setting->online_room_no
-            'usertypeid'   => '0',
-            'gender'       => 'M',
-            'firstname'    => 'Test-User',
-            'lastname'     => 'Test-User',
-            'email'        => 'testuser@test.com',
-            'externalname' => 'testuser',
-        ];
-
-        // launch the live stream
-        $this->launchStream($data, $launchUrl);
     }
 
 }
