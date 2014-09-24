@@ -27,6 +27,7 @@
 
                     <tbody>
                     @foreach ($events as $event)
+                        @if(count($event->setting))
                             <tr>
                                 <td>{{{ $event->id }}}</td>
                                 <td>{{{ $event->title }}}</td>
@@ -34,9 +35,12 @@
                                 <td>
                                     <div class="btn-group btn-group-sm">
                                       <a href="{{ URL::action('AdminEventsController@getDetails',$event->id)}}" class="btn btn-default">Details</a>
+                                      <a href="{{ URL::action('AdminSettingsController@edit',$event->setting->id)}}" class="btn btn-default">Settings</a>
+                                      <a href="{{ URL::action('AdminSettingsController@getAddRoom', $event->setting->id) }}" class="btn btn-default">Add Online Room Number</a>
                                     </div>
                                 </td>
 
+                                <td><a href="{{ URL::action('AdminPhotosController@create', ['imageable_type' => $event->setting->settingable_type, 'imageable_id' => $event->setting->settingable_id]) }}" class="btn btn-sm btn-success">Add Photos</a></td>
                                 <td><a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}" class="btn btn-sm btn-warning">Edit</a></td>
                                 <td>
                                     {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminEventsController@destroy', $event->id))) }}
@@ -44,6 +48,7 @@
                                     {{ Form::close() }}
                                 </td>
                             </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>
