@@ -128,7 +128,7 @@ class EventModel extends BaseModel implements PresenterInterface {
     {
         $dt = Carbon::createFromTimestamp(strtotime($column));
 
-        return $dt->format('D, jS \\of M Y');
+        return $dt->format('D, jS \\of M Y \\a\\t ga');
     }
 
     public function formatEventTime($column)

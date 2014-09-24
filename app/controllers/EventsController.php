@@ -117,7 +117,7 @@ class EventsController extends BaseController {
         $tags = $this->eventRepository->findById($id)->tags;
 
         // returns true false
-        $eventExpired = $this->eventRepository->ifEventExpired($event->date_start);
+        $eventExpired = $this->eventRepository->eventExpired($event->date_end);
 
         if ( Auth::check() ) {
             $user = Auth::user();
@@ -128,7 +128,7 @@ class EventsController extends BaseController {
                 $favorited      = $event->favorites->contains($user->id);
                 $subscribed     = $event->subscribers->contains($user->id);
                 $followed       = $event->followers->contains($user->id);
-                $canWatchOnline = $this->eventRepository->ifOngoingEvent($event);
+                $canWatchOnline = $this->eventRepository->ongoingEvent($event->date_start,$event->date_end);
 
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'canWatchOnline' => $canWatchOnline));
             });
@@ -426,6 +426,18 @@ class EventsController extends BaseController {
         $setting           = $event->setting;
         $registrationTypes = explode(',', $setting->registration_types);
 
+
+        if ( $this->eventRepository->eventExpired($event->date_end) ) {
+
+            return Redirect::action('EventsController@show', $id)->with('warning', trans('site.general.event-expired'));
+        }
+
+        // if event is currently going on
+        if ( ! $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
+
+            return Redirect::action('EventsController@show', $id)->with('warning', trans('site.general.cannot-watch'));
+        }
+
         // check if this event has online streaming
         if ( !in_array('ONLINE', $registrationTypes) ) {
 
@@ -454,6 +466,8 @@ class EventsController extends BaseController {
             // If user does not have a subscriptoin
             return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event, Sorry');
         }
+
+
 
         // stream the event
         if ( ! $this->getStreamSettings() ) {

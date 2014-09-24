@@ -120,7 +120,10 @@ return array(
         'normal'               => 'Normal',
         'system-error'   => 'System Error',
         'event-expired' => 'Sorry, This Event is Expired',
-        'check-email' => 'We have sent you an Email with the Details about your Subscription.'
+        'check-email' => 'We have sent you an Email with the Details about your Subscription.',
+        'cannot-watch'  => 'You Cannot Watch this event now',
+        'event-expired' => 'This Event is Expired',
+        'event-ongoing' => 'This Event is Ongoing at present'
 
     ),
     'subscription' => array(

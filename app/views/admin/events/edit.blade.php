@@ -97,7 +97,7 @@
     <div class="form-group col-md-6">
         {{ Form::label('date_start', 'Event Start Date:') }}
         <div class="input-group">
-            {{ Form::text('date_start',NULL,array('class'=>'form-control')) }}
+            {{ Form::text('date_start',$event->date_start,array('class'=>'form-control')) }}
             <span class="input-group-addon">
                 <i class="fa fa-calendar"></i>
             </span>
@@ -106,7 +106,7 @@
     <div class="form-group col-md-6">
         {{ Form::label('date_end', 'Event End Date:') }}
         <div class="input-group">
-            {{ Form::text('date_end',NULL,array('class'=>'form-control')) }}
+            {{ Form::text('date_end',$event->date_end,array('class'=>'form-control')) }}
             <span class="input-group-addon">
                 <i class="fa fa-calendar"></i>
             </span>
@@ -309,6 +309,8 @@ $longitude =  $event->longitude ? $event->longitude : '47.951';
             onShow:function( ct ){
             }
         });
+
+
         $('#date_end').datetimepicker({
             format:'Y-m-d H:i',
             onShow:function( ct ){

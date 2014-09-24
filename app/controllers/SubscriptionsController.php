@@ -11,10 +11,7 @@ class SubscriptionsController extends BaseController {
      * @var Acme\Subscription\SubscriptionRepository
      */
     private $subscriptionRepository;
-    /**
-     * @var Acme\Subscription\State\Subscriber
-     */
-    private $subscriber;
+
     /**
      * @var Acme\EventModel\EventRepository
      */
@@ -23,9 +20,6 @@ class SubscriptionsController extends BaseController {
      * @var Acme\Package\PackageRepository
      */
 
-    /*
-     * tagController ==> TagRepository ==>
-     * */
     private $packageRepository;
 
     public function __construct(SubscriptionRepository $subscriptionRepository, EventRepository $eventRepository, PackageRepository $packageRepository)
@@ -44,28 +38,37 @@ class SubscriptionsController extends BaseController {
      * @return \Illuminate\Http\RedirectResponse
      * Accessed through post form request
      */
-    public function subscribe($eventId='',$registrationType = '')
+    public function subscribe($eventId = '', $registrationType = '')
     {
         // todo : check if event is not expired
 
-        $eventId          = empty($eventId)? Input::get('event_id'): $eventId;
-        $registrationType = empty($registrationType)? Input::get('registration_type') : $registrationType;
-        $userId           = Auth::user()->getAuthIdentifier();
+        $userId           = Auth::user()->id;
+        $eventId          = empty($eventId) ? Input::get('event_id') : $eventId;
+        $registrationType = empty($registrationType) ? Input::get('registration_type') : $registrationType;
         $subscription     = $this->subscriptionRepository->findByEvent($userId, $eventId);
+        $event            = $this->eventRepository->findById($eventId);
 
-        $event = $this->eventRepository->findById($eventId);
-        if( !$event ) {
+        // If not a valid event
+        if ( !$event ) {
 
-            return Redirect::action('EventsController@show',$eventId)->with('warning',trans('site.general.system-error'));
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.system-error'));
         }
 
-        if( $this->eventRepository->ifOngoingEvent($event) ) {
+        // If event is Expired
+        if ( $this->eventRepository->eventExpired($event->date_end) ) {
 
-            return Redirect::action('EventsController@show',$eventId)->with('warning',trans('site.event.event-expired'));
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.event-expired'));
         }
 
+        // if event is currently going on
+        if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
+
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.event-ongoing'));
+        }
+
+        // If no subscription entry in the database
         if ( !$subscription ) {
-            // If no subscription entry in the database, create one
+            // create a subscription
             $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => $registrationType]);
         }
 
@@ -89,7 +92,25 @@ class SubscriptionsController extends BaseController {
     public function unsubscribe($eventId)
     {
         $userId       = Auth::user()->id;
+        $event        = $this->eventRepository->findById($eventId);
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
+
+        if ( !$event ) {
+
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.system-error'));
+        }
+
+        // If event is Expired
+        if ( $this->eventRepository->eventExpired($event->date_end) ) {
+
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event.event-expired'));
+        }
+
+        // if event is currently going on
+        if ( !$this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
+
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event.event-expired'));
+        }
 
         if ( $subscription ) {
             $subscription = new Subscriber($subscription);
@@ -122,11 +143,14 @@ class SubscriptionsController extends BaseController {
     /**
      * @param $eventId
      * Confirm the Subscription after click email link
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function confirmSubscription($eventId)
     {
-        $subscription     = $this->subscriptionRepository->findByEvent(Auth::user()->id, $eventId);
-        if($this->subscribe($eventId,$subscription->registration_type)) {
+        $subscription = $this->subscriptionRepository->findByEvent(Auth::user()->id, $eventId);
+
+        if ( $this->subscribe($eventId, $subscription->registration_type) ) {
+
             return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', Lang::get('site.general.check-email'));
         }
     }

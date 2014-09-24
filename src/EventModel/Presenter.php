@@ -20,12 +20,12 @@ class Presenter extends AbstractPresenter {
 
     public function date_start()
     {
-        return $this->resource->date_start->format('Y-m-d');
+        return $this->resource->date_start->format('Y-m-d H:i');
     }
 
     public function date_end()
     {
-        return $this->resource->date_end->format('Y-m-d');
+        return $this->resource->date_end->format('Y-m-d H:i');
     }
 
 }

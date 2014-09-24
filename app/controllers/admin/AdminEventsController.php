@@ -91,6 +91,10 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
 
+        if ($val->getInputData['date_start'] < $val->getInputData['date_end']) {
+            dd('wrong value');
+        }
+
         if ( !$event = $this->eventRepository->create($val->getInputData()) ) {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
@@ -143,6 +147,9 @@ class AdminEventsController extends AdminBaseController {
         if ( !$val->isValid() ) {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
+        }
+        if (Input::get('date_start') > Input::get('date_end')) {
+            dd('wrong value');
         }
 
         if ( !$this->eventRepository->update($id, $val->getInputData()) ) {

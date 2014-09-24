@@ -25,7 +25,7 @@ class EventRepository extends AbstractRepository {
         $currentTime = Carbon::now()->toDateTimeString();
 
         return $this->model->with($with)//->where('date_start', '>', $currentTime)
-        ;
+            ;
 
     }
 
@@ -126,14 +126,6 @@ class EventRepository extends AbstractRepository {
         return $events;
     }
 
-    public function isEventExpired($id)
-    {
-        $now   = Carbon::now()->toDateTimeString();
-        $query = $this->model->where('start_date', '<', $now)->where('id', '=', $id)->count();
-        dd($query);
-
-        return ($query >= 1) ? true : false;
-    }
 
     function suggestedEvents($eventId)
     {
@@ -148,60 +140,41 @@ class EventRepository extends AbstractRepository {
 //        $event = $this->get()->where('tag_id' , '=', )
     }
 
-
     /**
-     * @param $dateStart DateTimeString
+     * @param $dateEnd
      * @return bool
+     * check if the event expired
      */
-    public function ifEventExpired($dateStart)
+    public function eventExpired($dateEnd)
     {
-        $eventExpired = false;
-        $now          = Carbon::now();
-        if ( $now->toDateTimeString() > $dateStart ) {
-            $eventExpired = true;
+        $expired = false;
+        $now     = Carbon::now()->toDateTimeString();
+        if ( $now > $dateEnd ) {
+            $expired = true;
         }
 
-        return $eventExpired;
+        return $expired;
     }
 
     /**
-     * @param $dateStart DateTimeString
-     * @param $dateEnd DateTimeString
+     * @param $startDate DateTimeString
+     * @param $endDate DateTimeString
      * @return bool
      */
-    public function ifOngoingEvent(EventModel $event)
+    public function ongoingEvent($startDate, $endDate)
     {
-        $canWatchOnline = false;
-        $now            = Carbon::now();
-//        $setting           = $event->setting;
-//        $registrationTypes = explode(',', $setting->registration_types);
-//        $subscription = $event->subscriptions()->where('user_id', $user->id)->where('status', 'CONFIRMED')->first();
-//        // check if this event has online streaming
-//        if ( !in_array('ONLINE', $registrationTypes) ) {
-//            $canWatchOnline = false;
-//            return Redirect::action('EventsController@index')->with('error', 'There is no online stream for this event');
-//        } elseif( !count($subscription) ) {
-//            $canWatchOnline = false;
-//            return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event, Sorry');
-//        }
-//        // check whether the user has subscribed as online
-//        elseif ( $subscription->registration_type != 'ONLINE' ) {
-//            $canWatchOnline = false;
-//            return Redirect::action('EventsController@index')->with('error', 'You are not subscribed to this event as ONLINE, Sorry');
-//        }
+        $ongoing = false;
+        $now     = Carbon::now();
 
-        // If the Current Time is Greater than Event End Date, Do not allow to watch online
-        if ( $event->date_start->diffInHours() <= 5 ) {
-            // If Date Start is around 4 hours
-            $canWatchOnline = true;
-        } elseif ( $now > $event->date_end ) {
-            $canWatchOnline = false;
-        } else {
-            $canWatchOnline = false;
+        // check if the time is 4 hours before event and 4 hours after end of the event
+        if ( ($now->subHours(4) < $startDate) && ($now->addHours(4) < $endDate) ) {
+            $ongoing = true;
         }
 
-        return $canWatchOnline;
+        return $ongoing;
+
     }
+
 
     /**
      * @param $id Event Id

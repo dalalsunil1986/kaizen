@@ -1,5 +1,7 @@
 <?php
 
+
+
 //Route::model('role', 'Role');
 
 /** ------------------------------------------
@@ -297,9 +299,9 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
 
 Route::get('test',function() {
-//    $mc = new Mailchimp('107025e4b301304e9a4e226b1668b370-us3');
-//    $mc->lists->subscribe('76812be63e',['email'=>'uusa35@gmail.com']);
-
-    $user = User::find(1);
-    $user->delete();
+    $event = EventModel::find(1);
+    echo "now: ".\Carbon\Carbon::now();
+    echo "<br>start date: " . $event->date_start;
+    echo "<br>end date: " . $event->date_end;
+    dd(\Carbon\Carbon::now());
 });

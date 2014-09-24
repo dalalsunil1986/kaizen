@@ -89,6 +89,12 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
         return $this->belongsToMany('EventModel', 'statuses', 'user_id', 'event_id');
     }
 
+    public function requests()
+    {
+        return $this->belongsToMany('EventModel', 'requests', 'user_id', 'event_id');
+    }
+
+
     public function country()
     {
         return $this->belongsTo('Country');
@@ -202,21 +208,35 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
         //delete settings
         $this->comments()->delete();
 
-        foreach ($this->subscriptions()->get(array('subscriptions.id')) as $subscription) {
+        $subscriptions = $this->hasMany('Subscription','user_id');
+        foreach ($subscriptions->get(array('subscriptions.id')) as $subscription) {
             $subscription->delete();
         }
 
-        foreach ($this->followings()->get(array('followers.id')) as $subscription) {
-            $subscription->delete();
+        // delete followings
+        $followings = $this->hasMany('Follower','user_id');
+        foreach ($followings->get(array('followers.id')) as $following) {
+            $following->delete();
         }
 
-        foreach ($this->favorites()->get(array('favorites.id')) as $subscription) {
-            $subscription->delete();
+        // delete favorites
+        $favorites = $this->hasMany('Favorite','user_id');
+        foreach ($favorites->get(array('favorites.id')) as $favorite) {
+            $favorite->delete();
         }
+
+        // delete requests
+//        $requests = $this->hasMany('Request','user_id');
+//        foreach ($requests->get(array('requests.id')) as $request) {
+//            $request->delete();
+//        }
 
         foreach ($this->roles()->get(array('assigned_roles.id')) as $subscription) {
             $subscription->delete();
         }
 
     }
+
+
+
 }
