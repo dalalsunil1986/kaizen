@@ -117,6 +117,7 @@ class EventsController extends BaseController {
         $tags = $this->eventRepository->findById($id)->tags;
 
         // returns true false
+        $eventStarted = $this->eventRepository->eventStarted($event->date_start);
         $eventExpired = $this->eventRepository->eventExpired($event->date_end);
 
         if ( Auth::check() ) {
@@ -137,7 +138,7 @@ class EventsController extends BaseController {
                 $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false, 'canWatchOnline' => 'false'));
             });
         }
-        $this->render('site.events.view', compact('event', 'tags', 'eventExpired'));
+        $this->render('site.events.view', compact('event', 'tags', 'eventStarted', 'eventExpired'));
 
     }
 
@@ -426,11 +427,6 @@ class EventsController extends BaseController {
         $setting           = $event->setting;
         $registrationTypes = explode(',', $setting->registration_types);
 
-
-        if ( $this->eventRepository->eventExpired($event->date_end) ) {
-
-            return Redirect::action('EventsController@show', $id)->with('warning', trans('site.general.event-expired'));
-        }
 
         // if event is currently going on
         if ( ! $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {

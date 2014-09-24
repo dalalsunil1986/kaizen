@@ -157,8 +157,8 @@
                             </button>
                         </a>
                     @else
-                        {{-- If Subscribed --}}
 
+                        {{-- If Subscribed --}}
                         @if($canWatchOnline)
                             {{-- If Can Watch Online --}}
                             <a href="{{  URL::action('EventsController@streamEvent', array('id'=>$event->id)) }}"/>
@@ -170,18 +170,32 @@
                                     </span>
                                 </button>
                             </a>
-                        @elseif($eventExpired)
-                            {{-- If Event is Expired--}}
+                        {{-- If Event has started --}}
+                        @elseif( $eventStarted)
+                            {{--  and not expired --}}
+                            @if($eventExpired)
 
-                            {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
-                                <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                    data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.reorganize')  }}">
-                                    <i class="subscribe glyphicon glyphicon-check"></i>  </br>
-                                    <span class="buttonText">
-                                       {{ Lang::get('site.event.reorganize')  }}
-                                    </span>
-                                </button>
-                            {{ Form::close() }}
+                                {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
+                                    <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.reorganize')  }}">
+                                        <i class="subscribe glyphicon glyphicon-check"></i>  </br>
+                                        <span class="buttonText">
+                                           {{ Lang::get('site.event.reorganize')  }}
+                                        </span>
+                                    </button>
+                                {{ Form::close() }}
+                            @else
+                                {{-- and expired --}}
+                                <a href="{{  URL::action('SubscriptionsController@unsubscribe', array('id'=>$event->id)) }}"/>
+                                    <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                        data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
+                                        <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
+                                        <span class="buttonText">
+                                            {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe')  }}
+                                        </span>
+                                    </button>
+                                </a>
+                            @endif
                         @else
                             <a href="{{  URL::action('SubscriptionsController@unsubscribe', array('id'=>$event->id)) }}"/>
                                 <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
@@ -192,7 +206,6 @@
                                     </span>
                                 </button>
                             </a>
-
                         @endif
 
                     @endif

@@ -140,6 +140,23 @@ class EventRepository extends AbstractRepository {
 //        $event = $this->get()->where('tag_id' , '=', )
     }
 
+
+    /**
+     * @param $dateStart
+     * @return bool
+     * check if the event expired
+     */
+    public function eventStarted($dateStart)
+    {
+        $expired = false;
+        $now     = Carbon::now();
+        if ( $now > $dateStart ) {
+            $expired = true;
+        }
+
+        return $expired;
+    }
+
     /**
      * @param $dateEnd
      * @return bool
@@ -148,7 +165,7 @@ class EventRepository extends AbstractRepository {
     public function eventExpired($dateEnd)
     {
         $expired = false;
-        $now     = Carbon::now()->toDateTimeString();
+        $now     = Carbon::now();
         if ( $now > $dateEnd ) {
             $expired = true;
         }
