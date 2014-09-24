@@ -39,11 +39,15 @@ class EventModel extends BaseModel implements PresenterInterface {
     public function followers()
     {
         return  $this->belongsToMany('User', 'followers', 'event_id', 'user_id');
+//        return $this->hasMany('Follower', 'event_id');
+
     }
 
     public function favorites()
     {
         return $this->belongsToMany('User', 'favorites', 'event_id', 'user_id');
+//        return $this->hasMany('Favorite', 'event_id');
+
     }
 
     public function subscriptions()
@@ -264,15 +268,6 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->belongsTo('Package');
     }
 
-    public function beforeDelete(){
-
-        //delete settings
-        $this->setting()->delete();
-
-        foreach ($this->subscriptions()->get(array('id')) as $subscription) {
-            $subscription->delete();
-        }
-    }
 
     public function tags()
     {
@@ -294,5 +289,45 @@ class EventModel extends BaseModel implements PresenterInterface {
     {
         return $this->user_id === $userId ? true : false;
     }
+
+    public function beforeDelete(){
+
+        //delete settings
+        $this->setting()->delete();
+
+        //todo :delete taggables
+
+        // delete photos, images from server
+        $this->photos()->delete();
+
+        // delete followings
+        $followings = $this->hasMany('Follower','event_id');
+        foreach ($followings->get(array('followers.id')) as $following) {
+            $following->delete();
+        }
+
+        // delete favorites
+        $favorites = $this->hasMany('Favorite','event_id');
+        foreach ($favorites->get(array('favorites.id')) as $favorite) {
+            $favorite->delete();
+        }
+
+        // delete subscriptions
+        foreach ($this->subscriptions()->get(array('subscriptions.id')) as $subscription) {
+            $subscription->delete();
+        }
+
+        // delete requests
+        foreach ($this->requests()->get(array('requests.id')) as $request) {
+            $request->delete();
+        }
+
+    }
+
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = (int) ($value);
+    }
+
 }
 

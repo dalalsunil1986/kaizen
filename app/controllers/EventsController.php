@@ -155,6 +155,7 @@ class EventsController extends BaseController {
             $event = $this->eventRepository->findById($id);
 
             if ( !$event->followers->contains($user->id) ) {
+
                 $event->followers()->attach($user);
 
                 return Response::json(array(

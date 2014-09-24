@@ -40,8 +40,8 @@ class DatabaseSeeder extends Seeder {
         $this->call('PostsTableSeeder');
 		$this->call('EventsTableSeeder');
         $this->call('CommentsTableSeeder');
-//        $this->call('FollowersTableSeeder');
-//		$this->call('FavoritesTableSeeder');
+        $this->call('FollowersTableSeeder');
+		$this->call('FavoritesTableSeeder');
 //		$this->call('SubscriptionsTableSeeder');
 //		$this->call('PhotosTableSeeder');
 //		$this->call('AuthorsTableSeeder');
