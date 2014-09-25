@@ -47,7 +47,7 @@ return [
         'reorganize'           => 'طلب إعاده تنظيم',
         'online'               => 'دخول غرفة الفعالية',
     ],
-    'general'      => array(
+    'general'      => [
         'kaizen'               => 'كايزن',
         'email'                => 'البريد الإلكتروني',
         'submit'               => 'إرسال',
@@ -107,7 +107,7 @@ return [
         'favorites'            => 'مفضلات',
         'subscriptions'        => 'حجزات',
         'followings'           => 'متابعات',
-    ),
+    ],
     'subscription' => [
         'subscribed'         => 'You subscribed this event',
         'unsubscribed'       => 'You unsubscribed this event',
