@@ -130,6 +130,7 @@ class EventsController extends BaseController {
                 $subscribed     = $event->subscribers->contains($user->id);
                 $followed       = $event->followers->contains($user->id);
                 $canWatchOnline = $this->eventRepository->ongoingEvent($event->date_start,$event->date_end);
+                dd($canWatchOnline);
 
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'canWatchOnline' => $canWatchOnline));
             });

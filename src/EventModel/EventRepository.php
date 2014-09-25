@@ -180,16 +180,20 @@ class EventRepository extends AbstractRepository {
      */
     public function ongoingEvent($startDate, $endDate)
     {
-        $ongoing = false;
+        $ongoing = true;
         $now     = Carbon::now();
 
         // check if the time is 4 hours before event and 4 hours after end of the event
-        if ( ($now->subHours(4) < $startDate) && ($now->addHours(4) < $endDate) ) {
-            $ongoing = true;
+//        if ( ($now->subHours(4) < $startDate) && ($now->addHours(4) < $endDate) ) {
+
+        if ( $now > $endDate->addHours(5) ) {
+            // If current time is greater than end date, return false .. cuz event has expired
+            $ongoing = false;
+        } elseif (  $now < $startDate->subHours(5)) {
+            // if current event is not expired, then check if the current time is lesser than start date
+            $ongoing = false;
         }
-
         return $ongoing;
-
     }
 
 
