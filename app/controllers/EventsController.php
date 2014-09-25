@@ -57,7 +57,7 @@ class EventsController extends BaseController {
         } else {
             $countries = [0 => Lang::get('site.event.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
         }
-        $categories = [0 => Lang::get('site.event.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $categories = [0 => Lang::get('site.event.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_'.getLocale(), 'id');
         $authors    = [0 => Lang::get('site.event.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
 
         // find selected form values
@@ -84,7 +84,7 @@ class EventsController extends BaseController {
                         $query->where('user_id', $author);
                     }
                     if ( !empty($country) ) {
-                        $locations = $this->countryRepository->find($country)->locations()->lists('id');
+                        $locations = $this->countryRepository->findById($country)->locations()->lists('id');
                         $query->whereIn('location_id', $locations);
                     }
                 })->orderBy('date_start', 'ASC')->paginate($perPage);

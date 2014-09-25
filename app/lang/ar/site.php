@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -15,7 +15,7 @@ return array(
 
     'contact_us'   => 'اتصل بنا',
 
-    'nav'          => array(
+    'nav'          => [
         'home'          => 'رئيسية',
         'admin'         => 'ادمن',
         'login'         => 'دخول',
@@ -31,9 +31,9 @@ return array(
         'password'      => 'كلمة المرور',
         'email'         => 'البريد الإلكتروني',
         'package'       => 'المواسم التدريبية'
-    ),
+    ],
 
-    'event'        => array(
+    'event'        => [
         'summaryevent'         => 'تفاصيل الموضوع',
         'totalseats'           => 'إجمالي المقاعد',
         'date_start'           => 'تاريخ البدء',
@@ -62,7 +62,7 @@ return array(
         'reorganize'           => 'طلب إعاده تنظيم',
         'online'               => 'دخول غرفة الفعالية'
 
-    ),
+    ],
     'general'      => array(
         'kaizen'               => 'كايزن',
         'name'                 => 'الاسم',
@@ -92,7 +92,7 @@ return array(
         'last_name'            => 'الاسم بالكامل - باللغة الانجليزية',
         'pass'                 => 'كلمة المرور',
         'mobile'               => 'الهاتف النقال',
-        'country_code'               => 'مفتاح الدولة',
+        'country_code'         => 'مفتاح الدولة',
         'pass_confirm'         => 'تأكيد كلمة المرور',
         'telelphone'           => 'تلفون',
         'select_country'       => 'الدولة',
@@ -118,15 +118,17 @@ return array(
         'vip'                  => 'VIP',
         'online'               => 'Online',
         'normal'               => 'Normal',
-        'system-error'   => 'System Error',
-        'event-expired' => 'Sorry, This Event is Expired',
-        'check-email' => 'We have sent you an Email with the Details about your Subscription.',
-        'cannot-watch'  => 'You Cannot Watch this event now',
-        'event-expired' => 'This Event is Expired',
-        'event-ongoing' => 'This Event is Ongoing at present'
+        'system-error'         => 'System Error',
+        'event-expired'        => 'Sorry, This Event is Expired',
+        'check-email'          => 'We have sent you an Email with the Details about your Subscription.',
+        'cannot-watch'         => 'You Cannot Watch this event now',
+        'event-expired'        => 'This Event is Expired',
+        'event-ongoing'        => 'This Event is Ongoing at present',
+        'no-results'           => 'لا يوجد نتائج',
+        'keyword'              => 'Keyword'
 
     ),
-    'subscription' => array(
+    'subscription' => [
         'subscribed'         => 'You subscribed this event',
         'unsubscribed'       => 'You unsubscribed this event',
         'already_subscribed' => 'You  already :attribute this event',
@@ -140,35 +142,35 @@ return array(
         'unfollowed'         => 'You unfollowed this event.',
         'favorited'          => 'You favorited this event.',
         'unfavorited'        => 'You unfavorited this event.',
-    ),
-    'auth'         => array(
+    ],
+    'auth'         => [
         'username'              => 'اسم المستخدم',
         'password'              => 'كلمة المرور',
         'password_confirmation' => 'تأكيد كلمة المرور',
         'e_mail'                => 'البريد الإلكتروني',
         'username_e_mail'       => 'اسم المستخدم أو البريد الإلكتروني',
 
-        'signup'                => array(
+        'signup'                => [
             'title'                 => 'Signup',
             'desc'                  => 'Signup for new account',
             'confirmation_required' => 'Confirmation required',
             'submit'                => 'Create new account',
-        ),
+        ],
 
-        'login'                 => array(
+        'login'                 => [
             'title'           => 'الدخول',
             'desc'            => 'إدخال بياناتك السرية',
             'forgot_password' => '(نسيت كلمة المرور)',
             'remember'        => 'تذكرني',
             'submit'          => 'دخول',
-        ),
+        ],
 
-        'forgot'                => array(
+        'forgot'                => [
             'title'  => 'Forgot password',
             'submit' => 'Continue',
-        ),
+        ],
 
-        'alerts'                => array(
+        'alerts'                => [
             'account_created'        => 'Your account has been successfully created. Please check your email for the instructions on how to confirm your account.',
             'too_many_attempts'      => 'Too many attempts. Try again in few minutes.',
             'wrong_credentials'      => 'Incorrect username, email or password.',
@@ -181,22 +183,22 @@ return array(
             'wrong_password_reset'   => 'Invalid password. Try again',
             'wrong_token'            => 'The password reset token is not valid.',
             'duplicated_credentials' => 'يرجى المحاولة مرة أخرى .. اسم المستخدم أو البريد الإلكتروني مسجل لدينا من قبل ',
-        ),
+        ],
 
-        'email'                 => array(
-            'account_confirmation' => array(
+        'email'                 => [
+            'account_confirmation' => [
                 'subject'   => 'Account Confirmation',
                 'greetings' => 'Hello :name',
                 'body'      => 'Please access the link below to confirm your account.',
                 'farewell'  => 'Regards',
-            ),
+            ],
 
-            'password_reset'       => array(
+            'password_reset'       => [
                 'subject'   => 'Password Reset',
                 'greetings' => 'Hello :name',
                 'body'      => 'Access the following link to change your password',
                 'farewell'  => 'Regards',
-            ),
-        ),
-    ),
-);
+            ],
+        ],
+    ],
+];

@@ -9,11 +9,12 @@
 </style>
 
 </br>
+@include('site.events._search')
 
 @if(count($events))
 @foreach($events as $event)
-<div class="row">
-    <div class="col-sm-2 col-md-2">
+<div class="row top20">
+    <div class="col-sm-2 col-md-2 ">
         <div id="links">
             @if(count($event->photos))
             <a href="{{ action('EventsController@show',$event->id) }}">
@@ -45,32 +46,22 @@
 
     <i class="glyphicon glyphicon-user">
         {{ link_to_action('EventsController@index', $event->author->username,array('search'=>'','author'=>$event->author->id)) }}
-        |</i>
-    <i class="glyphicon glyphicon-calendar"></i> {{ $event->date_start }} -
-                                                 {{ $event->date_end }} |
+    |</i>
+    <i class="glyphicon glyphicon-calendar"></i> {{ $event->date_start }} -  {{ $event->date_end }} |
 
     <i class="glyphicon glyphicon-globe">
-        @if ( App::getLocale() == 'en')
-        <?php $country = ($event->location->country->name_en) ? $event->location->country->name_en : $event->location->country->name_ar; ?>
-        <?php $category = ($event->category->name_en) ? $event->category->name_en : $event->category->name_ar; ?>
-        @else
-        <?php $country = ($event->location->country->name_ar) ? $event->location->country->name_ar : $event->location->country->name_en; ?>
-        <?php $category = ($event->category->name_ar) ? $event->category->name_ar : $event->category->name_en; ?>
-        @endif
-        {{ link_to_action('EventsController@index', $country ,array('search'=>'','country'=>$event->location->country->id)) }}
-        |</i>
-        @if ( App::getLocale() == 'en')
-        <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;
-        {{ link_to_action('EventsController@index', $event->category->name_en,array('search'=>'','category'=>$event->category->id)) }}
-        @else
-        <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;
-        {{ link_to_action('EventsController@index', $category,array('search'=>'','category'=>$event->category->id)) }}
-        @endif
+
+        {{ link_to_action('EventsController@index', $event->location->country->name ,array('search'=>'','country'=>$event->location->country->id)) }}
+    |</i>
+
+    <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;
+    {{ link_to_action('EventsController@index', $event->category->name,array('search'=>'','category'=>$event->category->id)) }}
+
 </div>
 <hr>
 @endforeach
 <?php echo $events->appends(Request::except('page'))->links(); ?>
 @else
-<h1> No Events Returned </h1>
+<h1> {{ trans('site.general.no-results') }} </h1>
 @endif
 @stop

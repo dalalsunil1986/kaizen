@@ -2,7 +2,7 @@
     {{ Form::open(array('action' => 'EventsController@index','method'=>'get','class'=>'form-inline')) }}
 
         <div class="form-group col-md-12">
-            <input type="text" class="form-control" id="search" name="search" value="@if(isset($search)) {{ $search }} @endif "  placeholder="Keyword">
+            <input type="text" class="form-control" id="search" name="search" value="@if(isset($search)) {{ $search }} @endif "  placeholder="{{ trans('site.general.keyword') }}">
         </div>
         <div class="form-group col-md-4 top7">
             {{ Form::select('category', $categories, $category ,['class' => 'form-control']) }}
