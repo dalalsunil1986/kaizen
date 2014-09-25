@@ -13,7 +13,7 @@
     @show
 </div>
 
-<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="border: 1px solid rgba(181, 164, 173, 0.16); border-radius: 5px;">
+<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" >
     @section('content')
     @show
 </div>

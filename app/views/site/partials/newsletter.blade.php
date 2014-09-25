@@ -12,7 +12,7 @@
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-envelope"></i>
                             </span>
-                        {{Form::input('email','email',NULL,array('class'=>'form-control','placeholder'=>'Email','required'=>'"required"'))}}
+                        {{Form::input('email','email',NULL,array('class'=>'form-control','placeholder'=>trans('site.general.email') ,'required'=>'"required"'))}}
                             <span class="input-group-btn">
                                 <button id="submit" class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-arrow-left glyphicon-fw"></i> </button>
                             </span>

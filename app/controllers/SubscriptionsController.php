@@ -81,7 +81,7 @@ class SubscriptionsController extends BaseController {
         }
 
         // If no errors occured while subscription process
-        return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', Lang::get('site.general.check-email'));
+        return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', trans('site.general.check-email'));
     }
 
     /**
@@ -116,7 +116,7 @@ class SubscriptionsController extends BaseController {
             $subscription = new Subscriber($subscription);
             $subscription->unsubscribe();
 
-            return Redirect::home()->with('success', Lang::get('messages.subscription-unsubscripe-message'));
+            return Redirect::home()->with('success', trans('messages.subscription-unsubscripe-message'));
         }
 
     }
@@ -151,7 +151,7 @@ class SubscriptionsController extends BaseController {
 
         if ( $this->subscribe($eventId, $subscription->registration_type) ) {
 
-            return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', Lang::get('site.general.check-email'));
+            return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', trans('site.general.check-email'));
         }
     }
 }

@@ -1,20 +1,6 @@
 <?php
-
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Site Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used by the paginator library to build
-    | the simple pagination links. You are free to change them to anything
-    | you want to customize your views to better match your application.
-    |
-    */
-
     'contact_us'   => 'اتصل بنا',
-
     'nav'          => [
         'home'          => 'رئيسية',
         'admin'         => 'ادمن',
@@ -32,7 +18,6 @@ return [
         'email'         => 'البريد الإلكتروني',
         'package'       => 'المواسم التدريبية'
     ],
-
     'event'        => [
         'summaryevent'         => 'تفاصيل الموضوع',
         'totalseats'           => 'إجمالي المقاعد',
@@ -60,12 +45,10 @@ return [
         'free'                 => 'مجاني',
         'unsubscribe_btn_desc' => 'الغاء الاشتراك',
         'reorganize'           => 'طلب إعاده تنظيم',
-        'online'               => 'دخول غرفة الفعالية'
-
+        'online'               => 'دخول غرفة الفعالية',
     ],
     'general'      => array(
         'kaizen'               => 'كايزن',
-        'name'                 => 'الاسم',
         'email'                => 'البريد الإلكتروني',
         'submit'               => 'إرسال',
         'comment'              => 'التعليق',
@@ -75,18 +58,11 @@ return [
         'newsletter'           => 'النشرة البريدية',
         'instagram'            => 'انستجرام',
         'twitter'              => 'تويتر',
-        'username'             => 'اسم الدخول',
         'youtube'              => 'يو تيوب',
         'newsletter_subscribe' => 'الاشتراك بالنشرة البريدية',
         'youlog'               => 'انت مسجل لدينا باسم',
         'profile'              => 'معلوماتي',
-        'latest_events'        => 'آخر الفعاليات',
-        'latest_blog'          => 'آخر الأخبار',
-        'newsletter'           => 'النشرة البريدية',
-        'instagram'            => 'انستقرام',
-        'twitter'              => 'تويتر',
-        'youtube'              => 'يو تيوب',
-        'newsletter_subscribe' => 'الاشتراك بالنشرة البريدية',
+        'username'             => 'اسم الدخول',
         'fix_error'            => 'يرجى تصحيح الأخطاء وإعاده المحاولة مرة أخرى ..',
         'first_name'           => ' الاسم بالكامل باللغة العربية',
         'last_name'            => 'الاسم بالكامل - باللغة الانجليزية',
@@ -122,11 +98,15 @@ return [
         'event-expired'        => 'Sorry, This Event is Expired',
         'check-email'          => 'We have sent you an Email with the Details about your Subscription.',
         'cannot-watch'         => 'You Cannot Watch this event now',
-        'event-expired'        => 'This Event is Expired',
         'event-ongoing'        => 'This Event is Ongoing at present',
+        'no-stream'            => 'There is no online stream for this event',
+        'not-confirmed'        => 'Your Subscription is not confirmed.',
+        'not-online'           => 'You are not subscribed to this event as ONLINE',
         'no-results'           => 'لا يوجد نتائج',
-        'keyword'              => 'Keyword'
-
+        'keyword'              => 'Keyword',
+        'favorites'            => 'مفضلات',
+        'subscriptions'        => 'حجزات',
+        'followings'           => 'متابعات',
     ),
     'subscription' => [
         'subscribed'         => 'You subscribed this event',
@@ -134,8 +114,8 @@ return [
         'already_subscribed' => 'You  already :attribute this event',
         'not_authenticated'  => 'Sorry, You must sign in before you perform this action',
         'wrong_access'       => 'Sorry, Wrong Acces',
-        'error'              => 'Sorry, Could not :attribute you',
-        'not_subscribed'     => 'Sorry, you havent :attribute this event in first place',
+        'error'              => 'Sorry, Could not Subscribe you',
+        'not_subscribed'     => 'Sorry, you have not Subscribed to this event',
         'rejected'           => 'Sorry, You cannot Register this event',
         'requested'          => 'Your Request For Re-organizing the Event has been sent to the Admin.',
         'followed'           => 'You followed this event.',
@@ -149,14 +129,12 @@ return [
         'password_confirmation' => 'تأكيد كلمة المرور',
         'e_mail'                => 'البريد الإلكتروني',
         'username_e_mail'       => 'اسم المستخدم أو البريد الإلكتروني',
-
         'signup'                => [
             'title'                 => 'Signup',
             'desc'                  => 'Signup for new account',
             'confirmation_required' => 'Confirmation required',
             'submit'                => 'Create new account',
         ],
-
         'login'                 => [
             'title'           => 'الدخول',
             'desc'            => 'إدخال بياناتك السرية',
@@ -164,12 +142,10 @@ return [
             'remember'        => 'تذكرني',
             'submit'          => 'دخول',
         ],
-
         'forgot'                => [
             'title'  => 'Forgot password',
             'submit' => 'Continue',
         ],
-
         'alerts'                => [
             'account_created'        => 'Your account has been successfully created. Please check your email for the instructions on how to confirm your account.',
             'too_many_attempts'      => 'Too many attempts. Try again in few minutes.',
@@ -184,7 +160,6 @@ return [
             'wrong_token'            => 'The password reset token is not valid.',
             'duplicated_credentials' => 'يرجى المحاولة مرة أخرى .. اسم المستخدم أو البريد الإلكتروني مسجل لدينا من قبل ',
         ],
-
         'email'                 => [
             'account_confirmation' => [
                 'subject'   => 'Account Confirmation',
@@ -192,7 +167,6 @@ return [
                 'body'      => 'Please access the link below to confirm your account.',
                 'farewell'  => 'Regards',
             ],
-
             'password_reset'       => [
                 'subject'   => 'Password Reset',
                 'greetings' => 'Hello :name',
