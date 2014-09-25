@@ -142,6 +142,7 @@ class AdminRolesController extends AdminBaseController {
     public function edit($id)
     {
         $role = Role::find($id);
+
         if(! empty($role))
         {
             $permissions = $this->permission->preparePermissionsForDisplay($role->perms()->get());
@@ -149,7 +150,7 @@ class AdminRolesController extends AdminBaseController {
         else
         {
             // Redirect to the roles management page
-            return Redirect::to('admin.oles')->with('error', Lang::get('admin/roles/messages.does_not_exist'));
+            return Redirect::to('admin.roles')->with('error', Lang::get('admin/roles/messages.does_not_exist'));
         }
 
         // Title

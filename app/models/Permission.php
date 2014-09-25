@@ -28,19 +28,24 @@ class Permission extends EntrustPermission
     {
         $availablePermissions = $this->all()->toArray();
         $preparedPermissions = array();
-        foreach( $permissions as $permission => $value )
-        {
-            // If checkbox is selected
-            if( $value == '1' )
+
+        if(count($availablePermissions)) {
+            foreach( $permissions as $permission => $value )
             {
-                // If permission exists
-                array_walk($availablePermissions, function(&$value) use($permission, &$preparedPermissions){
-                    if($permission == (int)$value['id']) {
-                        $preparedPermissions[] = $permission;
-                    }
-                });
+                // If checkbox is selected
+                if( $value == '1' )
+                {
+                    // If permission exists
+                    array_walk($availablePermissions, function(&$value) use($permission, &$preparedPermissions){
+                        if($permission == (int)$value['id']) {
+                            $preparedPermissions[] = $permission;
+                        }
+                    });
+                }
             }
+            return $preparedPermissions;
         }
         return $preparedPermissions;
+
     }
 }
