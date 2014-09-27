@@ -1,5 +1,5 @@
 <div class="panel-heading">
-    {{ Lang::get('site.general.youtube') }}
+    {{ trans('site.general.kaizenyc') }}
 </div>
 <div id="youtube_main">
     <iframe style="width:100%; min-height:250px; height: 350px; max-height: 350px; margin:0px; "

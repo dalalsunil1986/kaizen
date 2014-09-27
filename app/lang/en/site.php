@@ -108,6 +108,7 @@ return [
         'favorites'            => 'مفضلات',
         'subscriptions'        => 'حجزات',
         'followings'           => 'متابعات',
+        'kaizenyc'              => 'kaizen YC'
     ],
     'subscription' => [
         'subscribed'         => 'You :attribute this event',

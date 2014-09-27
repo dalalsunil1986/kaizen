@@ -107,6 +107,7 @@ return [
         'favorites'            => 'مفضلات',
         'subscriptions'        => 'حجزات',
         'followings'           => 'متابعات',
+        'kaizenyc'              => 'كايزن YC'
     ],
     'subscription' => [
         'subscribed'         => 'You subscribed this event',
