@@ -140,33 +140,16 @@ class EventRepository extends AbstractRepository {
 //        $event = $this->get()->where('tag_id' , '=', )
     }
 
-
     /**
      * @param $dateStart
      * @return bool
      * check if the event expired
      */
-    public function eventStarted($dateStart)
+    public function eventExpired($dateStart)
     {
         $expired = false;
         $now     = Carbon::now();
         if ( $now > $dateStart ) {
-            $expired = true;
-        }
-
-        return $expired;
-    }
-
-    /**
-     * @param $dateEnd
-     * @return bool
-     * check if the event expired
-     */
-    public function eventExpired($dateEnd)
-    {
-        $expired = false;
-        $now     = Carbon::now();
-        if ( $now > $dateEnd ) {
             $expired = true;
         }
 
@@ -180,18 +163,13 @@ class EventRepository extends AbstractRepository {
      */
     public function ongoingEvent($startDate, $endDate)
     {
-        $ongoing = true;
+        $ongoing = false;
         $now     = Carbon::now();
-
-        // check if the time is 4 hours before event and 4 hours after end of the event
-//        if ( ($now->subHours(4) < $startDate) && ($now->addHours(4) < $endDate) ) {
-
-        if ( $now > $endDate->addHours(5) ) {
-            // If current time is greater than end date, return false .. cuz event has expired
-            $ongoing = false;
-        } elseif (  $now < $startDate->subHours(5)) {
-            // if current event is not expired, then check if the current time is lesser than start date
-            $ongoing = false;
+        // if event starting time is greater then now ( if now is not greater than event ending time ) it is an ongoing event
+        if($now->addHours(5) > $startDate) {
+            if(!($now > $endDate) ) {
+                $ongoing = true;
+            }
         }
         return $ongoing;
     }

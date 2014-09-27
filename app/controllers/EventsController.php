@@ -117,8 +117,12 @@ class EventsController extends BaseController {
         $tags = $this->eventRepository->findById($id)->tags;
 
         // returns true false
-        $eventStarted = $this->eventRepository->eventStarted($event->date_start);
-        $eventExpired = $this->eventRepository->eventExpired($event->date_end);
+        $eventExpired = $this->eventRepository->eventExpired($event->date_start);
+
+        // if event  start date and event end date both lesser than now ( Event is Expired ( Reorganize ) )
+        // If Event start date is lesser and event end date is greater than now ( Event Subscription is Open .. Event Has started, but not finished )
+        // If Event Start Date is greater and event end date is greater ( Event Subscription Open )
+        // If Event
 
         if ( Auth::check() ) {
             $user = Auth::user();
@@ -129,7 +133,13 @@ class EventsController extends BaseController {
                 $favorited      = $event->favorites->contains($user->id);
                 $subscribed     = $event->subscribers->contains($user->id);
                 $followed       = $event->followers->contains($user->id);
-                $canWatchOnline = $this->eventRepository->ongoingEvent($event->date_start,$event->date_end);
+
+                // check if this event has online option
+                if ($this->isOnlineEvent($event) ) {
+                    $canWatchOnline = $this->eventRepository->ongoingEvent($event->date_start, $event->date_end);
+                } else {
+                    $canWatchOnline = false;
+                }
 
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'canWatchOnline' => $canWatchOnline));
             });
@@ -138,7 +148,7 @@ class EventsController extends BaseController {
                 $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false, 'canWatchOnline' => 'false'));
             });
         }
-        $this->render('site.events.view', compact('event', 'tags', 'eventStarted', 'eventExpired'));
+        $this->render('site.events.view', compact('event', 'tags','eventExpired'));
 
     }
 
@@ -424,9 +434,6 @@ class EventsController extends BaseController {
     {
         $user              = Auth::user();
         $event             = $this->eventRepository->findById($id);
-        $setting           = $event->setting;
-        $registrationTypes = explode(',', $setting->registration_types);
-
 
         // if event is currently going on
         if ( ! $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
@@ -435,7 +442,7 @@ class EventsController extends BaseController {
         }
 
         // check if this event has online streaming
-        if ( !in_array('ONLINE', $registrationTypes) ) {
+        if (! $this->isOnlineEvent($event) ) {
 
             return Redirect::action('EventsController@index')->with('error', trans('site.general.no-stream'));
         }
@@ -591,6 +598,17 @@ class EventsController extends BaseController {
 
             // launch the live stream
             $this->launchStream($data, $launchUrl);
+        }
+    }
+
+    private function isOnlineEvent($event)
+    {
+        $setting           = $event->setting;
+        $registrationTypes = explode(',', $setting->registration_types);
+        if(in_array('ONLINE', $registrationTypes)){
+            return true;
+        } else {
+            return false;
         }
     }
 

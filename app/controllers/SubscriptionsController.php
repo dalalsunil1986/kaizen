@@ -55,7 +55,7 @@ class SubscriptionsController extends BaseController {
         }
 
         // If event is Expired
-        if ( $this->eventRepository->eventExpired($event->date_end) ) {
+        if ( $this->eventRepository->eventExpired($event->date_start) ) {
 
             return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.event-expired'));
         }
@@ -101,7 +101,7 @@ class SubscriptionsController extends BaseController {
         }
 
         // If event is Expired
-        if ( $this->eventRepository->eventExpired($event->date_end) ) {
+        if ( $this->eventRepository->eventExpired($event->date_start) ) {
 
             return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event.event-expired'));
         }

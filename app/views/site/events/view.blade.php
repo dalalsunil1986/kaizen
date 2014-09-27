@@ -20,37 +20,37 @@
         function toggleTooltip(action) {
             switch (action) {
                 case 'favorite':
-                    var ttip = '{{ Lang::get('site.event.unfavorite ') }}'
+                    var ttip = '{{ trans('site.event.unfavorite ') }}'
                     $('.favorite_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'unfavorite':
-                    var ttip = '{{ Lang::get('site.event.favorite') }}'
+                    var ttip = '{{ trans('site.event.favorite') }}'
                     $('.favorite_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'follow':
-                    var ttip = '{{ Lang::get('site.event.unfollow') }}'
+                    var ttip = '{{ trans('site.event.unfollow') }}'
                     $('.follow_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'unfollow':
-                    var ttip = '{{ Lang::get('site.event.follow') }}'
+                    var ttip = '{{ trans('site.event.follow') }}'
                     $('.follow_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'subscribe':
-                    var ttip = '{{ Lang::get('site.event.unsubscribe') }}'
+                    var ttip = '{{ trans('site.event.unsubscribe') }}'
                     $('.subscribe_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'unsubscribe':
-                    var ttip = '{{ Lang::get('site.event.subscribe') }}'
+                    var ttip = '{{ trans('site.event.subscribe') }}'
                     $('.subsribe_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
@@ -149,10 +149,10 @@
 
                         <a href="{{  URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) }}"/>
                             <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                data-toggle="tooltip" data-placement="top" title="{{  Lang::get('site.event.subscribe')  }}">
+                                data-toggle="tooltip" data-placement="top" title="{{  trans('site.event.subscribe')  }}">
                                 <i class="subscribe glyphicon glyphicon-check "></i>  </br>
                                 <span class="buttonText">
-                                {{ Lang::get('site.event.subscribe')  }}
+                                {{ trans('site.event.subscribe')  }}
                                 </span>
                             </button>
                         </a>
@@ -163,64 +163,49 @@
                             {{-- If Can Watch Online --}}
                             <a href="{{  URL::action('EventsController@streamEvent', array('id'=>$event->id)) }}"/>
                                 <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-green "
-                                     data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.online')  }}">
+                                     data-toggle="tooltip" data-placement="top" title="{{ trans('site.event.online')  }}">
                                     <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                                     <span class="buttonText">
-                                       {{ Lang::get('site.event.online')  }}
+                                       {{ trans('site.event.online')  }}
                                     </span>
                                 </button>
                             </a>
                         {{-- If Event has started --}}
-                        @elseif( $eventStarted)
-                            {{--  and not expired --}}
-                            @if($eventExpired)
-
-                                {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
-                                    <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                        data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.reorganize')  }}">
-                                        <i class="subscribe glyphicon glyphicon-check"></i>  </br>
-                                        <span class="buttonText">
-                                           {{ Lang::get('site.event.reorganize')  }}
-                                        </span>
-                                    </button>
-                                {{ Form::close() }}
-                            @else
-                                {{-- and expired --}}
-                                <a href="{{  URL::action('SubscriptionsController@unsubscribe', array('id'=>$event->id)) }}"/>
-                                    <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                        data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
-                                        <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
-                                        <span class="buttonText">
-                                            {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe')  }}
-                                        </span>
-                                    </button>
-                                </a>
-                            @endif
+                            {{--  and  expired --}}
+                        @elseif($eventExpired)
+                            {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
+                                <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                    data-toggle="tooltip" data-placement="top" title="{{ trans('site.event.reorganize')  }}">
+                                    <i class="subscribe glyphicon glyphicon-check"></i>  </br>
+                                    <span class="buttonText">
+                                       {{ trans('site.event.reorganize')  }}
+                                    </span>
+                                </button>
+                            {{ Form::close() }}
                         @else
                             <a href="{{  URL::action('SubscriptionsController@unsubscribe', array('id'=>$event->id)) }}"/>
-                                <button type="submit" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                    data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
-                                    <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
+                                <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
+                                    data-toggle="tooltip" data-placement="top" title="{{ trans('site.event.unsubscribe')  }}">
+                                    <i class="subscribe glyphicon glyphicon-check active "></i>  </br>
                                     <span class="buttonText">
-                                        {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe')  }}
+                                        {{  trans('site.event.unsubscribe_btn_desc')  }}
                                     </span>
                                 </button>
                             </a>
                         @endif
 
                     @endif
-
                     {{--  Show Favorite, Subscription Buttons--}}
-                    <button {{ !Auth::user() ? 'disabled' : '' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
-                        data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow') }}">
+                    <button type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
+                        data-toggle="tooltip" data-placement="top" title="{{ $followed? trans('site.event.unfollow') : trans('site.event.follow') }}">
                         <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
-                        {{ Lang::get('site.general.follow_btn_desc')}}
+                        {{ trans('site.general.follow_btn_desc')}}
                     </button>
 
-                    <button {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm favorite_btn bg-blue top5"
-                        data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite') }}">
+                    <button type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm favorite_btn bg-blue top5"
+                        data-toggle="tooltip" data-placement="top" title="{{ $favorited? trans('site.event.unfavorite') : trans('site.event.favorite') }}">
                         <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
-                        {{ Lang::get('site.general.fv_btn_desc') }}
+                        {{ trans('site.general.fv_btn_desc') }}
                     </button>
 
                 </div>
@@ -246,40 +231,40 @@
         <div class="col-md-12">
             <table class="table table-striped">
                 <tr>
-                    <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+                    <h4>{{ trans('site.event.summaryevent') }}</h4>
                 </tr>
                 <tr>
-                    <td><b>{{ Lang::get('site.general.country') }} </b></td>
+                    <td><b>{{ trans('site.general.country') }} </b></td>
                     <td> {{ $event->location->country->name }} </td>
-                    <td><b>{{ Lang::get('site.general.location') }}</b></td>
+                    <td><b>{{ trans('site.general.location') }}</b></td>
                     <td> {{ $event->location->name }} </td>
                 </tr>
 
                 <tr>
-                    <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
+                    <td><b>{{ trans('site.event.date_start') }}</b></td>
                     <td> {{ $event->formatEventDate($event->date_start) }}</td>
-                    <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
+                    <td><b> {{ trans('site.event.date_end') }} </b></td>
                     <td> {{ $event->formatEventDate($event->date_end) }}</td>
                 </tr>
                 
                 @if($event->phone || $event->email)
                     <tr>
                         @if($event->phone)
-                            <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                            <td><b>{{ trans('site.general.phone') }}</b></td>
                             <td> {{ $event->phone }}</td>
                         @endif
                         @if($event->email)
-                            <td><b>{{ Lang::get('site.general.email') }}</b></td>
+                            <td><b>{{ trans('site.general.email') }}</b></td>
                             <td> {{ $event->email }}</td>
                         @endif
                     </tr>
                 @endif
                 <tr>
-                    <td><b>{{ Lang::get('site.event.price') }}</b></td>
+                    <td><b>{{ trans('site.event.price') }}</b></td>
                     @if($event->price)
                         <td>{{ $event->price }}</td>
                     @else
-                        <td>{{ Lang::get('site.event.free') }}</td>
+                        <td>{{ trans('site.event.free') }}</td>
                     @endif
                 </tr>
             </table>
@@ -297,7 +282,7 @@
         @endif
 
         <div class="col-md-12 top15">
-            <b>{{ Lang::get('site.general.address') }} </b>
+            <b>{{ trans('site.general.address') }} </b>
             <address>
                 <strong>
                     {{ $event->address }}
@@ -331,10 +316,10 @@
             @if( !$subscribed)
                 <a href="{{  URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) }}"/>
                     <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                        data-toggle="tooltip" data-placement="top" title="{{  Lang::get('site.event.subscribe')  }}">
+                        data-toggle="tooltip" data-placement="top" title="{{  trans('site.event.subscribe')  }}">
                         <i class="subscribe glyphicon glyphicon-check "></i>  </br>
                         <span class="buttonText">
-                        {{ Lang::get('site.event.subscribe')  }}
+                        {{ trans('site.event.subscribe')  }}
                         </span>
                     </button>
                 </a>
@@ -345,10 +330,10 @@
                     {{-- If Can Watch Online --}}
                     <a href="{{  URL::action('EventsController@streamEvent', array('id'=>$event->id)) }}"/>
                         <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                             data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.online')  }}">
+                             data-toggle="tooltip" data-placement="top" title="{{ trans('site.event.online')  }}">
                             <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                             <span class="buttonText">
-                               {{ Lang::get('site.event.online')  }}
+                               {{ trans('site.event.online')  }}
                             </span>
                         </button>
                     </a>
@@ -357,20 +342,20 @@
 
                     {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
                         <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                            data-toggle="tooltip" data-placement="top" title="{{ Lang::get('site.event.reorganize')  }}">
+                            data-toggle="tooltip" data-placement="top" title="{{ trans('site.event.reorganize')  }}">
                             <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                             <span class="buttonText">
-                               {{ Lang::get('site.event.reorganize')  }}
+                               {{ trans('site.event.reorganize')  }}
                             </span>
                         </button>
                     {{ Form::close() }}
                 @else
                     <a href="{{  URL::action('SubscriptionsController@unsubscribe', array('id'=>$event->id)) }}"/>
                         <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                            data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
+                            data-toggle="tooltip" data-placement="top" title="{{ $subscribed? trans('site.event.unsubscribe') : trans('site.event.subscribe')  }}">
                             <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
                             <span class="buttonText">
-                                {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe')  }}
+                                {{ $subscribed? trans('site.event.unsubscribe_btn_desc') : trans('site.event.subscribe')  }}
                             </span>
                         </button>
                     </a>
@@ -386,7 +371,7 @@
     <div class="row">
         <div class="col-md-12">
             @if(count($event->comments) > 0)
-                <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{Lang::get('site.event.comment') }}</h3>
+                <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{trans('site.event.comment') }}</h3>
                 @foreach($event->comments as $comment)
                     <div class="comments_dev">
                         <p>{{ $comment->content }}</p>
@@ -407,9 +392,9 @@
                 {{ Form::open(array( 'action' => array('CommentsController@store', $event->id))) }}
                     <div class="form-group">
                         <label for="comment"></label>
-                        <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
+                        <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ trans('site.event.comment')}}"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }}</button>
+                    <button type="submit" class="btn btn-default"> {{ trans('site.event.addcomment') }}</button>
                 {{ Form::close() }}
             @endif
             @if ($errors->any())
