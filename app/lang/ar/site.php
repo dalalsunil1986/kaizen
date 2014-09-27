@@ -109,6 +109,7 @@ return [
         'followings'           => 'متابعات',
         'kaizenyc'              => 'كايزن YC',
         'comment-posted'        =>'تم تسجيل التعليق بنجاح'
+    
     ],
     'subscription' => [
         'subscribed'         => 'You subscribed this event',

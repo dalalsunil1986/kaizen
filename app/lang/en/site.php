@@ -110,6 +110,7 @@ return [
         'followings'           => 'متابعات',
         'kaizenyc'              => 'kaizen YC',
         'comment-posted'        => 'Comment Posted'
+
     ],
     'subscription' => [
         'subscribed'         => 'You :attribute this event',
