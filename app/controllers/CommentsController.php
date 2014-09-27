@@ -36,6 +36,9 @@ class CommentsController extends BaseController {
      */
     public function store($id)
     {
+        $commentable_id = Input::get('commentable_id');
+
+        $commentable_type = Input::get('commentable_type');
 
         $event = $this->eventRepository->findById($id);
 
@@ -45,10 +48,17 @@ class CommentsController extends BaseController {
             return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
 
-        if ( !$record = $event->comments()->create(array_merge(['user_id' => Auth::user()->id], $val->getInputData())) ) {
+//        if ( !$record = $event->comments()->create(array_merge(['user_id' => Auth::user()->id,'commentable_id'=>$commentable_id,'commentable_type'=>$commentable_type], $val->getInputData())) ) {
+        if ( !$record = $this->commentRepository->create(array_merge(['user_id' => Auth::user()->id,'commentable_id'=>$commentable_id,'commentable_type'=>$commentable_type], $val->getInputData())) ) {
             return Redirect::back()->with('errors', $this->commentRepository->errors())->withInput();
         }
 
-        return Redirect::action('EventsController@show', $id)->with('success', 'Comment Posted');
+        if($commentable_type == 'EventModel') {
+
+            return Redirect::action('EventsController@show', $id)->with('success', trans('site.general.comment-posted'));
+        } else {
+            return Redirect::action('BlogsController@show', $id)->with('success', trans('site.general.comment-posted'));
+
+        }
     }
 }

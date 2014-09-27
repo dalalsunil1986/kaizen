@@ -390,6 +390,8 @@
         <div class="col-md-12">
             @if(Auth::User())
                 {{ Form::open(array( 'action' => array('CommentsController@store', $event->id))) }}
+                    {{ Form::hidden('commentable_id',$event->id)}}
+                    {{ Form::hidden('commentable_type','EventModel')}}
                     <div class="form-group">
                         <label for="comment"></label>
                         <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ trans('site.event.comment')}}"></textarea>

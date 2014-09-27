@@ -107,7 +107,8 @@ return [
         'favorites'            => 'مفضلات',
         'subscriptions'        => 'حجزات',
         'followings'           => 'متابعات',
-        'kaizenyc'              => 'كايزن YC'
+        'kaizenyc'              => 'كايزن YC',
+        'comment-posted'        =>'تم تسجيل التعليق بنجاح'
     ],
     'subscription' => [
         'subscribed'         => 'You subscribed this event',
