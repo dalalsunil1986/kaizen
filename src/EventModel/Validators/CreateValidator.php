@@ -18,8 +18,8 @@ class CreateValidator extends AbstractValidator {
         'free'           => 'required_if:price,0',
         'price'          => 'numeric',
         'package_id'     => 'numeric|between:1,1000',
-        'date_start'     => 'date',
-        'date_end'       => 'date',
+        'date_start'     => 'date|required',
+        'date_end'       => 'date|required',
         'total_seats'    => 'numeric'
     ];
 

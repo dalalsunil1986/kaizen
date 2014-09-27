@@ -264,6 +264,11 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     Route::resource('locations', 'AdminLocationsController');
 
     /*********************************************************************************************************
+     * Tag Routes
+     ********************************************************************************************************/
+    Route::resource('tags', 'AdminTagsController');
+
+    /*********************************************************************************************************
      * Ads Route
      ********************************************************************************************************/
     Route::resource('ads', 'AdminAdsController', array('only' => array('index', 'store')));
@@ -299,29 +304,28 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
 
 Route::get('test',function() {
-    $event = EventModel::find(1);
-    echo "now: ".\Carbon\Carbon::now();
-    echo "<br>start date: " . $event->date_start;
-    echo "<br>end date: " . $event->date_end;
-
-    $eventRepo = App::make('Acme\\EventModel\\EventRepository');
-    echo "<br> ";
-
-//    if($eventRepo->ongoingEvent($event->date_start,$event->date_end)) {
-//        echo 'ongoing event';
-//    } else
-     if($eventRepo->eventStarted($event->date_start)) {
-        if($eventRepo->eventExpired($event->date_end)) {
-            echo 'event started but expired';
-        } else {
-            echo 'event started but not expired'; // unsubscrive
-        }
-    } elseif($eventRepo->eventExpired($event->date_end)) {
-        echo 'event expired';
-    }
-    dd('');
-
-    dd($eventRepo->eventStarted($event->date_start));
-    dd(\Carbon\Carbon::now());
-
+//    $event = EventModel::find(1);
+//    echo "now: ".\Carbon\Carbon::now();
+//    echo "<br>start date: " . $event->date_start;
+//    echo "<br>end date: " . $event->date_end;
+//
+//    $eventRepo = App::make('Acme\\EventModel\\EventRepository');
+//    echo "<br> ";
+//
+////    if($eventRepo->ongoingEvent($event->date_start,$event->date_end)) {
+////        echo 'ongoing event';
+////    } else
+//     if($eventRepo->eventStarted($event->date_start)) {
+//        if($eventRepo->eventExpired($event->date_end)) {
+//            echo 'event started but expired';
+//        } else {
+//            echo 'event started but not expired'; // unsubscrive
+//        }
+//    } elseif($eventRepo->eventExpired($event->date_end)) {
+//        echo 'event expired';
+//    }
+//    dd('');
+//
+//    dd($eventRepo->eventStarted($event->date_start));
+//    dd(\Carbon\Carbon::now());
 });

@@ -91,7 +91,7 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
 
-        if ($val->getInputData['date_start'] < $val->getInputData['date_end']) {
+        if (Input::get('date_start') < Input::get('date_end')) {
             dd('wrong value');
         }
 
@@ -148,6 +148,7 @@ class AdminEventsController extends AdminBaseController {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
+
         if (Input::get('date_start') > Input::get('date_end')) {
             return Redirect::back()->with('error', 'Event Date Start Cannot be greater than Event End Date');
         }

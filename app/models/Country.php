@@ -6,7 +6,7 @@ class Country extends BaseModel {
 
     use LocaleTrait;
 
-    protected $guarded = array();
+    protected $guarded = [];
 
     protected $localeStrings = ['name'];
 
