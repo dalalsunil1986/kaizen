@@ -40,15 +40,12 @@ class CommentsController extends BaseController {
 
         $commentable_type = Input::get('commentable_type');
 
-        $event = $this->eventRepository->findById($id);
-
         $val = $this->commentRepository->getCreateForm();
 
         if ( !$val->isValid() ) {
             return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
 
-//        if ( !$record = $event->comments()->create(array_merge(['user_id' => Auth::user()->id,'commentable_id'=>$commentable_id,'commentable_type'=>$commentable_type], $val->getInputData())) ) {
         if ( !$record = $this->commentRepository->create(array_merge(['user_id' => Auth::user()->id,'commentable_id'=>$commentable_id,'commentable_type'=>$commentable_type], $val->getInputData())) ) {
             return Redirect::back()->with('errors', $this->commentRepository->errors())->withInput();
         }
