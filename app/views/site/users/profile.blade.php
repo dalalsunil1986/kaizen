@@ -141,47 +141,18 @@
                                 </div>
                                 <div class="col-sm-10 col-md-10">
                                     <span class="event-title">
-                                        <a href="event/{{$event->id}}">
+                                        <a href="{{action('EventsController@show',$event->id )}}">
                                             {{ $event->title }}
                                         </a>
                                     </span>
                                     <p>
                                         {{ Str::limit($event->description, 150) }}
-                                        <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
+                                        <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.general.more')}}</a>
 
                                     </p>
 
                                 </div>
                             </div>
-<div class="row top10 border-bottom">
-                                <div class="col-sm-2 col-md-2 ">
-                                    <div id="links">
-                                        @if(count($event->photos))
-                                        <a href="{{ action('EventsController@show',$event->id) }}">
-                                            {{ HTML::image('uploads/thumbnail/'.$event->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
-                                        </a>
-                                        @else
-                                        <a href="{{ action('EventsController@show',$event->id) }}">
-                                            <img src="http://placehold.it/70x70" class="img-thumbnail">
-                                        </a>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-sm-10 col-md-10">
-                                    <span class="event-title">
-                                        <a href="event/{{$event->id}}">
-                                            {{ $event->title }}
-                                        </a>
-                                    </span>
-                                    <p>
-                                        {{ Str::limit($event->description, 150) }}
-                                        <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
-
-                                    </p>
-
-                                </div>
-                            </div>
-
                         @endforeach
                     </ul>
                 </div>
@@ -206,13 +177,13 @@
                                 </div>
                                 <div class="col-sm-10 col-md-10">
                                     <span class="event-title">
-                                        <a href="event/{{$event->id}}">
+                                        <a href="{{action('EventsController@show',$event->id )}}">
                                             {{ $event->title }}
                                         </a>
                                     </span>
                                     <p>
                                         {{ Str::limit($event->description, 150) }}
-                                        <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
+                                        <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.general.more')}}</a>
 
                                     </p>
 
@@ -242,13 +213,13 @@
                                 </div>
                                 <div class="col-sm-10 col-md-10">
                                     <span class="event-title">
-                                        <a href="event/{{$event->id}}">
+                                        <a href="{{action('EventsController@show',$event->id )}}">
                                             {{ $event->title }}
                                         </a>
                                     </span>
                                     <p>
                                         {{ Str::limit($event->description, 150) }}
-                                        <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
+                                        <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.general.more')}}</a>
 
                                     </p>
 
