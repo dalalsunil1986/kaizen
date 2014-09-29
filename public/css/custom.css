@@ -613,8 +613,9 @@ span.tag:after {
     border: 1px solid #ccc;
 }
 #footer {
-    margin:20px 0;
+    margin:50px 0;
 }
+
 .social-icons a {
     font-size: 1.5em;
     color:#532F8F;

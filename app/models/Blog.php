@@ -71,4 +71,9 @@ class Blog extends BaseModel implements PresenterInterface {
     {
         return $this->morphToMany('Tag', 'taggable');
     }
+
+    public function categories()
+    {
+        return $this->hasMany('Category', 'category_id')->where('');
+    }
 }

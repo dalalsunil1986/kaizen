@@ -1,10 +1,10 @@
 @extends('site.layouts._one_column')
 @section('content')
 
-<div class="alert alert-info">{{ Lang::get('site.general.warning_msg')}}</div>
 
 {{ Form::model($user,array('method' => 'PATCH', 'action'=>array('UserController@update', $user->id),'class'=>'form')) }}
-
+<div class="container">
+    <div class="alert alert-info">{{ Lang::get('site.general.warning_msg')}}</div>
     <div class="row">
         <div class="col-xs-6 col-md-6">
             {{ Form::text('name_ar',NULL,array('class'=>'form-control input-lg','placeholder'=>Lang::get('site.general.first_name'))) }}
@@ -20,18 +20,21 @@
     </br>
     {{ Form::text('phone',NULL,array('class'=>'form-control input-lg','placeholder'=> Lang::get('site.general.mobile'))) }}
     </br>
-    {{ Form::text('mobile',NULL,array('class'=>'form-control input-lg','placeholder'=> Lang::get('site.general.telelphone'))) }}
+    {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> Lang::get('site.general.mobile'), 'style'=>'float: none; min-width:450px; min-height: 45px; border-radius: 10px; text-indent: 25px;')) }}
     </br>
-        {{ Form::select('country_id', array('0'=>'Choose Country',$countries), NULL ,['class' => 'form-control']) }}
+    {{ Form::select('country_id', array_merge([''=> trans('site.general.select_country')], $countries), NULL ,['class' => 'form-control']) }}
+
     <br/>
-    <label>{{ Lang::get('site.general.gender') }}</label>
+
+    <label>{{ Lang::get('site.general.gender') }}</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <label class="radio-inline">
         {{ Form::radio('gender', 'M', null,  ['id' => 'male']) }}
-        Male
+        {{ trans('site.general.male') }}
     </label>
     <label class="radio-inline">
         {{ Form::radio('gender', 'F', null,  ['id' => 'female']) }}
-        Female
+        {{ trans('site.general.female') }}
+
     </label>
     <br/>
     <div class="row">
@@ -46,9 +49,16 @@
     {{ Form::textarea('prev_event_comment',NULL,array('class'=>'form-control','placeholder'=> Lang::get('site.general.prev_events'),'rows'=>'3')) }}
     </br>
     <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
-        Create my account
+        {{ trans('site.general.save') }}
     </button>
     <br>
 {{ Form::close() }}
-
+</div>
+@stop
+@section('script')
+@parent
+    {{ HTML::script('js/intlTelInput.min.js'); }}
+    <script>
+      $("#mobile").intlTelInput();
+    </script>
 @stop

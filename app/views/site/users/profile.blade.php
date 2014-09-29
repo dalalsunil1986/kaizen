@@ -1,4 +1,20 @@
 @extends('site.layouts._one_column')
+
+@section('style')
+@parent
+<style>
+.panel-primary {
+    border-color: rgba(232, 241, 242, 1);
+    border-top:none;
+}
+.panel > .list-group {
+    margin: 10px;
+    border:#cccccc 1px ;
+}
+
+
+</style>
+@stop
 @section('content')
 
 @if($user->isOwner())
@@ -21,10 +37,10 @@
                 <div class="col-lg-8">
                     <table class="table table-striped">
                         <tr>
-                            <td>{{ Lang::get('site.general.name') }} : </td>
+                            <td>{{ Lang::get('site.general.name_en') }} : </td>
                             <td>
-                                @if($user->first_name || $user->last_name)
-                                {{ ($user->first_name) ? $user->first_name : $user->last_name }}
+                                @if($user->name_en || $user->name_ar)
+                                {{ ($user->name_ar) ? $user->name_ar : $user->name_en }}
                                 {{ ($user->last_name) ? $user->last_name :'' }}
                                 @else
                                 {{ Lang::get('site.general.notavail')}}
@@ -82,16 +98,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ Lang::get('site.general.dob') }} : </td>
-                            <td>
-                                @if($user->dob)
-                                {{ $user->dob->format("j-n-Y") }}
-                                @else
-                                {{ Lang::get('site.general.notavail')}}
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
                             <td>{{ Lang::get('site.general.instagram') }} : </td>
                             <td>
                                 @if($user->instagram)
@@ -119,7 +125,63 @@
                 <div class="panel panel-primary">
                     <ul class="list-group">
                         @foreach($user->favorites as $event)
-                            {{ link_to_action('EventsController@show',$event->title,$event->id,array('class'=>'list-group-item')) }}
+                            <div class="row top10">
+                                <div class="col-sm-2 col-md-2 ">
+                                    <div id="links">
+                                        @if(count($event->photos))
+                                        <a href="{{ action('EventsController@show',$event->id) }}">
+                                            {{ HTML::image('uploads/thumbnail/'.$event->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
+                                        </a>
+                                        @else
+                                        <a href="{{ action('EventsController@show',$event->id) }}">
+                                            <img src="http://placehold.it/70x70" class="img-thumbnail">
+                                        </a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-10 col-md-10">
+                                    <span class="event-title">
+                                        <a href="event/{{$event->id}}">
+                                            {{ $event->title }}
+                                        </a>
+                                    </span>
+                                    <p>
+                                        {{ Str::limit($event->description, 150) }}
+                                        <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
+
+                                    </p>
+
+                                </div>
+                            </div>
+<div class="row top10 border-bottom">
+                                <div class="col-sm-2 col-md-2 ">
+                                    <div id="links">
+                                        @if(count($event->photos))
+                                        <a href="{{ action('EventsController@show',$event->id) }}">
+                                            {{ HTML::image('uploads/thumbnail/'.$event->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
+                                        </a>
+                                        @else
+                                        <a href="{{ action('EventsController@show',$event->id) }}">
+                                            <img src="http://placehold.it/70x70" class="img-thumbnail">
+                                        </a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-10 col-md-10">
+                                    <span class="event-title">
+                                        <a href="event/{{$event->id}}">
+                                            {{ $event->title }}
+                                        </a>
+                                    </span>
+                                    <p>
+                                        {{ Str::limit($event->description, 150) }}
+                                        <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
+
+                                    </p>
+
+                                </div>
+                            </div>
+
                         @endforeach
                     </ul>
                 </div>
@@ -128,7 +190,34 @@
                 <div class="panel panel-primary">
                     <ul class="list-group">
                         @foreach($user->subscriptions as $event)
-                            {{ link_to_action('EventsController@show',$event->title,$event->id,array('class'=>'list-group-item')) }}
+                            <div class="row top10">
+                                <div class="col-sm-2 col-md-2 ">
+                                    <div id="links">
+                                        @if(count($event->photos))
+                                        <a href="{{ action('EventsController@show',$event->id) }}">
+                                            {{ HTML::image('uploads/thumbnail/'.$event->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
+                                        </a>
+                                        @else
+                                        <a href="{{ action('EventsController@show',$event->id) }}">
+                                            <img src="http://placehold.it/70x70" class="img-thumbnail">
+                                        </a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-10 col-md-10">
+                                    <span class="event-title">
+                                        <a href="event/{{$event->id}}">
+                                            {{ $event->title }}
+                                        </a>
+                                    </span>
+                                    <p>
+                                        {{ Str::limit($event->description, 150) }}
+                                        <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
+
+                                    </p>
+
+                                </div>
+                            </div>
                         @endforeach
                     </ul>
                 </div>
@@ -137,7 +226,34 @@
                 <div class="panel panel-primary">
                     <ul class="list-group">
                         @foreach($user->followings as $event)
-                            {{ link_to_action('EventsController@show',$event->title,$event->id,array('class'=>'list-group-item')) }}
+                            <div class="row top10">
+                                <div class="col-sm-2 col-md-2 ">
+                                    <div id="links">
+                                        @if(count($event->photos))
+                                        <a href="{{ action('EventsController@show',$event->id) }}">
+                                            {{ HTML::image('uploads/thumbnail/'.$event->photos[0]->name.'','image1',array('class'=>'img-responsive img-thumbnail')) }}
+                                        </a>
+                                        @else
+                                        <a href="{{ action('EventsController@show',$event->id) }}">
+                                            <img src="http://placehold.it/70x70" class="img-thumbnail">
+                                        </a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-10 col-md-10">
+                                    <span class="event-title">
+                                        <a href="event/{{$event->id}}">
+                                            {{ $event->title }}
+                                        </a>
+                                    </span>
+                                    <p>
+                                        {{ Str::limit($event->description, 150) }}
+                                        <a href="event/{{ $event->id}}">{{ Lang::get('site.general.more')}}</a>
+
+                                    </p>
+
+                                </div>
+                            </div>
                         @endforeach
                     </ul>
                 </div>

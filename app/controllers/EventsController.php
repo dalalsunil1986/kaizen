@@ -3,8 +3,6 @@
 use Acme\Category\CategoryRepository;
 use Acme\Country\CountryRepository;
 use Acme\EventModel\EventRepository;
-use Acme\Favorite\FavoriteRepository;
-use Acme\Follower\FollowerRepository;
 use Acme\Subscription\SubscriptionRepository;
 use Acme\User\UserRepository;
 use Carbon\Carbon;
@@ -43,8 +41,8 @@ class EventsController extends BaseController {
         $this->countryRepository      = $countryRepository;
         $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
-        parent::__construct();
         $this->beforeFilter('auth', array('only' => 'showSubscriptionOptions'));
+        parent::__construct();
     }
 
     public function index()
@@ -92,7 +90,8 @@ class EventsController extends BaseController {
         } else {
             $events = $this->eventRepository->getEvents($perPage);
         }
-        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country'));
+        $eventCategories = $this->categoryRepository->getEventCategories()->get();
+        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country','eventCategories'));
     }
 
 

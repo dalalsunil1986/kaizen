@@ -4,9 +4,9 @@
     <div class="panel-heading">{{ Lang::get('site.event.category') }}</div>
     <div class="panel-body">
         <ul>
-            @if($eventCategories)
-            @foreach($eventCategories as $eventCategory)
-            <li class="unstyled"><i class="glyphicon glyphicon-tag"></i><a href="{{URL::action('CategoriesController@getEvents',$eventCategory->id)}}"> {{ $eventCategory->name }}</a></li>
+            @if($categories)
+            @foreach($categories as $category)
+            <li class="unstyled"><i class="glyphicon glyphicon-tag"></i><a href="{{URL::action('CategoriesController@getEvents',$category->id)}}"> {{ $category->name }}</a></li>
             @endforeach
             @endif
         </ul>
@@ -23,7 +23,6 @@
 </style>
 
 </br>
-@include('site.events._search')
 
 @if(count($events))
 @foreach($events as $event)

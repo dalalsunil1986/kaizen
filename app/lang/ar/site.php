@@ -71,7 +71,7 @@ return [
         'country_code'         => 'مفتاح الدولة',
         'pass_confirm'         => 'تأكيد كلمة المرور',
         'telelphone'           => 'تلفون',
-        'select_country'       => 'الدولة',
+        'select_country'       => 'اختر الدولة',
         'birth'                => 'تاريخ الميلاد',
         'gender'               => 'النوع',
         'male'                 => 'ذكر',
@@ -108,7 +108,9 @@ return [
         'subscriptions'        => 'حجزات',
         'followings'           => 'متابعات',
         'kaizenyc'              => 'كايزن YC',
-        'comment-posted'        =>'تم تسجيل التعليق بنجاح'
+        'comment-posted'        =>'تم تسجيل التعليق بن,جاح',
+        'name_en'               => 'الاسم',
+        'save'              => 'حفظ'
 
     ],
     'subscription' => [

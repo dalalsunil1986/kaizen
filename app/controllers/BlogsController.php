@@ -1,6 +1,7 @@
 <?php
 
 use Acme\Blog\BlogRepository;
+use Acme\Category\CategoryRepository;
 use Acme\User\UserRepository;
 
 class BlogsController extends BaseController {
@@ -14,11 +15,22 @@ class BlogsController extends BaseController {
      * @var Acme\Users\UserRepository
      */
     private $userRepository;
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
 
-    public function __construct(BlogRepository $blogRepository, UserRepository $userRepository){
+    /**
+     * @param BlogRepository $blogRepository
+     * @param UserRepository $userRepository
+     * @param CategoryRepository $categoryRepository
+     */
+    public function __construct(BlogRepository $blogRepository, UserRepository $userRepository, CategoryRepository $categoryRepository){
 
         $this->blogRepository = $blogRepository;
         $this->userRepository = $userRepository;
+        $this->categoryRepository = $categoryRepository;
+        parent::__construct();
     }
     
 	/**
@@ -31,8 +43,9 @@ class BlogsController extends BaseController {
 		// Get all the blog posts
         $posts = $this->blogRepository->getAllPaginated(['category','photos','author']);
 
+        $categories = $this->categoryRepository->getPostCategories()->get();
 		// Show the page
-        $this->render('site.blog.index', compact('posts'));
+        $this->render('site.blog.index', compact('posts','categories'));
 	}
 
     /**

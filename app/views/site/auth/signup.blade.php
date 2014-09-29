@@ -33,13 +33,8 @@
     <br>
 
     {{--{{ Form::text('mobile',NULL,array('class'=>'col-md-10 form-control input-lg','placeholder'=> Lang::get('site.general.mobile'))) }}--}}
-    {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'col-md-10','placeholder'=> Lang::get('site.general.mobile'), 'style'=>'float: none; min-width:450px; min-height: 45px; border-radius: 10px; text-indent: 25px;')) }}
+    {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> Lang::get('site.general.mobile'), 'style'=>'float: none; min-width:450px; min-height: 45px; border-radius: 10px; text-indent: 25px;')) }}
 
-    {{--{{ Form::select('country code', array('KWT' => '00965', 'EGY'=> '0020'), 'NULL', array('class'=> 'col-md-2 form-control','placeholder'=> Lang::get('site.general.country_code'))) }}--}}
-
-{{--        <input class="col-md-12" type="text" id="mobile-number" style="min-width:350px; min-height: 35px; border-radius: 10px;  text-indent: 25px;">--}}
-
-    <br>
     <br>
 
     <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
@@ -55,7 +50,7 @@
 @stop
 @section('script')
 @parent
-        {{ HTML::script(asset('js/intlTelInput.min.js')); }}
+        {{ HTML::script('js/intlTelInput.min.js'); }}
         <script>
           $("#mobile").intlTelInput();
         </script>

@@ -17,5 +17,7 @@ class Category extends BaseModel {
     public function events () {
         return $this->hasMany('EventModel');
     }
-
+    public function posts () {
+        return $this->hasMany('Blog');
+    }
 }
