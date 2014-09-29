@@ -114,7 +114,7 @@ return [
     'subscription' => [
         'subscribed'         => 'You subscribed this event',
         'unsubscribed'       => 'You unsubscribed this event',
-        'already_subscribed' => 'You  already :attribute this event',
+        'already_subscribed' => 'You  already subscribed this event',
         'not_authenticated'  => 'Sorry, You must sign in before you perform this action',
         'wrong_access'       => 'Sorry, Wrong Acces',
         'error'              => 'Sorry, Could not Subscribe you',

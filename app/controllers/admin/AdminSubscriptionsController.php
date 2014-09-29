@@ -58,7 +58,6 @@ class AdminSubscriptionsController extends AdminBaseController {
                 $subscriptions = $this->packageRepository->getAll(['user', 'event']);
             }
         }
-
         $this->render('admin.subscriptions.index', compact('subscriptions', 'type'));
     }
 

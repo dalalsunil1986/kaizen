@@ -3,6 +3,11 @@
 @section('style')
 @parent
 {{ HTML::style('assets/css/jquery.datetimepicker.css') }}
+<style>
+.right {
+text-align:right;
+}
+</style>
 @stop
 
 {{-- Content --}}
@@ -29,48 +34,47 @@
     </div>
 </div>
 <div class="row">
-    <div class="form-group col-md-12">
-        {{ Form::label('title_ar', 'Title in Arabic:*') }}
-        {{ Form::text('title_ar',NULL,array('class'=>'form-control')) }}
-    </div>
-</div>
 
-<div class="row">
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
         {{ Form::label('title_en', 'Title in English:') }}
         {{ Form::text('title_en',NULL,array('class'=>'form-control')) }}
     </div>
-</div>
-
-<div class="row">
-    <div class="form-group col-md-12">
-        {{ Form::label('description_ar', 'Description in Arabic:*') }}
-        {{ Form::textarea('description_ar',NULL,array('class'=>'form-control wysihtml5')) }}
+    <div class="form-group col-md-6">
+        {{ Form::label('title_ar', 'Title in Arabic:*') }}
+        {{ Form::text('title_ar',NULL,array('class'=>'form-control right')) }}
     </div>
 </div>
 
 <div class="row">
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
         {{ Form::label('description_en', 'Description in English:') }}
         {{ Form::textarea('description_en',NULL,array('class'=>'form-control wysihtml5')) }}
     </div>
+    <div class="form-group col-md-6">
+        {{ Form::label('description_ar', 'Description in Arabic:*') }}
+        {{ Form::textarea('description_ar',NULL,array('class'=>'form-control wysihtml5 right')) }}
+    </div>
+
+
 </div>
 <div class="row">
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
         {{ Form::label('total_seats', 'Total Seats For this Event:') }}
         {{ Form::text('total_seats',NULL,array('class'=>'form-control')) }}
     </div>
-</div>
-<div class="row">
     <div class="form-group col-md-2 col-sm-4 col-xs-4">
-        {{ Form::label('free_event', 'Is this a Free Event ?:') }}
-        <br/>
-        {{ Form::checkbox('free', '1', true,['class'=>'free']) }}
-    </div>
-    <div class="form-group col-md-10 col-sm-8 col-xs-8">
+            {{ Form::label('free_event', 'Is this a Free Event ?:') }}
+            <br/>
+            {{ Form::checkbox('free', '1', true,['class'=>'free']) }}
+        </div>
+    <div class="form-group col-md-4">
         {{ Form::label('price', 'Event Price:') }}
         {{ Form::text('price',NULL,array('class'=>'form-control','id'=>'price')) }}
     </div>
+</div>
+<div class="row">
+
+
 </div>
 
 <div class="row">
@@ -96,25 +100,28 @@
 
 <div class="row">
     <div class="form-group col-md-6">
-        {{ Form::label('address_ar', 'Address in Arabic:*') }}
-        {{ Form::text('address_ar',NULL,array('class'=>'form-control')) }}
-    </div>
-
-    <div class="form-group col-md-6">
-        {{ Form::label('street_ar', 'Street Name in Arabic:*') }}
-        {{ Form::text('street_ar',NULL,array('class'=>'form-control')) }}
-    </div>
-</div>
-<div class="row">
-    <div class="form-group col-md-6">
         {{ Form::label('address_en', 'Address in English:') }}
         {{ Form::text('address_en',NULL,array('class'=>'form-control')) }}
     </div>
+    <div class="form-group col-md-6">
+        {{ Form::label('address_ar', 'Address in Arabic:*') }}
+        {{ Form::text('address_ar',NULL,array('class'=>'form-control right')) }}
+    </div>
+
+
+</div>
+<div class="row">
+
 
     <div class="form-group col-md-6">
         {{ Form::label('street_en', 'Street Name in English:') }}
         {{ Form::text('street_en',NULL,array('class'=>'form-control')) }}
     </div>
+
+        <div class="form-group col-md-6">
+            {{ Form::label('street_ar', 'Street Name in Arabic:*') }}
+            {{ Form::text('street_ar',NULL,array('class'=>'form-control right')) }}
+        </div>
 </div>
 
 <div class="row">
@@ -123,7 +130,7 @@
         <div class="input-group">
             {{ Form::text('phone',NULL,array('class'=>'form-control')) }}
             <span class="input-group-addon">
-                <i class="fa fa-calendar"></i>
+                <i class="fa fa-phone"></i>
             </span>
         </div>
     </div>
@@ -132,7 +139,7 @@
         <div class="input-group">
             {{ Form::text('email',NULL,array('class'=>'form-control')) }}
             <span class="input-group-addon">
-                <i class="fa fa-calendar"></i>
+                <i class="fa fa-envelope"></i>
             </span>
         </div>
     </div>
