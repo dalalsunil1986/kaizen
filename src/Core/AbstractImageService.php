@@ -64,6 +64,7 @@ abstract class AbstractImageService extends AbstractRepository{
             }
         }
         catch( Exception $e) {
+            dd($e->getMessage());
             $this->addError($e->getMessage());
             return false;
         }
