@@ -20,6 +20,7 @@ _ide_helper.php
 # Basset development collections
 /public/assets/compiled/
 /public/assets/compiled/
+/public/uploads/
 
 #vagrant
 VagrantFile
