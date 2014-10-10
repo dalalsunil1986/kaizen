@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder {
 
     private function cleanDatabase()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::statement('SETp FOREIGN_KEY_CHECKS=0');
         foreach ($this->tables as $table) {
             DB::table($table)->truncate();
         }

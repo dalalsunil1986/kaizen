@@ -231,9 +231,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
 //            $request->delete();
 //        }
 
-        foreach ($this->roles()->get(array('assigned_roles.id')) as $subscription) {
-            $subscription->delete();
-        }
+//        foreach ($this->roles()->get(array('assigned_roles.id')) as $subscription) {
+//            $subscription->delete();
+//        }
 
     }
 
