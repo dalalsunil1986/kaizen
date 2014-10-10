@@ -17,11 +17,6 @@ class TagRepository extends AbstractRepository {
         $this->model = $model;
     }
 
-    public function create($tags)
-    {
-        dd($tags);
-    }
-
     /**
      * @param $model
      * @param $tagArray [Input::get('tag') ]
