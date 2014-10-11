@@ -139,6 +139,7 @@
             </h1>
         </div>
 
+
         <div class="col-md-5">
 
             <div class="row">
@@ -229,6 +230,9 @@
 
     <div class="row">
         <div class="col-md-12">
+            <div class="description">
+            {{ $event->description }}
+            </div>
             <table class="table table-striped">
                 <tr>
                     <h4>{{ trans('site.event.summaryevent') }}</h4>
