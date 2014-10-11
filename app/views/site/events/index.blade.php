@@ -50,7 +50,6 @@
         <p>
             {{ Str::limit($event->description, 150) }}
             <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.general.more')}}</a>
-
         </p>
 
     </div>
@@ -68,9 +67,10 @@
         {{ link_to_action('EventsController@index', $event->location->country->name ,array('search'=>'','country'=>$event->location->country->id)) }}
     |</i>
 
-    <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;
-    {{ link_to_action('EventsController@index', $event->category->name,array('search'=>'','category'=>$event->category->id)) }}
-
+    @if($event->category)
+        <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;
+        {{ link_to_action('EventsController@index', $event->category->name,array('search'=>'','category'=>$event->category->id)) }}
+    @endif
 </div>
 <hr>
 @endforeach

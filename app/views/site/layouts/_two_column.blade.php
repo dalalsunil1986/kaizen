@@ -2,7 +2,7 @@
     @section('content')
     @show
 </div>
-<div id="sidecontent" class="col-md-4 col-xs-12">
+<div class="col-md-4 col-xs-12">
     @section('sidebar')
         @include('site.partials.twitter')
         @include('site.events.latest')
@@ -10,4 +10,3 @@
         @include('site.partials.newsletter')
     @show
 </div>
-
