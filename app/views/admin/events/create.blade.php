@@ -3,11 +3,7 @@
 @section('style')
 @parent
 {{ HTML::style('assets/css/jquery.datetimepicker.css') }}
-<style>
-.right {
-text-align:right;
-}
-</style>
+
 @stop
 
 {{-- Content --}}
@@ -52,10 +48,8 @@ text-align:right;
     </div>
     <div class="form-group col-md-6">
         {{ Form::label('description_ar', 'Description in Arabic:*') }}
-        {{ Form::textarea('description_ar',NULL,array('class'=>'form-control wysihtml5 right')) }}
+        {{ Form::textarea('description_ar',NULL,array('class'=>'form-control wysihtml5 right', 'id'=>'description_ar')) }}
     </div>
-
-
 </div>
 <div class="row">
     <div class="form-group col-md-6">
@@ -71,10 +65,6 @@ text-align:right;
         {{ Form::label('price', 'Event Price:') }}
         {{ Form::text('price',NULL,array('class'=>'form-control','id'=>'price')) }}
     </div>
-</div>
-<div class="row">
-
-
 </div>
 
 <div class="row">
@@ -107,21 +97,18 @@ text-align:right;
         {{ Form::label('address_ar', 'Address in Arabic:*') }}
         {{ Form::text('address_ar',NULL,array('class'=>'form-control right')) }}
     </div>
-
-
 </div>
+
 <div class="row">
-
-
     <div class="form-group col-md-6">
         {{ Form::label('street_en', 'Street Name in English:') }}
         {{ Form::text('street_en',NULL,array('class'=>'form-control')) }}
     </div>
 
-        <div class="form-group col-md-6">
-            {{ Form::label('street_ar', 'Street Name in Arabic:*') }}
-            {{ Form::text('street_ar',NULL,array('class'=>'form-control right')) }}
-        </div>
+    <div class="form-group col-md-6">
+        {{ Form::label('street_ar', 'Street Name in Arabic:*') }}
+        {{ Form::text('street_ar',NULL,array('class'=>'form-control right')) }}
+    </div>
 </div>
 
 <div class="row">
@@ -155,11 +142,25 @@ text-align:right;
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="form-group col-md-12">
         {{ Form::label('button_en', 'Is this a Featured Event ? : (Featured Event Will be included in Slider)') }}
         <br>
         {{ Form::checkbox('featured', '1', false) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-md-12">
+        <p>{{ Form::label('tags', 'Tags:', array('class','pull-left')) }}</p>
+            @foreach($tags as $tag)
+                <div class="controls col-md-3">
+
+                    {{ Form::checkbox('tag[]', $tag->id, false)  }}
+                    {{ Form::label($tag->name, $tag->name) }}
+                </div>
+            @endforeach
     </div>
 </div>
 <div class="row">

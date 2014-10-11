@@ -75,7 +75,8 @@ class AdminEventsController extends AdminBaseController {
         $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_ar', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location = $this->select + $this->locationRepository->getAll()->lists('name_ar', 'id');
-        $this->render('admin.events.create', compact('category', 'author', 'location'));
+        $tags       = $this->tagRepository->getAll();
+        $this->render('admin.events.create', compact('category', 'author', 'location','tags'));
     }
 
     /**
@@ -102,8 +103,14 @@ class AdminEventsController extends AdminBaseController {
         if ( !$setting = $this->settingRepository->create(['settingable_type' => 'EventModel', 'settingable_id' => $event->id]) ) {
             $this->eventRepository->delete($event);
             //@todo redirect
-            dd('could not create event');
+            return Redirect::back()->with('errors', 'could not create event');
         }
+
+        // update the tags
+        $tags = is_array(Input::get('tag')) ? Input::get('tag') : [];
+        $this->tagRepository->attachTags($event, $tags );
+
+        return Redirect::action('AdminEventsController@edit', $event->id)->with('success', 'Updated');
 
         // Create a settings record for the inserted event
         // Settings Record needs to know Which type of Record and The Foreign Key it needs to Create

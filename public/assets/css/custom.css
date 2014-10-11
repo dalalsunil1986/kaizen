@@ -47,3 +47,6 @@ li {list-style-type: none}
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
 }
+.right {
+    text-align:right;
+}
