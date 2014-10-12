@@ -82,6 +82,18 @@ App::error(function(Exception $exception, $code)
         default:
             return Response::view('error/default', array(), 503);
     }
+
+    if(App::environment('production')) {
+        $body = array('exception' => $exception);
+        Mail::send('error.log', $body, function($message)
+        {
+            $message->from('kaizen.com');
+            $message->to('z4ls@live.com')->subject(' Error in Kaizen');
+        });
+        Log::info('Error Email sent to ' . Config::get('settings.error_email'));
+        return Response::view('errors.500', array(), 500);
+
+    }
 });
 
 /*

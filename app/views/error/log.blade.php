@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Kaizen Error</title>
+    <title>Kaizen Courses</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -19,13 +19,20 @@
 </head>
 
 <div class="container">
-
+    <div id="header" class="row">
+        <div class="row">
+            <div class="col-md-4">
+                <a href="/">{{ HTML::image('images/Logo.png') }}</a>
+            </div>
+        </div>
+        <!-- end of row-->
+    </div>
     <div id="content" class="row">
         <div class="alert alert-danger alert-block">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <h1> Error in Kaizen</h1>
+            <h1> Sorry</h1>
             <div class="error-details">
-                {{ $body }}
+                Page You looking for is not found. Contact <a href="{{ action('ContactsController@index')}}">Admin</a> for more details
             </div>
         </div>
     </div>

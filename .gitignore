@@ -12,20 +12,16 @@ app/storage/views/*
 app/storage/sessions/*
 app/storage/debugbar/*
 app/storage/logs/*.txt
-app/config/production/database.php
 use-cases
 
 _ide_helper.php
 
 # Basset development collections
 /public/assets/compiled/
-/public/assets/compiled/
 /public/uploads/
 
 #vagrant
 VagrantFile
-.vagrant
-.idea
 install.sh
 
 # Composer
@@ -33,12 +29,9 @@ composer.phar
 composer.lock
 
 # OS
-.DS_Store
-.idea/
 
 # Packages
 _ide_helpers.php
 
 routes.txt
 
-Thumbs.db

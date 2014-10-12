@@ -1,7 +1,4 @@
 <?php
-
-
-
 //Route::model('role', 'Role');
 
 /** ------------------------------------------
@@ -305,6 +302,12 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     Route::get('/', 'AdminEventsController@index');
 
 });
+
+//push queue worker
+Route::post('queue/mails',function(){
+    return Queue::marshal();
+});
+
 
 
 Route::get('test',function() {
