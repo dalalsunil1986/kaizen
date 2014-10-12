@@ -20,7 +20,6 @@ abstract class BaseController extends Controller
     {
         $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
         $this->sidebarPosts();
-        $this->getAds();
     }
 
     protected function setupLayout()
@@ -60,15 +59,6 @@ abstract class BaseController extends Controller
         View::composer('site.blog.latest', function ($view) {
             $latest_blog_posts = App::make('Blog')->latest(4);
             $view->with(array('latest_blog_posts' => $latest_blog_posts));
-        });
-    }
-
-    public function getAds()
-    {
-        View::composer('site.layouts.ads', function ($view) {
-            $ad1 = App::make('ad')->getAd1();
-            $ad2 = App::make('ad')->getAd2();
-            $view->with(array('ad1' => $ad1, 'ad2' => $ad2));
         });
     }
 

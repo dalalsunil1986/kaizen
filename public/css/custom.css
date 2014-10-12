@@ -90,7 +90,6 @@ a:hover{
 }
 
 #side-instagram .panel-body {
-
     padding-right: 10%;
     padding-left: 10%;
     float: none;
@@ -98,8 +97,19 @@ a:hover{
 }
 
 
-#ads-section {
+.adsWrapper {
     margin-bottom: 20px;
+    max-height:125px;
+    max-width: 100%;
+}
+
+.ads {
+    border: 2px solid #000000;
+
+}
+.ads img {
+    height: 125px;
+    width: 140%;
 }
 
 #map_canvas {
@@ -578,11 +588,6 @@ span.tag:after {
     background: -ms-linear-gradient(top, #532f8f 0%, #311c54 100%);
     background: linear-gradient(to bottom, #00FF70 0%, #311c54 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#532f8f', endColorstr='#311c54', GradientType=0);
-}
-
-
-.ads {
-    border: 2px solid #000000;
 }
 
 .event-title {

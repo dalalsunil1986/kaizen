@@ -271,7 +271,9 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Ads Route
      ********************************************************************************************************/
-    Route::resource('ads', 'AdminAdsController', array('only' => array('index', 'store')));
+    Route::post('ads/{id}/update-active','AdminAdsController@updateActive');
+
+    Route::resource('ads', 'AdminAdsController');
 
     /*********************************************************************************************************
      * Contact US Routes
@@ -281,6 +283,8 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Photo Routes
      ********************************************************************************************************/
+    Route::get('photo-normal','AdminPhotosController@createNormal');
+
     Route::resource('photo', 'AdminPhotosController');
 
     /*********************************************************************************************************
@@ -328,4 +332,12 @@ Route::get('test',function() {
 //
 //    dd($eventRepo->eventStarted($event->date_start));
 //    dd(\Carbon\Carbon::now());
+
+    $class = App::make('AdminAdsController');
+    $ads = $class->getAds();
+    foreach ( $ads as $ad ) {
+        dd($ad->photos);
+    }
+
+    dd($class->getAds());
 });

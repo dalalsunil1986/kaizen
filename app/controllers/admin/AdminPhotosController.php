@@ -29,6 +29,19 @@ class AdminPhotosController extends AdminBaseController {
     }
 
     /**
+     * Non Ajax Version
+     */
+    public function createNormal()
+    {
+        $imageableType = Input::get('imageable_type');
+        $imageableId   = Input::get('imageable_id');
+        if ( empty($imageableType) || empty($imageableId))  {
+            return Redirect::action('AdminEventsController@index')->with('warning','Wrong Access');
+        }
+
+        $this->render('admin.photos.create-normal', compact('imageableType', 'imageableId'));
+    }
+    /**
      * Store the Image
      * Resolve the Dependent class for polymorphic relation
      *

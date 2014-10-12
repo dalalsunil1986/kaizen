@@ -1,20 +1,24 @@
 <?php
 
-class Ad extends BaseModel {
-    protected $fillable = [];
+use Acme\Core\LocaleTrait;
 
-    protected $table="photos";
+class Ad extends BaseModel {
+
+    use LocaleTrait;
+
+    protected $guarded = ['id'];
+
+    protected $table="ads";
 
     public static $rules = [ ];
 
-    public function getAd1() {
-        $image = DB::table('photos')->where('imageable_id',1)->where('imageable_type','Ad')->remember(60,'cache.ad1')->pluck('name');
-        return $image;
-    }
+    protected $name = "ad";
 
-    public function getAd2() {
-        $image = DB::table('photos')->where('imageable_id',2)->where('imageable_type','Ad')->remember(60,'cache.ad2')->pluck('name');
-        return $image;
+    protected $localeStrings = ['title'];
+
+    public function photos()
+    {
+        return $this->morphMany('Photo', 'imageable');
     }
 
 }

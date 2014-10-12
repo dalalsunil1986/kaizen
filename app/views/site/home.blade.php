@@ -4,6 +4,8 @@
 <!-- Include Slider -->
 @include('site.events.slider')
 
+@include('site.partials.ads')
+
 <!-- Sidebar Section -->
 @section('sidebar')
 @parent

@@ -1,5 +1,6 @@
 <?php
 
+use Acme\Ad\AdRepository;
 use Acme\EventModel\EventRepository;
 
 class HomeController extends BaseController {
@@ -7,6 +8,10 @@ class HomeController extends BaseController {
      * @var
      */
     private $eventRepository;
+    /**
+     * @var AdRepository
+     */
+    private $adRepository;
 
     /*
     |--------------------------------------------------------------------------
@@ -20,19 +25,24 @@ class HomeController extends BaseController {
     |	Route::get('/', 'HomeController@showWelcome');
     |
     */
-    function __construct(EventRepository $eventRepository)
+    /**
+     * @param EventRepository $eventRepository
+     * @param AdRepository $adRepository
+     */
+    function __construct(EventRepository $eventRepository, AdRepository $adRepository)
     {
         $this->eventRepository = $eventRepository;
+        $this->adRepository = $adRepository;
         parent::__construct();
     }
-
 
     public function index()
     {
         // $events = parent::all();
         // get only 4 images for slider
         $events  = $this->eventRepository->getSliderEvents();
-        $this->render('site.home', compact('events'));
+        $ads = $this->adRepository->getAds();
+        $this->render('site.home', compact('events','ads'));
 
     }
 
