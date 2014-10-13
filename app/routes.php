@@ -332,8 +332,19 @@ Route::get('test',function() {
 //    dd($eventRepo->eventStarted($event->date_start));
 //    dd(\Carbon\Carbon::now());
 
-    Mail::queue('emails.welcome', array('key' => 'value'), function($message)
-    {
-        $message->to('z4ls@live.com', 'ZaL')->subject('Kaizen Push Queue!');
-    });
+    $mailer = App::make('Acme\Core\Mailer\AbstractMailer');
+    try {
+        $mailer->queue('emails.welcome', [], function ($message) {
+            $message
+                ->from('admin@kaizen.com', 'admin')
+                ->sender('admin@kaizen.com', 'admin')
+                ->to('z4ls@live.com')
+                ->subject('new queue teser');
+        });
+    } catch (Exception $e) {
+        dd($e->getMessage());
+    }
+
+    dd('email sent');
+
 });
