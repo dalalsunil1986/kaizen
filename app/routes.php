@@ -332,11 +332,8 @@ Route::get('test',function() {
 //    dd($eventRepo->eventStarted($event->date_start));
 //    dd(\Carbon\Carbon::now());
 
-    $class = App::make('AdminAdsController');
-    $ads = $class->getAds();
-    foreach ( $ads as $ad ) {
-        dd($ad->photos);
-    }
-
-    dd($class->getAds());
+    Mail::queue('emails.welcome', array('key' => 'value'), function($message)
+    {
+        $message->to('z4ls@live.com', 'ZaL')->subject('Kaizen Push Queue!');
+    });
 });
