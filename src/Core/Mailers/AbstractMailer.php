@@ -3,7 +3,6 @@
 use App;
 use Config;
 use Illuminate\Mail\Mailer;
-use Mail;
 
 class AbstractMailer implements MailerInterface {
 
@@ -27,7 +26,7 @@ class AbstractMailer implements MailerInterface {
     {
         try {
             if(App::environment('production')) {
-                Mail::queue($this->view, $array, function ($message) {
+                $this->mailer->send($this->view, $array, function ($message) {
                     $message
                         ->from($this->senderEmail, $this->senderName)
                         ->sender($this->senderEmail, $this->senderName)

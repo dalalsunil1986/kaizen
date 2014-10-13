@@ -4,8 +4,6 @@
 /** ------------------------------------------
  *  Route constraint patterns
  *  ------------------------------------------ */
-use Acme\Core\Mailers\AbstractMailer;
-
 Route::pattern('id', '[0-9]+');
 
 //Route::pattern('role', '[0-9]+');
@@ -334,32 +332,9 @@ Route::get('test',function() {
 //    dd($eventRepo->eventStarted($event->date_start));
 //    dd(\Carbon\Carbon::now());
 
-
-    class abc extends AbstractMailer {
-
-        public function __construct() {
-            $this->sendActivationMail();
-        }
-        public function sendActivationMail()
-        {
-            $this->view           = 'emails.auth.default';
-            $this->recepientEmail = 'z4ls@live.com';
-            $this->recepientName  = 'z4ls@live.com';
-            $this->subject        = 'Please Activate Your Email';
-
-                $user['body'] = 'whatever new email';
-
-            // Send Email
-            try {
-                $this->fire($user);
-            } catch(\Exception $e) {
-                dd($e->getMessage());
-            }
-            dd('sent');
-        }
-
-    }
-
-    $a = new abc();
-
+    Mail::queue('emails.welcome', array('key' => 'value'), function($message)
+    {
+        $message->to('z4ls@live.com', 'ZaL')->subject('Kaizen Push Queue new test!');
+    });
+    return 'email sent';
 });
