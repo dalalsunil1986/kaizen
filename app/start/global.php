@@ -13,11 +13,11 @@
 
 ClassLoader::addDirectories(array(
 
-    app_path().'/commands',
-    app_path().'/controllers',
-    app_path().'/models',
-    app_path().'/presenters',
-    app_path().'/database/seeds',
+    app_path() . '/commands',
+    app_path() . '/controllers',
+    app_path() . '/models',
+    app_path() . '/presenters',
+    app_path() . '/database/seeds',
 
 ));
 //\Debugbar::disable();
@@ -32,9 +32,9 @@ ClassLoader::addDirectories(array(
 |
 */
 
-$logFile = 'log-'.php_sapi_name().'.txt';
+$logFile = 'log-' . php_sapi_name() . '.txt';
 
-Log::useDailyFiles(storage_path().'/logs/'.$logFile);
+Log::useDailyFiles(storage_path() . '/logs/' . $logFile);
 
 /*
 |--------------------------------------------------------------------------
@@ -49,51 +49,41 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 |
 */
 
-App::error(function(Exception $exception, $code)
-{
+App::error(function (Exception $exception, $code) {
     $pathInfo = Request::getPathInfo();
-    $message = $exception->getMessage() ?: 'Exception';
-    Log::error("$code - $message @ $pathInfo\r\n$exception");
+    $message  = $exception->getMessage() ?: 'Exception';
+    $err      = "$code - $message @ $pathInfo\r\n$exception";
+    Log::error($err);
 
-    if (Config::get('app.debug')) {
-        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
-        {
-            Log::error('NotFoundHttpException Route: ' . Request::url() );
-            if(App::isLocal())
-            return;
+    if ( Config::get('app.debug') ) {
+        if ( App::environment('production') ) {
+            $body = $err;
+            Mail::queue('error.log', ['body' => $body], function ($message) {
+                $message->from('admin@Kaizen');
+                $message->to('z4ls@live.com')->subject(' Error in Kaizen');
+            });
+            Log::info('Error Email sent');
+        } else {
+            // Return The Error
+            return ;
         }
-
-        Log::error($exception);
-            if(App::isLocal())
-            return;
     }
 
-    switch ($code)
-    {
+    // Change Views as Per Error Headers
+    switch ( $code ) {
         case 403:
-            return Response::view('error/403', array(), 403);
+            return Response::view('error.403', array(), 403);
 
         case 500:
-            return Response::view('error/500', array(), 500);
+            return Response::view('error.500', array(), 500);
 
         case 404:
-            return Response::view('error/404',array(), 404);
+            return Response::view('error.404', array(), 404);
 
         default:
-            return Response::view('error/default', array(), 503);
+            return Response::view('error.default', array(), 503);
     }
 
-    if(App::environment('production')) {
-        $body = array('exception' => $exception);
-        Mail::send('error.log', $body, function($message)
-        {
-            $message->from('kaizen.com');
-            $message->to('z4ls@live.com')->subject(' Error in Kaizen');
-        });
-        Log::info('Error Email sent to ' . Config::get('settings.error_email'));
-        return Response::view('errors.500', array(), 500);
-
-    }
 });
 
 /*
@@ -107,8 +97,7 @@ App::error(function(Exception $exception, $code)
 |
 */
 
-App::down(function()
-{
+App::down(function () {
     return Response::make("Be right back!", 503);
 });
 
@@ -123,6 +112,6 @@ App::down(function()
 |
 */
 
-require __DIR__.'/../filters.php';
-require __DIR__.'/../helpers.php';
+require __DIR__ . '/../filters.php';
+require __DIR__ . '/../helpers.php';
 

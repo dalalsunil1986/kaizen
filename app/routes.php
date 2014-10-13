@@ -172,10 +172,6 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
      ********************************************************************************************************/
     Route::get('users/{user}/show', array('uses' => 'AdminUsersController@getShow'));
 
-//    Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
-//
-//    Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
-
     Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
 
     Route::post('users/{user}/delete', 'AdminUsersController@postDelete');

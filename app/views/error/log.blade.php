@@ -32,7 +32,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h1> Sorry</h1>
             <div class="error-details">
-                Page You looking for is not found. Contact <a href="{{ action('ContactsController@index')}}">Admin</a> for more details
+               {{$body}}
             </div>
         </div>
     </div>
