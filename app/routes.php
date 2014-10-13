@@ -332,7 +332,7 @@ Route::get('test',function() {
 //    dd($eventRepo->eventStarted($event->date_start));
 //    dd(\Carbon\Carbon::now());
 
-    $mailer = App::make('Acme\Core\Mailer\AbstractMailer');
+    $mailer = App::make('Acme\Core\Mailers\AbstractMailer');
     try {
         $mailer->queue('emails.welcome', [], function ($message) {
             $message
