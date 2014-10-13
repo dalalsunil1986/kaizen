@@ -3,6 +3,7 @@
 use App;
 use Config;
 use Illuminate\Mail\Mailer;
+use Mail;
 
 class AbstractMailer implements MailerInterface {
 
