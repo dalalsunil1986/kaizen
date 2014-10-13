@@ -79,7 +79,7 @@ abstract class AbstractRepository {
         if ( isset($with) && (! empty($with)) ) {
             if ( ! is_array($with) ) throw new InvalidArgumentException;
 
-            return $this->model->with($with)->paginate($perPage);
+            return $this->model->with($with)->latest()->paginate($perPage);
 
         }
 

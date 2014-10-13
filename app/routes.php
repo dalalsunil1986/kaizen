@@ -335,13 +335,11 @@ Route::get('test',function() {
 //    dd(\Carbon\Carbon::now());
 
 
-    class EventHandler extends AbstractMailer {
+    class abc extends AbstractMailer {
 
-        public function handle()
-        {
-            return $this->sendActivationMail();
+        public function __construct() {
+            $this->sendActivationMail();
         }
-
         public function sendActivationMail()
         {
             $this->view           = 'emails.auth.default';
@@ -353,7 +351,6 @@ Route::get('test',function() {
 
             // Send Email
             try {
-
                 $this->fire($user);
             } catch(\Exception $e) {
                 dd($e->getMessage());
@@ -362,4 +359,7 @@ Route::get('test',function() {
         }
 
     }
+
+    $a = new abc();
+
 });

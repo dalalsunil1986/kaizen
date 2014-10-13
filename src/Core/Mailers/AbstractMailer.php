@@ -26,7 +26,7 @@ class AbstractMailer implements MailerInterface {
     {
         try {
             if(App::environment('production')) {
-                $this->mailer->queue($this->view, $array, function ($message) {
+                Mail::queue($this->view, $array, function ($message) {
                     $message
                         ->from($this->senderEmail, $this->senderName)
                         ->sender($this->senderEmail, $this->senderName)
@@ -43,7 +43,6 @@ class AbstractMailer implements MailerInterface {
                 });
 
             }
-
         }
         catch ( \Exception $e ) {
         }
