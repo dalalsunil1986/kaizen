@@ -56,17 +56,15 @@ App::error(function (Exception $exception, $code) {
     Log::error($err);
 
     if ( Config::get('app.debug') ) {
-        if ( App::environment('production') ) {
-            $body = $err;
-            Mail::queue('error.log', ['body' => $body], function ($message) {
-                $message->from('admin@Kaizen');
-                $message->to('z4ls@live.com')->subject(' Error in Kaizen');
-            });
-            Log::info('Error Email sent');
-        } else {
-            // Return The Error
-            return ;
-        }
+        return ;
+    } else {
+        $body = $err;
+        Mail::queue('error.log', ['body' => $body], function ($message) {
+            $message->from('admin@Kaizen');
+            $message->to('z4ls@live.com')->subject(' Error in Kaizen');
+        });
+        Log::info('Error Email sent');
+        // Return The Error
     }
 
     // Change Views as Per Error Headers
