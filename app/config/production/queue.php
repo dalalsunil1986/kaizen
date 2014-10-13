@@ -50,9 +50,11 @@ return array(
 
         'iron' => array(
             'driver'  => 'iron',
+            'host'    => 'mq-aws-us-east-1.iron.io',
             'project' => '5331ac420651c00005000065',
             'token'   => 'ZZPWI8R7LQ7j0gUDjvSORUnU5DI',
             'queue'   => 'mails',
+            'encrypt' => true,
         ),
 
 		'redis' => array(

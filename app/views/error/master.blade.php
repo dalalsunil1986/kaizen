@@ -41,12 +41,8 @@
                 <a href="/">{{ HTML::image('images/Logo.png','kaizen',array('class'=>'img-responsive')) }}</a>
             </div>
             <div class="col-md-7 col-sm-12 visible-lg visible-md visible-sm top30">
-                @section('login')
-                    @include('site.partials.login')
-                @show
             </div>
             <div class="col-md-1 col-sm-1  visible-lg visible-md visible-sm top30">
-                @include('site.partials.locale')
             </div>
         </div>
         <div class="row">
@@ -55,13 +51,11 @@
             </div>
             <div class="row visible-xs">
                 <div class="col-xs-12">
-                    @include('site.partials.login')
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-12">
-                    @include('site.partials.notification')
                 </div>
             </div>
 
