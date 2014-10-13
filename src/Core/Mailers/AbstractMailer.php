@@ -2,7 +2,7 @@
 
 use App;
 use Config;
-use Illuminate\Mail\Mailer;
+use Mail;
 
 class AbstractMailer implements MailerInterface {
 
@@ -14,7 +14,7 @@ class AbstractMailer implements MailerInterface {
     protected $subject;
     protected $view;
 
-    public function __construct(Mailer $mailer)
+    public function __construct(Mail $mailer)
     {
         $this->mailer      = $mailer;
         $this->senderEmail = Config::get('mail.from.address');
