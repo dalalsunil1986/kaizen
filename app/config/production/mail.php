@@ -1,4 +1,5 @@
 <?php
+
 return array(
 
     /*
@@ -27,7 +28,7 @@ return array(
     |
     */
 
-    'host' => 'smtp.gmail.com',
+    'host' => 'smtp.mandrillapp.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +54,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'Admin@Kaizen.com', 'name' => 'Kaizen'),
+    'from' => array('address' => 'noreply@kaizen.com', 'name' => 'Kaizen'),
 
     /*
     |--------------------------------------------------------------------------
@@ -66,7 +67,7 @@ return array(
     |
     */
 
-    'encryption' => 'tls',
+    'encryption' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -79,7 +80,7 @@ return array(
     |
     */
 
-    'username' => 'kaizencourses@gmail.com',
+    'username' => 'uusa35@gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -92,7 +93,7 @@ return array(
     |
     */
 
-    'password' => 'wealllovekaizen',
+    'password' => 'L1_wqYp_JFdpoGl5_Jxzcg',
 
     /*
     |--------------------------------------------------------------------------

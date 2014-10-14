@@ -63,6 +63,7 @@
     <div class="form-group col-md-2 col-sm-4 col-xs-4">
             {{ Form::label('free_event', 'Is this a Free Event ?:') }}
             <br/>
+            {{ Form::hidden('free', 0); }}
             {{ Form::checkbox('free', '1', true,['class'=>'free']) }}
         </div>
     <div class="form-group col-md-4">
@@ -243,7 +244,6 @@ $longitude =  $event->longitude ? $event->longitude : '47.951';
     });
 //
     $(".free").change(function() {
-        alert('free');
         if(this.checked) {
             $("#price").val('0');
 //            $("#price").prop('disabled', true);
@@ -252,6 +252,28 @@ $longitude =  $event->longitude ? $event->longitude : '47.951';
 //            $("#price").prop('disabled', false);
         }
     });
+
+//        $('document').ready(function() {
+//            // initial load
+//            if ($('.free').is(':checked')) {
+//                $("#price").prop('disabled', true);
+//                $("#price").val('0');
+//            } else if ($('#price').val() == 0) {
+//                // on a reload
+//                $('.free').prop('checked', true);
+//                $("#price").prop('disabled', true);
+//            }
+//        });
+//
+//        $(".free").change(function() {
+//            if(this.checked) {
+//                $("#price").val('0');
+//                $("#price").prop('disabled', true);
+//            } else {
+//                $("#price").val('0');
+//                $("#price").prop('disabled', false);
+//            }
+//        });
 
     $(function() {
         var latitude = '{{ $latitude }}';

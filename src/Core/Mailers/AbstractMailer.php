@@ -25,24 +25,14 @@ class AbstractMailer implements MailerInterface {
     public function fire(array $array)
     {
         try {
-            if(App::environment('production')) {
-                $this->mailer->send($this->view, $array, function ($message) {
-                    $message
-                        ->from($this->senderEmail, $this->senderName)
-                        ->sender($this->senderEmail, $this->senderName)
-                        ->to($this->recepientEmail, $this->recepientName)
-                        ->subject($this->subject);
-                });
-            } else {
-                $this->mailer->send($this->view, $array, function ($message) {
-                    $message
-                    ->from($this->senderEmail, $this->senderName)
-                        ->sender($this->senderEmail, $this->senderName)
-                        ->to($this->recepientEmail, $this->recepientName)
-                        ->subject($this->subject);
-                });
+            $this->mailer->send($this->view, $array, function ($message) {
+                $message
+                ->from($this->senderEmail, $this->senderName)
+                    ->sender($this->senderEmail, $this->senderName)
+                    ->to($this->recepientEmail, $this->recepientName)
+                    ->subject($this->subject);
+            });
 
-            }
         }
         catch ( \Exception $e ) {
         }
