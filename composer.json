@@ -8,7 +8,6 @@
         "zizaco/entrust": "dev-master",
         "mailchimp/mailchimp": "dev-master",
         "intervention/image": "dev-master",
-        "iron-io/iron_mq": "1.5.1",
         "mccool/laravel-auto-presenter": "2.*"
 	},
     "require-dev": {

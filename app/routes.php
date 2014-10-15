@@ -117,9 +117,9 @@ Route::resource('user', 'UserController');
 /*********************************************************************************************************
  * Category Routes
  ********************************************************************************************************/
-Route::get('category/{id}/events', array('as' => 'CategoryEvents', 'uses' => 'CategoriesController@getEvents'));
+Route::get('category/{id}/event', array('as' => 'CategoryEvents', 'uses' => 'CategoriesController@getEvents'));
 
-Route::get('category/{id}/posts', array('as' => 'CategoryPosts', 'uses' => 'CategoriesController@getPosts'));
+Route::get('category/{id}/blog', array('as' => 'CategoryPosts', 'uses' => 'CategoriesController@getPosts'));
 
 /*********************************************************************************************************
  * Country Routes
@@ -139,12 +139,6 @@ Route::post('newsletter/subscribe', 'NewslettersController@subscribe');
 Route::get('forbidden', function () {
     return View::make('error.forbidden');
 });
-
-//push queue worker
-Route::post('queue/mails', function () {
-    return Queue::marshal();
-});
-
 
 Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 
