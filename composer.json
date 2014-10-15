@@ -8,15 +8,15 @@
         "zizaco/entrust": "dev-master",
         "mailchimp/mailchimp": "dev-master",
         "intervention/image": "dev-master",
-        "mccool/laravel-auto-presenter": "2.*"
-	},
+        "mccool/laravel-auto-presenter": "2.*",
+        "barryvdh/laravel-dompdf": "dev-master"
+    },
     "require-dev": {
         "fzaninotto/faker": "1.4.*@dev",
         "barryvdh/laravel-debugbar": "1.*",
         "barryvdh/laravel-ide-helper": "v1.9.1",
         "phpunit/phpunit": "4.2.*",
-        "way/generators": "2.*",
-        "barryvdh/laravel-dompdf": "dev-master"
+        "way/generators": "2.*"
     },
 	"autoload": {
 		"classmap": [

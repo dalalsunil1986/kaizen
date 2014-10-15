@@ -1,6 +1,5 @@
 <?php namespace Acme\Core\Mailers;
 
-use App;
 use Config;
 use Illuminate\Mail\Mailer;
 
