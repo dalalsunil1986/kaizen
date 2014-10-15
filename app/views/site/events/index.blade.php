@@ -48,7 +48,7 @@
             </a>
         </span>
         <p>
-            {{{ Str::limit($event->description, 150) }}}
+            {{ Str::limit($event->description, 150) }}
             <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.general.more')}}</a>
         </p>
 
