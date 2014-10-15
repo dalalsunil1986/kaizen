@@ -326,9 +326,9 @@ Route::get('test',function() {
 //    dd($eventRepo->eventStarted($event->date_start));
 //    dd(\Carbon\Carbon::now());
 
-    Mail::queue('emails.welcome', array('key' => 'value'), function($message)
+    Mail::send('emails.welcome', array('key' => 'value'), function($message)
     {
-        $message->to('z4ls@live.com', 'ZaL')->subject('Kaizen Push Queue new test!');
+        $message->to('z4ls@live.com', 'ZaL')->subject('Kaizen Mail service test!');
     });
     return 'email sent';
 });
