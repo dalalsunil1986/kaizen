@@ -35,18 +35,6 @@ class UserRepository extends AbstractRepository  {
 
     }
 
-    public function create(array $data)
-    {
-        if ( ! $user = $this->model->create($data) ) {
-
-            $this->addError('could not create user');
-
-            return false;
-        }
-
-        return $user;
-    }
-
     public function getRoleByName($roleName) {
         $query=  $this->model->with('roles')->whereHas('roles', function($q) use ($roleName)
         {

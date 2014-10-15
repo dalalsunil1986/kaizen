@@ -18,6 +18,4 @@ class CreateValidator extends AbstractValidator {
         'username' => 'required',
     );
 
-
-
 }

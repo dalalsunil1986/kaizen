@@ -10,7 +10,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
     use HasRole;
 
     protected $guarded = array(
-        'id', 'confirmation_code', 'password_confirmation', 'remember_token', '_method', '_token'
+        'id', 'password_confirmation', 'remember_token', '_method', '_token'
     );
 
     protected $hidden = array('password');

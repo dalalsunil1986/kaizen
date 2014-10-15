@@ -80,13 +80,7 @@ class AuthService extends AbstractRepository {
 
                 return false;
             }
-            // activate user
-            $user->active = 1;
-
-            // set confirmation code to null
-            $user->confirmation_code = '';
-
-            $user->save();
+            $this->activate($user);
 
             return true;
 
@@ -177,5 +171,18 @@ class AuthService extends AbstractRepository {
     public function getPasswordResetForm()
     {
         return $this->userRepository->getPasswordResetForm();
+    }
+
+    private function activate($user)
+    {
+//        // activate user
+        $user->active = 1;
+
+        // set confirmation code to null
+        $user->confirmation_code = '';
+
+        $user->save();
+
+        Event::fire('user.activated',[$user->toArray()]);
     }
 }
