@@ -110,10 +110,15 @@ abstract class AbstractRepository {
      */
     public function findById($id, array $with = [])
     {
-        $model = $this->getById($id, $with);
+//        $model = $this->getById($id, $with);
 
-        if ( ! $model ) {
-            throw new EntityNotFoundException;
+        if ( isset($with) && (! empty($with)) ) {
+            if ( ! is_array($with) ) throw new InvalidArgumentException;
+
+            $model = $this->model->with($with)->find($id);
+        } else {
+
+            $model = $this->model->find($id);
         }
 
         return $model;

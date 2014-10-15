@@ -38,30 +38,21 @@
                    {{ strtoupper(Lang::get('site.general.vip'))  }}
                 </div>
                 <div class="panel-body" >
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <p>
-                                <span class="mute"> {{ $setting->vip_description }}</span>
-                                <hr class="separator">
-                            </p>
 
-                            <!-- show for only package subscription view -->
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="input-group">
-                                       <span class="input-group-addon beautiful"> <input type="checkbox"> </span>
-                                       <input type="text" class="form-control" disabled value="{{ Lang::get('site.general.newsletter_subscribe') }}">
-                                    </div>
-                                </div>
+                    @if(!$freeEvent)
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <p>
+                                    <span class="mute"> {{ $setting->vip_description }}</span>
+                                    <hr class="separator">
+                                </p>
                             </div>
-
                         </div>
-                    </div>
 
-                    <div class="col-md-12">
-                       <hr class="separator">
-                       <p> <h3 class="text-center">Price {{ $setting->vip_price }} KD</h3></p>
-                    </div>
+                        <div class="col-md-12">
+                           <p> <h3 class="text-center">Price {{ $setting->vip_price }} KD</h3></p>
+                        </div>
+                    @endif
 
                     <span class="col-md-12 lower-panel">
                         {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
@@ -84,30 +75,22 @@
                    {{ strtoupper(Lang::get('site.general.online'))  }}
                 </div>
                 <div class="panel-body" >
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <p>
-                                <span class="mute"> {{ $setting->online_benefits }}</span>
-                                <hr class="separator">
-                            </p>
 
-                            <!-- show for only package subscription view -->
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="input-group">
-                                       <span class="input-group-addon beautiful"> <input type="checkbox"> </span>
-                                       <input type="text" class="form-control" disabled value="{{ Lang::get('site.general.newsletter_subscribe') }}">
-                                    </div>
-                                </div>
+                    @if(!$freeEvent)
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <p>
+                                    <span class="mute"> {{ $setting->online_description }}</span>
+                                    <hr class="separator">
+                                </p>
+                                <!-- show for only package subscription view -->
                             </div>
-
                         </div>
-                    </div>
 
-                    <div class="col-md-12">
-                       <hr class="separator">
-                       <p> <h3 class="text-center">Price {{ $setting->online_price }} KD</h3></p>
-                    </div>
+                        <div class="col-md-12">
+                           <p> <h3 class="text-center">Price {{ $setting->online_price }} KD</h3></p>
+                        </div>
+                    @endif
 
                     <span class="col-md-12 lower-panel">
                         {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
@@ -133,20 +116,12 @@
                     {{ strtoupper(Lang::get('site.general.normal'))  }}
                  </div>
                  <div class="panel-body" >
-                     <div class="col-md-12">
-                         <div class="form-group">
-                             <p>
-                                 <span class="mute"> {{ $setting->normal_benefits }}</span>
-                                 <hr class="separator">
-                             </p>
 
+                     @if(!$freeEvent)
+                         <div class="col-md-12">
+                            <p> <h3 class="text-center">Price {{ $event->price }} KD</h3></p>
                          </div>
-                     </div>
-
-                     <div class="col-md-12">
-                        <hr class="separator">
-                        <p> <h3 class="text-center">Price {{ $event->price }} KD</h3></p>
-                     </div>
+                     @endif
 
                      <span class="col-md-12 lower-panel">
                             {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}

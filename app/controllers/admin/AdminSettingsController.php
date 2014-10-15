@@ -91,7 +91,7 @@ class AdminSettingsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->settingRepository->errors())->withInput();
         }
 
-        return Redirect::action('AdminEventsController@index')->with('success','Event Added');
+        return Redirect::action('AdminEventsController@index')->with('success','Event Settings Updated');
     }
 
     /**

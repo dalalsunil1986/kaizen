@@ -110,7 +110,8 @@ return [
         'kaizenyc'              => 'كايزن YC',
         'comment-posted'        =>'تم تسجيل التعليق بن,جاح',
         'name_en'               => 'الاسم',
-        'save'              => 'حفظ'
+        'save'              => 'حفظ',
+        'suggested_events'   => 'فعاليات المقترحة'
 
     ],
     'subscription' => [

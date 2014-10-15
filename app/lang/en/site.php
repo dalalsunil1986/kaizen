@@ -109,7 +109,8 @@ return [
         'subscriptions'        => 'حجزات',
         'followings'           => 'متابعات',
         'kaizenyc'              => 'kaizen YC',
-        'comment-posted'        => 'Comment Posted'
+        'comment-posted'        => 'Comment Posted',
+        'suggested_events'   => 'You might also be interested in'
 
     ],
     'subscription' => [

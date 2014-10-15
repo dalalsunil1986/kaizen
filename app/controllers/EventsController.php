@@ -311,6 +311,8 @@ class EventsController extends BaseController {
     {
         $event = $this->eventRepository->findById($id);
 
+        $freeEvent = $event->free ? true: false;
+
         // initialize values with a false boolean
         $vip    = false;
         $online = false;
@@ -332,7 +334,7 @@ class EventsController extends BaseController {
         if ( in_array('ONLINE', $reg_types) ) $online = true;
         if ( in_array('NORMAL', $reg_types) ) $normal = true;
 
-        $this->render('site.events.event-registration-types', compact('event', 'vip', 'online', 'setting', 'normal'));
+        $this->render('site.events.event-registration-types', compact('event', 'vip', 'online', 'setting', 'normal','freeEvent'));
 
     }
 
@@ -394,7 +396,6 @@ class EventsController extends BaseController {
             $events[] = $suggestedTagEvent;
 
         $this->render('site.events.suggest', compact('events'));
-
 
     }
 

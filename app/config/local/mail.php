@@ -1,5 +1,4 @@
 <?php
-
 return array(
 
     /*
@@ -15,7 +14,7 @@ return array(
     |
     */
 
-    'driver' => 'mail',
+    'driver' => 'smtp',
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +27,7 @@ return array(
     |
     */
 
-    'host' => 'smtp.mandrillapp.com',
+    'host' => 'smtp.gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +53,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'noreply@kaizen.com', 'name' => 'Kaizen'),
+    'from' => array('address' => 'Admin@Kaizen.com', 'name' => 'Kaizen'),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +66,7 @@ return array(
     |
     */
 
-    'encryption' => '',
+    'encryption' => 'tls',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +79,7 @@ return array(
     |
     */
 
-    'username' => 'uusa35@gmail.com',
+    'username' => 'zalszalz@gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +92,7 @@ return array(
     |
     */
 
-    'password' => 'L1_wqYp_JFdpoGl5_Jxzcg',
+    'password' => 'darkage07',
 
     /*
     |--------------------------------------------------------------------------
