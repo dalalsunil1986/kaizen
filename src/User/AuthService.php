@@ -2,7 +2,6 @@
 
 use Auth;
 use Carbon\Carbon;
-use Hash;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\AbstractRepository;
@@ -30,13 +29,11 @@ class AuthService extends AbstractRepository {
         $data['confirmation_code'] = $this->generateToken();
         $data['active'] = 0;
         if ( ! $user = $this->userRepository->create($data) ) {
-
-
             $this->addError('could not create user');
 
             return false;
         }
-
+        Event::fire('user.created',[$data]);
         return true;
     }
 
