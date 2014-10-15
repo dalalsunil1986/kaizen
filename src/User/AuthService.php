@@ -185,4 +185,25 @@ class AuthService extends AbstractRepository {
 
         Event::fire('user.activated',[$user->toArray()]);
     }
+
+    public function deactivate($user)
+    {
+        $user->active = 0;
+
+        // set confirmation code to null
+        $user->confirmation_code = '';
+
+        $user->save();
+
+        Event::fire('user.deactivated',[$user->toArray()]);
+    }
+
+    public function changeActivateStatus($user)
+    {
+        if($user->active) {
+            $this->deactivate($user);
+        } else {
+            $this->activate($user);
+        }
+    }
 }

@@ -10,22 +10,23 @@ class EventHandler extends AbstractMailer {
      * @param array|\User $user
      * @internal param array $data Handle the* Handle the
      */
+
     public function handle(array $user)
     {
         if ( Event::firing() == 'user.created' ) {
-
             return $this->sendActivationMail($user);
         } elseif ( Event::firing() == 'user.activated' ) {
-            return $this->welcomeMail($user);
+            return $this->sendWelcomeMail($user);
+        } elseif ( Event::firing() == 'user.deactivated' ) {
+            return $this->sendDeactivatedMail($user);
         } elseif ( Event::firing() == 'user.reset' ) {
-
             return $this->sendPasswordResetMail($user);
         }
     }
 
     public function sendActivationMail($user)
     {
-        $this->view           = 'emails.auth.default';
+        $this->view = 'emails.auth.default';
         $this->recepientEmail = $user['email'];
         $this->recepientName  = $user['name_ar'];
 
@@ -42,14 +43,26 @@ class EventHandler extends AbstractMailer {
         $this->fire($user);
     }
 
-    public function welcomeMail($user)
+    public function sendWelcomeMail($user)
     {
         $this->sendActivationMail($user);
     }
 
+
+    public function sendDeactivatedMail($user)
+    {
+        $this->view = 'emails.auth.default';
+        $this->recepientEmail = $user['email'];
+        $this->recepientName  = $user['name_ar'];
+
+        $this->subject        = 'Your Kaizen Account has been deactivated.';
+        $user['body']         = 'Your Kaizen Account assosiated with email '.$user['email'].' has been deactivated. Please <a href="' . action('ContactsController@index') . '"> Contact Admin </a> for Further Details';
+
+    }
+
     private function sendPasswordResetMail(User $user)
     {
-        $this->view           = 'emails.auth.default';
+        $this->view = 'emails.auth.default';
         $this->recepientEmail = $user->email;
         $this->recepientName  = $user->name;
         $this->subject        = 'Please Reset Your Email';

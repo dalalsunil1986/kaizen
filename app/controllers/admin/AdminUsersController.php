@@ -193,6 +193,11 @@ class AdminUsersController extends AdminBaseController {
 
         $user->saveRoles(Input::get( 'roles' ));
 
+        // If user activate status have changed;
+        if($user->active != Input::get('active')) {
+            $this->authService->changeActivateStatus($user);
+        }
+
         return Redirect::action('AdminUsersController@index')->with('success', 'Updated user' );
     }
 
