@@ -27,25 +27,11 @@ class AuthService extends AbstractRepository {
     public function register(array $data)
     {
         $data['confirmation_code'] = $this->generateToken();
-        $data['active'] = 0;
-        if ( ! $user = $this->userRepository->create($data) ) {
-            $this->addError('could not create user');
 
-            return false;
+        // If in Admin panel active is set, that will override this
+        if(!isset($data['active'])) {
+            $data['active'] = 0;
         }
-        Event::fire('user.created',[$data]);
-        return true;
-    }
-
-    /**
-     * Create
-     *
-     * @param array $data
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function adminRegister(array $data)
-    {
-        $data['active'] = 1;
         if ( ! $user = $this->userRepository->create($data) ) {
             $this->addError('could not create user');
 
