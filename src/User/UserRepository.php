@@ -37,13 +37,13 @@ class UserRepository extends AbstractRepository  {
 
     public function create(array $data)
     {
-        $data['confirmation_code'] = md5(uniqid(mt_rand(), true));
         if ( ! $user = $this->model->create($data) ) {
 
             $this->addError('could not create user');
 
             return false;
         }
+
         return $user;
     }
 

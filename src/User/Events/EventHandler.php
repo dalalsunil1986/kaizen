@@ -15,7 +15,7 @@ class EventHandler extends AbstractMailer {
         if ( Event::firing() == 'user.created' ) {
 
             return $this->sendActivationMail($user);
-        } elseif ( Event::firing() == 'user.reset' ) {
+        }  elseif ( Event::firing() == 'user.reset' ) {
 
             return $this->sendPasswordResetMail($user);
         }

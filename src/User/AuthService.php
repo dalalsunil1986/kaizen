@@ -38,6 +38,24 @@ class AuthService extends AbstractRepository {
     }
 
     /**
+     * Create
+     *
+     * @param array $data
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function adminRegister(array $data)
+    {
+        $data['active'] = 1;
+        if ( ! $user = $this->userRepository->create($data) ) {
+            $this->addError('could not create user');
+
+            return false;
+        }
+        Event::fire('user.created',[$data]);
+        return true;
+    }
+
+    /**
      * Delete
      * @param int $id
      * @return boolean

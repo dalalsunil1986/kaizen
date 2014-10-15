@@ -115,7 +115,7 @@ class AdminUsersController extends AdminBaseController {
         }
 
         // If Auth Sevice Fails to Register the User
-        if ( ! $user = $this->userRepository->create($val->getInputData()) ) {
+        if ( ! $user = $this->authService->adminRegister($val->getInputData()) ) {
 
             return Redirect::home()->with('errors', $this->userRepository->errors());
         }
