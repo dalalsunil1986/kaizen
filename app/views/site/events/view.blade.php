@@ -147,7 +147,6 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
 
                     @if( !$subscribed)
-
                         <a href="{{  URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) }}"/>
                             <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
                                 data-toggle="tooltip" data-placement="top" title="{{  trans('site.event.subscribe')  }}">
@@ -158,7 +157,6 @@
                             </button>
                         </a>
                     @else
-
                         {{-- If Subscribed --}}
                         @if($canWatchOnline)
                             {{-- If Can Watch Online --}}
