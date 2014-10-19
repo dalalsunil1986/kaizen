@@ -326,9 +326,11 @@ Route::get('test',function() {
 //    dd($eventRepo->eventStarted($event->date_start));
 //    dd(\Carbon\Carbon::now());
 
-    Mail::send('emails.welcome', array('key' => 'value'), function($message)
-    {
-        $message->to('z4ls@live.com', 'ZaL')->subject('Kaizen Mail service test!');
-    });
-    return 'email sent';
+//    Mail::send('emails.welcome', array('key' => 'value'), function($message)
+//    {
+//        $message->to('z4ls@live.com', 'ZaL')->subject('Kaizen Mail service test!');
+//    });
+//    return 'email sent';
+    $date = new \Carbon\Carbon();
+    dd($date->now());
 });
