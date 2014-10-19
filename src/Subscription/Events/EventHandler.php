@@ -13,6 +13,7 @@ class EventHandler extends AbstractMailer {
     public function handle(array $user)
     {
         if ( Event::firing() == 'subscriptions.created' ) {
+
             return $this->sendSubscriptionMail($user);
         }
     }
@@ -28,7 +29,6 @@ class EventHandler extends AbstractMailer {
                 $user['body']  = 'Your Request for the event ' . $user['title'] . ' is awaiting for admin approval. You will be notified shortly ';
                 break;
             case 'APPROVED' :
-//                Please '. link_to_action('SubscriptionsController@subscribe', 'Click Here', $event->id)
                 $user['body']  = 'Your Request for the event ' . $user['title'] . ' is Approved, Please Confirm Your Subscription By ' . link_to_action('SubscriptionsController@confirmSubscription','Clicking this Link',[$user['event_id']]);
                 break;
             case 'CONFIRMED' :

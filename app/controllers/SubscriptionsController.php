@@ -107,7 +107,7 @@ class SubscriptionsController extends BaseController {
         }
 
         // if event is currently going on
-        if ( !$this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
+        if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
 
             return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event.event-expired'));
         }
@@ -116,7 +116,7 @@ class SubscriptionsController extends BaseController {
             $subscription = new Subscriber($subscription);
             $subscription->unsubscribe();
 
-            return Redirect::home()->with('success', trans('messages.subscription-unsubscripe-message'));
+            return Redirect::action('EventsController@index')->with('success', trans('messages.subscription-unsubscripe-message'));
         }
 
     }

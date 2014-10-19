@@ -407,22 +407,17 @@ class EventsController extends BaseController {
         if ( $user ) {
             //check whether seats are empty
             $event        = $this->eventRepository->findById($id);
-            $eventExpired = $this->eventRepository->ifEventExpired($event->date_start);
+            $eventExpired = $this->eventRepository->eventExpired($event->date_start);
 
-            if ( !$eventExpired ) {
+            if ( $eventExpired ) {
                 if ( !$event->requests->contains($user->id) ) {
                     $event->requests()->attach($user, ['created_at' => Carbon::now()->toDateTimeString()]);
                 }
-
-                return Response::json(array(
-                    'success' => true,
-                    'message' => trans('site.subscription.requested')
-                ), 200);
+//                return Redirect::action('EventsController@show',$id)->with('success',trans('site.subscription.requested'));
             }
 
         }
-
-        return null;
+        return Redirect::action('EventsController@show',$id)->with('success',trans('site.subscription.requested'));
 
     }
 
