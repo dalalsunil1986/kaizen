@@ -25,13 +25,12 @@ class ApprovedState extends AbstractState implements SubscriberState {
         if ( ! $this->subscriber->model->subscriptionConfirmed() ) {
             if ( $this->checkInvalidRegistrationType() ) {
                 // @todo : more efficient way to determine the free or paid event
-                if ( $this->subscriber->model->event->price < 0 ) {
-                    // Paid Event
-
-                    return $this->sendPaymentLink();
-                } else {
+                if ( $this->subscriber->model->event->isFreeEvent() ) {
                     // Free Event
                     return $this->subscriber->setSubscriptionState($this->subscriber->getConfirmedState());
+                } else {
+                    // Paid Event
+                    return $this->subscriber->setSubscriptionState($this->subscriber->getPaymentState());
                 }
             }
         } else {
@@ -39,12 +38,6 @@ class ApprovedState extends AbstractState implements SubscriberState {
             $this->subscriber->messages->add('errors', 'Already Subscribed');
         }
 
-    }
-
-    private function sendPaymentLink()
-    {
-        //@todo Send Payment Link
-        $this->subscriber->messages->add('success', 'Payment Email Sent');
     }
 
     /**

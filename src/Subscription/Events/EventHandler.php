@@ -40,6 +40,9 @@ class EventHandler extends AbstractMailer {
             case 'REJECTED' :
                 $user['body']  = 'Your Request to Subscribe event ' . $user['title'] .' has been rejected.';
                 break;
+            case 'PAYMENT' :
+                $user['body']  = 'Your Request to Subscribe event ' . $user['title'] .' has been Approved.' . link_to_action('PaymentsController@getPayment', 'Click this link For the Payment', [$user['event_id']] );
+                break;
             default :
                 break;
         }

@@ -11,6 +11,7 @@ class Subscriber {
     public $waiting;
     public $rejected;
     public $pending;
+    public $payment;
     public $model;
     public $subscriptionState;
     public $messages;
@@ -24,6 +25,7 @@ class Subscriber {
         $this->pending   = new PendingState($this);
         $this->messages  = new MessageBag();
         $this->approved  = new ApprovedState($this);
+        $this->payment  = new PaymentState($this);
 
         $this->model = $subscription;
 
@@ -67,10 +69,9 @@ class Subscriber {
         $event = $this->model->event;
 
         // Merge User and Event Model
-        $user = array_merge($user, ['title' => $event->title, 'status' => $this->model->status]);
+        $user = array_merge($user, ['title' => $event->title, 'event_id'=>$event->id, 'status' => $this->model->status]);
         // Fire the Event ( this will also send email to the user )
-        Event::fire('subscriptions.created', [$user]);
-
+//        Event::fire('subscriptions.created', [$user]);
     }
 
     /**
@@ -121,4 +122,11 @@ class Subscriber {
         return $this->pending;
     }
 
+    /**
+     * @return \Acme\Subscription\State\Pending
+     */
+    public function  getPaymentState()
+    {
+        return $this->pending;
+    }
 }

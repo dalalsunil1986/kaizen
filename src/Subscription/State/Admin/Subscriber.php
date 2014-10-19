@@ -11,6 +11,7 @@ class Subscriber {
     public $waiting;
     public $rejected;
     public $pending;
+    public $payment;
     public $model;
 
     public $subscriptionState;
@@ -25,6 +26,7 @@ class Subscriber {
         $this->rejected  = new RejectedState($this);
         $this->pending   = new PendingState($this);
         $this->approved  = new ApprovedState($this);
+        $this->payment  = new PaymentState($this);
         $this->messages  = new MessageBag();
         $this->model = $subscription;
         $status                  = strtolower($status);
@@ -93,4 +95,11 @@ class Subscriber {
         return $this->pending;
     }
 
+    /**
+     * @return \Acme\Subscription\State\Pending
+     */
+    public function getPaymentState()
+    {
+        return $this->payment;
+    }
 }

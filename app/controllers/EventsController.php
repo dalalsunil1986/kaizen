@@ -113,6 +113,8 @@ class EventsController extends BaseController {
     {
         $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos']);
 
+        dd($event->isFreeEvent());
+
         $tags = $this->eventRepository->findById($id)->tags;
 
         // returns true false
@@ -607,4 +609,9 @@ class EventsController extends BaseController {
         }
     }
 
+    public function getPayment($id)
+    {
+        dd('payment option');
+        dd($id);
+    }
 }

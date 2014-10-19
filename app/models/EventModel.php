@@ -329,5 +329,12 @@ class EventModel extends BaseModel implements PresenterInterface {
         $this->attributes['phone'] = (int) ($value);
     }
 
+    public function isFreeEvent(){
+        if($this->free || $this->price < 1) {
+            return true;
+        }
+        return false;
+    }
+
 }
 

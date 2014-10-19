@@ -59,6 +59,11 @@ Route::get('subscribe', 'SubscriptionsController@subscribe');
 Route::get('event/{id}/confirm', 'SubscriptionsController@confirmSubscription');
 
 Route::get('event/{id}/unsubscribe', 'SubscriptionsController@unsubscribe');
+
+/*********************************************************************************************************
+ * Payment
+ ********************************************************************************************************/
+Route::get('event/{id}/payment-options','PaymentsController@getPayment');
 /*********************************************************************************************************
  * Contact Us Route
  ********************************************************************************************************/
@@ -209,7 +214,6 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::get('event/{id}/details', 'AdminEventsController@getDetails');
 
-
     Route::get('event/type/create', 'AdminEventsController@selectType');
 
     Route::post('photo/create', 'AdminEventsController@storeImage');
@@ -331,6 +335,5 @@ Route::get('test',function() {
 //        $message->to('z4ls@live.com', 'ZaL')->subject('Kaizen Mail service test!');
 //    });
 //    return 'email sent';
-    $date = new \Carbon\Carbon();
-    dd($date->now());
+
 });

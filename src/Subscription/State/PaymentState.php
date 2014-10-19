@@ -1,7 +1,7 @@
 <?php
 namespace Acme\Subscription\State;
 
-class PendingState extends AbstractState implements SubscriberState {
+class PaymentState extends AbstractState implements SubscriberState {
 
     public $subscriber;
 
@@ -12,13 +12,18 @@ class PendingState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
-        $this->subscriber->model->status = 'PENDING';
+        dd('non admin payment');
+        // check if the user has already paid to the event
+        // if paid, set confirm state
+        // if not, say the he cannot be confirmed before payment
+        $this->subscriber->model->status = 'PAYMENT';
         $this->subscriber->model->save();
 
     }
 
     public function cancelSubscription()
     {
-        $this->subscriber->model->delete();
+
     }
+
 }

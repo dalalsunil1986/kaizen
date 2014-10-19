@@ -111,7 +111,8 @@ return [
         'comment-posted'        =>'تم تسجيل التعليق بن,جاح',
         'name_en'               => 'الاسم',
         'save'              => 'حفظ',
-        'suggested_events'   => 'فعاليات المقترحة'
+        'suggested_events'   => 'فعاليات المقترحة',
+        'payment_options' => ' Payment Options'
 
     ],
     'subscription' => [

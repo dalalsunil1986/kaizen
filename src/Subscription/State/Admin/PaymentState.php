@@ -1,7 +1,7 @@
 <?php
-namespace Acme\Subscription\State;
+namespace Acme\Subscription\State\Admin;
 
-class PendingState extends AbstractState implements SubscriberState {
+class PaymentState extends AbstractState implements SubscriberState {
 
     public $subscriber;
 
@@ -12,13 +12,12 @@ class PendingState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
-        $this->subscriber->model->status = 'PENDING';
+        $this->subscriber->model->status = 'PAYMENT';
         $this->subscriber->model->save();
-
     }
 
     public function cancelSubscription()
     {
-        $this->subscriber->model->delete();
     }
+
 }

@@ -6,8 +6,6 @@ use DB;
 use EventModel;
 use Acme\Core\Repositories\Illuminate;
 use Acme\Core\Repositories\AbstractRepository;
-use Redirect;
-use User;
 
 class EventRepository extends AbstractRepository {
 
