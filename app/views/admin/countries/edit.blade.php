@@ -15,6 +15,11 @@
     {{ Form::text('name_en', NULL,array('class'=>'form-control')) }}
 </div>
 
+<div class="form-group">
+    {{ Form::label('iso code', 'ISO Code:') }}
+    {{ Form::text('iso_code', NULL,array('class'=>'form-control')) }}
+</div>
+
 {{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
 {{ link_to_action('AdminCountriesController@show', 'Cancel', $country->id, array('class' => 'btn')) }}
 <!-- ./ form actions -->

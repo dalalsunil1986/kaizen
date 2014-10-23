@@ -635,7 +635,11 @@ span.tag:after {
 }
 
 .wrapper {
-   border: 1px solid rgba(181, 164, 173, 0.16);
-   border-radius: 2px;"
-   padding:0 10px;
+    border: 1px solid rgba(181, 164, 173, 0.16);
+    border-radius: 2px;
+    padding : 0 10 px;
+}
+
+.show-on-hover:hover > ul.dropdown-menu {
+    display: block;
 }

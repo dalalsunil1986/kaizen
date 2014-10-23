@@ -44,7 +44,7 @@ class UserController extends BaseController {
     public function edit($id)
     {
         $user      = $this->userRepository->findById($id);
-        $countries = $this->countryRepository->getAll()->lists('name_en', 'id');
+        $countries = $this->countryRepository->getAll()->lists('name_ar', 'id');
         $this->render('site.users.edit', compact('user', 'countries'));
     }
 
@@ -96,5 +96,13 @@ class UserController extends BaseController {
         $this->render('site.users.profile', compact('user'));
     }
 
+    /**
+     * Post Request
+     * Set User's Country
+     */
+    public function setUserCountry()
+    {
+
+    }
 
 }

@@ -22,4 +22,7 @@ class CountryRepository extends AbstractRepository  {
         $this->model = $model;
     }
 
+    public function getByIso($isoCode){
+        return $this->model->where('iso_code',$isoCode)->first();
+    }
 }

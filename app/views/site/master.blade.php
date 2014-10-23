@@ -40,13 +40,14 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <a href="/">{{ HTML::image('images/Logo.png','kaizen',array('class'=>'img-responsive')) }}</a>
             </div>
-            <div class="col-md-7 col-sm-12 visible-lg visible-md visible-sm top30">
+            <div class="col-md-6 col-sm-12 visible-lg visible-md visible-sm top30">
                 @section('login')
                     @include('site.partials.login')
                 @show
             </div>
-            <div class="col-md-1 col-sm-1  visible-lg visible-md visible-sm top30">
-                @include('site.partials.locale')
+
+            <div class="col-md-2 col-sm-2  visible-lg visible-md visible-sm top30">
+                @include('site.partials.country')
             </div>
         </div>
         <div class="row">

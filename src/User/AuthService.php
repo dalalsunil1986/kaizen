@@ -1,5 +1,7 @@
 <?php namespace Acme\User;
 
+use Acme\Libraries\UserGeoIp;
+use Acme\Libraries\UserLocale;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
@@ -11,11 +13,21 @@ class AuthService extends AbstractRepository {
 
     public $errors;
     public $userRepository;
+    /**
+     * @var UserLocale
+     */
+    private $userLocale;
 
-    public function __construct(UserRepository $userRepository,MessageBag $errors)
+    /**
+     * @param UserRepository $userRepository
+     * @param MessageBag $errors
+     * @param UserLocale $userLocale
+     */
+    public function __construct(UserRepository $userRepository,MessageBag $errors, UserLocale $userLocale)
     {
         $this->userRepository = $userRepository;
         $this->errors  = $errors;
+        $this->userLocale = $userLocale;
     }
 
     /**
@@ -38,6 +50,9 @@ class AuthService extends AbstractRepository {
             return false;
         }
         Event::fire('user.created',[$data]);
+        Event::fire('user.updatecountry');
+
+
         return true;
     }
 

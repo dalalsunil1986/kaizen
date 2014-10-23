@@ -12,6 +12,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
+				<th>ISO Code</th>
 			</tr>
 		</thead>
 
@@ -19,6 +20,7 @@
 			@foreach ($countries as $country)
 				<tr>
 					<td>{{{ $country->name }}}</td>
+					<td>{{{ $country->iso_code }}}</td>
                     <td>{{ link_to_action('AdminCountriesController@edit', 'Edit', array($country->id), array('class' => 'btn btn-info')) }}</td>
                     <td>
                         {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminCountriesController@destroy', $country->id))) }}

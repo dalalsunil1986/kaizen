@@ -1,6 +1,9 @@
 <?php
 
+use Acme\Country\CountryRepository;
+use Acme\Libraries\UserGeoIp;
 use Acme\User\AuthService;
+use Acme\User\UserRepository;
 
 class AuthController extends BaseController {
 
@@ -8,14 +11,29 @@ class AuthController extends BaseController {
      * @var AuthRepository
      */
     private $service;
+    /**
+     * @var CountryRepository
+     */
+    private $countryRepository;
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
 
-    public function __construct(AuthService $service)
+    /**
+     * @param AuthService $service
+     * @param CountryRepository $countryRepository
+     * @param UserRepository $userRepository
+     */
+    public function __construct(AuthService $service, CountryRepository $countryRepository, UserRepository $userRepository)
     {
         $this->service = $service;
         parent::__construct();
 
         // restrict authenticated users from pages except logout
         $this->beforeFilter('noAuth', ['except'=> ['getLogout']]);
+        $this->countryRepository = $countryRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function getLogin()
@@ -57,17 +75,21 @@ class AuthController extends BaseController {
         // get the registration form
         $val = $this->service->getRegistrationForm();
 
-        // check if the form is valid
-        if ( ! $val->isValid() ) {
+//        // check if the form is valid
+//        if ( ! $val->isValid() ) {
+//
+//            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+//        }
 
-            return Redirect::back()->with('errors', $val->getErrors())->withInput();
-        }
+//        // If Auth Sevice Fails to Register the User
+//        if ( ! $this->service->register($val->getInputData()) ) {
+//
+//            return Redirect::home()->with('errors', $this->service->errors());
+//        }
 
-        // If Auth Sevice Fails to Register the User
-        if ( ! $this->service->register($val->getInputData()) ) {
-
-            return Redirect::home()->with('errors', $this->service->errors());
-        }
+        $user_country = new UserGeoIp($this->userRepository);
+        $country = $this->countryRepository->getByIso($user_country);
+        dd($country);
 
         // If User got Registered
         return Redirect::action('AuthController@getLogin')->with('success', 'Email confirmation link has been sent to your email. PLease confirm your account');

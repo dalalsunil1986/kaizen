@@ -78,6 +78,10 @@ return array(
 	|
 	*/
 
+    'currency_api' => 'cecddddb303946938cd96f93c3c96f54',
+
+    'geoDb' => app_path().'/libs/GeoLite2-Country.mmdb',
+
 	'providers' => array(
 
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',

@@ -72,4 +72,7 @@ class UserRepository extends AbstractRepository  {
         return new AdminCreateValidator();
     }
 
+    public function getCountryByIso($isoCode){
+        return $this->model->country;
+    }
 }

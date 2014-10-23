@@ -11,12 +11,13 @@ class CreateValidator extends AbstractValidator {
      */
     protected $rules = array(
         'name_ar'       => 'required',
+        'iso_code'       => 'required',
     );
 
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'name_ar','name_en'
+            'name_ar','name_en','iso_code'
         ]);
     }
 }

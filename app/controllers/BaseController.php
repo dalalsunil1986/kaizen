@@ -1,8 +1,7 @@
 <?php
 
 
-abstract class BaseController extends Controller
-{
+abstract class BaseController extends Controller {
 
     // define the master layout for the site
     protected $layout = 'site.master';
@@ -20,11 +19,31 @@ abstract class BaseController extends Controller
     {
         $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
         $this->sidebarPosts();
+        $this->initLocale();
+
+        $currency = App::make('Acme\Libraries\UserCurrency');
+        dd($currency);
+    }
+
+    public function initLocale()
+    {
+        $defaultCountry     = 'Kuwait';
+        $availableCountries = ['Kuwait' => 'KW', 'Qatar' => 'QA', 'Bahrain' => 'BH', 'UAE' => 'AE', 'Oman' => 'OM', 'Saudi Arabia' => 'SA'];
+
+        $selectedCountry = $this->findCountry($defaultCountry);
+
+        if ( ($key = array_search($selectedCountry, $availableCountries)) !== false ) {
+            unset($availableCountries[$key]);
+        }
+//        unset($availableCountries[$selectedCountry]);
+
+        View::share('availableCountries', $availableCountries);
+        View::share('selectedCountry', $selectedCountry);
     }
 
     protected function setupLayout()
     {
-        if ( ! is_null($this->layout) ) {
+        if ( !is_null($this->layout) ) {
             $this->layout = View::make($this->layout);
         }
     }
@@ -90,4 +109,32 @@ abstract class BaseController extends Controller
         return Redirect::back()->withInput()->with($data);
     }
 
+    protected function findCountry($defaultCountry)
+    {
+        if ( Session::has('user.country') ) {
+            $country = Session::get('user.country');
+        } elseif ( Auth::check() ) {
+            if ( !is_null(Auth::user()->country) ) {
+                $countryId = Auth::user()->country_id;
+                if ( $country = Country::find($countryId) ) {
+                    $country = $country->iso_code;
+                    Session::put('user.country', $country);
+                }
+            }
+        }
+
+        if ( empty($country) ) {
+            // find by IP
+            $class   = App::make('Acme\Libraries\UserGeoIp');
+            $country = $class->getCountry();
+            Session::put('user.country',$country);
+        }
+
+        if ( empty($country) ) {
+            $country = $defaultCountry;
+            Session::put('user.country',$defaultCountry);
+        }
+
+        return $country;
+    }
 }

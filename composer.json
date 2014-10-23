@@ -10,7 +10,9 @@
         "intervention/image": "dev-master",
         "mccool/laravel-auto-presenter": "2.*",
         "barryvdh/laravel-dompdf": "dev-master",
-        "paypal/rest-api-sdk-php": "dev-master"
+        "paypal/rest-api-sdk-php": "dev-master",
+        "geoip2/geoip2": "dev-master",
+        "ujjwal/currency-converter": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "1.4.*@dev",
