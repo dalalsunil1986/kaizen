@@ -1,24 +1,22 @@
 <?php namespace Acme\Libraries;
 
+use App;
 use CurrencyConverter\CurrencyConverter;
 
 class UserCurrency {
 
     public $currency;
 
-    public $defaultCurrency = 'KWD';
-
     public function __construct()
     {
-//        $currency = new Currency(new OpenExchangeRates(Config::get('app.currency_api')), new Runtime());
         $this->currency = new CurrencyConverter;
-//        dd($this->currency->currencies());
-//        $value =  $currency->convert('KWD', 'INR',1);
-//        dd($value);
+        $this->country = App::make('Acme\Country\CountryRepository');
+        setlocale(LC_MONETARY, 'en_US');
     }
 
     public function convert($to = 'KWD', $amount )
     {
-        return $this->currency->convert($this->defaultCurrency,$to,$amount);
+        $converter =  $this->currency->convert($this->country->defaultCurrency,$to,$amount);
+        return money_format("%!n",round($converter));
     }
 } 

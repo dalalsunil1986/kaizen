@@ -4,8 +4,8 @@
     </button>
 
     <ul class="dropdown-menu" role="menu">
-        @foreach($availableCountries as $country=>$iso)
-            <li><a href="{{ action('LocaleController@setCountry',['country'=> $iso]) }}">{{$country}}</a></li>
+        @foreach($availableCountries as $country )
+            <li><a href="{{ action('LocaleController@setCountry',['country'=> $country->iso_code]) }}">{{$country->name}}</a></li>
         @endforeach
     </ul>
 </div>

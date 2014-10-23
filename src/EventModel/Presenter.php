@@ -34,21 +34,24 @@ class Presenter extends AbstractPresenter {
 
     public function price()
     {
-        $iso       = Session::get('user.country');
-        if ($iso == 'KW') {
+        $iso = Session::get('user.country');
+        if ( $iso == 'KW' ) {
             return $this->resource->price . ' KD';
         }
 
         $converter = App::make('Acme\Libraries\UserCurrency');
         $country   = Country::where('iso_code', $iso)->first();
 
-        if($country) {
+        if ( $country ) {
+            $converter = $converter->convert($country->currency, $this->resource->price);
+            if ( empty($converter) ) {
+                return $this->resource->price . ' KD';
+            }
 
-            return $converter->convert($country->currency, $this->resource->price) . ' ' . $country->currency;
+            return $converter . ' ' . $country->currency;
         } else {
             return $this->resource->price . ' KD';
         }
-//        if ( $country->iso_code == $iso ) return $this->resource->price . ' ' . $country->currency;
 
     }
 

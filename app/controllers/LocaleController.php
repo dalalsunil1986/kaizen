@@ -1,21 +1,24 @@
 <?php
 
+use Acme\Country\CountryRepository;
+use Acme\User\UserRepository;
+
 class LocaleController extends BaseController {
 
     /**
-     * @var \Acme\User\UserRepository
+     * @var UserRepository
      */
     private $userRepository;
     /**
-     * @var \Acme\Country\CountryRepository
+     * @var CountryRepository
      */
     private $countryRepository;
 
     /**
-     * @param \Acme\User\UserRepository $userRepository
-     * @param \Acme\Country\CountryRepository $countryRepository
+     * @param UserRepository $userRepository
+     * @param CountryRepository $countryRepository
      */
-    public function __construct(\Acme\User\UserRepository $userRepository, \Acme\Country\CountryRepository $countryRepository)
+    public function __construct(UserRepository $userRepository, CountryRepository $countryRepository)
     {
         parent::__construct();
         $this->userRepository    = $userRepository;
