@@ -2,11 +2,6 @@ $(document).ready(function () {
     // tooltip activation
     $("[data-toggle=tooltip]").tooltip();
 
-    // EventController Buttons -- Disabled Case
-    $('.btns_disabled').click(function () {
-        alert('يجب التسجيل أولاً لاستخدام تلك الميزة');
-    });
-
     // EventController Favorite btn
     $('.favorite_btn').click(function () {
         $('.favorite_btn').tooltip('hide');
@@ -29,7 +24,6 @@ $(document).ready(function () {
                 if(data.success) {
                     $('.favorite').toggleClass('active');
                 }
-                alert(data.message);
             }
         });
     });
@@ -54,7 +48,6 @@ $(document).ready(function () {
                 if(data.success) {
                     $('.follow').toggleClass('active');
                 }
-                alert(data.message);
             }
         });
     });
