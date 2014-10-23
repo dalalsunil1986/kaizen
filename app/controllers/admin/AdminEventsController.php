@@ -110,8 +110,6 @@ class AdminEventsController extends AdminBaseController {
         $tags = is_array(Input::get('tag')) ? Input::get('tag') : [];
         $this->tagRepository->attachTags($event, $tags );
 
-        return Redirect::action('AdminEventsController@edit', $event->id)->with('success', 'Updated');
-
         // Create a settings record for the inserted event
         // Settings Record needs to know Which type of Record and The Foreign Key it needs to Create
         // So pass these fields with Session (settableType,settableId)

@@ -1,22 +1,24 @@
 <?php namespace Acme\Libraries;
 
-use Config;
-use Moltin\Currency\Currency;
-use Moltin\Currency\Exchange\OpenExchangeRates;
-use Moltin\Currency\Format\Runtime;
+use CurrencyConverter\CurrencyConverter;
 
 class UserCurrency {
 
     public $currency;
 
-    public $defaultCurrency = 'KD';
+    public $defaultCurrency = 'KWD';
 
     public function __construct()
     {
-        $currency = new Currency(new OpenExchangeRates(Config::get('app.currency_api')), new Runtime());
+//        $currency = new Currency(new OpenExchangeRates(Config::get('app.currency_api')), new Runtime());
+        $this->currency = new CurrencyConverter;
 //        dd($this->currency->currencies());
-        $value = $currency->convert(9.33)->from('GBP')->to('KWD')->format();
-        dd($value);
+//        $value =  $currency->convert('KWD', 'INR',1);
+//        dd($value);
     }
 
+    public function convert($to = 'KWD', $amount )
+    {
+        return $this->currency->convert($this->defaultCurrency,$to,$amount);
+    }
 } 

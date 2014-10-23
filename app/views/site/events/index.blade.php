@@ -25,7 +25,7 @@
 
         @foreach($events as $event)
             {{-- Include Events Results --}}
-            @include('site.events._event_results')
+            @include('site.events._results')
         @endforeach
 
         <?php echo $events->appends(Request::except('page'))->links(); ?>

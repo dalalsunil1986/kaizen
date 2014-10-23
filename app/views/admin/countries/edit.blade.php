@@ -20,6 +20,11 @@
     {{ Form::text('iso_code', NULL,array('class'=>'form-control')) }}
 </div>
 
+<div class="form-group">
+    {{ Form::label('country code', 'Country Currency:') }}
+    {{ Form::text('currency', NULL,array('class'=>'form-control')) }}
+</div>
+
 {{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
 {{ link_to_action('AdminCountriesController@show', 'Cancel', $country->id, array('class' => 'btn')) }}
 <!-- ./ form actions -->

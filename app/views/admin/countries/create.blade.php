@@ -22,6 +22,11 @@
         {{ Form::text('iso_code', NULL,array('class'=>'form-control')) }}
     </div>
 
+    <div class="form-group">
+        {{ Form::label('country code', 'Country Currency:') }}
+        {{ Form::text('currency', NULL,array('class'=>'form-control')) }}
+    </div>
+
     {{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
     <!-- ./ form actions -->
     {{ Form::close() }}

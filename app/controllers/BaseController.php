@@ -22,7 +22,7 @@ abstract class BaseController extends Controller {
         $this->initLocale();
 
         $currency = App::make('Acme\Libraries\UserCurrency');
-        dd($currency);
+//        dd($currency);
     }
 
     public function initLocale()

@@ -4,7 +4,7 @@
     @if(count($events))
         <h1> {{ trans('site.general.suggested_events') }}</h1>
         @foreach($events as $event)
-            @include('site.events._event_results')
+            @include('site.events._results')
         @endforeach
     @endif
 @stop

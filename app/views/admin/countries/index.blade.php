@@ -13,6 +13,7 @@
 			<tr>
 				<th>Name</th>
 				<th>ISO Code</th>
+				<th>Currency</th>
 			</tr>
 		</thead>
 
@@ -21,6 +22,7 @@
 				<tr>
 					<td>{{{ $country->name }}}</td>
 					<td>{{{ $country->iso_code }}}</td>
+					<td>{{{ $country->currency }}}</td>
                     <td>{{ link_to_action('AdminCountriesController@edit', 'Edit', array($country->id), array('class' => 'btn btn-info')) }}</td>
                     <td>
                         {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminCountriesController@destroy', $country->id))) }}
