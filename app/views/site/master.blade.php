@@ -46,18 +46,21 @@
                     @include('site.partials.login')
                 @show
             </div>
-
             <div class="col-md-2 col-sm-2  visible-lg visible-md visible-sm top30">
                 @include('site.partials.region')
             </div>
+
         </div>
         <div class="row">
             <div class="row">
                 @include('site.partials.navigation')
             </div>
             <div class="row visible-xs">
-                <div class="col-xs-12">
+                <div class="col-xs-8">
                     @include('site.partials.login')
+                </div>
+                <div class="col-xs-4 top30">
+                    @include('site.partials.region')
                 </div>
             </div>
 
