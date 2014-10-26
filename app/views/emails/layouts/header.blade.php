@@ -82,9 +82,9 @@
                                             <table style="width:100%;text-align:center;background-color:white;border-collapse:collapse;border:none;font-weight:bold;font-family:arial;font-size:13px">
                                                 <tbody>
                                                 <tr>
-                                                    <td style="border-right:2px solid #dddad9;height:40px"><a href="{{ URL::route('home') }}" style="display:inline-block;width:100%;text-decoration:none;color:#a9a9a9;word-wrap:break-word;font-weight:normal" title="main page" target="_blank">Our Events</a></td>
-                                                    <td style="border-right:2px solid #dddad9;height:40px"><a href="{{ URL::route('blog.index') }}" style="display:inline-block;width:100%;text-decoration:none;color:#a9a9a9;word-wrap:break-word;font-weight:normal" title="our blog" target="_blank">Our Blog</a></td>
-                                                    <td><a href="{{ URL::route('contact.index') }}" style="display:inline-block;width:100%;text-decoration:none;color:#a9a9a9;word-wrap:break-word;font-weight:normal" title="contact us" target="_blank">Contact Us</a></td>
+                                                    <td style="border-right:2px solid #dddad9;height:40px"><a href="{{ URL::route('home') }}" style="display:inline-block;width:100%;text-decoration:none;color:#a9a9a9;word-wrap:break-word;font-weight:normal" title="page" target="_blank">{{trans('site.nav.events') }}</a></td>
+                                                    <td style="border-right:2px solid #dddad9;height:40px"><a href="{{ URL::route('blog.index') }}" style="display:inline-block;width:100%;text-decoration:none;color:#a9a9a9;word-wrap:break-word;font-weight:normal" title="blog" target="_blank">{{trans('site.nav.posts') }}</a></td>
+                                                    <td><a href="{{ URL::route('contact.index') }}" style="display:inline-block;width:100%;text-decoration:none;color:#a9a9a9;word-wrap:break-word;font-weight:normal" title="contact us" target="_blank">{{trans('site.contact_us') }}</a></td>
                                                 </tr>
                                                 </tbody>
                                             </table>

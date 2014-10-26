@@ -342,8 +342,8 @@ Route::get('test',function() {
     $countries = ['Kuwait','United Arab Emirates','Qatar','Bahrain','Oman','Saudi Arabia'];
     $countries_abb = ['KW','QA','BH','AE','OM','SA'];
 
-//    $geoIpDB = app_path().'/libs/GeoLite2-Country.mmdb';
-//    $reader = new Reader($geoIpDB);
+    $geoIpDB = app_path().'/libs/GeoLite2-Country.mmdb';
+    $reader = new Reader($geoIpDB);
 //    $record = $reader->country('168.187.22.137'); // KW Kuwait
 ////    $record = $reader->country('82.148.97.69'); // QA Qatar
 ////    $record = $reader->country('109.161.184.148'); // BH Bahrain
@@ -351,8 +351,9 @@ Route::get('test',function() {
 ////    $record = $reader->country('82.178.0.138'); // OM Oman
 ////    $record = $reader->country('5.42.255.255'); // SA Saudi Arabia
 //    print($record->country->name ."\n");
+//    print($record->country->name ."\n");
 //    dd($record->country->isoCode);
 
-    $locale = App::make('Acme\Libraries\UserLocale');
-    dd($locale);
+    $locale = App::make('Acme\Libraries\UserGeoIp');
+    dd($locale->getCountry());
 });
