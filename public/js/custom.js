@@ -47,4 +47,3 @@ $( "#slide4" ).on( "click", function() {
     $('.carousel').carousel(4);
     activatTab($(this));
 });
-});
