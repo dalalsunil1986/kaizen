@@ -13,7 +13,7 @@ class CountryRepository extends AbstractRepository {
 
     use CrudableTrait;
 
-    public $default = 'Kuwait';
+    public $defaultCountry = 'KW';
     public $defaultCurrency = 'KWD';
 
     /**
@@ -33,9 +33,21 @@ class CountryRepository extends AbstractRepository {
         return $this->model->where('iso_code', $isoCode)->first();
     }
 
+    /**
+     * @return mixed
+     * Get
+     * @todo : Cache the Query
+     */
     public function availableCountries()
     {
-        return $this->getAll();
+        $selectedCountry = Session::has('user.country') ? Session::get('user.country') : null ;
+        $query = $this->model->whereNotIn('iso_code',[$selectedCountry])->get();
+        return $query;
+    }
+
+    public function supportedCountries()
+    {
+        return $this->model->lists('iso_code');
     }
 
     public function setRegion()
@@ -60,7 +72,7 @@ class CountryRepository extends AbstractRepository {
         }
 
         if ( empty($country) ) {
-            $country = $this->default;
+            $country = $this->defaultCountry;
             Session::put('user.country', $country);
         }
 

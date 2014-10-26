@@ -19,7 +19,8 @@
         </style>
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/font-awesome.min.css') }}
-    {{ HTML::style(asset('css/intlTelInput.css')); }}
+    {{ HTML::style('css/intlTelInput.css'); }}
+    {{ HTML::style('css/flags.css'); }}
     @if ( App::getLocale() == 'ar')
         {{ HTML::style('css/bootstrap-rtl.min.css') }}
     @endif
@@ -47,7 +48,7 @@
             </div>
 
             <div class="col-md-2 col-sm-2  visible-lg visible-md visible-sm top30">
-                @include('site.partials.country')
+                @include('site.partials.region')
             </div>
         </div>
         <div class="row">

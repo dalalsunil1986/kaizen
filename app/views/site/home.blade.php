@@ -14,6 +14,6 @@
 <!-- Content Section -->
 @section('content')
 @parent
-    @include('site.partials.youtube')
-    @include('site.partials.instagram')
+    {{--@include('site.partials.youtube')--}}
+    {{--@include('site.partials.instagram')--}}
 @stop

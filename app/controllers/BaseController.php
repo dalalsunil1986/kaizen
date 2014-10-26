@@ -22,9 +22,12 @@ abstract class BaseController extends Controller {
         $this->initRegion();
     }
 
+    /**
+     * Get User's Country and Set It as his default Country
+     */
     public function initRegion()
     {
-        View::composer('site.partials.country', function ($view) {
+        View::composer('site.partials.region', function ($view) {
             $countryRepository  = App::make('Acme\Country\CountryRepository');
             $selectedCountry    = $countryRepository->setRegion();
             $availableCountries = $countryRepository->availableCountries();

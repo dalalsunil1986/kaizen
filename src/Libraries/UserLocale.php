@@ -16,7 +16,6 @@ class UserLocale  {
     {
         $this->geoIp = $geoIp;
         $this->currency = $currency;
-
     }
 
     public function getUserCountry(){

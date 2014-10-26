@@ -1,5 +1,6 @@
 <?php namespace Acme\Libraries;
 
+use Acme\Country\CountryRepository;
 use Acme\User\UserRepository;
 use Config;
 use GeoIp2\Database\Reader;
@@ -12,21 +13,27 @@ class UserGeoIp {
 
     private $isoCode;
 
-    protected $defaultCountry = 'KW';
-
-    protected $supportedCountries = ['KW', 'QA', 'BH', 'AE', 'OM', 'SA'];
+//    protected $defaultCountry = 'KW';
+//
+//    protected $supportedCountries = ['KW', 'QA', 'BH', 'AE', 'OM', 'SA'];
     /**
      * @var UserRepository
      */
     private $userRepository;
+    /**
+     * @var CountryRepository
+     */
+    private $countryRepository;
 
     /**
      * @param UserRepository $userRepository
+     * @param CountryRepository $countryRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, CountryRepository $countryRepository)
     {
         $this->reader         = new Reader(Config::get('app.geoDb'));
         $this->userRepository = $userRepository;
+        $this->countryRepository = $countryRepository;
         $this->detectUserCountry();
     }
 
@@ -69,8 +76,8 @@ class UserGeoIp {
             $record  = $this->reader->country($this->getClientIP());
             $country = $record->country->isoCode;
 
-            if ( empty($country) || !in_array($country, $this->supportedCountries) ) {
-                $this->setCountry($this->defaultCountry);
+            if ( empty($country) || !in_array($country, $this->countryRepository->supportedCountries()) ) {
+                $this->setCountry($this->countryRepository->defaultCountry);
             } else {
                 $this->setCountry($country);
             }
