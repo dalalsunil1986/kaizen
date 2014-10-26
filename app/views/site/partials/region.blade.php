@@ -1,7 +1,7 @@
 <div class="btn-group btn-group-sm">
 
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        <img src="blank.gif" class="flag flag-{{strtolower($selectedCountry)}}"/>{{ $selectedCountry }}<span class="caret"></span>
+        <img src="" class="flag flag-{{strtolower($selectedCountry)}}"/>{{ $selectedCountry }}<span class="caret"></span>
     </button>
 
     <ul class="dropdown-menu" role="menu">
