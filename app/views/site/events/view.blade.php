@@ -236,12 +236,15 @@
                 <tr>
                     <h4>{{ trans('site.event.summaryevent') }}</h4>
                 </tr>
-                <tr>
-                    <td><b>{{ trans('site.general.country') }} </b></td>
-                    <td> {{ $event->location->country->name }} </td>
-                    <td><b>{{ trans('site.general.location') }}</b></td>
-                    <td> {{ $event->location->name }} </td>
-                </tr>
+
+                @if($event->location)
+                    <tr>
+                        <td> <b>{{ trans('site.general.country') }} </b></td>
+                        <td> {{ $event->location->country ? $event->location->country->name : '' }} </td>
+                        <td> <b>{{ trans('site.general.location') }}</b></td>
+                        <td> {{ $event->location->name }} </td>
+                    </tr>
+                @endif
 
                 <tr>
                     <td><b>{{ trans('site.event.date_start') }}</b></td>

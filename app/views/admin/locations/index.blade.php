@@ -20,7 +20,7 @@
 			@foreach ($locations as $location)
 				<tr>
 					<td>{{{ $location->name }}}</td>
-					<td>{{{ $location->country->name }}}</td>
+					<td>{{{ $location->country ? $location->country->name : '' }}}</td>
                     <td>{{ link_to_action('AdminLocationsController@edit', 'Edit', array($location->id), array('class' => 'btn btn-info')) }}</td>
                     <td>
                         {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminLocationsController@destroy', $location->id))) }}

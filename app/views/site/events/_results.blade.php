@@ -33,10 +33,11 @@
     |</i>
     <i class="glyphicon glyphicon-calendar"></i> {{ $event->date_start }} -  {{ $event->date_end }} |
 
-    <i class="glyphicon glyphicon-globe">
-
-        {{ link_to_action('EventsController@index', $event->location->country->name ,array('search'=>'','country'=>$event->location->country->id)) }}
-    |</i>
+    @if($event->location && $event->location->country)
+        <i class="glyphicon glyphicon-globe">
+            {{ link_to_action('EventsController@index', $event->location->country->name ,array('search'=>'','country'=>$event->location->country->id)) }}
+        |</i>
+    @endif
 
     @if($event->category)
         <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;
