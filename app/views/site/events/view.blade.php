@@ -13,7 +13,6 @@
     {{ HTML::script('http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js') }}
     {{ HTML::script('js/bootstrap-image-gallery.js') }}
     {{ HTML::script('js/app.js') }}
-
     <script>
         var id = '<?php echo $event->id; ?>';
 
@@ -139,7 +138,6 @@
             </h1>
         </div>
 
-
         <div class="col-md-5">
 
             <div class="row">
@@ -212,20 +210,19 @@
             </div>
         </div>
     </div>
-
+    <hr>
     @if(count($event->photos))
-        <div class="row" id="event_images">
-            <div id="links">
+        <div class="row">
+            <div id="links" class="event-images">
                 @foreach($event->photos as $photo)
-                    <a href="#" data-gallery>
-                        {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive img-thumbnail')) }}
+                    <a href="{{ asset('uploads/medium/'.$photo->name) }}" title="{{ $event->title }}" data-gallery>
+                        {{ HTML::image('uploads/thumbnail/'.$photo->name.'',$photo->name,array('class'=>'img-responsive thumbnail-img')) }}
                     </a>
                 @endforeach
             </div>
         </div>
-        <br><br><br>
     @endif
-
+    <hr>
     <div class="row">
         <div class="col-md-12">
             <div class="description">
@@ -268,7 +265,7 @@
                 <tr>
                     <td><b>{{ trans('site.event.price') }}</b></td>
                     @if($event->price)
-                        <td>{{ $event->price }}</td>
+                        <td>{{ $event->priceConverted }}</td>
                     @else
                         <td>{{ trans('site.event.free') }}</td>
                     @endif

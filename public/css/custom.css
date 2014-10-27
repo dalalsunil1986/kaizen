@@ -132,6 +132,13 @@ a:hover{
     margin: 5px;
 }
 
+.thumbnail-img {
+    width: 115px;
+    float: right;
+    margin: 0 5px 5px 5px;
+    border: 2px solid #c0c0c0;
+}
+
 #statistic_feed {
     padding-top: 10px;
 }
@@ -642,4 +649,8 @@ span.tag:after {
 
 .show-on-hover:hover > ul.dropdown-menu {
     display: block;
+}
+
+.slides .modal-footer {
+    font-family: arial, helvetica;
 }

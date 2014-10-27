@@ -36,7 +36,9 @@ class EventRepository extends AbstractRepository {
     public function getEvents($perPage = 10)
     {
         return $this->getAll()
-            ->orderBy('date_start', 'DESC')
+            ->where('date_start','>',Carbon::now())
+            ->orderBy('date_start', 'ASC')
+            ->orderBy('created_at', 'DESC')
             ->paginate($perPage);
     }
 
@@ -63,7 +65,6 @@ class EventRepository extends AbstractRepository {
             }
             $events_unique = array_unique($array);
             $sliderEvents  = $this->mergeSliderEvents(6, $events_unique);
-
             return $sliderEvents;
         } else {
             return null;
@@ -116,6 +117,7 @@ class EventRepository extends AbstractRepository {
     {
         $events = DB::table('events AS e')
             ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
+            ->where('p.imageable_type', '=', 'EventModel')
             ->whereIn('e.id', $array)
             ->take($limit)
             ->groupBy('e.id')

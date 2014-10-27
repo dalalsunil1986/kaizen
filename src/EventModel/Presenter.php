@@ -32,7 +32,7 @@ class Presenter extends AbstractPresenter {
         return $this->resource->date_end->format('Y-m-d H:i');
     }
 
-    public function price()
+    public function priceConverted()
     {
         $iso = Session::get('user.country');
         if ( $iso == 'KW' ) {

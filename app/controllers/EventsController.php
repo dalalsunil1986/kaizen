@@ -85,7 +85,11 @@ class EventsController extends BaseController {
                         $locations = $this->countryRepository->findById($country)->locations()->lists('id');
                         $query->whereIn('location_id', $locations);
                     }
-                })->orderBy('date_start', 'ASC')->paginate($perPage);
+                })
+                ->where('date_start','>',Carbon::now())
+                ->orderBy('date_start', 'ASC')
+                ->orderBy('created_at', 'DESC')
+                ->paginate($perPage);
 
         } else {
             $events = $this->eventRepository->getEvents($perPage);
@@ -334,7 +338,7 @@ class EventsController extends BaseController {
         if ( in_array('ONLINE', $reg_types) ) $online = true;
         if ( in_array('NORMAL', $reg_types) ) $normal = true;
 
-        $this->render('site.events.event-registration-types', compact('event', 'vip', 'online', 'setting', 'normal','freeEvent'));
+        $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal','freeEvent'));
 
     }
 

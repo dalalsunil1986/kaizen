@@ -78,6 +78,17 @@
 
         <div class="row">
             <div class="form-group col-md-6">
+                {{ Form::label('normal_description_en', 'Normal Description in English') }}
+                {{ Form::textarea('normal_description_en',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
+            </div>
+            <div class="form-group col-md-6">
+                {{ Form::label('normal_description_ar', 'Normal Description in Arabic') }}
+                {{ Form::textarea('normal_description_ar',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
                 {{ Form::label('vip_description_en', 'VIP Description in English') }}
                 {{ Form::textarea('vip_description_en',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
             </div>
