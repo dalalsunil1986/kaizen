@@ -13,21 +13,16 @@ class AuthService extends AbstractRepository {
 
     public $errors;
     public $userRepository;
-    /**
-     * @var UserLocale
-     */
-    private $userLocale;
+
 
     /**
      * @param UserRepository $userRepository
      * @param MessageBag $errors
-     * @param UserLocale $userLocale
      */
-    public function __construct(UserRepository $userRepository,MessageBag $errors, UserLocale $userLocale)
+    public function __construct(UserRepository $userRepository,MessageBag $errors)
     {
         $this->userRepository = $userRepository;
         $this->errors  = $errors;
-        $this->userLocale = $userLocale;
     }
 
     /**
@@ -50,7 +45,7 @@ class AuthService extends AbstractRepository {
             return false;
         }
         Event::fire('user.created',[$data]);
-        Event::fire('user.updatecountry');
+//        Event::fire('user.updatecountry');
 
 
         return true;

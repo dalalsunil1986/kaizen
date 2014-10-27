@@ -75,21 +75,21 @@ class AuthController extends BaseController {
         // get the registration form
         $val = $this->service->getRegistrationForm();
 
-//        // check if the form is valid
-//        if ( ! $val->isValid() ) {
-//
-//            return Redirect::back()->with('errors', $val->getErrors())->withInput();
-//        }
+        // check if the form is valid
+        if ( ! $val->isValid() ) {
 
-//        // If Auth Sevice Fails to Register the User
-//        if ( ! $this->service->register($val->getInputData()) ) {
-//
-//            return Redirect::home()->with('errors', $this->service->errors());
-//        }
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+        }
 
-        $user_country = new UserGeoIp($this->userRepository);
-        $country = $this->countryRepository->getByIso($user_country);
-        dd($country);
+        // If Auth Sevice Fails to Register the User
+        if ( ! $this->service->register($val->getInputData()) ) {
+
+            return Redirect::home()->with('errors', $this->service->errors());
+        }
+
+//        $user_country = new UserGeoIp($this->userRepository);
+//        $country = $this->countryRepository->getByIso($user_country);
+//        dd($country);
 
         // If User got Registered
         return Redirect::action('AuthController@getLogin')->with('success', 'Email confirmation link has been sent to your email. PLease confirm your account');
