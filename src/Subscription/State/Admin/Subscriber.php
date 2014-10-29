@@ -50,7 +50,7 @@ class Subscriber {
         // Merge User and Event Model
         $user = array_merge($user, ['event_id' => $event->id,'title' => $event->title, 'status' => $this->model->status]);
         // Fire the Event ( this will also send email to the user )
-        Event::fire('subscriptions.created', [$user]);
+//        Event::fire('subscriptions.created', [$user]);
     }
 
     public function unsubscribe()

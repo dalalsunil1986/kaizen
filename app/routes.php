@@ -1,4 +1,5 @@
 <?php
+
 //Route::model('role', 'Role');
 
 /** ------------------------------------------
@@ -63,7 +64,11 @@ Route::get('event/{id}/unsubscribe', 'SubscriptionsController@unsubscribe');
 /*********************************************************************************************************
  * Payment
  ********************************************************************************************************/
-Route::get('event/{id}/payment-options','PaymentsController@getPayment');
+Route::get('event/{id}/payment/options','PaymentsController@getPayment');
+
+Route::post('payment','PaymentsController@makePayment' );
+
+Route::get('payment','PaymentsController@process');
 /*********************************************************************************************************
  * Contact Us Route
  ********************************************************************************************************/
