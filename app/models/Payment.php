@@ -16,9 +16,8 @@ class Payment extends BaseModel {
         return $this->morphTo();
     }
 
-    public function photos()
-    {
-        return $this->morphMany('Payment', 'payable');
+    public function user(){
+        return $this->belongsTo('User');
     }
 
 }

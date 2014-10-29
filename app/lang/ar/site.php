@@ -112,8 +112,9 @@ return [
         'name_en'               => 'الاسم',
         'save'              => 'حفظ',
         'suggested_events'   => 'فعاليات المقترحة',
-        'payment_options' => ' Payment Options'
-
+        'payment_options' => ' Payment Options',
+        'total' => 'مجموع',
+        'pay-with-payapl' => 'Pay With Paypal'
     ],
     'subscription' => [
         'subscribed'         => 'You subscribed this event',

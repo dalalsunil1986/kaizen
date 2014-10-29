@@ -238,5 +238,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
     }
 
 
+    public function payments(){
+        return $this->hasMany('Payment');
+    }
+
 
 }

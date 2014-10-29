@@ -3,10 +3,10 @@
     @show
 </div>
 <div class="col-md-4 col-xs-12">
-    {{--@section('sidebar')--}}
-        {{--@include('site.partials.twitter')--}}
-        {{--@include('site.events.latest')--}}
-        {{--@include('site.blog.latest')--}}
-        {{--@include('site.partials.newsletter')--}}
-    {{--@show--}}
+    @section('sidebar')
+        @include('site.partials.twitter')
+        @include('site.events.latest')
+        @include('site.blog.latest')
+        @include('site.partials.newsletter')
+    @show
 </div>

@@ -66,9 +66,9 @@ Route::get('event/{id}/unsubscribe', 'SubscriptionsController@unsubscribe');
  ********************************************************************************************************/
 Route::get('event/{id}/payment/options','PaymentsController@getPayment');
 
-Route::post('payment','PaymentsController@makePayment' );
+Route::post('payment','PaymentsController@postPayment' );
 
-Route::get('payment','PaymentsController@process');
+Route::get('payment/final','PaymentsController@getFinal');
 /*********************************************************************************************************
  * Contact Us Route
  ********************************************************************************************************/

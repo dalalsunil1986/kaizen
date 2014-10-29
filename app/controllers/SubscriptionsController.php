@@ -41,7 +41,6 @@ class SubscriptionsController extends BaseController {
     public function subscribe($eventId = '', $registrationType = '')
     {
         // todo : check if event is not expired
-
         $userId           = Auth::user()->id;
         $eventId          = empty($eventId) ? Input::get('event_id') : $eventId;
         $registrationType = empty($registrationType) ? Input::get('registration_type') : $registrationType;

@@ -7,47 +7,47 @@ use Event;
 class EventHandler extends AbstractMailer {
 
     /**
-     * @param array|\User $user
+     * @param array|\User $array
      * @internal param array $data Handle the* Handle the
      */
-    public function handle(array $user)
+    public function handle(array $array)
     {
         if ( Event::firing() == 'subscriptions.created' ) {
 
-            return $this->sendSubscriptionMail($user);
+            return $this->sendSubscriptionMail($array);
         }
     }
 
-    public function sendSubscriptionMail($user)
+    public function sendSubscriptionMail($array)
     {
         $this->view           = 'emails.subscription';
-        $this->recepientEmail = $user['email'];
-        $this->recepientName  = $user['name_en'];
+        $this->recepientEmail = $array['email'];
+        $this->recepientName  = $array['name_en'];
         $this->subject        = 'Kaizen Event Subscription' ;
-        switch ( $user['status'] ) {
+        switch ( $array['status'] ) {
             case 'PENDING' :
-                $user['body']  = 'Your Request for the event ' . $user['title'] . ' is awaiting for admin approval. You will be notified shortly ';
+                $array['body']  = 'Your Request for the event ' . $array['title'] . ' is awaiting for admin approval. You will be notified shortly ';
                 break;
             case 'APPROVED' :
-                $user['body']  = 'Your Request for the event ' . $user['title'] . ' is Approved, Please Confirm Your Subscription By ' . link_to_action('SubscriptionsController@confirmSubscription','Clicking this Link',[$user['event_id']]);
+                $array['body']  = 'Your Request for the event ' . $array['title'] . ' is Approved, Please Confirm Your Subscription By ' . link_to_action('SubscriptionsController@confirmSubscription','Clicking this Link',[$array['event_id']]);
                 break;
             case 'CONFIRMED' :
-                $user['body']  = 'You have been confirmed to the event ' . $user['title'];
+                $array['body']  = 'You have been confirmed to the event ' . $array['title'];
                 break;
             case 'WAITING' :
-                $user['body']  = 'You have been put on waiting list for the event ' . $user['title'];
+                $array['body']  = 'You have been put on waiting list for the event ' . $array['title'];
                 break;
             case 'REJECTED' :
-                $user['body']  = 'Your Request to Subscribe event ' . $user['title'] .' has been rejected.';
+                $array['body']  = 'Your Request to Subscribe event ' . $array['title'] .' has been rejected.';
                 break;
             case 'PAYMENT' :
-                $user['body']  = 'Your Request to Subscribe event ' . $user['title'] .' has been Approved.' . link_to_action('PaymentsController@getPayment', 'Click this link For the Payment', [$user['event_id']] );
+                $array['body']  = 'Your Request to Subscribe event ' . $array['title'] .' has been Approved.' . link_to_action('PaymentsController@getPayment', 'Click this link For the Payment', [$array['event_id'],'token'=>$array['token']] );
                 break;
             default :
                 break;
         }
         // Send Email
-        $this->fire($user);
+        $this->fire($array);
     }
 
 

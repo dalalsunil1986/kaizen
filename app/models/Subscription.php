@@ -50,6 +50,9 @@ class Subscription extends BaseModel {
 
     }
 
-
+    public function payments()
+    {
+        return $this->morphMany('Payment', 'payable');
+    }
 
 }

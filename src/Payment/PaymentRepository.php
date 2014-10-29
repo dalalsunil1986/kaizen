@@ -16,6 +16,10 @@ class PaymentRepository extends AbstractRepository {
         $this->model = $model;
     }
 
+    public function findByToken($token)
+    {
+        return $this->model->where('token',$token)->first();
+    }
 
 
 }

@@ -44,13 +44,7 @@ class Subscriber {
     {
         $this->subscriptionState->createSubscription();
         // Pass the User and Event Model, and Merge both into one array and pass it to the Event Fired
-        $user  = $this->model->user->toArray();
-        $event = $this->model->event;
-
-        // Merge User and Event Model
-        $user = array_merge($user, ['event_id' => $event->id,'title' => $event->title, 'status' => $this->model->status]);
-        // Fire the Event ( this will also send email to the user )
-//        Event::fire('subscriptions.created', [$user]);
+        $this->notify();
     }
 
     public function unsubscribe()
@@ -101,5 +95,19 @@ class Subscriber {
     public function getPaymentState()
     {
         return $this->payment;
+    }
+
+    /**
+     * Send a Notification Email to the User
+     */
+    public function notify()
+    {
+        $user  = $this->model->user->toArray();
+        $event = $this->model->event;
+        $token = $this->messages->has('token') ? $this->messages->get('token') : '';
+        // Merge User and Event Model
+        $array = array_merge($user, ['event_id' => $event->id, 'title' => $event->title, 'status' => $this->model->status, 'token' => array_shift($token)]);
+        // Fire the Event ( this will also send email to the user )
+        Event::fire('subscriptions.created', [$array]);
     }
 }

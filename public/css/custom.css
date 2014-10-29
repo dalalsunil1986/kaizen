@@ -654,3 +654,9 @@ span.tag:after {
 .slides .modal-footer {
     font-family: arial, helvetica;
 }
+
+.bg-white {
+    background: #FFFFff;
+    border:solid 1px #efefef;
+    border-top:none ;
+}

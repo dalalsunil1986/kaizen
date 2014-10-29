@@ -1,14 +1,31 @@
 @extends('site.layouts._two_column')
 
 @section('content')
-    <h1> {{ trans('site.general.payment_options') }}</h1>
-        {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['PaymentsController@makePayment']]) }}
-            {{ Form::hidden('payable_id',$event->id) }}
-            {{ Form::hidden('payable_type','EventModel') }}
 
-			<div class='form-actions'>
-				<input class="btn btn btn-primary" name="commit" type="submit"
-					value="Pay With Paypal" />
-			</div>
-		</form>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="mute">{{ trans('site.general.payment_options') }}</span>
+            </div>
+            <div class="panel-body bg-white">
+                @include('site.events._results')
+            </div>
+            <div class="panel-footer">
+                <div class="row text-center">
+                    <div class="col-xs-9">
+                        <h4 class="text-right">{{trans('site.general.total')}} : <strong>{{ $event->priceConverted }}</strong></h4>
+                    </div>
+                    <div class="col-xs-3">
+                        {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['PaymentsController@postPayment']]) }}
+                            {{ Form::hidden('event_id',$event->id) }}
+                            {{ Form::hidden('token', Input::get('token')) }}
+                            <div class='form-actions'>
+                                <input class="btn btn btn-success" name="commit" type="submit" value="{{trans('site.general.pay-with-payapl')}}" />
+                            </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 @stop
