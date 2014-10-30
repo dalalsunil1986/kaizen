@@ -3,12 +3,12 @@
 use Acme\EventModel\EventRepository;
 use Acme\Payment\Methods\Paypal;
 use Acme\Payment\PaymentRepository;
+use PayPal\Exception\PPConnectionException;
 
 class PaymentsController extends BaseController {
 
     /**
      * Post Model
-     * @var Post
      */
     protected $model;
     /**
@@ -70,7 +70,7 @@ class PaymentsController extends BaseController {
             $paypal              = new Paypal();
             $payment             = $paypal->makePaymentUsingPayPal($amount, 'USD', $description, "$baseUrl&success=true", "$baseUrl&success=false");
             $paymentRepo->status = $payment->getState();
-            $payment->payer_id   = $payment->getId();
+            $paymentRepo->payer_id   = $payment->getId();
             $paymentRepo->save();
             header("Location: " . $this->getLink($payment->getLinks(), 'approval_url'));
             exit;
@@ -83,6 +83,9 @@ class PaymentsController extends BaseController {
             $message     = $ex->getMessage();
             $messageType = "error";
         }
+
+//        header("Location: " . $this->getLink($payment->getLinks(), 'approval_url'));
+//        exit;
     }
 
     public function getFinal()
@@ -99,7 +102,6 @@ class PaymentsController extends BaseController {
         $payment->payment_token = Input::get('token');
 
         if ( Input::get('success') == true ) {
-
             $payment->status = 'CONFIRMED';
             $payment->token  = ''; // set token to null
             $payment->save();
@@ -112,7 +114,6 @@ class PaymentsController extends BaseController {
 
         return Redirect::action('EventsController@index')->with('error', 'Could Not Subscribe You');
 
-
     }
 
     public function getLink(array $links, $type)
@@ -122,7 +123,6 @@ class PaymentsController extends BaseController {
                 return $link->getHref();
             }
         }
-
         return "";
     }
 }
