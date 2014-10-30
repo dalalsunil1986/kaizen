@@ -3,7 +3,6 @@
 use Acme\EventModel\EventRepository;
 use Acme\Payment\Methods\Paypal;
 use Acme\Payment\PaymentRepository;
-use PayPal\Exception\PPConnectionException;
 
 class PaymentsController extends BaseController {
 
@@ -24,19 +23,17 @@ class PaymentsController extends BaseController {
      * Inject the models.
      * @param PaymentRepository $paymentRepository
      * @param EventRepository $eventRepository
-     * @internal param Ad $model
-     * @internal param \Post $post
      */
     public function __construct(PaymentRepository $paymentRepository, EventRepository $eventRepository)
     {
-        parent::__construct();
         $this->paymentRepository = $paymentRepository;
         $this->eventRepository   = $eventRepository;
+        $this->beforeFilter('auth');
+        parent::__construct();
     }
 
     /**
      * @param $id
-     * @param $token
      * Lands on this page when link from email is clicked
      */
     public function getPayment($id)
@@ -79,15 +76,13 @@ class PaymentsController extends BaseController {
             $paypal  = new Paypal();
 
             // Make Payment
-//            $payment = $paypal->makePaymentUsingPayPal($paymentRepo->amount, 'USD', $description, "$baseUrl&success=true", "$baseUrl&success=false");
+            $payment = $paypal->makePaymentUsingPayPal($paymentRepo->amount, 'USD', $description, "$baseUrl&success=true", "$baseUrl&success=false");
 
             $paymentRepo->save();
 
             // Redirect With Payment Params
-//            header("Location: " . $this->getLink($payment->getLinks(), 'approval_url'));
+            header("Location: " . $this->getLink($payment->getLinks(), 'approval_url'));
 
-            $stubToken = '3466850044e47845f523e4e98e21c4d6';
-            header("Location: http://localhost:8000/payment/final?t=3466850044e47845f523e4e98e21c4d6&success=true&paymentId=PAY-0D169573GL1889143KRI65GA&token=EC-81G465939D677172H&PayerID=33D2575LNZS66");
             exit;
 
         }
@@ -102,7 +97,7 @@ class PaymentsController extends BaseController {
             return Redirect::back()->with('info', 'Some Error occurd While completing the transaction, Please try again');
         }
 
-        //studb
+//        stub
 //        header("Location: http://localhost:8000/payment/final?t=18d852081b78d11dfb31744b62c6e67d&success=true&paymentId=PAY-0D169573GL1889143KRI65GA&token=EC-81G465939D677172H&PayerID=33D2575LNZS66");
 //        exit;
     }

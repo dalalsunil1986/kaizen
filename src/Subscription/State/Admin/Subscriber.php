@@ -108,6 +108,6 @@ class Subscriber {
         // Merge User and Event Model
         $array = array_merge($user, ['event_id' => $event->id, 'title' => $event->title, 'status' => $this->model->status, 'token' => array_shift($token)]);
         // Fire the Event ( this will also send email to the user )
-//        Event::fire('subscriptions.created', [$array]);
+        Event::fire('subscriptions.created', [$array]);
     }
 }
