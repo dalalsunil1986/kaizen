@@ -315,7 +315,9 @@ class EventsController extends BaseController {
     {
         $event = $this->eventRepository->findById($id);
 
-        $freeEvent = $event->free ? true: false;
+//        $freeEvent = $event->free ? true: false;
+
+        $freeEvent = false;
 
         // initialize values with a false boolean
         $vip    = false;

@@ -73,14 +73,15 @@ class SubscriptionsController extends BaseController {
 
         // Subscribe the user to the event
         $subscriber = new Subscriber($subscription);
-        $subscriber->subscribe();
+        $subscriber = $subscriber->subscribe();
+
         if ( $subscriber->messages->has('errors') ) {
             // redirect with first error as an array
             return Redirect::home()->with('errors', [$subscriber->messages->first('errors')]);
+        } else {
+            // If no errors occured while subscription process
+            return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', trans('site.general.check-email'));
         }
-
-        // If no errors occured while subscription process
-        return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', trans('site.general.check-email'));
     }
 
     /**
@@ -93,7 +94,6 @@ class SubscriptionsController extends BaseController {
         $userId       = Auth::user()->id;
         $event        = $this->eventRepository->findById($eventId);
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
-
         if ( !$event ) {
 
             return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.system-error'));
@@ -112,12 +112,21 @@ class SubscriptionsController extends BaseController {
         }
 
         if ( $subscription ) {
-            $subscription = new Subscriber($subscription);
-            $subscription->unsubscribe();
 
-            return Redirect::action('EventsController@index')->with('success', trans('messages.subscription-unsubscripe-message'));
+            $subscriber = new Subscriber($subscription);
+            $subscriber = $subscriber->unsubscribe();
+
+            if ( $subscriber->messages->has('errors') ) {
+                // redirect with first error as an array
+                return Redirect::action('EventsController@index')->with('errors', [$subscriber->messages->first('errors')]);
+            } else {
+                // If no errors occured while subscription process
+                return Redirect::action('EventsController@index')->with('success', trans('site.subscription.unsubscribed'));
+            }
+
         }
 
+        return Redirect::action('EventsController@index')->with('success', trans('site.subscription.unsubscribed'));
     }
 
     public function subscribePackage($userId = 1, $packageId = 1)
@@ -132,14 +141,6 @@ class SubscriptionsController extends BaseController {
     }
 
     /**
-     * @param $subscriptionId
-     */
-    public function makePayment($subscriptionId)
-    {
-        // process payment
-    }
-
-    /**
      * @param $eventId
      * Confirm the Subscription after click email link
      * @return \Illuminate\Http\RedirectResponse
@@ -148,10 +149,12 @@ class SubscriptionsController extends BaseController {
     {
         $subscription = $this->subscriptionRepository->findByEvent(Auth::user()->id, $eventId);
 
-        if ( $this->subscribe($eventId, $subscription->registration_type) ) {
-
-            return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', trans('site.general.check-email'));
+        if ( $subscription ) {
+            return $this->subscribe($eventId, $subscription->registration_type);
         }
+
+        return Redirect::action('EventsController@index')->with('error', trans('site.general.error'));
+
     }
 }
 

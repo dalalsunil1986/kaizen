@@ -184,4 +184,21 @@ class EventRepository extends AbstractRepository {
         // get 1 random post for categories
 //        $events =
     }
+
+
+
+    public function updateAvailableSeatsOnUpdate()
+    {
+        // check if the total_seats has changed
+
+        // If the total_seats has been incremented ex:20
+        // The available seats = 5
+        // Find the amount of incremented seats : 10
+        // Find the seats that are already booked : old_total_seats - available_seats = 15
+        // Update available seats
+
+//        $this->model->available_seats = $this->model->total_seats;
+//        $this->model->save();
+    }
+
 }

@@ -1,10 +1,16 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
+
 class Subscription extends BaseModel {
+
+    use SoftDeletingTrait;
 
     protected $guarded = array('id');
 
     protected static $name = 'subscription';
+
+    protected $dates = ['deleted_at'];
 
     public static $rules = array(
         'user_id'  => 'required | integer',
@@ -46,13 +52,19 @@ class Subscription extends BaseModel {
         return $query->whereStatus($status);
     }
 
-    public function cancelSubscription() {
-
-    }
-
     public function payments()
     {
         return $this->morphMany('Payment', 'payable');
+    }
+
+    /**
+     * @return mixed
+     * Check If a User Has Confirmed The Payment
+     */
+    public function paymentSuccess()
+    {
+        $query = $this->morphOne('Payment', 'payable')->where('user_id', Auth::user()->id)->where('status','CONFIRMED');
+        return $query;
     }
 
 }

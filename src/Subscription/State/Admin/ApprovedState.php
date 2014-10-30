@@ -16,6 +16,18 @@ class ApprovedState extends AbstractState implements SubscriberState {
             return $this->subscriber->setSubscriptionState($this->subscriber->getWaitingState());
         }
 
+        // If its a package event
+//        if ( $this->subscriber->model->event->package ) {
+//            dd('this is a package');
+//        } else {
+//            dd('this is not a package');
+//        }
+
+//        dd($this->subscriber->model->event->package);
+//
+
+//        dd('this is event');
+
         // check whether already subscribed
     //        if ( $this->subscriber->model->subscriptionConfirmed() ) {
     //            $this->subscriber->messages->add('errors', 'Already Subscribed');
@@ -26,7 +38,16 @@ class ApprovedState extends AbstractState implements SubscriberState {
         if ( $this->subscriber->model->event->isFreeEvent() ) {
 
             // Free Event
-            return $this->subscriber->setSubscriptionState($this->subscriber->getConfirmedState());
+            if ( $this->subscriber->model->event->setting->approval_type == 'CONFIRM' ) {
+
+                $this->subscriber->model->status = 'APPROVED';
+                $this->subscriber->model->save();
+
+            } else {
+
+                return $this->subscriber->setSubscriptionState($this->subscriber->getConfirmedState());
+
+            }
         } else {
             // Paid Event
             return $this->subscriber->setSubscriptionState($this->subscriber->getPaymentState());

@@ -19,7 +19,7 @@ class PaymentState extends AbstractState implements SubscriberState {
         $this->subscriber->model->status = 'PAYMENT';
         $token = md5(uniqid(mt_rand(), true));
 //        dd($this->subscriber->model->payments);
-        $payment = $this->subscriber->model->payments()->create(['user_id'=>$this->subscriber->model->user_id,'token'=>$token]);
+        $payment = $this->subscriber->model->payments()->create(['user_id'=>$this->subscriber->model->user_id,'token'=>$token,'status'=>'PENDING']);
         $this->subscriber->messages->add('token', $token);
         $this->subscriber->model->save();
     }

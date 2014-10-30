@@ -61,7 +61,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function subscribers()
     {
-        return $this->belongsToMany('User', 'subscriptions', 'event_id', 'user_id');
+        return $this->belongsToMany('User', 'subscriptions', 'event_id', 'user_id')->whereNull('deleted_at');
     }
 
     public function requests()
@@ -122,6 +122,12 @@ class EventModel extends BaseModel implements PresenterInterface {
         //        $event = EventModel::find($id);
         //        $event->available_seats = $event->total_seats - $count;
         //        $event->save();
+    }
+
+    public function updateAvailableSeatsOnCreate()
+    {
+        $this->available_seats = $this->total_seats;
+        $this->save();
     }
 
     public function formatEventDate($column)
@@ -189,8 +195,6 @@ class EventModel extends BaseModel implements PresenterInterface {
     {
         $this->available_seats = $this->available_seats+ 1;
         $this->save();
-        dd($this->available_seats);
-        return $this;
     }
     /**
      * Get the presenter class.

@@ -8,7 +8,7 @@ class Payment extends BaseModel {
 
     public function refunds()
     {
-        return $this->hasOne('Refund');
+        return $this->hasMany('Refund');
     }
 
     public function payable()

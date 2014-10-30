@@ -44,7 +44,7 @@ class Subscriber {
     {
         $this->subscriptionState->createSubscription();
         // Pass the User and Event Model, and Merge both into one array and pass it to the Event Fired
-        $this->notify();
+        $this->notifyUser();
     }
 
     public function unsubscribe()
@@ -100,14 +100,14 @@ class Subscriber {
     /**
      * Send a Notification Email to the User
      */
-    public function notify()
+    public function notifyUser()
     {
         $user  = $this->model->user->toArray();
         $event = $this->model->event;
-        $token = $this->messages->has('token') ? $this->messages->get('token') : '';
+        $token = $this->messages->has('token') ? $this->messages->get('token') : [''];
         // Merge User and Event Model
         $array = array_merge($user, ['event_id' => $event->id, 'title' => $event->title, 'status' => $this->model->status, 'token' => array_shift($token)]);
         // Fire the Event ( this will also send email to the user )
-        Event::fire('subscriptions.created', [$array]);
+//        Event::fire('subscriptions.created', [$array]);
     }
 }
