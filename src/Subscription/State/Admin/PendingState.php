@@ -15,9 +15,4 @@ class PendingState extends AbstractState implements SubscriberState {
         $this->subscriber->model->save();
     }
 
-    public function cancelSubscription()
-    {
-        $this->subscriber->model->delete();
-        echo 'unsubscribed';
-    }
 }

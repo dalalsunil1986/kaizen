@@ -15,9 +15,6 @@ class ConfirmedState extends AbstractState implements SubscriberState {
             return false;
         }
 
-        // update available seats
-        // other events to fire
-
         $this->subscriber->model->status = 'CONFIRMED';
         $this->subscriber->model->save();
     }
