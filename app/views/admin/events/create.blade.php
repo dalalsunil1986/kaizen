@@ -59,6 +59,7 @@
     <div class="form-group col-md-2 col-sm-4 col-xs-4">
             {{ Form::label('free_event', 'Is this a Free Event ?:') }}
             <br/>
+            {{ Form::hidden('free', 0); }}
             {{ Form::checkbox('free', '1', true,['class'=>'free']) }}
         </div>
     <div class="form-group col-md-4">

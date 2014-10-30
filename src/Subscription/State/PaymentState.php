@@ -12,9 +12,6 @@ class PaymentState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
-        // check if the user has already paid to the event
-        // if paid, set confirm state
-        // if not, say the he cannot be confirmed before payment
 
         if($this->subscriber->model->paymentSuccess) {
 
@@ -29,15 +26,8 @@ class PaymentState extends AbstractState implements SubscriberState {
 
     public function cancelSubscription()
     {
-//        if($this->subscriber->model->paymentSuccess) {
-//            // make the refund value
-//            ($this->subscriber->model->paymentSuccess->user_id);                                    // delete the payment
-//            $this->subscriber->model->delete(); // delete the subscription
-//
-//        } else {
-//            // could not unsubscribe
-//        }
 
+        $this->subscriber->model->delete(); // delete the subscription
     }
 
 }

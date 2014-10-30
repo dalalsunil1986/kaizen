@@ -37,6 +37,7 @@ class ApprovedState extends AbstractState implements SubscriberState {
 
         if ( $this->subscriber->model->event->isFreeEvent() ) {
 
+            dd('free event');
             // Free Event
             if ( $this->subscriber->model->event->setting->approval_type == 'CONFIRM' ) {
 
