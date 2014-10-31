@@ -4,7 +4,7 @@ class Refund extends BaseModel {
 
     protected $guarded = ['id'];
 
-    protected $table="refunds";
+    protected $table = "refunds";
 
     public function payments()
     {

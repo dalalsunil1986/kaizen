@@ -28,7 +28,7 @@ class Subscription extends BaseModel {
 
     public function settings()
     {
-        return $this->hasManyThrough('Setting','EventModel','id','settingable_id');
+        return $this->hasManyThrough('Setting', 'EventModel', 'id', 'settingable_id');
     }
 
     public function payments()
@@ -62,7 +62,8 @@ class Subscription extends BaseModel {
      */
     public function paymentSuccess()
     {
-        $query = $this->morphOne('Payment', 'payable')->where('user_id', Auth::user()->id)->where('status','CONFIRMED');
+        $query = $this->morphOne('Payment', 'payable')->where('user_id', Auth::user()->id)->where('status', 'CONFIRMED');
+
         return $query;
     }
 

@@ -9,7 +9,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
 
     use HasRole;
 
-    protected $guarded = [ 'id', 'password_confirmation', 'remember_token', '_method', '_token'];
+    protected $guarded = ['id', 'password_confirmation', 'remember_token', '_method', '_token'];
 
     protected $hidden = array('password');
 
@@ -66,7 +66,8 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
         return $this->belongsToMany('Role', 'assigned_roles', 'user_id', 'role_id');
     }
 
-    public function payments(){
+    public function payments()
+    {
         return $this->hasMany('Payment');
     }
 
@@ -75,19 +76,20 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
      ********************************************************************************************************/
     public function setMobileAttribute($value)
     {
-        $this->attributes['mobile'] = (int)($value);
+        $this->attributes['mobile'] = (int) ($value);
     }
 
     public function setPhoneAttribute($value)
     {
-        $this->attributes['phone'] = (int)($value);
+        $this->attributes['phone'] = (int) ($value);
     }
 
     /**
      * @param $password
      * Auto Has the Password
      */
-    public function setPasswordAttribute($password){
+    public function setPasswordAttribute($password)
+    {
 
         $this->attributes['password'] = Hash::make($password);
     }
@@ -156,7 +158,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
      */
     public function saveRoles($inputRoles)
     {
-        if ( ! empty($inputRoles) ) {
+        if ( !empty($inputRoles) ) {
             $this->roles()->sync($inputRoles);
         } else {
             $this->roles()->detach();
@@ -171,7 +173,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
     {
         $roles   = $this->roles;
         $roleIds = false;
-        if ( ! empty($roles) ) {
+        if ( !empty($roles) ) {
             $roleIds = array();
             foreach ( $roles as &$role ) {
                 $roleIds[] = $role->id;
@@ -197,10 +199,11 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
     public function isOwner()
     {
         if ( Auth::check() ) {
-            if (! ($this->isAdmin() || Auth::user()->id == $this->id )) return false;
+            if ( !($this->isAdmin() || Auth::user()->id == $this->id) ) return false;
 
             return true;
         }
+
         return false;
     }
 
@@ -209,26 +212,24 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
         //delete settings
         $this->comments()->delete();
 
-        $subscriptions = $this->hasMany('Subscription','user_id');
-        foreach ($subscriptions->get(array('subscriptions.id')) as $subscription) {
+        $subscriptions = $this->hasMany('Subscription', 'user_id');
+        foreach ( $subscriptions->get(array('subscriptions.id')) as $subscription ) {
             $subscription->delete();
         }
 
         // delete followings
-        $followings = $this->hasMany('Follower','user_id');
-        foreach ($followings->get(array('followers.id')) as $following) {
+        $followings = $this->hasMany('Follower', 'user_id');
+        foreach ( $followings->get(array('followers.id')) as $following ) {
             $following->delete();
         }
 
         // delete favorites
-        $favorites = $this->hasMany('Favorite','user_id');
-        foreach ($favorites->get(array('favorites.id')) as $favorite) {
+        $favorites = $this->hasMany('Favorite', 'user_id');
+        foreach ( $favorites->get(array('favorites.id')) as $favorite ) {
             $favorite->delete();
         }
 
     }
-
-
 
 
 }

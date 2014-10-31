@@ -14,7 +14,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     protected $table = "events";
 
-    protected $dates = ['date_start','date_end'];
+    protected $dates = ['date_start', 'date_end'];
 
     /*********************************************************************************************************
      * Eloquent Relationships
@@ -42,7 +42,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function followers()
     {
-        return  $this->belongsToMany('User', 'followers', 'event_id', 'user_id');
+        return $this->belongsToMany('User', 'followers', 'event_id', 'user_id');
     }
 
     public function favorites()
@@ -104,6 +104,7 @@ class EventModel extends BaseModel implements PresenterInterface {
     {
         return $this->belongsToMany('User', 'requests', 'event_id', 'user_id');
     }
+
     /*********************************************************************************************************
      * Setters
      ********************************************************************************************************/
@@ -166,16 +167,16 @@ class EventModel extends BaseModel implements PresenterInterface {
         $this->save();
     }
 
-    public function getConfirmedUsers(){
-        return $this->whereHas('subscriptions',function($q)
-        {
-            $q->where('status','=','CONFIRMED');
+    public function getConfirmedUsers()
+    {
+        return $this->whereHas('subscriptions', function ($q) {
+            $q->where('status', '=', 'CONFIRMED');
         })->get();
     }
 
     public function getDates()
     {
-        return array_merge(array('created_at','updated_at'), $this->dates);
+        return array_merge(array('created_at', 'updated_at'), $this->dates);
     }
 
     /** Get the presenter class. */
@@ -187,8 +188,9 @@ class EventModel extends BaseModel implements PresenterInterface {
     /*********************************************************************************************************
      * Model Scopes
      ********************************************************************************************************/
-    public function scopeNotExpired($query){
-        return $query->where('date_start','>',Carbon::now()->toDateTimeString());
+    public function scopeNotExpired($query)
+    {
+        return $query->where('date_start', '>', Carbon::now()->toDateTimeString());
     }
 
     /*********************************************************************************************************
@@ -217,21 +219,23 @@ class EventModel extends BaseModel implements PresenterInterface {
     {
         $totalSeats = $this->total_seats;
         if ( $totalSeats > 0 ) {
-            $totalSubscriptions    = DB::table('subscriptions')->where('status','CONFIRMED')->count();
+            $totalSubscriptions    = DB::table('subscriptions')->where('status', 'CONFIRMED')->count();
             $this->available_seats = $totalSeats - $totalSubscriptions;
+
             return $this->save();
         }
     }
 
     public function incrementAvailableSeats()
     {
-        $this->available_seats = $this->available_seats+ 1;
+        $this->available_seats = $this->available_seats + 1;
+
         return $this->save();
     }
 
     protected function dateStringToCarbon($date, $format = 'm/d/Y')
     {
-        if ( ! $date instanceof Carbon ) {
+        if ( !$date instanceof Carbon ) {
             $validDate = false;
             try {
                 $date      = Carbon::createFromFormat($format, $date);
@@ -240,7 +244,7 @@ class EventModel extends BaseModel implements PresenterInterface {
             catch ( Exception $e ) {
             }
 
-            if ( ! $validDate ) {
+            if ( !$validDate ) {
                 try {
                     $date      = Carbon::parse($date);
                     $validDate = true;
@@ -249,7 +253,7 @@ class EventModel extends BaseModel implements PresenterInterface {
                 }
             }
 
-            if ( ! $validDate ) {
+            if ( !$validDate ) {
                 $date = null;
             }
         }
@@ -267,14 +271,17 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->user_id === $userId ? true : false;
     }
 
-    public function isFreeEvent(){
-        if($this->free || $this->price < 1) {
+    public function isFreeEvent()
+    {
+        if ( $this->free || $this->price < 1 ) {
             return true;
         }
+
         return false;
     }
 
-    public function beforeDelete(){
+    public function beforeDelete()
+    {
 
         //delete settings
         $this->setting()->delete();
@@ -285,24 +292,24 @@ class EventModel extends BaseModel implements PresenterInterface {
         $this->photos()->delete();
 
         // delete followings
-        $followings = $this->hasMany('Follower','event_id');
-        foreach ($followings->get(array('followers.id')) as $following) {
+        $followings = $this->hasMany('Follower', 'event_id');
+        foreach ( $followings->get(array('followers.id')) as $following ) {
             $following->delete();
         }
 
         // delete favorites
-        $favorites = $this->hasMany('Favorite','event_id');
-        foreach ($favorites->get(array('favorites.id')) as $favorite) {
+        $favorites = $this->hasMany('Favorite', 'event_id');
+        foreach ( $favorites->get(array('favorites.id')) as $favorite ) {
             $favorite->delete();
         }
 
         // delete subscriptions
-        foreach ($this->subscriptions()->get(array('subscriptions.id')) as $subscription) {
+        foreach ( $this->subscriptions()->get(array('subscriptions.id')) as $subscription ) {
             $subscription->delete();
         }
 
         // delete requests
-        foreach ($this->requests()->get(array('requests.id')) as $request) {
+        foreach ( $this->requests()->get(array('requests.id')) as $request ) {
             $request->delete();
         }
 

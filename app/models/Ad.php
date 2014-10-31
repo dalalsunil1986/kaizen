@@ -8,11 +8,9 @@ class Ad extends BaseModel {
 
     protected $guarded = ['id'];
 
-    protected $table="ads";
+    protected $table = "ads";
 
-    public static $rules = [ ];
-
-    protected $name = "ad";
+    public static $rules = [];
 
     protected $localeStrings = ['title'];
 

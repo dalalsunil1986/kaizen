@@ -25,13 +25,17 @@ class BaseModel extends Model {
     /**
      * @param array $input
      */
-    public static function beforeCreate(array $input) {}
+    public static function beforeCreate(array $input)
+    {
+    }
 
     /**
      * @param array $input
      * @param $return
      */
-    public static function afterCreate(array $input, $return) {}
+    public static function afterCreate(array $input, $return)
+    {
+    }
 
     /**
      * Update an existing model.
@@ -56,7 +60,9 @@ class BaseModel extends Model {
      * @param  array $input
      * @return mixed
      */
-    public function beforeUpdate(array $input) {}
+    public function beforeUpdate(array $input)
+    {
+    }
 
     /**
      * After updating an existing model.
@@ -64,7 +70,9 @@ class BaseModel extends Model {
      * @param  mixed $return
      * @return mixed
      */
-    public function afterUpdate(array $input, $return) {}
+    public function afterUpdate(array $input, $return)
+    {
+    }
 
     /**
      * Delete an existing model.
@@ -88,7 +96,9 @@ class BaseModel extends Model {
      *
      * @return mixed
      */
-    public function beforeDelete() {}
+    public function beforeDelete()
+    {
+    }
 
     /**
      * After deleting an existing model.
@@ -96,7 +106,9 @@ class BaseModel extends Model {
      * @param  mixed $return
      * @return mixed
      */
-    public function afterDelete($return) {}
+    public function afterDelete($return)
+    {
+    }
 
     /**
      * @param $value

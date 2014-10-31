@@ -6,11 +6,9 @@ class Location extends BaseModel {
 
     use LocaleTrait;
 
-    protected $guarded = array('');
+    protected $guarded = [];
 
     protected $localeStrings = ['name'];
-
-    protected static $name = 'location';
 
     public function country()
     {

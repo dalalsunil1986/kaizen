@@ -10,8 +10,6 @@ class Country extends BaseModel {
 
     protected $localeStrings = ['name'];
 
-    protected static $name = 'country';
-
     public function locations()
     {
         return $this->hasMany('Location');

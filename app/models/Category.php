@@ -6,18 +6,19 @@ class Category extends BaseModel {
 
     use LocaleTrait;
 
-    protected $guarded = array();
+    protected $guarded = [];
 
     protected $table = "categories";
 
-    protected static $name = "category";
-
     protected $localeStrings = ['name'];
 
-    public function events () {
+    public function events()
+    {
         return $this->hasMany('EventModel');
     }
-    public function posts () {
+
+    public function posts()
+    {
         return $this->hasMany('Blog');
     }
 }

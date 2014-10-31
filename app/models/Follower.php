@@ -1,12 +1,8 @@
 <?php
 
 class Follower extends BaseModel {
-    protected $guarded = array();
 
-    public static $rules = array(
-        'user_id' => 'required | integer',
-        'event_id' => 'required | integer'
-    );
+    protected $guarded = [];
 
     public function users() {
         return $this->belongsTo('User');

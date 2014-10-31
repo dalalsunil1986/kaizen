@@ -6,7 +6,4 @@ class Contact extends BaseModel {
 
     protected $table = 'contacts';
 
-    protected static $name = 'contact';
-
-
 }

@@ -4,7 +4,7 @@ class Payment extends BaseModel {
 
     protected $guarded = ['id'];
 
-    protected $table="payments";
+    protected $table = "payments";
 
     public function refunds()
     {
@@ -16,7 +16,8 @@ class Payment extends BaseModel {
         return $this->morphTo();
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('User');
     }
 

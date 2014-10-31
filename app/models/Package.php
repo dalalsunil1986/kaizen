@@ -2,7 +2,7 @@
 
 class Package extends BaseModel {
 
-    protected $guarded = array('');
+    protected $guarded = [];
 
     protected static $name = 'package';
 
@@ -22,11 +22,10 @@ class Package extends BaseModel {
 
     public function beforeDelete()
     {
-        // delete settings that belongs to this model
         $this->setting()->delete();
 
         // delete events that belongs to this model
-        foreach ($this->events()->get(array('id')) as $event) {
+        foreach ( $this->events()->get(array('id')) as $event ) {
             $event->delete();
         }
 
