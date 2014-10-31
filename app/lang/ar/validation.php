@@ -2,28 +2,6 @@
 
 return array(
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |
-    | اسطر التحقق والتصديق للغة العربية
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class.
-    |
-    | الاسطر ادناه تحتوي علي رسائل الخطأ الافتراضية المستخدمة في فئة التحقق.
-    |
-    | Some of these rules have multiple versions such as the size rules.
-    |
-    | بعض هذه القواعد تحتوي علي عدة نسخ مثل قاعدة الحجم.
-    |
-    | Feel free to tweak each of these messages.
-    |
-    | لا تتردد في تعديل اي منها.
-    |
-    */
-
     "accepted"         => ":attribute يجب أن يتم قبول.",
     "active_url"       => ":attribute ليس عنوان إنترنت صالحًا.",
     "before"           => ":attribute يجب أن يكون تاريخ قبل :date.",
@@ -128,7 +106,7 @@ return array(
     |
     */
 
-    'attributes' => array(
+    'attributes' => [
         "name" => "الاسم",
         "username" => "اسم المستخدم",
         "email" => "البريد الالكتروني",
@@ -156,7 +134,9 @@ return array(
         "date" => "التاريخ",
         "time" => "الوقت",
         "available" => "متاح",
-        "size" => "الحجم"
-    ),
+        "size" => "الحجم",
+        "name_ar"             => " الاسم بالكامل باللغة العربية",
+        "name_en"              => "الاسم بالكامل - باللغة الانجليزية",
+    ],
 
 );

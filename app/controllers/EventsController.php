@@ -51,12 +51,12 @@ class EventsController extends BaseController {
         $this->title = 'Events';
         //find countries,authors,and categories to display in search form
         if ( App::getLocale() == 'en' ) {
-            $countries = [0 => trans('site.event.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
+            $countries = [0 => trans('site.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
         } else {
-            $countries = [0 => trans('site.event.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
+            $countries = [0 => trans('site.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
         }
-        $categories = [0 => trans('site.event.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_'.getLocale(), 'id');
-        $authors    = [0 => trans('site.event.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $categories = [0 => trans('site.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_'.getLocale(), 'id');
+        $authors    = [0 => trans('site.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
 
         // find selected form values
         $search   = trim(Input::get('search'));
@@ -330,7 +330,7 @@ class EventsController extends BaseController {
         if ( is_null($setting) ) {
 
             // if not setting for the event found, just redirect
-            return Redirect::action('EventsController@show', $id)->with('info', trans('site.general.system-error'));
+            return Redirect::action('EventsController@show', $id)->with('info', trans('site.system-error'));
         }
 
         $reg_types = explode(',', $setting->registration_types);
@@ -439,13 +439,13 @@ class EventsController extends BaseController {
         // if event is currently going on
         if ( ! $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
 
-            return Redirect::action('EventsController@show', $id)->with('warning', trans('site.general.cannot-watch'));
+            return Redirect::action('EventsController@show', $id)->with('warning', trans('site.cannot-watch'));
         }
 
         // check if this event has online streaming
         if (! $this->isOnlineEvent($event) ) {
 
-            return Redirect::action('EventsController@index')->with('error', trans('site.general.no-stream'));
+            return Redirect::action('EventsController@index')->with('error', trans('site.no-stream'));
         }
 
         // check whether this user subscribed for this and confirmed
@@ -457,18 +457,18 @@ class EventsController extends BaseController {
             // If user has a subscription and subscription is not confirmed
             if ( $subscription->status != 'CONFIRMED' ) {
 
-                return Redirect::action('EventsController@index')->with('error',trans('site.general.not-confirmed') );
+                return Redirect::action('EventsController@index')->with('error',trans('site.not-confirmed') );
             }
 
             // check whether the user has subscribed as online
             if ( $subscription->registration_type != 'ONLINE' ) {
 
-                return Redirect::action('EventsController@index')->with('error', trans('site.general.not-online'));
+                return Redirect::action('EventsController@index')->with('error', trans('site.not-online'));
             }
 
         } else {
             // If user does not have a subscriptoin
-            return Redirect::action('EventsController@index')->with('error', trans('site.general.not_subscribed'));
+            return Redirect::action('EventsController@index')->with('error', trans('site.not_subscribed'));
         }
 
 
@@ -476,14 +476,14 @@ class EventsController extends BaseController {
         // stream the event
         if ( ! $this->getStreamSettings() ) {
 
-            return Redirect::action('EventsController@show', $id)->with('info', trans('site.general.system-error'));
+            return Redirect::action('EventsController@show', $id)->with('info', trans('site.system-error'));
 
         } else {
 
             list($token, $cid, $launchUrl) = $this->getStreamSettings();
 
             if ( is_null($token) ) {
-                return Redirect::action('EventsController@show', $id)->with('error', trans('site.general.system-error'));
+                return Redirect::action('EventsController@show', $id)->with('error', trans('site.system-error'));
             }
 
             // Find the user id
@@ -575,13 +575,13 @@ class EventsController extends BaseController {
     public function onlineTestEvent()
     {
         if ( !$this->getStreamSettings() ) {
-            return Redirect::action('EventsController@index')->with('error', trans('site.general.system-error'));
+            return Redirect::action('EventsController@index')->with('error', trans('site.system-error'));
 
         } else {
             list($token, $cid, $launchUrl) = $this->getStreamSettings();
 
             if ( is_null($token) ) {
-                return Redirect::action('EventsController@index')->with('error', trans('site.general.system-error'));
+                return Redirect::action('EventsController@index')->with('error', trans('site.system-error'));
             }
 
             // user date to pass to streaming server

@@ -1,6 +1,6 @@
 <!-- Advertisment section-->
 <div class="row">
-    <div class="col-md-12 adsWrapper  class="hidden-sm hidden-xs">
+    <div class="col-md-12 adsWrapper hidden-sm hidden-xs">
         @if($ads)
             @foreach($ads as $ad)
                 <div class="col-md-6">

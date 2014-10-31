@@ -7,7 +7,6 @@
                 <div class="row">
                     <div class="well well-sm" style="margin-bottom: 10px;">
                         <b>{{ $post->title }} </b>
-
                         <span class="label label-default
                         @if ( App::getLocale() == 'en')
                             pull-right
@@ -33,7 +32,7 @@
 
         <div class="col-md-12">
             @if(count($post->comments) > 0)
-                <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{trans('site.event.comment') }}</h3>
+                <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{trans('word.comment') }}</h3>
                 @foreach($post->comments as $comment)
                     <div class="comments_dev">
                         <p>{{ $comment->content }}</p>
@@ -50,15 +49,15 @@
             @endif
         </div>
         <div class="col-md-12">
-            @if(Auth::User())
+            @if(Auth::check())
                 {{ Form::open(array( 'action' => array('CommentsController@store', $post->id))) }}
                     {{ Form::hidden('commentable_id',$post->id)}}
                     {{ Form::hidden('commentable_type','Blog')}}
                     <div class="form-group">
                         <label for="comment"></label>
-                        <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ trans('site.event.comment')}}"></textarea>
+                        {{ Form::textarea('content',null,['class'=>'form-control','placehodler'=>trans('word.comment'),'rows'=>3]) }}
                     </div>
-                    <button type="submit" class="btn btn-default"> {{ trans('site.event.addcomment') }}</button>
+                    <button type="submit" class="btn btn-default"> {{ trans('word.add_comment') }}</button>
                 {{ Form::close() }}
             @endif
             @if ($errors->any())

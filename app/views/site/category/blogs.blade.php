@@ -2,13 +2,13 @@
 
 @section('sidebar')
 <div class="panel panel-default">
-    <div class="panel-heading">{{ Lang::get('site.event.category') }}</div>
+    <div class="panel-heading">{{ trans('word.category') }}</div>
     <div class="panel-body">
         <ul>
             @if($categories)
-            @foreach($categories as $category)
-            <li class="unstyled"><i class="glyphicon glyphicon-tag"></i><a href="{{URL::action('CategoriesController@getPosts',$category->id)}}"> {{ $category->name }}</a></li>
-            @endforeach
+                @foreach($categories as $category)
+                    <li class="unstyled"><i class="glyphicon glyphicon-tag"></i><a href="{{URL::action('CategoriesController@getPosts',$category->id)}}"> {{ $category->name }}</a></li>
+                @endforeach
             @endif
         </ul>
     </div>
@@ -52,7 +52,7 @@
                 <div class="col-md-12 pull-left">
                     <i class="glyphicon glyphicon-user"></i> by <span class="muted">{{{ $post->author->username }}}</span>
                     | <i class="glyphicon glyphicon-calendar"></i> <!--Sept 16th, 2012-->{{{ $post->created_at }}}
-                    <a class="btn-sm btn-mini btn-info pull-left" href="{{action('BlogsController@show',$post->id) }}">{{Lang::get('button.read_more')}}</a>
+                    <a class="btn-sm btn-mini btn-info pull-left" href="{{action('BlogsController@show',$post->id) }}">{{trans('word.more')}}</a>
                 </div>
             </div>
 

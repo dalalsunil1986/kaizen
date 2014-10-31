@@ -660,3 +660,14 @@ span.tag:after {
     border:solid 1px #efefef;
     border-top:none ;
 }
+
+.padded {
+    padding:20px;
+}
+
+.padded-right {
+    padding-right:5px;
+}
+.padded-left {
+    padding-left:5px;
+}

@@ -21,15 +21,15 @@
 
     <div class="col-md-12">
         <ul class="nav nav-tabs" id="myTab">
-            <li class="active"><a href="#profile" data-toggle="tab">{{ trans('site.general.profile') }}</a></li>
-            <li><a href="#favorites" data-toggle="tab">{{ trans('site.general.favorites') }}</a></li>
-            <li><a href="#subscriptions" data-toggle="tab">{{ trans('site.general.subscriptions') }}</a></li>
-            <li><a href="#followings" data-toggle="tab">{{ trans('site.general.followings') }}</a></li>
+            <li class="active"><a href="#profile" data-toggle="tab">{{ trans('site.profile') }}</a></li>
+            <li><a href="#favorites" data-toggle="tab">{{ trans('site.favorites') }}</a></li>
+            <li><a href="#subscriptions" data-toggle="tab">{{ trans('site.subscriptions') }}</a></li>
+            <li><a href="#followings" data-toggle="tab">{{ trans('site.followings') }}</a></li>
         </ul>
 
         <div class="tab-content">
             <div class="tab-pane active" id="profile">
-                <h1>{{ Lang::get('site.general.profile') }}</h1>
+                <h1>{{ Lang::get('site.profile') }}</h1>
                 <div class="col-lg-3">
                     <img class="img-circle" src="http://critterapp.pagodabox.com/img/user.jpg" alt="">
                     <p><a href="{{ action('UserController@edit',$user->id)}}">{{ trans('button.edit') }}</a></p>
@@ -37,83 +37,83 @@
                 <div class="col-lg-8">
                     <table class="table table-striped">
                         <tr>
-                            <td>{{ Lang::get('site.general.name_en') }} : </td>
+                            <td>{{ Lang::get('site.name_en') }} : </td>
                             <td>
                                 @if($user->name_en || $user->name_ar)
                                 {{ ($user->name_ar) ? $user->name_ar : $user->name_en }}
                                 {{ ($user->last_name) ? $user->last_name :'' }}
                                 @else
-                                {{ Lang::get('site.general.notavail')}}
+                                {{ Lang::get('site.notavail')}}
                                 @endif
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ Lang::get('site.general.email') }} : </td>
+                            <td>{{ Lang::get('site.email') }} : </td>
                             <td>
                                 @if($user->email)
                                 {{ $user->email }}
                                 @else
-                                {{ Lang::get('site.general.notavail')}}
+                                {{ Lang::get('site.notavail')}}
                                 @endif
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ Lang::get('site.general.mobile') }} : </td>
+                            <td>{{ Lang::get('site.mobile') }} : </td>
                             <td>
                                 @if($user->mobile)
                                 {{ $user->mobile }}
                                 @else
-                                {{ Lang::get('site.general.notavail')}}
+                                {{ Lang::get('site.notavail')}}
                                 @endif
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ Lang::get('site.general.phone') }} : </td>
+                            <td>{{ Lang::get('site.phone') }} : </td>
                             <td>
                                 @if($user->phone)
                                 {{ $user->phone}}
                                 @else
-                                {{ Lang::get('site.general.notavail')}}
+                                {{ Lang::get('site.notavail')}}
                                 @endif
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ Lang::get('site.general.country') }} : </td>
+                            <td>{{ Lang::get('site.country') }} : </td>
                             <td>
                                 @if($user->country_id)
                                 {{ $user->country->name}}
                                 @else
-                                {{ Lang::get('site.general.notavail')}}
+                                {{ Lang::get('site.notavail')}}
                                 @endif
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ Lang::get('site.general.gender') }} : </td>
+                            <td>{{ Lang::get('site.gender') }} : </td>
                             <td>
                                 @if($user->gender)
                                 {{ $user->gender}}
                                 @else
-                                {{ Lang::get('site.general.notavail')}}
+                                {{ Lang::get('site.notavail')}}
                                 @endif
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ Lang::get('site.general.instagram') }} : </td>
+                            <td>{{ Lang::get('site.instagram') }} : </td>
                             <td>
                                 @if($user->instagram)
                                 {{ $user->instagram}}
                                 @else
-                                {{ Lang::get('site.general.notavail')}}
+                                {{ Lang::get('site.notavail')}}
                                 @endif
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ Lang::get('site.general.twitter') }} : </td>
+                            <td>{{ Lang::get('site.twitter') }} : </td>
                             <td>
                                 @if($user->twitter)
                                 {{ $user->twitter}}
                                 @else
-                                {{ Lang::get('site.general.notavail')}}
+                                {{ Lang::get('site.notavail')}}
                                 @endif
                             </td>
                         </tr>
@@ -147,7 +147,7 @@
                                     </span>
                                     <p>
                                         {{ Str::limit($event->description, 150) }}
-                                        <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.general.more')}}</a>
+                                        <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.more')}}</a>
 
                                     </p>
 
@@ -183,7 +183,7 @@
                                     </span>
                                     <p>
                                         {{ Str::limit($event->description, 150) }}
-                                        <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.general.more')}}</a>
+                                        <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.more')}}</a>
 
                                     </p>
 
@@ -219,7 +219,7 @@
                                     </span>
                                     <p>
                                         {{ Str::limit($event->description, 150) }}
-                                        <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.general.more')}}</a>
+                                        <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.more')}}</a>
 
                                     </p>
 
@@ -239,93 +239,93 @@
         <div class="col-lg-8">
             <table class="table table-striped">
                 <tr>
-                    <td>{{ Lang::get('site.general.name') }} : </td>
+                    <td>{{ Lang::get('site.name') }} : </td>
                     <td>
                         @if($user->first_name || $user->last_name)
                         {{ ($user->first_name) ? $user->first_name : $user->last_name }}
                         {{ ($user->last_name) ? $user->last_name :'' }}
                         @else
-                        {{ Lang::get('site.general.notavail')}}
+                        {{ Lang::get('site.notavail')}}
                         @endif
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ Lang::get('site.general.email') }} : </td>
+                    <td>{{ Lang::get('site.email') }} : </td>
                     <td>
                         @if($user->email)
                         {{ $user->email }}
                         @else
-                        {{ Lang::get('site.general.notavail')}}
+                        {{ Lang::get('site.notavail')}}
                         @endif
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ Lang::get('site.general.mobile') }} : </td>
+                    <td>{{ Lang::get('site.mobile') }} : </td>
                     <td>
                         @if($user->mobile)
                         {{ $user->mobile }}
                         @else
-                        {{ Lang::get('site.general.notavail')}}
+                        {{ Lang::get('site.notavail')}}
                         @endif
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ Lang::get('site.general.phone') }} : </td>
+                    <td>{{ Lang::get('site.phone') }} : </td>
                     <td>
                         @if($user->phone)
                         {{ $user->phone}}
                         @else
-                        {{ Lang::get('site.general.notavail')}}
+                        {{ Lang::get('site.notavail')}}
                         @endif
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ Lang::get('site.general.country') }} : </td>
+                    <td>{{ Lang::get('site.country') }} : </td>
                     <td>
                         @if($user->country_id)
                         {{ $user->country->name}}
                         @else
-                        {{ Lang::get('site.general.notavail')}}
+                        {{ Lang::get('site.notavail')}}
                         @endif
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ Lang::get('site.general.gender') }} : </td>
+                    <td>{{ Lang::get('site.gender') }} : </td>
                     <td>
                         @if($user->gender)
                         {{ $user->gender}}
                         @else
-                        {{ Lang::get('site.general.notavail')}}
+                        {{ Lang::get('site.notavail')}}
                         @endif
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ Lang::get('site.general.dob') }} : </td>
+                    <td>{{ Lang::get('site.dob') }} : </td>
                     <td>
                         @if($user->dob)
                         {{ $user->dob->format("j-n-Y") }}
                         @else
-                        {{ Lang::get('site.general.notavail')}}
+                        {{ Lang::get('site.notavail')}}
                         @endif
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ Lang::get('site.general.instagram') }} : </td>
+                    <td>{{ Lang::get('site.instagram') }} : </td>
                     <td>
                         @if($user->instagram)
                         {{ $user->instagram}}
                         @else
-                        {{ Lang::get('site.general.notavail')}}
+                        {{ Lang::get('site.notavail')}}
                         @endif
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ Lang::get('site.general.twitter') }} : </td>
+                    <td>{{ Lang::get('site.twitter') }} : </td>
                     <td>
                         @if($user->twitter)
                         {{ $user->twitter}}
                         @else
-                        {{ Lang::get('site.general.notavail')}}
+                        {{ Lang::get('site.notavail')}}
                         @endif
                     </td>
                 </tr>

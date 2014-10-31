@@ -8,7 +8,7 @@
             @if($user->name_en)
                 {{ $user->name_en }}
             @else
-            {{ Lang::get('site.general.notavail')}}
+            {{ Lang::get('site.notavail')}}
             @endif
         </td>
     </tr>
@@ -18,7 +18,7 @@
             @if($user->name_ar)
                 {{ $user->name_ar }}
             @else
-                {{ Lang::get('site.general.notavail')}}
+                {{ Lang::get('site.notavail')}}
             @endif
         </td>
     </tr>
@@ -28,7 +28,7 @@
             @if($user->username)
             {{ $user->username }}
             @else
-            {{ Lang::get('site.general.notavail')}}
+            {{ Lang::get('site.notavail')}}
             @endif
         </td>
     </tr>
@@ -39,7 +39,7 @@
             @if($user->email)
             {{ $user->email }}
             @else
-            {{ Lang::get('site.general.notavail')}}
+            {{ Lang::get('site.notavail')}}
             @endif
         </td>
     </tr>
@@ -49,7 +49,7 @@
             @if($user->phone)
             {{ $user->phone }}
             @else
-            {{ Lang::get('site.general.notavail')}}
+            {{ Lang::get('site.notavail')}}
             @endif
         </td>
     </tr>

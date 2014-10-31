@@ -24,10 +24,10 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left prev">
                                     <i class="glyphicon glyphicon-chevron-left"></i>
-                                    Previous
+                                    {{ trans('word.previous') }}
                                 </button>
                                 <button type="button" class="btn btn-primary next">
-                                    Next
+                                    {{ trans('word.next') }}
                                     <i class="glyphicon glyphicon-chevron-right"></i>
                                 </button>
                             </div>

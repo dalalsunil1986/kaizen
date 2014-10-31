@@ -50,19 +50,19 @@ class SubscriptionsController extends BaseController {
         // If not a valid event
         if ( !$event ) {
 
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.system-error'));
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.system-error'));
         }
 
         // If event is Expired
         if ( $this->eventRepository->eventExpired($event->date_start) ) {
 
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.event-expired'));
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event-expired'));
         }
 
         // if event is currently going on
         if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
 
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.event-ongoing'));
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event-ongoing'));
         }
 
         // If no subscription entry in the database
@@ -80,7 +80,7 @@ class SubscriptionsController extends BaseController {
             return Redirect::home()->with('errors', [$subscriber->messages->first('errors')]);
         } else {
             // If no errors occured while subscription process
-            return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', trans('site.general.check-email'));
+            return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', trans('site.check-email'));
         }
     }
 
@@ -96,19 +96,19 @@ class SubscriptionsController extends BaseController {
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
         if ( !$event ) {
 
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.general.system-error'));
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.system-error'));
         }
 
         // If event is Expired
         if ( $this->eventRepository->eventExpired($event->date_start) ) {
 
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event.event-expired'));
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event-expired'));
         }
 
         // if event is currently going on
         if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
 
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event.event-expired'));
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.event-expired'));
         }
 
         if ( $subscription ) {
@@ -153,7 +153,7 @@ class SubscriptionsController extends BaseController {
             return $this->subscribe($eventId, $subscription->registration_type);
         }
 
-        return Redirect::action('EventsController@index')->with('error', trans('site.general.error'));
+        return Redirect::action('EventsController@index')->with('error', trans('site.error'));
 
     }
 }

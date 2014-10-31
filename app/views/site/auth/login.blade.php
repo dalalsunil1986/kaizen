@@ -6,26 +6,26 @@
 @section('content')
 
 <div class="page-header">
-    <h1>{{ Lang::get('site.general.entry')}}</h1>
+    <h1>{{ trans('auth.login.heading')}}</h1>
 </div>
 {{ Form::open(['action' => 'AuthController@postLogin', 'method' => 'post']) }}
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="email">{{ Lang::get('confide.username_e_mail') }}</label>
-        <div class="col-md-10">
+    <label class="col-md-2 control-label" for="email">{{ trans('word.email') }}</label>
+    <div class="col-md-10">
+        <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                {{ Form::text('email', null, ['class' => 'form-control', 'placeholder' => Lang::get('site.auth.username_e_mail') ]) }}
+                {{ Form::text('email', null, ['class' => 'form-control', 'placeholder' => trans('word.email') ]) }}
             </div>
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label" for="password">
-            {{ Lang::get('confide.password') }}
+            {{ trans('word.password')}}
         </label>
         <div class="col-md-10">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                {{ Form::password('password', ['class' => 'form-control', 'placeholder' => Lang::get('site.auth.password') ]) }}
+                {{ Form::password('password', ['class' => 'form-control', 'placeholder' => trans('word.password') ]) }}
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
             <div class="checkbox">
                 <label class="checkbox">
                     {{ Form::checkbox('remember', '1', true,  ['id' => 'remember']) }}
-                    {{ Lang::get('site.auth.login.remember') }}
+                    {{ trans('word.remember') }}
                 </label>
             </div>
         </div>
@@ -43,9 +43,9 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button tabindex="3" type="submit" class="btn btn-primary">{{ Lang::get('confide.login.submit') }}</button>
-            <a class="btn btn-default" href="forgot">{{ Lang::get('confide.login.forgot_password') }}</a>
-            <a href="{{ action('AuthController@getSignup') }}" type="submit" class="btn btn-default">{{ Lang::get('site.nav.register') }}</a>
+            <button tabindex="3" type="submit" class="btn btn-primary">{{ trans('auth.login.submit') }}</button>
+            <a class="btn btn-default" href="forgot">{{ trans('word.forgot-password') }}</a>
+            <a href="{{ action('AuthController@getSignup') }}" type="submit" class="btn btn-default">{{ trans('word.register') }}</a>
         </div>
     </div>
 </form>

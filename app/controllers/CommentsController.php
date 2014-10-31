@@ -52,9 +52,9 @@ class CommentsController extends BaseController {
 
         if($commentable_type == 'EventModel') {
 
-            return Redirect::action('EventsController@show', $id)->with('success', trans('site.general.comment-posted'));
+            return Redirect::action('EventsController@show', $id)->with('success', trans('site.comment-posted'));
         } else {
-            return Redirect::action('BlogsController@show', $id)->with('success', trans('site.general.comment-posted'));
+            return Redirect::action('BlogsController@show', $id)->with('success', trans('site.comment-posted'));
 
         }
     }

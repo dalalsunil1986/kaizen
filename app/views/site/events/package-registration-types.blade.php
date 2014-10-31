@@ -35,7 +35,7 @@
         <div class="col-md-4" >
             <div class="panel panel-default parent_panel">
                 <div class="panel-heading">
-                   {{ strtoupper(Lang::get('site.general.vip'))  }}
+                   {{ strtoupper(Lang::get('site.vip'))  }}
                 </div>
                 <div class="panel-body" >
                     <div class="col-md-12">
@@ -50,7 +50,7 @@
                                 <div class="col-lg-12">
                                     <div class="input-group">
                                        <span class="input-group-addon beautiful"> <input type="checkbox"> </span>
-                                       <input type="text" class="form-control" disabled value="{{ Lang::get('site.general.newsletter_subscribe') }}">
+                                       <input type="text" class="form-control" disabled value="{{ Lang::get('site.newsletter_subscribe') }}">
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                     </div>
 
                     <span class="col-md-12 lower-panel">
-                       <button type="button" class="btn btn-default btn-block"> {{ Lang::get('site.event.subscribe') }}</button>
+                       <button type="button" class="btn btn-default btn-block"> {{ Lang::get('site.subscribe') }}</button>
                     </span>
 
                 </div>
@@ -77,7 +77,7 @@
         <div class="col-md-4" >
             <div class="panel panel-default parent_panel">
                 <div class="panel-heading">
-                   {{ strtoupper(Lang::get('site.general.vip'))  }}
+                   {{ strtoupper(Lang::get('site.vip'))  }}
                 </div>
                 <div class="panel-body" >
                     <div class="col-md-12">
@@ -92,7 +92,7 @@
                                 <div class="col-lg-12">
                                     <div class="input-group">
                                        <span class="input-group-addon beautiful"> <input type="checkbox"> </span>
-                                       <input type="text" class="form-control" disabled value="{{ Lang::get('site.general.newsletter_subscribe') }}">
+                                       <input type="text" class="form-control" disabled value="{{ Lang::get('site.newsletter_subscribe') }}">
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                     </div>
 
                     <span class="col-md-12 lower-panel">
-                       <button type="button" class="btn btn-default btn-block"> {{ Lang::get('site.event.subscribe') }}</button>
+                       <button type="button" class="btn btn-default btn-block"> {{ Lang::get('site.subscribe') }}</button>
                     </span>
 
                 </div>
@@ -121,7 +121,7 @@
     <div class="col-md-4" >
          <div class="panel panel-default parent_panel">
              <div class="panel-heading">
-                {{ strtoupper(Lang::get('site.general.normal'))  }}
+                {{ strtoupper(Lang::get('site.normal'))  }}
              </div>
              <div class="panel-body" >
                  <div class="col-md-12">
@@ -136,7 +136,7 @@
                              <div class="col-lg-12">
                                  <div class="input-group">
                                     <span class="input-group-addon beautiful"> <input type="checkbox"> </span>
-                                    <input type="text" class="form-control" disabled value="{{ Lang::get('site.general.newsletter_subscribe') }}">
+                                    <input type="text" class="form-control" disabled value="{{ Lang::get('site.newsletter_subscribe') }}">
                                  </div>
                              </div>
                          </div>
@@ -150,7 +150,7 @@
                  </div>
 
                  <span class="col-md-12 lower-panel">
-                    <button type="button" class="btn btn-default btn-block"> {{ Lang::get('site.event.subscribe') }}</button>
+                    <button type="button" class="btn btn-default btn-block"> {{ Lang::get('site.subscribe') }}</button>
                  </span>
 
              </div>

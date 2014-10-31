@@ -20,7 +20,7 @@
         switch (action) {
             case 'favorite':
                 var ttip = '{{ Lang::get('
-                site.event.unfavorite
+                site.unfavorite
                 ') }}'
                 $('.favorite_btn')
                     .attr('title', ttip)
@@ -28,7 +28,7 @@
                 break;
             case 'unfavorite':
                 var ttip = '{{ Lang::get('
-                site.event.favorite
+                site.favorite
                 ') }}'
                 $('.favorite_btn')
                     .attr('title', ttip)
@@ -36,7 +36,7 @@
                 break;
             case 'follow':
                 var ttip = '{{ Lang::get('
-                site.event.unfollow
+                site.unfollow
                 ') }}'
                 $('.follow_btn')
                     .attr('title', ttip)
@@ -44,7 +44,7 @@
                 break;
             case 'unfollow':
                 var ttip = '{{ Lang::get('
-                site.event.follow
+                site.follow
                 ') }}'
                 $('.follow_btn')
                     .attr('title', ttip)
@@ -52,7 +52,7 @@
                 break;
             case 'subscribe':
                 var ttip = '{{ Lang::get('
-                site.event.unsubscribe
+                site.unsubscribe
                 ') }}'
                 $('.subscribe_btn')
                     .attr('title', ttip)
@@ -60,7 +60,7 @@
                 break;
             case 'unsubscribe':
                 var ttip = '{{ Lang::get('
-                site.event.subscribe
+                site.subscribe
                 ') }}'
                 $('.subsribe_btn')
                     .attr('title', ttip)
@@ -158,10 +158,10 @@
 
                 <button
                     type="button" class=" {{ !Auth::user()? 'disabled' :'' }} col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                    data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
+                    data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.unsubscribe') : Lang::get('site.subscribe')  }}">
                     <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
                     <span class="buttonText">
-                        {{ $subscribed? Lang::get('site.event.unsubscribe_btn_desc') : Lang::get('site.event.subscribe_btn_desc')  }}
+                        {{ $subscribed? Lang::get('site.unsubscribe_btn_desc') : Lang::get('site.subscribe_btn_desc')  }}
                         </span></button>
                 </a>
             </div>
@@ -169,15 +169,15 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <button
                 {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
-                data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.event.unfollow') : Lang::get('site.event.follow') }}">
+                data-toggle="tooltip" data-placement="top" title="{{ $followed? Lang::get('site.unfollow') : Lang::get('site.follow') }}">
                 <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
-                {{ Lang::get('site.general.follow_btn_desc')}}</button>
+                {{ Lang::get('site.follow_btn_desc')}}</button>
 
                 <button
                 {{ !Auth::user()? 'disabled' :'' }} type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm favorite_btn bg-blue top5"
-                data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.event.unfavorite') : Lang::get('site.event.favorite') }}">
+                data-toggle="tooltip" data-placement="top" title="{{ $favorited? Lang::get('site.unfavorite') : Lang::get('site.favorite') }}">
                 <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
-                {{ Lang::get('site.general.fv_btn_desc')}}</button>
+                {{ Lang::get('site.fv_btn_desc')}}</button>
             </div>
         </div>
     </div>
@@ -199,54 +199,54 @@
     <div class="col-md-12">
         <table class="table table-striped">
             <tr>
-                <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+                <h4>{{ Lang::get('site.summaryevent') }}</h4>
             </tr>
             <tr>
-                <td><b>{{ Lang::get('site.general.country') }} </b></td>
+                <td><b>{{ Lang::get('site.country') }} </b></td>
                 <td>
                     {{ $event->location->country->name }}
                 </td>
-                <td><b>{{ Lang::get('site.general.location') }}</b></td>
+                <td><b>{{ Lang::get('site.location') }}</b></td>
                 <td>
                     {{ $event->location->name }}
                 </td>
             </tr>
             <tr>
-                <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
+                <td><b>{{ Lang::get('site.totalseats') }}</b></td>
                 <td> {{ $event->total_seats}}</td>
-                <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
+                <td><b> {{ Lang::get('site.seatsavail') }} </b></td>
                 <td> {{ $event->available_seats}}</td>
             </tr>
             <tr>
-                <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
+                <td><b>{{ Lang::get('site.date_start') }}</b></td>
                 <td> {{ $event->formatEventDate($event->date_start) }}</td>
-                <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
+                <td><b> {{ Lang::get('site.date_end') }} </b></td>
                 <td> {{ $event->formatEventDate($event->date_end) }}</td>
             </tr>
             <tr>
-                <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
+                <td><b>{{ Lang::get('site.time_start') }}</b></td>
                 <td> {{ $event->date_start }}</td>
-                <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
+                <td><b> {{ Lang::get('site.time_end') }}</b></td>
                 <td> {{ $event->date_end }}</td>
             </tr>
             @if($event->phone || $event->email)
             <tr>
                 @if($event->phone)
-                <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                <td><b>{{ Lang::get('site.phone') }}</b></td>
                 <td> {{ $event->phone }}</td>
                 @endif
                 @if($event->email)
-                <td><b>{{ Lang::get('site.general.email') }}</b></td>
+                <td><b>{{ Lang::get('site.email') }}</b></td>
                 <td> {{ $event->email }}</td>
                 @endif
             </tr>
             @endif
             <tr>
-                <td><b>{{ Lang::get('site.event.price') }}</b></td>
+                <td><b>{{ Lang::get('site.price') }}</b></td>
                 @if($event->price)
                 <td>{{ $event->price }}</td>
                 @else
-                <td>{{ Lang::get('site.event.free') }}</td>
+                <td>{{ Lang::get('site.free') }}</td>
                 @endif
             </tr>
         </table>
@@ -271,54 +271,54 @@
                         <div class="col-md-12">
                             <table class="table table-striped">
                                 <tr>
-                                    <h4>{{ Lang::get('site.event.summaryevent') }}</h4>
+                                    <h4>{{ Lang::get('site.summaryevent') }}</h4>
                                 </tr>
                                 <tr>
-                                    <td><b>{{ Lang::get('site.general.country') }} </b></td>
+                                    <td><b>{{ Lang::get('site.country') }} </b></td>
                                     <td>
                                         {{ $event->location->country->name }}
                                     </td>
-                                    <td><b>{{ Lang::get('site.general.location') }}</b></td>
+                                    <td><b>{{ Lang::get('site.location') }}</b></td>
                                     <td>
                                         {{ $event->location->name }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><b>{{ Lang::get('site.event.totalseats') }}</b></td>
+                                    <td><b>{{ Lang::get('site.totalseats') }}</b></td>
                                     <td> {{ $event->total_seats}}</td>
-                                    <td><b> {{ Lang::get('site.event.seatsavail') }} </b></td>
+                                    <td><b> {{ Lang::get('site.seatsavail') }} </b></td>
                                     <td> {{ $event->available_seats}}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>{{ Lang::get('site.event.date_start') }}</b></td>
+                                    <td><b>{{ Lang::get('site.date_start') }}</b></td>
                                     <td> {{ $event->formatEventDate($event->date_start) }}</td>
-                                    <td><b> {{ Lang::get('site.event.date_end') }} </b></td>
+                                    <td><b> {{ Lang::get('site.date_end') }} </b></td>
                                     <td> {{ $event->formatEventDate($event->date_end) }}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>{{ Lang::get('site.event.time_start') }}</b></td>
+                                    <td><b>{{ Lang::get('site.time_start') }}</b></td>
                                     <td> {{ $event->date_start }}</td>
-                                    <td><b> {{ Lang::get('site.event.time_end') }}</b></td>
+                                    <td><b> {{ Lang::get('site.time_end') }}</b></td>
                                     <td> {{ $event->date_end }}</td>
                                 </tr>
                                 @if($event->phone || $event->email)
                                 <tr>
                                     @if($event->phone)
-                                    <td><b>{{ Lang::get('site.general.phone') }}</b></td>
+                                    <td><b>{{ Lang::get('site.phone') }}</b></td>
                                     <td> {{ $event->phone }}</td>
                                     @endif
                                     @if($event->email)
-                                    <td><b>{{ Lang::get('site.general.email') }}</b></td>
+                                    <td><b>{{ Lang::get('site.email') }}</b></td>
                                     <td> {{ $event->email }}</td>
                                     @endif
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td><b>{{ Lang::get('site.event.price') }}</b></td>
+                                    <td><b>{{ Lang::get('site.price') }}</b></td>
                                     @if($event->price)
                                     <td>{{ $event->price }}</td>
                                     @else
-                                    <td>{{ Lang::get('site.event.free') }}</td>
+                                    <td>{{ Lang::get('site.free') }}</td>
                                     @endif
                                 </tr>
                             </table>
@@ -344,7 +344,7 @@
 
     @endif
     <div class="col-md-12 top15">
-        <b>{{ Lang::get('site.general.address') }} </b>
+        <b>{{ Lang::get('site.address') }} </b>
         <address>
             <strong>
                 {{ $event->address }}
@@ -372,7 +372,7 @@
         @endif
         <a href="{{ action('SubscriptionsController@subscribe',$event->id) }}">
             <button type="button" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn {{ !Auth::user()? 'disabled' :'' }}"
-                    data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.event.unsubscribe') : Lang::get('site.event.subscribe')  }}">
+                    data-toggle="tooltip" data-placement="top" title="{{ $subscribed? Lang::get('site.unsubscribe') : Lang::get('site.subscribe')  }}">
                 <h2><i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>&nbsp;
                  {{ $event->button }}
                 </h2></button>
@@ -383,7 +383,7 @@
 <div class="row">
     <div class="col-md-12">
         @if(count($event->comments) > 0)
-        <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{Lang::get('site.event.comment') }}</h3>
+        <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{Lang::get('site.comment') }}</h3>
         @foreach($event->comments as $comment)
         <div class="comments_dev">
             <p>{{ $comment->content }}</p>
@@ -405,9 +405,9 @@
         {{ Form::open(array( 'action' => array('CommentsController@store', $event->id))) }}
         <div class="form-group">
             <label for="comment"></label>
-            <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ Lang::get('site.event.comment')}}"></textarea>
+            <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ Lang::get('site.comment')}}"></textarea>
         </div>
-        <button type="submit" class="btn btn-default"> {{ Lang::get('site.event.addcomment') }}</button>
+        <button type="submit" class="btn btn-default"> {{ Lang::get('site.addcomment') }}</button>
         {{ Form::close() }}
         @endif
         @if ($errors->any())

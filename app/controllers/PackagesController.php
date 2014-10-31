@@ -67,12 +67,12 @@ class PackagesController extends BaseController {
         $this->title = 'Events';
         //find countries,authors,and categories to display in search form
         if ( App::getLocale() == 'en' ) {
-            $countries = [0 => Lang::get('site.event.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
+            $countries = [0 => Lang::get('site.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
         } else {
-            $countries = [0 => Lang::get('site.event.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
+            $countries = [0 => Lang::get('site.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
         }
-        $categories = [0 => Lang::get('site.event.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
-        $authors    = [0 => Lang::get('site.event.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $categories = [0 => Lang::get('site.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_en', 'id');
+        $authors    = [0 => Lang::get('site.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
 
         // find selected form values
         $search   = trim(Input::get('search'));
