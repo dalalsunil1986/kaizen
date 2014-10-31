@@ -6,17 +6,18 @@
 |--------------------------------------------------------------------------
 */
 
-App::before(function($request) {
+App::before(function ($request) {
     // enforce no www
-    if (preg_match('/^http:\/\/www./', $request->url())) {
+    if ( preg_match('/^http:\/\/www./', $request->url()) ) {
         $newUrl = preg_replace('/^http:\/\/www./', 'http://', $request->url());
+
         return Redirect::to($newUrl);
     }
 });
 
-App::after(function($request, $response) {
-    if (Auth::guest()) {
-        if ( ! stristr($request->path(), 'login') && ! stristr($request->path(), 'signup')) Session::put('auth.intended_redirect_url', $request->url());
+App::after(function ($request, $response) {
+    if ( Auth::guest() ) {
+        if ( !stristr($request->path(), 'login') && !stristr($request->path(), 'signup') ) Session::put('auth.intended_redirect_url', $request->url());
     }
 });
 
@@ -31,13 +32,11 @@ App::after(function($request, $response) {
 |
 */
 
-Route::filter('auth', function()
-{
-    if (Auth::guest()) return Redirect::action('AuthController@getLogin')->with('info',trans('site.subscription.not_authenticated'));
+Route::filter('auth', function () {
+    if ( Auth::guest() ) return Redirect::action('AuthController@getLogin')->with('info', trans('site.subscription.not_authenticated'));
 });
 
-Route::filter('auth.basic', function()
-{
+Route::filter('auth.basic', function () {
     return Auth::basic();
 });
 
@@ -52,9 +51,8 @@ Route::filter('auth.basic', function()
 |
 */
 
-Route::filter('guest', function()
-{
-    if (Auth::check()) return Redirect::action('AuthController@getLogin');
+Route::filter('guest', function () {
+    if ( Auth::check() ) return Redirect::action('AuthController@getLogin');
 });
 
 /*
@@ -68,49 +66,43 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('csrf', function()
-{
-    if (Session::getToken() != Input::get('csrf_token') &&  Session::getToken() != Input::get('_token'))
-    {
+Route::filter('csrf', function () {
+    if ( Session::getToken() != Input::get('csrf_token') && Session::getToken() != Input::get('_token') ) {
         throw new Illuminate\Session\TokenMismatchException;
     }
 });
 
-Route::filter('Moderator', function()
-{
-    if (!(Entrust::hasRole('admin') || (Entrust::hasRole('moderator')))) // Checks the current user
+Route::filter('Moderator', function () {
+    if ( !(Entrust::hasRole('admin') || (Entrust::hasRole('moderator'))) ) // Checks the current user
     {
-        return Redirect::to('forbidden')->with('error','Sorry You Do not have access to this page');
+        return Redirect::to('forbidden')->with('error', 'Sorry You Do not have access to this page');
     }
 });
 
-Route::filter('Admin', function()
-{
-    if (!(Entrust::hasRole('admin') )) // Checks the current user
+Route::filter('Admin', function () {
+    if ( !(Entrust::hasRole('admin')) ) // Checks the current user
     {
-        return Redirect::to('forbidden')->with('errors','Sorry You Do not have access to this page');
+        return Redirect::to('forbidden')->with('errors', 'Sorry You Do not have access to this page');
     }
 });
 
 
-Route::filter('owner', function($route, $request)
-{
-    if(Auth::check())
-        if( $request->segment(3) != Auth::user()->id)
-        {
-            return Redirect::action('EventsController@dashboard')->with('error','You are not supposed to do that');
+Route::filter('owner', function ($route, $request) {
+    if ( Auth::check() )
+        if ( $request->segment(3) != Auth::user()->id ) {
+            return Redirect::action('EventsController@dashboard')->with('error', 'You are not supposed to do that');
         } else {
-            return ;
+            return;
         }
-    return Redirect::action('UserController@getLogin')->with('error','Please login');
+
+    return Redirect::action('UserController@getLogin')->with('error', 'Please login');
 });
 
 /**
  * Route filter to allow users who are only not logged in
  */
-Route::filter('noAuth', function()
-{
-    if (Auth::check()) return Redirect::home()->with('info', 'You are already logged in');
+Route::filter('noAuth', function () {
+    if ( Auth::check() ) return Redirect::home();
 });
 
 

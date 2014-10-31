@@ -1,13 +1,6 @@
 <?php
 
-//Route::model('role', 'Role');
-
-/** ------------------------------------------
- *  Route constraint patterns
- *  ------------------------------------------ */
 Route::pattern('id', '[0-9]+');
-
-//Route::pattern('role', '[0-9]+');
 
 Route::pattern('token', '[0-9a-z]+');
 
@@ -69,10 +62,10 @@ Route::get('event/{id}/payment/options','PaymentsController@getPayment');
 Route::post('payment','PaymentsController@postPayment' );
 
 Route::get('payment/final','PaymentsController@getFinal');
+
 /*********************************************************************************************************
  * Contact Us Route
  ********************************************************************************************************/
-
 Route::resource('contact', 'ContactsController', array('only' => array('index')));
 
 Route::post('contact/contact', 'ContactsController@contact');
@@ -80,7 +73,6 @@ Route::post('contact/contact', 'ContactsController@contact');
 /*********************************************************************************************************
  * Posts
  ********************************************************************************************************/
-
 Route::get('consultancy', array('as' => 'consultancy', 'uses' => 'BlogsController@consultancy'));
 
 Route::resource('blog', 'BlogsController', array('only' => array('index', 'show', 'view')));
@@ -119,7 +111,6 @@ Route::get('account/activate/{token}', ['as' => 'user.token.confirm', 'uses' => 
 /*********************************************************************************************************
  * User Routes
  ********************************************************************************************************/
-
 Route::get('user/{id}/profile', array('as' => 'profile', 'uses' => 'UserController@getProfile'));
 
 Route::resource('user', 'UserController');
@@ -193,7 +184,6 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Admin User Role Management Routes
      ********************************************************************************************************/
-
     Route::resource('roles', 'AdminRolesController');
 
     /*********************************************************************************************************
@@ -237,7 +227,6 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Event Settings Routes
      ********************************************************************************************************/
-
     Route::get('setting/{id}/add-online-room', 'AdminSettingsController@getAddRoom');
 
     Route::post('setting/{id}/add-online-room', 'AdminSettingsController@postAddRoom');
@@ -309,56 +298,6 @@ Route::post('queue/mails',function(){
     return Queue::marshal();
 });
 
-
-use GeoIp2\Database\Reader;
-
 Route::get('test',function() {
-//    $event = EventModel::find(1);
-//    echo "now: ".\Carbon\Carbon::now();
-//    echo "<br>start date: " . $event->date_start;
-//    echo "<br>end date: " . $event->date_end;
-//
-//    $eventRepo = App::make('Acme\\EventModel\\EventRepository');
-//    echo "<br> ";
-//
-////    if($eventRepo->ongoingEvent($event->date_start,$event->date_end)) {
-////        echo 'ongoing event';
-////    } else
-//     if($eventRepo->eventStarted($event->date_start)) {
-//        if($eventRepo->eventExpired($event->date_end)) {
-//            echo 'event started but expired';
-//        } else {
-//            echo 'event started but not expired'; // unsubscrive
-//        }
-//    } elseif($eventRepo->eventExpired($event->date_end)) {
-//        echo 'event expired';
-//    }
-//    dd('');
-//
-//    dd($eventRepo->eventStarted($event->date_start));
-//    dd(\Carbon\Carbon::now());
 
-//    Mail::send('emails.welcome', array('key' => 'value'), function($message)
-//    {
-//        $message->to('z4ls@live.com', 'ZaL')->subject('Kaizen Mail service test!');
-//    });
-//    return 'email sent';
-//    dd(app_path());
-    $countries = ['Kuwait','United Arab Emirates','Qatar','Bahrain','Oman','Saudi Arabia'];
-    $countries_abb = ['KW','QA','BH','AE','OM','SA'];
-
-    $geoIpDB = app_path().'/libs/GeoLite2-Country.mmdb';
-    $reader = new Reader($geoIpDB);
-//    $record = $reader->country('168.187.22.137'); // KW Kuwait
-////    $record = $reader->country('82.148.97.69'); // QA Qatar
-////    $record = $reader->country('109.161.184.148'); // BH Bahrain
-////    $record = $reader->country('94.201.232.44'); // AE United Arab Emirates
-////    $record = $reader->country('82.178.0.138'); // OM Oman
-////    $record = $reader->country('5.42.255.255'); // SA Saudi Arabia
-//    print($record->country->name ."\n");
-//    print($record->country->name ."\n");
-//    dd($record->country->isoCode);
-
-    $locale = App::make('Acme\Libraries\UserGeoIp');
-    dd($locale->getCountry());
 });
