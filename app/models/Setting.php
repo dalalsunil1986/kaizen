@@ -9,8 +9,6 @@ class Setting extends BaseModel implements PresenterInterface{
 
     protected $guarded = ['id'];
 
-    protected static $name = 'setting';
-
     protected $localeStrings = ['vip_benefits','online_benefits','normal_benefits','vip_description','online_description','normal_description'];
 
     protected $table = 'settings';

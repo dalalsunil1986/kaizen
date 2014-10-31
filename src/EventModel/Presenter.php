@@ -34,8 +34,6 @@ class Presenter extends AbstractPresenter {
         $field = $this->resource->price;
 
         return $this->convertCurrency($field);
-
     }
-
 
 }

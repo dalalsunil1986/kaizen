@@ -6,18 +6,15 @@ class Subscription extends BaseModel {
 
     use SoftDeletingTrait;
 
-    protected $guarded = array('id');
-
-    protected static $name = 'subscription';
+    protected $guarded = ['id'];
 
     protected $dates = ['deleted_at'];
 
-    public static $rules = array(
-        'user_id'  => 'required | integer',
-        'event_id' => 'required | integer'
-    );
-
     protected $with = ['user'];
+
+    /*********************************************************************************************************
+     * Eloquent Relationships
+     ********************************************************************************************************/
 
     public function user()
     {
@@ -29,15 +26,27 @@ class Subscription extends BaseModel {
         return $this->belongsTo('EventModel', 'event_id');
     }
 
-    public function totalSubscriptions()
-    {
-        // return count of total subscriptions
-    }
-
     public function settings()
     {
         return $this->hasManyThrough('Setting','EventModel','id','settingable_id');
     }
+
+    public function payments()
+    {
+        return $this->morphMany('Payment', 'payable');
+    }
+
+    /*********************************************************************************************************
+     * Model Scopes
+     ********************************************************************************************************/
+    public function scopeOfStatus($query, $status)
+    {
+        return $query->whereStatus($status);
+    }
+
+    /*********************************************************************************************************
+     * Custom Methods
+     ********************************************************************************************************/
 
     /**
      * If the User already confirmed
@@ -45,16 +54,6 @@ class Subscription extends BaseModel {
     public function subscriptionConfirmed()
     {
         return $this->status == 'CONFIRMED' ? true : false;
-    }
-
-    public function scopeOfStatus($query, $status)
-    {
-        return $query->whereStatus($status);
-    }
-
-    public function payments()
-    {
-        return $this->morphMany('Payment', 'payable');
     }
 
     /**

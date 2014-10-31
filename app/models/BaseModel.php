@@ -13,7 +13,6 @@ class BaseModel extends Model {
      */
     public static function create(array $input)
     {
-
         static::beforeCreate($input);
 
         $return = parent::create($input);
@@ -24,29 +23,18 @@ class BaseModel extends Model {
     }
 
     /**
-     * Before creating a new model.
-     *
-     * @param  array $input
-     * @return mixed
+     * @param array $input
      */
-    public static function beforeCreate(array $input)
-    {
-    }
+    public static function beforeCreate(array $input) {}
 
     /**
-     * After creating a new model.
-     *
-     * @param  array $input
-     * @param  mixed $return
-     * @return mixed
+     * @param array $input
+     * @param $return
      */
-    public static function afterCreate(array $input, $return)
-    {
-    }
+    public static function afterCreate(array $input, $return) {}
 
     /**
      * Update an existing model.
-     *
      * @param  array $input
      * @throws Exception
      * @return mixed
@@ -65,24 +53,18 @@ class BaseModel extends Model {
 
     /**
      * Before updating an existing new model.
-     *
      * @param  array $input
      * @return mixed
      */
-    public function beforeUpdate(array $input)
-    {
-    }
+    public function beforeUpdate(array $input) {}
 
     /**
      * After updating an existing model.
-     *
      * @param  array $input
      * @param  mixed $return
      * @return mixed
      */
-    public function afterUpdate(array $input, $return)
-    {
-    }
+    public function afterUpdate(array $input, $return) {}
 
     /**
      * Delete an existing model.
@@ -106,9 +88,7 @@ class BaseModel extends Model {
      *
      * @return mixed
      */
-    public function beforeDelete()
-    {
-    }
+    public function beforeDelete() {}
 
     /**
      * After deleting an existing model.
@@ -116,9 +96,7 @@ class BaseModel extends Model {
      * @param  mixed $return
      * @return mixed
      */
-    public function afterDelete($return)
-    {
-    }
+    public function afterDelete($return) {}
 
     /**
      * @param $value

@@ -21,5 +21,6 @@ class EventRequest extends BaseModel {
         return $this->belongsTo('EventModel');
     }
 
+
 }
 

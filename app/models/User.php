@@ -9,53 +9,20 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
 
     use HasRole;
 
-    protected $guarded = array(
-        'id', 'password_confirmation', 'remember_token', '_method', '_token'
-    );
+    protected $guarded = [ 'id', 'password_confirmation', 'remember_token', '_method', '_token'];
 
     protected $hidden = array('password');
 
-
     protected $table = 'users';
-
-    protected static $name = 'user';
 
     public function getUserByUsername($username)
     {
         return $this->where('username', '=', $username)->first();
     }
 
-    /**
-     * Save roles inputted from multiselect
-     * @param $inputRoles
-     */
-    public function saveRoles($inputRoles)
-    {
-        if ( ! empty($inputRoles) ) {
-            $this->roles()->sync($inputRoles);
-        } else {
-            $this->roles()->detach();
-        }
-    }
-
-    /**
-     * Returns user's current role ids only.
-     * @return array|bool
-     */
-    public function currentRoleIds()
-    {
-        $roles   = $this->roles;
-        $roleIds = false;
-        if ( ! empty($roles) ) {
-            $roleIds = array();
-            foreach ( $roles as &$role ) {
-                $roleIds[] = $role->id;
-            }
-        }
-
-        return $roleIds;
-    }
-
+    /*********************************************************************************************************
+     * Eloquent Relationships
+     ********************************************************************************************************/
     /**
      * get all comments by the user
      */
@@ -94,15 +61,42 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
         return $this->belongsToMany('EventModel', 'requests', 'user_id', 'event_id');
     }
 
-
-    public function country()
+    public function roles()
     {
-        return $this->belongsTo('Country');
+        return $this->belongsToMany('Role', 'assigned_roles', 'user_id', 'role_id');
+    }
+
+    public function payments(){
+        return $this->hasMany('Payment');
+    }
+
+    /*********************************************************************************************************
+     * Setters
+     ********************************************************************************************************/
+    public function setMobileAttribute($value)
+    {
+        $this->attributes['mobile'] = (int)($value);
+    }
+
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = (int)($value);
     }
 
     /**
+     * @param $password
+     * Auto Has the Password
+     */
+    public function setPasswordAttribute($password){
+
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    /*********************************************************************************************************
+     * Getters
+     ********************************************************************************************************/
+    /**
      * Get the unique identifier for the user.
-     *
      * @return mixed
      */
     public function getAuthIdentifier()
@@ -112,7 +106,6 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
 
     /**
      * Get the password for the user.
-     *
      * @return string
      */
     public function getAuthPassword()
@@ -122,7 +115,6 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
 
     /**
      * Get the e-mail address where password reminders are sent.
-     *
      * @return string
      */
     public function getReminderEmail()
@@ -135,14 +127,14 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
         return $this->remember_token;
     }
 
-    public function setRememberToken($value)
-    {
-        $this->remember_token = $value;
-    }
-
     public function getRememberTokenName()
     {
         return 'remember_token';
+    }
+
+    public function setRememberToken($value)
+    {
+        $this->remember_token = $value;
     }
 
     /**
@@ -153,6 +145,40 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
     public function getPresenter()
     {
         return 'Acme\User\Presenter';
+    }
+    /*********************************************************************************************************
+     * Custom Methods
+     ********************************************************************************************************/
+
+    /**
+     * Save roles inputted from multiselect
+     * @param $inputRoles
+     */
+    public function saveRoles($inputRoles)
+    {
+        if ( ! empty($inputRoles) ) {
+            $this->roles()->sync($inputRoles);
+        } else {
+            $this->roles()->detach();
+        }
+    }
+
+    /**
+     * Returns user's current role ids only.
+     * @return array|bool
+     */
+    public function currentRoleIds()
+    {
+        $roles   = $this->roles;
+        $roleIds = false;
+        if ( ! empty($roles) ) {
+            $roleIds = array();
+            foreach ( $roles as &$role ) {
+                $roleIds[] = $role->id;
+            }
+        }
+
+        return $roleIds;
     }
 
     /**
@@ -175,32 +201,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
 
             return true;
         }
-
         return false;
-    }
-
-    public function setMobileAttribute($value)
-    {
-        $this->attributes['mobile'] = (int)($value);
-    }
-
-    public function setPhoneAttribute($value)
-    {
-        $this->attributes['phone'] = (int)($value);
-    }
-
-    /**
-     * @param $password
-     * Auto Has the Password
-     */
-    public function setPasswordAttribute($password){
-
-        $this->attributes['password'] = Hash::make($password);
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany('Role', 'assigned_roles', 'user_id', 'role_id');
     }
 
     public function beforeDelete()
@@ -225,22 +226,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
             $favorite->delete();
         }
 
-        // delete requests
-//        $requests = $this->hasMany('Request','user_id');
-//        foreach ($requests->get(array('requests.id')) as $request) {
-//            $request->delete();
-//        }
-
-//        foreach ($this->roles()->get(array('assigned_roles.id')) as $subscription) {
-//            $subscription->delete();
-//        }
-
     }
 
 
-    public function payments(){
-        return $this->hasMany('Payment');
-    }
 
 
 }
