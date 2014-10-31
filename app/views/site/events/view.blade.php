@@ -227,7 +227,7 @@
                 <tr>
                     <td><b>{{ trans('site.event.price') }}</b></td>
                     @if($event->price)
-                        <td>{{ $event->priceConverted }}</td>
+                        <td>{{ $event->convertPrice }}</td>
                     @else
                         <td>{{ trans('site.event.free') }}</td>
                     @endif

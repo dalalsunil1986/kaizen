@@ -1,10 +1,7 @@
 <?php namespace Acme\EventModel;
 
 use Acme\Core\AbstractPresenter;
-use App;
-use Country;
 use EventModel;
-use Session;
 use User;
 
 class Presenter extends AbstractPresenter {
@@ -19,7 +16,7 @@ class Presenter extends AbstractPresenter {
 
     public function __construct(EventModel $model)
     {
-        $this->resource = $model;
+        $this->resource =  $model;
     }
 
     public function date_start()
@@ -32,27 +29,13 @@ class Presenter extends AbstractPresenter {
         return $this->resource->date_end->format('Y-m-d H:i');
     }
 
-    public function priceConverted()
+    public function convertPrice()
     {
-        $iso = Session::get('user.country');
-        if ( $iso == 'KW' ) {
-            return $this->resource->price . ' KD';
-        }
+        $field = $this->resource->price;
 
-        $converter = App::make('Acme\Libraries\UserCurrency');
-        $country   = Country::where('iso_code', $iso)->first();
-
-        if ( $country ) {
-            $converter = $converter->convert($country->currency, $this->resource->price);
-            if ( empty($converter) ) {
-                return $this->resource->price . ' KD';
-            }
-
-            return $converter . ' ' . $country->currency;
-        } else {
-            return $this->resource->price . ' KD';
-        }
+        return $this->convertCurrency($field);
 
     }
+
 
 }

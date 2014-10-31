@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="col-md-12">
-                           <p> <h3 class="text-center">Price {{ $setting->vip_price }} KD</h3></p>
+                           <p> <h3 class="text-center">Price {{ $setting->convertVipPrice }} KD</h3></p>
                         </div>
                     @endif
 
@@ -88,7 +88,7 @@
                         </div>
 
                         <div class="col-md-12">
-                           <p> <h3 class="text-center">Price {{ $setting->online_price }} KD</h3></p>
+                           <p> <h3 class="text-center">Price {{ $setting->convertOnlinePrice }} KD</h3></p>
                         </div>
                     @endif
 
@@ -130,7 +130,7 @@
                          </div>
 
                          <div class="col-md-12">
-                            <p> <h3 class="text-center">Price {{ $event->price }} KD</h3></p>
+                            <p> <h3 class="text-center">Price {{ $event->convertPrice }} KD</h3></p>
                          </div>
 
                      @endif

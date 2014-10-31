@@ -12,7 +12,7 @@
             <div class="panel-footer">
                 <div class="row text-center">
                     <div class="col-xs-9">
-                        <h4 class="text-right">{{trans('site.general.total')}} : <strong>{{ $event->priceConverted }}</strong></h4>
+                        <h4 class="text-right">{{trans('site.general.total')}} : <strong>{{ $event->convertPrice }}</strong></h4>
                     </div>
                     <div class="col-xs-3">
                         {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['PaymentsController@postPayment']]) }}
