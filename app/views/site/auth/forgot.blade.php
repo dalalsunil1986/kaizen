@@ -5,9 +5,7 @@
     <h1>{{ trans('auth.forgot.title') }}</h1>
 </div>
 
-<form method="POST" action="{{ URL::action('AuthController@postForgot') }}" accept-charset="UTF-8">
-    <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
-
+{{ Form::open(['action'=>['AuthController@postForgot'],'method'=>'POST']) }}
     <div class="form-group">
         <label for="email">{{{ trans('word.email') }}}</label>
         <div class="input-append input-group">
@@ -19,6 +17,6 @@
         </div>
     </div>
 
-</form>
+{{ Form::close() }}
 
 @stop
