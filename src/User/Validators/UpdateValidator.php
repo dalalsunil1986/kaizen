@@ -33,7 +33,7 @@ class UpdateValidator extends AbstractValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'name_ar', 'name_en', 'password', 'password_confirmation', 'country_id', 'twitter', 'phone', 'mobile'
+            'name_ar', 'name_en', 'password', 'password_confirmation', 'country_id', 'twitter', 'phone', 'mobile','gender','instagram'
         ]);
     }
 

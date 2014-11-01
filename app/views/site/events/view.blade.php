@@ -19,37 +19,37 @@
         function toggleTooltip(action) {
             switch (action) {
                 case 'favorite':
-                    var ttip = '{{ trans('site.unfavorite ') }}'
+                    var ttip = '{{ trans('word.unfavorite ') }}'
                     $('.favorite_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'unfavorite':
-                    var ttip = '{{ trans('site.favorite') }}'
+                    var ttip = '{{ trans('word.favorite') }}'
                     $('.favorite_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'follow':
-                    var ttip = '{{ trans('site.unfollow') }}'
+                    var ttip = '{{ trans('word.unfollow') }}'
                     $('.follow_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'unfollow':
-                    var ttip = '{{ trans('site.follow') }}'
+                    var ttip = '{{ trans('word.follow') }}'
                     $('.follow_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'subscribe':
-                    var ttip = '{{ trans('site.unsubscribe') }}'
+                    var ttip = '{{ trans('word.unsubscribe') }}'
                     $('.subscribe_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'unsubscribe':
-                    var ttip = '{{ trans('site.subscribe') }}'
+                    var ttip = '{{ trans('word.subscribe') }}'
                     $('.subsribe_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
@@ -109,10 +109,10 @@
                     @if( !$subscribed)
                             <a href="{{  URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) }}"/>
                             <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                data-toggle="tooltip" data-placement="top" title="{{  trans('site.subscribe')  }}">
+                                data-toggle="tooltip" data-placement="top" title="{{  trans('word.subscribe')  }}">
                                 <i class="subscribe glyphicon glyphicon-check "></i>  </br>
                                 <span class="buttonText">
-                                {{ trans('site.subscribe')  }}
+                                {{ trans('word.subscribe')  }}
                                 </span>
                             </button>
                         </a>
@@ -122,10 +122,10 @@
                             {{-- If Can Watch Online --}}
                             <a href="{{  URL::action('EventsController@streamEvent', array('id'=>$event->id)) }}"/>
                                 <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-green "
-                                     data-toggle="tooltip" data-placement="top" title="{{ trans('site.online')  }}">
+                                     data-toggle="tooltip" data-placement="top" title="{{ trans('word.online')  }}">
                                     <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                                     <span class="buttonText">
-                                       {{ trans('site.online')  }}
+                                       {{ trans('word.online')  }}
                                     </span>
                                 </button>
                             </a>
@@ -134,20 +134,20 @@
                         @elseif($eventExpired)
                             {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
                                 <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                    data-toggle="tooltip" data-placement="top" title="{{ trans('site.reorganize')  }}">
+                                    data-toggle="tooltip" data-placement="top" title="{{ trans('word.reorganize')  }}">
                                     <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                                     <span class="buttonText">
-                                       {{ trans('site.reorganize')  }}
+                                       {{ trans('word.reorganize')  }}
                                     </span>
                                 </button>
                             {{ Form::close() }}
                         @else
                             <a href="{{  URL::action('SubscriptionsController@unsubscribe', array('id'=>$event->id)) }}"/>
                                 <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                    data-toggle="tooltip" data-placement="top" title="{{ trans('site.unsubscribe')  }}">
+                                    data-toggle="tooltip" data-placement="top" title="{{ trans('word.unsubscribe')  }}">
                                     <i class="subscribe glyphicon glyphicon-check active "></i>  </br>
                                     <span class="buttonText">
-                                        {{  trans('site.unsubscribe_btn_desc')  }}
+                                        {{  trans('word.unsubscribe_btn_desc')  }}
                                     </span>
                                 </button>
                             </a>
@@ -156,15 +156,15 @@
                     @endif
                     {{--  Show Favorite, Subscription Buttons--}}
                     <button type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
-                        data-toggle="tooltip" data-placement="top" title="{{ $followed? trans('site.unfollow') : trans('site.follow') }}">
+                        data-toggle="tooltip" data-placement="top" title="{{ $followed? trans('word.unfollow') : trans('word.follow') }}">
                         <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
-                        {{ trans('site.follow_btn_desc')}}
+                        {{ trans('word.follow_btn_desc')}}
                     </button>
 
                     <button type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm favorite_btn bg-blue top5"
-                        data-toggle="tooltip" data-placement="top" title="{{ $favorited? trans('site.unfavorite') : trans('site.favorite') }}">
+                        data-toggle="tooltip" data-placement="top" title="{{ $favorited? trans('word.unfavorite') : trans('word.favorite') }}">
                         <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
-                        {{ trans('site.fv_btn_desc') }}
+                        {{ trans('word.fv_btn_desc') }}
                     </button>
 
                 </div>
@@ -193,43 +193,43 @@
             <hr>
             <table class="table table-striped">
                 <tr>
-                    <h4>{{ trans('site.summaryevent') }}</h4>
+                    <h4>{{ trans('word.summaryevent') }}</h4>
                 </tr>
 
                 @if($event->location)
                     <tr>
-                        <td> <b>{{ trans('site.country') }} </b></td>
+                        <td> <b>{{ trans('word.country') }} </b></td>
                         <td> {{ $event->location->country ? $event->location->country->name : '' }} </td>
-                        <td> <b>{{ trans('site.location') }}</b></td>
+                        <td> <b>{{ trans('word.location') }}</b></td>
                         <td> {{ $event->location->name }} </td>
                     </tr>
                 @endif
 
                 <tr>
-                    <td><b>{{ trans('site.date_start') }}</b></td>
+                    <td><b>{{ trans('word.date_start') }}</b></td>
                     <td> {{ $event->formatEventDate($event->date_start) }}</td>
-                    <td><b> {{ trans('site.date_end') }} </b></td>
+                    <td><b> {{ trans('word.date_end') }} </b></td>
                     <td> {{ $event->formatEventDate($event->date_end) }}</td>
                 </tr>
                 
                 @if($event->phone || $event->email)
                     <tr>
                         @if($event->phone)
-                            <td><b>{{ trans('site.phone') }}</b></td>
+                            <td><b>{{ trans('word.phone') }}</b></td>
                             <td> {{ $event->phone }}</td>
                         @endif
                         @if($event->email)
-                            <td><b>{{ trans('site.email') }}</b></td>
+                            <td><b>{{ trans('word.email') }}</b></td>
                             <td> {{ $event->email }}</td>
                         @endif
                     </tr>
                 @endif
                 <tr>
-                    <td><b>{{ trans('site.price') }}</b></td>
+                    <td><b>{{ trans('word.price') }}</b></td>
                     @if($event->price)
                         <td>{{ $event->convertPrice }}</td>
                     @else
-                        <td>{{ trans('site.free') }}</td>
+                        <td>{{ trans('word.free') }}</td>
                     @endif
                 </tr>
             </table>
@@ -247,7 +247,7 @@
         @endif
 
         <div class="col-md-12 top15">
-            <b>{{ trans('site.address') }} </b>
+            <b>{{ trans('word.address') }} </b>
             <address>
                 <strong>
                     {{ $event->address }}
@@ -281,10 +281,10 @@
             @if( !$subscribed)
                 <a href="{{  URL::action('EventsController@showSubscriptionOptions', array('id'=>$event->id)) }}"/>
                     <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                        data-toggle="tooltip" data-placement="top" title="{{  trans('site.subscribe')  }}">
+                        data-toggle="tooltip" data-placement="top" title="{{  trans('word.subscribe')  }}">
                         <i class="subscribe glyphicon glyphicon-check "></i>  </br>
                         <span class="buttonText">
-                        {{ trans('site.subscribe')  }}
+                        {{ trans('word.subscribe')  }}
                         </span>
                     </button>
                 </a>
@@ -295,10 +295,10 @@
                     {{-- If Can Watch Online --}}
                     <a href="{{  URL::action('EventsController@streamEvent', array('id'=>$event->id)) }}"/>
                         <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                             data-toggle="tooltip" data-placement="top" title="{{ trans('site.online')  }}">
+                             data-toggle="tooltip" data-placement="top" title="{{ trans('word.online')  }}">
                             <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                             <span class="buttonText">
-                               {{ trans('site.online')  }}
+                               {{ trans('word.online')  }}
                             </span>
                         </button>
                     </a>
@@ -307,20 +307,20 @@
 
                     {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
                         <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                            data-toggle="tooltip" data-placement="top" title="{{ trans('site.reorganize')  }}">
+                            data-toggle="tooltip" data-placement="top" title="{{ trans('word.reorganize')  }}">
                             <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                             <span class="buttonText">
-                               {{ trans('site.reorganize')  }}
+                               {{ trans('word.reorganize')  }}
                             </span>
                         </button>
                     {{ Form::close() }}
                 @else
                     <a href="{{  URL::action('SubscriptionsController@unsubscribe', array('id'=>$event->id)) }}"/>
                         <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                            data-toggle="tooltip" data-placement="top" title="{{ $subscribed? trans('site.unsubscribe') : trans('site.subscribe')  }}">
+                            data-toggle="tooltip" data-placement="top" title="{{ $subscribed? trans('word.unsubscribe') : trans('word.subscribe')  }}">
                             <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
                             <span class="buttonText">
-                                {{ $subscribed? trans('site.unsubscribe_btn_desc') : trans('site.subscribe')  }}
+                                {{ $subscribed? trans('word.unsubscribe_btn_desc') : trans('word.subscribe')  }}
                             </span>
                         </button>
                     </a>
@@ -336,7 +336,7 @@
     <div class="row">
         <div class="col-md-12">
             @if(count($event->comments) > 0)
-                <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{trans('site.comment') }}</h3>
+                <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{trans('word.comment') }}</h3>
                 @foreach($event->comments as $comment)
                     <div class="comments_dev">
                         <p>{{ $comment->content }}</p>
@@ -359,9 +359,9 @@
                     {{ Form::hidden('commentable_type','EventModel')}}
                     <div class="form-group">
                         <label for="comment"></label>
-                        <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ trans('site.comment')}}"></textarea>
+                        <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ trans('word.comment')}}"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-default"> {{ trans('site.addcomment') }}</button>
+                    <button type="submit" class="btn btn-default"> {{ trans('word.addcomment') }}</button>
                 {{ Form::close() }}
             @endif
             @if ($errors->any())

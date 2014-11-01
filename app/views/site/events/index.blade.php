@@ -2,7 +2,7 @@
 
 @section('sidebar')
     <div class="panel panel-default">
-        <div class="panel-heading">{{ Lang::get('site.category') }}</div>
+        <div class="panel-heading">{{ trans('word.category') }}</div>
         <div class="panel-body">
             <ul>
                 @if($eventCategories)
@@ -31,7 +31,7 @@
         <?php echo $events->appends(Request::except('page'))->links(); ?>
 
     @else
-        <h1> {{ trans('site.no-results') }} </h1>
+        <h1> {{ trans('word.no_results') }} </h1>
     @endif
 
 @stop

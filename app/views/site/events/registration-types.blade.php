@@ -35,7 +35,7 @@
         <div class="col-md-4" >
             <div class="panel panel-default parent_panel">
                 <div class="panel-heading">
-                   {{ strtoupper(Lang::get('site.vip'))  }}
+                   {{ strtoupper(trans('word.vip'))  }}
                 </div>
                 <div class="panel-body" >
 
@@ -58,7 +58,7 @@
                         {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
                             {{ Form::hidden('event_id',$event->id) }}
                             {{ Form::hidden('registration_type','VIP') }}
-                            {{ Form::submit( Lang::get('site.subscribe') , ['class'=>'btn btn-default btn-block']) }}
+                            {{ Form::submit( trans('word.subscribe') , ['class'=>'btn btn-default btn-block']) }}
                         {{ Form::close() }}
                     </span>
 
@@ -72,7 +72,7 @@
         <div class="col-md-4" >
             <div class="panel panel-default parent_panel">
                 <div class="panel-heading">
-                   {{ strtoupper(Lang::get('site.online'))  }}
+                   {{ strtoupper(trans('word.online'))  }}
                 </div>
                 <div class="panel-body" >
 
@@ -96,7 +96,7 @@
                         {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
                             {{ Form::hidden('event_id',$event->id) }}
                             {{ Form::hidden('registration_type','ONLINE') }}
-                            {{ Form::submit( Lang::get('site.subscribe') , ['class'=>'btn btn-default btn-block']) }}
+                            {{ Form::submit( trans('word.subscribe') , ['class'=>'btn btn-default btn-block']) }}
                         {{ Form::close() }}
                     </span>
 
@@ -113,7 +113,7 @@
         <div class="col-md-4" >
              <div class="panel panel-default parent_panel">
                  <div class="panel-heading">
-                    {{ strtoupper(Lang::get('site.normal'))  }}
+                    {{ strtoupper(trans('word.normal'))  }}
                  </div>
                  <div class="panel-body" >
 
@@ -139,7 +139,7 @@
                             {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
                                 {{ Form::hidden('event_id',$event->id) }}
                                 {{ Form::hidden('registration_type','NORMAL') }}
-                                {{ Form::submit( Lang::get('site.subscribe') , ['class'=>'btn btn-default btn-block']) }}
+                                {{ Form::submit( trans('word.subscribe') , ['class'=>'btn btn-default btn-block']) }}
                             {{ Form::close() }}
                      </span>
 

@@ -65,6 +65,7 @@ return [
     'admin_panel'           => 'لوحه التحكم للموقع',
     'subscribe'             => ' اشترك ',
     'follow_event'          => 'متابعة الفعالية',
+    'favorites' => 'مفضلات',
     'settings'              => 'خصائص',
     'address'               => 'عنوان',
     'vip'                   => 'VIP',

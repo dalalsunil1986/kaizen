@@ -7,7 +7,7 @@
             </a>
             @else
             <a href="{{ action('EventsController@show',$event->id) }}">
-                <img src="http://placehold.it/70x70" class="img-thumbnail">
+                <img src="http://placehold.it/125x100" class="img-thumbnail">
             </a>
             @endif
         </div>
@@ -20,7 +20,7 @@
         </span>
         <p>
             {{ Str::limit($event->description, 150) }}
-            <a href="{{action('EventsController@show',$event->id )}}">{{ Lang::get('site.more')}}</a>
+            <a href="{{action('EventsController@show',$event->id )}}">{{ trans('word.more')}}</a>
         </p>
 
     </div>

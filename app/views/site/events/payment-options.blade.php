@@ -4,7 +4,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <span class="mute">{{ trans('site.payment_options') }}</span>
+                <span class="mute">{{ trans('word.payment_options') }}</span>
             </div>
             <div class="panel-body bg-white">
                 @include('site.events._results')
@@ -12,7 +12,7 @@
             <div class="panel-footer">
                 <div class="row text-center">
                     <div class="col-xs-9">
-                        <h4 class="text-right">{{trans('site.total')}} : <strong>{{ $event->convertPrice }}</strong></h4>
+                        <h4 class="text-right">{{trans('word.total')}} : <strong>{{ $event->convertPrice }}</strong></h4>
                     </div>
                     <div class="col-xs-3">
                         {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['PaymentsController@postPayment']]) }}

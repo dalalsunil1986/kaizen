@@ -66,9 +66,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
         return $this->belongsToMany('Role', 'assigned_roles', 'user_id', 'role_id');
     }
 
-    public function payments()
+    public function country()
     {
-        return $this->hasMany('Payment');
+        return $this->belongsTo('Country');
     }
 
     /*********************************************************************************************************
