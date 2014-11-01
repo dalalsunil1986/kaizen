@@ -19,25 +19,25 @@
         function toggleTooltip(action) {
             switch (action) {
                 case 'favorite':
-                    var ttip = '{{ trans('word.unfavorite ') }}'
+                    var ttip = '{{ trans('word.cancel ') }}'
                     $('.favorite_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'unfavorite':
-                    var ttip = '{{ trans('word.favorite') }}'
+                    var ttip = '{{ trans('general.favorite') }}'
                     $('.favorite_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'follow':
-                    var ttip = '{{ trans('word.unfollow') }}'
+                    var ttip = '{{ trans('word.cancel') }}'
                     $('.follow_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
                     break;
                 case 'unfollow':
-                    var ttip = '{{ trans('word.follow') }}'
+                    var ttip = '{{ trans('general.follow') }}'
                     $('.follow_btn')
                         .attr('title', ttip)
                         .tooltip('fixTitle');
@@ -147,7 +147,7 @@
                                     data-toggle="tooltip" data-placement="top" title="{{ trans('word.unsubscribe')  }}">
                                     <i class="subscribe glyphicon glyphicon-check active "></i>  </br>
                                     <span class="buttonText">
-                                        {{  trans('word.unsubscribe_btn_desc')  }}
+                                        {{  trans('word.unsubscribe')  }}
                                     </span>
                                 </button>
                             </a>
@@ -156,15 +156,15 @@
                     @endif
                     {{--  Show Favorite, Subscription Buttons--}}
                     <button type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm follow_btn bg-blue top5"
-                        data-toggle="tooltip" data-placement="top" title="{{ $followed? trans('word.unfollow') : trans('word.follow') }}">
+                        data-toggle="tooltip" data-placement="top" title="{{ $followed? trans('word.cancel') : trans('general.follow') }}">
                         <i class="follow glyphicon glyphicon-heart {{ $followed? 'active' :'' ;}}"></i> </br>
-                        {{ trans('word.follow_btn_desc')}}
+                        {{ trans('word.followings')}}
                     </button>
 
                     <button type="button" class="col-md-6 col-sm-6 col-xs-6 events_btns btn btn-default btn-sm favorite_btn bg-blue top5"
-                        data-toggle="tooltip" data-placement="top" title="{{ $favorited? trans('word.unfavorite') : trans('word.favorite') }}">
+                        data-toggle="tooltip" data-placement="top" title="{{ $favorited? trans('word.cancel') : trans('general.favorite') }}">
                         <i class="favorite glyphicon glyphicon-star {{ $favorited? 'active' :'' ;}}"></i></br>
-                        {{ trans('word.fv_btn_desc') }}
+                        {{ trans('word.favorites') }}
                     </button>
 
                 </div>
@@ -320,7 +320,7 @@
                             data-toggle="tooltip" data-placement="top" title="{{ $subscribed? trans('word.unsubscribe') : trans('word.subscribe')  }}">
                             <i class="subscribe glyphicon glyphicon-check {{ $subscribed? 'active' :'' ;}}"></i>  </br>
                             <span class="buttonText">
-                                {{ $subscribed? trans('word.unsubscribe_btn_desc') : trans('word.subscribe')  }}
+                                {{ $subscribed? trans('word.unsubscribe') : trans('word.subscribe')  }}
                             </span>
                         </button>
                     </a>
@@ -361,11 +361,8 @@
                         <label for="comment"></label>
                         <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ trans('word.comment')}}"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-default"> {{ trans('word.addcomment') }}</button>
+                    <button type="submit" class="btn btn-default"> {{ trans('word.add_comment') }}</button>
                 {{ Form::close() }}
-            @endif
-            @if ($errors->any())
-                <ul> {{ implode('', $errors->all('<li class="error">:message</li> ')) }} </ul>
             @endif
         </div>
     </div>
