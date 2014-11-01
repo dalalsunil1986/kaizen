@@ -41,7 +41,8 @@ class EventsController extends BaseController {
         $this->countryRepository      = $countryRepository;
         $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
-        $this->beforeFilter('auth', array('only' => 'showSubscriptionOptions'));
+        
+        $this->beforeFilter('auth', ['showSubscriptionOptions', 'reorganizeEvents', 'streamEvent']);
         parent::__construct();
     }
 
@@ -314,8 +315,6 @@ class EventsController extends BaseController {
     public function showSubscriptionOptions($id)
     {
         $event = $this->eventRepository->findById($id);
-
-//        $freeEvent = $event->free ? true: false;
 
         $freeEvent = false;
 
@@ -615,7 +614,6 @@ class EventsController extends BaseController {
 
     public function getPayment($id)
     {
-        dd('payment option');
-        dd($id);
+
     }
 }

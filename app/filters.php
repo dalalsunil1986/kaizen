@@ -33,7 +33,9 @@ App::after(function ($request, $response) {
 */
 
 Route::filter('auth', function () {
-    if ( Auth::guest() ) return Redirect::action('AuthController@getLogin')->with('info', trans('site.subscription.not_authenticated'));
+
+    if ( Auth::guest() )
+    return  Redirect::guest('account/login')->with('info', trans('auth.alerts.must_login'));
 });
 
 Route::filter('auth.basic', function () {

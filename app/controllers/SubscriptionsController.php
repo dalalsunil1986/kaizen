@@ -94,6 +94,7 @@ class SubscriptionsController extends BaseController {
         $userId       = Auth::user()->id;
         $event        = $this->eventRepository->findById($eventId);
         $subscription = $this->subscriptionRepository->findByEvent($userId, $eventId);
+
         if ( !$event ) {
 
             return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.system-error'));

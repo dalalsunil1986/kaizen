@@ -50,7 +50,7 @@ class AuthController extends BaseController {
 
         if ( ! Auth::attempt(array('email' => $email, 'password' => $password, 'active' => 1), $remember) ) {
 
-            return Redirect::action('AuthController@getLogin')->with('error', 'Wrong Username Password');
+            return Redirect::action('AuthController@getLogin')->with('error', trans('auth.alerts.wrong_credentials'));
         }
 
         $this->service->updateLastLoggedAt();
