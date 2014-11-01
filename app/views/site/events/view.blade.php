@@ -193,7 +193,7 @@
             <hr>
             <table class="table table-striped">
                 <tr>
-                    <h4>{{ trans('word.summaryevent') }}</h4>
+                    <h4>{{ trans('word.description') }}</h4>
                 </tr>
 
                 @if($event->location)
