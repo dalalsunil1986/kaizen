@@ -44,12 +44,12 @@ class UserController extends BaseController {
 
         $val = $this->userRepository->getEditForm($id);
 
-        if ( ! $val->isValid() ) {
+        if ( !$val->isValid() ) {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
-        if (! $this->userRepository->update($id, $val->getInputData()) ) {
+        if ( !$this->userRepository->update($id, $val->getInputData()) ) {
 
             return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
         }

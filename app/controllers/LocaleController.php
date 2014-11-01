@@ -5,13 +5,8 @@ use Acme\User\UserRepository;
 
 class LocaleController extends BaseController {
 
-    /**
-     * @var UserRepository
-     */
     private $userRepository;
-    /**
-     * @var CountryRepository
-     */
+
     private $countryRepository;
 
     /**
@@ -25,10 +20,17 @@ class LocaleController extends BaseController {
         $this->countryRepository = $countryRepository;
     }
 
+    /**
+     * @param $country
+     * @return \Illuminate\Http\RedirectResponse
+     * Set User's Country
+     */
     public function setCountry($country)
     {
+        // Save the Country Param in Session
         Session::put('user.country', $country);
 
+        // If user is logged in, Save the country in database
         if ( Auth::check() ) {
             $user    = Auth::user();
             $country = $this->countryRepository->model->where('iso_code', $country)->first();

@@ -64,7 +64,7 @@ return [
     'location'              => 'موقع',
     'admin_panel'           => 'لوحه التحكم للموقع',
     'subscribe'             => ' اشترك ',
-    'unsubscribe'   => 'الغاء الاشتراك',
+    'unsubscribe'           => 'الغاء الاشتراك',
     'follow_event'          => 'متابعة الفعالية',
     'favorites'             => 'مفضلات',
     'settings'              => 'خصائص',
@@ -74,7 +74,7 @@ return [
     'normal'                => 'Normal',
     'system_error'          => 'System Error',
     'no_results'            => 'لا يوجد نتائج',
-    'keyword'               => 'Keyword',
+    'keyword'               => 'keyword',
     'subscriptions'         => 'حجزات',
     'followings'            => 'متابعات',
     'kaizenyc'              => 'كايزن YC',
@@ -102,5 +102,4 @@ return [
     'previous'              => '&laquo; السابق',
     'next'                  => 'التالي &raquo;',
     'password_confirmation' => 'تحقيق كلمة المرور',
-
 ];

@@ -73,7 +73,7 @@ class PaymentsController extends BaseController {
 
         try {
             // Instantiate Paypal Class
-            $paypal  = new Paypal();
+            $paypal = new Paypal();
 
             // Make Payment
             $payment = $paypal->makePaymentUsingPayPal($paymentRepo->amount, 'USD', $description, "$baseUrl&success=true", "$baseUrl&success=false");
@@ -108,7 +108,7 @@ class PaymentsController extends BaseController {
      */
     public function getFinal()
     {
-        $token   = Input::get('t'); // site generated token
+        $token = Input::get('t'); // site generated token
 
         $payment = $this->paymentRepository->findByToken($token);
 

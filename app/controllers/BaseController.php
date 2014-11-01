@@ -1,6 +1,5 @@
 <?php
 
-
 abstract class BaseController extends Controller {
 
     // define the master layout for the site
@@ -9,30 +8,11 @@ abstract class BaseController extends Controller {
     // title of the page
     protected $title = '';
 
-    /**
-     * Initializer.
-     *
-     * @access   public
-     * @return \BaseController
-     */
     public function __construct()
     {
         $this->beforeFilter('csrf', array('on' => array('post', 'delete', 'put')));
-        $this->sidebarPosts();
+        $this->initSidebarPosts();
         $this->initRegion();
-    }
-
-    /**
-     * Get User's Country and Set It as his default Country
-     */
-    public function initRegion()
-    {
-        View::composer('site.partials.region', function ($view) {
-            $countryRepository  = App::make('Acme\Country\CountryRepository');
-            $selectedCountry    = $countryRepository->setRegion();
-            $availableCountries = $countryRepository->availableCountries();
-            $view->with(compact('selectedCountry', 'availableCountries'));
-        });
     }
 
     protected function setupLayout()
@@ -53,17 +33,25 @@ abstract class BaseController extends Controller {
         $this->layout->content = View::make($path, $data);
     }
 
-    protected function redirectIntended($default = null)
+    /**
+     * Get User's Country and Set It as his default Country
+     * @todo Cache Request
+     */
+    public function initRegion()
     {
-        $intended = Session::get('auth.intended_redirect_url');
-        if ( $intended ) {
-            return Redirect::to($intended);
-        }
-
-        return Redirect::to($default);
+        View::composer('site.partials.region', function ($view) {
+            $countryRepository  = App::make('Acme\Country\CountryRepository');
+            $selectedCountry    = $countryRepository->setRegion();
+            $availableCountries = $countryRepository->availableCountries();
+            $view->with(compact('selectedCountry', 'availableCountries'));
+        });
     }
 
-    public function sidebarPosts()
+    /**
+     * Get Latest Posts For Events, Category
+     * Sidebar Widgets
+     */
+    public function initSidebarPosts()
     {
         View::composer('site.events.latest', function ($view) {
             $latest_event_posts = App::make('EventModel')->latest(4);
@@ -73,34 +61,6 @@ abstract class BaseController extends Controller {
             $latest_blog_posts = App::make('Blog')->latest(4);
             $view->with(array('latest_blog_posts' => $latest_blog_posts));
         });
-    }
-
-    /**
-     * Helper Functions
-     */
-    protected function view($path, $data = [])
-    {
-        $this->layout->content = View::make($path, $data);
-    }
-
-    protected function redirectTo($url, $statusCode = 302)
-    {
-        return Redirect::to($url, $statusCode);
-    }
-
-    protected function redirectAction($action, $data = [])
-    {
-        return Redirect::action($action, $data);
-    }
-
-    protected function redirectRoute($route, $data = [])
-    {
-        return Redirect::route($route, $data);
-    }
-
-    protected function redirectBack($data = [])
-    {
-        return Redirect::back()->withInput()->with($data);
     }
 
 
