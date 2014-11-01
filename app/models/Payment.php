@@ -6,6 +6,8 @@ class Payment extends BaseModel {
 
     protected $table = "payments";
 
+
+
     public function refunds()
     {
         return $this->hasMany('Refund');
@@ -21,4 +23,8 @@ class Payment extends BaseModel {
         return $this->belongsTo('User');
     }
 
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount'] = str_replace(',','',$value);
+    }
 }

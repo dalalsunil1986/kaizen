@@ -21,5 +21,9 @@ class PaymentRepository extends AbstractRepository {
         return $this->model->where('token',$token)->first();
     }
 
+    public function findByTransaction($transactionID)
+    {
+        return $this->model->where('transaction_id',$transactionID)->first();
+    }
 
 }

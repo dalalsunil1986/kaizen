@@ -1,6 +1,7 @@
 <?php
 
 use Acme\EventModel\EventRepository;
+use Acme\Libraries\UserCurrency;
 use Acme\Payment\Methods\Paypal;
 use Acme\Payment\PaymentRepository;
 
@@ -18,18 +19,32 @@ class PaymentsController extends BaseController {
      * @var EventRepository
      */
     private $eventRepository;
+    /**
+     * @var UserCurrency
+     */
+    private $converter;
+
+    private $defaultCurrency = 'USD';
+    /**
+     * @var Paypal
+     */
+    private $paypal;
 
     /**
      * Inject the models.
      * @param PaymentRepository $paymentRepository
      * @param EventRepository $eventRepository
+     * @param UserCurrency $converter
+     * @param Paypal $paypal
      */
-    public function __construct(PaymentRepository $paymentRepository, EventRepository $eventRepository)
+    public function __construct(PaymentRepository $paymentRepository, EventRepository $eventRepository, UserCurrency $converter, Paypal $paypal)
     {
         $this->paymentRepository = $paymentRepository;
         $this->eventRepository   = $eventRepository;
+        $this->converter         = $converter;
         $this->beforeFilter('auth');
         parent::__construct();
+        $this->paypal = $paypal;
     }
 
     /**
@@ -65,18 +80,29 @@ class PaymentsController extends BaseController {
 
         $event = $this->eventRepository->findById($payableId);
 
-        $paymentRepo->amount = $event->price;
+        $convertedPrice = $this->converter->convert($this->defaultCurrency, $event->price);
+
+        if ( $convertedPrice <= 0 ) {
+            return Redirect::back('/')->with('error', trans('word.system_error'));
+        }
+
+        $paymentRepo->amount = $convertedPrice;
+
+        $paymentRepo->currency = $this->defaultCurrency;
 
         $description = $event->description;
 
         $baseUrl = App::make('url')->action('PaymentsController@getFinal') . '?t=' . $token;
 
+        $item = ['title'=>$event->title,'amount'=>$paymentRepo->amount,'description'=>$event->description];
         try {
             // Instantiate Paypal Class
-            $paypal = new Paypal();
+            $payer = $this->paypal;
 
             // Make Payment
-            $payment = $paypal->makePaymentUsingPayPal($paymentRepo->amount, 'USD', $description, "$baseUrl&success=true", "$baseUrl&success=false");
+            $payment = $payer->makePayment($paymentRepo->amount, 'USD', $description , "$baseUrl&success=true", "$baseUrl&success=false",$item);
+
+            $paymentRepo->transaction_id = $payment->getId();
 
             $paymentRepo->save();
 
@@ -116,10 +142,14 @@ class PaymentsController extends BaseController {
             return Redirect::action('EventsController@index')->with('error', 'Invalid Token');
         }
 
-        $payment->payment_id    = Input::get('paymentId');
+        $payment->payer_id    = Input::get('PayerID');
         $payment->payment_token = Input::get('token'); // token from the payment vendor
 
         if ( Input::get('success') == true ) {
+
+            $payer = new Paypal();
+
+            $payer->executePayment($payment->transaction_id,$payment->payer_id);
 
             $payment->status = 'CONFIRMED';
             $payment->token  = ''; // set token to null

@@ -74,6 +74,10 @@ class BaseModel extends Model {
     {
     }
 
+    public function beforeSave(array $input)
+    {
+    }
+
     /**
      * Delete an existing model.
      *

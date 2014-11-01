@@ -299,11 +299,4 @@ Route::post('queue/mails',function(){
 });
 
 Route::get('test',function() {
-    $array = trans('site');
-    $newArr= [];
-    $duplicateArr = [];
-    foreach ( $array as $key=>$value ) {
-
-    }
-
 });
