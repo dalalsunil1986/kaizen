@@ -42,9 +42,9 @@ class PaymentsController extends BaseController {
         $this->paymentRepository = $paymentRepository;
         $this->eventRepository   = $eventRepository;
         $this->converter         = $converter;
+        $this->paypal            = $paypal;
         $this->beforeFilter('auth');
         parent::__construct();
-        $this->paypal = $paypal;
     }
 
     /**
@@ -56,13 +56,13 @@ class PaymentsController extends BaseController {
         $event = $this->eventRepository->findById($id);
 
         if ( $this->eventRepository->eventExpired($event->date_start) ) {
-            return Redirect::action('EventsController@index')->with('error', 'Event Expired');
+            return Redirect::action('EventsController@index')->with('error', trans('word.event_expired'));
         }
 
         $payment = $this->paymentRepository->findByToken(Input::get('token'));
 
         if ( !$payment ) {
-            return Redirect::action('EventsController@index')->with('error', 'Token Expired');
+            return Redirect::action('EventsController@index')->with('error', trans('word.token_expired'));
         }
 
         $this->render('site.events.payment-options', compact('event', 'payment'));
@@ -94,13 +94,13 @@ class PaymentsController extends BaseController {
 
         $baseUrl = App::make('url')->action('PaymentsController@getFinal') . '?t=' . $token;
 
-        $item = ['title'=>$event->title,'amount'=>$paymentRepo->amount,'description'=>$event->description];
+        $item = ['title' => $event->title, 'amount' => $paymentRepo->amount, 'description' => $event->description];
         try {
             // Instantiate Paypal Class
             $payer = $this->paypal;
 
             // Make Payment
-            $payment = $payer->makePayment($paymentRepo->amount, 'USD', $description , "$baseUrl&success=true", "$baseUrl&success=false",$item);
+            $payment = $payer->makePayment($paymentRepo->amount, 'USD', $description, "$baseUrl&success=true", "$baseUrl&success=false", $item);
 
             $paymentRepo->transaction_id = $payment->getId();
 
@@ -120,7 +120,7 @@ class PaymentsController extends BaseController {
 
             $paymentRepo->save();
 
-            return Redirect::back()->with('info', 'Some Error occurd While completing the transaction, Please try again');
+            return Redirect::back()->with('info', trans('word.system_error'));
         }
 
 //        stub
@@ -139,17 +139,18 @@ class PaymentsController extends BaseController {
         $payment = $this->paymentRepository->findByToken($token);
 
         if ( !$payment ) {
-            return Redirect::action('EventsController@index')->with('error', 'Invalid Token');
+
+            return Redirect::action('EventsController@index')->with('error', trans('word.invalid_token'));
         }
 
-        $payment->payer_id    = Input::get('PayerID');
+        $payment->payer_id      = Input::get('PayerID');
         $payment->payment_token = Input::get('token'); // token from the payment vendor
 
         if ( Input::get('success') == true ) {
 
             $payer = new Paypal();
 
-            $payer->executePayment($payment->transaction_id,$payment->payer_id);
+            $payer->executePayment($payment->transaction_id, $payment->payer_id);
 
             $payment->status = 'CONFIRMED';
             $payment->token  = ''; // set token to null
@@ -162,14 +163,14 @@ class PaymentsController extends BaseController {
             $event = $payment->payable->event;
             $controller->callAction('subscribe', [$event->id, 'PAYMENT']); //todo pass the event ID
 
-            return Redirect::action('EventsController@getSuggestedEvents', $event->id)->with('success', 'You have been subscribed to this Event');
+            return Redirect::action('EventsController@getSuggestedEvents', $event->id)->with('success', trans('general.subscribed_event'));
 
         }
         // If Transaction Failed
         $payment->status = 'REJECTED';
         $payment->save();
 
-        return Redirect::action('EventsController@index')->with('error', 'Could Not Subscribe You');
+        return Redirect::action('EventsController@index')->with('error', trans('general.subscription_error'));
     }
 
     public function getLink(array $links, $type)

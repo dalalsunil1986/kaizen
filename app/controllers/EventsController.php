@@ -49,7 +49,7 @@ class EventsController extends BaseController {
     public function index()
     {
         $perPage     = 10;
-        $this->title = 'Events';
+
         //find countries,authors,and categories to display in search form
         if ( App::getLocale() == 'en' ) {
             $countries = [0 => trans('site.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
@@ -73,8 +73,6 @@ class EventsController extends BaseController {
                     if ( !empty($search) ) {
                         $query->where('title_ar', 'LIKE', "%$search%")
                             ->orWhere('title_en', 'LIKE', "%$search%");
-                        //  ->orWhere('description','LIKE',"%$search%")
-                        //  ->orWhere('description_en','LIKE',"%$search%");
                     }
                     if ( !empty($category) ) {
                         $query->where('category_id', $category);
@@ -96,16 +94,9 @@ class EventsController extends BaseController {
             $events = $this->eventRepository->getEvents($perPage);
         }
         $eventCategories = $this->categoryRepository->getEventCategories()->get();
+
+        $this->title = trans('word.events');
         $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country','eventCategories'));
-    }
-
-
-    public function dashboard()
-    {
-        // $events = parent::all();
-        // get only 4 images for slider
-        $events = $this->eventRepository->getSliderEvents();
-        $this->render('site.home', compact('events'));
     }
 
     /**
@@ -152,6 +143,8 @@ class EventsController extends BaseController {
                 $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false, 'canWatchOnline' => 'false'));
             });
         }
+
+        $this->title = $event->title;
         $this->render('site.events.view', compact('event', 'tags','eventExpired'));
 
     }
@@ -171,22 +164,11 @@ class EventsController extends BaseController {
 
             if ( !$event->followers->contains($user->id) ) {
 
-                $event->followers()->attach($user);
+                return $event->followers()->attach($user);
 
-                return Response::json(array(
-                    'success' => true,
-                    'message' => trans('site.subscription.followed')
-                ), 200);
             }
 
         }
-
-        // notify user not authenticated
-        return Response::json(array(
-            'success' => false,
-            'message' => trans('site.subscription.not_authenticated')
-        ), 403);
-
     }
 
     public function unfollow($id)
@@ -199,20 +181,9 @@ class EventsController extends BaseController {
 
             if ( $event->followers->contains($user->id) ) {
                 $event->followers()->detach($user);
-
-                return Response::json(array(
-                    'success' => true,
-                    'message' => trans('site.subscription.unfollowed')
-                ), 200);
             }
 
         }
-
-        // notify user not authenticated
-        return Response::json(array(
-            'success' => false,
-            'message' => trans('site.subscription.not_authenticated')
-        ), 403);
 
     }
 
@@ -233,19 +204,9 @@ class EventsController extends BaseController {
 
                 $event->favorites()->attach($user);
 
-                return Response::json(array(
-                    'success' => true,
-                    'message' => trans('site.subscription.favorited')
-                ), 200);
             }
 
         }
-
-        // notify user not authenticated
-        return Response::json(array(
-            'success' => false,
-            'message' => trans('site.subscription.not_authenticated')
-        ), 403);
 
     }
 
@@ -260,19 +221,9 @@ class EventsController extends BaseController {
 
             if ( $event->favorites->contains($user->id) ) {
                 $event->favorites()->detach($user);
-
-                return Response::json(array(
-                    'success' => true,
-                    'message' => trans('site.subscription.unfavorited')
-                ), 200);
             }
 
         }
-
-        return Response::json(array(
-            'success' => false,
-            'message' => trans('site.subscription.not_authenticated')
-        ), 403);
 
     }
 
@@ -282,8 +233,10 @@ class EventsController extends BaseController {
         // fetches 2 featured post
         // order by event date, date created, featured
         // combines them into one query to return for slider
+
         $latestEvents   = $this->eventRepository->latestEvents();
         $featuredEvents = $this->eventRepository->feautredEvents();
+
         $events         = array_merge((array) $latestEvents, (array) $featuredEvents);
         if ( $events ) {
             foreach ( $events as $event ) {
@@ -329,7 +282,7 @@ class EventsController extends BaseController {
         if ( is_null($setting) ) {
 
             // if not setting for the event found, just redirect
-            return Redirect::action('EventsController@show', $id)->with('info', trans('site.system-error'));
+            return Redirect::action('EventsController@show', $id)->with('info', trans('site.system_error'));
         }
 
         $reg_types = explode(',', $setting->registration_types);
@@ -418,12 +371,10 @@ class EventsController extends BaseController {
                 if ( !$event->requests->contains($user->id) ) {
                     $event->requests()->attach($user, ['created_at' => Carbon::now()->toDateTimeString()]);
                 }
-//                return Redirect::action('EventsController@show',$id)->with('success',trans('site.subscription.requested'));
             }
-
         }
-        return Redirect::action('EventsController@show',$id)->with('success',trans('site.subscription.requested'));
 
+        return Redirect::action('EventsController@show',$id)->with('success',trans('general.requested_admin'));
     }
 
     /**
@@ -438,13 +389,13 @@ class EventsController extends BaseController {
         // if event is currently going on
         if ( ! $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
 
-            return Redirect::action('EventsController@show', $id)->with('warning', trans('site.cannot-watch'));
+            return Redirect::action('EventsController@show', $id)->with('warning', trans('general.wrong_event_stream_time'));
         }
 
         // check if this event has online streaming
         if (! $this->isOnlineEvent($event) ) {
 
-            return Redirect::action('EventsController@index')->with('error', trans('site.no-stream'));
+            return Redirect::action('EventsController@index')->with('error', trans('general.no_event_steam'));
         }
 
         // check whether this user subscribed for this and confirmed
@@ -456,18 +407,18 @@ class EventsController extends BaseController {
             // If user has a subscription and subscription is not confirmed
             if ( $subscription->status != 'CONFIRMED' ) {
 
-                return Redirect::action('EventsController@index')->with('error',trans('site.not-confirmed') );
+                return Redirect::action('EventsController@index')->with('error',trans('general.subscription_not_confirmed') );
             }
 
             // check whether the user has subscribed as online
             if ( $subscription->registration_type != 'ONLINE' ) {
 
-                return Redirect::action('EventsController@index')->with('error', trans('site.not-online'));
+                return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_online'));
             }
 
         } else {
             // If user does not have a subscriptoin
-            return Redirect::action('EventsController@index')->with('error', trans('site.not_subscribed'));
+            return Redirect::action('EventsController@index')->with('error', trans('general.not_subscribed'));
         }
 
 
@@ -475,7 +426,7 @@ class EventsController extends BaseController {
         // stream the event
         if ( ! $this->getStreamSettings() ) {
 
-            return Redirect::action('EventsController@show', $id)->with('info', trans('site.system-error'));
+            return Redirect::action('EventsController@show', $id)->with('info', trans('word.system_error'));
 
         } else {
 
@@ -554,6 +505,7 @@ class EventsController extends BaseController {
     /**
      * @param $data
      * @param $launchUrl
+     * @return bool
      */
     public function launchStream(array $data, $launchUrl)
     {
@@ -574,13 +526,13 @@ class EventsController extends BaseController {
     public function onlineTestEvent()
     {
         if ( !$this->getStreamSettings() ) {
-            return Redirect::action('EventsController@index')->with('error', trans('site.system-error'));
+            return Redirect::action('EventsController@index')->with('error', trans('word.system_error'));
 
         } else {
             list($token, $cid, $launchUrl) = $this->getStreamSettings();
 
             if ( is_null($token) ) {
-                return Redirect::action('EventsController@index')->with('error', trans('site.system-error'));
+                return Redirect::action('EventsController@index')->with('error', trans('word.system_error'));
             }
 
             // user date to pass to streaming server
@@ -612,8 +564,4 @@ class EventsController extends BaseController {
         }
     }
 
-    public function getPayment($id)
-    {
-
-    }
 }

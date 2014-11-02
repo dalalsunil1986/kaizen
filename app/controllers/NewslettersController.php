@@ -22,7 +22,7 @@ class NewslettersController extends BaseController{
             catch(Exception $e) {
                 return Redirect::home()->with('warning',$e->getMessage());
             }
-            return Redirect::home()->with('success');
+            return Redirect::home()->with('success', trans('general.newsletter_subscribed'));
 
         }
 

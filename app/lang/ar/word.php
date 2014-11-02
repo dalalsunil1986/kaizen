@@ -103,4 +103,10 @@ return [
     'previous'              => '&laquo; السابق',
     'next'                  => 'التالي &raquo;',
     'password_confirmation' => 'تحقيق كلمة المرور',
+    'mail_sent' => 'تم إرسال البريد الإلكتروني',
+    'event_expired'              => 'انتهى هذا الحدث',
+    'token_expired'              => 'رمز منتهية الصلاحية',
+    'invalid_token' => 'رمز غير صالح',
+
+
 ];

@@ -123,11 +123,6 @@ Route::get('category/{id}/event', array('as' => 'CategoryEvents', 'uses' => 'Cat
 Route::get('category/{id}/blog', array('as' => 'CategoryPosts', 'uses' => 'CategoriesController@getPosts'));
 
 /*********************************************************************************************************
- * Country Routes
- ********************************************************************************************************/
-Route::get('country/{id}/events', array('uses' => 'CountriesController@getEvents'));
-
-/*********************************************************************************************************
  * Newsletter Routes
  ********************************************************************************************************/
 Route::post('newsletter/subscribe', 'NewslettersController@subscribe');
