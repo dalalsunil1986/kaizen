@@ -79,7 +79,7 @@ class SubscriptionsController extends BaseController {
             return Redirect::home()->with('errors', [$subscriber->messages->first('errors')]);
         } else {
             // If no errors occured while subscription process
-            return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', trans('general.subscriptions_check_email'));
+            return Redirect::action('EventsController@getSuggestedEvents', $eventId)->with('success', trans('general.subscription_check_email'));
         }
     }
 

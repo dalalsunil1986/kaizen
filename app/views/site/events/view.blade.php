@@ -295,10 +295,10 @@
                     {{-- If Can Watch Online --}}
                     <a href="{{  URL::action('EventsController@streamEvent', array('id'=>$event->id)) }}"/>
                         <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                             data-toggle="tooltip" data-placement="top" title="{{ trans('word.online')  }}">
+                             data-toggle="tooltip" data-placement="top" title="{{ trans('general.enter_event_room')  }}">
                             <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                             <span class="buttonText">
-                               {{ trans('word.online')  }}
+                               {{ trans('word.enter_event_room')  }}
                             </span>
                         </button>
                     </a>

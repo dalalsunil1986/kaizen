@@ -164,11 +164,22 @@ class EventsController extends BaseController {
 
             if ( !$event->followers->contains($user->id) ) {
 
-                return $event->followers()->attach($user);
+                $event->followers()->attach($user);
 
+                return Response::json(array(
+                    'success' => true,
+                    'message' => trans('site.subscription.followed')
+                ), 200);
             }
 
         }
+
+        // notify user not authenticated
+        return Response::json(array(
+            'success' => false,
+            'message' => trans('site.subscription.not_authenticated')
+        ), 403);
+
     }
 
     public function unfollow($id)
@@ -181,9 +192,20 @@ class EventsController extends BaseController {
 
             if ( $event->followers->contains($user->id) ) {
                 $event->followers()->detach($user);
+
+                return Response::json(array(
+                    'success' => true,
+                    'message' => trans('site.subscription.unfollowed')
+                ), 200);
             }
 
         }
+
+        // notify user not authenticated
+        return Response::json(array(
+            'success' => false,
+            'message' => trans('site.subscription.not_authenticated')
+        ), 403);
 
     }
 
@@ -204,9 +226,19 @@ class EventsController extends BaseController {
 
                 $event->favorites()->attach($user);
 
+                return Response::json(array(
+                    'success' => true,
+                    'message' => trans('site.subscription.favorited')
+                ), 200);
             }
 
         }
+
+        // notify user not authenticated
+        return Response::json(array(
+            'success' => false,
+            'message' => trans('site.subscription.not_authenticated')
+        ), 403);
 
     }
 
@@ -221,9 +253,19 @@ class EventsController extends BaseController {
 
             if ( $event->favorites->contains($user->id) ) {
                 $event->favorites()->detach($user);
+
+                return Response::json(array(
+                    'success' => true,
+                    'message' => trans('site.subscription.unfavorited')
+                ), 200);
             }
 
         }
+
+        return Response::json(array(
+            'success' => false,
+            'message' => trans('site.subscription.not_authenticated')
+        ), 403);
 
     }
 
@@ -395,7 +437,7 @@ class EventsController extends BaseController {
         // check if this event has online streaming
         if (! $this->isOnlineEvent($event) ) {
 
-            return Redirect::action('EventsController@index')->with('error', trans('general.no_event_steam'));
+            return Redirect::action('EventsController@index')->with('error', trans('general.event_no_stream'));
         }
 
         // check whether this user subscribed for this and confirmed

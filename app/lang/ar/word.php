@@ -112,5 +112,6 @@ return [
     'created'               => 'Created',
     'deleted'               => 'تم حذف',
     'updated'               => 'Updated',
+    'create_new_account'                     => 'إنشاء حساب جديد',
 
 ];
