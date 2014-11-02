@@ -54,7 +54,7 @@ class UserController extends BaseController {
             return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
         }
 
-        return Redirect::action('UserController@getProfile', $id)->with('success', ' ');
+        return Redirect::action('UserController@getProfile', $id)->with('success', 'word.profile_updated');
     }
 
     public function destroy($id)
@@ -63,10 +63,10 @@ class UserController extends BaseController {
 
         if ( $this->userRepository->delete($user) ) {
 
-            return Redirect::home()->with('success', ' ');
+            return Redirect::home()->with('success', 'word.deleted');
         }
 
-        return Redirect::back('/')->with('errors', ' ');
+        return Redirect::back('/')->with('errors', 'word.error');
     }
 
     /**
