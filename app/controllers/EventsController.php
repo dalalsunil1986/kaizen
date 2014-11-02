@@ -52,12 +52,12 @@ class EventsController extends BaseController {
 
         //find countries,authors,and categories to display in search form
         if ( App::getLocale() == 'en' ) {
-            $countries = [0 => trans('site.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
+            $countries = [0 => trans('word.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
         } else {
-            $countries = [0 => trans('site.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
+            $countries = [0 => trans('word.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
         }
-        $categories = [0 => trans('site.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_'.getLocale(), 'id');
-        $authors    = [0 => trans('site.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $categories = [0 => trans('word.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_'.getLocale(), 'id');
+        $authors    = [0 => trans('word.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
 
         // find selected form values
         $search   = trim(Input::get('search'));
