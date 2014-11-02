@@ -109,7 +109,7 @@ class AuthController extends BaseController {
     {
         switch ( $response = Password::remind(Input::only('email')) ) {
             case Password::INVALID_USER:
-                return Redirect::back()->with('error', trans('auth.alerts.wrong_password_forgot'));
+                return Redirect::back()->with('error', trans('auth.alerts.invalid_user'));
 
             case Password::REMINDER_SENT:
                 return Redirect::back()->with('success', trans('auth.alerts.reminders_sent'));
@@ -141,19 +141,31 @@ class AuthController extends BaseController {
             'email', 'password', 'password_confirmation', 'token'
         );
 
+        // validate
+        $val = $this->userRepository->getPasswordResetForm();
+
+        // check if the form is valid
+        if ( ! $val->isValid() ) {
+
+            return Redirect::back()->with('errors', $val->getErrors())->withInput();
+        }
+
         $response = $this->service->resetPassword($credentials);
 
-        switch ( $response ) {
-            case Password::INVALID_PASSWORD:
-            case Password::INVALID_TOKEN:
-            case Password::INVALID_USER:
-                return Redirect::back()->with('error', Lang::get($response))->withInput();
 
+        switch ( $response ) {
+
+            case Password::INVALID_PASSWORD:
+                return Redirect::back()->with('error', Lang::get('auth.alerts.wrong_password_reset'))->withInput();
+            case Password::INVALID_TOKEN:
+                return Redirect::back()->with('error', Lang::get('auth.alerts.wrong_token'))->withInput();
+            case Password::INVALID_USER:
+                return Redirect::back()->with('error', Lang::get('auth.alerts.invalid_user'))->withInput();
             case Password::PASSWORD_RESET:
                 return Redirect::action('AuthController@getLogin')->with('success', trans('auth.alerts.password_resetted'));
+
         }
     }
-
     /**
      * Logout a User
      */

@@ -3,9 +3,7 @@
 use Acme\Core\CrudableTrait;
 use Acme\User\Validators\AdminCreateValidator;
 use Acme\User\Validators\AdminUpdateValidator;
-use Acme\Users\Validators\UserCreateValidator;
-use Acme\Users\Validators\UserResetValidator;
-use Acme\Users\Validators\UserUpdateValidator;
+use Acme\User\Validators\ResetValidator;
 use DB;
 use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\AbstractRepository;
@@ -46,7 +44,7 @@ class UserRepository extends AbstractRepository  {
 
     public function getPasswordResetForm()
     {
-        return new UserResetValidator();
+        return new ResetValidator();
     }
 
     public function findByToken($token){
