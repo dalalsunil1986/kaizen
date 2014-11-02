@@ -41,6 +41,8 @@ class BlogsController extends BaseController {
 	public function index()
 	{
 		// Get all the blog posts
+        $this->title =  trans('word.blog');
+
         $posts = $this->blogRepository->getAllPaginated(['category','photos','author']);
 
         $categories = $this->categoryRepository->getPostCategories()->get();
@@ -60,6 +62,8 @@ class BlogsController extends BaseController {
 		// Get this blog post data
 		$post = $this->blogRepository->findById($id,['category','photos','author']);
 
+        $this->title =  $post->title;
+
         $this->render('site.blog.view', compact('post'));
 	}
 
@@ -67,6 +71,9 @@ class BlogsController extends BaseController {
      * Get Posts For Consultancies
      */
     public function consultancy() {
+
+        $this->title =  trans('word.consultancies');
+
         $posts=  $this->blogRepository->getConsultancyPosts();
 
         $this->render('site.blog.consultancy', compact('posts'));

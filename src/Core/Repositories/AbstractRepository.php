@@ -110,7 +110,6 @@ abstract class AbstractRepository {
      */
     public function findById($id, array $with = [])
     {
-//        $model = $this->getById($id, $with);
 
         if ( isset($with) && (! empty($with)) ) {
             if ( ! is_array($with) ) throw new InvalidArgumentException;

@@ -8,7 +8,7 @@ return [
     'register'              => 'تسجيل',
     'main'                  => 'الصفحة الرئيسية',
     'consultancies'         => 'الإستشارات',
-    'posts'                 => 'المدونة',
+    'blog'                 => 'المدونة',
     'contact_us'            => 'الإتصال بنا',
     'search'                => 'بحث',
     'username'              => 'اسم الدخول',

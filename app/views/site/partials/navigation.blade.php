@@ -28,7 +28,7 @@
                         {{--<li><a href="{{ action('EventsController@index') }}">{{ trans('site.package') }}</a></li>--}}
                     {{--</ul>--}}
                 {{--</li>--}}
-                <li class="{{ (Request::segment('1') == 'blog' ? 'active' :  false ) }}"><a href="{{ action('BlogsController@index') }}">{{ trans('word.posts') }}</a></li>
+                <li class="{{ (Request::segment('1') == 'blog' ? 'active' :  false ) }}"><a href="{{ action('BlogsController@index') }}">{{ trans('word.blog') }}</a></li>
                 <li class="{{ (Request::segment('1') == 'consultancy' ? 'active' :  false ) }}"><a href="{{ action('BlogsController@consultancy') }}">{{ trans('word.consultancies') }}</a></li>
                 <li class="{{ (Request::segment('1') == 'contact' ? 'active' :  false ) }}"><a href="{{ action('ContactsController@index') }}">{{ trans('word.contact_us') }}</a></li>
             </ul>

@@ -6,12 +6,12 @@ use Acme\EventModel\EventRepository;
 
 class CategoriesController extends BaseController {
 
-	/**
-	 * Category Repository
-	 *
-	 * @var Category
-	 */
-	protected $categoryRepository;
+    /**
+     * Category Repository
+     *
+     * @var Category
+     */
+    protected $categoryRepository;
     /**
      * @var BlogRepository
      */
@@ -27,35 +27,30 @@ class CategoriesController extends BaseController {
      * @param EventRepository $eventRepository
      */
     public function __construct(CategoryRepository $categoryRepository, BlogRepository $blogRepository, EventRepository $eventRepository)
-	{
-		$this->categoryRepository = $categoryRepository;
-        $this->blogRepository = $blogRepository;
-        $this->eventRepository = $eventRepository;
+    {
+        $this->categoryRepository = $categoryRepository;
+        $this->blogRepository     = $blogRepository;
+        $this->eventRepository    = $eventRepository;
         parent::__construct();
     }
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		$categories = $this->categoryRepository->getAll();
-
-		return View::make('categories.index', compact('categories'));
-	}
-
-    public function getEvents($id){
-
-        $events = $this->eventRepository->model->where('category_id',$id)->paginate(5);
+    public function getEvents($categoryID)
+    {
+        $category = $this->categoryRepository->findById($categoryID);
+        $events     = $this->eventRepository->model->where('category_id', $category->id)->paginate(5);
         $categories = $this->categoryRepository->getEventCategories()->get();
-        $this->render('site.category.events',compact('events','categories'));
+
+        $this->title = $category->name;
+        $this->render('site.category.events', compact('events', 'categories'));
     }
 
-    public function getPosts($id){
-        $posts = $this->blogRepository->model->where('category_id',$id)->paginate(5);
+    public function getPosts($categoryID)
+    {
+        $category = $this->categoryRepository->findById($categoryID);
+        $posts      = $this->blogRepository->model->where('category_id', $category->id)->paginate(5);
         $categories = $this->categoryRepository->getPostCategories()->get();
-        $this->render('site.category.blogs',compact('posts','categories'));
+
+        $this->title = $category->name;
+        $this->render('site.category.blogs', compact('posts', 'categories'));
     }
 }
