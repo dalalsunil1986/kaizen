@@ -30,9 +30,8 @@ class CategoriesController extends BaseController {
 	{
 		$this->categoryRepository = $categoryRepository;
         $this->blogRepository = $blogRepository;
-        parent::__construct();
-
         $this->eventRepository = $eventRepository;
+        parent::__construct();
     }
 
 	/**

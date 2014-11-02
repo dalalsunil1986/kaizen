@@ -38,7 +38,7 @@ class AuthController extends BaseController {
 
     public function getLogin()
     {
-        $this->title = 'Login to your Account';
+        $this->title = trans('auth.login.title');
         $this->render('site.auth.login');
     }
 
@@ -48,7 +48,7 @@ class AuthController extends BaseController {
         $password = Input::get('password');
         $remember = Input::has('remember') ? true : false;
 
-        if ( ! Auth::attempt(array('email' => $email, 'password' => $password, 'active' => 1), $remember) ) {
+        if ( ! Auth::attempt(array('email' => $email, 'password' => $password, 'active' => $remember), $remember) ) {
 
             return Redirect::action('AuthController@getLogin')->with('error', trans('auth.alerts.wrong_credentials'));
         }
@@ -64,9 +64,8 @@ class AuthController extends BaseController {
      */
     public function getSignup()
     {
-        $this->title = 'Create an Account';
+        $this->title = trans('auth.signup.title');
         $this->render('site.auth.signup');
-        // $this->postRegister();
     }
 
 
@@ -87,12 +86,7 @@ class AuthController extends BaseController {
             return Redirect::home()->with('errors', $this->service->errors());
         }
 
-//        $user_country = new UserGeoIp($this->userRepository);
-//        $country = $this->countryRepository->getByIso($user_country);
-//        dd($country);
-
-        // If User got Registered
-        return Redirect::action('AuthController@getLogin')->with('success', 'Email confirmation link has been sent to your email. PLease confirm your account');
+        return Redirect::action('AuthController@getLogin')->with('success', trans('auth.alerts.account_created'));
 
     }
 
@@ -102,7 +96,7 @@ class AuthController extends BaseController {
      */
     public function getForgot()
     {
-        $this->title = 'Reset Password';
+        $this->title = trans('auth.forgot.title');
         $this->render('site.auth.forgot');
     }
 
@@ -115,10 +109,10 @@ class AuthController extends BaseController {
     {
         switch ( $response = Password::remind(Input::only('email')) ) {
             case Password::INVALID_USER:
-                return Redirect::back()->with('error', Lang::get($response));
+                return Redirect::back()->with('error', trans('auth.alerts.wrong_password_forgot'));
 
             case Password::REMINDER_SENT:
-                return Redirect::back()->with('success', Lang::get($response));
+                return Redirect::back()->with('success', trans('auth.alerts.reminders_sent'));
         }
     }
 
@@ -132,6 +126,7 @@ class AuthController extends BaseController {
     {
         if ( is_null($token) ) App::abort(404);
 
+        $this->title = trans('auth.reset.title');
         $this->render('site.auth.reset', array('token' => $token));
     }
 
@@ -155,7 +150,7 @@ class AuthController extends BaseController {
                 return Redirect::back()->with('error', Lang::get($response))->withInput();
 
             case Password::PASSWORD_RESET:
-                return Redirect::action('AuthController@getLogin')->with('success', 'Your Password Has been Reset');
+                return Redirect::action('AuthController@getLogin')->with('success', trans('auth.alerts.password_resetted'));
         }
     }
 
@@ -183,7 +178,7 @@ class AuthController extends BaseController {
             return Redirect::home()->with('errors', $this->service->errors());
         }
         // redirect to home with active message
-        return Redirect::action('AuthController@getLogin')->with('success', 'Your account is activated, please login');
+        return Redirect::action('AuthController@getLogin')->with('success', trans('auth.alerts.account_activated'));
 
     }
 
