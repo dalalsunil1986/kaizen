@@ -22,9 +22,9 @@ return [
     'not_online'                 => 'لم تشترك في هذا الحدث ONLINE',
     'pending'                    => 'طلبك بانتظار موافقة مدير الموقع ..',
     'subscribed'                 => 'تم تسجيلك بنحاح في هذه الفعالية .. شكرا',
-    'subscribed_event'                 => 'تم تسجيلك بنحاح في هذه الفعالية .. شكرا',
     'create'                     => 'إنشاء حساب جديد',
     'unsubscribed'               => 'تم الإلغاء الاشتراك بهذه الفعالية .. شكرا',
+    'unsubscribed_fail'               => 'لا يمكن إلغاء اشتراكك من هذا الحدث',
     'already_subscribed'         => 'كنت قد اشتركت بالفعل هذا الحدث',
     'not_authenticated'          => 'آسف ، يجب عليك التسجيل قبل تنفيذ هذا الإجراء',
     'wrong_access'               => 'آسف ، الق خاطئة',
@@ -35,9 +35,10 @@ return [
     'cannot_contact_admin'       => 'آسف ، لا يمكن الاتصال الادارة في هذا الوقت',
     'requested_admin'            => 'تم إرسال طلبك ل الادارية',
     'wrong_event_stream_time'    => 'لا يوجد البث المباشر لهذا الحدث الآن',
-    'no_event_steam'             => 'ليس هناك تدفق الإنترنت ل هذا الحدث',
+    'no_event_stream'             => 'ليس هناك تدفق الإنترنت ل هذا الحدث',
+    'event_ongoing' => 'This Event is an Ongoing Event ',
     'subscription_not_confirmed' => 'لم يتم تأكيد اشتراكك لهذا الحدث بعد',
     'subscription_not_online'    => 'لم تشترك لمشاهدة هذا الحدث على الانترنت',
-    'newsletter_subscribed'      => 'أنت مشترك في النشرة الإخبارية'
-
+    'newsletter_subscribed'      => 'أنت مشترك في النشرة الإخبارية',
+    'subscription_check_email'            => 'We have sent you an Email with the Details about your Subscription.',
 ];

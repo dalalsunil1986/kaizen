@@ -163,7 +163,7 @@ class PaymentsController extends BaseController {
             $event = $payment->payable->event;
             $controller->callAction('subscribe', [$event->id, 'PAYMENT']); //todo pass the event ID
 
-            return Redirect::action('EventsController@getSuggestedEvents', $event->id)->with('success', trans('general.subscribed_event'));
+            return Redirect::action('EventsController@getSuggestedEvents', $event->id)->with('success', trans('general.subscribed'));
 
         }
         // If Transaction Failed
