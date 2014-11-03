@@ -12,8 +12,8 @@ class TagTableSeeder extends Seeder {
 		foreach(range(1, 10) as $index)
 		{
 			$array =[
-                'name_en' => $faker->country,
-                'name_ar' => $faker->country
+                'name_en' => $faker->word,
+                'name_ar' => $faker->word
 			];
              DB::table('tags')->insert($array);
 		}

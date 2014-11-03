@@ -22,6 +22,9 @@
                         <th>Title</th>
                         <th>Start Date</th>
                         <th>Event Settings</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
 

@@ -294,4 +294,15 @@ Route::post('queue/mails',function(){
 });
 
 Route::get('test',function() {
+
+    $events1 = EventModel::where('id','>=',48)->get(['id']);
+    $events2 = EventModel::where('id','>',48)->get(['id']);
+
+//    return $events1;
+//    return $events2;
+    $events=  $events2->merge($events1)->random(1);
+    return $events;
+    dd($events);
+    dd($events);
+
 });

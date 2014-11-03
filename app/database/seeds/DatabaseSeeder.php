@@ -24,21 +24,25 @@ class DatabaseSeeder extends Seeder {
         'subscriptions',
         'users',
         'types',
-        'statuses'
+        'statuses',
+        'tags',
+        'taggables'
     ];
     public function run()
     {
-        Eloquent::unguard();
+//        Eloquent::unguard();
 //        $this->cleanDatabase();
         // Add calls to Seeders here
-        $this->call('UsersTableSeeder');
-        $this->call('RolesTableSeeder');
-        $this->call('PermissionsTableSeeder');
+//        $this->call('UsersTableSeeder');
+//        $this->call('RolesTableSeeder');
+//        $this->call('PermissionsTableSeeder');
 //        $this->call('CountriesTableSeeder');
 //        $this->call('LocationsTableSeeder');
 //        $this->call('CategoriesTableSeeder');
 //        $this->call('PostsTableSeeder');
 //		$this->call('EventsTableSeeder');
+//        $this->call('TagTableSeeder');
+//        $this->call('TaggableTableSeeder');
 //        $this->call('CommentsTableSeeder');
 //        $this->call('FollowersTableSeeder');
 //		$this->call('FavoritesTableSeeder');
