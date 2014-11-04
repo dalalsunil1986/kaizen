@@ -101,7 +101,7 @@ class PaymentsController extends BaseController {
             $payer = $this->paypal;
 
             // Make Payment
-            $payment = $payer->makePayment($paymentRepo->amount, 'USD', $description, "$baseUrl&success=true", "$baseUrl&success=false", $item);
+            $payment = $payer->makePayment($paymentRepo->amount, 'USD', Str::limit($description,100,'..'), "$baseUrl&success=true", "$baseUrl&success=false", $item);
 
             $paymentRepo->status ='CREATED';
 
