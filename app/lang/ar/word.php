@@ -113,5 +113,7 @@ return [
     'deleted'               => 'تم حذف',
     'updated'               => 'Updated',
     'create_new_account'                     => 'إنشاء حساب جديد',
+    'hello' => 'مرحبا',
+    'click_here' => 'اضغط هنا'
 
 ];

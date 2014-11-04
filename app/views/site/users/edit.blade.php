@@ -58,7 +58,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <label>{{ trans('site.gender') }}</label>
+                                <label>{{ trans('word.gender') }}</label>
                             </div>
                         </div>
 

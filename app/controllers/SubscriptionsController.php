@@ -49,7 +49,7 @@ class SubscriptionsController extends BaseController {
         // If not a valid event
         if ( !$event ) {
 
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('site.system_error'));
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('word.system_error'));
         }
 
         // If event is Expired
@@ -121,12 +121,12 @@ class SubscriptionsController extends BaseController {
                 return Redirect::action('EventsController@index')->with('errors', [$subscriber->messages->first('errors')]);
             } else {
                 // If no errors occured while subscription process
-                return Redirect::action('EventsController@index')->with('success', trans('site.subscription.unsubscribed'));
+                return Redirect::action('EventsController@index')->with('success', trans('general.subscription.unsubscribed'));
             }
 
         }
 
-        return Redirect::action('EventsController@index')->with('success', trans('site.subscription.unsubscribed_fail'));
+        return Redirect::action('EventsController@index')->with('success', trans('general.subscription.unsubscribed_fail'));
     }
 
     public function subscribePackage($userId = 1, $packageId = 1)

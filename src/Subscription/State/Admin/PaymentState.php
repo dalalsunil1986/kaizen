@@ -1,7 +1,8 @@
 <?php
 namespace Acme\Subscription\State\Admin;
 
-use App;
+use Acme\Subscription\State\SubscriberState;
+use Acme\Subscription\State\AbstractState;
 
 class PaymentState extends AbstractState implements SubscriberState {
 

@@ -1,5 +1,8 @@
 <?php namespace Acme\Subscription\State\Admin;
 
+use Acme\Subscription\State\AbstractState;
+use Acme\Subscription\State\SubscriberState;
+
 class ApprovedState extends AbstractState implements SubscriberState {
 
     public $subscriber;

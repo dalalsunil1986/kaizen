@@ -1,5 +1,7 @@
 @extends('emails.layouts.default')
 @section('body')
-    <h1> hello, {{ $username }}</h1>
-   {{ $body }}
+    <div class="right" style="float: right; text-align:right;">
+        <h1 style="float: right; text-align:right;"> {{ trans('word.hello') }}, {{ $name_ar }}</h1>
+        <p style="float: right; text-align:right;">{{ $body }}</p>
+    </div>
 @stop

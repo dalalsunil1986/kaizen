@@ -22,7 +22,7 @@ class ApprovedState extends AbstractState implements SubscriberState {
         }
 
         // check whether already subscribed
-        if ( ! $this->subscriber->model->subscriptionConfirmed() ) {
+        if ( !$this->subscriber->model->subscriptionConfirmed() ) {
 
             if ( $this->checkInvalidRegistrationType() ) {
                 // @todo : more efficient way to determine the free or paid event
@@ -35,7 +35,7 @@ class ApprovedState extends AbstractState implements SubscriberState {
                 }
             }
         } else {
-            $this->subscriber->messages->add('errors', 'Already Subscribed');
+            return $this->subscriber->setSubscriptionState($this->subscriber->getPaymentState());
         }
 
     }

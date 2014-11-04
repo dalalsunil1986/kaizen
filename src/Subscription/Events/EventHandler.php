@@ -26,22 +26,22 @@ class EventHandler extends AbstractMailer {
         $this->subject        = 'Kaizen Event Subscription' ;
         switch ( $array['status'] ) {
             case 'PENDING' :
-                $array['body']  = 'Your Request for the event ' . $array['title'] . ' is awaiting for admin approval. You will be notified shortly ';
+                $array['body']  = trans('general.subscription_email_pending',['title'=>$array['title']]);
                 break;
             case 'APPROVED' :
-                $array['body']  = 'Your Request for the event ' . $array['title'] . ' is Approved, Please Confirm Your Subscription By ' . link_to_action('SubscriptionsController@confirmSubscription','Clicking this Link',[$array['event_id']]);
+                $array['body']  = trans('general.subscription_email_approved',['title'=>$array['title'],'link'=>link_to_action('SubscriptionsController@confirmSubscription',trans('word.click_here'),$array['event_id'])]);
                 break;
             case 'CONFIRMED' :
-                $array['body']  = 'You have been confirmed to the event ' . $array['title'];
+                $array['body']  = trans('general.subscription_email_confirmed',['title'=>$array['title']]);
                 break;
             case 'WAITING' :
-                $array['body']  = 'You have been put on waiting list for the event ' . $array['title'];
+                $array['body']  = trans('general.subscription_email_waiting',['title'=>$array['title']]);
                 break;
             case 'REJECTED' :
-                $array['body']  = 'Your Request to Subscribe event ' . $array['title'] .' has been rejected.';
+                $array['body']  = trans('general.subscription_email_rejected',['title'=>$array['title']]);
                 break;
             case 'PAYMENT' :
-                $array['body']  = 'Your Request to Subscribe event ' . $array['title'] .' has been Approved.' . link_to_action('PaymentsController@getPayment', 'Click this link For the Payment', [$array['event_id'],'token'=>$array['token']] );
+                $array['body']  = trans('general.subscription_email_payment',['title'=>$array['title'], 'link'=>link_to_action('PaymentsController@getPayment', trans('word.click_here'), [$array['event_id'],'token'=>$array['token']] )]);
                 break;
             default :
                 break;

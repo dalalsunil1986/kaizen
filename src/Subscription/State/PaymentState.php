@@ -13,21 +13,16 @@ class PaymentState extends AbstractState implements SubscriberState {
     public function createSubscription()
     {
 
-        if($this->subscriber->model->paymentSuccess) {
+        if ( $this->subscriber->model->paymentSuccess ) {
 
             return $this->subscriber->setSubscriptionState($this->subscriber->getConfirmedState());
 
         } else {
-            $this->subscriber->messages->add('errors','Payment Not Confirmed');
-            return false;
+            $this->subscriber->messages->add('errors', trans('general.subscription_payment_not_recieved'));
+            return $this;
         }
 
     }
 
-    public function cancelSubscription()
-    {
-
-        $this->subscriber->model->delete(); // delete the subscription
-    }
 
 }

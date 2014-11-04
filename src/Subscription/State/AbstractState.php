@@ -5,7 +5,8 @@ class AbstractState {
 
     public function cancelSubscription()
     {
-        $this->subscriber->model->delete();
+        $this->subscriber->setSubscriptionState($this->subscriber->getCancelledState());
+        return $this;
     }
 
 } 

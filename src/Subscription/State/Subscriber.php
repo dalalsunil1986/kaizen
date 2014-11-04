@@ -15,6 +15,7 @@ class Subscriber {
     public $model;
     public $subscriptionState;
     public $messages;
+    public $cancelled;
 
     public function __construct(Subscription $subscription)
     {
@@ -25,7 +26,8 @@ class Subscriber {
         $this->pending   = new PendingState($this);
         $this->messages  = new MessageBag();
         $this->approved  = new ApprovedState($this);
-        $this->payment  = new PaymentState($this);
+        $this->payment   = new PaymentState($this);
+        $this->cancelled   = new CancelledState($this);
 
         $this->model = $subscription;
 
@@ -78,6 +80,7 @@ class Subscriber {
     public function unsubscribe()
     {
         $this->subscriptionState->cancelSubscription();
+
         return $this;
     }
 
@@ -122,11 +125,27 @@ class Subscriber {
     }
 
     /**
-     * @return \Acme\Subscription\State\Pending
+     * @return \Acme\Subscription\State\Payment
      */
     public function  getPaymentState()
     {
-        return $this->pending;
+        return $this->payment;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCancelled()
+    {
+        return $this->cancelled;
+    }
+
+    /**
+     * @param mixed $cancelled
+     */
+    public function setCancelled($cancelled)
+    {
+        $this->cancelled = $cancelled;
     }
 
     public function notifyUser()
@@ -135,10 +154,15 @@ class Subscriber {
         $user  = $this->model->user->toArray();
         $event = $this->model->event;
 
+        // payment token;
+        $token = $this->messages->has('token') ? $this->messages->get('token') : [''];
+
         // Merge User and Event Model
-        $user = array_merge($user, ['title' => $event->title, 'event_id' => $event->id, 'status' => $this->model->status]);
+        $user = array_merge($user, ['title' => $event->title, 'event_id' => $event->id, 'status' => $this->model->status, 'token'=> array_shift($token)]);
         // Fire the Event ( this will also send email to the user )
         Event::fire('subscriptions.created', [$user]);
 
     }
+
+
 }

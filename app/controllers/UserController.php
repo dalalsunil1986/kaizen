@@ -29,7 +29,7 @@ class UserController extends BaseController {
     public function edit($id)
     {
         $user      = $this->userRepository->findById($id);
-        $countries = [0 => trans('site.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
+        $countries = [0 => trans('word.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
         $this->render('site.users.edit', compact('user', 'countries'));
     }
 
@@ -54,7 +54,7 @@ class UserController extends BaseController {
             return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
         }
 
-        return Redirect::action('UserController@getProfile', $id)->with('success', 'word.profile_updated');
+        return Redirect::action('UserController@getProfile', $id)->with('success', 'word.saved');
     }
 
     public function destroy($id)

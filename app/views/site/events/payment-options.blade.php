@@ -11,15 +11,15 @@
             </div>
             <div class="panel-footer">
                 <div class="row text-center">
-                    <div class="col-xs-9">
+                    <div class="col-xs-8">
                         <h4 class="text-right">{{trans('word.total')}} : <strong>{{ $event->convertPrice }}</strong></h4>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-4">
                         {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['PaymentsController@postPayment']]) }}
                             {{ Form::hidden('event_id',$event->id) }}
                             {{ Form::hidden('token', Input::get('token')) }}
                             <div class='form-actions'>
-                                <input class="btn btn btn-success" name="commit" type="submit" value="{{trans('site.pay-with-payapl')}}" />
+                                <input class="btn btn btn-danger" name="commit" type="submit" value="{{trans('word.pay_with_payapl')}}" />
                             </div>
                         {{ Form::close() }}
                     </div>

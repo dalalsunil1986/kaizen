@@ -228,8 +228,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function incrementAvailableSeats()
     {
-        $this->available_seats = $this->available_seats + 1;
-
+        $this->increment('available_seats');
         return $this->save();
     }
 

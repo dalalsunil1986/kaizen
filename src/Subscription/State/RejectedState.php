@@ -13,7 +13,8 @@ class RejectedState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
-        echo 'you cannot subscribe';
+        $this->subscriber->messages->add('errors', trans('general.subscription_error'));
+        return $this;
     }
 
 }
