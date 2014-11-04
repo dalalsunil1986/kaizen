@@ -53,7 +53,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'Admin@Kaizen.com', 'name' => 'Kaizen'),
+    'from' => array('address' => 'noreply@kaizen.company', 'name' => trans('general.email_default_name')),
 
     /*
     |--------------------------------------------------------------------------
@@ -79,6 +79,7 @@ return array(
     |
     */
 
+//    'username' => 'kaizencourses@gmail.com',
     'username' => 'zalszalz@gmail.com',
 
     /*
@@ -92,6 +93,7 @@ return array(
     |
     */
 
+//    'password' => '*******',
     'password' => 'darkage07',
 
     /*

@@ -23,7 +23,8 @@ class EventHandler extends AbstractMailer {
         $this->view           = 'emails.subscription';
         $this->recepientEmail = $array['email'];
         $this->recepientName  = $array['name_en'];
-        $this->subject        = 'Kaizen Event Subscription' ;
+        $this->subject        = trans('general.subscription_email_subject') ;
+
         switch ( $array['status'] ) {
             case 'PENDING' :
                 $array['body']  = trans('general.subscription_email_pending',['title'=>$array['title']]);
