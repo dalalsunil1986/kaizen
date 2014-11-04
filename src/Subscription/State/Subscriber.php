@@ -56,6 +56,16 @@ class Subscriber {
     }
 
     /**
+     * @param $newUnSubscriptionState
+     * @internal param $newSubscriptionState Set SubscriptionState to whatever Argument Passed on the run time* Set SubscriptionState to whatever Argument Passed on the run time
+     */
+    public function setUnSubscriptionState($newUnSubscriptionState)
+    {
+        $this->subscriptionState = $newUnSubscriptionState;
+        $this->unsubscribe();
+    }
+
+    /**
      * Create Subscription for the current subscription state
      */
     public function subscribe()
@@ -80,7 +90,6 @@ class Subscriber {
     public function unsubscribe()
     {
         $this->subscriptionState->cancelSubscription();
-
         return $this;
     }
 
@@ -135,17 +144,9 @@ class Subscriber {
     /**
      * @return mixed
      */
-    public function getCancelled()
+    public function getCancelledState()
     {
         return $this->cancelled;
-    }
-
-    /**
-     * @param mixed $cancelled
-     */
-    public function setCancelled($cancelled)
-    {
-        $this->cancelled = $cancelled;
     }
 
     public function notifyUser()

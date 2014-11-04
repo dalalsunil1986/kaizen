@@ -121,7 +121,7 @@ class SubscriptionsController extends BaseController {
                 return Redirect::action('EventsController@index')->with('errors', [$subscriber->messages->first('errors')]);
             } else {
                 // If no errors occured while subscription process
-                return Redirect::action('EventsController@index')->with('success', trans('general.subscription.unsubscribed'));
+                return Redirect::action('EventsController@index')->with('success', trans('general.unsubscribed'));
             }
 
         }

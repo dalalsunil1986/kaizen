@@ -5,8 +5,6 @@ use Acme\Package\PackageRepository;
 use Acme\Subscription\State\Admin\Subscriber;
 use Acme\Subscription\SubscriptionRepository;
 use Acme\User\UserRepository;
-use Illuminate\Support\MessageBag;
-
 
 class AdminSubscriptionsController extends AdminBaseController {
 
@@ -29,11 +27,11 @@ class AdminSubscriptionsController extends AdminBaseController {
 
     function __construct(SubscriptionRepository $subscriptionRepository, EventRepository $eventRepository, PackageRepository $packageRepository, UserRepository $userRepository)
     {
-        parent::__construct();
         $this->subscriptionRepository = $subscriptionRepository;
         $this->eventRepository        = $eventRepository;
         $this->packageRepository      = $packageRepository;
         $this->userRepository         = $userRepository;
+        parent::__construct();
     }
 
     public function index()
@@ -75,12 +73,13 @@ class AdminSubscriptionsController extends AdminBaseController {
 
     /**
      * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Acme\Core\Exceptions\EntityNotFoundException
      * Update Status of the user
      */
     public function update($id)
     {
-        $status       = Input::get('status');
+        $status = Input::get('status');
         $feedback     = Input::get('feedback');
         $subscription = $this->subscriptionRepository->findById($id);
         $userId       = $subscription->user_id;
@@ -126,29 +125,47 @@ class AdminSubscriptionsController extends AdminBaseController {
 
         } else {
             $this->subscribe($subscription, $status, $feedback);
-            return Redirect::action('AdminSubscriptionsController@index')->with('success', 'Succes');
 
+            return Redirect::action('AdminSubscriptionsController@index')->with('success', 'Succes');
         }
 
     }
-
 
     public function subscribe(Subscription $subscription, $status, $feedback)
     {
         $subscriber = new Subscriber($subscription, $status, $feedback);
         $subscriber->subscribe();
         if ( $subscriber->messages->has('errors') ) {
-            return Redirect::home()->with('errors',[$subscriber->messages->first()]);
+            return Redirect::home()->with('errors', [$subscriber->messages->first()]);
         }
 
         return Redirect::action('AdminSubscriptionsController@index')->with('success', 'Succes');
     }
 
+    public function unsubscribe(Subscription $subscription, $status, $feedback = '')
+    {
+        $subscriber = new Subscriber($subscription, $status, $feedback);
+
+        return $subscriber->unsubscribe();
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * Unsubscribe Before Deleting
+     */
     public function destroy($id)
     {
-        $this->subscriptionRepository->findById($id)->delete();
+        $subscription = $this->subscriptionRepository->findById($id);
 
-        return Redirect::action('AdminSubscriptionsController@index')->with('success','success');
+        // unsubscribe
+        $subscriber   = $this->unsubscribe($subscription, $subscription->status, $feedback = '');
+
+        if ( $subscriber->messages->has('errors') ) {
+            return Redirect::back()->with('errors', [$subscriber->messages->first()]);
+        }
+        $subscription->delete();
+        return Redirect::action('AdminSubscriptionsController@index')->with('success', 'success');
     }
 }
 

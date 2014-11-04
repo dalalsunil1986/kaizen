@@ -56,6 +56,15 @@ class Subscription extends BaseModel {
         return $this->status == 'CONFIRMED' ? true : false;
     }
 
+
+    public function hasSubscribed($userId)
+    {
+        if($this->contains($userId)) {
+            dd('yes');
+        }
+        return $this->status != 'CANCELLED' ? true : false;
+    }
+
     /**
      * @return mixed
      * Check If a User Has Confirmed The Payment

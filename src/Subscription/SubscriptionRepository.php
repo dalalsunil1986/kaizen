@@ -12,7 +12,8 @@ class SubscriptionRepository extends AbstractRepository {
 
     public $model;
 
-    public $subscriptionStatuses = ['REJECTED', 'PENDING', 'APPROVED', 'CONFIRMED', 'PAYMENT'];
+//    public $subscriptionStatuses = ['REJECTED', 'PENDING', 'APPROVED', 'CONFIRMED', 'PAYMENT','CANCELLED'];
+    public $subscriptionStatuses = ['REJECTED', 'PENDING', 'APPROVED'];
 
     public function __construct(Subscription $model)
     {

@@ -95,12 +95,15 @@ class PaymentsController extends BaseController {
         $baseUrl = App::make('url')->action('PaymentsController@getFinal') . '?t=' . $token;
 
         $item = ['title' => $event->title, 'amount' => $paymentRepo->amount, 'description' => $event->description];
+
         try {
             // Instantiate Paypal Class
             $payer = $this->paypal;
 
             // Make Payment
             $payment = $payer->makePayment($paymentRepo->amount, 'USD', $description, "$baseUrl&success=true", "$baseUrl&success=false", $item);
+
+            $paymentRepo->status ='CREATED';
 
             $paymentRepo->transaction_id = $payment->getId();
 

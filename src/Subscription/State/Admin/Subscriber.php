@@ -1,5 +1,6 @@
 <?php namespace Acme\Subscription\State\Admin;
 
+use Acme\Subscription\State\CancelledState;
 use Acme\Subscription\State\ConfirmedState;
 use Acme\Subscription\State\PendingState;
 use Acme\Subscription\State\RejectedState;
@@ -16,11 +17,13 @@ class Subscriber extends BaseSubscriber {
     public $rejected;
     public $pending;
     public $payment;
+    public $cancelled;
+
     public $model;
 
     public $subscriptionState;
-
     public $messages;
+
     private $reason;
 
     public function __construct(Subscription $subscription, $status, $reason)
@@ -32,10 +35,13 @@ class Subscriber extends BaseSubscriber {
         $this->approved          = new ApprovedState($this);
         $this->payment           = new PaymentState($this);
         $this->messages          = new MessageBag();
+        $this->cancelled         = new CancelledState($this);
         $this->model             = $subscription;
         $status                  = strtolower($status);
         $this->subscriptionState = $this->{$status};
         $this->reason            = $reason;
+
     }
+
 
 }

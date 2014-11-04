@@ -1,6 +1,8 @@
 <?php
 namespace Acme\Subscription\State;
 
+use Auth;
+
 class CancelledState extends AbstractState implements SubscriberState {
 
 
@@ -19,7 +21,6 @@ class CancelledState extends AbstractState implements SubscriberState {
 
     public function cancelSubscription()
     {
-
         $this->subscriber->model->status = 'CANCELLED';
         $this->subscriber->model->save();
 
@@ -27,8 +28,9 @@ class CancelledState extends AbstractState implements SubscriberState {
 
             if ( $payment = $this->subscriber->model->paymentSuccess ) {
                 // make the refund value
+                $payment->status = 'REFUNDING';
 
-
+                $payment->save();
                 // Create a Refund
                 $payment->refunds()->create(['user_id' => Auth::user()->id, 'status' => 'PENDING']);
             }
