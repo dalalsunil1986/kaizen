@@ -79,7 +79,8 @@ return array(
     |
     */
 
-    'username' => 'kaizencourses@gmail.com',
+//    'username' => 'kaizencourses@gmail.com',
+    'username' => 'zalszalz@gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -92,7 +93,8 @@ return array(
     |
     */
 
-    'password' => 'memo1988',
+//    'password' => 'memo1988',
+    'password' => 'darkage07',
 
     /*
     |--------------------------------------------------------------------------
