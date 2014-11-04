@@ -9,11 +9,11 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-xs-6 col-md-6">
+                    <div class="col-sm-12 col-md-6">
                         <label>{{ trans('auth.signup.name_ar')  }}</label>
                         {{ Form::text('name_ar',NULL,array('class'=>'form-control input-lg','placeholder'=> trans('auth.signup.name_ar'))) }}
                     </div>
-                    <div class="col-xs-6 col-md-6">
+                    <div class="col-sm-12 col-md-6">
                         <label>{{ trans('auth.signup.name_en')  }}</label>
 
                         {{ Form::text('name_en',NULL,array('class'=>'form-control input-lg','placeholder'=> trans('auth.signup.name_en'))) }}
@@ -23,11 +23,11 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-xs-6 col-md-6">
+                    <div class="col-sm-12 col-md-6">
                         <label>{{ trans('word.email')  }}</label>
                         {{ Form::text('email',NULL,array('class' => 'form-control input-lg','placeholder' => trans('word.email'))) }}
                     </div>
-                    <div class="col-xs-6 col-md-6">
+                    <div class="col-sm-12 col-md-6">
                         <label>{{ trans('word.username')  }}</label>
                         {{ Form::text('username',NULL,array('class' => 'form-control input-lg','placeholder' => trans('word.username'))) }}
                     </div>
@@ -36,11 +36,11 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-xs-6 col-md-6">
+                    <div class="col-sm-12 col-md-6">
                         <label>{{ trans('word.password')  }}</label>
                         {{ Form::password('password',array('class' => 'form-control input-lg','placeholder' => trans('word.password'))) }}
                     </div>
-                    <div class="col-xs-6 col-md-6">
+                    <div class="col-sm-12 col-md-6">
                         <label>{{ trans('word.password_confirmation')  }}</label>
                         {{ Form::password('password_confirmation',array('class' => 'form-control input-lg','placeholder' => trans('word.password_confirmation'))) }}
                     </div>
