@@ -60,14 +60,16 @@
                                     <tbody>
                                     @foreach ($payments as $payment)
                                     <tr>
+                                        @if($payment->payable)
                                         <td>
-                                            <a href="{{action('AdminEventsController@getRequests',$payment->payable->event->id) }}">{{ $payment->payable->event->title }}</a>
+                                         <a href="{{action('AdminEventsController@getRequests',$payment->payable->event->id) }}">{{ $payment->payable->event->title }}</a>
                                         </td>
                                         <td>{{ $payment->user->username }}</td>
                                         <td>{{ $payment->status }}</td>
                                         <td>
                                             <a href="{{ URL::action('AdminPaymentsController@edit',  array($payment->id), array('class' => 'btn btn-info')) }}">Edit</a>
                                         </td>
+                                        @endif
                                         <td>
                                             {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminPaymentsController@destroy', $payment->id))) }}
                                             {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
@@ -78,7 +80,7 @@
                                     </tbody>
                                 </table>
                                 @else
-                                No {{ ucfirst($_GET['status']) }} payments Yet
+                                No {{ isset($_GET['status']) ? ucfirst($_GET['status']) :'' }} payments Yet
                                 @endif
 
                             </div>
