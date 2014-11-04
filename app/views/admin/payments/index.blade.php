@@ -60,7 +60,6 @@
                                     <tbody>
                                     @foreach ($payments as $payment)
                                     <tr>
-                                        @if($payment->payable)
                                         <td>
                                          <a href="{{action('AdminEventsController@getRequests',$payment->payable->event->id) }}">{{ $payment->payable->event->title }}</a>
                                         </td>
@@ -69,7 +68,6 @@
                                         <td>
                                             <a href="{{ URL::action('AdminPaymentsController@edit',  array($payment->id), array('class' => 'btn btn-info')) }}">Edit</a>
                                         </td>
-                                        @endif
                                         <td>
                                             {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminPaymentsController@destroy', $payment->id))) }}
                                             {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
