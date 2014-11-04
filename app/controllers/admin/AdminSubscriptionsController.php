@@ -144,9 +144,11 @@ class AdminSubscriptionsController extends AdminBaseController {
         return Redirect::action('AdminSubscriptionsController@index')->with('success', 'Succes');
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        $this->subscriptionRepository->findById($id)->delete();
 
+        return Redirect::action('AdminSubscriptionsController@index')->with('success','success');
     }
 }
 

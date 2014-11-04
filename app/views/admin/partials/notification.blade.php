@@ -1,6 +1,6 @@
 @if ( Session::get('errors') )
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <div class="alert alert-danger alert-block"><h2>{{ Lang::get('site.error') }}</h2>
+    <div class="alert alert-danger alert-block"><h2>{{ Lang::get('word.error') }}</h2>
 
         @if(!is_array($errors))
             @foreach($errors->all('<li>:message</li>') as $message)
@@ -17,7 +17,7 @@
 @if ($message = Session::get('error'))
     <div class="alert alert-danger alert-block">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <h4>{{ Lang::get('site.error') }}</h4>
+        <h4>{{ Lang::get('word.error') }}</h4>
         @if(is_array($message))
             @foreach ($message as $m)
             <li>{{ $m }}</li>
@@ -31,7 +31,7 @@
 @if ($message = Session::get('warning'))
     <div class="alert alert-warning alert-block">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <h4>{{ Lang::get('site.warning') }}</h4>
+        <h4>{{ Lang::get('word.warning') }}</h4>
         @if(is_array($message))
             @foreach ($message as $m)
                 <li>{{ $m }}</li>
@@ -45,7 +45,7 @@
 @if ($message = Session::get('info'))
     <div class="alert alert-info alert-block">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <h4>{{ Lang::get('site.info') }}</h4>
+        <h4>{{ Lang::get('word.info') }}</h4>
         @if(is_array($message))
             @foreach ($message as $m)
                 <li>{{ $m }}</li>
@@ -59,7 +59,7 @@
 @if ($message = Session::get('success'))
     <div class="alert alert-success alert-block">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <h4>{{ Lang::get('site.success') }}</h4>
+        <h4>{{ Lang::get('word.success') }}</h4>
         @if(is_array($message))
             @foreach ($message as $m)
                 <li>{{ $m }}</li>
