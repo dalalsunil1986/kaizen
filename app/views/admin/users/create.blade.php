@@ -93,13 +93,13 @@
                 <div class="col-md-10 text-left">
                     @if ($mode == 'create')
                         <select class="form-control" name="active" id="active">
-                            <option value="1"{{{ (Input::old('active', 0) === 1 ? ' selected="selected"' : '') }}}>{{{ Lang::get('general.yes') }}}</option>
-                            <option value="0"{{{ (Input::old('active', 0) === 0 ? ' selected="selected"' : '') }}}>{{{ Lang::get('general.no') }}}</option>
+                            <option value="1"{{{ (Input::old('active', 0) === 1 ? ' selected="selected"' : '') }}}>Yes</option>
+                            <option value="0"{{{ (Input::old('active', 0) === 0 ? ' selected="selected"' : '') }}}>No</option>
                         </select>
                     @else
                         <select class="form-control" {{{ ($user->id === Confide::user()->id ? ' disabled="disabled"' : '') }}} name="confirm" id="confirm">
-                            <option value="1"{{{ ($user->active ? ' selected="selected"' : '') }}}>{{{ Lang::get('general.yes') }}}</option>
-                            <option value="0"{{{ ( ! $user->active ? ' selected="selected"' : '') }}}>{{{ Lang::get('general.no') }}}</option>
+                            <option value="1"{{{ ($user->active ? ' selected="selected"' : '') }}}>Yes</option>
+                            <option value="0"{{{ ( ! $user->active ? ' selected="selected"' : '') }}}>No</option>
                         </select>
                     @endif
                 </div>

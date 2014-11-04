@@ -21,22 +21,24 @@
     <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
         <thead>
         <tr>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.username') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.email') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.roles') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.activated') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.created_at') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('table.actions') }}}</th>
+				<th class="col-md-2">Name in AR</th>
+				<th class="col-md-2">Name in EN</th>
+				<th class="col-md-2">Email</th>
+				<th class="col-md-2">Active</th>
+				<th class="col-md-2">Register on</th>
+				<th class="col-md-2">Role</th>
+				<th class="col-md-2">Action</th>
 			</tr>
 		</thead>
         <tbody>
         @foreach($users as $user)
         <tr class="gradeX">
-            <td>{{ $user->username }}</td>
+            <td>{{ $user->name_ar }}</td>
+            <td>{{ $user->name_en }}</td>
             <td>{{ $user->email }}</td>
-            <td>{{ $user->rolename }}</td>
             <td>{{ $user->active == 1 ? 'true':'false' }}</td>
             <td>{{ $user->created_at }}</td>
+            <td>{{ $user->rolename }}</td>
             <td>
                 <a href="{{  URL::to('admin/users/' . $user->id . '/print' ) }}" class="iframe btn btn-xs btn-default"><i class="glyphicon glyphicon-print"></i> Print</a>
                 <a href="{{  URL::to('admin/users/' . $user->id . '/edit' ) }}" class="iframe btn btn-xs btn-default">{{{ Lang::get('button.edit') }}}</a>

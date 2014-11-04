@@ -58,7 +58,7 @@ class UserRepository extends AbstractRepository  {
     public function findUsersForIndex(){
         $users = DB::table('users')->leftjoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
             ->leftjoin('roles', 'roles.id', '=', 'assigned_roles.role_id')
-            ->select(array('users.id', 'users.username','users.email', 'roles.name as rolename', 'users.active', 'users.created_at'))
+            ->select(array('users.*', 'roles.name as rolename'))
             ->groupBy('users.email')->get();
         return $users;
     }
