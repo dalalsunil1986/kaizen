@@ -60,11 +60,15 @@
                                     <tbody>
                                     @foreach ($payments as $payment)
                                     <tr>
+                                        @if($payment->payable)
                                         <td>
                                          <a href="{{action('AdminEventsController@getRequests',$payment->payable->event->id) }}">{{ $payment->payable->event->title }}</a>
                                         </td>
+
                                         <td>{{ $payment->user->username }}</td>
                                         <td>{{ $payment->status }}</td>
+                                        @else
+                                        <td></td><td></td><td></td>
                                         <td>
                                             <a href="{{ URL::action('AdminPaymentsController@edit',  array($payment->id), array('class' => 'btn btn-info')) }}">Edit</a>
                                         </td>
