@@ -48,15 +48,14 @@ class EventsController extends BaseController {
 
     public function index()
     {
-        $perPage     = 10;
-
+        $perPage = 10;
         //find countries,authors,and categories to display in search form
         if ( App::getLocale() == 'en' ) {
             $countries = [0 => trans('word.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
         } else {
             $countries = [0 => trans('word.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
         }
-        $categories = [0 => trans('word.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_'.getLocale(), 'id');
+        $categories = [0 => trans('word.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_' . getLocale(), 'id');
         $authors    = [0 => trans('word.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
 
         // find selected form values
@@ -64,7 +63,9 @@ class EventsController extends BaseController {
         $category = Request::get('category');
         $author   = Request::get('author');
         $country  = Request::get('country');
+        $expired     = Request::get('expired');
 
+        $this->title = trans('word.events');
         // if the form is selected
         // perform search
         if ( !empty($search) || !empty($category) || !empty($author) || !empty($country) ) {
@@ -85,18 +86,23 @@ class EventsController extends BaseController {
                         $query->whereIn('location_id', $locations);
                     }
                 })
-                ->where('date_start','>',Carbon::now())
+                ->where('date_start', '>', Carbon::now())
                 ->orderBy('date_start', 'ASC')
                 ->orderBy('created_at', 'DESC')
                 ->paginate($perPage);
 
+        } elseif ( isset($expired) && $expired == 'true' ) {
+            // Past Events
+            $this->title = trans('word.expired_events');
+            $events      = $this->eventRepository->getPastEvents($perPage);
         } else {
+
             $events = $this->eventRepository->getEvents($perPage);
         }
         $eventCategories = $this->categoryRepository->getEventCategories()->get();
 
-        $this->title = trans('word.events');
-        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country','eventCategories'));
+
+        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories'));
     }
 
     /**
@@ -125,12 +131,12 @@ class EventsController extends BaseController {
 
             View::composer('site.events.view', function ($view) use ($id, $user, $event) {
                 // return boolean true false
-                $favorited      = $event->favorites->contains($user->id);
-                $subscribed     = $event->subscribers->contains($user->id);
-                $followed       = $event->followers->contains($user->id);
+                $favorited  = $event->favorites->contains($user->id);
+                $subscribed = $event->subscribers->contains($user->id);
+                $followed   = $event->followers->contains($user->id);
 
                 // check if this event has online option
-                if ($this->isOnlineEvent($event) ) {
+                if ( $this->isOnlineEvent($event) ) {
                     $canWatchOnline = $this->eventRepository->ongoingEvent($event->date_start, $event->date_end);
                 } else {
                     $canWatchOnline = false;
@@ -145,8 +151,15 @@ class EventsController extends BaseController {
         }
 
         $this->title = $event->title;
-        $this->render('site.events.view', compact('event', 'tags','eventExpired'));
+        $this->render('site.events.view', compact('event', 'tags', 'eventExpired'));
 
+    }
+
+    public function getPastEvents()
+    {
+        $perPage = 10;
+
+        $this->render('site.events.index', compact('events', 'eventCategories'));
     }
 
     /**
@@ -279,7 +292,7 @@ class EventsController extends BaseController {
         $latestEvents   = $this->eventRepository->latestEvents();
         $featuredEvents = $this->eventRepository->feautredEvents();
 
-        $events         = array_merge((array) $latestEvents, (array) $featuredEvents);
+        $events = array_merge((array) $latestEvents, (array) $featuredEvents);
         if ( $events ) {
             foreach ( $events as $event ) {
                 $array[] = $event->id;
@@ -334,7 +347,7 @@ class EventsController extends BaseController {
         if ( in_array('ONLINE', $reg_types) ) $online = true;
         if ( in_array('NORMAL', $reg_types) ) $normal = true;
 
-        $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal','freeEvent'));
+        $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent'));
 
     }
 
@@ -416,7 +429,7 @@ class EventsController extends BaseController {
             }
         }
 
-        return Redirect::action('EventsController@show',$id)->with('success',trans('general.requested_admin'));
+        return Redirect::action('EventsController@show', $id)->with('success', trans('general.requested_admin'));
     }
 
     /**
@@ -425,17 +438,17 @@ class EventsController extends BaseController {
      */
     public function streamEvent($id)
     {
-        $user              = Auth::user();
-        $event             = $this->eventRepository->findById($id);
+        $user  = Auth::user();
+        $event = $this->eventRepository->findById($id);
 
         // if event is currently going on
-        if ( ! $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
+        if ( !$this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
 
             return Redirect::action('EventsController@show', $id)->with('warning', trans('general.wrong_event_stream_time'));
         }
 
         // check if this event has online streaming
-        if (! $this->isOnlineEvent($event) ) {
+        if ( !$this->isOnlineEvent($event) ) {
 
             return Redirect::action('EventsController@index')->with('error', trans('general.event_no_stream'));
         }
@@ -449,7 +462,7 @@ class EventsController extends BaseController {
             // If user has a subscription and subscription is not confirmed
             if ( $subscription->status != 'CONFIRMED' ) {
 
-                return Redirect::action('EventsController@index')->with('error',trans('general.subscription_not_confirmed') );
+                return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_confirmed'));
             }
 
             // check whether the user has subscribed as online
@@ -464,9 +477,8 @@ class EventsController extends BaseController {
         }
 
 
-
         // stream the event
-        if ( ! $this->getStreamSettings() ) {
+        if ( !$this->getStreamSettings() ) {
 
             return Redirect::action('EventsController@show', $id)->with('info', trans('word.system_error'));
 
@@ -559,7 +571,7 @@ class EventsController extends BaseController {
             header('Location: ' . $launchUrl);
             die();
         }
-        catch (Exception $e) {
+        catch ( Exception $e ) {
             return false;
         }
 
@@ -599,7 +611,7 @@ class EventsController extends BaseController {
     {
         $setting           = $event->setting;
         $registrationTypes = explode(',', $setting->registration_types);
-        if(in_array('ONLINE', $registrationTypes)){
+        if ( in_array('ONLINE', $registrationTypes) ) {
             return true;
         } else {
             return false;

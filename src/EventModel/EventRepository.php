@@ -43,6 +43,21 @@ class EventRepository extends AbstractRepository {
     }
 
     /**
+     * Return Events For Event Index Page
+     * @param $perPage
+     * @return mixed
+     *
+     */
+    public function getPastEvents($perPage = 10)
+    {
+        return $this->getAll()
+            ->where('date_start','<',Carbon::now())
+            ->orderBy('date_start', 'ASC')
+            ->orderBy('created_at', 'DESC')
+            ->paginate($perPage);
+    }
+
+    /**
      * @return array|null|static[]
      * Fetch Posts For Sliders
      */

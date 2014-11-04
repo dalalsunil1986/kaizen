@@ -114,6 +114,7 @@ return [
     'updated'               => 'Updated',
     'create_new_account'                     => 'إنشاء حساب جديد',
     'hello' => 'مرحبا',
-    'click_here' => 'اضغط هنا'
+    'click_here' => 'اضغط هنا',
+    'expired_events' => 'الفعاليات منتهية '
 
 ];
