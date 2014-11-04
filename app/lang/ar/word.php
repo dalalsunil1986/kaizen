@@ -104,7 +104,7 @@ return [
     'next'                  => 'التالي &raquo;',
     'password_confirmation' => 'تحقيق كلمة المرور',
     'mail_sent'             => 'تم إرسال البريد الإلكتروني',
-    'event_expired'         => 'انتهى هذا الحدث',
+    'event_expired'         => 'انتهى هذه الفعاليات  ',
     'token_expired'         => 'رمز منتهية الصلاحية',
     'invalid_token'         => 'رمز غير صالح',
     'profile_updated'       => 'تم تحديث البيانات الشخصية',
@@ -112,9 +112,9 @@ return [
     'created'               => 'Created',
     'deleted'               => 'تم حذف',
     'updated'               => 'Updated',
-    'create_new_account'                     => 'إنشاء حساب جديد',
-    'hello' => 'مرحبا',
-    'click_here' => 'اضغط هنا',
-    'expired_events' => 'الفعاليات منتهية '
+    'create_new_account'    => 'إنشاء حساب جديد',
+    'hello'                 => 'مرحبا',
+    'click_here'            => 'اضغط هنا',
+    'expired_events'        => 'الفعاليات منتهية '
 
 ];

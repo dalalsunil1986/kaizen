@@ -123,4 +123,12 @@ class BaseModel extends Model {
     {
         $this->attributes['price'] = (double) ($value);
     }
+
+    /*********************************************************************************************************
+     * Model Scopes
+     ********************************************************************************************************/
+    public function scopeOfStatus($query, $status)
+    {
+        return $query->whereStatus($status);
+    }
 }

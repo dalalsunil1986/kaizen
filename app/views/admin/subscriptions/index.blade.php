@@ -37,6 +37,9 @@
                                 <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'pending' ) ? 'active' :'' }}">
                                     <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'pending']) }}">Pending</a>
                                 </li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'cancelled' ) ? 'active' :'' }}">
+                                    <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'cancelled']) }}">Cancelled</a>
+                                </li>
                                 <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'rejected' ) ? 'active' :'' }}">
                                     <a href="{{ action('AdminSubscriptionsController@index', ['type'=>'event','status'=>'rejected']) }}">Rejected</a>
                                 </li>

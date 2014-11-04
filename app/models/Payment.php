@@ -27,4 +27,6 @@ class Payment extends BaseModel {
     {
         $this->attributes['amount'] = str_replace(',','',$value);
     }
+
+
 }

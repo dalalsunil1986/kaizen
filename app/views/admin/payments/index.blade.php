@@ -1,0 +1,100 @@
+@extends('admin.master')
+
+{{-- Content --}}
+@section('content')
+<div class="row ">
+    <div class="col-md-12 ">
+        <!-- Nav tabs category -->
+        <ul class="nav nav-tabs faq-cat-tabs">
+            <li class="{{ $type == 'payment' ? 'active' :'' }}">
+                <a href="{{ action('AdminPaymentsController@index', ['type'=>'payment']) }}">Subscription Payments&nbsp;</a>
+            </li>
+            <li class="{{ $type == 'refund'  ? 'active' :'' }}">
+                <a href="{{ action('AdminPaymentsController@index', ['type'=>'package']) }}">Subscription Refunds&nbsp;</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content faq-cat-content" style="margin-top:20px;">
+            <div class="tab-pane active in fade " id="event-tab">
+
+                @if($type == 'payment')
+                <div class="row">
+                    <div class="col-md-2">
+                        <nav class="nav-sidebar">
+                            <ul class="nav tabs">
+                                <li class="{{ !isset($_GET['status']) ? 'active':'' }} ">
+                                    <a href="{{ action('AdminPaymentsController@index') }}">All</a></li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'confirmed' ) ? 'active' :'' }}">
+                                    <a href="{{ action('AdminPaymentsController@index', ['type'=>'payment','status'=>'confirmed']) }}">Confirmed</a>
+                                </li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'created' ) ? 'active' :'' }}">
+                                    <a href="{{ action('AdminPaymentsController@index', ['type'=>'payment','status'=>'created']) }}">Created</a>
+                                </li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'cancelled' ) ? 'active' :'' }}">
+                                   <a href="{{ action('AdminPaymentsController@index', ['type'=>'payment','status'=>'cancelled']) }}">Cancelled</a>
+                                </li>
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'refunding' ) ? 'active' :'' }}">
+                                   <a href="{{ action('AdminPaymentsController@index', ['type'=>'payment','status'=>'refunding']) }}">Refunding</a>
+                                </li>
+
+                                <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'rejected' ) ? 'active' :'' }}">
+                                    <a href="{{ action('AdminPaymentsController@index', ['type'=>'payment','status'=>'rejected']) }}">Rejected</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="tab-content">
+                            <div class="tab-pane active text-style" id="tab-single-1">
+                                @if ($payments->count())
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>User</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    @foreach ($payments as $payment)
+                                    <tr>
+                                        <td>
+                                            <a href="{{action('AdminEventsController@getRequests',$payment->payable->event->id) }}">{{ $payment->payable->event->title }}</a>
+                                        </td>
+                                        <td>{{ $payment->user->username }}</td>
+                                        <td>{{ $payment->status }}</td>
+                                        <td>
+                                            <a href="{{ URL::action('AdminPaymentsController@edit',  array($payment->id), array('class' => 'btn btn-info')) }}">Edit</a>
+                                        </td>
+                                        <td>
+                                            {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminPaymentsController@destroy', $payment->id))) }}
+                                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                                            {{ Form::close() }}
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                @else
+                                No {{ ucfirst($_GET['status']) }} payments Yet
+                                @endif
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                @else
+
+                @endif
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@stop
+
+

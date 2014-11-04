@@ -206,9 +206,9 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::get('event/{id}/details', 'AdminEventsController@getDetails');
 
-    Route::get('event/type/create', 'AdminEventsController@selectType');
+    Route::get('event/{id}/requests', array('uses' => 'AdminEventsController@getRequests'));
 
-    Route::post('photo/create', 'AdminEventsController@storeImage');
+    Route::get('event/type/create', 'AdminEventsController@selectType');
 
     Route::resource('event', 'AdminEventsController');
 
@@ -274,7 +274,10 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
      ********************************************************************************************************/
     Route::resource('subscription', 'AdminSubscriptionsController');
 
-    Route::get('event/{id}/requests', array('uses' => 'AdminEventsController@getRequests'));
+    /*********************************************************************************************************
+     * Payment Routes
+     ********************************************************************************************************/
+    Route::resource('payment', 'AdminPaymentsController' );
 
     /*********************************************************************************************************
      * Event Type Routes

@@ -275,4 +275,9 @@ abstract class AbstractRepository {
     {
         return $this->model->lists($column, 'id');
     }
+
+    public function getAllByStatus($status, $array)
+    {
+        return $this->model->ofStatus($status)->with($array)->get();
+    }
 }
