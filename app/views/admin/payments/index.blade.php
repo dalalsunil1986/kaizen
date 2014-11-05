@@ -77,6 +77,7 @@
                                             {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
                                             {{ Form::close() }}
                                         </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                     </tbody>
