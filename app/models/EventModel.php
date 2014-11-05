@@ -146,6 +146,13 @@ class EventModel extends BaseModel implements PresenterInterface {
             ->where('e.date_start', '<', Carbon::now()->toDateTimeString());
     }
 
+    public function getHumanCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->diffForHumans();
+
+        return null;
+    }
+
     /**
      * @param int $days
      * @return \Illuminate\Database\Query\Builder|static
