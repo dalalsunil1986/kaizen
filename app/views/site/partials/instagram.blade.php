@@ -20,7 +20,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">{{ trans('word.instagram') }}</div>
         <div class="panel-body">
-            <iframe src="http://www.intagme.com/in/?u=a2FpemVuX2NvbXBhbnl8aW58MTUwfDF8M3x8eWVzfDV8dW5kZWZpbmVkfHllcw==" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:165px; height: 495px" ></iframe>
+            <iframe src="http://www.intagme.com/in/?u=a2FpemVuX2NvbXBhbnl8aW58MTI1fDJ8M3x8eWVzfDJ8dW5kZWZpbmVkfHllcw==" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:274px; height: 411px" ></iframe>
         </div>
     </div>
 </div>
