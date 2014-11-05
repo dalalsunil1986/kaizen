@@ -70,8 +70,7 @@
                                         <td>{{ $subscription->status }}</td>
                                         <td>
                                             <a href="{{ URL::action('AdminSubscriptionsController@edit',  array($subscription->id), array('class' => 'btn btn-info')) }}">Edit</a>
-                                        </td>
-                                        <td>
+
                                             {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminSubscriptionsController@destroy', $subscription->id))) }}
                                             {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
                                             {{ Form::close() }}
