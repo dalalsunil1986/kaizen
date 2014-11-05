@@ -65,7 +65,7 @@
                                         <td>
                                             <a href="{{action('AdminEventsController@getRequests',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
                                         </td>
-                                        <td>{{ $subscription->user->username }}</td>
+                                        <td><a href="{{ action('AdminUsersController@show',$subscription->user->id) }}">{{ $subscription->user->username }}</a></td>
                                         <td>{{ $subscription->status }}</td>
                                         <td>
                                             <a href="{{ URL::action('AdminSubscriptionsController@edit',  array($subscription->id), array('class' => 'btn btn-info')) }}">Edit</a>

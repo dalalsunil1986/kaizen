@@ -66,8 +66,9 @@ class AdminUsersController extends AdminBaseController {
 
     public function show($id)
     {
-        $users = $this->userRepository->findById($id);
-        return $this->render('admin.users.show', compact('users'));
+        $user= $this->userRepository->findById($id);
+        $title = $user->name .' Profile';
+        return $this->render('admin.users.show', compact('user','title'));
     }
 
     /**

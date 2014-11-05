@@ -33,7 +33,7 @@
         <tbody>
         @foreach($users as $user)
         <tr class="gradeX">
-            <td><a href="{{ action('AdminUsersController@view',$user->id) }}">{{ $user->name_ar }}</a></td>
+            <td><a href="{{ action('AdminUsersController@show',$user->id) }}">{{ $user->name_ar }}</a></td>
             <td>{{ $user->name_en }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->mobile }}</td>

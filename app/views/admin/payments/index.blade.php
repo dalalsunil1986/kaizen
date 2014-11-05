@@ -59,26 +59,18 @@
 
                                     <tbody>
                                     @foreach ($payments as $payment)
-                                    <tr>
-                                        @if($payment->payable)
-                                        <td>
-                                         <a href="{{action('AdminEventsController@getRequests',$payment->payable->event->id) }}">{{ $payment->payable->event->title }}</a>
-                                        </td>
 
-                                        <td>{{ $payment->user->username }}</td>
-                                        <td>{{ $payment->status }}</td>
-                                        @else
-                                        <td></td><td></td><td></td>
-                                        <td>
-                                            <a href="{{ URL::action('AdminPaymentsController@edit',  array($payment->id), array('class' => 'btn btn-info')) }}">Edit</a>
-                                        </td>
-                                        <td>
-                                            {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminPaymentsController@destroy', $payment->id))) }}
-                                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                                            {{ Form::close() }}
-                                        </td>
+                                        @if($payment->payable)
+                                            <tr>
+                                                <td>
+                                                 <a href="{{action('AdminEventsController@getRequests',$payment->payable->event->id) }}">{{ $payment->payable->event->title }}</a>
+                                                </td>
+
+                                                <td><a href="{{ action('AdminUsersController@show',$payment->user->id) }}">{{ $payment->user->username }}</a></td>
+                                                <td>{{ $payment->status }}</td>
+                                            </tr>
                                         @endif
-                                    </tr>
+
                                     @endforeach
                                     </tbody>
                                 </table>
