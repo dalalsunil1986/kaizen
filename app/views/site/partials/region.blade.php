@@ -1,8 +1,9 @@
 <div class="btn-group btn-group-sm">
 
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+    <div class="visible-xs top10"></div>
+    <a type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
         <img src="" class="flag flag-{{strtolower($selectedCountry)}}"/>{{ $selectedCountry }}<span class="caret"></span>
-    </button>
+    </a>
 
     <ul class="dropdown-menu" role="menu">
         @foreach($availableCountries as $country )

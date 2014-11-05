@@ -6,9 +6,13 @@ class Refund extends BaseModel {
 
     protected $table = "refunds";
 
-    public function payments()
+    public function payment()
     {
         return $this->belongsTo('Payment');
+    }
+
+    public function user(){
+        return $this->belongsTo('User');
     }
 
 }

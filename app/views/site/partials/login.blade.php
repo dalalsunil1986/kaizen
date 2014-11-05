@@ -1,113 +1,39 @@
-<ul class="dropdown">
-    @if(!Auth::user())
-        {{ Form::open(['action' => 'AuthController@postLogin', 'method' => 'post'], ['class'=>'form hidden-xs']) }}
-            <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon  glyphicon-user"></i></span>
-                            {{ Form::text('email',null,['class'=>'form-control', 'placeholder'=> trans('word.email')]) }}
-                        </div>
-                    </div>
+    <ul class="dropdown">
+        <!-- Hide this In Mobile -->
+        <div class="hidden-xs">
+            @if(!Auth::user())
+                <div class="row">
+                    @include('site.auth._login-form')
                 </div>
-                <div class="col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon  glyphicon-lock"></i></span>
-                            {{ Form::password('password',['class'=>'form-control', 'placeholder'=> trans('word.password')]) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 form-group
-                    @if ( App::getLocale() == 'en')
-                        pull-right
-                    @else
-                        pull-left
-                    @endif
-                    ">
-                    {{ Form::checkbox('remember', '1', true,  ['id' => 'remember']) }}
-                    {{ trans('word.remember')}}
-                    <button type="submit" class="btn btn-default">{{ trans('word.login') }}</button>
-                    <a href="{{ action('AuthController@getSignup') }}" type="submit" class="btn btn-default">{{ trans('word.register') }}</a>
-                </div>
-            </div>
-        {{ Form::close() }}
-
-        <a type="button" class="btn btn-default btn-sm dropdown-toggle visible-xs
-                            @if ( App::getLocale() == 'en')
-                                pull-right
-                            @else
-                                pull-left
-                            @endif"
-           data-toggle="dropdown" href="#"><i class="glyphicon  glyphicon-lock"></i> &nbsp;{{ trans('word.login') }}
-            <span class="caret"></span>
-        </a>
-
-    @else
-         <div class="pull-left" style="text-align: right">
-
-                <a type="button" class="btn btn-info btn-default btn-sm" href="{{ action('UserController@getProfile', Auth::user()->id) }}">
-                    <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>&nbsp;{{ trans('word.profile') }}
-                </a>
-
-
-                {{ (Helper::isMod()) ? '<a type="button" class="btn btn-default btn-sm" href="'. URL::to('admin') .'">
-                    <i class="glyphicon glyphicon-user" style="font-size: 11px;"></i>&nbsp;'. trans('word.admin_panel') .'
-                </a>' : '' }}
-
-                <a type="button" class="btn btn-danger btn-default btn-sm" href="{{ action('AuthController@getLogout') }}">
-                    <i class="glyphicon glyphicon-log-out" style="font-size: 11px;"></i>&nbsp;{{ trans('word.logout') }}
-                </a>
-
+            @else
+                @include('site.auth._settings-button')
+            @endif
         </div>
-    @endif
-
-    <br>
-
-    <div class="dropdown-menu
-                @if ( App::getLocale() == 'en')
-                    pull-right
-                @else
-                    pull-left
-                @endif">
+        <!-- mobile -->
         <div class="row">
-            <div class="col-md-12
-                        @if ( App::getLocale() == 'en')
-                            pull-right
-                        @else
-                            pull-left
-                        @endif">
-                @if(!Auth::user())
-                {{ Form::open(['action' => 'AuthController@postLogin', 'method' => 'post'], ['class'=>'form hidden-lg hidden-md hidden-sm']) }}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="visible-xs">
+                        <li class="dropdown"  style="list-style-type:none ">
+                            @if(!Auth::check())
+                                <a type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon  glyphicon-lock"></i> &nbsp;{{ trans('word.login') }}
+                                    <span class="caret"></span>
+                                </a>
 
-                    <div class="col-sm-12 form-group">
-                        <label for="exampleInputEmail1">{{ trans('site.email') }}</label>
+                                <ul class="dropdown-menu columns padded">
+                                    @include('site.auth._login-form')
+                                </ul>
 
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon  glyphicon-user"></i></span>
-                            {{ Form::text('email',null,['class'=>'form-control', 'placeholder'=> trans('word.email')]) }}
-                        </div>
-                    </div>
-                    <div class="col-sm-12 form-group">
-                        <label for="exampleInputEmail1">{{ trans('site.password') }}</label>
+                            @else
+                                @include('site.auth._settings-button')
+                            @endif
 
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon  glyphicon-lock"></i></span>
-                            {{ Form::password('password',['class'=>'form-control', 'placeholder'=> trans('word.password')]) }}
-                        </div>
+                        </li>
+                        @include('site.partials.region')
+
                     </div>
-                    <div class="col-sm-12 form-group">
-                        {{ Form::checkbox('remember', '1', true,  ['id' => 'remember']) }}
-                    </div>
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-primary">{{ trans('word.login') }}</button>
-                        <a href="{{ action('AuthController@getSignup') }}" type="submit" class="btn btn-primary">{{ trans('word.register') }}</a>
-                    </div>
-                </form>
-                @endif
+                </div>
             </div>
         </div>
-    </div>
-</ul>
+
+    </ul>

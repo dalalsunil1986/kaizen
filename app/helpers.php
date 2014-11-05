@@ -17,3 +17,10 @@ function getClientIP()
     return $ip;
 }
 
+/**
+ * Float Div Right or Left as per locale
+ */
+function floatDiv()
+{
+    return App::getLocale() == 'en' ? 'pull-right' : 'pull-left';
+}

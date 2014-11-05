@@ -675,3 +675,11 @@ span.tag:after {
 .fa-5 {
     font-size:12em;
 }
+
+.carousel-mobile {
+    margin:10px;
+}
+
+.carousel-mobile img {
+    height:auto;
+}

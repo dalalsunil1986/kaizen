@@ -117,6 +117,7 @@ class PaymentsController extends BaseController {
         }
 
         catch ( Exception $e ) {
+
             // Set Status To Error
             $paymentRepo->status = 'ERROR';
 
