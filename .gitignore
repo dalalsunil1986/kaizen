@@ -12,6 +12,7 @@ app/storage/views/*
 app/storage/sessions/*
 app/storage/debugbar/*
 app/storage/logs/*.txt
+app/storage/logs/*.html
 use-cases
 
 _ide_helper.php
