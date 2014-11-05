@@ -139,7 +139,7 @@
                                         </td>
                                         <td>
                                             {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminSubscriptionsController@destroy', $subscription->id))) }}
-                                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                                            {{ Form::submit('Delete', array('class' => 'btn btn-sm btn-danger')) }}
                                             {{ Form::close() }}
                                         </td>
                                     </tr>

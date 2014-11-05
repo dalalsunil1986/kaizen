@@ -11,7 +11,7 @@
 
 <h3></h3>
 <br>
-<table class="table table-striped table-bordered">
+<table class="datatable table table-striped table-bordered">
     <thead>
     <tr>
         <th>Username</th>
