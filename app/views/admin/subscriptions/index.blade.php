@@ -56,6 +56,7 @@
                                         <th>Title</th>
                                         <th>User</th>
                                         <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
 
