@@ -27,7 +27,7 @@ class SubscriptionsController extends BaseController {
         $this->subscriptionRepository = $subscriptionRepository;
         $this->eventRepository        = $eventRepository;
         $this->packageRepository      = $packageRepository;
-        $this->beforeFilter('auth', ['subscribe', 'unsubscribe', 'subscribePackage']);
+        $this->beforeFilter('auth', ['only'=>['subscribe', 'unsubscribe', 'subscribePackage']]);
         parent::__construct();
     }
 
