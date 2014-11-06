@@ -55,7 +55,7 @@
                                         </a>
                                     </span>
                                     <span class="slider-description {{ ($event->description_en) ? 'text-left':'text-right' }}">
-                                            {{{ Str::limit($event->description_ar,$char_limit) }}}
+                                            {{ Str::limit($event->description_ar,$char_limit) }}
                                     </span>
                             <a class="btn btn-info kaizen-button" href="{{ action('EventsController@show',$event->id) }}">
                                 {{ $event->button_ar }}
