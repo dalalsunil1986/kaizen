@@ -26,8 +26,8 @@
             <th class="col-md-2">Email</th>
             <th class="col-md-2">Mobile</th>
             <th class="col-md-2">Country</th>
-            <th class="col-md-2">Active</th>
             <th class="col-md-2">Role</th>
+            <th class="col-md-2">Active</th>
             <th class="col-md-2">Action</th>
 			</tr>
 		</thead>
@@ -38,7 +38,6 @@
             <td>{{ $user->name_en }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->mobile }}</td>
-            <td>{{ $user->active == 1 ? 'true':'false' }}</td>
             <td>{{ $user->country ? $user->country->name : '-' }}</td>
             <td>
                 <?php $roles=[]; ?>
@@ -47,6 +46,7 @@
                 @endforeach
                 {{ implode(',',$roles) }}
             </td>
+            <td>{{ $user->active == 1 ? 'true':'false' }}</td>
             <td>
 
                 <a href="{{  URL::action('AdminUsersController@printDetail',$user->id ) }}" class=" btn btn-xs btn-default"><i class="glyphicon glyphicon-print"></i> Print</a>
@@ -57,8 +57,12 @@
             </td>
         </tr>
         @endforeach
-
 		</tbody>
 	</table>
+</div>
+<div class="row">
+    <div class="col-md-12">
+       <?php echo $users->appends(Request::except('page'))->links(); ?>
+    </div>
 </div>
 @stop
