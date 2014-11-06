@@ -304,6 +304,11 @@ Route::post('queue/mails',function(){
 Route::get('test',function() {
 
     $a = App::make('HomeController');
-    dd($a->slider());
+    $sliders = $a->slider();
+    foreach ( $sliders as $slider ) {
+        echo $slider;
+    }
+
+    dd('a');
 
 });
