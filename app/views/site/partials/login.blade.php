@@ -19,7 +19,6 @@
                                 <a type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon  glyphicon-lock"></i> &nbsp;{{ trans('word.login') }}
                                     <span class="caret"></span>
                                 </a>
-
                                 <ul class="dropdown-menu columns padded">
                                     @include('site.auth._login-form')
                                 </ul>
