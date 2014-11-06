@@ -302,13 +302,8 @@ Route::post('queue/mails',function(){
 });
 
 Route::get('test',function() {
-    $a = App::make('HomeController');
-    $sliders = $a->slider();
-    foreach ( $sliders as $slider ) {
-        echo '<pre>';
-        var_dump($slider);
-        echo '</pre>';
+    $user = User::with(['roles'])->find(1);
+    foreach ( $user->roles as $role ) {
+        var_dump($role->name);
     }
-    dd('a');
-
 });

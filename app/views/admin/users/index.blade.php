@@ -25,6 +25,7 @@
             <th class="col-md-2">Name in EN</th>
             <th class="col-md-2">Email</th>
             <th class="col-md-2">Mobile</th>
+            <th class="col-md-2">Country</th>
             <th class="col-md-2">Active</th>
             <th class="col-md-2">Role</th>
             <th class="col-md-2">Action</th>
