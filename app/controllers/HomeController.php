@@ -31,7 +31,7 @@ class HomeController extends BaseController {
     public function slider()
     {
         $events = $this->eventRepository->getSliderEvents();
-        dd($events);
+        return $events;
     }
 
 }
