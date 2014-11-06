@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <p style="width: 98%;">
-                        {{ Str::limit($post->description, 100) }}
+                        {{ Str::limit(strip_tags($post->description), 100) }}
                     </p>
                 </div>
             </div>

@@ -19,7 +19,7 @@
             </a>
         </span>
         <p>
-            {{ $event->description }}
+            {{ Str::limit(strip_tags($event->description), 150) }}
             <a href="{{action('EventsController@show',$event->id )}}">{{ trans('word.more')}}</a>
         </p>
 
