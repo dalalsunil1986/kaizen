@@ -28,6 +28,10 @@ class HomeController extends BaseController {
         $this->render('site.home', compact('events', 'ads'));
     }
 
+    /**
+     * @return array|null|static[]
+     * just for test purpose
+     */
     public function slider()
     {
         $events = $this->eventRepository->getSliderEvents();

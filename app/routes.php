@@ -305,7 +305,9 @@ Route::get('test',function() {
     $a = App::make('HomeController');
     $sliders = $a->slider();
     foreach ( $sliders as $slider ) {
+        echo '<pre>';
         var_dump($slider);
+        echo '</pre>';
     }
     dd('a');
 
