@@ -302,13 +302,11 @@ Route::post('queue/mails',function(){
 });
 
 Route::get('test',function() {
-
     $a = App::make('HomeController');
     $sliders = $a->slider();
     foreach ( $sliders as $slider ) {
-        echo $slider;
+        var_dum($slider);
     }
-
     dd('a');
 
 });
