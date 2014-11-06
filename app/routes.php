@@ -302,9 +302,8 @@ Route::post('queue/mails',function(){
 });
 
 Route::get('test',function() {
-    $array['title'] = 'شسيشسيشسيشسيشسيشسيشس';
-    $array['body']  = trans('general.email_pending',['title'=>$array['title']]);
-    dd($array['body']);
 
+    $a = App::make('HomeController');
+    dd($a->slider());
 
 });
