@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <p style="width: 98%;">
-                        {{ $post->description }}
+                        {{ Str::limit($post->description, 100) }}
                     </p>
                 </div>
             </div>
