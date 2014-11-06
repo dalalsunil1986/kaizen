@@ -56,6 +56,7 @@
                                         <th>Title</th>
                                         <th>User</th>
                                         <th>Status</th>
+                                        <th>Subscribed on</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -67,12 +68,12 @@
                                             <a href="{{action('AdminEventsController@getRequests',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
                                         </td>
                                         <td><a href="{{ action('AdminUsersController@show',$subscription->user->id) }}">{{ $subscription->user->username }}</a></td>
-                                        <td>{{ $subscription->status }}</td>
+                                        <td><a href="{{ URL::action('AdminSubscriptionsController@edit',$subscription->id)}}">{{ $subscription->status }}</a></td>
+                                        <td>{{ $subscription->formattedCreated() }}</td>
                                         <td>
-                                            <a href="{{ URL::action('AdminSubscriptionsController@edit',  array($subscription->id), array('class' => 'btn btn-info')) }}">Edit</a>
-
                                             {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminSubscriptionsController@destroy', $subscription->id))) }}
-                                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                                            <a class="btn btn-xs btn-info" href="{{ URL::action('AdminSubscriptionsController@edit',  array($subscription->id)) }}">Edit</a>
+                                            {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
                                             {{ Form::close() }}
                                         </td>
                                     </tr>

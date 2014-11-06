@@ -14,13 +14,20 @@
 {{--        {{ HTML::style('assets/css/wysihtml5/bootstrap-wysihtml5.css') }}--}}
         {{ HTML::style('assets/css/datatables.css') }}
         {{ HTML::style('assets/css/custom.css') }}
+
+        <style>
+            .container-fluid {
+                padding:0 50px;
+            }
+        </style>
     @show
+
 
 </head>
 
 <body>
 <!-- Container -->
-<div class="container">
+<div class="container-fluid ">
 
     @include('admin.partials.navigation')
     <!-- ./ navbar -->
@@ -37,6 +44,7 @@
     <!-- Footer -->
     @include('admin.layouts.footer')
     <!-- ./ Footer -->
+
 
 </div>
 <!-- ./ container -->

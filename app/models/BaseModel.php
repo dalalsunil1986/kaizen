@@ -131,4 +131,11 @@ class BaseModel extends Model {
     {
         return $query->whereStatus($status);
     }
+
+    public function formattedCreated()
+    {
+        $dt = Carbon::createFromTimestamp(strtotime($this->created_at));
+        $date =  $dt->format('d-m-y \\a\\t ga'); // 05-11-2014 at 1pm
+        return $date;
+    }
 }
