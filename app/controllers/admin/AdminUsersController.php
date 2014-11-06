@@ -58,7 +58,7 @@ class AdminUsersController extends AdminBaseController {
     {
         // Grab all the users
         $title  = 'Users';
-        $users = $this->userRepository->findUsersForIndex();
+        $users = $this->userRepository->getAll(['roles']);
 
         // Show the page
         return $this->render('admin.users.index', compact('users', 'title'));

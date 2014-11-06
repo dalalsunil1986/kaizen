@@ -39,10 +39,18 @@
             <td>{{ $user->email }}</td>
             <td>{{ $user->mobile }}</td>
             <td>{{ $user->active == 1 ? 'true':'false' }}</td>
-            <td>{{ $user->rolename }}</td>
+            <td>{{ $user->country ? $user->country->name : '-' }}</td>
             <td>
-                <a href="{{  URL::action('AdminUsersController@printDetail',$user->id ) }}" class="iframe btn btn-xs btn-default"><i class="glyphicon glyphicon-print"></i> Print</a>
-                <a href="{{  URL::action('AdminUsersController@edit',$user->id ) }}" class="iframe btn btn-xs btn-default">Edit</a>
+                <?php $roles=[]; ?>
+                @foreach ( $user->roles as $role )
+                    <?php $roles[] = $role->name; ?>
+                @endforeach
+                {{ implode(',',$roles) }}
+            </td>
+            <td>
+
+                <a href="{{  URL::action('AdminUsersController@printDetail',$user->id ) }}" class=" btn btn-xs btn-default"><i class="glyphicon glyphicon-print"></i> Print</a>
+                <a href="{{  URL::action('AdminUsersController@edit',$user->id ) }}" class=" btn btn-xs btn-default">Edit</a>
                 {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminUsersController@destroy', $user->id))) }}
                     {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
                 {{ Form::close() }}

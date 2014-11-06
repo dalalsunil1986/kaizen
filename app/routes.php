@@ -303,7 +303,5 @@ Route::post('queue/mails',function(){
 
 Route::get('test',function() {
     $user = User::with(['roles'])->find(1);
-    foreach ( $user->roles as $role ) {
-        var_dump($role->name);
-    }
+
 });
