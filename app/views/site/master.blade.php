@@ -52,11 +52,6 @@
             <div class="row">
                 @include('site.partials.navigation')
             </div>
-
-            <!-- show only in mobiles -->
-            <div class="visible-xs row">
-                @include('site.partials.login')
-            </div>
             <!-- End mobile Div -->
 
             <div class="row">
