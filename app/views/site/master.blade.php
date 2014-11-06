@@ -54,7 +54,7 @@
             </div>
 
             <!-- show only in mobiles -->
-            <div class="row visible-xs">
+            <div class="visible-xs row">
                 @include('site.partials.login')
             </div>
             <!-- End mobile Div -->
