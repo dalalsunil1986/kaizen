@@ -6,10 +6,8 @@
 <p>{{ link_to_action('AdminEventsController@create', 'Add new event') }}</p>
 
 @if(count($subscriptions))
-<h3>Total {{count($subscriptions) }} Users Subscribed for This Event</h3>
-<a class="btn btn-default " data-toggle="modal" data-target="#contact" data-original-title>
-   Mail to Subcribed Users
-</a>
+<h3>Total {{count($subscriptions) }} {{ isset($_GET['status']) ? strtoupper($_GET['status']) : '' }} Subscriptions</h3>
+
 @endif
 <div class="row ">
     <div class="col-md-12 ">

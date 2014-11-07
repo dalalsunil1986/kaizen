@@ -100,7 +100,7 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
 
-        $event->updateAvailableSeatsOnCreate();
+        $event->updateAvailableSeats();
 
         if ( !$setting = $this->settingRepository->create(['settingable_type' => 'EventModel', 'settingable_id' => $event->id]) ) {
             $this->eventRepository->delete($event);
@@ -165,11 +165,12 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
 
+        $event->updateAvailableSeats();
         // update the tags
         $tags = is_array(Input::get('tag')) ? Input::get('tag') : [];
         $this->tagRepository->attachTags($event, $tags );
 
-        return Redirect::action('AdminEventsController@edit', $id)->with('success', 'Updated');
+        return Redirect::action('AdminEventsController@index')->with('success', 'Updated');
 
     }
 
@@ -254,6 +255,8 @@ class AdminEventsController extends AdminBaseController {
         $followers_count     = $event->followers()->count();
         $requests_count      = $event->subscriptions()->count();
 
+        $event->updateAvailableSeats();
+
         $this->render('admin.events.details', compact('event', 'subscriptions_count', 'favorites_count', 'followers_count', 'requests_count'));
     }
 
@@ -318,7 +321,6 @@ class AdminEventsController extends AdminBaseController {
     public function getRequests($id)
     {
         $event = $this->eventRepository->findById($id);
-//        dd($event->subscriptions);
 
         $this->render('admin.events.requests', compact('event'));
     }

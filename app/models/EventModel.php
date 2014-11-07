@@ -168,11 +168,11 @@ class EventModel extends BaseModel implements PresenterInterface {
             ->where('e.date_start', '<', $dt->toDateTimeString());
     }
 
-    public function updateAvailableSeatsOnCreate()
-    {
-        $this->available_seats = $this->total_seats;
-        $this->save();
-    }
+//    public function updateAvailableSeatsOnCreate()
+//    {
+//        $this->available_seats = $this->total_seats;
+//        $this->save();
+//    }
 
     public function getConfirmedUsers()
     {
@@ -231,6 +231,31 @@ class EventModel extends BaseModel implements PresenterInterface {
 
             return $this->save();
         }
+    }
+
+    /**
+     * Updates the Available Seats
+     */
+    public function updateAvailableSeats()
+    {
+        $totalSeats = $this->total_seats;
+        // If Total Seats is Greater than 0
+        // Which means is not unlimited seats
+        if ( $totalSeats > 0 ) {
+
+            // Get the confirmed subscriptions count for the event
+            $totalSubscriptions    = $this->subscriptions()->where('status', 'CONFIRMED')->count();
+
+            // calculate the available seats
+            $available_seats = $totalSeats - $totalSubscriptions;
+
+        } else {
+            $available_seats = 0;
+        }
+
+        $this->available_seats = (int) ($available_seats);
+
+        $this->save();
     }
 
     public function incrementAvailableSeats()
