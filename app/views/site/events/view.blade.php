@@ -226,7 +226,7 @@
                 @endif
                 <tr>
                     <td><b>{{ trans('word.price') }}</b></td>
-                    @if($event->price)
+                    @if(! $event->isFreeEvent())
                         <td>{{ $event->convertPrice }}</td>
                     @else
                         <td>{{ trans('word.free') }}</td>

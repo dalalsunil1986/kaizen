@@ -22,9 +22,11 @@
                         <th>Title</th>
                         <th>Start Date</th>
                         <th>Event Settings</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th>Total Seats</th>
+                        <th>Available Seats</th>
+                        <th>Event Type</th>
+                        <th>Add/Edit Photos</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
 
@@ -42,12 +44,16 @@
                                       <a href="{{ URL::action('AdminSettingsController@getAddRoom', $event->setting->id) }}" class="btn btn-default">Add Online Room Number</a>
                                     </div>
                                 </td>
-
-                                <td><a href="{{ URL::action('AdminPhotosController@create', ['imageable_type' => $event->setting->settingable_type, 'imageable_id' => $event->setting->settingable_id]) }}" class="btn btn-sm btn-success">Add Photos</a></td>
-                                <td><a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}" class="btn btn-sm btn-warning">Edit</a></td>
+                                <td> {{ $event->total_seats }}</td>
+                                <td> {{ $event->available_seats }}</td>
+                                <td>
+                                     {{ $event->isFreeEvent() ? 'Free' : 'Paid' }}
+                                </td>
+                                <td><a href="{{ URL::action('AdminPhotosController@create', ['imageable_type' => $event->setting->settingable_type, 'imageable_id' => $event->setting->settingable_id]) }}" class="btn btn-xs btn-success">Add Photos</a></td>
                                 <td>
                                     {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminEventsController@destroy', $event->id))) }}
-                                        {{ Form::submit('Delete', array('class' => 'btn btn-sm btn-danger')) }}
+                                    <a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}" class="btn btn-xs btn-warning">Edit</a>
+                                        {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
                                     {{ Form::close() }}
                                 </td>
                             </tr>

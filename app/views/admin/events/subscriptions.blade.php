@@ -10,72 +10,93 @@
 <a class="btn btn-default " data-toggle="modal" data-target="#contact" data-original-title>
    Mail to Subcribed Users
 </a>
+@endif
+<div class="row ">
+    <div class="col-md-12 ">
 
-<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="contactLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="panel-title" id="contactLabel"><span class="glyphicon glyphicon-info-sign"></span> Send Email to Subscribers for this Event.</h4>
+        <!-- Tab panes -->
+        <div class="tab-content faq-cat-content" style="margin-top:20px;">
+            <div class="tab-pane active in fade " id="event-tab">
+
+                @if($type == 'event')
+                    <div class="row">
+                        <div class="col-md-2">
+                            <nav class="nav-sidebar">
+                                <ul class="nav tabs">
+                                    <li class="{{ !isset($_GET['status']) ? 'active':'' }} ">
+                                        <a href="{{ action('AdminEventsController@getSubscriptions',['id'=>$event->id]) }}">All</a></li>
+                                    <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'confirmed' ) ? 'active' :'' }}">
+                                        <a href="{{ action('AdminEventsController@getSubscriptions', ['id'=>$event->id,'type'=>'event','status'=>'confirmed']) }}">Confirmed</a>
+                                    </li>
+                                    <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'waiting' ) ? 'active' :'' }}">
+                                        <a href="{{ action('AdminEventsController@getSubscriptions', ['id'=>$event->id,'type'=>'event','status'=>'waiting']) }}">Waiting</a>
+                                    </li>
+                                    <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'approved' ) ? 'active' :''  }}">
+                                        <a href="{{ action('AdminEventsController@getSubscriptions', ['id'=>$event->id,'type'=>'event','status'=>'approved']) }}">Approved</a>
+                                    </li>
+                                    <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'pending' ) ? 'active' :'' }}">
+                                        <a href="{{ action('AdminEventsController@getSubscriptions', ['id'=>$event->id,'type'=>'event','status'=>'pending']) }}">Pending</a>
+                                    </li>
+                                    <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'cancelled' ) ? 'active' :'' }}">
+                                        <a href="{{ action('AdminEventsController@getSubscriptions', ['id'=>$event->id,'type'=>'event','status'=>'cancelled']) }}">Cancelled</a>
+                                    </li>
+                                    <li class="{{ (isset($_GET['status']) && $_GET['status'] == 'rejected' ) ? 'active' :'' }}">
+                                        <a href="{{ action('AdminEventsController@getSubscriptions', ['id'=>$event->id,'type'=>'event','status'=>'rejected']) }}">Rejected</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="tab-content">
+                                <div class="tab-pane active text-style" id="tab-single-1">
+                                    @if ($subscriptions->count())
+                                    <table class="datatable table table-striped table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>User</th>
+                                            <th>Status</th>
+                                            <th>Subscribed on</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        @foreach ($subscriptions as $subscription)
+                                        <tr>
+                                            <td>
+                                                <a href="{{action('AdminEventsController@getRequests',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
+                                            </td>
+                                            <td><a href="{{ action('AdminUsersController@show',$subscription->user->id) }}">{{ $subscription->user->username }}</a></td>
+                                            <td><a href="{{ URL::action('AdminSubscriptionsController@edit',$subscription->id)}}">{{ $subscription->status }}</a></td>
+                                            <td>{{ $subscription->formattedCreated() }}</td>
+                                            <td>
+                                                {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminSubscriptionsController@destroy', $subscription->id))) }}
+                                                <a class="btn btn-xs btn-info" href="{{ URL::action('AdminSubscriptionsController@edit',  array($subscription->id)) }}">Edit</a>
+                                                {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
+                                                {{ Form::close() }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                    @else
+                                    No Subscriptions Yet
+                                    @endif
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                @endif
+
             </div>
-            {{ Form::open(array('method' => 'POST', 'action' => array('AdminEventsController@mailSubscribers',$event->id), 'role'=>'form')) }}
-            <div class="modal-body" style="padding: 5px;">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
-                        <input class="form-control" name="name" placeholder="Your Name" type="text" required autofocus />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
-                        <input class="form-control" name="email" placeholder="Your E-mail" type="text" required />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
-                        <input class="form-control" name="subject" placeholder="Subject" type="text" required />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <textarea style="resize:vertical;" class="form-control" placeholder="Message..." rows="6" name="body" required></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-footer" style="margin-bottom:-14px;">
-                <input type="submit" class="btn btn-success" value="Send"/>
-                <!--<span class="glyphicon glyphicon-ok"></span>-->
-                <input type="reset" class="btn btn-danger" value="Clear" />
-                <!--<span class="glyphicon glyphicon-remove"></span>-->
-                <button style="float: right;" type="button" class="btn btn-default btn-close" data-dismiss="modal">Close</button>
-            </div>
-            {{ Form::close() }}
+
         </div>
     </div>
 </div>
 
-
-@else
-<h3>No Users Have Subscribed for This Event Yet</h3>
-@endif
-<br>
-<table class="table table-striped table-bordered">
-    <thead>
-    <tr>
-        <th>Username</th>
-        <th>Email</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    @if(count($subscriptions))
-        @foreach($subscriptions as $subscription)
-        <tr>
-           <td><a href="{{ action('UserController@getProfile',$subscription->user->id) }}">{{{ $subscription->user->username }}}</a></td>
-           <td>{{{ $subscription->user->email }}} </td>
-        </tr>
-        @endforeach
-    @endif
-    </tbody>
-</table>
 
 @stop

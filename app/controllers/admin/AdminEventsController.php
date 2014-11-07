@@ -291,10 +291,28 @@ class AdminEventsController extends AdminBaseController {
      */
     public function getSubscriptions($id)
     {
+//        $event = $this->eventRepository->findById($id);
+//        $subscriptions = $event->subscriptions()->ofStatus('CONFIRMED')->get();
+//
+//        $this->render('admin.events.subscriptions', compact('event','subscriptions'));
+
+        $status = Input::get('status');
+        $type   = Input::get('type');
+
+        if ( !isset($type) ) {
+            $type = 'event';
+        }
+
         $event = $this->eventRepository->findById($id);
         $subscriptions = $event->subscriptions()->ofStatus('CONFIRMED')->get();
 
-        $this->render('admin.events.subscriptions', compact('event','subscriptions'));
+        if ( isset($status) ) {
+            $subscriptions = $event->subscriptions()->ofStatus(strtoupper($status))->get();
+        } else {
+            $subscriptions = $event->subscriptions;
+        }
+        $this->render('admin.events.subscriptions', compact('event','subscriptions','type'));
+
     }
 
     public function getRequests($id)
