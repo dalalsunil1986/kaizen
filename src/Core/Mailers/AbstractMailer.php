@@ -24,7 +24,7 @@ class AbstractMailer implements MailerInterface {
     public function fire(array $array)
     {
         try {
-            $this->mailer->queue($this->view, $array, function ($message) {
+            $this->mailer->send($this->view, $array, function ($message) {
                 $message
                     ->from($this->senderEmail, $this->senderName)
                     ->sender($this->senderEmail, $this->senderName)
