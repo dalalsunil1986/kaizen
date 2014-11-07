@@ -48,6 +48,8 @@ class EventsController extends BaseController {
     public function index()
     {
         $perPage = 10;
+
+        $expiredEvents = $this->eventRepository->getPastEvents($perPage);
         //find countries,authors,and categories to display in search form
         if ( App::getLocale() == 'en' ) {
             $countries = [0 => trans('word.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
@@ -62,7 +64,7 @@ class EventsController extends BaseController {
         $category = Request::get('category');
         $author   = Request::get('author');
         $country  = Request::get('country');
-        $expired     = Request::get('expired');
+        $expired     = Request::get('past');
 
         $this->title = trans('word.events');
         // if the form is selected
@@ -93,15 +95,17 @@ class EventsController extends BaseController {
         } elseif ( isset($expired) && $expired == 'true' ) {
             // Past Events
             $this->title = trans('word.expired_events');
-            $events      = $this->eventRepository->getPastEvents($perPage);
+            $events      = $expiredEvents;
         } else {
 
             $events = $this->eventRepository->getEvents($perPage);
         }
+
+        $expiredEvents = $expiredEvents;
+
         $eventCategories = $this->categoryRepository->getEventCategories()->get();
 
-
-        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories'));
+        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories','expiredEvents'));
     }
 
     /**

@@ -116,7 +116,8 @@ return [
     'create_new_account'    => 'إنشاء حساب جديد',
     'hello'                 => 'مرحبا',
     'click_here'            => 'اضغط هنا',
-    'expired_events'        => 'الفعاليات منتهية ',
+    'expired_events'        => 'الفعاليات السابقة',
+    'view_all_expired_events'        => 'عرض جميع الفعاليات السابقة',
     'name' => 'الاسم',
     'contact' => 'اتصل'
 

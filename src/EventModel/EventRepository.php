@@ -216,4 +216,9 @@ class EventRepository extends AbstractRepository {
 //        $this->model->save();
     }
 
+    public function getExpiredEvents()
+    {
+        return $this->where('date_start', '<',Carbon::now())->get();
+    }
+
 }
