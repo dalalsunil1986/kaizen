@@ -5,6 +5,7 @@
 
 <div class="row " style="margin-top: 20px;">
     <div class="col-md-12 ">
+
         <!-- Nav tabs category -->
         <ul class="nav nav-tabs faq-cat-tabs">
             <li class="active"><a href="#event-tab" data-toggle="tab">Events&nbsp;</a></li>
@@ -54,7 +55,7 @@
                                 <td>
                                     {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminEventsController@destroy', $event->id))) }}
                                     <a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}" class="btn btn-xs btn-warning">Edit</a>
-                                        {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
+                                        {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger delete-btns')) }}
                                     {{ Form::close() }}
                                 </td>
                             </tr>
@@ -101,7 +102,7 @@
                                     <a href="{{ action('AdminEventsController@create',['package_id'=>$package->id]) }}" class="btn"><i class="glyphicon glyphicon-plus"></i> <strong>Add Sub Events</strong></a>
                                     <a href="{{ action('AdminPackagesController@show',$package->id) }}" class="btn"><i class="glyphicon glyphicon-pencil"></i> <strong>View</strong></a>
                                     <a href="{{ action('AdminPackagesController@edit',$package->id) }}" class="btn"><i class="glyphicon glyphicon-edit"></i> <strong>Edit</strong></a>
-                                    <i class="glyphicon glyphicon-trash"></i>{{ Form::submit('Delete', array('class' => 'btn btn-xs')) }}
+                                    <i class="glyphicon glyphicon-trash"></i>{{ Form::submit('Delete', array('class' => 'btn btn-xs delete_btns')) }}
                                 {{ Form::close() }}
 
                                 <table cellpadding="0" cellspacing="0" border="0" class=" table table-striped table-bordered">
@@ -128,7 +129,7 @@
                                             <a href="{{ URL::action('AdminEventsController@edit', array($event->id)) }}">Edit</a>
 
                                             {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminEventsController@destroy', $event->id))) }}
-                                                {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
+                                                {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger delete-btns')) }}
                                             {{ Form::close() }}
                                         </td>
                                     </tr>
@@ -157,5 +158,6 @@
     </div>
 </div>
 
-
 @stop
+@section('script')
+

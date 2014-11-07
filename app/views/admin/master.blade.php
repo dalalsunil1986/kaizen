@@ -30,6 +30,7 @@
 <div class="container-fluid ">
 
     @include('admin.partials.navigation')
+    @include('admin.partials.confirm')
     <!-- ./ navbar -->
 
     <!-- Notifications -->
@@ -65,6 +66,24 @@
 //        $('.wysihtml5').wysihtml5();
 //        $('.wysihtml5').Editor();
 //        nicEditors.allTextAreas();
+
+//        $('button[name="remove"]').on('click', function(e){
+//            var $form=$(this).closest('form');
+//            e.preventDefault();
+//            $('#confirm').modal({ backdrop: 'static', keyboard: false })
+//                .one('click', '#delete', function (e) {
+//                    $form.trigger('submit');
+//                });
+//        });
+        $('.delete-btns').on('click', function(e){
+            var $form=$(this).closest('form');
+                e.preventDefault();
+                $('#confirm').modal({ backdrop: 'static', keyboard: false })
+                    .one('click', '#delete', function (e) {
+                        $form.trigger('submit');
+                    }
+                );
+        });
         $(document).ready(function() {
             $('.datatable').dataTable({
                 "sPaginationType": "bs_four_button"

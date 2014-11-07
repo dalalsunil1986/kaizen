@@ -2,11 +2,14 @@
 
 use Acme\Core\LocaleTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use McCool\LaravelAutoPresenter\PresenterInterface;
 
 class EventModel extends BaseModel implements PresenterInterface {
 
     use LocaleTrait;
+
+    use SoftDeletingTrait;
 
     protected $guarded = ['id'];
 
