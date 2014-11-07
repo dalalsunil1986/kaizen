@@ -42,7 +42,7 @@
                                       <a href="{{ URL::action('AdminEventsController@getDetails',$event->id)}}" class="btn btn-default">Details</a>
                                       <a href="{{ URL::action('AdminSettingsController@edit',$event->setting->id)}}" class="btn btn-default">Settings</a>
                                       <a href="{{ URL::action('AdminSettingsController@getAddRoom', $event->setting->id) }}" class="btn btn-default">Online Room Number</a>
-                                      <a href="{{action('AdminEventsController@getSubscriptions',$event->id) }}" class="btn btn-default">{{ $subscriptions_count }} - Subscriptions</a>
+                                      <a href="{{action('AdminEventsController@getSubscriptions',$event->id) }}" class="btn btn-default">Subscriptions</a>
                                     </div>
                                 </td>
                                 <td> {{ $event->total_seats }}</td>
