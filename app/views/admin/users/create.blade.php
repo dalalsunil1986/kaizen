@@ -13,7 +13,7 @@
             <div class="row">
                 <label class="col-md-2 control-label" for="username">Name in Arabic</label>
                 <div class="col-md-10">
-                    {{ Form::text('name_ar',NULL,array('class' => 'form-control ','placeholder' => Lang::get('site.first_name'))) }}
+                    {{ Form::text('name_ar',NULL,array('class' => 'form-control ')) }}
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <div class="row">
                     <label class="col-md-2 control-label" for="username">Name in English</label>
                     <div class="col-md-10">
-                        {{ Form::text('name_en',NULL,array('class' => 'form-control ','placeholder' => Lang::get('site.last_name'))) }}
+                        {{ Form::text('name_en',NULL,array('class' => 'form-control ')) }}
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
             <div class="row">
                 <label class="col-md-2 control-label" for="username">Username</label>
                 <div class="col-md-10">
-                    {{ Form::text('username',NULL,array('class' => 'form-control ','placeholder' => Lang::get('site.username'))) }}
+                    {{ Form::text('username',NULL,array('class' => 'form-control ')) }}
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 <label class="col-md-2 control-label" for="email">Email</label>
                 <div class="col-md-10">
 
-                    {{ Form::text('email',NULL,array('class' => 'form-control ','placeholder' => Lang::get('site.email'))) }}
+                    {{ Form::text('email',NULL,array('class' => 'form-control ')) }}
 
                 </div>
             </div>
@@ -57,7 +57,7 @@
 
                 <label class="col-md-2 control-label" for="password">Password</label>
                 <div class="col-md-10">
-                    {{ Form::password('password',array('class' => 'form-control ','placeholder' => Lang::get('site.pass'))) }}
+                    {{ Form::password('password',array('class' => 'form-control ')) }}
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
 
                 <label class="col-md-2 control-label" for="password_confirmation">Password Confirm</label>
                 <div class="col-md-10">
-                    {{ Form::password('password_confirmation',array('class' => 'form-control ','placeholder' => Lang::get('site.pass_confirm'))) }}
+                    {{ Form::password('password_confirmation',array('class' => 'form-control ')) }}
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
             <div class="row">
                 <label class="col-md-2 control-label" for="mobile">Mobile</label>
                 <div class="col-md-10">
-                    {{ Form::text('mobile',NULL,array('class'=>'form-control ','placeholder'=> Lang::get('site.mobile'))) }}
+                    {{ Form::text('mobile',NULL,array('class'=>'form-control ')) }}
                 </div>
             </div>
         </div>
