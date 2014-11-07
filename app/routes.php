@@ -296,12 +296,19 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
 });
 
-//push queue worker
-Route::post('queue/mails',function(){
+/*********************************************************************************************************
+ * Iron Queue Workers
+ ********************************************************************************************************/
+Route::post('queue/iron',function(){
     return Queue::marshal();
 });
 
+/*********************************************************************************************************
+ * Test Routes
+ ********************************************************************************************************/
 Route::get('test',function() {
-    $user = User::with(['roles'])->find(1);
-
+    Mail::queue('emails.welcome', null, function($message)
+    {
+        $message->to('z4ls@live.com', 'Test Queue')->subject('this is a iron mq test queue msg!');
+    });
 });

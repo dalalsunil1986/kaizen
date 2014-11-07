@@ -12,7 +12,9 @@
         "barryvdh/laravel-dompdf": "dev-master",
         "paypal/rest-api-sdk-php": "dev-master",
         "geoip2/geoip2": "dev-master",
-        "ujjwal/currency-converter": "dev-master"
+        "ujjwal/currency-converter": "dev-master",
+        "iron-io/iron_mq": "1.5.2",
+        "guzzlehttp/guzzle": "~4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "1.4.*@dev",

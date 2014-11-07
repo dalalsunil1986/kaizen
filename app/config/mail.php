@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'Admin@Kaizen.com', 'name' => 'Kaizen'),
+	'from' => array('address' => 'noreply@kaizen.company', 'name' => trans('word.kaizen')),
 
 	/*
 	|--------------------------------------------------------------------------

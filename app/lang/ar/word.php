@@ -79,6 +79,7 @@ return [
     'subscriptions'         => 'حجزات',
     'followings'            => 'متابعات',
     'kaizenyc'              => 'كايزن YC',
+    'kaizen'              => 'كايزن',
     'comment_posted'        => 'تم نشر تعليق',
     'name_en'               => 'الاسم',
     'save'                  => 'حفظ',
