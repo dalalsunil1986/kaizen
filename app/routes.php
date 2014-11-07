@@ -307,7 +307,7 @@ Route::post('queue/iron',function(){
  * Test Routes
  ********************************************************************************************************/
 Route::get('test',function() {
-    Mail::queue('emails.welcome', null, function($message)
+    Mail::queue('emails.welcome', [], function($message)
     {
         $message->to('z4ls@live.com', 'Test Queue')->subject('this is a iron mq test queue msg!');
     });
