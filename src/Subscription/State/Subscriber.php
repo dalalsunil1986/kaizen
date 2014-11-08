@@ -74,12 +74,9 @@ class Subscriber {
         // Create Subscription method is available in all the classes that implements the SubscriberState Interface ( ex: ApprovedState )
         $this->subscriptionState->createSubscription();
 
-        if ( $this->messages->has('errors') ) {
-            return $this;
+        if ( ! $this->messages->has('errors') ) {
+            $this->notifyUser();
         }
-
-        // If no Errors
-        $this->notifyUser();
 
         return $this;
 

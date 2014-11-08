@@ -128,9 +128,6 @@ class PaymentsController extends BaseController {
             return Redirect::back()->with('info', trans('word.system_error'));
         }
 
-//        stub
-//        header("Location: http://localhost:8000/payment/final?t=18d852081b78d11dfb31744b62c6e67d&success=true&paymentId=PAY-0D169573GL1889143KRI65GA&token=EC-81G465939D677172H&PayerID=33D2575LNZS66");
-//        exit;
     }
 
     /**

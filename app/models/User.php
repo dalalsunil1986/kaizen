@@ -10,6 +10,8 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
 
     use HasRole;
 
+    use SoftDeletingTrait;
+
     protected $guarded = ['id', 'password_confirmation', 'remember_token', '_method', '_token'];
 
     protected $hidden = array('password');
