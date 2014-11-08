@@ -1,5 +1,6 @@
 <?php namespace Acme\Subscription\State;
 
+use App;
 use Event;
 use Illuminate\Support\MessageBag;
 use Subscription;
@@ -161,6 +162,7 @@ class Subscriber {
         // Merge User and Event Model
         $user = array_merge($user, ['title' => $event->title, 'event_id' => $event->id, 'status' => $this->model->status, 'token'=> array_shift($token)]);
         // Fire the Event ( this will also send email to the user )
+        if(App::environment() == 'local') return true;
         Event::fire('subscriptions.created', [$user]);
 
     }

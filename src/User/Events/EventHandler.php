@@ -60,17 +60,5 @@ class EventHandler extends AbstractMailer {
 
     }
 
-    private function sendPasswordResetMail(User $user)
-    {
-        $this->view = 'emails.auth.default';
-        $this->recepientEmail = $user->email;
-        $this->recepientName  = $user->name;
-        $this->subject        = 'Please Reset Your Email';
-        $user->body           = 'To Reset your Kuwaitii.com Password,<a href="' . action('AuthController@getReset', $user->confirmation_code) . '"> Click this link </a> ';
-
-        // Send Email
-        $this->fire($user->toArray());
-    }
-
 
 }
