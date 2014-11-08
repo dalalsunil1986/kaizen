@@ -119,6 +119,7 @@ return [
     'expired_events'        => 'الفعاليات السابقة',
     'view_all_expired_events'        => 'عرض جميع الفعاليات السابقة',
     'name' => 'الاسم',
-    'contact' => 'اتصل'
+    'contact' => 'اتصل',
+    'welcome_to_kaizen' => 'مرحبا بكم في كايزن',
 
 ];

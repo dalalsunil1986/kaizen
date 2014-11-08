@@ -1,7 +1,9 @@
 @extends('emails.layouts.default')
 @section('body')
-    <h2>Hello {{ $name }}, </h2>
+    <h2>{{trans('word.welcome_to_kaizen')}} {{ $name }}, </h2>
     <div>
-        Please Click <a href="{{ $link }}"> this link </a> to Activate your Account.
+        {{ trans('auth.account_confirmation.body') }}
+        <br>
+        <a href="{{$link}}">{{ $link }}</a>
     </div>
 @stop

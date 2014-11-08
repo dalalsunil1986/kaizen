@@ -15,7 +15,7 @@ return array(
     |
     */
 
-    'driver' => 'mandrill',
+    'driver' => 'smtp',
 
     /*
     |--------------------------------------------------------------------------
@@ -28,8 +28,8 @@ return array(
     |
     */
 
-    'host' => 'smtp.mandrillapp.com',
-//    'host' => 'smtp.gmail.com',
+//    'host' => 'smtp.mandrillapp.com',
+    'host' => 'smtp.gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -82,8 +82,8 @@ return array(
     */
 
 //    'username' => 'uusa35@gmail.com',
-//    'username' => 'zalszalz@gmail.com',
-    'username' => 'z4ls@live.com',
+    'username' => 'zalszalz@gmail.com',
+//    'username' => 'z4ls@live.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +97,7 @@ return array(
     */
 
 //    'password' => 'L1_wqYp_JFdpoGl5_Jxzcg',
-//    'password' => 'darkage07',
+    'password' => 'darkage07',
 
     /*
     |--------------------------------------------------------------------------

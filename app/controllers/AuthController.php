@@ -31,9 +31,9 @@ class AuthController extends BaseController {
         parent::__construct();
 
         // restrict authenticated users from pages except logout
-        $this->beforeFilter('noAuth', ['except'=> ['getLogout']]);
+        $this->beforeFilter('noAuth', ['except' => ['getLogout']]);
         $this->countryRepository = $countryRepository;
-        $this->userRepository = $userRepository;
+        $this->userRepository    = $userRepository;
     }
 
     public function getLogin()
@@ -48,7 +48,7 @@ class AuthController extends BaseController {
         $password = Input::get('password');
         $remember = Input::has('remember') ? true : false;
 
-        if ( ! Auth::attempt(array('email' => $email, 'password' => $password, 'active' => $remember), $remember) ) {
+        if ( !Auth::attempt(array('email' => $email, 'password' => $password, 'active' => $remember), $remember) ) {
 
             return Redirect::action('AuthController@getLogin')->with('error', trans('auth.alerts.wrong_credentials'));
         }
@@ -75,13 +75,13 @@ class AuthController extends BaseController {
         $val = $this->service->getRegistrationForm();
 
         // check if the form is valid
-        if ( ! $val->isValid() ) {
+        if ( !$val->isValid() ) {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
         // If Auth Sevice Fails to Register the User
-        if ( ! $this->service->register($val->getInputData()) ) {
+        if ( !$this->service->register($val->getInputData()) ) {
 
             return Redirect::home()->with('errors', $this->service->errors());
         }
@@ -107,13 +107,18 @@ class AuthController extends BaseController {
      */
     public function postForgot()
     {
-        switch ( $response = Password::remind(Input::only('email')) ) {
+        $response = Password::remind(Input::only('email'), function ($message) {
+            $message->subject(trans('auth.reset.title'));
+
+        });
+        switch ( $response ) {
             case Password::INVALID_USER:
                 return Redirect::back()->with('error', trans('auth.alerts.invalid_user'));
 
             case Password::REMINDER_SENT:
-                return Redirect::back()->with('success', trans('auth.alerts.reminders_sent'));
+                return Redirect::action('AuthController@getLogin')->with('success', trans('auth.alerts.reminders_sent'));
         }
+
     }
 
     /**
@@ -145,7 +150,7 @@ class AuthController extends BaseController {
         $val = $this->userRepository->getPasswordResetForm();
 
         // check if the form is valid
-        if ( ! $val->isValid() ) {
+        if ( !$val->isValid() ) {
 
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
@@ -166,6 +171,7 @@ class AuthController extends BaseController {
 
         }
     }
+
     /**
      * Logout a User
      */
@@ -185,10 +191,11 @@ class AuthController extends BaseController {
     public function activate($token)
     {
         // If not activated ( errors )
-        if (! $this->service->activateUser($token) ) {
+        if ( !$this->service->activateUser($token) ) {
 
             return Redirect::home()->with('errors', $this->service->errors());
         }
+
         // redirect to home with active message
         return Redirect::action('AuthController@getLogin')->with('success', trans('auth.alerts.account_activated'));
 

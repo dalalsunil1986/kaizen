@@ -32,11 +32,11 @@ class EventHandler extends AbstractMailer {
 
         if ( $user['active'] == 1 ) {
             // When user gets activated
-            $this->subject        = 'Welcome to Kaizen.company ';
-            $user['body'] = 'Your Account has been created in Kaizen.company with email ' . $user['email'] . ' .You can <a href="' . action('AuthController@getLogin') . '">click here to login.</a>';
+            $this->subject        = trans('word.welcome_to_kaizen');
+            $user['body'] = trans('auth.account_activated.body') . ' '. $user['email'] . '<br>'.trans('auth.account_activated.click_here_to_login').'<a href="' . action('AuthController@getLogin') . '"> '.action('AuthController@getLogin').' </a>';
         } else {
-            $this->subject        = 'Please Activate Your Email';
-            $user['body'] = 'To activate your Kaizen Account,<a href="' . action('AuthController@activate', $user['confirmation_code']) . '"> Click this link </a> ';
+            $this->subject        = trans('auth.account_confirmation.subject');
+            $user['body'] =  trans('auth.account_confirmation.body').'<br><a href="' . action('AuthController@activate', $user['confirmation_code']) . '"> '.action('AuthController@activate', $user['confirmation_code']).' </a>' ;
         }
 
         // Send Email
@@ -71,4 +71,6 @@ class EventHandler extends AbstractMailer {
         // Send Email
         $this->fire($user->toArray());
     }
+
+
 }
