@@ -40,7 +40,6 @@ class Subscriber extends BaseSubscriber {
         $status                  = strtolower($status);
         $this->subscriptionState = $this->{$status};
         $this->reason            = $reason;
-
     }
 
 

@@ -1,5 +1,5 @@
 <?php namespace Acme\Core\Exceptions;
 
-class NoValidationRulesFoundException extends \Exception {
+class InvalidClassPropertyException extends \Exception {
 
 }

@@ -67,7 +67,7 @@ class SubscriptionsController extends BaseController {
         // If no subscription entry in the database
         if ( !$subscription ) {
             // create a subscription
-            $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => '', 'registration_type' => $registrationType]);
+            $subscription = $this->subscriptionRepository->create(['user_id' => $userId, 'event_id' => $eventId, 'status' => 'PENDING', 'registration_type' => $registrationType]);
         }
 
         // Subscribe the user to the event

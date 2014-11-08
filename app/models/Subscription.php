@@ -55,7 +55,6 @@ class Subscription extends BaseModel {
     public function hasSubscribed($userId)
     {
         if($this->contains($userId)) {
-            dd('yes');
         }
         return $this->status != 'CANCELLED' ? true : false;
     }

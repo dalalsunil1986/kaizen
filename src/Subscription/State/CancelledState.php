@@ -39,6 +39,7 @@ class CancelledState extends AbstractState implements SubscriberState {
 
         // update available seats .. find the function in EventModel
         $this->subscriber->model->event->updateAvailableSeats();
+        $this->subscriber->model->delete();
         return $this;
     }
 

@@ -1,5 +1,6 @@
 <?php namespace Acme\Subscription\State;
 
+use Acme\Core\Exceptions\InvalidClassPropertyException;
 use App;
 use Event;
 use Illuminate\Support\MessageBag;
@@ -28,22 +29,21 @@ class Subscriber {
         $this->messages  = new MessageBag();
         $this->approved  = new ApprovedState($this);
         $this->payment   = new PaymentState($this);
-        $this->cancelled   = new CancelledState($this);
+        $this->cancelled = new CancelledState($this);
 
         $this->model = $subscription;
 
-        if ( empty($this->model->status) ) {
-            // If the status is empty, Start with Pending State
-            $this->subscriptionState = $this->pending;
-            $this->messages->add('status', 'pending');
-        } else {
-            // If the Status is not empty, Asssign the respective status that is retrieved from the database
-            $status                  = strtolower($this->model->status);
-            $this->subscriptionState = $this->{$status};
+        // If the Status is not empty, Asssign the respective status that is retrieved from the database
+        $status = strtolower($this->model->status);
 
-            // add the current status to the Message Bag  ( stores the value of status in the session )
-            $this->messages->add('status', $status);
+        if ( !(property_exists($this, $status)) ) {
+            throw new InvalidClassPropertyException;
         }
+
+        $this->subscriptionState = $this->{$status};
+
+        // add the current status to the Message Bag  ( stores the value of status in the session )
+        $this->messages->add('status', $status);
     }
 
     /**
@@ -91,6 +91,7 @@ class Subscriber {
     public function unsubscribe()
     {
         $this->subscriptionState->cancelSubscription();
+
         return $this;
     }
 
@@ -152,7 +153,7 @@ class Subscriber {
 
     public function notifyUser()
     {
-// Pass the User and Event Model, and Merge both into one array and pass it to the Event Fired
+        // Pass the User and Event Model, and Merge both into one array and pass it to the Event Fired
         $user  = $this->model->user->toArray();
         $event = $this->model->event;
 
@@ -160,9 +161,9 @@ class Subscriber {
         $token = $this->messages->has('token') ? $this->messages->get('token') : [''];
 
         // Merge User and Event Model
-        $user = array_merge($user, ['title' => $event->title, 'event_id' => $event->id, 'status' => $this->model->status, 'token'=> array_shift($token)]);
+        $user = array_merge($user, ['title' => $event->title, 'event_id' => $event->id, 'status' => $this->model->status, 'token' => array_shift($token)]);
         // Fire the Event ( this will also send email to the user )
-        if(App::environment() == 'local') return true;
+        if ( App::environment() == 'local' ) return true;
         Event::fire('subscriptions.created', [$user]);
 
     }
