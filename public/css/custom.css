@@ -683,3 +683,7 @@ span.tag:after {
 .carousel-mobile img {
     height:auto;
 }
+
+.country-name {
+    padding:0 10px;
+}
