@@ -21,6 +21,7 @@ class CancelledState extends AbstractState implements SubscriberState {
 
     public function cancelSubscription()
     {
+
         $this->subscriber->model->status = 'CANCELLED';
         $this->subscriber->model->save();
 
@@ -37,7 +38,13 @@ class CancelledState extends AbstractState implements SubscriberState {
 
         }
 
-        // update available seats .. find the function in EventModel
+        // If user has more than one tokens , set the token to null
+        foreach ( $this->subscriber->model->payments as $payment ) {
+            $payment->token = '';
+            $payment->save();
+        }
+
+        // update available seats ..
         $this->subscriber->model->event->updateAvailableSeats();
         $this->subscriber->model->delete();
         return $this;

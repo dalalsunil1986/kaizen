@@ -1,6 +1,10 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
+
 class Refund extends BaseModel {
+
+    use SoftDeletingTrait;
 
     protected $guarded = ['id'];
 

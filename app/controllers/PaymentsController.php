@@ -53,6 +53,7 @@ class PaymentsController extends BaseController {
      */
     public function getPayment($id)
     {
+        $user  = Auth::user();
         $event = $this->eventRepository->findById($id);
 
         if ( $this->eventRepository->eventExpired($event->date_start) ) {
@@ -90,8 +91,8 @@ class PaymentsController extends BaseController {
 
         $paymentRepo->currency = $this->defaultCurrency;
 
-        $description = 'Total: '.$convertedPrice .' '.$this->defaultCurrency.'. ';
-        $description .= Str::limit(strip_tags($event->description),50,'..');
+        $description = 'Total: ' . $convertedPrice . ' ' . $this->defaultCurrency . '. ';
+        $description .= Str::limit(strip_tags($event->description), 50, '..');
 
         $baseUrl = App::make('url')->action('PaymentsController@getFinal') . '?t=' . $token;
 
@@ -104,7 +105,7 @@ class PaymentsController extends BaseController {
             // Make Payment
             $payment = $payer->makePayment($paymentRepo->amount, 'USD', $description, "$baseUrl&success=true", "$baseUrl&success=false", $item);
 
-            $paymentRepo->status ='CREATED';
+            $paymentRepo->status = 'CREATED';
 
             $paymentRepo->transaction_id = $payment->getId();
 

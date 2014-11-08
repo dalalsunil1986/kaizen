@@ -1,11 +1,14 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
+
 class Payment extends BaseModel {
+
+    use SoftDeletingTrait;
 
     protected $guarded = ['id'];
 
     protected $table = "payments";
-
 
 
     public function refunds()

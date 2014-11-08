@@ -101,8 +101,6 @@ class EventsController extends BaseController {
             $events = $this->eventRepository->getEvents($perPage);
         }
 
-        $expiredEvents = $expiredEvents;
-
         $eventCategories = $this->categoryRepository->getEventCategories()->get();
 
         $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories','expiredEvents'));
