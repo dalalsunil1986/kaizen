@@ -90,7 +90,7 @@ class PaymentsController extends BaseController {
 
         $paymentRepo->currency = $this->defaultCurrency;
 
-        $description = Str::limit($event->description,100,'..');
+        $description = Str::limit(strip_tags($event->description),50,'..');
 
         $baseUrl = App::make('url')->action('PaymentsController@getFinal') . '?t=' . $token;
 
