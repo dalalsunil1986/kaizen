@@ -8,4 +8,5 @@ class AbstractState {
         return $this->subscriber->setUnSubscriptionState($this->subscriber->getCancelledState());
     }
 
+
 } 

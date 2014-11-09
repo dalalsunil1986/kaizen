@@ -441,16 +441,22 @@ class EventsController extends BaseController {
         $user  = Auth::user();
         $event = $this->eventRepository->findById($id);
 
+        // check if this event has online streaming
+        if ( !$this->isOnlineEvent($event) ) {
+
+            return Redirect::action('EventsController@index')->with('error', trans('general.event_no_stream'));
+        }
+
         // if event is currently going on
         if ( !$this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
 
             return Redirect::action('EventsController@show', $id)->with('warning', trans('general.wrong_event_stream_time'));
         }
 
-        // check if this event has online streaming
-        if ( !$this->isOnlineEvent($event) ) {
+        // If event is Expired
+        if ( $this->eventRepository->eventExpired($event->date_start) ) {
 
-            return Redirect::action('EventsController@index')->with('error', trans('general.event_no_stream'));
+            return Redirect::action('EventsController@show', $id)->with('warning', trans('word.event_expired'));
         }
 
         // check whether this user subscribed for this and confirmed

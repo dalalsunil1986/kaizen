@@ -15,6 +15,7 @@ class WaitingState extends AbstractState implements SubscriberState {
         $this->subscriber->messages->add('errors', 'Sorry, Seats are full. Subscription have been put on waiting list');
         $this->subscriber->model->status = 'WAITING';
         $this->subscriber->model->save();
+        return $this;
     }
 
 }

@@ -18,6 +18,10 @@ class RejectedState extends AbstractState implements SubscriberState {
     {
         $this->subscriber->model->status = 'REJECTED';
         $this->subscriber->model->save();
+
+        $processUnsubscription = $this->subscriber->getCancelledState();
+        $processUnsubscription->processUnsubscription();
+
         return $this;
     }
 

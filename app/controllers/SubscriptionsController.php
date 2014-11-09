@@ -52,17 +52,19 @@ class SubscriptionsController extends BaseController {
             return Redirect::action('EventsController@show', $eventId)->with('warning', trans('word.system_error'));
         }
 
+        // if event is currently going on
+        if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
+
+            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('general.event_ongoing'));
+        }
+
         // If event is Expired
         if ( $this->eventRepository->eventExpired($event->date_start) ) {
 
             return Redirect::action('EventsController@show', $eventId)->with('warning', trans('word.event_expired'));
         }
 
-        // if event is currently going on
-        if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
 
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('general.event_ongoing'));
-        }
 
         // If no subscription entry in the database
         if ( !$subscription ) {

@@ -19,34 +19,55 @@ class CancelledState extends AbstractState implements SubscriberState {
         return $this;
     }
 
+    /**
+     * @return $this
+     * Cancel the Subscription
+     */
     public function cancelSubscription()
     {
         $this->subscriber->model->status = 'CANCELLED';
         $this->subscriber->model->save();
 
-        if ( !$this->subscriber->model->event->isFreeEvent() ) {
+        $this->processUnsubscription();
 
-            if ( $payment = $this->subscriber->model->paymentSuccess ) {
-                // make the refund value
-                $payment->status = 'REFUNDING';
+        $this->subscriber->model->delete();
 
-                $payment->save();
-                // Create a Refund
-                $payment->refunds()->create(['user_id' => Auth::user()->id, 'status' => 'PENDING']);
-            }
+        return $this;
+    }
 
-        }
+    public function processUnsubscription()
+    {
+        $this->processPayment();
 
+        // Set Payment Token to Null
+        $this->setPaymentTokenToNull();
+
+        // update available seats ..
+        $this->subscriber->model->event->updateAvailableSeats();
+    }
+
+    public function setPaymentTokenToNull()
+    {
         // If user has more than one tokens , set the token to null
         foreach ( $this->subscriber->model->payments as $payment ) {
             $payment->token = '';
             $payment->save();
         }
+    }
 
-        // update available seats ..
-        $this->subscriber->model->event->updateAvailableSeats();
-        $this->subscriber->model->delete();
-        return $this;
+    public function processPayment()
+    {
+        // If has a confirmed payment
+        if ( $payment = $this->subscriber->model->paymentSuccess ) {
+            // make the refund value
+            $payment->status = 'REFUNDING';
+
+            $payment->save();
+
+            // Create a Refund
+            $payment->refunds()->create(['user_id' => Auth::user()->id, 'status' => 'PENDING']);
+        }
+
     }
 
 }
