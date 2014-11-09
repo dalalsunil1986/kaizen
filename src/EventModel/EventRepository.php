@@ -23,7 +23,7 @@ class EventRepository extends AbstractRepository {
         $currentTime = Carbon::now()->toDateTimeString();
 
         return $this->model->with($with)//->where('date_start', '>', $currentTime)
-            ;
+        ;
 
     }
 
@@ -37,6 +37,7 @@ class EventRepository extends AbstractRepository {
     {
         return $this->getAll()
             ->where('date_start','>',Carbon::now())
+            ->where('date_end','>',Carbon::now())
             ->orderBy('date_start', 'ASC')
             ->orderBy('created_at', 'DESC')
             ->paginate($perPage);

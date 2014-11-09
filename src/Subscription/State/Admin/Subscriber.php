@@ -3,7 +3,6 @@
 use Acme\Subscription\State\CancelledState;
 use Acme\Subscription\State\ConfirmedState;
 use Acme\Subscription\State\PendingState;
-use Acme\Subscription\State\RejectedState;
 use Acme\Subscription\State\Subscriber as BaseSubscriber;
 use Acme\Subscription\State\WaitingState;
 use Illuminate\Support\MessageBag;
@@ -40,6 +39,10 @@ class Subscriber extends BaseSubscriber {
         $status                  = strtolower($status);
         $this->subscriptionState = $this->{$status};
         $this->reason            = $reason;
+
+        if ( !empty(strip_tags($this->reason)) ) {
+            $this->messages->add('reason', $reason);
+        }
     }
 
 

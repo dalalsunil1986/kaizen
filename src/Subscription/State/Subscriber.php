@@ -74,12 +74,11 @@ class Subscriber {
         // Create Subscription method is available in all the classes that implements the SubscriberState Interface ( ex: ApprovedState )
         $this->subscriptionState->createSubscription();
 
-        if ( ! $this->messages->has('errors') ) {
+        if ( !$this->messages->has('errors') ) {
             $this->notifyUser();
         }
 
         return $this;
-
     }
 
     /**
@@ -155,10 +154,11 @@ class Subscriber {
         $event = $this->model->event;
 
         // payment token;
-        $token = $this->messages->has('token') ? $this->messages->get('token') : [''];
+        $token  = $this->messages->has('token') ? $this->messages->get('token') : [''];
+        $reason = $this->messages->has('reason') ? $this->messages->get('reason') : [''];
 
         // Merge User and Event Model
-        $user = array_merge($user, ['title' => $event->title, 'event_id' => $event->id, 'status' => $this->model->status, 'token' => array_shift($token)]);
+        $user = array_merge($user, ['title' => $event->title, 'event_id' => $event->id, 'status' => $this->model->status, 'token' => array_shift($token), 'reason' => array_shift($reason)]);
         // Fire the Event ( this will also send email to the user )
         if ( App::environment() == 'local' ) return true;
         Event::fire('subscriptions.created', [$user]);

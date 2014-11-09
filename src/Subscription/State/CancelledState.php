@@ -21,7 +21,6 @@ class CancelledState extends AbstractState implements SubscriberState {
 
     public function cancelSubscription()
     {
-
         $this->subscriber->model->status = 'CANCELLED';
         $this->subscriber->model->save();
 
