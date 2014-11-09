@@ -228,6 +228,7 @@ class AdminEventsController extends AdminBaseController {
         $event = $this->eventRepository->findById($id);
         $favorites = $event->favorites;
         $array = array_merge(['subscribers'=>$favorites->toArray()],Input::all());
+
         try {
             Event::fire('events.mail-subscribers',[$array]);
         }
@@ -252,21 +253,23 @@ class AdminEventsController extends AdminBaseController {
         $status = Input::get('status');
 
         $event = $this->eventRepository->findById($id);
-        $subscribers = $event->subscriptions()->ofStatus('CONFIRMED')->get();
 
-        if ( isset($status) ) {
-            $subscribers = $event->subscribers()->ofStatus(strtoupper($status))->get();
+        if ( isset($status) && !(empty($status)) ) {
+            $subscribers = $event->subscribers()->ofStatus(strtoupper($status))->get()->toArray();
         } else {
-            $subscribers = $event->subscribers;
+            $subscribers = $event->subscribers->toArray();
         }
-        $array = array_merge(['subscribers'=>$subscribers->toArray()],Input::all());
+        if(count($subscribers) >= 1) {
+            $array = array_merge(['subscribers'=>$subscribers],Input::all());
 
-        try {
-            Event::fire('events.mail-subscribers',[$array]);
-        }
+            try {
+                Event::fire('events.mail-subscribers',[$array]);
+            }
 
-        catch ( \Exception $e ) {
-            return Redirect::back()->with('error', 'Email Could not send');
+            catch ( \Exception $e ) {
+                return Redirect::back()->with('error', 'Email Could not send');
+            }
+
         }
 
         return Redirect::action('AdminEventsController@getSubscriptions',$event->id)->with('success', 'Email Sent');

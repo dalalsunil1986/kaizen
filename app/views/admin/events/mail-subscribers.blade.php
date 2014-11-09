@@ -12,6 +12,8 @@
                 <h4 class="panel-title" id="contactLabel"><span class="glyphicon glyphicon-info-sign"></span> Send Email For Subscribers.</h4>
             </div>
             {{ Form::open(array('method' => 'POST', 'action' => array('AdminEventsController@postMailSubscribers',$event->id), 'role'=>'form')) }}
+
+                {{ Form::hidden('status',Input::get('status'))}}
                 <div class="modal-body" style="padding: 5px;">
 
                     <div class="row">
