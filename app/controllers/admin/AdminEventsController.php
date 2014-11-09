@@ -248,8 +248,17 @@ class AdminEventsController extends AdminBaseController {
 
     public function postMailSubscribers($id)
     {
+
+        $status = Input::get('status');
+
         $event = $this->eventRepository->findById($id);
-        $subscribers = $event->subscribers;
+        $subscribers = $event->subscriptions()->ofStatus('CONFIRMED')->get();
+
+        if ( isset($status) ) {
+            $subscribers = $event->subscribers()->ofStatus(strtoupper($status))->get();
+        } else {
+            $subscribers = $event->subscribers;
+        }
         $array = array_merge(['subscribers'=>$subscribers->toArray()],Input::all());
 
         try {

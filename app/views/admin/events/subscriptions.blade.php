@@ -5,16 +5,24 @@
 <h1>Subscriptions For {{ $event->title }}</h1>
 <p>{{ link_to_action('AdminEventsController@create', 'Add new event') }}</p>
 
-@if(count($subscriptions))
-<h3>Total {{count($subscriptions) }} {{ isset($_GET['status']) ? strtoupper($_GET['status']) : '' }} Subscriptions</h3>
 
-@endif
 <div class="row ">
     <div class="col-md-12 ">
 
-        <a class="btn btn-default " href="{{action('AdminEventsController@getMailSubscribers',$event->id)}}">
-            Notify Subscribers
-        </a>
+        @if(count($subscriptions))
+            <h3>Total {{count($subscriptions) }} {{ isset($_GET['status']) ? strtoupper($_GET['status']) : '' }} Subscriptions</h3>
+            @if(isset($_GET['status']))
+                <a class="btn btn-default " href="{{action('AdminEventsController@getMailSubscribers',[$event->id,'status'=>$_GET['status']])}}">
+                    Notify {{$_GET['status']}} Subscribers
+                </a>
+            @else
+                <a class="btn btn-default " href="{{action('AdminEventsController@getMailSubscribers',[$event->id])}}">
+                    Notify Subscribers
+                </a>
+            @endif
+        @else
+            <div class="info"><h3> No {{ isset($_GET['status']) ? strtoupper($_GET['status']) : '' }} Subscriptions  Yet </h3></div>
+        @endif
 
         <!-- Tab panes -->
         <div class="tab-content faq-cat-content" style="margin-top:20px;">
