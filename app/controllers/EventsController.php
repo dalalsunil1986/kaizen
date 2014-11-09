@@ -87,7 +87,6 @@ class EventsController extends BaseController {
                         $query->whereIn('location_id', $locations);
                     }
                 })
-                ->where('date_start', '>', Carbon::now())
                 ->orderBy('date_start', 'ASC')
                 ->orderBy('created_at', 'DESC')
                 ->paginate($perPage);
@@ -97,8 +96,7 @@ class EventsController extends BaseController {
             $this->title = trans('word.expired_events');
             $events      = $expiredEvents;
         } else {
-
-            $events = $this->eventRepository->getEvents($perPage);
+            $events = $this->eventRepository->getNonExpiredEvents($perPage);
         }
 
         $eventCategories = $this->categoryRepository->getEventCategories()->get();
@@ -335,6 +333,7 @@ class EventsController extends BaseController {
         // find available registration option types
         $setting = $event->setting;
 
+
         if ( is_null($setting) ) {
 
             // if not setting for the event found, just redirect
@@ -493,12 +492,11 @@ class EventsController extends BaseController {
 
             // Find the user id
             $userTypeId = $event->isAuthor($user->id) ? 1000 : 0;
-
             // user date to pass to streaming server
             $data = [
                 'token'        => urlencode($token),
                 'cid'          => $cid,
-                'roomid'       => '22352', //todo : change with database room name $setting->online_room_no
+                'roomid'       => $event->setting->online_room_id, //todo : change with database room name $setting->online_room_no
                 'usertypeid'   => $userTypeId,
                 'gender'       => $user->gender,
                 'firstname'    => $user->username,

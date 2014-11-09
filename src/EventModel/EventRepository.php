@@ -20,11 +20,7 @@ class EventRepository extends AbstractRepository {
 
     public function getAll($with = [])
     {
-        $currentTime = Carbon::now()->toDateTimeString();
-
-        return $this->model->with($with)//->where('date_start', '>', $currentTime)
-        ;
-
+        return $this->model->with($with);
     }
 
     /**
@@ -33,11 +29,11 @@ class EventRepository extends AbstractRepository {
      * @return mixed
      *
      */
-    public function getEvents($perPage = 10)
+    public function getNonExpiredEvents($perPage = 10)
     {
         return $this->getAll()
-            ->where('date_start','>',Carbon::now())
-            ->where('date_end','>',Carbon::now())
+            ->where('date_start','>',Carbon::now()->subDay())
+            ->where('date_end','>',Carbon::now()->addDay())
             ->orderBy('date_start', 'ASC')
             ->orderBy('created_at', 'DESC')
             ->paginate($perPage);

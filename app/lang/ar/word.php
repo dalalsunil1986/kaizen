@@ -121,5 +121,7 @@ return [
     'name' => 'الاسم',
     'contact' => 'اتصل',
     'welcome_to_kaizen' => 'مرحبا بكم في كايزن',
+    'price' => 'السعر',
+    'free_event' => ' الفعالية مجاني'
 
 ];

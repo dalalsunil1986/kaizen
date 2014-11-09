@@ -10,7 +10,7 @@ class OnlineRoomForm extends AbstractValidator {
      * @var array
      */
     protected $rules = array(
-        'online_room_no' => 'required | integer'
+        'online_room_id' => 'required | integer'
     );
 
     /**
@@ -20,9 +20,7 @@ class OnlineRoomForm extends AbstractValidator {
      */
     public function getInputData()
     {
-        return array_only($this->inputData, [
-            'online_room_no'
-        ]);
+        return array_only($this->inputData, ['online_room_id']);
     }
 
 }

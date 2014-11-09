@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="col-md-12">
-                           <p> <h3 class="text-center">Price {{ $setting->convertVipPrice }} </h3></p>
+                           <p> <h3 class="text-center"> {{ $event->isFreeEvent() ? trans('word.free_event') : trans('word.price') . ' ' . $setting->convertVipPrice }} </h3></p>
                         </div>
                     @endif
 
@@ -88,7 +88,7 @@
                         </div>
 
                         <div class="col-md-12">
-                           <p> <h3 class="text-center">Price {{ $setting->convertOnlinePrice }} </h3></p>
+                           <p> <h3 class="text-center">{{ $event->isFreeEvent() ? trans('word.free_event') : trans('word.price') . ' ' . $setting->convertOnlinePrice }} </h3></p>
                         </div>
                     @endif
 
@@ -130,17 +130,18 @@
                          </div>
 
                          <div class="col-md-12">
-                            <p> <h3 class="text-center">Price {{ $event->convertPrice }} </h3></p>
+
+                            <p> <h3 class="text-center">{{ $event->isFreeEvent() ? trans('word.free_event') : trans('word.price') . ' ' . $event->convertPrice }} </h3></p>
                          </div>
 
                      @endif
 
                      <span class="col-md-12 lower-panel">
-                            {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
-                                {{ Form::hidden('event_id',$event->id) }}
-                                {{ Form::hidden('registration_type','NORMAL') }}
-                                {{ Form::submit( trans('word.subscribe') , ['class'=>'btn btn-default btn-block']) }}
-                            {{ Form::close() }}
+                        {{ Form::open(['action' => 'SubscriptionsController@subscribe', 'method' => 'post'], ['class'=>'form']) }}
+                            {{ Form::hidden('event_id',$event->id) }}
+                            {{ Form::hidden('registration_type','NORMAL') }}
+                            {{ Form::submit( trans('word.subscribe') , ['class'=>'btn btn-default btn-block']) }}
+                        {{ Form::close() }}
                      </span>
 
                  </div>
