@@ -345,7 +345,7 @@ class AdminEventsController extends AdminBaseController {
         if ( !isset($type) ) {
             $type = 'event';
         }
-        $event         = $this->eventRepository->findById($id);
+        $event = $this->eventRepository->findById($id);
 
         if ( isset($status) ) {
             $subscriptions = $event->subscriptions()->ofStatus(strtoupper($status))->get();
