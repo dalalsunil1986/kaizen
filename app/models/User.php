@@ -8,9 +8,7 @@ use Zizaco\Entrust\HasRole;
 
 class User extends BaseModel implements UserInterface, RemindableInterface, PresenterInterface {
 
-    use HasRole;
-
-    use SoftDeletingTrait;
+    use HasRole;    
 
     protected $guarded = ['id', 'password_confirmation', 'remember_token', '_method', '_token'];
 
