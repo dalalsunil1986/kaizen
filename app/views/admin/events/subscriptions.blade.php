@@ -12,6 +12,10 @@
 <div class="row ">
     <div class="col-md-12 ">
 
+        <a class="btn btn-default " href="{{action('AdminEventsController@getMailSubscribers',$event->id)}}">
+            Notify Subscribers
+        </a>
+
         <!-- Tab panes -->
         <div class="tab-content faq-cat-content" style="margin-top:20px;">
             <div class="tab-pane active in fade " id="event-tab">

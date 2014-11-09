@@ -194,11 +194,17 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::get('event/{id}/location', 'AdminEventsController@getLocation');
 
-    Route::post('event/{id}/mailFollowers', 'AdminEventsController@mailFollowers');
+    Route::get('event/{id}/mail-followers', 'AdminEventsController@getMailFollowers');
 
-    Route::post('event/{id}/mailSubscribers', 'AdminEventsController@mailSubscribers');
+    Route::post('event/{id}/mail-followers', 'AdminEventsController@postMailFollowers');
 
-    Route::post('event/{id}/mailFavorites', 'AdminEventsController@mailFavorites');
+    Route::get('event/{id}/mail-subscribers', 'AdminEventsController@getMailSubscribers');
+
+    Route::post('event/{id}/mail-subscribers', 'AdminEventsController@postMailSubscribers');
+
+    Route::get('event/{id}/mail-favorites', 'AdminEventsController@getMailFavorites');
+
+    Route::post('event/{id}/mail-favorites', 'AdminEventsController@postMailFavorites');
 
     Route::get('event/{id}/location', 'AdminEventsController@getLocation');
 

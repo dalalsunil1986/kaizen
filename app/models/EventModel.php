@@ -180,7 +180,7 @@ class EventModel extends BaseModel implements PresenterInterface {
     public function getConfirmedUsers()
     {
         return $this->whereHas('subscriptions', function ($q) {
-            $q->where('status', '=', 'CONFIRMED');
+            $q->where('subscriptions.status', '=', 'CONFIRMED');
         })->get();
     }
 

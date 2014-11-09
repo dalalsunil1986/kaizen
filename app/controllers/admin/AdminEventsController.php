@@ -15,7 +15,6 @@ class AdminEventsController extends AdminBaseController {
 
     protected $eventRepository;
     protected $user;
-    protected $mailer;
     protected $category;
     protected $photo;
     protected $photoRepository;
@@ -196,44 +195,72 @@ class AdminEventsController extends AdminBaseController {
      * @return statement
      * Send Notification Email for the Event Followers
      */
-
-    public function mailFollowers($id)
+    public function getMailFollowers($id)
     {
-        $event = $this->eventRepository->findById($id)->followers;
-        try {
-            $this->mailer->sendMail($event, Input::all());
-        }
-        catch ( \Exception $e ) {
-            return Redirect::back()->with('error', 'Email Could not send');
-        }
-
-        return Redirect::back()->with('success', 'Email Sent');
+        $event = $this->eventRepository->findById($id);
+        $this->render('admin.events.mail-followers',compact('event'));
     }
 
-    public function mailFavorites($id)
+    public function postMailFollowers($id)
     {
-        $event = $this->eventRepository->findById($id)->favorites;
+        $event = $this->eventRepository->findById($id);
+        $followers = $event->followers;
+        $array = array_merge(['subscribers'=>$followers->toArray()],Input::all());
         try {
-            $this->mailer->sendMail($event, Input::all());
+            Event::fire('events.mail-subscribers',[$array]);
         }
+
         catch ( \Exception $e ) {
             return Redirect::back()->with('error', 'Email Could not send');
         }
 
-        return Redirect::back()->with('success', 'Email Sent');
+        return Redirect::action('AdminEventsController@getFollowers',$event->id)->with('success', 'Email Sent');
     }
 
-    public function mailSubscribers($id)
+    public function getMailFavorites($id)
     {
-        $event = $this->eventRepository->findById($id)->subscribers;
+        $event = $this->eventRepository->findById($id);
+        $this->render('admin.events.mail-favorites',compact('event'));
+    }
+
+    public function postMailFavorites($id)
+    {
+        $event = $this->eventRepository->findById($id);
+        $favorites = $event->favorites;
+        $array = array_merge(['subscribers'=>$favorites->toArray()],Input::all());
         try {
-            $this->mailer->sendMail($event, Input::all());
+            Event::fire('events.mail-subscribers',[$array]);
         }
+
         catch ( \Exception $e ) {
             return Redirect::back()->with('error', 'Email Could not send');
         }
 
-        return Redirect::back()->with('success', 'Email Sent');
+        return Redirect::action('AdminEventsController@getFavorites',$event->id)->with('success', 'Email Sent');
+    }
+
+
+    public function getMailSubscribers($id)
+    {
+        $event = $this->eventRepository->findById($id);
+        $this->render('admin.events.mail-subscribers',compact('event'));
+    }
+
+    public function postMailSubscribers($id)
+    {
+        $event = $this->eventRepository->findById($id);
+        $subscribers = $event->subscribers;
+        $array = array_merge(['subscribers'=>$subscribers->toArray()],Input::all());
+
+        try {
+            Event::fire('events.mail-subscribers',[$array]);
+        }
+
+        catch ( \Exception $e ) {
+            return Redirect::back()->with('error', 'Email Could not send');
+        }
+
+        return Redirect::action('AdminEventsController@getSubscriptions',$event->id)->with('success', 'Email Sent');
     }
 
     public function getSettings($id)
@@ -305,7 +332,6 @@ class AdminEventsController extends AdminBaseController {
         if ( !isset($type) ) {
             $type = 'event';
         }
-
         $event = $this->eventRepository->findById($id);
         $subscriptions = $event->subscriptions()->ofStatus('CONFIRMED')->get();
 
