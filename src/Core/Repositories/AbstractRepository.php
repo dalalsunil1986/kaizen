@@ -67,10 +67,11 @@ abstract class AbstractRepository {
         if ( isset($with) && (! empty($with)) ) {
             if ( ! is_array($with) ) throw new InvalidArgumentException;
 
-            return $this->model->with($with)->latest()->get();
+
+            return $this->model->with($with)->get();
         }
 
-        return $this->model->latest();
+        return $this->model->all();
     }
 
     public function getAllPaginated($with = [], $perPage = 10)
@@ -277,6 +278,6 @@ abstract class AbstractRepository {
 
     public function getAllByStatus($status, $array)
     {
-        return $this->model->ofStatus($status)->with($array)->latest()->get();
+        return $this->model->ofStatus($status)->with($array)->get();
     }
 }
