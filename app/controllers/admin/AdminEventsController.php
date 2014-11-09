@@ -254,7 +254,6 @@ class AdminEventsController extends AdminBaseController {
 
     public function postMailSubscribers($id)
     {
-
         $status = Input::get('status');
 
         $event = $this->eventRepository->findById($id);
