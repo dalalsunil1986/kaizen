@@ -59,7 +59,7 @@ class AdminEventsController extends AdminBaseController {
 
     public function index()
     {
-        $events   = $this->eventRepository->getAll(array('category', 'location.country','setting'))->paginate(10);
+        $events   = $this->eventRepository->getAll(array('category', 'location.country', 'setting'))->paginate(10);
         $packages = $this->packageRepository->getAll();
         $this->render('admin.events.index', compact('events', 'packages'));
     }
@@ -74,8 +74,8 @@ class AdminEventsController extends AdminBaseController {
         $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_ar', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location = $this->select + $this->locationRepository->getAll()->lists('name_ar', 'id');
-        $tags       = $this->tagRepository->getAll();
-        $this->render('admin.events.create', compact('category', 'author', 'location','tags'));
+        $tags     = $this->tagRepository->getAll();
+        $this->render('admin.events.create', compact('category', 'author', 'location', 'tags'));
     }
 
     /**
@@ -91,7 +91,7 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->withInput()->withErrors($val->getErrors());
         }
 
-        if (Input::get('date_start') > Input::get('date_end')) {
+        if ( Input::get('date_start') > Input::get('date_end') ) {
             return Redirect::back()->with('error', 'Date Start must be lesser than date end')->withInput();
         }
 
@@ -103,13 +103,14 @@ class AdminEventsController extends AdminBaseController {
 
         if ( !$setting = $this->settingRepository->create(['settingable_type' => 'EventModel', 'settingable_id' => $event->id]) ) {
             $this->eventRepository->delete($event);
+
             //@todo redirect
             return Redirect::back()->with('errors', 'could not create event');
         }
 
         // update the tags
         $tags = is_array(Input::get('tag')) ? Input::get('tag') : [];
-        $this->tagRepository->attachTags($event, $tags );
+        $this->tagRepository->attachTags($event, $tags);
 
         // Create a settings record for the inserted event
         // Settings Record needs to know Which type of Record and The Foreign Key it needs to Create
@@ -155,7 +156,7 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
-        if (Input::get('date_start') > Input::get('date_end')) {
+        if ( Input::get('date_start') > Input::get('date_end') ) {
             return Redirect::back()->with('error', 'Event Date Start Cannot be greater than Event End Date');
         }
 
@@ -167,7 +168,7 @@ class AdminEventsController extends AdminBaseController {
         $event->updateAvailableSeats();
         // update the tags
         $tags = is_array(Input::get('tag')) ? Input::get('tag') : [];
-        $this->tagRepository->attachTags($event, $tags );
+        $this->tagRepository->attachTags($event, $tags);
 
         return Redirect::action('AdminEventsController@index')->with('success', 'Updated');
 
@@ -198,53 +199,57 @@ class AdminEventsController extends AdminBaseController {
     public function getMailFollowers($id)
     {
         $event = $this->eventRepository->findById($id);
-        $this->render('admin.events.mail-followers',compact('event'));
+        $this->render('admin.events.mail-followers', compact('event'));
     }
 
     public function postMailFollowers($id)
     {
-        $event = $this->eventRepository->findById($id);
+        $event     = $this->eventRepository->findById($id);
         $followers = $event->followers;
-        $array = array_merge(['subscribers'=>$followers->toArray()],Input::all());
-        try {
-            Event::fire('events.mail-subscribers',[$array]);
+        if ( count($followers) >= 1 ) {
+            $array = array_merge(['subscribers' => $followers->toArray()], Input::all());
+            try {
+                Event::fire('events.mail-subscribers', [$array]);
+            }
+            catch ( \Exception $e ) {
+                return Redirect::back()->with('error', 'Email Could not send');
+            }
         }
 
-        catch ( \Exception $e ) {
-            return Redirect::back()->with('error', 'Email Could not send');
-        }
-
-        return Redirect::action('AdminEventsController@getFollowers',$event->id)->with('success', 'Email Sent');
+        return Redirect::action('AdminEventsController@getFollowers', $event->id)->with('success', 'Email Sent');
     }
 
     public function getMailFavorites($id)
     {
         $event = $this->eventRepository->findById($id);
-        $this->render('admin.events.mail-favorites',compact('event'));
+        $this->render('admin.events.mail-favorites', compact('event'));
     }
 
     public function postMailFavorites($id)
     {
-        $event = $this->eventRepository->findById($id);
+        $event     = $this->eventRepository->findById($id);
         $favorites = $event->favorites;
-        $array = array_merge(['subscribers'=>$favorites->toArray()],Input::all());
 
-        try {
-            Event::fire('events.mail-subscribers',[$array]);
+        if ( count($favorites) >= 1 ) {
+            $array = array_merge(['subscribers' => $favorites->toArray()], Input::all());
+
+            try {
+                Event::fire('events.mail-subscribers', [$array]);
+            }
+
+            catch ( \Exception $e ) {
+                return Redirect::back()->with('error', 'Email Could not send');
+            }
         }
 
-        catch ( \Exception $e ) {
-            return Redirect::back()->with('error', 'Email Could not send');
-        }
-
-        return Redirect::action('AdminEventsController@getFavorites',$event->id)->with('success', 'Email Sent');
+        return Redirect::action('AdminEventsController@getFavorites', $event->id)->with('success', 'Email Sent');
     }
 
 
     public function getMailSubscribers($id)
     {
         $event = $this->eventRepository->findById($id);
-        $this->render('admin.events.mail-subscribers',compact('event'));
+        $this->render('admin.events.mail-subscribers', compact('event'));
     }
 
     public function postMailSubscribers($id)
@@ -259,11 +264,11 @@ class AdminEventsController extends AdminBaseController {
         } else {
             $subscribers = $event->subscribers->toArray();
         }
-        if(count($subscribers) >= 1) {
-            $array = array_merge(['subscribers'=>$subscribers],Input::all());
+        if ( count($subscribers) >= 1 ) {
+            $array = array_merge(['subscribers' => $subscribers], Input::all());
 
             try {
-                Event::fire('events.mail-subscribers',[$array]);
+                Event::fire('events.mail-subscribers', [$array]);
             }
 
             catch ( \Exception $e ) {
@@ -272,13 +277,13 @@ class AdminEventsController extends AdminBaseController {
 
         }
 
-        return Redirect::action('AdminEventsController@getSubscriptions',$event->id)->with('success', 'Email Sent');
+        return Redirect::action('AdminEventsController@getSubscriptions', $event->id)->with('success', 'Email Sent');
     }
 
     public function getSettings($id)
     {
         $event               = $this->eventRepository->findById($id);
-        $subscriptions_count = $event->subscriptions()->where('status','CONFIRMED')->count();
+        $subscriptions_count = $event->subscriptions()->where('status', 'CONFIRMED')->count();
         $favorites_count     = $event->favorites()->count();
         $followers_count     = $event->followers()->count();
         $requests_count      = $event->subscriptions()->count();
@@ -289,7 +294,7 @@ class AdminEventsController extends AdminBaseController {
     public function getDetails($id)
     {
         $event               = $this->eventRepository->findById($id);
-        $subscriptions_count = $event->subscriptions()->where('status','CONFIRMED')->count();
+        $subscriptions_count = $event->subscriptions()->where('status', 'CONFIRMED')->count();
         $favorites_count     = $event->favorites()->count();
         $followers_count     = $event->followers()->count();
         $requests_count      = $event->subscriptions()->count();
@@ -333,10 +338,6 @@ class AdminEventsController extends AdminBaseController {
      */
     public function getSubscriptions($id)
     {
-//        $event = $this->eventRepository->findById($id);
-//        $subscriptions = $event->subscriptions()->ofStatus('CONFIRMED')->get();
-//
-//        $this->render('admin.events.subscriptions', compact('event','subscriptions'));
 
         $status = Input::get('status');
         $type   = Input::get('type');
@@ -344,15 +345,15 @@ class AdminEventsController extends AdminBaseController {
         if ( !isset($type) ) {
             $type = 'event';
         }
-        $event = $this->eventRepository->findById($id);
-        $subscriptions = $event->subscriptions()->ofStatus('CONFIRMED')->get();
+        $event         = $this->eventRepository->findById($id);
 
         if ( isset($status) ) {
             $subscriptions = $event->subscriptions()->ofStatus(strtoupper($status))->get();
         } else {
             $subscriptions = $event->subscriptions;
         }
-        $this->render('admin.events.subscriptions', compact('event','subscriptions','type'));
+
+        $this->render('admin.events.subscriptions', compact('event', 'subscriptions', 'type'));
 
     }
 
