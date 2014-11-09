@@ -27,7 +27,7 @@ class EventHandler extends AbstractMailer {
             $this->recepientEmail = $subscriber['email'];
             $this->recepientName  = $subscriber['name_ar'];
             $array['name_ar'] = $subscriber['name_ar'];
-//            $this->fire($array);
+            $this->fire($array);
         }
     }
 
