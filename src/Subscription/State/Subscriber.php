@@ -161,6 +161,7 @@ class Subscriber {
         $user = array_merge($user, ['title' => $event->title, 'event_id' => $event->id, 'status' => $this->model->status, 'token' => array_shift($token), 'reason' => array_shift($reason)]);
         // Fire the Event ( this will also send email to the user )
         if ( App::environment() == 'local' ) return true;
+
         Event::fire('subscriptions.created', [$user]);
 
     }
