@@ -278,6 +278,6 @@ abstract class AbstractRepository {
 
     public function getAllByStatus($status, $array)
     {
-        return $this->model->ofStatus($status)->with($array)->get();
+        return $this->model->ofStatus($status)->with($array)->latest()->paginate(200);
     }
 }

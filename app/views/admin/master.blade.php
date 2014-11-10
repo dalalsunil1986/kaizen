@@ -86,7 +86,8 @@
         });
         $(document).ready(function() {
             $('.datatable').dataTable({
-                "sPaginationType": "bs_four_button"
+                "sPaginationType": "bs_four_button",
+                "iDisplayLength" : 100
             });
             $('.datatable').each(function(){
                 var datatable = $(this);
