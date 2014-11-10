@@ -271,7 +271,6 @@ class AdminEventsController extends AdminBaseController {
             }
 
             catch ( \Exception $e ) {
-                dd($e->getMessage());
                 return Redirect::back()->with('error', 'Email Could not send');
             }
 
