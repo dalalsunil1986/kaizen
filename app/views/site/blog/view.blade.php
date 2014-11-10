@@ -43,7 +43,7 @@
                             class="text-right text-primary"
                         @endif
                         >{{ $comment->user->username}}
-                        <span class="text-muted"> - {{ $comment->created_at }} </span></p>
+                        <span class="text-muted"> - {{ $comment->created_at->diffForHumans() }} </span></p>
                     </div>
                 @endforeach
             @endif
