@@ -180,17 +180,14 @@ class EventRepository extends AbstractRepository {
     {
         $startAt = $startDate->subHours(5);
         $endAt   = $endDate->addHours(5);
-
-        $eventDurationHours = $startDate->diffInHours($endDate);
+//
         $now     = Carbon::now();
         $ongoing = false;
 
-        // If Current Time is not close to 5 hours from start date
-        // This sets that the ongoing to false before 5 hours from start date
         if ( ($now > $startAt) && ($now < $endAt) ) {
-            // If Current Time is close to 5 hours from start date AND current time is 5 hours is less than end date
-            // This sets the the ongoing to true If the
-            // todo: if the event is 3 days, then $now will not be > $startAt
+//            // If Current Time is close to 5 hours from start date AND current time is 5 hours is less than end date
+//            // This sets the the ongoing to true If the
+//            // todo: if the event is 3 days, then $now will not be > $startAt
             $ongoing = true;
         }
 

@@ -318,23 +318,19 @@ Route::get('test', function () {
 
     $now = Carbon::now();
 
-    $dateStart = $event->date_start;
-    $dateEnd   = $event->date_end;
+    $startDate = $event->date_start;
+    $endDate   = $event->date_end;
 
 //
-//    $startAt = $dateStart->subHours(5);
-//    $endAt   = $dateEnd->addHours(5);
+    $startAt = $startDate->subHours(5);
+    $endAt   = $endDate->addHours(5);
 
-    dd($dateStart->diffInHours($dateEnd));
+    $eventDurationHours = $startDate->diffInHours($endDate);
 
     $ongoing = false;
 
-//    if ( ($now > $startAt) && !($now > $endAt) ) {
-    if ( ($now > $startAt) && !($now > $endAt) ) {
-        $ongoing = 'true';
-    } else {
-        $ongoing = 'false';
+    if ( ($now > $startAt) && ($now < $endAt) ) {
+        $ongoing = true;
     }
-
-    return $ongoing;
+    dd($ongoing);
 });
