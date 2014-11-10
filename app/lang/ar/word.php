@@ -76,7 +76,7 @@ return [
     'no_results'            => 'لا يوجد نتائج',
     'keyword'               => 'الكلمة',
     'search_keywords'       => 'كلمات البحث',
-    'subscriptions'         => 'حجزات',
+    'subscriptions'         => 'حجوزات',
     'followings'            => 'متابعات',
     'kaizenyc'              => 'كايزن YC',
     'kaizen'              => 'كايزن',
@@ -123,6 +123,7 @@ return [
     'welcome_to_kaizen' => 'مرحبا بكم في كايزن',
     'price' => 'السعر',
     'free_event' => ' الفعالية مجاني',
-    'to' => 'إلى'
+    'to' => 'إلى' ,
+    'enter_event_room' => 'دخول غرفة الفعالية'
 
 ];
