@@ -179,9 +179,9 @@ class EventRepository extends AbstractRepository {
         $now     = Carbon::now();
         // if event starting time is greater then now ( if now is not greater than event ending time ) it is an ongoing event
         if($now->addHours(5) > $startDate) {
-            if(!($now > $endDate) ) {
+//            if(!($now > $endDate) ) {
                 $ongoing = true;
-            }
+//            }
         }
         return $ongoing;
     }
