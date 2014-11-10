@@ -48,7 +48,7 @@ class AuthController extends BaseController {
         $password = Input::get('password');
         $remember = Input::has('remember') ? true : false;
 
-        if ( !Auth::attempt(array('email' => $email, 'password' => $password, 'active' => $remember), $remember) ) {
+        if ( !Auth::attempt(array('email' => $email, 'password' => $password, 'active' => true), $remember) ) {
 
             return Redirect::action('AuthController@getLogin')->with('error', trans('auth.alerts.wrong_credentials'));
         }
