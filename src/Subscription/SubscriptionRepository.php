@@ -33,6 +33,12 @@ class SubscriptionRepository extends AbstractRepository {
         return $record;
     }
 
+
+    public function getAll($with = [])
+    {
+        return $this->model->with($with)->latest()->paginate(200);
+    }
+
     /**
      * @param $eventId
      * @internal param $subscribableId
