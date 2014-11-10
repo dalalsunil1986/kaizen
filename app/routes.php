@@ -37,7 +37,7 @@ Route::get('event/{id}/organize', 'EventsController@reorganizeEvents');
 
 Route::resource('event.comments', 'CommentsController', array('only' => array('store')));
 
-Route::get('online-event','EventsController@onlineTestEvent');
+Route::get('online-event', 'EventsController@onlineTestEvent');
 
 Route::resource('event', 'EventsController', array('only' => array('index', 'show')));
 
@@ -57,11 +57,11 @@ Route::get('event/{id}/unsubscribe', 'SubscriptionsController@unsubscribe');
 /*********************************************************************************************************
  * Payment
  ********************************************************************************************************/
-Route::get('event/{id}/payment/options','PaymentsController@getPayment');
+Route::get('event/{id}/payment/options', 'PaymentsController@getPayment');
 
-Route::post('payment','PaymentsController@postPayment' );
+Route::post('payment', 'PaymentsController@postPayment');
 
-Route::get('payment/final','PaymentsController@getFinal');
+Route::get('payment/final', 'PaymentsController@getFinal');
 
 /*********************************************************************************************************
  * Contact Us Route
@@ -136,7 +136,7 @@ Route::get('forbidden', function () {
     return View::make('error.forbidden');
 });
 
-Route::get('country/{country}','LocaleController@setCountry');
+Route::get('country/{country}', 'LocaleController@setCountry');
 
 Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 
@@ -172,7 +172,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::post('users/{id}/report', 'AdminUsersController@postReport');
 
-    Route::get('users/{id}/print','AdminUsersController@printDetail');
+    Route::get('users/{id}/print', 'AdminUsersController@printDetail');
 
     Route::resource('users', 'AdminUsersController');
 
@@ -259,7 +259,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Ads Route
      ********************************************************************************************************/
-    Route::post('ads/{id}/update-active','AdminAdsController@updateActive');
+    Route::post('ads/{id}/update-active', 'AdminAdsController@updateActive');
 
     Route::resource('ads', 'AdminAdsController');
 
@@ -271,7 +271,7 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Photo Routes
      ********************************************************************************************************/
-    Route::get('photo-normal','AdminPhotosController@createNormal');
+    Route::get('photo-normal', 'AdminPhotosController@createNormal');
 
     Route::resource('photo', 'AdminPhotosController');
 
@@ -283,12 +283,12 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
     /*********************************************************************************************************
      * Payment Routes
      ********************************************************************************************************/
-    Route::resource('payment', 'AdminPaymentsController' );
+    Route::resource('payment', 'AdminPaymentsController');
 
     /*********************************************************************************************************
      * Refunds
      ********************************************************************************************************/
-    Route::resource('refund', 'AdminRefundsController' );
+    Route::resource('refund', 'AdminRefundsController');
 
     /*********************************************************************************************************
      * Event Type Routes
@@ -305,16 +305,36 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 /*********************************************************************************************************
  * Iron Queue Workers
  ********************************************************************************************************/
-Route::post('queue/iron',function(){
+Route::post('queue/iron', function () {
     return Queue::marshal();
 });
 
 /*********************************************************************************************************
  * Test Routes
  ********************************************************************************************************/
-Route::get('test',function() {
-    Mail::queue('emails.welcome', [], function($message)
-    {
-        $message->to('z4ls@live.com', 'Test Queue')->subject('this is a iron mq test queue msg!');
-    });
+Route::get('test', function () {
+
+    $event = EventModel::find(10);
+
+    $now = Carbon::now();
+
+    $dateStart = $event->date_start;
+    $dateEnd   = $event->date_end;
+
+//
+//    $startAt = $dateStart->subHours(5);
+//    $endAt   = $dateEnd->addHours(5);
+
+    dd($dateStart->diffInHours($dateEnd));
+
+    $ongoing = false;
+
+//    if ( ($now > $startAt) && !($now > $endAt) ) {
+    if ( ($now > $startAt) && !($now > $endAt) ) {
+        $ongoing = 'true';
+    } else {
+        $ongoing = 'false';
+    }
+
+    return $ongoing;
 });

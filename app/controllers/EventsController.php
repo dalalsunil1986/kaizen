@@ -453,11 +453,11 @@ class EventsController extends BaseController {
             return Redirect::action('EventsController@show', $id)->with('warning', trans('general.wrong_event_stream_time'));
         }
 
-        // If event is Expired
-        if ( $this->eventRepository->eventExpired($event->date_start) ) {
-
-            return Redirect::action('EventsController@show', $id)->with('warning', trans('word.event_expired'));
-        }
+//        // If event is Expired
+//        if ( $this->eventRepository->eventExpired($event->date_start) ) {
+//
+//            return Redirect::action('EventsController@show', $id)->with('warning', trans('word.event_expired'));
+//        }
 
         // check whether this user subscribed for this and confirmed
         $subscription = $event->subscriptions()->where('user_id', $user->id)->first();

@@ -32,8 +32,8 @@ class EventRepository extends AbstractRepository {
     public function getNonExpiredEvents($perPage = 10)
     {
         return $this->getAll()
-            ->where('date_start','>',Carbon::now()->subDay())
-            ->orWhere('date_end','>',Carbon::now()->addDay())
+            ->where('date_start', '>', Carbon::now()->subDay())
+            ->orWhere('date_end', '>', Carbon::now()->addDay())
             ->orderBy('date_start', 'ASC')
             ->orderBy('created_at', 'DESC')
             ->paginate($perPage);
@@ -48,7 +48,7 @@ class EventRepository extends AbstractRepository {
     public function getPastEvents($perPage = 10)
     {
         return $this->getAll()
-            ->where('date_start','<',Carbon::now())
+            ->where('date_start', '<', Carbon::now())
             ->orderBy('date_start', 'ASC')
             ->orderBy('created_at', 'DESC')
             ->paginate($perPage);
@@ -77,6 +77,7 @@ class EventRepository extends AbstractRepository {
             }
             $events_unique = array_unique($array);
             $sliderEvents  = $this->mergeSliderEvents(6, $events_unique);
+
             return $sliderEvents;
         } else {
             return null;
@@ -172,17 +173,27 @@ class EventRepository extends AbstractRepository {
      * @param $startDate DateTimeString
      * @param $endDate DateTimeString
      * @return bool
+     * Check whether the user can subscribe to this event or watch online
+     *
      */
     public function ongoingEvent($startDate, $endDate)
     {
-        $ongoing = false;
+        $startAt = $startDate->subHours(5);
+        $endAt   = $endDate->addHours(5);
+
+        $eventDurationHours = $startDate->diffInHours($endDate);
         $now     = Carbon::now();
-        // if event starting time is greater then now ( if now is not greater than event ending time ) it is an ongoing event
-        if($now->addHours(5) > $startDate) {
-//            if(!($now > $endDate) ) {
-                $ongoing = true;
-//            }
+        $ongoing = false;
+
+        // If Current Time is not close to 5 hours from start date
+        // This sets that the ongoing to false before 5 hours from start date
+        if ( ($now > $startAt) && ($now < $endAt) ) {
+            // If Current Time is close to 5 hours from start date AND current time is 5 hours is less than end date
+            // This sets the the ongoing to true If the
+            // todo: if the event is 3 days, then $now will not be > $startAt
+            $ongoing = true;
         }
+
         return $ongoing;
     }
 
@@ -196,7 +207,6 @@ class EventRepository extends AbstractRepository {
         // get 1 random post for categories
 //        $events =
     }
-
 
 
     public function updateAvailableSeatsOnUpdate()
@@ -215,7 +225,7 @@ class EventRepository extends AbstractRepository {
 
     public function getExpiredEvents()
     {
-        return $this->where('date_start', '<',Carbon::now())->get();
+        return $this->where('date_start', '<', Carbon::now())->get();
     }
 
 }
