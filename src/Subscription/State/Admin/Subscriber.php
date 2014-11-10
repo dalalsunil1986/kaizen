@@ -38,10 +38,11 @@ class Subscriber extends BaseSubscriber {
         $this->model             = $subscription;
         $status                  = strtolower($status);
         $this->subscriptionState = $this->{$status};
-        $this->reason            = $reason;
+        $this->reason            = strip_tags($reason);
 
         if ( !empty(strip_tags($reason)) ) {
             $this->messages->add('reason', $reason);
+            return $this;
         }
     }
 
