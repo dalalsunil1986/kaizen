@@ -19,16 +19,19 @@ class EventHandler extends AbstractMailer {
 
     public function mailSubscribers($array)
     {
-        $this->view           = 'emails.subscription';
-        $this->subject        = $array['subject'] ;
-        $array['body']  = $array['body'];
+
+        $this->view    = 'emails.subscription';
+        $this->subject = $array['subject'];
+        $array['body'] = $array['body'];
 
         foreach ( $array['subscribers'] as $subscriber ) {
             $this->recepientEmail = $subscriber['email'];
-            $this->recepientName  = $subscriber['name_ar'];
-            $array['name_ar'] = $subscriber['name_ar'];
+            $name                 = empty($subscriber['name_ar']) ? 'kaizen user ' : $subscriber['name_ar'];
+            $array['name_ar']     = $name;
+            $this->recepientName  = $name;
             $this->fire($array);
         }
+
     }
 
 
