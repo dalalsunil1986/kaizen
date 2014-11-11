@@ -13,8 +13,8 @@ class UpdateValidator extends AbstractValidator {
     protected $rules = array(
         'phone'    => 'numeric',
         'mobile'   => 'required|numeric',
-        'name_en'  => 'required|between:3,40',
-        'name_ar'  => 'required|between:3,40',
+        'name_ar'  => 'required|min:3',
+        'name_en'  => 'required|min:3',
         'password' => 'alpha_num|between:6,12|confirmed',
     );
 

@@ -12,8 +12,8 @@ class CreateValidator extends AbstractValidator {
     protected $rules = array(
         'email'    => 'required|email|unique:users,email',
         'password' => 'required|alpha_num|between:6,12|confirmed',
-        'name_ar'  => 'required',
-        'name_en'  => 'required',
+        'name_ar'  => 'required|min:3',
+        'name_en'  => 'required|min:3',
         'mobile'   => 'required',
         'username' => 'required',
     );

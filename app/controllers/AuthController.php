@@ -129,15 +129,13 @@ class AuthController extends BaseController {
     }
 
     /**
-     * Display the password reset view for the given token.
+     * Display the password reset form.
      *
      * @param  string $token
      * @return Response
      */
     public function getReset($token = null)
     {
-        if ( is_null($token) ) App::abort(404);
-
         $this->title = trans('auth.reset.title');
         $this->render('site.auth.reset', array('token' => $token));
     }

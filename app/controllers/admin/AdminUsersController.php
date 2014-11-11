@@ -117,13 +117,18 @@ class AdminUsersController extends AdminBaseController {
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
+        $user = $this->userRepository->model->where('email','z4ls@live.com')->first();
         // If Auth Sevice Fails to Register the User
         if ( !$user = $this->authService->register($val->getInputData()) ) {
 
             return Redirect::home()->with('errors', $this->userRepository->errors());
         }
         // Save roles. Handles updating.
-        $user->saveRoles(Input::get('roles'));
+        $roles = is_array(Input::get('roles')) ? Input::get('roles') : [];
+
+        //get the user that was just addded ;
+        $user = $this->userRepository->model->where('email',Input::get('email'))->first();
+        $user->saveRoles($roles);
 
         // Redirect to the new user page
         return Redirect::action('AdminUsersController@index')->with('success', Lang::get('admin/users/messages.create.success'));
@@ -181,7 +186,9 @@ class AdminUsersController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->userRepository->errors())->withInput();
         }
 
-        $user->saveRoles(Input::get('roles'));
+
+        $roles = is_array(Input::get('roles')) ? Input::get('roles') : [];
+        $user->saveRoles($roles);
 
         // If user activate status have changed;
         if ( $user->active != Input::get('active') ) {
