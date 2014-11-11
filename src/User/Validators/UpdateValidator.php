@@ -13,7 +13,7 @@ class UpdateValidator extends AbstractValidator {
     protected $rules = array(
         'phone'    => 'numeric',
         'mobile'   => 'required|numeric',
-        'name_en'  => 'required|alpha_num|between:3,40',
+        'name_en'  => 'required|between:3,40',
         'name_ar'  => 'required|between:3,40',
         'password' => 'alpha_num|between:6,12|confirmed',
     );
