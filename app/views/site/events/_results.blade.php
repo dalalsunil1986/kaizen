@@ -28,9 +28,11 @@
 
 <div class="row" style="margin: 9px; ">
 
+    @if($event->author && $event->author->username)
     <i class="glyphicon glyphicon-user">
         {{ link_to_action('EventsController@index', $event->author->username,array('search'=>'','author'=>$event->author->id)) }}
     |</i>
+    @endif
     <i class="glyphicon glyphicon-calendar"></i> <span class="event-date"><b>{{$event->formatEventDate($event->date_start) }}</b> {{trans('word.to')}}  <b>{{ $event->formatEventDate($event->date_end) }}</b></span> |
 
     @if($event->location && $event->location->country)
