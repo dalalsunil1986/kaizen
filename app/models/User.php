@@ -157,8 +157,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface, Pres
      * Save roles inputted from multiselect
      * @param $inputRoles
      */
-    public function saveRoles($inputRoles)
+    public function saveRoles(array $inputRoles)
     {
+        $inputRoles = array_filter($inputRoles); // remove empty arrays
         if ( !empty($inputRoles) ) {
             $this->roles()->sync($inputRoles);
         } else {
