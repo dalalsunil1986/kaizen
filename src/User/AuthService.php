@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\MessageBag;
 use Acme\Core\Repositories\AbstractRepository;
 use Password;
+use Session;
+use User;
 
 class AuthService extends AbstractRepository {
 
@@ -33,7 +35,7 @@ class AuthService extends AbstractRepository {
      */
     public function register(array $data)
     {
-        $data['confirmation_code'] = $this->generateToken();
+//        $data['confirmation_code'] = $this->generateToken();
 
         // If in Admin panel active is set, that will override this
         if(!isset($data['active'])) {
@@ -44,9 +46,10 @@ class AuthService extends AbstractRepository {
 
             return false;
         }
-        Event::fire('user.created',[$data]);
-//        Event::fire('user.updatecountry');
 
+        $this->processActivation($user);
+
+//        Event::fire('user.created',[$data]);
 
         return true;
     }
@@ -215,5 +218,19 @@ class AuthService extends AbstractRepository {
         } else {
             $this->activate($user);
         }
+    }
+
+    public function processActivation(User $user)
+    {
+        Session::has('user_id') ? Session::forget('user_id') : '';
+        Session::has('account_not_active') ? Session::forget('account_not_active') : '';
+
+        $user->confirmation_code = $this->generateToken();
+        $user->save();
+
+        $data = $user->toArray();
+        $data['confirmation_code'] = $user->confirmation_code;
+
+        Event::fire('user.created',[$data]);
     }
 }

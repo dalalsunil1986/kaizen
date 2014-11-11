@@ -6,6 +6,14 @@
 @section('content')
 
 <div class="page-header">
+
+        @if(Session::has('account_not_active'))
+            {{ Form::open(['action'=>'AuthController@sendActivationLink','method'=>'post']) }}
+                {{ Form::hidden('user_id',Session::get('user.id')) }}
+                {{ Form::submit(trans('auth.alerts.resent_activation_link'), array('class' => 'btn btn-lg btn-success')) }}
+            {{ Form::close() }}
+        @endif
+
     <h1>{{ trans('auth.login.heading')}}</h1>
 </div>
 {{ Form::open(['action' => 'AuthController@postLogin', 'method' => 'post']) }}

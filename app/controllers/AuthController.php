@@ -48,9 +48,16 @@ class AuthController extends BaseController {
         $password = Input::get('password');
         $remember = Input::has('remember') ? true : false;
 
-        if ( !Auth::attempt(['email' => $email, 'password' => $password, 'active'=> 1],$remember) ) {
-
+        if ( !Auth::attempt(['email' => $email, 'password' => $password], $remember) ) {
             return Redirect::action('AuthController@getLogin')->with('error', trans('auth.alerts.wrong_credentials'));
+        }
+
+        if ( !Auth::user()->active ) {
+            Session::put('account_not_active', true);
+            Session::put('user.id', Auth::user()->id);
+            Auth::logout();
+
+            return Redirect::action('AuthController@getLogin')->with('error', trans('auth.alerts.not_confirmed'));
         }
 
         $this->service->updateLastLoggedAt();
@@ -198,6 +205,22 @@ class AuthController extends BaseController {
 
         // redirect to home with active message
         return Redirect::action('AuthController@getLogin')->with('success', trans('auth.alerts.account_activated'));
+
+    }
+
+    public function sendActivationLink()
+    {
+
+
+        $userId = Input::get('user_id');
+        $user   = $this->userRepository->findById($userId);
+        if ( $user ) {
+            $this->service->processActivation($user);
+
+            return Redirect::back()->with('success', trans('auth.alerts.account_activation_link_sent'));
+        }
+
+        return Redirect::back()->with('error', trans('auth.alerts.invalid_user'));
 
     }
 
