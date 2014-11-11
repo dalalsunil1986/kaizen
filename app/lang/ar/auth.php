@@ -42,7 +42,11 @@ return [
         'account_activated'      => 'حسابك قد تم تفعيله ، الرجاء تسجيل الدخول',
         'reminders_sent'         => 'لتفعيل حسابك ، يرجى اتباع الخطوات التي قمنا أرسلت في البريد الإلكتروني الخاص ,بك',
         'account_activation_link_sent' => 'الرجاء التحقق من إيميلك لوجود توجيهات لكيفية تأكيد حسابك',
-        'resent_activation_link' => 'اضغظ هنا لإعادة إرسال رابط التفعيل'
+        'resent_activation_link' => 'اضغظ هنا لإعادة إرسال رابط التفعيل',
+        'account_already_active' => 'Your account is already active',
+        'token_link_expired' => 'Token Link Expired',
+        'user_registration_failed' => 'User Registration Failed'
+
 
     ],
 

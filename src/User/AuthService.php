@@ -42,7 +42,7 @@ class AuthService extends AbstractRepository {
             $data['active'] = 0;
         }
         if ( ! $user = $this->userRepository->create($data) ) {
-            $this->addError('could not create user');
+            $this->addError(trans('auth.alerts.user_registration_failed'));
 
             return false;
         }
@@ -81,7 +81,7 @@ class AuthService extends AbstractRepository {
             // check if user is active
             if ( $user->active == 1 ) {
                 // Error: account already active
-                $this->addError('Your Account is already active');
+                $this->addError(trans('auth.alerts.account_already_active'));
 
                 return false;
             }
@@ -89,7 +89,7 @@ class AuthService extends AbstractRepository {
             if ( $user->created_at < Carbon::now()->subDay() ) {
                 // link expired
                 //@todo make link expired view
-                $this->addError('Activation Link Expired');
+                $this->addError(trans('auth.alerts.token_link_expired'));
 
                 return false;
             }
@@ -98,7 +98,7 @@ class AuthService extends AbstractRepository {
             return true;
 
         }
-        $this->addError('Invalid Token');
+        $this->addError(trans('word.invalid_token'));
 
         return false;
     }
@@ -134,7 +134,7 @@ class AuthService extends AbstractRepository {
         if ( $user ) {
             // Check if his Account is active
             if ( ! $user->active == 1 ) {
-                $this->addError('Account Not Active');
+                $this->addError(trans('auth.alerts.not_confirmed'));
 
                 return false;
             }
@@ -145,7 +145,7 @@ class AuthService extends AbstractRepository {
 
             return true;
         }
-        $this->addError('Not a Valid Email');
+        $this->addError(trans('auth.alerts.invalid_user'));
 
         return false;
 
