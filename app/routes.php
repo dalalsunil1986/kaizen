@@ -107,6 +107,8 @@ Route::post('password/reset', ['as' => 'user.token.post', 'uses' => 'AuthControl
 
 Route::get('account/activate/{token}', ['as' => 'user.token.confirm', 'uses' => 'AuthController@activate']);
 
+Route::post('account/send-activation-link', ['as' => 'user.token.send-activation', 'uses' => 'AuthController@sendActivationLink']);
+
 
 /*********************************************************************************************************
  * User Routes
