@@ -108,6 +108,15 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->hasMany('EventRequest', 'event_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Same as Above method
+     */
+    public function reorganize()
+    {
+        return $this->belongsToMany('User', 'requests', 'event_id', 'user_id');
+    }
+
     /*********************************************************************************************************
      * Setters
      ********************************************************************************************************/
