@@ -126,5 +126,5 @@ return [
     'to' => 'إلى' ,
     'enter_event_room' => 'دخول غرفة الفعالية',
     'tags' => 'علامات',
-
+    'request_reorganize_events' => 'طلب اعادة الفعالية'
 ];
