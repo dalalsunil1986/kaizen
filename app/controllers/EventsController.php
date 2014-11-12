@@ -453,7 +453,6 @@ class EventsController extends BaseController {
             return Redirect::action('EventsController@show', $id)->with('warning', trans('general.wrong_event_stream_time'));
         }
 
-
         // check whether this user subscribed for this and confirmed
         $subscription = $event->subscriptions()->where('user_id', $user->id)->first();
 
@@ -586,7 +585,7 @@ class EventsController extends BaseController {
             list($token, $cid, $launchUrl) = $this->getStreamSettings();
 
             if ( is_null($token) ) {
-                return Redirect::action('EventsController@index')->with('error', trans('word.system_error'));
+                return Redirect::action('EventsController@index')->with('error', trans('word.invalid_token'));
             }
 
             // user date to pass to streaming server

@@ -13,17 +13,6 @@ class AdminSettingsController extends AdminBaseController {
         parent::__construct();
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-
-    public function index()
-    {
-
-    }
-
 
     /**
      *
@@ -36,16 +25,6 @@ class AdminSettingsController extends AdminBaseController {
         $this->checkValidSession();
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store()
-    {
-
-    }
 
     /**
      * @param $id

@@ -74,7 +74,7 @@ class AdminEventsController extends AdminBaseController {
         $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_ar', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location = $this->select + $this->locationRepository->getAll()->lists('name_ar', 'id');
-        $tags     = $this->tagRepository->getAll();
+        $tags     = [''=>''] + $this->tagRepository->getList('name_ar','id');
         $this->render('admin.events.create', compact('category', 'author', 'location', 'tags'));
     }
 
@@ -109,7 +109,7 @@ class AdminEventsController extends AdminBaseController {
         }
 
         // update the tags
-        $tags = is_array(Input::get('tag')) ? Input::get('tag') : [];
+        $tags = is_array(Input::get('tags')) ? array_filter(Input::get('tags')) : [];
         $this->tagRepository->attachTags($event, $tags);
 
         // Create a settings record for the inserted event
@@ -129,14 +129,14 @@ class AdminEventsController extends AdminBaseController {
     public function edit($id)
     {
         $event      = $this->eventRepository->findById($id, ['photos']);
-        $tags       = $this->tagRepository->getAll();
-        $tags_array = $event->tags->lists('id');
+        $tags       = $this->tagRepository->getList('name_ar','id');
+        $dbTags =     $event->tags->lists('id');
 
         $category = $this->select + $this->categoryRepository->getEventCategories()->lists('name_ar', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $location = $this->select + $this->locationRepository->getAll()->lists('name_ar', 'id');
 
-        $this->render('admin.events.edit', compact('event', 'category', 'author', 'location', 'tags_array', 'tags'));
+        $this->render('admin.events.edit', compact('event', 'category', 'author', 'location', 'dbTags', 'tags'));
     }
 
     /**
@@ -167,7 +167,7 @@ class AdminEventsController extends AdminBaseController {
 
         $event->updateAvailableSeats();
         // update the tags
-        $tags = is_array(Input::get('tag')) ? Input::get('tag') : [];
+        $tags = is_array(Input::get('tags')) ? array_filter(Input::get('tags')) : [];
         $this->tagRepository->attachTags($event, $tags);
 
         return Redirect::action('AdminEventsController@index')->with('success', 'Updated');
