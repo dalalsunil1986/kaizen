@@ -429,8 +429,8 @@ class EventsController extends BaseController {
             $eventExpired = $this->eventRepository->eventExpired($event->date_start);
 
             if ( $eventExpired ) {
-                if ( !$event->requests->contains($user->id) ) {
-                    $event->requests()->attach($user, ['created_at' => Carbon::now()->toDateTimeString()]);
+                if ( !$event->reorganize->contains($user->id) ) {
+                    $event->reorganize()->attach($user, ['created_at' => Carbon::now()->toDateTimeString()]);
                 }
             }
         }
