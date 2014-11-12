@@ -46,9 +46,9 @@ class EventsController extends BaseController {
         $this->countryRepository      = $countryRepository;
         $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
+        $this->tagRepository          = $tagRepository;
         parent::__construct();
-        $this->beforeFilter('auth', ['only'=>['showSubscriptionOptions', 'reorganizeEvents', 'streamEvent']]);
-        $this->tagRepository = $tagRepository;
+        $this->beforeFilter('auth', ['only' => ['showSubscriptionOptions', 'reorganizeEvents', 'streamEvent']]);
     }
 
     public function index()
@@ -57,20 +57,16 @@ class EventsController extends BaseController {
 
         $expiredEvents = $this->eventRepository->getPastEvents($perPage);
         //find countries,authors,and categories to display in search form
-        if ( App::getLocale() == 'en' ) {
-            $countries = [0 => trans('word.choose_country')] + $this->countryRepository->getAll()->lists('name_en', 'id');
-        } else {
-            $countries = [0 => trans('word.choose_country')] + $this->countryRepository->getAll()->lists('name_ar', 'id');
-        }
+        $countries  = [0 => trans('word.choose_country')] + $this->countryRepository->getAll()->lists('name_' . getLocale(), 'id');
         $categories = [0 => trans('word.choose_category')] + $this->categoryRepository->getEventCategories()->lists('name_' . getLocale(), 'id');
-        $authors    = [0 => trans('word.choose_author')] + $this->userRepository->getRoleByName('author')->lists('username', 'id');
+        $authors    = [0 => trans('word.choose_author')] + $this->userRepository->getRoleByName('author')->lists('name_' . getLocale(), 'id');
 
         // find selected form values
         $search   = trim(Input::get('search'));
         $category = Request::get('category');
         $author   = Request::get('author');
         $country  = Request::get('country');
-        $expired     = Request::get('past');
+        $expired  = Request::get('past');
 
         $this->title = trans('word.events');
         // if the form is selected
@@ -109,7 +105,7 @@ class EventsController extends BaseController {
 
         $tags = $this->tagRepository->getEventTags();
 
-        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories','tags','expiredEvents'));
+        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories', 'tags', 'expiredEvents'));
     }
 
     /**
@@ -120,15 +116,10 @@ class EventsController extends BaseController {
      */
     public function show($id)
     {
-        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos','tags']);
+        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'tags']);
 
         // returns true false
         $eventExpired = $this->eventRepository->eventExpired($event->date_start);
-
-        // if event  start date and event end date both lesser than now ( Event is Expired ( Reorganize ) )
-        // If Event start date is lesser and event end date is greater than now ( Event Subscription is Open .. Event Has started, but not finished )
-        // If Event Start Date is greater and event end date is greater ( Event Subscription Open )
-        // If Event
 
         if ( Auth::check() ) {
             $user = Auth::user();
@@ -142,6 +133,7 @@ class EventsController extends BaseController {
 
                 // check if this event has online option
                 if ( $this->isOnlineEvent($event) ) {
+                    // return bool
                     $canWatchOnline = $this->eventRepository->ongoingEvent($event->date_start, $event->date_end);
                 } else {
                     $canWatchOnline = false;
@@ -150,7 +142,7 @@ class EventsController extends BaseController {
                 $view->with(array('favorited' => $favorited, 'subscribed' => $subscribed, 'followed' => $followed, 'canWatchOnline' => $canWatchOnline));
             });
         } else {
-            View::composer('site.events.view', function ($view) use ($tags) {
+            View::composer('site.events.view', function ($view) {
                 $view->with(array('favorited' => false, 'subscribed' => false, 'followed' => false, 'canWatchOnline' => 'false'));
             });
         }
@@ -158,13 +150,6 @@ class EventsController extends BaseController {
         $this->title = $event->title;
         $this->render('site.events.view', compact('event', 'tags', 'eventExpired'));
 
-    }
-
-    public function getPastEvents()
-    {
-        $perPage = 10;
-
-        $this->render('site.events.index', compact('events', 'eventCategories'));
     }
 
     /**
@@ -306,10 +291,8 @@ class EventsController extends BaseController {
             $sliderEvents  = $this->eventRepository->getSliderEvents(6, $events_unique);
 
             return $sliderEvents;
-        } else {
-            return null;
         }
-
+        return null;
     }
 
 
@@ -420,7 +403,6 @@ class EventsController extends BaseController {
 
     public function reorganizeEvents($id)
     {
-        //check whether user logged in
         $user = Auth::user();
 
         if ( $user ) {
@@ -430,7 +412,7 @@ class EventsController extends BaseController {
 
             if ( $eventExpired ) {
                 if ( !$event->reorganize->contains($user->id) ) {
-                    $event->reorganize()->attach($user, ['created_at' => Carbon::now()->toDateTimeString()]);
+                    $event->reorganize()->attach($user, ['created_at' => Carbon::now()]);
                 }
             }
         }
@@ -463,24 +445,24 @@ class EventsController extends BaseController {
         $subscription = $event->subscriptions()->where('user_id', $user->id)->first();
 
         // find if this user has a subscriptoin
-        if ( $subscription ) {
+        if ( ! $subscription ) {
 
-            // If user has a subscription and subscription is not confirmed
-            if ( $subscription->status != 'CONFIRMED' ) {
-
-                return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_confirmed'));
-            }
-
-            // check whether the user has subscribed as online
-            if ( $subscription->registration_type != 'ONLINE' ) {
-
-                return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_online'));
-            }
-
-        } else {
-            // If user does not have a subscriptoin
             return Redirect::action('EventsController@index')->with('error', trans('general.not_subscribed'));
+
         }
+
+        // If user has a subscription and subscription is not confirmed
+        if ( $subscription->status != 'CONFIRMED' ) {
+
+            return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_confirmed'));
+        }
+
+        // check whether the user has subscribed as online
+        if ( $subscription->registration_type != 'ONLINE' ) {
+
+            return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_online'));
+        }
+
 
 
         // stream the event
@@ -488,33 +470,31 @@ class EventsController extends BaseController {
 
             return Redirect::action('EventsController@show', $id)->with('info', trans('word.system_error'));
 
-        } else {
-
-            list($token, $cid, $launchUrl) = $this->getStreamSettings();
-
-            if ( is_null($token) ) {
-                return Redirect::action('EventsController@show', $id)->with('error', trans('site.system-error'));
-            }
-
-            // Find the user id
-            $userTypeId = $event->isAuthor($user->id) ? 1000 : 0;
-            // user date to pass to streaming server
-            $data = [
-                'token'        => urlencode($token),
-                'cid'          => $cid,
-                'roomid'       => $event->setting->online_room_id, //todo : change with database room name $setting->online_room_no
-                'usertypeid'   => $userTypeId,
-                'gender'       => $user->gender,
-                'firstname'    => $user->username,
-                'lastname'     => $user->name,
-                'email'        => $user->email,
-                'externalname' => $user->username,
-            ];
-
-            // launch the live stream
-            $this->launchStream($data, $launchUrl);
         }
 
+        list($token, $cid, $launchUrl) = $this->getStreamSettings();
+
+        if ( is_null($token) ) {
+            return Redirect::action('EventsController@show', $id)->with('error', trans('word.system-error'));
+        }
+
+        // Find the user id
+        $userTypeId = $event->isAuthor($user->id) ? 1000 : 0;
+        // user date to pass to streaming server
+        $data = [
+            'token'        => urlencode($token),
+            'cid'          => $cid,
+            'roomid'       => $event->setting->online_room_id, //todo : change with database room name $setting->online_room_no
+            'usertypeid'   => $userTypeId,
+            'gender'       => $user->gender,
+            'firstname'    => $user->username,
+            'lastname'     => $user->name,
+            'email'        => $user->email,
+            'externalname' => $user->username,
+        ];
+
+        // launch the live stream
+        $this->launchStream($data, $launchUrl);
 
     }
 
@@ -524,41 +504,36 @@ class EventsController extends BaseController {
      */
     public function getStreamSettings()
     {
+        // get the settings for the live stream
+        $cid       = '15829';
+        $appKey    = 'WH73FJ63UT62WY76MQ50XX86MI50XQ82';
+        $api       = 'http://kaizenlive.e-lectazone.com/apps/token.asp?cid=' . $cid . '&appkey=' . $appKey . '&result=xml';
+        $launchUrl = 'http://kaizenlive.e-lectazone.com/apps/launch.asp?';
 
-        if ( function_exists('curl_init') ) {
+        $token = null;
+        $ch    = curl_init();
+        // Set URL to download and other parameters
+        curl_setopt($ch, CURLOPT_URL, $api);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        // Download the given URL, and return output
+        $output = curl_exec($ch);
+        // Close the cURL resource, and free system resources
+        curl_close($ch);
 
-            // get the settings for the live stream
-            $cid       = '15829';
-            $appKey    = 'WH73FJ63UT62WY76MQ50XX86MI50XQ82';
-            $api       = 'http://kaizenlive.e-lectazone.com/apps/token.asp?cid=' . $cid . '&appkey=' . $appKey . '&result=xml';
-            $launchUrl = 'http://kaizenlive.e-lectazone.com/apps/launch.asp?';
+        if ( $output ) {
 
-            $token = null;
-            $ch    = curl_init();
-            // Set URL to download and other parameters
-            curl_setopt($ch, CURLOPT_URL, $api);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-            // Download the given URL, and return output
-            $output = curl_exec($ch);
-            // Close the cURL resource, and free system resources
-            curl_close($ch);
+            $tokenRetrive = simplexml_load_string($output);
 
-            if ( $output ) {
-
-                $tokenRetrive = simplexml_load_string($output);
-
-                foreach ( $tokenRetrive->ResponseData as $data ) {
-                    $token = $data;
-                }
-
+            foreach ( $tokenRetrive->ResponseData as $data ) {
+                $token = $data;
             }
 
-            return array($token, $cid, $launchUrl);
-        } else {
-            return false;
         }
+
+        return array($token, $cid, $launchUrl);
+
     }
 
     /**
@@ -586,30 +561,29 @@ class EventsController extends BaseController {
     {
         if ( !$this->getStreamSettings() ) {
             return Redirect::action('EventsController@index')->with('error', trans('word.system_error'));
-
-        } else {
-            list($token, $cid, $launchUrl) = $this->getStreamSettings();
-
-            if ( is_null($token) ) {
-                return Redirect::action('EventsController@index')->with('error', trans('word.invalid_token'));
-            }
-
-            // user date to pass to streaming server
-            $data = [
-                'token'        => urlencode($token),
-                'cid'          => $cid,
-                'roomid'       => '23506', //todo : change with database room name $setting->online_room_no
-                'usertypeid'   => '0',
-                'gender'       => 'M',
-                'firstname'    => 'Test-User',
-                'lastname'     => 'Test-User',
-                'email'        => 'testuser@test.com',
-                'externalname' => 'testuser',
-            ];
-
-            // launch the live stream
-            $this->launchStream($data, $launchUrl);
         }
+
+        list($token, $cid, $launchUrl) = $this->getStreamSettings();
+
+        if ( is_null($token) ) {
+            return Redirect::action('EventsController@index')->with('error', trans('word.invalid_token'));
+        }
+
+        // user date to pass to streaming server
+        $data = [
+            'token'        => urlencode($token),
+            'cid'          => $cid,
+            'roomid'       => '23506', //todo : change with database room name $setting->online_room_no
+            'usertypeid'   => '0',
+            'gender'       => 'M',
+            'firstname'    => 'Test-User',
+            'lastname'     => 'Test-User',
+            'email'        => 'testuser@test.com',
+            'externalname' => 'testuser',
+        ];
+
+        // launch the live stream
+        $this->launchStream($data, $launchUrl);
     }
 
     private function isOnlineEvent($event)

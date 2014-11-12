@@ -129,8 +129,7 @@
                                     </span>
                                 </button>
                             </a>
-                        {{-- If Event has started --}}
-                            {{--  and  expired --}}
+                        {{-- If Event has expired --}}
                         @elseif($eventExpired)
                             {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
                                 <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
@@ -226,11 +225,7 @@
                 @endif
                 <tr>
                     <td><b>{{ trans('word.price') }}</b></td>
-                    @if(! $event->isFreeEvent())
-                        <td>{{ $event->convertPrice }}</td>
-                    @else
-                        <td>{{ trans('word.free') }}</td>
-                    @endif
+                    <td>{{ $event->isFreeEvent() ? trans('word.free') : $event->convertPrice }}</td>
                 </tr>
             </table>
         </div>
