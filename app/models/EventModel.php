@@ -105,7 +105,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function requests()
     {
-        return $this->belongsToMany('User', 'requests', 'event_id', 'user_id');
+        return $this->hasMany('EventRequest', 'event_id');
     }
 
     /*********************************************************************************************************

@@ -293,10 +293,10 @@ class AdminEventsController extends AdminBaseController {
     public function getDetails($id)
     {
         $event               = $this->eventRepository->findById($id);
-        $subscriptions_count = $event->subscriptions()->where('status', 'CONFIRMED')->count();
+        $subscriptions_count = $event->subscriptions()->count();
         $favorites_count     = $event->favorites()->count();
         $followers_count     = $event->followers()->count();
-        $requests_count      = $event->subscriptions()->count();
+        $requests_count      = $event->requests()->count();
 
         $event->updateAvailableSeats();
 
@@ -358,8 +358,7 @@ class AdminEventsController extends AdminBaseController {
 
     public function getRequests($id)
     {
-        $event = $this->eventRepository->findById($id);
-
+        $event = $this->eventRepository->findById($id,['requests.user']);
         $this->render('admin.events.requests', compact('event'));
     }
 

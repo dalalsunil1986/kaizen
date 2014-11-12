@@ -134,10 +134,10 @@
                         @elseif($eventExpired)
                             {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
                                 <button type="submit" class=" col-md-12 col-sm-12 col-xs-12 events_btns btn btn-default btn-sm subscribe_btn bg-blue "
-                                    data-toggle="tooltip" data-placement="top" title="{{ trans('word.reorganize')  }}">
+                                    data-toggle="tooltip" data-placement="top" title="{{ trans('word.request_reorganize_events')  }}">
                                     <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                                     <span class="buttonText">
-                                       {{ trans('word.reorganize')  }}
+                                       {{ trans('word.request_reorganize_events')  }}
                                     </span>
                                 </button>
                             {{ Form::close() }}
@@ -307,10 +307,10 @@
 
                     {{ Form::open(['class' => 'form', 'method' => 'post', 'action' => ['EventsController@reorganizeEvents', $event->id]]) }}
                         <button type="submit" class="col-md-12 col-sm-12 col-xs-12 btn btn-default btn-sm subscribe_btn "
-                            data-toggle="tooltip" data-placement="top" title="{{ trans('word.reorganize')  }}">
+                            data-toggle="tooltip" data-placement="top" title="{{ trans('word.request_reorganize_events')  }}">
                             <i class="subscribe glyphicon glyphicon-check"></i>  </br>
                             <span class="buttonText">
-                               {{ trans('word.reorganize')  }}
+                               {{ trans('word.request_reorganize_events')  }}
                             </span>
                         </button>
                     {{ Form::close() }}

@@ -32,6 +32,7 @@
                     <a href="{{action('AdminEventsController@getFollowers',$event->id) }}" class="btn btn-default">{{ $followers_count }} - Followers</a>
                     <a href="{{action('AdminEventsController@getSubscriptions',$event->id) }}" class="btn btn-default">{{ $subscriptions_count }} - Subscriptions</a>
                     <a href="{{action('AdminEventsController@getFavorites',$event->id) }}" class="btn btn-default">{{ $favorites_count }} - Favorites</a>
+                    <a href="{{action('AdminEventsController@getRequests',$event->id) }}" class="btn btn-default">{{ $requests_count }} - Reorganize Requests</a>
                 </div>
             </td>
 
