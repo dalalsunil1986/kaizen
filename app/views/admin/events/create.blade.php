@@ -3,7 +3,8 @@
 @section('style')
 @parent
 {{ HTML::style('assets/css/jquery.datetimepicker.css') }}
-
+{{ HTML::style('assets/vendors/select2/select2.css') }}
+{{ HTML::style('assets/vendors/select2/select2-bootstrap.css') }}
 @stop
 
 {{-- Content --}}
@@ -153,15 +154,9 @@
 </div>
 
 <div class="row">
-    <div class="form-group col-md-12">
-        <p>{{ Form::label('tags', 'Tags:', array('class','pull-left')) }}</p>
-            @foreach($tags as $tag)
-                <div class="controls col-md-3">
-
-                    {{ Form::checkbox('tag[]', $tag->id, false)  }}
-                    {{ Form::label($tag->name, $tag->name) }}
-                </div>
-            @endforeach
+    <div class="form-group col-md-6">
+        {{ Form::label('tags', 'Tags:') }}
+        {{ Form::select('tags[]',$tags,null,['class'=>'form-control','id'=>'tags','multiple'=>'multiple','data-placeholder'=>'Select Tags']) }}
     </div>
 </div>
 <div class="row">
@@ -209,6 +204,7 @@ $longitude = '47.951';
 {{HTML::script('assets/js/jquery-ui.min.js') }}
 {{HTML::script('assets/js/jquery.datetimepicker.js') }}
 {{HTML::script('assets/js/address.picker.js') }}
+{{ HTML::script('assets/vendors/select2/select2.min.js') }}
 
 <script type="text/javascript">
 
@@ -274,7 +270,12 @@ $longitude = '47.951';
 
     });
 
-
+    $(document).ready(function() {
+        $('#tags').select2({
+            placeholder: "Select Tags",
+            allowClear: true
+        });
+    });
 
 </script>
 

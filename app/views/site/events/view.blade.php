@@ -211,7 +211,7 @@
                     <td><b> {{ trans('word.date_end') }} </b></td>
                     <td> {{ $event->formatEventDate($event->date_end) }}</td>
                 </tr>
-                
+
                 @if($event->phone || $event->email)
                     <tr>
                         @if($event->phone)
@@ -264,16 +264,16 @@
 
         <div class="col-md-12 col-sm-12 col-xs-12">
             <!-- Tags Element -->
-            @if($tags)
+            @if($event->tags)
                 <div class="row" style="padding:20px;">
-                    @for($i=0; $i < count($tags); $i++)
-                        <a href="{{ action('TagsController@show', $tags[$i]->id) }}">
+                    @foreach($event->tags as $tag)
+                        <a href="{{ action('TagsController@getEvents', $tag->id) }}">
                             <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-tags"></span>
-                                {{ $tags[$i]->title}}
+                                <i class="fa fa-tags"></i>
+                                {{ $tag->name}}
                             </button>
-                            </a>
-                    @endfor
+                        </a>
+                    @endforeach
                 </div>
             @endif
 
@@ -346,7 +346,7 @@
                         @else
                             class="text-right text-primary"
                         @endif
-                        >{{ $comment->user->username}}
+                        >{{ $comment->user ?  $comment->user->username : ''}}
                         <span class="text-muted"> - {{ $comment->created_at }} </span></p>
                     </div>
                 @endforeach

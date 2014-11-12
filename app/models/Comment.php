@@ -16,11 +16,6 @@ class Comment extends BaseModel implements PresenterInterface {
         return $this->morphTo();
     }
 
-    public function post()
-    {
-        return $this->belongsTo('Post');
-    }
-
     public function user()
     {
         return $this->belongsTo('User', 'user_id');

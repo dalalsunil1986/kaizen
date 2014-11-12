@@ -44,7 +44,7 @@ class Blog extends BaseModel implements PresenterInterface {
 
     public function categories()
     {
-        return $this->hasMany('Category', 'category_id')->where('');
+        return $this->hasMany('Category', 'category_id');
     }
 
     public function getPresenter()

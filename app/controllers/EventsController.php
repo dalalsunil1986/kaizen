@@ -4,6 +4,7 @@ use Acme\Category\CategoryRepository;
 use Acme\Country\CountryRepository;
 use Acme\EventModel\EventRepository;
 use Acme\Subscription\SubscriptionRepository;
+use Acme\Tag\TagRepository;
 use Acme\User\UserRepository;
 use Carbon\Carbon;
 
@@ -33,8 +34,12 @@ class EventsController extends BaseController {
      * @var Acme\Subscription\SubscriptionRepository
      */
     private $subscriptionRepository;
+    /**
+     * @var TagRepository
+     */
+    private $tagRepository;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository, TagRepository $tagRepository)
     {
         $this->eventRepository        = $eventRepository;
         $this->categoryRepository     = $categoryRepository;
@@ -43,6 +48,7 @@ class EventsController extends BaseController {
         $this->subscriptionRepository = $subscriptionRepository;
         parent::__construct();
         $this->beforeFilter('auth', ['only'=>['showSubscriptionOptions', 'reorganizeEvents', 'streamEvent']]);
+        $this->tagRepository = $tagRepository;
     }
 
     public function index()
@@ -101,7 +107,9 @@ class EventsController extends BaseController {
 
         $eventCategories = $this->categoryRepository->getEventCategories()->get();
 
-        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories','expiredEvents'));
+        $tags = $this->tagRepository->getEventTags();
+
+        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories','tags','expiredEvents'));
     }
 
     /**
@@ -112,9 +120,7 @@ class EventsController extends BaseController {
      */
     public function show($id)
     {
-        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos']);
-
-        $tags = $this->eventRepository->findById($id)->tags;
+        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos','tags']);
 
         // returns true false
         $eventExpired = $this->eventRepository->eventExpired($event->date_start);
@@ -453,7 +459,6 @@ class EventsController extends BaseController {
             return Redirect::action('EventsController@show', $id)->with('warning', trans('general.wrong_event_stream_time'));
         }
 
-
         // check whether this user subscribed for this and confirmed
         $subscription = $event->subscriptions()->where('user_id', $user->id)->first();
 
@@ -586,7 +591,7 @@ class EventsController extends BaseController {
             list($token, $cid, $launchUrl) = $this->getStreamSettings();
 
             if ( is_null($token) ) {
-                return Redirect::action('EventsController@index')->with('error', trans('word.system_error'));
+                return Redirect::action('EventsController@index')->with('error', trans('word.invalid_token'));
             }
 
             // user date to pass to streaming server

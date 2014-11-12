@@ -8,6 +8,7 @@ class UpdateValidator extends AbstractValidator {
         'title_ar'       => 'required',
         'description_ar' => 'required',
         'category_id'    => 'required',
+        'user_id'    => 'required',
     );
 
     public function getInputData()

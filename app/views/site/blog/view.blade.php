@@ -2,8 +2,7 @@
 @section('content')
 
         <div class="col-md-12">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="row">
                     <div class="well well-sm" style="margin-bottom: 10px;">
                         <b>{{ $post->title }} </b>
@@ -27,11 +26,28 @@
                     <p class="text-justify">{{ $post->description }}</p>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+
         </div>
 
         <div class="col-md-12">
-            @if(count($post->comments) > 0)
+
+            <!-- Tags Element -->
+            @if($post->tags)
+                <div class="row" style="padding:20px;">
+                    @foreach($post->tags as $tag)
+                        <a href="{{ action('TagsController@getBlogs', $tag->id) }}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <i class="fa fa-tags"></i>
+                                {{ $tag->name}}
+                            </button>
+                        </a>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+
+        <div class="col-md-12">
+            @if(count($post->comments))
                 <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{trans('word.comment') }}</h3>
                 @foreach($post->comments as $comment)
                     <div class="comments_dev">
@@ -42,7 +58,7 @@
                         @else
                             class="text-right text-primary"
                         @endif
-                        >{{ $comment->user->username}}
+                        >{{ $comment->user ?  $comment->user->username : ''}}
                         <span class="text-muted"> - {{ $comment->created_at->diffForHumans() }} </span></p>
                     </div>
                 @endforeach

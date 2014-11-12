@@ -54,4 +54,20 @@ class TagRepository extends AbstractRepository {
             $model->tags()->sync($tagArray, true);
         }
     }
+
+    /**
+     * Get All the tags For event
+     */
+    public function getEventTags()
+    {
+        return $this->model->eventTags();
+    }
+
+    /**
+     * Get All the Tags For Blogs
+     */
+    public function getBlogTags()
+    {
+        return $this->model->blogTags();
+    }
 }

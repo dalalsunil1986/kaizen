@@ -3,6 +3,7 @@
 use Acme\Blog\BlogRepository;
 use Acme\Category\CategoryRepository;
 use Acme\Photo\PhotoRepository;
+use Acme\Tag\TagRepository;
 use Acme\User\UserRepository;
 
 class AdminBlogsController extends AdminBaseController {
@@ -25,6 +26,10 @@ class AdminBlogsController extends AdminBaseController {
      * @var Photo
      */
     private $photoRepository;
+    /**
+     * @var TagRepository
+     */
+    private $tagRepository;
 
     /**
      * Inject the models.
@@ -32,8 +37,9 @@ class AdminBlogsController extends AdminBaseController {
      * @param CategoryRepository|\Category $categoryRepository
      * @param Acme\User\UserRepository $userRepository
      * @param Acme\Photo\PhotoRepository $photoRepository
+     * @param TagRepository $tagRepository
      */
-    public function __construct(BlogRepository $blogRepository, CategoryRepository $categoryRepository, UserRepository $userRepository, PhotoRepository $photoRepository)
+    public function __construct(BlogRepository $blogRepository, CategoryRepository $categoryRepository, UserRepository $userRepository, PhotoRepository $photoRepository, TagRepository $tagRepository)
     {
         $this->blogRepository     = $blogRepository;
         $this->categoryRepository = $categoryRepository;
@@ -41,6 +47,7 @@ class AdminBlogsController extends AdminBaseController {
         $this->photoRepository    = $photoRepository;
         $this->beforeFilter('Admin');
         parent::__construct();
+        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -69,9 +76,9 @@ class AdminBlogsController extends AdminBaseController {
         $category = $this->select + $this->categoryRepository->getPostCategories()->lists('name_ar', 'id');
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $title    = Lang::get('admin.blogs.title.create_a_new_blog');
-
+        $tags     = [''=>''] + $this->tagRepository->getList('name_ar','id');
         // Show the page
-        $this->render('admin.blogs.create', compact('title', 'category', 'author'));
+        $this->render('admin.blogs.create', compact('title', 'category', 'author','tags'));
     }
 
     /**
@@ -90,6 +97,9 @@ class AdminBlogsController extends AdminBaseController {
         if ( ! $record = $this->blogRepository->create($val->getInputData()) ) {
             return Redirect::back()->with('errors', $this->blogRepository->errors())->withInput();
         }
+
+        $tags = is_array(Input::get('tags')) ? array_filter(Input::get('tags')) : [];
+        $this->tagRepository->attachTags($record, $tags);
 
         return Redirect::action('AdminPhotosController@create', ['imageable_type' => 'Blog', 'imageable_id' => $record->id]);
 
@@ -119,8 +129,10 @@ class AdminBlogsController extends AdminBaseController {
         $author   = $this->select + $this->userRepository->getRoleByName('author')->lists('username', 'id');
         $post     = $this->blogRepository->findById($id);
 
+        $tags       = $this->tagRepository->getList('name_ar','id');
+        $dbTags =     $post->tags->lists('id');
         // Show the page
-        $this->render('admin.blogs.edit', compact('post', 'title', 'category', 'author'));
+        $this->render('admin.blogs.edit', compact('post', 'title', 'category', 'author','tags','dbTags'));
     }
 
     /**
@@ -131,7 +143,7 @@ class AdminBlogsController extends AdminBaseController {
      */
     public function update($id)
     {
-        $this->blogRepository->findById($id);
+        $record = $this->blogRepository->findById($id);
 
         $val = $this->blogRepository->getEditForm($id);
 
@@ -144,6 +156,9 @@ class AdminBlogsController extends AdminBaseController {
 
             return Redirect::back()->with('errors', $this->blogRepository->errors())->withInput();
         }
+
+        $tags = is_array(Input::get('tags')) ? array_filter(Input::get('tags')) : [];
+        $this->tagRepository->attachTags($record, $tags);
 
         return Redirect::action('AdminBlogsController@edit', $id)->with('success', 'Updated');
     }

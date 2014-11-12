@@ -3,6 +3,7 @@
 @section('sidebar')
     @include('site.events._expired')
     @include('site.events._category')
+    @include('site.events._tags')
     @parent
 @stop
 

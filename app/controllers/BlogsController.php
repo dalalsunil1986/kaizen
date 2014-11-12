@@ -2,6 +2,7 @@
 
 use Acme\Blog\BlogRepository;
 use Acme\Category\CategoryRepository;
+use Acme\Tag\TagRepository;
 use Acme\User\UserRepository;
 
 class BlogsController extends BaseController {
@@ -19,17 +20,23 @@ class BlogsController extends BaseController {
      * @var CategoryRepository
      */
     private $categoryRepository;
+    /**
+     * @var TagRepository
+     */
+    private $tagRepository;
 
     /**
      * @param BlogRepository $blogRepository
      * @param UserRepository $userRepository
      * @param CategoryRepository $categoryRepository
+     * @param TagRepository $tagRepository
      */
-    public function __construct(BlogRepository $blogRepository, UserRepository $userRepository, CategoryRepository $categoryRepository){
+    public function __construct(BlogRepository $blogRepository, UserRepository $userRepository, CategoryRepository $categoryRepository, TagRepository $tagRepository){
 
         $this->blogRepository = $blogRepository;
         $this->userRepository = $userRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->tagRepository = $tagRepository;
         parent::__construct();
     }
     
@@ -46,8 +53,10 @@ class BlogsController extends BaseController {
         $posts = $this->blogRepository->getAllPaginated(['category','photos','author']);
 
         $categories = $this->categoryRepository->getPostCategories()->get();
+
+        $tags = $this->tagRepository->getBlogTags();
 		// Show the page
-        $this->render('site.blog.index', compact('posts','categories'));
+        $this->render('site.blog.index', compact('posts','categories','tags'));
 	}
 
     /**

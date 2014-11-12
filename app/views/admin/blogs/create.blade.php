@@ -1,5 +1,11 @@
 @extends('admin.master')
 
+@section('style')
+    @parent
+    {{ HTML::style('assets/vendors/select2/select2.css') }}
+    {{ HTML::style('assets/vendors/select2/select2-bootstrap.css') }}
+@stop
+
 @section('content')
     <h1>Add Blog Post</h1>
 
@@ -47,6 +53,11 @@
             </div>
         </div>
 
+        <div class="form-group col-md-12">
+            {{ Form::label('tags', 'Tags:') }}
+            {{ Form::select('tags[]',$tags,null,['class'=>'form-control','id'=>'tags','multiple'=>'multiple','data-placeholder'=>'Select Tags']) }}
+        </div>
+
         <div class="col-md-12">
             <div class="form-group">
                 <button type="submit" class="btn btn-success">Save</button>
@@ -65,4 +76,20 @@
         </div>
     </div>
     @endif
+@stop
+
+
+@section('script')
+    @parent
+    {{ HTML::script('assets/vendors/select2/select2.min.js') }}
+
+    <script>
+        $(document).ready(function() {
+            $('#tags').select2({
+                placeholder: "Select Tags",
+                allowClear: true
+            });
+        });
+    </script>
+
 @stop
