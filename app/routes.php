@@ -80,6 +80,10 @@ Route::resource('blog', 'BlogsController', array('only' => array('index', 'show'
 /*********************************************************************************************************
  * Tags
  ********************************************************************************************************/
+Route::get('tag/{id}/event', 'TagsController@getEvents' );
+
+Route::get('tag/{id}/blog', 'TagsController@getBlogs' );
+
 Route::resource('tag', 'TagsController', array('only' => array('show')));
 
 // Post Comment

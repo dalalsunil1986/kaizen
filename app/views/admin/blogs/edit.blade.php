@@ -1,5 +1,11 @@
 @extends('admin.master')
 
+@section('style')
+    @parent
+    {{ HTML::style('assets/vendors/select2/select2.css') }}
+    {{ HTML::style('assets/vendors/select2/select2-bootstrap.css') }}
+@stop
+
 @section('content')
 <h1>Edit Blog Post</h1>
 
@@ -47,6 +53,19 @@
         </div>
     </div>
 
+    <div class="form-group col-md-12">
+        <p>{{ Form::label('tags', 'Tags:', array('class','pull-left')) }}</p>
+        <select id="tags" name="tags[]" class="form-control" multiple="multiple" data-placeholder="Select Tags" >
+            @foreach($tags as $key=>$value)
+                <option value="{{ $key }}"
+                    @if(in_array($key,$dbTags))
+                    selected="selected"
+                    @endif
+                >{{$value}}</option>
+            @endforeach
+        </select>
+    </div>
+
     <div class="col-md-12">
         <div class="form-group">
             <button type="submit" class="btn btn-success">Save</button>
@@ -90,4 +109,18 @@
     </div>
 </div>
 @endif
+@stop
+
+@section('script')
+    @parent
+    {{ HTML::script('assets/vendors/select2/select2.min.js') }}
+
+    <script>
+        $(document).ready(function() {
+            $('#tags').select2({
+                placeholder: "Select Tags",
+                allowClear: true
+            });
+        });
+    </script>
 @stop

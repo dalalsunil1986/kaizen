@@ -21,8 +21,24 @@ class Tag extends Eloquent {
 
     public function blogs()
     {
-        return $this->morphedByMany('Blog', 'taggable');
+        return $this->morphedByMany('Blog', 'taggable')->withPivot(['tag_id']);
     }
 
+    public function eventTags(){
+        return DB::table('tags')
+            ->select(['tags.id','tags.name_'.getLocale() .' as name'])
+            ->leftJoin('taggables', 'tags.id', '=', 'taggables.tag_id')
+            ->where('taggables.taggable_type','EventModel')
+            ->groupBy('tags.id')
+            ->get();
+    }
 
+    public function blogTags(){
+        return DB::table('tags')
+            ->select(['tags.id','tags.name_'.getLocale() .' as name'])
+            ->leftJoin('taggables', 'tags.id', '=', 'taggables.tag_id')
+            ->where('taggables.taggable_type','Blog')
+            ->groupBy('tags.id')
+            ->get();
+    }
 }

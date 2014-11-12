@@ -4,6 +4,7 @@ use Acme\Category\CategoryRepository;
 use Acme\Country\CountryRepository;
 use Acme\EventModel\EventRepository;
 use Acme\Subscription\SubscriptionRepository;
+use Acme\Tag\TagRepository;
 use Acme\User\UserRepository;
 use Carbon\Carbon;
 
@@ -33,8 +34,12 @@ class EventsController extends BaseController {
      * @var Acme\Subscription\SubscriptionRepository
      */
     private $subscriptionRepository;
+    /**
+     * @var TagRepository
+     */
+    private $tagRepository;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository)
+    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository, TagRepository $tagRepository)
     {
         $this->eventRepository        = $eventRepository;
         $this->categoryRepository     = $categoryRepository;
@@ -43,6 +48,7 @@ class EventsController extends BaseController {
         $this->subscriptionRepository = $subscriptionRepository;
         parent::__construct();
         $this->beforeFilter('auth', ['only'=>['showSubscriptionOptions', 'reorganizeEvents', 'streamEvent']]);
+        $this->tagRepository = $tagRepository;
     }
 
     public function index()
@@ -101,7 +107,9 @@ class EventsController extends BaseController {
 
         $eventCategories = $this->categoryRepository->getEventCategories()->get();
 
-        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories','expiredEvents'));
+        $tags = $this->tagRepository->getEventTags();
+
+        $this->render('site.events.index', compact('events', 'authors', 'categories', 'countries', 'search', 'category', 'author', 'country', 'eventCategories','tags','expiredEvents'));
     }
 
     /**
@@ -112,9 +120,7 @@ class EventsController extends BaseController {
      */
     public function show($id)
     {
-        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos']);
-
-        $tags = $this->eventRepository->findById($id)->tags;
+        $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos','tags']);
 
         // returns true false
         $eventExpired = $this->eventRepository->eventExpired($event->date_start);

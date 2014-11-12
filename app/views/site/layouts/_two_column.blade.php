@@ -4,8 +4,8 @@
 </div>
 <div class="col-md-4 col-xs-12">
     @section('sidebar')
-        @include('site.events.latest')
-        @include('site.blog.latest')
+        @include('site.events._latest')
+        @include('site.blog._latest')
         @include('site.partials.twitter')
         @include('site.partials.newsletter')
     @show

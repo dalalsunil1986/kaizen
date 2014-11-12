@@ -155,17 +155,8 @@
 
 <div class="row">
     <div class="form-group col-md-6">
-        {{ Form::label('registration_types', 'Registration Type:') }}
+        {{ Form::label('tags', 'Tags:') }}
         {{ Form::select('tags[]',$tags,null,['class'=>'form-control','id'=>'tags','multiple'=>'multiple','data-placeholder'=>'Select Tags']) }}
-        {{--<select id="tags" name="tags[]" class="form-control" multiple="multiple" >--}}
-            {{--@foreach($tags as $key=>$key)--}}
-                {{--<option value="{{ $key }}"--}}
-                    {{--@if(in_array($key,$dbTags))--}}
-                    {{--selected="selected"--}}
-                    {{--@endif--}}
-                {{-->{{$key}}</option>--}}
-            {{--@endforeach--}}
-        {{--</select>--}}
     </div>
 </div>
 <div class="row">
