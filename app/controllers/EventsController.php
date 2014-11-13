@@ -451,8 +451,11 @@ class EventsController extends BaseController {
 
         }
 
+        $subscription = $event->subscriptions()->where('user_id', $user->id)->where('status','CONFIRMED')->first();
+
         // If user has a subscription and subscription is not confirmed
-        if ( $subscription->status != 'CONFIRMED' ) {
+//        if ( $subscription->status != 'CONFIRMED' ) {
+        if ( ! $subscription->status == 'CONFIRMED' ) {
 
             return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_confirmed'));
         }
