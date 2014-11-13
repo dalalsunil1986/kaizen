@@ -485,8 +485,9 @@ class EventsController extends BaseController {
             'token'        => urlencode($token),
             'cid'          => $cid,
             'roomid'       => $event->setting->online_room_id, //todo : change with database room name $setting->online_room_no
+//            'roomid'       => $event->setting->online_room_id, //todo : change with database room name $setting->online_room_no
             'usertypeid'   => $userTypeId,
-            'gender'       => $user->gender,
+            'gender'       => $user->gender ? $user->gender[0] : 'M',
             'firstname'    => $user->username,
             'lastname'     => $user->name,
             'email'        => $user->email,

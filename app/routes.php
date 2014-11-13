@@ -320,25 +320,4 @@ Route::post('queue/iron', function () {
  ********************************************************************************************************/
 Route::get('test', function () {
 
-//    $susbcription = new Subscription();
-//    $users_email = [
-////        'mooon_83@hotmail.com',' Rialenazi@ud.ed.sa',' alammora@gmail.com',' Tolen2013@gmail.com',' joy_of_time@hotmail.com',' nw_5@hotmail.com',' Teacher_safeya@hotmail.com',' altoot911@gmail.com',' Be.lucky2013@yahoo.com',' o.l.a.68@hotmail.com',' fatimafatima7676@gmail.com',' azorrah@gmail.com',' haifa_alkhenaifer@hotmail.com',' Meesho0o990@hotmail.com',' Love.noura.qtr@gmail.com',' Huda.almuraikhi@hotmail.com',' Amina.ali@msn.com',' Qmra22.33@gmail.com',' Deema@tijan.net',' saadhannoudi@gmail.com',' Amhz2468@gmail.com',' Yousif-almanea@hotmail.com',' Nndd061970@yahoo.fr',' Hnooon666@hotmail.com',' Auosh111@hotmail.com',' dr_nada@hotmail.com.co.uk',' Naft432@hotmail.com',' nabet@hotmail.com',' jaldawoud@gmail.com',' Nahla123@hotmail.com',' huda1155@hotmail.com',' Shamayel@platinum-book.com',' aishamasre@hotmail.com',' nadiamasre@hotmail.com',' Baheya2@hotmail.com',' Khalsa.hadidi@omantel.com',' F_baraja@hotmail.com',' Na_aoo@hotmail.com',' Zainb_n89@yahoo.com',' yasmeena@live.com',' falkonreem@yahoo.com',' abeerfm@yahoo.com',' Bentalqaser@hotmail.com',' Mfud-1407@hotmail.com',' Maryam.a.hussain@gmail.com',' Choco.berry.5@hotmail.com',' Jumanah.khayat@gmail.com',' Nouf.ma.Saud@gmail.com',' D.bandar@hotmail.com',' s.bandar@hotmail.com',' Naalsammak@hotmail.com',' B7r_al_3yoon@hotmail.com',' abeer@sec.gov.qa',' quseear@gmail.com',' aysha.alnajjar@gmail.com',' S.a.alrashed@gmail.com',' Hessa.f.s@gmail.com',' tmohamad15@gmail.com',' zad310@gmail.com',' badria.shihi@omantel.om',' ta6m1990@hotmail.com',' massa248@hotmail.com',' shuaa_81@hotmail.com',' bisaan408@gmail.com',' engineerz82@yahoo.com',' fatmahhaider@gmail.com',' falaj1978@gmail.com',' laalalmai@gmail.com',' Ash.saeed.84@gmail.com',' norahaa9@gmail.com',' ljmj1999@hotmail.com',' Eng_nouf.a.s@hotmail.com',' loleetana@gmail.com',' nahar430@hotmail.com',' amal.almana@hotmail.com',' amal.almana@hotmail.com',' shekah.d@gmail.com',' q8ya89@outlook.com',' noufjw@gmail.com'
-//        'mooon_83@hotmail.com','Rialenazi@ud.ed.sa','alammora@gmail.com','Tolen2013@gmail.com','joy_of_time@hotmail.com','nw_5@hotmail.com','Teacher_safeya@hotmail.com','altoot911@gmail.com','Be.lucky2013@yahoo.com','o.l.a.68@hotmail.com','fatimafatima7676@gmail.com','azorrah@gmail.com','haifa_alkhenaifer@hotmail.com','Meesho0o990@hotmail.com','Love.noura.qtr@gmail.com','Huda.almuraikhi@hotmail.com','Amina.ali@msn.com','Qmra22.33@gmail.com','Deema@tijan.net','saadhannoudi@gmail.com','Amhz2468@gmail.com','Yousif-almanea@hotmail.com','Nndd061970@yahoo.fr','Hnooon666@hotmail.com','Auosh111@hotmail.com','dr_nada@hotmail.com.co.uk','Naft432@hotmail.com','nabet@hotmail.com','jaldawoud@gmail.com','Nahla123@hotmail.com','huda1155@hotmail.com','Shamayel@platinum-book.com','aishamasre@hotmail.com','nadiamasre@hotmail.com','Baheya2@hotmail.com','Khalsa.hadidi@omantel.com','F_baraja@hotmail.com','Na_aoo@hotmail.com','Zainb_n89@yahoo.com','yasmeena@live.com','falkonreem@yahoo.com','abeerfm@yahoo.com','Bentalqaser@hotmail.com','Mfud-1407@hotmail.com','Maryam.a.hussain@gmail.com','Choco.berry.5@hotmail.com','Jumanah.khayat@gmail.com','Nouf.ma.Saud@gmail.com','D.bandar@hotmail.com','s.bandar@hotmail.com','Naalsammak@hotmail.com','B7r_al_3yoon@hotmail.com','abeer@sec.gov.qa','quseear@gmail.com','aysha.alnajjar@gmail.com','Nalla.alrashed@gmail.com','Hessa.f.s@gmail.com','tmohamad15@gmail.com','zad310@gmail.com','badria.shihi@omantel.om','ta6m1990@hotmail.com','massa248@hotmail.com','shuaa_81@hotmail.com','bisaan408@gmail.com','engineerz82@yahoo.com','fatmahhaider@gmail.com','falaj1978@gmail.com','laalalmai@gmail.com','Ash.saeed.84@gmail.com','norahaa9@gmail.com','ljmj1999@hotmail.com','Eng_nouf.a.s@hotmail.com','loleetana@gmail.com','nahar430@hotmail.com','amal.almana@hotmail.com','amal.almana@hotmail.com','shekah.d@gmail.com','q8ya89@outlook.com','noufjw@gmail.com'
-//
-////        'mooon_83@hotmail.com','Rialenazi@ud.ed.sa','alammora@gmail.com','Tolen2013@gmail.com'
-//    // 1288 - 1343
-//    ];
-//
-//    $carbon= new \Carbon\Carbon();
-//    $now = $carbon->now();
-//    $a = [];
-//    foreach($users_email as $email) {
-//        $now = $carbon->now();
-//        $user = User::where('email',$email)->first();
-//        if($user) {
-//            Subscription::create(['user_id'=>$user->id,'event_id'=>9,'status'=>'CONFIRMED','registration_type'=>'ONLINE','created_at'=>$now,'updated_at'=>$now]) ;
-//            echo $user->email .'created';
-//        }
-//    }
-
 });
