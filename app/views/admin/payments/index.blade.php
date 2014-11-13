@@ -48,7 +48,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active text-style" id="tab-single-1">
                                 @if ($payments->count())
-                                <table class="table table-striped table-bordered">
+                                <table class="datatable table table-striped table-bordered">
                                     <thead>
                                     <tr>
                                         <th>Title</th>
