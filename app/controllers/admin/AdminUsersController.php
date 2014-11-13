@@ -58,7 +58,7 @@ class AdminUsersController extends AdminBaseController {
     {
         // Grab all the users
         $title  = 'Users';
-        $users = $this->userRepository->getAllPaginated(['roles','country'],50);
+        $users = $this->userRepository->getAllPaginated(['roles','country'],800);
         // Show the page
         return $this->render('admin.users.index', compact('users', 'title'));
     }

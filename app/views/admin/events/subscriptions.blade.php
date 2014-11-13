@@ -64,7 +64,7 @@
                                         <thead>
                                         <tr>
                                             <th>Title</th>
-                                            <th>User</th>
+                                            <th>email</th>
                                             <th>Status</th>
                                             <th>Subscribed on</th>
                                             <th>Actions</th>
@@ -79,7 +79,7 @@
                                             </td>
                                             <td>
                                                 @if($subscription->user)
-                                                    <a href="{{ action('AdminUsersController@show',$subscription->user->id) }}">{{ $subscription->user->username }}</a>
+                                                    <a href="{{ action('AdminUsersController@show',$subscription->user->id) }}">{{ $subscription->user->email }}</a>
                                                 @else
                                                     User Deleted
                                                 @endif
