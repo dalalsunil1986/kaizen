@@ -455,7 +455,7 @@ class EventsController extends BaseController {
 
         // If user has a subscription and subscription is not confirmed
 //        if ( $subscription->status != 'CONFIRMED' ) {
-        if ( ! $subscription->status == 'CONFIRMED' ) {
+        if ( ! $subscription) {
 
             return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_confirmed'));
         }
@@ -465,8 +465,6 @@ class EventsController extends BaseController {
 
             return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_online'));
         }
-
-
 
         // stream the event
         if ( !$this->getStreamSettings() ) {
