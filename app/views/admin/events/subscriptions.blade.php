@@ -64,6 +64,7 @@
                                         <thead>
                                         <tr>
                                             <th>Title</th>
+                                            <th>username</th>
                                             <th>email</th>
                                             <th>Status</th>
                                             <th>Subscribed on</th>
@@ -76,6 +77,13 @@
                                         <tr>
                                             <td>
                                                 <a href="{{action('AdminEventsController@getRequests',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
+                                            </td>
+                                            <td>
+                                                @if($subscription->user)
+                                                    <a href="{{ action('AdminUsersController@show',$subscription->user->id) }}">{{ $subscription->user->username }}</a>
+                                                @else
+                                                    User Deleted
+                                                @endif
                                             </td>
                                             <td>
                                                 @if($subscription->user)

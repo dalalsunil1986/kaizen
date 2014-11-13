@@ -53,6 +53,7 @@
                                     <tr>
                                         <th>Title</th>
                                         <th>User</th>
+                                        <th>email</th>
                                         <th>Status</th>
                                     </tr>
                                     </thead>
@@ -65,8 +66,20 @@
                                                 <td>
                                                  <a href="{{action('AdminEventsController@getRequests',$payment->payable->event->id) }}">{{ $payment->payable->event->title }}</a>
                                                 </td>
-
-                                                <td><a href="{{ action('AdminUsersController@show',$payment->user->id) }}">{{ $payment->user->username }}</a></td>
+                                                <td>
+                                                    @if($payment->user)
+                                                        <a href="{{ action('AdminUsersController@show',$payment->user->id) }}">{{ $payment->user->username }}</a>
+                                                    @else
+                                                        User Deleted
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($payment->user)
+                                                        <a href="{{ action('AdminUsersController@show',$payment->user->id) }}">{{ $payment->user->email }}</a>
+                                                    @else
+                                                        User Deleted
+                                                    @endif
+                                                </td>
                                                 <td>{{ $payment->status }}</td>
                                             </tr>
                                         @endif
