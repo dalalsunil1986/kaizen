@@ -59,10 +59,10 @@ class SubscriptionsController extends BaseController {
 //        }
 
         // If event is Expired
-        if ( $this->eventRepository->eventExpired($event->date_start) ) {
-
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('word.event_expired'));
-        }
+//        if ( $this->eventRepository->eventExpired($event->date_start) ) {
+//
+//            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('word.event_expired'));
+//        }
 
         // If no subscription entry in the database
         if ( !$subscription ) {
