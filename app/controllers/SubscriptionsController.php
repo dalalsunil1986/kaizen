@@ -53,18 +53,16 @@ class SubscriptionsController extends BaseController {
         }
 
         // if event is currently going on
-        if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
-
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('general.event_ongoing'));
-        }
+//        if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
+//
+//            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('general.event_ongoing'));
+//        }
 
         // If event is Expired
         if ( $this->eventRepository->eventExpired($event->date_start) ) {
 
             return Redirect::action('EventsController@show', $eventId)->with('warning', trans('word.event_expired'));
         }
-
-
 
         // If no subscription entry in the database
         if ( !$subscription ) {
@@ -108,10 +106,10 @@ class SubscriptionsController extends BaseController {
         }
 
         // if event is currently going on
-        if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
-
-            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('general.event_ongoing'));
-        }
+//        if ( $this->eventRepository->ongoingEvent($event->date_start, $event->date_end) ) {
+//
+//            return Redirect::action('EventsController@show', $eventId)->with('warning', trans('general.event_ongoing'));
+//        }
 
         if ( $subscription ) {
 
@@ -133,7 +131,7 @@ class SubscriptionsController extends BaseController {
 
     public function subscribePackage($userId = 1, $packageId = 1)
     {
-        // loop through packages each events and subscribe
+            // loop through packages each events and subscribe
         $package = $this->packageRepository->findById($packageId);
 
         foreach ( $package->events as $event ) {
