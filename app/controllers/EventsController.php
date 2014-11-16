@@ -561,6 +561,10 @@ class EventsController extends BaseController {
 
     public function onlineTestEvent()
     {
+        if(Auth::user()->id != 1) {
+            return  'You Cannot View the Event Now';
+        }
+        
         if ( !$this->getStreamSettings() ) {
             return Redirect::action('EventsController@index')->with('error', trans('word.system_error'));
         }
