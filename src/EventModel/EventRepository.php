@@ -33,7 +33,7 @@ class EventRepository extends AbstractRepository {
     {
         return $this->getAll()
             ->where('date_start', '>', Carbon::now()->subDay())
-            ->orWhere('date_end', '>', Carbon::now()->addDay())
+            ->orWhere('date_end', '<', Carbon::now()->addDay())
             ->orderBy('date_start', 'ASC')
             ->orderBy('created_at', 'DESC')
             ->paginate($perPage);
