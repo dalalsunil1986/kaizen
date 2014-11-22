@@ -90,7 +90,7 @@ class EventsController extends BaseController {
                     }
                 })
                 ->orderBy('date_start', 'ASC')
-                ->orderBy('created_at', 'DESC')
+                ->orderBy('created_at', 'ASC')
                 ->paginate($perPage);
 
         } elseif ( isset($expired) && $expired == 'true' ) {
