@@ -170,8 +170,8 @@ class AdminEventsController extends AdminBaseController {
         $tags = is_array(Input::get('tags')) ? array_filter(Input::get('tags')) : [];
         $this->tagRepository->attachTags($event, $tags);
 
-//        return Redirect::action('AdminEventsController@index')->with('success', 'Updated');
-        return Redirect::action('AdminEventsController@edit',$event->id)->with('success', 'Updated');
+        return Redirect::action('AdminEventsController@index')->with('success', 'Updated');
+//        return Redirect::action('AdminEventsController@edit',$event->id)->with('success', 'Updated');
 
     }
 
