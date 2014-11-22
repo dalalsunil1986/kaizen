@@ -231,8 +231,8 @@ $longitude = '47.951';
     });
 
     $(function() {
-        var latitude = '<?php echo $latitude?>';
-        var longitude = '<?php echo $longitude ?>';
+        var latitude = '{{ $latitude }}';
+        var longitude = '{{ $longitude }}';
 
         get_map(latitude,longitude);
 
@@ -243,7 +243,6 @@ $longitude = '47.951';
                 lat:      "#latitude",
                 lng:      "#longitude"
             }
-
         });
 
         var gmarker = addresspickerMap.addresspicker( "marker");

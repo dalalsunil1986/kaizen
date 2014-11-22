@@ -96,7 +96,7 @@ class EventRepository extends AbstractRepository {
             ->join('photos as p', 'e.id', '=', 'p.imageable_id', 'LEFT')
             ->where('p.imageable_type', '=', 'EventModel')
             ->where('e.date_start', '>', Carbon::now()->toDateTimeString())
-            ->orderBy('e.date_start', 'DESC')
+            ->orderBy('e.date_start', 'ASC')
             ->orderBy('e.created_at', 'DESC')
             ->take('5')
             ->get(array('e.id'));
@@ -114,7 +114,7 @@ class EventRepository extends AbstractRepository {
             ->where('p.imageable_type', '=', 'EventModel')
             ->where('e.date_start', '>', Carbon::now()->toDateTimeString())
             ->where('e.featured', '1')
-            ->orderBy('e.date_start', 'DESC')
+            ->orderBy('e.date_start', 'ASC')
             ->orderBy('e.created_at', 'DESC')
             ->take('5')
             ->get(array('e.id'));

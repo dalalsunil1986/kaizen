@@ -19,8 +19,6 @@ use-cases
 
 _ide_helper.php
 
-# Basset development collections
-/public/assets/compiled/
 /public/uploads/
 
 #vagrant
@@ -31,10 +29,4 @@ install.sh
 composer.phar
 composer.lock
 
-# OS
-
-# Packages
-_ide_helpers.php
-
-routes.txt
 

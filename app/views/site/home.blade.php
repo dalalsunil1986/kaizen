@@ -6,14 +6,9 @@
 
 @include('site.partials.ads')
 
-<!-- Sidebar Section -->
-@section('sidebar')
-@parent
-@stop
-
 <!-- Content Section -->
 @section('content')
-@parent
+    @parent
     @include('site.partials.youtube')
     @include('site.partials.instagram')
 @stop

@@ -144,8 +144,8 @@
             <div id="map" style="height: 400px;"></div>
             <div class="small">You can drag and drop the marker to the correct location</div>
             <input id="addresspicker_map" name="addresspicker_map" class="form-control"  placeholder="Type the Street Address or drag and drop the map marker to the correct location">
-            {{ Form::hidden('latitude',NULL, array('id' => 'latitude')) }}
-            {{ Form::hidden('longitude',NULL, array('id' => 'longitude')) }}
+            {{ Form::hidden('latitude',$event->latitude, array('id' => 'latitude')) }}
+            {{ Form::hidden('longitude',$event->longitude, array('id' => 'longitude')) }}
         </div>
     </div>
 </div>
@@ -282,9 +282,8 @@ $longitude =  $event->longitude ? $event->longitude : '47.951';
         var latitude = '{{ $latitude }}';
         var longitude = '{{ $longitude }}';
 
-//        get_map(latitude,longitude);
+        get_map(latitude,longitude);
 
-        var addresspicker = $( "#addresspicker" ).addresspicker();
         var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
             updateCallback: showCallback,
             elements: {
@@ -292,12 +291,11 @@ $longitude =  $event->longitude ? $event->longitude : '47.951';
                 lat:      "#latitude",
                 lng:      "#longitude"
             }
-
         });
 
         var gmarker = addresspickerMap.addresspicker( "marker");
-//        gmarker.setVisible(true);
-//        addresspickerMap.addresspicker("updatePosition");
+        gmarker.setVisible(true);
+        addresspickerMap.addresspicker("updatePosition");
 
         $('#reverseGeocode').change(function(){
             $("#addresspicker_map").addresspicker("option", "reverseGeocode", ($(this).val() === 'true'));

@@ -34,28 +34,5 @@ class AdminCreateValidator extends AbstractValidator {
         ]);
     }
 
-    /**
-     * Remove Password field if empty
-     */
-    public function beforeValidation()
-    {
-//        if ( empty($this->inputData['password']) )
-//            unset($this->inputData['password']);
-//
-//        {
-//            $user = User::find($this->inputData['user_id']);
-//            $user->email = $this->inputData['email'];
-//            $user->username = $this->inputData['username'];
-//
-//            if ( ! $user->isDirty('email') ) {
-//                unset($this->inputData['email']);
-//            }
-//            if ( ! $user->isDirty('username') ) {
-//                unset($this->inputData['username']);
-//            }
-//
-//        }
-    }
-
 
 }
