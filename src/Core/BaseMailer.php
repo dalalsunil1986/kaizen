@@ -1,10 +1,9 @@
 <?php namespace Acme\Core;
 
-use Acme\Core\Contracts\MailerContract;
 use Config;
 use Illuminate\Mail\Mailer;
 
-class BaseMailer {
+abstract class BaseMailer {
 
     protected $mailer;
     protected $senderEmail;

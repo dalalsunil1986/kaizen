@@ -5,7 +5,7 @@ use Country;
 use McCool\LaravelAutoPresenter\BasePresenter as AbstractPresent;
 use Session;
 
-class BasePresenter extends AbstractPresent {
+abstract class BasePresenter extends AbstractPresent {
 
     public function __construct(Model $model) {
         $this->resource = $model;
