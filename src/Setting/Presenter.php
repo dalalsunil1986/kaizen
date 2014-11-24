@@ -1,9 +1,9 @@
 <?php namespace Acme\Setting;
 
-use Acme\Core\AbstractPresenter;
+use Acme\Core\BasePresenter;
 use Setting;
 
-class Presenter extends AbstractPresenter {
+class Presenter extends BasePresenter {
 
     /**
      * Present the created_at property

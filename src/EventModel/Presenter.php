@@ -1,10 +1,10 @@
 <?php namespace Acme\EventModel;
 
-use Acme\Core\AbstractPresenter;
+use Acme\Core\BasePresenter;
 use EventModel;
 use User;
 
-class Presenter extends AbstractPresenter {
+class Presenter extends BasePresenter {
 
     /**
      * Present the created_at property

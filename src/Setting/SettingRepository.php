@@ -1,12 +1,11 @@
 <?php namespace Acme\Setting;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
-use Acme\Core\Repositories\AbstractRepository;
-use Acme\Core\Repositories\Illuminate;
 use Acme\Setting\Validators\OnlineRoomForm;
 use Setting;
 
-class SettingRepository extends AbstractRepository {
+class SettingRepository extends BaseRepository {
 
     use CrudableTrait;
 

@@ -1,9 +1,10 @@
-<?php namespace Acme\Core\Mailers;
+<?php namespace Acme\Core;
 
+use Acme\Core\Contracts\MailerContract;
 use Config;
 use Illuminate\Mail\Mailer;
 
-class AbstractMailer implements MailerInterface {
+class BaseMailer {
 
     protected $mailer;
     protected $senderEmail;

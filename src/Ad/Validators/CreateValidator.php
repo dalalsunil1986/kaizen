@@ -1,8 +1,8 @@
 <?php namespace Acme\Ad\Validators;
 
-use Acme\Core\Validators\AbstractValidator;
+use Acme\Core\BaseValidator;
 
-class CreateValidator extends AbstractValidator {
+class CreateValidator extends BaseValidator {
 
     /**
      * Validation rules

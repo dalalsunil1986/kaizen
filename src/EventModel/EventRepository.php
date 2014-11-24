@@ -1,13 +1,12 @@
 <?php namespace Acme\EventModel;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
 use Carbon\Carbon;
 use DB;
 use EventModel;
-use Acme\Core\Repositories\Illuminate;
-use Acme\Core\Repositories\AbstractRepository;
 
-class EventRepository extends AbstractRepository {
+class EventRepository extends BaseRepository {
 
     use CrudableTrait;
 

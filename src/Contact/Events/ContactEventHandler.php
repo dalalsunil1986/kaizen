@@ -1,10 +1,10 @@
 <?php namespace Acme\Contact\Events;
 
-use Acme\Core\Mailers\AbstractMailer;
+use Acme\Core\Contracts\BaseMailer;
 use User;
 use Event;
 
-class ContactEventHandler extends AbstractMailer {
+class ContactEventHandler extends BaseMailer {
 
     /**
      * @param array|\User $array

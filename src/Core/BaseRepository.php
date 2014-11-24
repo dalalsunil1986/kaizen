@@ -1,4 +1,4 @@
-<?php namespace Acme\Core\Repositories;
+<?php namespace Acme\Core;
 
 use Acme\Core\Exceptions\EntityNotFoundException;
 use Illuminate\Database\Eloquent\Model;
@@ -6,7 +6,7 @@ use StdClass;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\Process\Exception\InvalidArgumentException;
 
-abstract class AbstractRepository {
+abstract class BaseRepository {
 
     /**
      * @var \Illuminate\Database\Eloquent\Model

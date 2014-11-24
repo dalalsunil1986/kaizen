@@ -1,10 +1,9 @@
 <?php namespace Acme\Refund;
 
-use Acme\Core\Repositories\AbstractRepository;
-use Acme\Core\Repositories\Illuminate;
+use Acme\Core\BaseRepository;
 use Refund;
 
-class RefundRepository extends AbstractRepository {
+class RefundRepository extends BaseRepository {
 
     /**
      * @param Refund $model

@@ -1,14 +1,11 @@
 <?php namespace Acme\Comment;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
 use Comment;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\Crudable;
-use Acme\Core\Repositories\Illuminate;
 
-use Acme\Core\Repositories\AbstractRepository;
-
-class CommentRepository extends AbstractRepository  {
+class CommentRepository extends BaseRepository  {
 
     use CrudableTrait;
 
@@ -19,9 +16,7 @@ class CommentRepository extends AbstractRepository  {
 
     /**
      * Construct
-     *
-     * @param \Category|\Illuminate\Database\Eloquent\Model $model
-     * @internal param \Illuminate\Database\Eloquent\Model $user
+     * @param Comment $model
      */
     public function __construct(Comment $model)
     {

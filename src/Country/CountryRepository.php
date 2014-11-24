@@ -1,15 +1,14 @@
 <?php namespace Acme\Country;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
 use App;
 use Auth;
 use Country;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\Illuminate;
-use Acme\Core\Repositories\AbstractRepository;
 use Session;
 
-class CountryRepository extends AbstractRepository {
+class CountryRepository extends BaseRepository {
 
     use CrudableTrait;
 

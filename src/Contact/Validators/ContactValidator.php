@@ -1,8 +1,8 @@
 <?php namespace Acme\Contact\Validators;
 
-use Acme\Core\Validators\AbstractValidator;
+use Acme\Core\BaseValidator;
 
-class ContactValidator extends AbstractValidator {
+class ContactValidator extends BaseValidator {
 
     /**
      * Validation rules

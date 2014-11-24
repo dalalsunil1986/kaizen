@@ -1,17 +1,15 @@
 <?php namespace Acme\User;
 
-use Acme\Libraries\UserGeoIp;
-use Acme\Libraries\UserLocale;
+use Acme\Core\BaseRepository;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\AbstractRepository;
 use Password;
 use Session;
 use User;
 
-class AuthService extends AbstractRepository {
+class AuthService extends BaseRepository {
 
     public $errors;
     public $userRepository;

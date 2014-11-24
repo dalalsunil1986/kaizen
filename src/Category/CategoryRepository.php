@@ -1,14 +1,11 @@
 <?php namespace Acme\Category;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
 use Category;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\Crudable;
-use Acme\Core\Repositories\Illuminate;
 
-use Acme\Core\Repositories\AbstractRepository;
-
-class CategoryRepository extends AbstractRepository  {
+class CategoryRepository extends BaseRepository  {
 
     use CrudableTrait;
 

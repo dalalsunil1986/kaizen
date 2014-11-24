@@ -1,11 +1,10 @@
 <?php namespace Acme\Package;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
-use Acme\Core\Repositories\AbstractRepository;
-use Acme\Core\Repositories\Illuminate;
 use Package;
 
-class PackageRepository extends AbstractRepository {
+class PackageRepository extends BaseRepository {
 
     use CrudableTrait;
 

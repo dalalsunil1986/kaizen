@@ -1,11 +1,11 @@
 <?php namespace Acme\Blog;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
-use Acme\Core\Repositories\AbstractRepository;
 use Blog;
 use Illuminate\Support\MessageBag;
 
-class BlogRepository extends AbstractRepository {
+class BlogRepository extends BaseRepository {
 
     use CrudableTrait;
     /**
