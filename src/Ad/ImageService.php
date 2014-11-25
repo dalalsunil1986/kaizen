@@ -1,10 +1,9 @@
-<?php
-namespace Acme\Ad;
+<?php namespace Acme\Ad;
 
-use Acme\Core\AbstractImageService;
+use Acme\Core\BaseImageService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ImageService extends AbstractImageService {
+class ImageService extends BaseImageService {
 
     protected $thumbnailImageWidth = '450';
 

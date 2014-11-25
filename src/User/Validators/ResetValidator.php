@@ -1,8 +1,8 @@
 <?php namespace Acme\User\Validators;
 
-use Acme\Core\Validators\AbstractValidator;
+use Acme\Core\BaseValidator;
 
-class ResetValidator extends AbstractValidator {
+class ResetValidator extends BaseValidator {
 
     /**
      * Validation rules

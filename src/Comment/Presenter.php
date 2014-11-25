@@ -1,9 +1,9 @@
 <?php namespace Acme\Comment;
 
-use Acme\Core\AbstractPresenter;
+use Acme\Core\BasePresenter;
 use Comment;
 
-class Presenter extends AbstractPresenter {
+class Presenter extends BasePresenter {
 
     /**
      * Present the created_at property

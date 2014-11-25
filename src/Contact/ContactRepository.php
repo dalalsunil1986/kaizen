@@ -2,13 +2,12 @@
 
 use Acme\Contact\Validators\ContactCreateValidator;
 use Acme\Contact\Validators\ContactValidator;
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
-use Acme\Core\Repositories\AbstractRepository;
-use Acme\Core\Repositories\Illuminate;
 use Contact;
 use Illuminate\Support\MessageBag;
 
-class ContactRepository extends AbstractRepository {
+class ContactRepository extends BaseRepository {
 
     use CrudableTrait;
 

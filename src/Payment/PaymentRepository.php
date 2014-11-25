@@ -1,10 +1,9 @@
 <?php namespace Acme\Payment;
 
-use Acme\Core\Repositories\AbstractRepository;
-use Acme\Core\Repositories\Illuminate;
+use Acme\Core\BaseRepository;
 use Payment;
 
-class PaymentRepository extends AbstractRepository {
+class PaymentRepository extends BaseRepository {
 
     public $paymentMethds = ['paypal'];
 

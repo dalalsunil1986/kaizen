@@ -1,9 +1,9 @@
 <?php namespace Acme\Setting\Validators;
 
-use Acme\Core\Validators\AbstractValidator;
+use Acme\Core\BaseValidator;
 use Acme\EventModel\EventRepository;
 
-class CreateValidator extends AbstractValidator {
+class CreateValidator extends BaseValidator {
 
     protected  $eventRepository;
     public function __constrcut(EventRepository $eventRepository)

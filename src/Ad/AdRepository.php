@@ -1,12 +1,11 @@
 <?php namespace Acme\Ad;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
-use Acme\Core\Repositories\AbstractRepository;
 use Ad;
-use DB;
 use Illuminate\Support\MessageBag;
 
-class AdRepository extends AbstractRepository {
+class AdRepository extends BaseRepository {
 
     use CrudableTrait;
     /**
@@ -32,13 +31,4 @@ class AdRepository extends AbstractRepository {
         return $query;
     }
 
-//    public function getAd1() {
-//        $image = $this->model->where('imageable_id',1)->where('imageable_type','Ad')->remember(60,'cache.ad1')->pluck('name');
-//        return $image;
-//    }
-//
-//    public function getAd2() {
-//        $image = $this->model->where('imageable_id',2)->where('imageable_type','Ad')->remember(60,'cache.ad2')->pluck('name');
-//        return $image;
-//    }
 }

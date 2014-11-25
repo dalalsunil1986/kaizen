@@ -4,5 +4,3 @@ return  [
         'secret' => 'oDBCo4HCJK1Y3uM4MczmNA',
     )
 ];
-
-?>

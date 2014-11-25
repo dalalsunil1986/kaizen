@@ -1,12 +1,10 @@
-<?php
-
-namespace Acme\Core\Validators;
+<?php namespace Acme\Core;
 
 use Acme\Core\Exceptions\NoValidationRulesFoundException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 
-abstract class AbstractValidator
+abstract class BaseValidator
 {
     /**
      * The input data of the current request.
@@ -39,7 +37,7 @@ abstract class AbstractValidator
     /**
      * Create a new Form instance.
      *
-     * @return \Acme\Core\Validators\AbstractValidator
+     * @return \Acme\Core\Validators\BaseValidator
      */
     public function __construct()
     {

@@ -1,10 +1,10 @@
 <?php namespace Acme\User\Validators;
 
-use Acme\Core\Validators\AbstractValidator;
+use Acme\Core\BaseValidator;
 use Auth;
 use User;
 
-class AdminUpdateValidator extends AbstractValidator {
+class AdminUpdateValidator extends BaseValidator {
 
     /**
      * Validation rules

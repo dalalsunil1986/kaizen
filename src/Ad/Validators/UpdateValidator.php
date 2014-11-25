@@ -1,8 +1,8 @@
 <?php namespace Acme\Ad\Validators;
 
-use Acme\Core\Validators\AbstractValidator;
+use Acme\Core\BaseValidator;
 
-class UpdateValidator extends AbstractValidator {
+class UpdateValidator extends BaseValidator {
 
     protected $rules = array(
         'title_ar'       => 'required',

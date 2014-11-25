@@ -1,13 +1,11 @@
-<?php
-namespace Acme\Core;
+<?php namespace Acme\Core;
 
-use Acme\Core\Repositories\AbstractRepository;
 use Exception;
 use Illuminate\Support\MessageBag;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-abstract class AbstractImageService extends AbstractRepository{
+abstract class BaseImageService extends BaseRepository{
 
     private $hashedName;
 

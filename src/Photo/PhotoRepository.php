@@ -1,13 +1,11 @@
 <?php namespace Acme\Photo;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\Crudable;
-use Acme\Core\Repositories\Illuminate;
-use Acme\Core\Repositories\AbstractRepository;
 use Photo;
 
-class PhotoRepository extends AbstractRepository {
+class PhotoRepository extends BaseRepository {
 
     use CrudableTrait;
     /**

@@ -1,8 +1,8 @@
 <?php namespace Acme\Setting\Validators;
 
-use Acme\Core\Validators\AbstractValidator;
+use Acme\Core\BaseValidator;
 
-class OnlineRoomForm extends AbstractValidator {
+class OnlineRoomForm extends BaseValidator {
 
     /**
      * Validation rules

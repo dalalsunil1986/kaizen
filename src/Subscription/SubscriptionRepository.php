@@ -1,12 +1,11 @@
 <?php namespace Acme\Subscription;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
-use Acme\Core\Repositories\AbstractRepository;
-use Acme\Core\Repositories\Illuminate;
 use DB;
 use Subscription;
 
-class SubscriptionRepository extends AbstractRepository {
+class SubscriptionRepository extends BaseRepository {
 
     use CrudableTrait;
 

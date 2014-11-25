@@ -1,17 +1,16 @@
 <?php namespace Acme\User;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
 use Acme\User\Validators\AdminCreateValidator;
 use Acme\User\Validators\AdminUpdateValidator;
 use Acme\User\Validators\ResetValidator;
 use DB;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\AbstractRepository;
-
 use User;
 
 
-class UserRepository extends AbstractRepository  {
+class UserRepository extends BaseRepository  {
 
     use CrudableTrait;
     /**

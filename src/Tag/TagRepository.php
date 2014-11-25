@@ -1,12 +1,11 @@
 <?php namespace Acme\Tag;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
-use Acme\Core\Repositories\Illuminate;
-use Acme\Core\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Model;
 use Tag;
 
-class TagRepository extends AbstractRepository {
+class TagRepository extends BaseRepository {
 
     use CrudableTrait;
 

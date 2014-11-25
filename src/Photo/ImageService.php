@@ -1,10 +1,10 @@
 <?php
 namespace Acme\Photo;
 
-use Acme\Core\AbstractImageService;
+use Acme\Core\BaseImageService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ImageService extends AbstractImageService {
+class ImageService extends BaseImageService {
 
     public function store(UploadedFile $image)
     {

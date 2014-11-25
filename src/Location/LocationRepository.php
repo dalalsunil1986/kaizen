@@ -1,14 +1,11 @@
 <?php namespace Acme\Location;
 
+use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
-use Country;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\MessageBag;
-use Acme\Core\Repositories\Illuminate;
-use Acme\Core\Repositories\AbstractRepository;
 use Location;
 
-class LocationRepository extends AbstractRepository {
+class LocationRepository extends BaseRepository {
 
     use CrudableTrait;
 
