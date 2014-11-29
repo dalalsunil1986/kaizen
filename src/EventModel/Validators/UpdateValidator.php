@@ -16,7 +16,6 @@ class UpdateValidator extends BaseValidator {
         'category_id'    => 'required',
         'location_id'    => 'required',
         'free'           => 'boolean|required',
-        'price'          => 'numeric|required_if:free,0',
         'package_id'     => 'numeric|between:1,1000',
         'date_start'     => 'date|required',
         'date_end'       => 'date|required',

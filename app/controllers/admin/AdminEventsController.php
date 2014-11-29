@@ -116,7 +116,7 @@ class AdminEventsController extends AdminBaseController {
         // Settings Record needs to know Which type of Record and The Foreign Key it needs to Create
         // So pass these fields with Session (settableType,settableId)
 
-        return Redirect::action('AdminSettingsController@edit', $setting->id);
+        return Redirect::action('AdminSettingsController@edit',[$setting->id,'store'=>'true']);
 
     }
 

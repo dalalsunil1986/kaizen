@@ -117,6 +117,10 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->belongsToMany('User', 'requests', 'event_id', 'user_id');
     }
 
+    public function eventCountries(){
+        return $this->belongsToMany('Country','event_countries','event_id','country_id');
+    }
+
     /*********************************************************************************************************
      * Setters
      ********************************************************************************************************/

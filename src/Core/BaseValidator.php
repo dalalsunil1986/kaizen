@@ -74,6 +74,8 @@ abstract class BaseValidator
             $this->getMessages()
         );
 
+        $this->afterValidation();
+
         return $this->validator->passes();
     }
 
@@ -108,5 +110,6 @@ abstract class BaseValidator
     }
 
     protected function beforeValidation() {}
+    protected function afterValidation() {}
 
 }
