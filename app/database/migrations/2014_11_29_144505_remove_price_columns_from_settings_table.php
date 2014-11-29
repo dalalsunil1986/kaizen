@@ -14,9 +14,11 @@ class RemovePriceColumnsFromSettingsTable extends Migration {
 	{
 		Schema::table('settings', function(Blueprint $table)
 		{
-			//
-//			$table->dropColumn('vip_price');
-//			$table->dropColumn('online_price');
+			$table->dropColumn('vip_price');
+			$table->dropColumn('online_price');
+			$table->integer('normal_total_seats');
+			$table->integer('online_total_seats');
+			$table->integer('vip_total_seats');
 		});
 	}
 
@@ -29,8 +31,11 @@ class RemovePriceColumnsFromSettingsTable extends Migration {
 	{
 		Schema::table('settings', function(Blueprint $table)
 		{
-//			$table->text('vip_price')->nullable();
-//			$table->text('online_price')->nullable();
+			$table->text('vip_price')->nullable();
+			$table->text('online_price')->nullable();
+			$table->dropColumn('normal_total_seats')->nullable();
+			$table->dropColumn('vip_total_seats')->nullable();
+			$table->dropColumn('vip_total_seats')->nullable();
 		});
 	}
 
