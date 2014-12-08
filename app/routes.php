@@ -238,6 +238,8 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::get('settings/{id}/options/edit', 'AdminSettingsController@editOptions');
 
+    Route::post('settings/{id}/options/edit', 'AdminSettingsController@updateOptions');
+
     Route::post('setting/{id}/add-online-room', 'AdminSettingsController@postAddRoom');
 
     Route::resource('settings', 'AdminSettingsController');

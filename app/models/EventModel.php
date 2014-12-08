@@ -83,10 +83,10 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->hasOne('Type', 'event_id');
     }
 
-    public function statuses()
-    {
-        return $this->belongsToMany('User', 'statuses', 'event_id', 'user_id')->withPivot(array('id', 'event_id', 'user_id', 'status'));
-    }
+//    public function statuses()
+//    {
+//        return $this->belongsToMany('User', 'statuses', 'event_id', 'user_id')->withPivot(array('id', 'event_id', 'user_id', 'status'));
+//    }
 
     public function setting()
     {
@@ -117,9 +117,21 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->belongsToMany('User', 'requests', 'event_id', 'user_id');
     }
 
-    public function eventCountries(){
-        return $this->belongsToMany('Country','event_countries','event_id','country_id');
+    public function eventCountries()
+    {
+        return $this->belongsToMany('Country', 'event_countries', 'event_id', 'country_id');
     }
+
+    public function eventPrices()
+    {
+        return $this->belongsToMany('Country', 'event_prices', 'event_id', 'country_id')->withPivot(['price', 'type']);
+    }
+
+    public function eventPricesByType($type)
+    {
+        return $this->belongsToMany('Country', 'event_prices', 'event_id', 'country_id')->where('type',$type)->withPivot(['price', 'type']);
+    }
+
 
     /*********************************************************************************************************
      * Setters
@@ -239,7 +251,7 @@ class EventModel extends BaseModel implements PresenterInterface {
         if ( $totalSeats > 0 ) {
 
             // Get the confirmed subscriptions count for the event
-            $totalSubscriptions    = $this->subscriptions()->where('status', 'CONFIRMED')->count();
+            $totalSubscriptions = $this->subscriptions()->where('status', 'CONFIRMED')->count();
 
             // calculate the available seats
             $available_seats = $totalSeats - $totalSubscriptions;
@@ -337,7 +349,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function latest($count)
     {
-        return $this->orderBy('created_at', 'DESC')->select('id','title_ar','slug','title_en')->remember(10)->limit($count)->get();
+        return $this->orderBy('created_at', 'DESC')->select('id', 'title_ar', 'slug', 'title_en')->remember(10)->limit($count)->get();
     }
 
 

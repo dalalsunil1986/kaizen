@@ -20,4 +20,8 @@ class Country extends BaseModel {
         return $this->hasManyThrough('EventModel', 'Location');
     }
 
+    public function price($eventId,$type){
+        return $this->hasOne('EventPrice')->where('event_id',$eventId)->where('type',$type)->first();
+    }
+
 }

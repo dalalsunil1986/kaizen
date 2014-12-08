@@ -25,7 +25,7 @@
 
     @include('admin.events.breadcrumb',['active'=>'options','link'=>'true','id'=>$setting->id])
 
-    {{ Form::model($setting, array('method' => 'PATCH', 'action' => array('AdminSettingsController@update',$setting->id), 'role'=>'form')) }}
+    {{ Form::model($setting, array('method' => 'POST', 'action' => array('AdminSettingsController@updateOptions',$setting->id), 'role'=>'form')) }}
 
     <div class="row">
         <?php $i=1; ?>
@@ -47,11 +47,15 @@
                                 <div class="panel-inner">
                                     <div class="row">
                                         @if(!$freeEvent)
-                                            @foreach($currentCountries as $country)
+                                            @foreach($setting->settingable->eventCountries as $country)
+                                                <?php
+                                                $eventPrice = $country->price($setting->settingable->id,$registrationType);
+                                                if($eventPrice) { $price = $eventPrice->price; } else { $price = null;}
+                                                ?>
                                                 @if($country->currency && $country->iso_code)
                                                     <div class="form-group col-md-2">
                                                         {{ Form::label(strtolower($registrationType).'_price', $registrationType .' Price in '.$country->currency.':') }}
-                                                        {{ Form::text(strtolower($registrationType).'_price',null,['class'=>'form-control'])}}
+                                                        {{ Form::text(substr($registrationType,0,1).'_price_'.$country->iso_code,$price,['class'=>'form-control'])}}
                                                     </div>
                                                 @endif
                                             @endforeach

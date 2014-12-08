@@ -5,7 +5,7 @@ use Acme\Core\CrudableTrait;
 use Category;
 use Illuminate\Support\MessageBag;
 
-class CategoryRepository extends BaseRepository  {
+class CategoryRepository extends BaseRepository {
 
     use CrudableTrait;
 
@@ -15,10 +15,7 @@ class CategoryRepository extends BaseRepository  {
     public $model;
 
     /**
-     * Construct
-     *
-     * @param \Category|\Illuminate\Database\Eloquent\Model $model
-     * @internal param \Illuminate\Database\Eloquent\Model $user
+     * @param Category $model
      */
     public function __construct(Category $model)
     {
@@ -27,14 +24,18 @@ class CategoryRepository extends BaseRepository  {
         $this->model = $model;
     }
 
-    public function getEventCategories() {
-        return $this->model->where('type','=', 'EventModel');
-    }
-    public function getPostCategories() {
-        return $this->model->where('type','=', 'Post');
+    public function getEventCategories()
+    {
+        return $this->model->where('type', '=', 'EventModel');
     }
 
-    public function type() {
+    public function getPostCategories()
+    {
+        return $this->model->where('type', '=', 'Post');
+    }
+
+    public function type()
+    {
         return $this->type();
     }
 

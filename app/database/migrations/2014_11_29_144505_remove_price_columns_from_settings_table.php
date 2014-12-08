@@ -35,7 +35,7 @@ class RemovePriceColumnsFromSettingsTable extends Migration {
 			$table->text('online_price')->nullable();
 			$table->dropColumn('normal_total_seats')->nullable();
 			$table->dropColumn('vip_total_seats')->nullable();
-			$table->dropColumn('vip_total_seats')->nullable();
+			$table->dropColumn('online_total_seats')->nullable();
 		});
 	}
 
