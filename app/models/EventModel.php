@@ -127,10 +127,16 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->belongsToMany('Country', 'event_prices', 'event_id', 'country_id')->withPivot(['price', 'type']);
     }
 
+    public function prices()
+    {
+        return $this->hasMany('EventPrice',  'event_id');
+    }
+
     public function eventPricesByType($type)
     {
         return $this->belongsToMany('Country', 'event_prices', 'event_id', 'country_id')->where('type',$type)->withPivot(['price', 'type']);
     }
+
 
 
     /*********************************************************************************************************
@@ -189,6 +195,10 @@ class EventModel extends BaseModel implements PresenterInterface {
             ->join('photos AS p', 'e.id', '=', 'p.imageable_id', 'LEFT')
             ->where('p.imageable_type', '=', 'EventModel')
             ->where('e.date_start', '<', $dt->toDateTimeString());
+    }
+
+    public function getPriceByCountry($countryID){
+        return $this->hasMany('EventPrice','event_id')->where('country_id',$countryID);
     }
 
 //    public function updateAvailableSeatsOnCreate()
@@ -305,7 +315,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function isFreeEvent()
     {
-        if ( $this->free || $this->price < 1 ) {
+        if ( $this->free  ) {
             return true;
         }
 

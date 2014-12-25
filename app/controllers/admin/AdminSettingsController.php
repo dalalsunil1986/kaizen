@@ -33,7 +33,7 @@ class AdminSettingsController extends AdminBaseController {
         $this->settingRepository = $settingRepository;
         $this->countryRepository = $countryRepository;
         parent::__construct();
-        $this->eventRepository = $eventRepository;
+        $this->eventRepository      = $eventRepository;
         $this->eventPriceRepository = $eventPriceRepository;
     }
 
@@ -164,32 +164,33 @@ class AdminSettingsController extends AdminBaseController {
      */
     public function editOptions($id)
     {
-        $setting   = $this->settingRepository->findById($id, ['settingable.location.country','settingable.eventPrices','settingable.eventCountries.price']);
+        $setting   = $this->settingRepository->findById($id, ['settingable.location.country', 'settingable.eventPrices', 'settingable.eventCountries.price']);
         $event     = $setting->settingable;
-        $prices = $event->eventPrices;
+        $prices    = $event->eventPrices;
         $freeEvent = $event->isFreeEvent();
         $this->render('admin.settings.edit-options', compact('setting', 'event', 'freeEvent'));
     }
 
-    public function updateOptions($id){
-
-        $setting   = $this->settingRepository->findById($id, ['settingable.location.country']);
-        $event     = $setting->settingable;
+    public function updateOptions($id)
+    {
+        $setting     = $this->settingRepository->findById($id, ['settingable.location.country']);
+        $event       = $setting->settingable;
         $validPrices = [];
-        $prices = [];
-        foreach ( Input::all() as $key=>$value ) {
-            if (substr($key,1,6) =='_price') {
+        $prices      = [];
+        foreach ( Input::all() as $key => $value ) {
+            if ( substr($key, 1, 6) == '_price' ) {
                 if ( !empty($value) ) {
                     $validPrices[$key] = $value;
                 }
             }
         }
 
-        foreach ( $validPrices as $key=>$value ) {
+        // $validPrices = ['V_price_KW' =>  '222' , 'V_price_AE' => '22' ]
+        foreach ( $validPrices as $key => $value ) {
             //find country
-            $isoCode = substr($key,8); // get the country ISO Code frmo the input ex: N_price_KW outputs KW
-            $type = substr($key,0,1);
-            switch($type) {
+            $isoCode = substr($key, 8); // get the country ISO Code frmo the input ex: N_price_KW outputs KW
+            $type    = substr($key, 0, 1);
+            switch ( $type ) {
                 Case 'N' :
                     $type = 'NORMAL';
                     break;
@@ -197,21 +198,22 @@ class AdminSettingsController extends AdminBaseController {
                     $type = 'ONLINE';
                     break;
                 Case 'V' :
-                    $type =  'VIP';
+                    $type = 'VIP';
                     break;
             }
 
-            $country = $this->countryRepository->model->where('iso_code',$isoCode)->first();
+            $country = $this->countryRepository->model->where('iso_code', $isoCode)->first();
 
             // country Id , // Price // type => N , O
             $countryId = $country->id;
 
-            $prices[] = [$countryId=>['type'=>$type,'price'=>$value]];
+            $prices[] = [$countryId => ['type' => $type, 'price' => $value]];
 
         }
 
-        $this->attachPrices($event, $prices);
+        $this->attachPrices($event, $prices, $countryId);
 
+        // update the seats and descroiptions;
         $val = $this->settingRepository->getOptionForm($id);
 
         if ( !$val->isValid() ) {
@@ -226,45 +228,58 @@ class AdminSettingsController extends AdminBaseController {
 
     }
 
-    public function attachPrices($model, array $prices)
-    {
-        // attach related tags
-        // fetch all tags
-        dd($prices);
-        $eventPrices = $model->eventPrices;
-
-//        foreach($prices as $price) {
-//            $currentPrice = array_pop($price);
-//            $a = $model->eventPricesByType($model->id,$currentPrice['type']);
-//        }
-
-//        dd($eventPrices->toArray());
-
-        $attachedPrices = $eventPrices->modelKeys();
-
-        foreach ( $prices as $price ) {
-            $old_price = $price;
-            $currentPrice = array_pop($price);
-            //1 - find by type
-            //2 - if found updatw
-            //3 - if not delete
-            dd($old_price);
-            $priceByType = $this->eventPriceRepository->findByType($modelId,$a);
-
-        }
-
-        dd('a');
-//        dd($attachedPrices);
-
-//        dd($attachedPrices);
-//        dd($prices);
+//    public function attachPrices($model, array $prices, $countryID)
+//    {
+//        $eventPrices = $model->eventPrices;
+////
 //        foreach ( $prices as $price ) {
+//            $currentPrice = array_pop($price);
+//            $eventPrice   = $model->eventPricesByType($countryID, $currentPrice['type'], $currentPrice['price'])->get();
+//        }
+//
+//////
+//        $attachedPrices = $eventPrices->modelKeys();
+////
+//        foreach ( $prices as $price ) {
+//            $old_price    = $price;
+//            $currentPrice = array_pop($price);
+//            //1 - find by type
+//            foreach ( $prices as $price ) {
+//                $currentPrice = array_pop($price);
+//                $eventPrice   = $model->eventPricesByType($currentPrice['type'])->first();
+//                if ( $eventPrice ) {
+//
+//                } else {
+//
+//                }
+//            }
+//            //2 - if found update
+//            //3 - if not delete
+//            dd($old_price);
+//            $priceByType = $this->eventPriceRepository->findByType($modelId, $a);
 //
 //        }
+//
+////        dd('a');
+////        dd($attachedPrices);
+//
+////        dd($attachedPrices);
+////        dd($prices);
+////        foreach ( $prices as $price ) {
+////
+////        }
+//
+////        $model->eventPricesByType()->sync($attachedPrices);
+//
+////        dd('done');
+//
+//    }
 
-//        $model->eventPricesByType()->sync($attachedPrices);
 
-//        dd('done');
+    public function attachPrices($model, array $prices)
+    {
+        $eventPrices = $model->eventPrices;
+        $attachedPrices = $eventPrices->modelKeys();
         if ( !empty($attachedPrices) ) {
             // if there are any tags assosiated with the event
             if ( empty($prices) ) {
@@ -282,14 +297,11 @@ class AdminSettingsController extends AdminBaseController {
                 }
             }
         }
-//
-//        dd('a');
-        // attach the tags
+
         foreach ( $prices as $price ) {
             $model->eventPrices()->attach($price);
         }
 
-        dd('done');
     }
 
 }

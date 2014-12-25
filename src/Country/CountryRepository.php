@@ -77,4 +77,5 @@ class CountryRepository extends BaseRepository {
 
         return $country;
     }
+
 }

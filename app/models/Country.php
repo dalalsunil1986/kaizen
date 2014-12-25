@@ -24,4 +24,8 @@ class Country extends BaseModel {
         return $this->hasOne('EventPrice')->where('event_id',$eventId)->where('type',$type)->first();
     }
 
+    public function pricesForEvent()
+    {
+        return $this->hasMany('EventPrice',  'country_id');
+    }
 }

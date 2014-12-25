@@ -16,7 +16,7 @@ class Presenter extends BasePresenter {
 
     public function __construct(EventModel $model)
     {
-        $this->resource =  $model;
+        $this->resource = $model;
     }
 
     public function date_start()
@@ -32,7 +32,13 @@ class Presenter extends BasePresenter {
     public function convertPrice()
     {
         $field = $this->resource->price;
+
         return $this->convertCurrency($field);
+    }
+
+    public function convert($price)
+    {
+        return $this->convertCurrency($price);
     }
 
 }

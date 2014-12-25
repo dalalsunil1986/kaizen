@@ -64,12 +64,14 @@ class AdminPhotosController extends AdminBaseController {
         $upload = $imageService->store(Input::file('name'));
 
         if ( ! $upload ) {
+            // when photos are uploaded using ajax
             if ( Request::ajax() ) return false;
 
+            // if not ajax, redirect
             return Redirect::back()->withInput()->with('errors', $imageService->errors());
         }
 
-        // save in the database
+        // save image in the database
         try {
             $this->photoRepository->create(array_merge(['name' => $upload->getHashedName()], $val->getInputData()));
         }

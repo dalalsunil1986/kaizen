@@ -22,4 +22,6 @@ class EventPrice extends BaseModel {
         return $query->whereType($type);
     }
 
+
+
 }
