@@ -43,7 +43,8 @@ class CancelledState extends AbstractState implements SubscriberState {
         $this->setPaymentTokenToNull();
 
         // update available seats ..
-        $this->subscriber->model->event->updateAvailableSeats();
+        $this->subscriber->model->event->setting->updateAvailableSeats($this->subscriber->model->registration_type);
+
     }
 
     public function setPaymentTokenToNull()

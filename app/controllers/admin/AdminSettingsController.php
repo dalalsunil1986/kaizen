@@ -121,7 +121,6 @@ class AdminSettingsController extends AdminBaseController {
     {
     }
 
-
     /**
      * @param $id
      * Event Id
@@ -166,7 +165,6 @@ class AdminSettingsController extends AdminBaseController {
     {
         $setting   = $this->settingRepository->findById($id, ['settingable.location.country', 'settingable.eventPrices', 'settingable.eventCountries.price']);
         $event     = $setting->settingable;
-        $prices    = $event->eventPrices;
         $freeEvent = $event->isFreeEvent();
         $this->render('admin.settings.edit-options', compact('setting', 'event', 'freeEvent'));
     }
@@ -177,6 +175,8 @@ class AdminSettingsController extends AdminBaseController {
         $event       = $setting->settingable;
         $validPrices = [];
         $prices      = [];
+        $validRegType = [];
+
         foreach ( Input::all() as $key => $value ) {
             if ( substr($key, 1, 6) == '_price' ) {
                 if ( !empty($value) ) {
@@ -224,9 +224,51 @@ class AdminSettingsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->settingRepository->errors())->withInput();
         }
 
+        // update available seats
+        foreach ( Input::all() as $key => $value ) {
+            if (substr($key, -12) == '_total_seats' ) {
+                if ( !empty($value) ) {
+                    $type = substr($key, 0, -12);  // returns "abcde"
+                    $validRegType[$type] = $value;
+                }
+            }
+        }
+
+        // update available seats for all the registration types
+        $setting->updateAvailableSeatsBulk($validRegType);
+
         return Redirect::action('AdminEventsController@index')->with('success', 'Event Settings Updated');
 
     }
+
+    public function attachPrices($model, array $prices)
+    {
+        $eventPrices = $model->eventPrices;
+        $attachedPrices = $eventPrices->modelKeys();
+        if ( !empty($attachedPrices) ) {
+            // if there are any tags assosiated with the event
+            if ( empty($prices) ) {
+                // if no tags in the GET REQUEST, delete all the tags
+                foreach ( $attachedPrices as $tag ) {
+                    // delete all the tags
+                    $model->eventPrices()->detach($tag);
+                }
+            } else {
+                // If the used tags is unselected in the GET REQUEST, delete the tags
+                foreach ( $attachedPrices as $tag ) {
+                    if ( !in_array($tag, $prices) ) {
+                        $model->eventPrices()->detach($tag);
+                    }
+                }
+            }
+        }
+
+        foreach ( $prices as $price ) {
+            $model->eventPrices()->attach($price);
+        }
+
+    }
+
 
 //    public function attachPrices($model, array $prices, $countryID)
 //    {
@@ -275,33 +317,5 @@ class AdminSettingsController extends AdminBaseController {
 //
 //    }
 
-
-    public function attachPrices($model, array $prices)
-    {
-        $eventPrices = $model->eventPrices;
-        $attachedPrices = $eventPrices->modelKeys();
-        if ( !empty($attachedPrices) ) {
-            // if there are any tags assosiated with the event
-            if ( empty($prices) ) {
-                // if no tags in the GET REQUEST, delete all the tags
-                foreach ( $attachedPrices as $tag ) {
-                    // delete all the tags
-                    $model->eventPrices()->detach($tag);
-                }
-            } else {
-                // If the used tags is unselected in the GET REQUEST, delete the tags
-                foreach ( $attachedPrices as $tag ) {
-                    if ( !in_array($tag, $prices) ) {
-                        $model->eventPrices()->detach($tag);
-                    }
-                }
-            }
-        }
-
-        foreach ( $prices as $price ) {
-            $model->eventPrices()->attach($price);
-        }
-
-    }
 
 }

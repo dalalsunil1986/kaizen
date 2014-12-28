@@ -33,9 +33,7 @@ class OptionValidator extends BaseValidator {
 
         foreach ( $requiredFields as $key ) {
             if ( array_key_exists($key, $this->inputData) ) {
-//                array_push($this->rules,[$key => 'required']);
                 $this->rules[$key] = 'required|not_in:0,0.00';
-//                array_push($this->rules,[$key => 'required']);
             }
         }
 

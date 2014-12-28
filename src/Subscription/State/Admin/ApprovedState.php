@@ -14,6 +14,7 @@ class ApprovedState extends AbstractState implements SubscriberState {
 
     public function createSubscription()
     {
+
         if ( !$this->subscriber->model->event->setting->hasAvailableSeats($this->subscriber->model->registration_type) ) {
             // If No Seats Available, Set user status to Waiting List
             return $this->subscriber->setSubscriptionState($this->subscriber->getWaitingState());

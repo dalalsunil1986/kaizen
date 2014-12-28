@@ -99,8 +99,6 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
 
-        $event->updateAvailableSeats();
-
         if ( !$setting = $this->settingRepository->create(['settingable_type' => 'EventModel', 'settingable_id' => $event->id]) ) {
             $this->eventRepository->delete($event);
 
@@ -165,7 +163,6 @@ class AdminEventsController extends AdminBaseController {
             return Redirect::back()->with('errors', $this->eventRepository->errors())->withInput();
         }
 
-        $event->updateAvailableSeats();
         // update the tags
         $tags = is_array(Input::get('tags')) ? array_filter(Input::get('tags')) : [];
         $this->tagRepository->attachTags($event, $tags);

@@ -26,11 +26,6 @@ class SettingRepository extends BaseRepository {
     {
         $record = $this->findById($id);
 
-        // join the assosiate array and convert it to string
-        if ( ! empty($input['registration_types']) ) {
-            $input['registration_types'] = implode(',', $input['registration_types']);
-        }
-
         $record->fill($input);
 
         if ( $this->save($record) ) return true;
@@ -49,4 +44,5 @@ class SettingRepository extends BaseRepository {
     {
         return new OptionValidator();
     }
+
 }

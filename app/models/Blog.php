@@ -2,11 +2,14 @@
 
 use Acme\Blog\BlogPresenter;
 use Acme\Core\LocaleTrait;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use McCool\LaravelAutoPresenter\PresenterInterface;
 
 class Blog extends BaseModel implements PresenterInterface {
 
     use LocaleTrait;
+
+    use SoftDeletingTrait;
 
     protected $guarded = [];
 
