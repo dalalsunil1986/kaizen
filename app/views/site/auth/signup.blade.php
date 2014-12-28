@@ -49,13 +49,16 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-sm-4 col-md-3">
-                        <label>{{ trans('word.mobile')  }}</label>
+                    <div class="col-sm-4 col-md-4">
+                        <label>{{ trans('word.countrycode')  }}</label>
                         @include('site.partials._country-dropdown')
                     </div>
-                    <div class="col-sm-8 col-md-9">
-                        <label>&nbsp; </label>
-                        {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> trans('word.mobile'), 'style'=>'float: none; min-width:450px; min-height: 45px; border-radius: 10px; text-indent: 25px;')) }}
+                    <div class="col-sm-8 col-md-8">
+                        <label>{{ trans('word.mobile')  }}</label>
+                        <div class="input-group">
+                            {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> trans('word.mobile'))) }}
+                            <span class="input-group-addon" id="mobile-code"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -72,8 +75,9 @@
 @stop
 @section('script')
 @parent
-    {{ HTML::script('js/intlTelInput.min.js'); }}
     <script>
-//      $("#mobile").intlTelInput();
+        $('#countrycode').change(function() {
+            $('#mobile-code').html(this.value+'+');
+        });
     </script>
 @stop

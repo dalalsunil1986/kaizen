@@ -224,13 +224,13 @@ $countries = [
         "263"   => "Zimbabwe +263"
 ];
 ?>
-<select name="countrycode" class="form-control input-lg" data-container="body">
-    <option value="">{{trans('word.choose_country')}}</option>
+<select name="countrycode" id="countrycode" class="form-control input-lg" data-container="body">
+    <option value="">{{trans('word.countrycode')}}</option>
     @foreach($countries as $key=>$value)
         <option value="{{$key}}"
-@if( Form::getValueAttribute('countrycode') == $key)
+        @if( Form::getValueAttribute('countrycode') == $key)
                 selected="selected"
-        @endif
-        >{{ $value }}</option>
+                @endif
+                >{{ $value }}</option>
     @endforeach
 </select>

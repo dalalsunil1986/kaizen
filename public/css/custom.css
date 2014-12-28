@@ -692,3 +692,7 @@ span.tag:after {
     font-style: italic;
     color:#00008b;
 }
+
+.input-lg {
+    border-radius : 0px;
+}
