@@ -30,7 +30,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function comments()
     {
-        return $this->morphMany('Comment', 'commentable');
+        return $this->morphMany('Comment', 'commentable')->where('parent_id',0)->orWhere('parent_id',NULL);
     }
 
     public function author()

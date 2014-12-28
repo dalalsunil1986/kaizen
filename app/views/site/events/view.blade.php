@@ -7,83 +7,7 @@
     {{ HTML::style('css/bootstrap-image-gallery.min.css') }}
 @stop
 
-@section('script')
-    @parent
-    {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAvY9Begj4WZQpP8b6IGFBACdnUhulMCok&sensor=false') }}
-    {{ HTML::script('http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js') }}
-    {{ HTML::script('js/bootstrap-image-gallery.js') }}
-    {{ HTML::script('js/app.js') }}
-    <script>
-        var id = '<?php echo $event->id; ?>';
 
-        function toggleTooltip(action) {
-            switch (action) {
-                case 'favorite':
-                    var ttip = '{{ trans('word.cancel ') }}'
-                    $('.favorite_btn')
-                            .attr('title', ttip)
-                            .tooltip('fixTitle');
-                    break;
-                case 'unfavorite':
-                    var ttip = '{{ trans('general.favorite') }}'
-                    $('.favorite_btn')
-                            .attr('title', ttip)
-                            .tooltip('fixTitle');
-                    break;
-                case 'follow':
-                    var ttip = '{{ trans('word.cancel') }}'
-                    $('.follow_btn')
-                            .attr('title', ttip)
-                            .tooltip('fixTitle');
-                    break;
-                case 'unfollow':
-                    var ttip = '{{ trans('general.follow') }}'
-                    $('.follow_btn')
-                            .attr('title', ttip)
-                            .tooltip('fixTitle');
-                    break;
-                case 'subscribe':
-                    var ttip = '{{ trans('word.unsubscribe') }}'
-                    $('.subscribe_btn')
-                            .attr('title', ttip)
-                            .tooltip('fixTitle');
-                    break;
-                case 'unsubscribe':
-                    var ttip = '{{ trans('word.subscribe') }}'
-                    $('.subsribe_btn')
-                            .attr('title', ttip)
-                            .tooltip('fixTitle');
-                    break;
-                default:
-            }
-        }
-
-    </script>
-    @if($event->latitude && $event->longitude)
-        <script>
-            var latitude = '<?php echo $event->latitude?>';
-            var longitude = '<?php echo $event->longitude ?>';
-            function initialize() {
-                var myLatlng = new google.maps.LatLng(latitude, longitude);
-                var mapOptions = {
-                    zoom: 10,
-                    center: myLatlng,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                }
-                var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map
-                });
-
-                // collapse the map div
-                $('.collapse').collapse();
-            }
-            google.maps.event.addDomListener(window, 'load', initialize);
-        </script>
-        @endif
-
-        @stop
 
                 <!-- Content Section -->
 @section('content')
@@ -224,23 +148,26 @@
                     </tr>
                 @endif
 
-                    @if($event->isFreeEvent())
+                @if($event->isFreeEvent())
                     <tr>
                         <td><b>{{ trans('word.price') }}</b></td>
-                        <td>trans('word.free')</td>
-
+                        <td>{{ trans('word.free') }}</td>
                     </tr>
-                    @else
+                @else
                     <tr>
                         <td><b>{{ trans('word.price') }}</b></td>
                     </tr>
-                        @foreach($eventPrices as $eventPrice)
-                            <tr>
+                    @foreach($eventPrices as $eventPrice)
+                        <tr>
                             <td>{{ $eventPrice->type }}</td>
                             <td>{{ $eventPrice->price .' '. $eventPrice->country->currency }}</td>
-                            </tr>
-                        @endforeach
+                        </tr>
+                    @endforeach
                 @endif
+                <tr>
+                    <td><b>{{ trans('word.address') }}</b></td>
+                    <td><strong>{{ $event->address }} - {{ $event->street }} </strong></td>
+                </tr>
             </table>
         </div>
 
@@ -254,22 +181,6 @@
                 </div>
             </div>
         @endif
-
-        <div class="col-md-12 top15">
-            <b>{{ trans('word.address') }} </b>
-            <address>
-                <strong>
-                    {{ $event->address }}
-                    -
-                    {{ $event->street }}
-                </strong>
-                <br>
-                @if($event->phone)
-                    <abbr title="Phone">Phone:</abbr>
-                    {{ $event->phone }}
-                @endif
-            </address>
-        </div>
 
         <div class="col-md-12 col-sm-12 col-xs-12">
             <!-- Tags Element -->
@@ -347,18 +258,50 @@
             @if(count($event->comments) > 0)
                 <h3><i class=" glyphicon glyphicon-comment"></i>&nbsp;{{trans('word.comment') }}</h3>
                 @foreach($event->comments as $comment)
-                    <div class="comments_dev">
-                        <p>{{ $comment->content }}</p>
+                    <div class="comment-wrapper">
+                        <div class="comment-panel">
+                            <p class="text-right text-primary">
+                                <a href="{{ action('UserController@getProfile',$comment->user->id) }}"><strong>{{ $comment->user ?  $comment->user->username : ''}}</strong></a>
+                            </p>
+                            <p>{{ $comment->content }}</p>
+                            <span class="text-muted"> - {{ $comment->created_at }} </span>
+                            <span class="text-muted" class="reply"><a class="reply" href="#" data-id="{{ $comment->id }}" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil"></i>reply </a></span>
+                        </div>
 
-                        <p
-                        @if ( App::getLocale() == 'en')
-                            class="text-left text-primary"
-                            @else
-                            class="text-right text-primary"
-                                @endif
-                                >{{ $comment->user ?  $comment->user->username : ''}}
-                            <span class="text-muted"> - {{ $comment->created_at }} </span></p>
+                        @if($comment->child)
+                            @foreach($comment->child as $childComment)
+                                <div class="comment-panel comment-reply ">
+                                    <p >{{ $childComment->content }}</p>
+                                    <a href="{{ action('UserController@getProfile',$childComment->user->id) }}">{{ $childComment->user ?  $childComment->user->username : ''}}</a>
+                                    <span class="text-muted"> - {{ $childComment->created_at->diffForHumans() }} </span>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
+
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">✕</button>
+                        </div>
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+                                    {{ Form::open(array( 'action' => array('CommentsController@store', $event->id))) }}
+                                    {{ Form::hidden('commentable_id',$event->id)}}
+                                    {{ Form::hidden('commentable_type','EventModel')}}
+                                    {{ Form::hidden('parent_id',null, ['id'=>'parent_id'])}}
+                                    <div class="form-group">
+                                        <label for="comment"></label>
+                                        <textarea type="text" class="form-control" id="content" name="content" placeholder="{{ trans('word.comment')}}"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-default"> {{ trans('word.add_comment') }}</button>
+                                    {{ Form::close() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 @endforeach
             @endif
         </div>
@@ -376,5 +319,91 @@
             @endif
         </div>
     </div>
+
+@stop
+
+@section('script')
+    @parent
+    {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAvY9Begj4WZQpP8b6IGFBACdnUhulMCok&sensor=false') }}
+    {{ HTML::script('http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js') }}
+    {{ HTML::script('js/bootstrap-image-gallery.js') }}
+    {{ HTML::script('js/app.js') }}
+    <script>
+        var id = '<?php echo $event->id; ?>';
+
+        function toggleTooltip(action) {
+            switch (action) {
+                case 'favorite':
+                    var ttip = '{{ trans('word.cancel ') }}'
+                    $('.favorite_btn')
+                            .attr('title', ttip)
+                            .tooltip('fixTitle');
+                    break;
+                case 'unfavorite':
+                    var ttip = '{{ trans('general.favorite') }}'
+                    $('.favorite_btn')
+                            .attr('title', ttip)
+                            .tooltip('fixTitle');
+                    break;
+                case 'follow':
+                    var ttip = '{{ trans('word.cancel') }}'
+                    $('.follow_btn')
+                            .attr('title', ttip)
+                            .tooltip('fixTitle');
+                    break;
+                case 'unfollow':
+                    var ttip = '{{ trans('general.follow') }}'
+                    $('.follow_btn')
+                            .attr('title', ttip)
+                            .tooltip('fixTitle');
+                    break;
+                case 'subscribe':
+                    var ttip = '{{ trans('word.unsubscribe') }}'
+                    $('.subscribe_btn')
+                            .attr('title', ttip)
+                            .tooltip('fixTitle');
+                    break;
+                case 'unsubscribe':
+                    var ttip = '{{ trans('word.subscribe') }}'
+                    $('.subsribe_btn')
+                            .attr('title', ttip)
+                            .tooltip('fixTitle');
+                    break;
+                default:
+            }
+        }
+
+
+        $(document).on("click", ".reply", function () {
+            var parentId = $(this).data('id');
+            $(".modal-body #parent_id").val( parentId );
+            // As pointed out in comments,
+            // it is superfluous to have to manually call the modal.
+            // $('#addBookDialog').modal('show');
+        });
+    </script>
+    @if($event->latitude && $event->longitude)
+        <script>
+            var latitude = '<?php echo $event->latitude?>';
+            var longitude = '<?php echo $event->longitude ?>';
+            function initialize() {
+                var myLatlng = new google.maps.LatLng(latitude, longitude);
+                var mapOptions = {
+                    zoom: 10,
+                    center: myLatlng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map
+                });
+
+                // collapse the map div
+                $('.collapse').collapse();
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    @endif
 
 @stop

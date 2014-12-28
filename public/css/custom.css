@@ -696,3 +696,15 @@ span.tag:after {
 .input-lg {
     border-radius : 0px;
 }
+
+.comment-wrapper {
+    border-bottom: 1px dotted #0b56a8;
+}
+.comment-panel {
+    font-family: helvetica, arial, sans-serif;
+    padding :5px 0;
+}
+.comment-reply {
+    border-top: 1px dotted #0b56a8;
+    margin-right: 50px;
+}

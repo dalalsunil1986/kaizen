@@ -11,6 +11,11 @@ class Comment extends BaseModel implements PresenterInterface {
         return $this->belongsTo('User', 'user_id');
     }
 
+    public function child()
+    {
+        return $this->hasMany('Comment', 'parent_id');
+    }
+
     public function commentable()
     {
         return $this->morphTo();
