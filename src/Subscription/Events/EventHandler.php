@@ -25,6 +25,8 @@ class EventHandler extends BaseMailer {
         $this->recepientName  = $array['name_en'];
         $this->subject        = trans('general.subscription_email_subject');
 
+        dd($array['status']);
+
         switch ( $array['status'] ) {
             case 'PENDING' :
                 $array['body'] = trans('general.subscription_email_pending', ['title' => $array['title']]);

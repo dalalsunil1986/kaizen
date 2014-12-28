@@ -19,7 +19,7 @@ class EventRepository extends BaseRepository {
 
     public function getAll($with = [])
     {
-        return $this->model->with($with);
+        return $this->model->with($with)->latest();
     }
 
     /**

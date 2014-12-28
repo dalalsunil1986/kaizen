@@ -57,7 +57,8 @@ class AuthController extends BaseController {
             Session::put('user.id', Auth::user()->id);
             Auth::logout();
 
-            return Redirect::action('AuthController@getLogin')->with('error', trans('auth.alerts.not_confirmed'));
+//            return Redirect::action('AuthController@getLogin')->with('error', trans('auth.alerts.not_confirmed'));
+            return Redirect::action('UserController@getProfile',Auth::user()->id)->with('error', trans('auth.alerts.not_confirmed'));
         }
 
         $this->service->updateLastLoggedAt();

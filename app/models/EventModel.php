@@ -201,6 +201,10 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->hasMany('EventPrice','event_id')->where('country_id',$countryID);
     }
 
+    public function getPriceByCountryAndType($countryID,$type){
+        return $this->hasOne('EventPrice','event_id')->where('country_id',$countryID)->where('type',$type);
+    }
+
 //    public function updateAvailableSeatsOnCreate()
 //    {
 //        $this->available_seats = $this->total_seats;

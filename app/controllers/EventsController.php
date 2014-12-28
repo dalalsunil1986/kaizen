@@ -285,7 +285,8 @@ class EventsController extends BaseController {
 
     public function getSliderEvents()
     {
-        $sliderEvents  = $this->eventRepository->getSliderEvents();
+        $sliderEvents = $this->eventRepository->getSliderEvents();
+
         return $sliderEvents;
     }
 
@@ -293,6 +294,7 @@ class EventsController extends BaseController {
     {
         $event  = $this->eventRepository->findById($id);
         $author = $event->author;
+
         return $author;
     }
 
@@ -303,12 +305,16 @@ class EventsController extends BaseController {
      */
     public function showSubscriptionOptions($id)
     {
-        $event = $this->eventRepository->findById($id,['eventCountries']);
+        $event = $this->eventRepository->findById($id, ['eventCountries']);
 
         $iso = Session::get('user.country');
 
-        $country   = $this->countryRepository->model->where('iso_code', $iso)->first();
-        $eventPrices = $event->getPriceByCountry($country->id)->get();
+        $country = $this->countryRepository->model->where('iso_code', $iso)->first();
+
+        //@todo: pass only valid countries and valid price types( vip, online )
+        if ( $country ) {
+            $eventPrices = $event->getPriceByCountry($country->id)->get();
+        }
 
         $price = [];
 
@@ -346,7 +352,7 @@ class EventsController extends BaseController {
         if ( in_array('ONLINE', $reg_types) ) $online = true;
         if ( in_array('NORMAL', $reg_types) ) $normal = true;
 
-        $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent','price'));
+        $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent', 'price','country'));
 
     }
 

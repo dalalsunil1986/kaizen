@@ -63,20 +63,22 @@
 
                                     <tbody>
                                     @foreach ($subscriptions as $subscription)
-                                    <tr>
-                                        <td>
-                                            <a href="{{action('AdminEventsController@getRequests',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
-                                        </td>
-                                        <td><a href="{{ action('AdminUsersController@show',$subscription->user->id) }}">{{ $subscription->user->username }}</a></td>
-                                        <td><a href="{{ URL::action('AdminSubscriptionsController@edit',$subscription->id)}}">{{ $subscription->status }}</a></td>
-                                        <td>{{ $subscription->formattedCreated() }}</td>
-                                        <td>
-                                            {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminSubscriptionsController@destroy', $subscription->id))) }}
-                                            <a class="btn btn-xs btn-info" href="{{ URL::action('AdminSubscriptionsController@edit',  array($subscription->id)) }}">Edit</a>
-                                            {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
-                                            {{ Form::close() }}
-                                        </td>
-                                    </tr>
+                                        @if($subscription->event)
+                                            <tr>
+                                                <td>
+                                                    <a href="{{action('AdminEventsController@getRequests',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
+                                                </td>
+                                                <td><a href="{{ action('AdminUsersController@show',$subscription->user->id) }}">{{ $subscription->user->username }}</a></td>
+                                                <td><a href="{{ URL::action('AdminSubscriptionsController@edit',$subscription->id)}}">{{ $subscription->status }}</a></td>
+                                                <td>{{ $subscription->formattedCreated() }}</td>
+                                                <td>
+                                                    {{ Form::open(array('method' => 'DELETE', 'action' => array('AdminSubscriptionsController@destroy', $subscription->id))) }}
+                                                    <a class="btn btn-xs btn-info" href="{{ URL::action('AdminSubscriptionsController@edit',  array($subscription->id)) }}">Edit</a>
+                                                    {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
+                                                    {{ Form::close() }}
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                     </tbody>
                                 </table>

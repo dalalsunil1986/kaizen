@@ -57,7 +57,7 @@
                         <div class="col-md-12">
                             <p>
 
-                            <h3 class="text-center"> {{ $event->isFreeEvent() ? trans('word.free_event') : trans('word.price') . ' ' . $price['vip'] }} </h3></p>
+                            <h3 class="text-center"> {{ $event->isFreeEvent() ? trans('word.free_event') : trans('word.price') . ' ' . $price['vip'] . ' ' .$country->currency }} </h3></p>
                         </div>
                     @endif
 
@@ -97,7 +97,7 @@
                         <div class="col-md-12">
                             <p>
 
-                            <h3 class="text-center">{{ $event->isFreeEvent() ? trans('word.free_event') : trans('word.price') . ' ' . $price['online'] }} </h3></p>
+                            <h3 class="text-center">{{ $event->isFreeEvent() ? trans('word.free_event') : trans('word.price') . ' ' . $price['online'] . ' ' .$country->currency }} </h3></p>
                         </div>
                     @endif
 
@@ -142,7 +142,7 @@
 
                             <p>
 
-                            <h3 class="text-center">{{ $event->isFreeEvent() ? trans('word.free_event') : trans('word.price') . ' ' . $price['normal'] }} </h3></p>
+                            <h3 class="text-center">{{ $event->isFreeEvent() ? trans('word.free_event') : trans('word.price') . ' ' . $price['normal']. ' ' .$country->currency }} </h3></p>
                         </div>
 
                     @endif
