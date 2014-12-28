@@ -50,6 +50,7 @@
                                             @foreach($setting->settingable->eventCountries as $country)
                                                 <?php
                                                 $eventPrice = $country->price($setting->settingable->id,$registrationType);
+                                                $eventPrice = $country->price($setting->settingable->id,$registrationType);
                                                 if($eventPrice) { $price = $eventPrice->price; } else { $price = null;}
                                                 ?>
                                                 @if($country->currency && $country->iso_code)

@@ -95,7 +95,6 @@ class AdminSettingsController extends AdminBaseController {
         if ( !$this->settingRepository->update($id, $val->getInputData()) ) {
             return Redirect::back()->with('errors', $this->settingRepository->errors())->withInput();
         }
-
         // update countries
         $event = $setting->settingable;
 
@@ -202,6 +201,7 @@ class AdminSettingsController extends AdminBaseController {
                     break;
             }
 
+
             $country = $this->countryRepository->model->where('iso_code', $isoCode)->first();
 
             // country Id , // Price // type => N , O
@@ -211,7 +211,7 @@ class AdminSettingsController extends AdminBaseController {
 
         }
 
-        $this->attachPrices($event, $prices, $countryId);
+        if(!empty($prices)) $this->attachPrices($event, $prices, $countryId);
 
         // update the seats and descroiptions;
         $val = $this->settingRepository->getOptionForm($id);
