@@ -13,15 +13,15 @@
      </tr>
      <tr>
          <td>{{ trans('word.mobile') }} : </td>
-         <td>{{ $user->mobile ? $user->mobile: trans('word.not_available') }}</td>
+         <td>{{ $user->mobile ? $user->countrycode.$user->mobile: trans('word.not_available') }}</td>
      </tr>
      <tr>
          <td>{{ trans('word.phone') }} : </td>
-         <td>{{ $user->phone ? $user->phone: trans('word.not_available') }}</td>
+         <td>{{ $user->phone ? $user->countrycode.$user->phone: trans('word.not_available') }}</td>
      </tr>
      <tr>
          <td>{{ trans('word.country') }} : </td>
-         <td>{{ $user->country ? $user->country->name: trans('word.not_available') }}</td>
+         <td>{{ $user->country ? $user->country: trans('word.not_available') }}</td>
      </tr>
      <tr>
          <td>{{ trans('word.gender') }} : </td>

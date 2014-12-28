@@ -34,7 +34,7 @@ class UpdateValidator extends BaseValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'name_ar', 'name_en', 'password', 'password_confirmation', 'country_id', 'twitter', 'phone', 'mobile','gender','instagram','countrycode'
+            'name_ar', 'name_en', 'password', 'password_confirmation', 'twitter', 'phone', 'mobile','gender','instagram', 'countrycode','country'
         ]);
     }
 

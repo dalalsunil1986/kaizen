@@ -39,7 +39,7 @@
 
                     <div class="col-sm-12 col-md-4">
                         <label>{{ trans('word.countrycode')  }}</label>
-                        @include('site.partials._country-dropdown')
+                        @include('site.partials._countrycode-dropdown')
                     </div>
                     <div class="col-sm-12 col-md-4">
                         <label>{{ trans('word.mobile')  }}</label>
@@ -63,7 +63,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <label>{{ trans('word.select_country')  }}</label>
-                        {{ Form::select('country_id', $countries, NULL ,['class' => 'form-control']) }}
+                        @include('site.partials._country-dropdown')
                     </div>
                     <div class="col-sm-12 col-md-6">
 
