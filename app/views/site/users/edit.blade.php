@@ -36,13 +36,18 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
+
+                    <div class="col-sm-12 col-md-4">
+                        <label>{{ trans('word.mobile')  }}</label>
+                        @include('site.partials._country-dropdown')
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <label>&nbsp; </label>
+                        {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> trans('word.mobile'), 'style'=>'float: none; min-width:450px; min-height: 45px; border-radius: 10px; text-indent: 25px;')) }}
+                    </div>
+                    <div class="col-sm-6 col-md-4">
                         <label>{{ trans('word.telelphone')  }}</label>
                         {{ Form::text('phone',NULL,array('class'=>'form-control input-lg','placeholder'=> trans('word.telelphone'))) }}
-                    </div>
-                    <div class="col-sm-12 col-md-6">
-                        <label>{{ trans('word.mobile')  }}</label>
-                        {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> trans('word.mobile'), 'style'=>'float: none; min-width:450px; min-height: 45px; border-radius: 10px; text-indent: 25px;')) }}
                     </div>
                 </div>
             </div>
@@ -111,6 +116,6 @@
 
     {{ HTML::script('js/intlTelInput.min.js'); }}
     <script>
-      $("#mobile").intlTelInput();
+//      $("#mobile").intlTelInput();
     </script>
 @stop

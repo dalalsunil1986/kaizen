@@ -48,7 +48,16 @@
             </div>
 
             <div class="form-group">
-                {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> trans('word.mobile'), 'style'=>'float: none; min-width:450px; min-height: 45px; border-radius: 10px; text-indent: 25px;')) }}
+                <div class="row">
+                    <div class="col-sm-4 col-md-3">
+                        <label>{{ trans('word.mobile')  }}</label>
+                        @include('site.partials._country-dropdown')
+                    </div>
+                    <div class="col-sm-8 col-md-9">
+                        <label>&nbsp; </label>
+                        {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> trans('word.mobile'), 'style'=>'float: none; min-width:450px; min-height: 45px; border-radius: 10px; text-indent: 25px;')) }}
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -65,6 +74,6 @@
 @parent
     {{ HTML::script('js/intlTelInput.min.js'); }}
     <script>
-      $("#mobile").intlTelInput();
+//      $("#mobile").intlTelInput();
     </script>
 @stop

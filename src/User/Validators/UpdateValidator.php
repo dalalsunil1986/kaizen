@@ -16,6 +16,7 @@ class UpdateValidator extends BaseValidator {
         'name_ar'  => 'required|min:3',
         'name_en'  => 'required|min:3',
         'password' => 'alpha_num|between:6,12|confirmed',
+        'countrycode' => 'numeric',
     );
 
     public function __construct($id)
@@ -33,7 +34,7 @@ class UpdateValidator extends BaseValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'name_ar', 'name_en', 'password', 'password_confirmation', 'country_id', 'twitter', 'phone', 'mobile','gender','instagram'
+            'name_ar', 'name_en', 'password', 'password_confirmation', 'country_id', 'twitter', 'phone', 'mobile','gender','instagram','countrycode'
         ]);
     }
 
