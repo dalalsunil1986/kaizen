@@ -50,7 +50,10 @@
                     </div>
                     <div class="col-sm-12 col-md-4">
                         <label>{{ trans('word.telelphone')  }}</label>
-                        {{ Form::text('phone',NULL,array('class'=>'form-control input-lg','placeholder'=> trans('word.telelphone'))) }}
+                        <div class="input-group">
+                            {{ Form::text('phone',NULL,array('class'=>'form-control input-lg','placeholder'=> trans('word.telelphone'))) }}
+                            <span class="input-group-addon" id="phone-code">{{$user->countrycode}}+</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,6 +122,7 @@
     <script>
         $('#countrycode').change(function() {
             $('#mobile-code').html(this.value+'+');
+            $('#phone-code').html(this.value+'+');
         });
     </script>
 @stop

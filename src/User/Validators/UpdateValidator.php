@@ -16,7 +16,7 @@ class UpdateValidator extends BaseValidator {
         'name_ar'  => 'required|min:3',
         'name_en'  => 'required|min:3',
         'password' => 'alpha_num|between:6,12|confirmed',
-        'countrycode' => 'numeric',
+        'countrycode' => 'required|numeric',
     );
 
     public function __construct($id)

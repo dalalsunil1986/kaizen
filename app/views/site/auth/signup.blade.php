@@ -57,7 +57,7 @@
                         <label>{{ trans('word.mobile')  }}</label>
                         <div class="input-group">
                             {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> trans('word.mobile'))) }}
-                            <span class="input-group-addon" id="mobile-code"></span>
+                            <span class="input-group-addon" id="mobile-code">+</span>
                         </div>
                     </div>
                 </div>
