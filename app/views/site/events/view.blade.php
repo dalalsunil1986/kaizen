@@ -263,11 +263,11 @@
                             <p class="text-right text-primary">
                                 <img src="//www.gravatar.com/avatar/{{ $comment->user->email }}?s=50" class="" width="50" height="50">
                                 <a href="{{ action('UserController@getProfile',$comment->user->id) }}"><strong>{{ $comment->user ?  $comment->user->username : ''}}</strong></a>
+                                <span class="text-muted"> - {{ $comment->created_at }} </span>
                             </p>
                             <p>{{ $comment->content }}</p>
                             <div class="comment-meta">
-                                <span class="text-muted"> - {{ $comment->created_at }} </span>
-                                <span class="text-muted" class="reply"><a class="reply" href="#" data-id="{{ $comment->id }}" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil"></i>reply </a></span>
+                                <span class="text-muted" class="reply"><a class="reply" href="#" data-id="{{ $comment->id }}" data-toggle="modal" data-target="#myModal">reply <i class="fa fa-pencil"></i></a></span>
                             </div>
                         </div>
 
@@ -283,11 +283,12 @@
                     </div>
 
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">✕</button>
-                        </div>
+
                         <div class="modal-dialog">
                             <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">✕</button>
+                                </div>
                                 <div class="modal-body">
 
                                     {{ Form::open(array( 'action' => array('CommentsController@store', $event->id))) }}
