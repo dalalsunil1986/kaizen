@@ -129,14 +129,13 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function prices()
     {
-        return $this->hasMany('EventPrice',  'event_id');
+        return $this->hasMany('EventPrice', 'event_id');
     }
 
     public function eventPricesByType($type)
     {
-        return $this->belongsToMany('Country', 'event_prices', 'event_id', 'country_id')->where('type',$type)->withPivot(['price', 'type']);
+        return $this->belongsToMany('Country', 'event_prices', 'event_id', 'country_id')->where('type', $type)->withPivot(['price', 'type']);
     }
-
 
 
     /*********************************************************************************************************
@@ -197,12 +196,14 @@ class EventModel extends BaseModel implements PresenterInterface {
             ->where('e.date_start', '<', $dt->toDateTimeString());
     }
 
-    public function getPriceByCountry($countryID){
-        return $this->hasMany('EventPrice','event_id')->where('country_id',$countryID);
+    public function getPriceByCountry($countryID)
+    {
+        return $this->hasMany('EventPrice', 'event_id')->where('country_id', $countryID);
     }
 
-    public function getPriceByCountryAndType($countryID,$type){
-        return $this->hasOne('EventPrice','event_id')->where('country_id',$countryID)->where('type',$type);
+    public function getPriceByCountryAndType($countryID, $type)
+    {
+        return $this->hasOne('EventPrice', 'event_id')->where('country_id', $countryID)->where('type', $type);
     }
 
 //    public function updateAvailableSeatsOnCreate()
@@ -319,7 +320,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function isFreeEvent()
     {
-        if ( $this->free  ) {
+        if ( $this->free ) {
             return true;
         }
 

@@ -7,14 +7,16 @@ class EventPrice extends BaseModel {
 
     protected $table = 'event_prices';
 
-    public function events()
+    protected $with = ['event','country'];
+
+    public function event()
     {
-        return $this->belongsToMany('EventModel');
+        return $this->belongsTo('EventModel');
     }
 
-    public function countries()
+    public function country()
     {
-        return $this->belongsToMany('Country');
+        return $this->belongsTo('Country');
     }
 
     public function scopeOfType($query, $type)

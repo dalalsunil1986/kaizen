@@ -118,6 +118,10 @@ class EventsController extends BaseController {
     {
         $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'tags']);
 
+        $country = $this->processCountry($event);
+
+        $eventPrices = $event->getPriceByCountry($country->id)->get();
+
         // returns true false
         $eventExpired = $this->eventRepository->eventExpired($event->date_start);
 
@@ -148,7 +152,7 @@ class EventsController extends BaseController {
         }
 
         $this->title = $event->title;
-        $this->render('site.events.view', compact('event', 'tags', 'eventExpired'));
+        $this->render('site.events.view', compact('event', 'tags', 'eventExpired', 'eventPrices'));
 
     }
 
@@ -307,9 +311,7 @@ class EventsController extends BaseController {
     {
         $event = $this->eventRepository->findById($id, ['eventCountries']);
 
-        $iso = Session::get('user.country');
-
-        $country = $this->countryRepository->model->where('iso_code', $iso)->first();
+        $country = $this->processCountry($event);
 
         //@todo: pass only valid countries and valid price types( vip, online )
         if ( $country ) {
@@ -352,7 +354,7 @@ class EventsController extends BaseController {
         if ( in_array('ONLINE', $reg_types) ) $online = true;
         if ( in_array('NORMAL', $reg_types) ) $normal = true;
 
-        $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent', 'price','country'));
+        $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent', 'price', 'country'));
 
     }
 
@@ -606,6 +608,33 @@ class EventsController extends BaseController {
 
         // launch the live stream
         $this->launchStream($data, $launchUrl);
+    }
+
+    /**
+     * @param $event
+     * @return mixed
+     * // todo make this function SRP, and move away from this controller and payments controller
+     */
+    public function processCountry($event)
+    {
+        // Get The Country of User Stored in Session or DB
+
+        $country = $this->countryRepository->model->where('iso_code', Session::get('user.country'))->first();
+
+        // Get All the Countries that this Event is attached to and convert it into array
+        $eventCountries = $event->eventPrices->unique()->implode('id', ',');
+
+        // If the user's Country is Not In the Attached Countries of the Event, then set the country as Default Country
+        if ( !in_array($country->id, explode(',', $eventCountries)) ) {
+
+            $defaultCountry = $this->countryRepository->defaultCountry;
+
+            $country = $this->countryRepository->model->where('iso_code', $defaultCountry)->first();
+
+            return $country;
+        }
+
+        return $country;
     }
 
 }

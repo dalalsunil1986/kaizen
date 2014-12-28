@@ -78,7 +78,8 @@ class PaymentsController extends BaseController {
         }
 
         $user = Auth::user();
-        $country      = $this->countryRepository->model->where('iso_code', Session::get('user.country'))->first();
+
+        $country = $this->processCountry($event);
         $subscription = $this->subscriptionRepository->findByEvent($user->id, $event->id);
         $eventPrice   = $event->getPriceByCountryAndType($country->id, $subscription->registration_type)->first();
 
@@ -97,7 +98,7 @@ class PaymentsController extends BaseController {
 
         $event = $this->eventRepository->findById($payableId);
 
-        $country      = $this->countryRepository->model->where('iso_code', Session::get('user.country'))->first();
+        $country      = $this->processCountry($event);
 
         $user = Auth::user();
 
@@ -208,5 +209,31 @@ class PaymentsController extends BaseController {
         }
 
         return "";
+    }
+
+    /**
+     * @param $event
+     * @return mixed
+     */
+    public function processCountry($event)
+    {
+        // Get The Country of User Stored in Session or DB
+
+        $country = $this->countryRepository->model->where('iso_code', Session::get('user.country'))->first();
+
+        // Get All the Countries that this Event is attached to and convert it into array
+        $eventCountries = $event->eventPrices->unique()->implode('id', ',');
+
+        // If the user's Country is Not In the Attached Countries of the Event, then set the country as Default Country
+        if ( !in_array($country->id, explode(',', $eventCountries)) ) {
+
+            $defaultCountry = $this->countryRepository->defaultCountry;
+
+            $country = $this->countryRepository->model->where('iso_code', $defaultCountry)->first();
+
+            return $country;
+        }
+
+        return $country;
     }
 }
