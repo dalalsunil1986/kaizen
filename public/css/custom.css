@@ -708,3 +708,7 @@ span.tag:after {
     border-top: 1px dotted #0b56a8;
     margin-right: 50px;
 }
+
+.comment-meta {
+    padding-right:5px;
+}
