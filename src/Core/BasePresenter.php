@@ -30,16 +30,17 @@ abstract class BasePresenter extends AbstractPresent {
         $converter = App::make('Acme\Libraries\UserCurrency');
         $country   = Country::where('iso_code', $iso)->first();
 
-        if ( $country ) {
-            $converter = $converter->convert($country->currency, $field);
-            if ( empty($converter) ) {
-                return $field . ' KD';
-            }
 
-            return $converter . ' ' . $country->currency;
-        } else {
-            return $field . ' KD';
-        }
+//        if ( $country ) {
+//            $converter = $converter->convert($country->currency, $field);
+//            if ( empty($converter) ) {
+//                return $field . ' KD';
+//            }
+//
+//            return $converter . ' ' . $country->currency;
+//        } else {
+//            return $field . ' KD';
+//        }
     }
 
 

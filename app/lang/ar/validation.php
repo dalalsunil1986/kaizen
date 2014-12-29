@@ -137,7 +137,8 @@ return array(
         "size" => "الحجم",
         "name_ar"             => " الاسم باللغة العربية",
         "name_en"              => "الاسم  باللغة الانجليزية",
-        'previous_event_comment' => 'تعليقات الفعاليات السابق'
+        'previous_event_comment' => 'تعليقات الفعاليات السابق',
+        'countrycode' => trans('word.countrycode')
     ],
 
 );

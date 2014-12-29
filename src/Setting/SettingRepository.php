@@ -3,6 +3,7 @@
 use Acme\Core\BaseRepository;
 use Acme\Core\CrudableTrait;
 use Acme\Setting\Validators\OnlineRoomForm;
+use Acme\Setting\Validators\OptionValidator;
 use Setting;
 
 class SettingRepository extends BaseRepository {
@@ -42,6 +43,11 @@ class SettingRepository extends BaseRepository {
     public function getOnlineRoomForm($id)
     {
         return new OnlineRoomForm();
+    }
+
+    public function getOptionForm($id)
+    {
+        return new OptionValidator();
     }
 
 }

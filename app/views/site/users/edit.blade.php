@@ -36,13 +36,24 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
-                        <label>{{ trans('word.telelphone')  }}</label>
-                        {{ Form::text('phone',NULL,array('class'=>'form-control input-lg','placeholder'=> trans('word.telelphone'))) }}
+
+                    <div class="col-sm-12 col-md-4">
+                        <label>{{ trans('word.countrycode')  }}</label>
+                        @include('site.partials._countrycode-dropdown')
                     </div>
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-4">
                         <label>{{ trans('word.mobile')  }}</label>
-                        {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> trans('word.mobile'), 'style'=>'float: none; min-width:450px; min-height: 45px; border-radius: 10px; text-indent: 25px;')) }}
+                        <div class="input-group">
+                            {{ Form::text('mobile',NULL,array('id'=> 'mobile','class'=>'form-control input-lg','placeholder'=> trans('word.mobile'))) }}
+                            <span class="input-group-addon" id="mobile-code">{{$user->countrycode}}+</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label>{{ trans('word.telelphone')  }}</label>
+                        <div class="input-group">
+                            {{ Form::text('phone',NULL,array('class'=>'form-control input-lg','placeholder'=> trans('word.telelphone'))) }}
+                            <span class="input-group-addon" id="phone-code">{{$user->countrycode}}+</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,7 +63,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <label>{{ trans('word.select_country')  }}</label>
-                        {{ Form::select('country_id', $countries, NULL ,['class' => 'form-control']) }}
+                        @include('site.partials._country-dropdown')
                     </div>
                     <div class="col-sm-12 col-md-6">
 
@@ -108,9 +119,10 @@
 
 @section('script')
     @parent
-
-    {{ HTML::script('js/intlTelInput.min.js'); }}
     <script>
-      $("#mobile").intlTelInput();
+        $('#countrycode').change(function() {
+            $('#mobile-code').html(this.value+'+');
+            $('#phone-code').html(this.value+'+');
+        });
     </script>
 @stop

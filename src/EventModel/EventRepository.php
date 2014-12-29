@@ -19,7 +19,7 @@ class EventRepository extends BaseRepository {
 
     public function getAll($with = [])
     {
-        return $this->model->with($with);
+        return $this->model->with($with)->latest();
     }
 
     /**
@@ -57,16 +57,12 @@ class EventRepository extends BaseRepository {
      * @return array|null|static[]
      * Fetch Posts For Sliders
      */
-
-    // Afdal that's so weird .. this function is repeated in EventRepository and EventsController !!!!!!!!!!!!!!!!!!!!!!!!!
-
     public function getSliderEvents()
     {
         // fetch 3 latest post
         // fetches 2 featured post
         // order by event date, date created, featured
         // combines them into one query to return for slider
-
         $latestEvents   = $this->latestEvents();
         $featuredEvents = $this->feautredEvents();
         $events         = array_merge((array) $latestEvents, (array) $featuredEvents);
@@ -138,20 +134,6 @@ class EventRepository extends BaseRepository {
         return $events;
     }
 
-
-    function suggestedEvents($eventId)
-    {
-        $current_event            = $this->findById($eventId);
-        $current_event_tags       = $this->model->tags->get();
-        $current_event_categories = $this->model->categories()->get();
-        echo '<pre>';
-        print_r($current_event_tags);
-        echo '<pre>';
-        print_r($current_event_categories);
-        exit;
-//        $event = $this->get()->where('tag_id' , '=', )
-    }
-
     /**
      * @param $dateStart
      * @return bool
@@ -191,32 +173,6 @@ class EventRepository extends BaseRepository {
         }
 
         return $ongoing;
-    }
-
-
-    /**
-     * @param $id Event Id
-     */
-    public function getSuggestedEvents($id)
-    {
-        // get 1 random post for tags
-        // get 1 random post for categories
-//        $events =
-    }
-
-
-    public function updateAvailableSeatsOnUpdate()
-    {
-        // check if the total_seats has changed
-
-        // If the total_seats has been incremented ex:20
-        // The available seats = 5
-        // Find the amount of incremented seats : 10
-        // Find the seats that are already booked : old_total_seats - available_seats = 15
-        // Update available seats
-
-//        $this->model->available_seats = $this->model->total_seats;
-//        $this->model->save();
     }
 
     public function getExpiredEvents()

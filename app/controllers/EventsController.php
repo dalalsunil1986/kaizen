@@ -39,7 +39,7 @@ class EventsController extends BaseController {
      */
     private $tagRepository;
 
-    function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository, TagRepository $tagRepository)
+    public function __construct(EventRepository $eventRepository, CategoryRepository $categoryRepository, CountryRepository $countryRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository, TagRepository $tagRepository)
     {
         $this->eventRepository        = $eventRepository;
         $this->categoryRepository     = $categoryRepository;
@@ -47,8 +47,8 @@ class EventsController extends BaseController {
         $this->userRepository         = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
         $this->tagRepository          = $tagRepository;
-        parent::__construct();
         $this->beforeFilter('auth', ['only' => ['showSubscriptionOptions', 'reorganizeEvents', 'streamEvent']]);
+        parent::__construct();
     }
 
     public function index()
@@ -118,6 +118,10 @@ class EventsController extends BaseController {
     {
         $event = $this->eventRepository->findById($id, ['comments', 'author', 'photos', 'tags']);
 
+        $country = $this->processCountry($event);
+
+        $eventPrices = $event->getPriceByCountry($country->id)->get();
+
         // returns true false
         $eventExpired = $this->eventRepository->eventExpired($event->date_start);
 
@@ -148,8 +152,19 @@ class EventsController extends BaseController {
         }
 
         $this->title = $event->title;
-        $this->render('site.events.view', compact('event', 'tags', 'eventExpired'));
+        $this->render('site.events.view', compact('event', 'tags', 'eventExpired', 'eventPrices'));
 
+    }
+
+    private function isOnlineEvent($event)
+    {
+        $setting           = $event->setting;
+        $registrationTypes = explode(',', $setting->registration_types);
+        if ( in_array('ONLINE', $registrationTypes) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -274,27 +289,10 @@ class EventsController extends BaseController {
 
     public function getSliderEvents()
     {
-        // fetch 3 latest post
-        // fetches 2 featured post
-        // order by event date, date created, featured
-        // combines them into one query to return for slider
+        $sliderEvents = $this->eventRepository->getSliderEvents();
 
-        $latestEvents   = $this->eventRepository->latestEvents();
-        $featuredEvents = $this->eventRepository->feautredEvents();
-
-        $events = array_merge((array) $latestEvents, (array) $featuredEvents);
-        if ( $events ) {
-            foreach ( $events as $event ) {
-                $array[] = $event->id;
-            }
-            $events_unique = array_unique($array);
-            $sliderEvents  = $this->eventRepository->getSliderEvents(6, $events_unique);
-
-            return $sliderEvents;
-        }
-        return null;
+        return $sliderEvents;
     }
-
 
     public function getAuthor($id)
     {
@@ -307,10 +305,30 @@ class EventsController extends BaseController {
     /**
      * show the available registration options page before subscription ( VIP, ONLINE )
      * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function showSubscriptionOptions($id)
     {
-        $event = $this->eventRepository->findById($id);
+        $event = $this->eventRepository->findById($id, ['eventCountries']);
+
+        $country = $this->processCountry($event);
+
+        //@todo: pass only valid countries and valid price types( vip, online )
+        if ( $country ) {
+            $eventPrices = $event->getPriceByCountry($country->id)->get();
+        }
+
+        $price = [];
+
+        // initialize prices
+//        array (size=3)
+//        'vip' => string '1222' (length=4)
+//        'online' => string '121' (length=3)
+//        'normal' => string '22' (length=2)
+
+        foreach ( $eventPrices as $eventPrice ) {
+            $price[strtolower($eventPrice->type)] = $eventPrice->price;
+        }
 
         $freeEvent = false;
 
@@ -336,7 +354,7 @@ class EventsController extends BaseController {
         if ( in_array('ONLINE', $reg_types) ) $online = true;
         if ( in_array('NORMAL', $reg_types) ) $normal = true;
 
-        $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent'));
+        $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent', 'price', 'country'));
 
     }
 
@@ -423,6 +441,7 @@ class EventsController extends BaseController {
     /**
      * Stream event from electa service
      * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function streamEvent($id)
     {
@@ -445,17 +464,17 @@ class EventsController extends BaseController {
         $subscription = $event->subscriptions()->where('user_id', $user->id)->first();
 
         // find if this user has a subscriptoin
-        if ( ! $subscription ) {
+        if ( !$subscription ) {
 
             return Redirect::action('EventsController@index')->with('error', trans('general.not_subscribed'));
 
         }
 
-        $subscription = $event->subscriptions()->where('user_id', $user->id)->where('status','CONFIRMED')->first();
+        $subscription = $event->subscriptions()->where('user_id', $user->id)->where('status', 'CONFIRMED')->first();
 
         // If user has a subscription and subscription is not confirmed
 //        if ( $subscription->status != 'CONFIRMED' ) {
-        if ( ! $subscription) {
+        if ( !$subscription ) {
 
             return Redirect::action('EventsController@index')->with('error', trans('general.subscription_not_confirmed'));
         }
@@ -486,7 +505,6 @@ class EventsController extends BaseController {
             'token'        => urlencode($token),
             'cid'          => $cid,
             'roomid'       => $event->setting->online_room_id, //todo : change with database room name $setting->online_room_no
-//            'roomid'       => $event->setting->online_room_id, //todo : change with database room name $setting->online_room_no
             'usertypeid'   => $userTypeId,
             'gender'       => $user->gender ? $user->gender[0] : 'M',
             'firstname'    => $user->username,
@@ -561,10 +579,10 @@ class EventsController extends BaseController {
 
     public function onlineTestEvent()
     {
-        if(Auth::user()->id != 1) {
-            return  'You Cannot View the Event Now';
+        if ( Auth::user()->id != 1 ) {
+            return 'You Cannot View the Event Now';
         }
-        
+
         if ( !$this->getStreamSettings() ) {
             return Redirect::action('EventsController@index')->with('error', trans('word.system_error'));
         }
@@ -592,15 +610,31 @@ class EventsController extends BaseController {
         $this->launchStream($data, $launchUrl);
     }
 
-    private function isOnlineEvent($event)
+    /**
+     * @param $event
+     * @return mixed
+     * // todo make this function SRP, and move away from this controller and payments controller
+     */
+    public function processCountry($event)
     {
-        $setting           = $event->setting;
-        $registrationTypes = explode(',', $setting->registration_types);
-        if ( in_array('ONLINE', $registrationTypes) ) {
-            return true;
-        } else {
-            return false;
+        // Get The Country of User Stored in Session or DB
+
+        $country = $this->countryRepository->model->where('iso_code', Session::get('user.country'))->first();
+
+        // Get All the Countries that this Event is attached to and convert it into array
+        $eventCountries = $event->eventPrices->unique()->implode('id', ',');
+
+        // If the user's Country is Not In the Attached Countries of the Event, then set the country as Default Country
+        if ( !in_array($country->id, explode(',', $eventCountries)) ) {
+
+            $defaultCountry = $this->countryRepository->defaultCountry;
+
+            $country = $this->countryRepository->model->where('iso_code', $defaultCountry)->first();
+
+            return $country;
         }
+
+        return $country;
     }
 
 }

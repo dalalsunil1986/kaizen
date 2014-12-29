@@ -18,6 +18,10 @@
                 allowClear: true,
                 maximumSelectionSize: 3
             });
+            $('#country_ids').select2({
+                placeholder: "Select Countries For the Event",
+                allowClear: true
+            });
         });
     </script>
 @stop
@@ -25,11 +29,13 @@
 {{-- Content --}}
 @section('content')
 
-    @include('admin.events.breadcrumb',['active'=>'options'])
+    @include('admin.events.breadcrumb',['active'=>'settings'])
 
     {{ Form::model($setting, array('method' => 'PATCH', 'action' => array('AdminSettingsController@update',$setting->id), 'role'=>'form')) }}
 
         <div class="row">
+
+            {{ Form::hidden('store',Input::get('store')) }}
 
             <div class="form-group col-md-6">
                 {{ Form::label('approval_type', 'Approval Type:') }}
@@ -52,7 +58,7 @@
                     @foreach($registrationTypes as $registrationType)
                         <option value="{{ $registrationType }}"
                             @if(in_array($registrationType,$currentRegistrationTypes))
-                            selected="selected"
+                                selected="selected"
                             @endif
                         >{{$registrationType}}</option>
                     @endforeach
@@ -64,50 +70,20 @@
 
         <div class="row">
             <div class="form-group col-md-6">
-                {{ Form::label('vip_price', 'VIP Price:') }}
-                {{ Form::text('vip_price',null,['class'=>'form-control'])}}
-            </div>
-
-            <div class="form-group col-md-6">
-                {{ Form::label('online_price', 'Online Price:') }}
-                {{ Form::text('online_price',null,['class'=>'form-control'])}}
+                {{ Form::label('country_ids', 'Currenices: ( Please make sure the countries have valid currency') }}
+                <select id="country_ids" name="country_ids[]" class="form-control" multiple="multiple" >
+                    @foreach($countries as $key => $value)
+                        <option value="{{ $key }}"
+                        @if(in_array($key, $currentCountries))
+                            selected="selected"
+                        @endif
+                        >{{$value}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
 
         <hr>
-
-        <div class="row">
-            <div class="form-group col-md-6">
-                {{ Form::label('normal_description_en', 'Normal Description in English') }}
-                {{ Form::textarea('normal_description_en',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
-            </div>
-            <div class="form-group col-md-6">
-                {{ Form::label('normal_description_ar', 'Normal Description in Arabic') }}
-                {{ Form::textarea('normal_description_ar',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-md-6">
-                {{ Form::label('vip_description_en', 'VIP Description in English') }}
-                {{ Form::textarea('vip_description_en',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
-            </div>
-            <div class="form-group col-md-6">
-                {{ Form::label('vip_description_ar', 'VIP Description in Arabic') }}
-                {{ Form::textarea('vip_description_ar',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="form-group col-md-6">
-                {{ Form::label('online_description_en', 'ONLINE Description in English') }}
-                {{ Form::textarea('online_description_en',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
-            </div>
-            <div class="form-group col-md-6">
-                {{ Form::label('online_description_ar', 'ONLINE Description in Arabic') }}
-                {{ Form::textarea('online_description_ar',null,['class'=>'form-control wysihtml5','rows'=>'5'])}}
-            </div>
-        </div>
 
         <div class="row">
             <div class="form-group col-md-12">

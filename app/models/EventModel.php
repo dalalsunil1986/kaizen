@@ -30,7 +30,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function comments()
     {
-        return $this->morphMany('Comment', 'commentable');
+        return $this->morphMany('Comment', 'commentable')->where('parent_id',0)->orWhere('parent_id',NULL);
     }
 
     public function author()
@@ -83,11 +83,6 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->hasOne('Type', 'event_id');
     }
 
-    public function statuses()
-    {
-        return $this->belongsToMany('User', 'statuses', 'event_id', 'user_id')->withPivot(array('id', 'event_id', 'user_id', 'status'));
-    }
-
     public function setting()
     {
         return $this->morphOne('Setting', 'settingable');
@@ -108,14 +103,31 @@ class EventModel extends BaseModel implements PresenterInterface {
         return $this->hasMany('EventRequest', 'event_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     * Same as Above method
-     */
     public function reorganize()
     {
         return $this->belongsToMany('User', 'requests', 'event_id', 'user_id');
     }
+
+    public function eventCountries()
+    {
+        return $this->belongsToMany('Country', 'event_countries', 'event_id', 'country_id');
+    }
+
+    public function eventPrices()
+    {
+        return $this->belongsToMany('Country', 'event_prices', 'event_id', 'country_id');
+    }
+
+    public function prices()
+    {
+        return $this->hasMany('EventPrice', 'event_id');
+    }
+
+    public function eventPricesByType($type)
+    {
+        return $this->belongsToMany('Country', 'event_prices', 'event_id', 'country_id')->where('type', $type)->withPivot(['price', 'type']);
+    }
+
 
     /*********************************************************************************************************
      * Setters
@@ -175,11 +187,15 @@ class EventModel extends BaseModel implements PresenterInterface {
             ->where('e.date_start', '<', $dt->toDateTimeString());
     }
 
-//    public function updateAvailableSeatsOnCreate()
-//    {
-//        $this->available_seats = $this->total_seats;
-//        $this->save();
-//    }
+    public function getPriceByCountry($countryID)
+    {
+        return $this->hasMany('EventPrice', 'event_id')->where('country_id', $countryID);
+    }
+
+    public function getPriceByCountryAndType($countryID, $type)
+    {
+        return $this->hasOne('EventPrice', 'event_id')->where('country_id', $countryID)->where('type', $type);
+    }
 
     public function getConfirmedUsers()
     {
@@ -235,7 +251,7 @@ class EventModel extends BaseModel implements PresenterInterface {
         if ( $totalSeats > 0 ) {
 
             // Get the confirmed subscriptions count for the event
-            $totalSubscriptions    = $this->subscriptions()->where('status', 'CONFIRMED')->count();
+            $totalSubscriptions = $this->subscriptions()->where('status', 'CONFIRMED')->count();
 
             // calculate the available seats
             $available_seats = $totalSeats - $totalSubscriptions;
@@ -289,7 +305,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function isFreeEvent()
     {
-        if ( $this->free || $this->price < 1 ) {
+        if ( $this->free ) {
             return true;
         }
 
@@ -333,7 +349,7 @@ class EventModel extends BaseModel implements PresenterInterface {
 
     public function latest($count)
     {
-        return $this->orderBy('created_at', 'DESC')->select('id','title_ar','slug','title_en')->remember(10)->limit($count)->get();
+        return $this->orderBy('created_at', 'DESC')->select('id', 'title_ar', 'slug', 'title_en')->remember(10)->limit($count)->get();
     }
 
 

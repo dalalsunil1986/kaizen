@@ -13,13 +13,13 @@ class AdminCreateValidator extends BaseValidator {
      */
 
     protected $rules = array(
-        'phone'    => 'sometimes',
-        'mobile'   => 'required|sometimes',
+//        'phone'    => 'sometimes',
+//        'mobile'   => 'required|sometimes',
         'username' => 'required|unique:users,username',
         'email'    => 'required|email|unique:users,email,:id',
         'password' => 'required|alpha_num|between:6,12|confirmed',
-        'name_ar'  => 'required',
-        'name_en'  => 'required',
+//        'name_ar'  => 'required',
+//        'name_en'  => 'required',
     );
 
     /**

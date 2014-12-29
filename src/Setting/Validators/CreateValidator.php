@@ -22,6 +22,7 @@ class CreateValidator extends BaseValidator {
         'registration_types'=>'required | array',
         'vip_price' => 'integer',
         'online_price' => 'integer',
+        'country_ids' => 'required | array'
     ];
 
     /**

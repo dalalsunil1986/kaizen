@@ -2,6 +2,7 @@
 
 use Acme\Country\CountryRepository;
 use Acme\User\UserRepository;
+use App;
 use Config;
 use GeoIp2\Database\Reader;
 
@@ -51,11 +52,11 @@ class UserGeoIp {
             return null;
         }
 
-        return $ip;
+        if(App::environment() == 'local') {
+            return null;
+        }
 
-//        $ip = array_rand(['168.187.22.137', '82.148.97.69', '109.161.184.148']);
-//        $ip = '109.161.184.148';
-//        $ip = '82.148.97.69';
+        return $ip;
 
     }
 

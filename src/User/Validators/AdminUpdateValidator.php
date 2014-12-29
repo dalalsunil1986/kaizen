@@ -13,14 +13,14 @@ class AdminUpdateValidator extends BaseValidator {
      */
 
     protected $rules = array(
-        'phone'    => 'sometimes|numeric',
-        'mobile'   => 'sometimes|numeric',
+//        'phone'    => 'sometimes|numeric',
+//        'mobile'   => 'sometimes|numeric',
         'username' => 'unique:users,username',
         'active' => 'boolean',
         'email'    => 'email|unique:users,email,:id',
         'password' => 'sometimes|alpha_num|between:6,12|confirmed',
-        'name_ar'  => 'sometimes',
-        'name_en'  => 'sometimes',
+//        'name_ar'  => 'sometimes',
+//        'name_en'  => 'sometimes',
     );
 
     public function __construct($id)

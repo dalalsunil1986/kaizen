@@ -1,9 +1,11 @@
 <?php
 
+use Acme\Country\CountryRepository;
 use Acme\EventModel\EventRepository;
 use Acme\Libraries\UserCurrency;
 use Acme\Payment\Methods\Paypal;
 use Acme\Payment\PaymentRepository;
+use Acme\Subscription\SubscriptionRepository;
 
 class PaymentsController extends BaseController {
 
@@ -29,6 +31,14 @@ class PaymentsController extends BaseController {
      * @var Paypal
      */
     private $paypal;
+    /**
+     * @var CountryRepository
+     */
+    private $countryRepository;
+    /**
+     * @var SubscriptionRepository
+     */
+    private $subscriptionRepository;
 
     /**
      * Inject the models.
@@ -36,8 +46,10 @@ class PaymentsController extends BaseController {
      * @param EventRepository $eventRepository
      * @param UserCurrency $converter
      * @param Paypal $paypal
+     * @param CountryRepository $countryRepository
+     * @param SubscriptionRepository $subscriptionRepository
      */
-    public function __construct(PaymentRepository $paymentRepository, EventRepository $eventRepository, UserCurrency $converter, Paypal $paypal)
+    public function __construct(PaymentRepository $paymentRepository, EventRepository $eventRepository, UserCurrency $converter, Paypal $paypal, CountryRepository $countryRepository, SubscriptionRepository $subscriptionRepository)
     {
         $this->paymentRepository = $paymentRepository;
         $this->eventRepository   = $eventRepository;
@@ -45,6 +57,8 @@ class PaymentsController extends BaseController {
         $this->paypal            = $paypal;
         $this->beforeFilter('auth');
         parent::__construct();
+        $this->countryRepository      = $countryRepository;
+        $this->subscriptionRepository = $subscriptionRepository;
     }
 
     /**
@@ -53,20 +67,23 @@ class PaymentsController extends BaseController {
      */
     public function getPayment($id)
     {
-        $user  = Auth::user();
-        $event = $this->eventRepository->findById($id);
-
-        if ( $this->eventRepository->eventExpired($event->date_start) ) {
-            return Redirect::action('EventsController@index')->with('error', trans('word.event_expired'));
-        }
-
         $payment = $this->paymentRepository->findByToken(Input::get('token'));
-
         if ( !$payment ) {
             return Redirect::action('EventsController@index')->with('error', trans('word.token_expired'));
         }
 
-        $this->render('site.events.payment-options', compact('event', 'payment'));
+        $event = $this->eventRepository->findById($id);
+        if ( $this->eventRepository->eventExpired($event->date_start) ) {
+            return Redirect::action('EventsController@index')->with('error', trans('word.event_expired'));
+        }
+
+        $user = Auth::user();
+
+        $country = $this->processCountry($event);
+        $subscription = $this->subscriptionRepository->findByEvent($user->id, $event->id);
+        $eventPrice   = $event->getPriceByCountryAndType($country->id, $subscription->registration_type)->first();
+
+        $this->render('site.events.payment-options', compact('event', 'payment', 'country', 'eventPrice', 'country'));
     }
 
     public function postPayment()
@@ -81,7 +98,15 @@ class PaymentsController extends BaseController {
 
         $event = $this->eventRepository->findById($payableId);
 
-        $convertedPrice = $this->converter->convert($this->defaultCurrency, $event->price);
+        $country      = $this->processCountry($event);
+
+        $user = Auth::user();
+
+        $subscription = $this->subscriptionRepository->findByEvent($user->id, $event->id);
+
+        $eventPrice = $event->getPriceByCountryAndType($country->id,$subscription->registration_type)->first();
+
+        $convertedPrice = $this->converter->convert($this->defaultCurrency, $eventPrice->price);
 
         if ( $convertedPrice <= 0 ) {
             return Redirect::back('/')->with('error', trans('word.system_error'));
@@ -184,5 +209,31 @@ class PaymentsController extends BaseController {
         }
 
         return "";
+    }
+
+    /**
+     * @param $event
+     * @return mixed
+     */
+    public function processCountry($event)
+    {
+        // Get The Country of User Stored in Session or DB
+
+        $country = $this->countryRepository->model->where('iso_code', Session::get('user.country'))->first();
+
+        // Get All the Countries that this Event is attached to and convert it into array
+        $eventCountries = $event->eventPrices->unique()->implode('id', ',');
+
+        // If the user's Country is Not In the Attached Countries of the Event, then set the country as Default Country
+        if ( !in_array($country->id, explode(',', $eventCountries)) ) {
+
+            $defaultCountry = $this->countryRepository->defaultCountry;
+
+            $country = $this->countryRepository->model->where('iso_code', $defaultCountry)->first();
+
+            return $country;
+        }
+
+        return $country;
     }
 }

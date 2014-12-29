@@ -16,7 +16,7 @@ class CreateValidator extends BaseValidator {
     public function getInputData()
     {
         return array_only($this->inputData, [
-            'content','user_id'
+            'content','user_id','parent_id'
         ]);
     }
 }

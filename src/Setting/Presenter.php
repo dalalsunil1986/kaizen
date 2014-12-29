@@ -35,4 +35,11 @@ class Presenter extends BasePresenter {
         return $this->convertCurrency($field);
     }
 
+    public function convertNormalPrice()
+    {
+        $field = $this->resource->normal_price;
+
+        return $this->convertCurrency($field);
+    }
+
 }

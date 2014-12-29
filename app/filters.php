@@ -35,7 +35,7 @@ App::after(function ($request, $response) {
 Route::filter('auth', function () {
 
     if ( Auth::guest() )
-    return  Redirect::guest('account/login')->with('info', trans('auth.alerts.must_login'));
+        return Redirect::guest('account/login')->with('info', trans('auth.alerts.must_login'));
 });
 
 Route::filter('auth.basic', function () {
@@ -55,6 +55,7 @@ Route::filter('auth.basic', function () {
 
 Route::filter('guest', function () {
     if ( Auth::check() ) return Redirect::action('AuthController@getLogin');
+//    if ( Auth::check() ) return Redirect::action('AuthController@getLogin');
 });
 
 /*
