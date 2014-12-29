@@ -261,8 +261,10 @@
                     <div class="comment-wrapper">
                         <div class="comment-panel">
                             <p class="text-right text-primary">
-                                <img src="//www.gravatar.com/avatar/{{ $comment->user->email }}?s=50" class="" width="50" height="50">
-                                <a href="{{ action('UserController@getProfile',$comment->user->id) }}"><strong>{{ $comment->user ?  $comment->user->username : ''}}</strong></a>
+                                @if($comment->user)
+                                    <img src="//www.gravatar.com/avatar/{{ $comment->user->email }}?s=50" class="" width="50" height="50">
+                                    <a href="{{ action('UserController@getProfile',$comment->user->id) }}"><strong>{{ $comment->user ?  $comment->user->username : ''}}</strong></a>
+                                @endif
                                 <span class="text-muted"> - {{ $comment->created_at }} </span>
                             </p>
                             <p>{{ $comment->content }}</p>
