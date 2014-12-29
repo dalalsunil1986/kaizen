@@ -340,19 +340,17 @@ class EventsController extends BaseController {
         // find available registration option types
         $setting = $event->setting;
 
-
         if ( is_null($setting) ) {
-
             // if not setting for the event found, just redirect
             return Redirect::action('EventsController@show', $id)->with('info', trans('site.system_error'));
         }
 
         $reg_types = explode(',', $setting->registration_types);
-
-        // Pass the available options as a boolean
-        if ( in_array('VIP', $reg_types) ) $vip = true;
-        if ( in_array('ONLINE', $reg_types) ) $online = true;
-        if ( in_array('NORMAL', $reg_types) ) $normal = true;
+//
+//        // Pass the available options as a boolean
+        if ( in_array('VIP', $reg_types) && isset($price['vip'])) $vip = true;
+        if ( in_array('ONLINE', $reg_types) && isset($price['online']) ) $online = true;
+        if ( in_array('NORMAL', $reg_types) && isset($price['normal'])) $normal = true;
 
         $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent', 'price', 'country'));
 
