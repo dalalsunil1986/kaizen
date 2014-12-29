@@ -16,7 +16,7 @@ class Setting extends BaseModel implements PresenterInterface {
 
     protected $table = 'settings';
 
-    protected $regTypes = ['VIP','ONLINE','NORMAL'];
+    protected $regTypes = ['VIP', 'ONLINE', 'NORMAL'];
 
     public function settingable()
     {
@@ -44,7 +44,7 @@ class Setting extends BaseModel implements PresenterInterface {
      */
     public function updateAvailableSeatsBulk(array $validRegType)
     {
-        foreach ( $validRegType as $key=>$type ) {
+        foreach ( $validRegType as $key => $type ) {
             $this->updateAvailableSeats($key);
         }
     }
@@ -55,8 +55,7 @@ class Setting extends BaseModel implements PresenterInterface {
      */
     public function updateAvailableSeats($type)
     {
-
-        $totalSeat = strtolower($type) . '_total_seats';
+        $totalSeat     = strtolower($type) . '_total_seats';
         $availableSeat = strtolower($type) . '_available_seats';
 
         // If Total Seats is Greater than 0
@@ -76,28 +75,6 @@ class Setting extends BaseModel implements PresenterInterface {
         $this->$availableSeat = (int) ($available_seats);
 
         $this->save();
-    }
-
-    /**
-     * @param $type => { VIP, ONLINE, NORMAL }
-     * @return \Acme\Core\localized
-     */
-    public function getPriceForType($type)
-    {
-        $field = strtolower($type) . '_total_seats';
-
-        return $this->$field;
-    }
-
-    /**
-     * @param $type
-     * @return string
-     */
-    public function resolveType($type)
-    {
-        $field = strtolower($type) . '_total_seats';
-
-        return $field;
     }
 
 }
