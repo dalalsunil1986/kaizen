@@ -348,9 +348,9 @@ class EventsController extends BaseController {
         $reg_types = explode(',', $setting->registration_types);
 //
 //        // Pass the available options as a boolean
-        if ( in_array('VIP', $reg_types) && isset($price['vip'])) $vip = true;
+        if ( in_array('VIP', $reg_types) && isset($price['vip']) ) $vip = true;
         if ( in_array('ONLINE', $reg_types) && isset($price['online']) ) $online = true;
-        if ( in_array('NORMAL', $reg_types) && isset($price['normal'])) $normal = true;
+        if ( in_array('NORMAL', $reg_types) && isset($price['normal']) ) $normal = true;
 
         $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent', 'price', 'country'));
 
