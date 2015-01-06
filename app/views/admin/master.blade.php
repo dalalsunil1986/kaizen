@@ -12,6 +12,8 @@
         {{ HTML::style('css/font-awesome.min.css') }}
 {{--        {{ HTML::style('assets/css/wysihtml5/prettify.css') }}--}}
 {{--        {{ HTML::style('assets/css/wysihtml5/bootstrap-wysihtml5.css') }}--}}
+        {{ HTML::style('packages/froala_editor_1.2.4/css/froala_editor.min.css') }}
+        {{ HTML::style('packages/froala_editor_1.2.4/css/froala_style.min.css') }}
         {{ HTML::style('assets/css/datatables.css') }}
         {{ HTML::style('assets/css/custom.css') }}
 
@@ -61,6 +63,7 @@
     {{ HTML::script('assets/js/nicEdit.js') }}
     {{ HTML::script('assets/js/datatables-bootstrap.js') }}
     {{ HTML::script('assets/js/datatables.js') }}
+    {{ HTML::script('packages/froala_editor_1.2.4/js/froala_editor.min.js') }}
 
     <script type="text/javascript">
 //        $('.wysihtml5').wysihtml5();
@@ -99,8 +102,64 @@
                 var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
                 length_sel.addClass('form-control input-sm');
             });
-            nicEditors.allTextAreas();
+//            nicEditors.allTextAreas();
         });
+
+$(function(){
+    $('.wysihtml5').editable({
+        inlineMode:false,
+        buttons: ["bold", "italic", "underline", "strikeThrough", "subscript", "superscript", "fontFamily", "fontSize", "color", "formatBlock", "blockStyle", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "selectAll", "createLink", "insertImage", "insertVideo", "undo", "removeFormat", "redo", "html", "insertHorizontalRule", "table", "uploadFile", 'rightToLeft', 'leftToRight'],
+
+        customButtons: {
+            // Right to left button.
+            rightToLeft: {
+                title: "rtl",
+                icon: {
+                    type: "font",
+                    value: "fa fa-long-arrow-right" // Font Awesome icon class fa fa-*
+                },
+                callback: function () {
+                    this.saveSelectionByMarkers();
+                    var selectedElements = this.getSelectionElements();
+                    var containerDiv = document.createElement("div");
+                    containerDiv.dir = "rtl";
+                    containerDiv.style.textAlign = "right";
+                    $(selectedElements[0]).before(containerDiv);
+
+                    for(var i = 0; i < selectedElements.length; i++) {
+                        containerDiv.appendChild(selectedElements[i]);
+                    }
+
+                    this.restoreSelectionByMarkers();
+                    this.saveUndoStep();
+                }
+            },
+            // Left to right button.
+            leftToRight: {
+                title: "ltr",
+                icon: {
+                    type: "font",
+                    value: 'fa fa-long-arrow-left' // Font Awesome icon class fa fa-*
+                },
+                callback: function () {
+                    this.saveSelectionByMarkers();
+                    var selectedElements = this.getSelectionElements();
+                    var containerDiv = document.createElement("div");
+                    containerDiv.dir = "ltr";
+                    containerDiv.style.textAlign = "left";
+                    $(selectedElements[0]).before(containerDiv);
+
+                    for(var i = 0; i < selectedElements.length; i++) {
+                        containerDiv.appendChild(selectedElements[i]);
+                    }
+
+                    this.restoreSelectionByMarkers();
+                    this.saveUndoStep();
+                }
+            }
+        }
+    })
+})
     </script>
 
     @show

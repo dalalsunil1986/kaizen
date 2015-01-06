@@ -42,14 +42,14 @@
     <div class="col-md-12">
         <div class="form-group">
             <label class="control-label" for="content">Description in Arabic</label>
-            {{ Form::textarea('description_ar', null, ['class' => 'form-control wysihtml5']) }}
+            {{ Form::textarea('description_ar', null, ['class' => 'form-control wysihtml5', 'id'=>'description_ar']) }}
         </div>
     </div>
 
     <div class="col-md-12">
         <div class="form-group">
             <label class="control-label" for="content">Description in English</label>
-            {{ Form::textarea('description_en', null, ['class' => 'form-control wysihtml5']) }}
+            {{ Form::textarea('description_en', null, ['class' => 'form-control wysihtml5', 'id'=>'description_en']) }}
         </div>
     </div>
 
@@ -122,5 +122,6 @@
                 allowClear: true
             });
         });
+;
     </script>
 @stop

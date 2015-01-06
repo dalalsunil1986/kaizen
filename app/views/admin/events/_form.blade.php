@@ -58,7 +58,7 @@
 <div class="row">
     <div class="form-group col-md-6">
         {{ Form::label('description_en', 'Description in English:') }}
-        {{ Form::textarea('description_en',null,array('class'=>'form-control wysihtml5')) }}
+        {{ Form::textarea('description_en',null,array('class'=>'form-control wysihtml5', 'id'=>'description_en')) }}
     </div>
     <div class="form-group col-md-6">
         {{ Form::label('description_ar', 'Description in Arabic:*') }}
@@ -144,3 +144,4 @@
 @if(isset($_GET['package_id']))
     {{ Form::hidden('package_id', $_GET['package_id']) }}
 @endif
+
