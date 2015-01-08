@@ -324,6 +324,7 @@ Route::post('queue/iron', function () {
  ********************************************************************************************************/
 Route::get('test', function () {
     $user = Auth::user();
+
     dd($user);
     dd(Auth::user());
 });

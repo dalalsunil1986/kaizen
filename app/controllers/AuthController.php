@@ -62,7 +62,9 @@ class AuthController extends BaseController {
 
         $this->service->updateLastLoggedAt();
 
-//        return Redirect::action('UserController@getProfile',Auth::user()->id);
+        if(Auth::user()->roles()->toArray() > 1) {
+            return Redirect::action('AdminEventsController@index');
+        }
 
         return Redirect::intended('/');
     }
