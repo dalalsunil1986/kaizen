@@ -62,6 +62,8 @@ class AuthController extends BaseController {
 
         $this->service->updateLastLoggedAt();
 
+        $roles = Auth::user()->roles;
+        dd(count($roles));
         if(Auth::user()->roles) {
 
             dd('yes');
