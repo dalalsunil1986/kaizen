@@ -62,13 +62,13 @@ class AuthController extends BaseController {
 
         $this->service->updateLastLoggedAt();
 
-        $roles = Auth::user()->roles->toArray();
-        dd($roles);
-        if(count($roles >= 1)) {
-            return Redirect::action('AdminEventsController@index');
-        }
+        if ( !(Entrust::hasRole('admin') || (Entrust::hasRole('moderator'))) ) // Checks the current user
+        {
+            return Redirect::intended('/');
 
-        return Redirect::intended('/');
+        }
+        return Redirect::action('AdminEventsController@index');
+
     }
 
 
