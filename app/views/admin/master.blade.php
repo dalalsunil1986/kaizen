@@ -105,61 +105,72 @@
 //            nicEditors.allTextAreas();
         });
 
-$(function(){
-    $('.wysihtml5').editable({
-        inlineMode:false,
-        buttons: ["bold", "italic", "underline", "strikeThrough", "subscript", "superscript", "fontFamily", "fontSize", "color", "formatBlock", "blockStyle", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "selectAll", "createLink", "insertImage", "insertVideo", "undo", "removeFormat", "redo", "html", "insertHorizontalRule", "table", "uploadFile", 'rightToLeft', 'leftToRight'],
+//$(function(){
+//    $('.wysihtml5').editable({
+//        inlineMode:false,
+//        buttons: ["bold", "italic", "underline", "strikeThrough", "subscript", "superscript", "fontFamily", "fontSize", "color", "formatBlock", "blockStyle", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "selectAll", "createLink", "insertImage", "insertVideo", "undo", "removeFormat", "redo", "html", "insertHorizontalRule", "table", "uploadFile", 'rightToLeft', 'leftToRight'],
+//
+//        customButtons: {
+//            // Right to left button.
+//            rightToLeft: {
+//                title: "rtl",
+//                icon: {
+//                    type: "font",
+//                    value: "fa fa-long-arrow-right" // Font Awesome icon class fa fa-*
+//                },
+//                callback: function () {
+//                    this.saveSelectionByMarkers();
+//                    var selectedElements = this.getSelectionElements();
+//                    var containerDiv = document.createElement("div");
+//                    containerDiv.dir = "rtl";
+//                    containerDiv.style.textAlign = "right";
+//                    $(selectedElements[0]).before(containerDiv);
+//
+//                    for(var i = 0; i < selectedElements.length; i++) {
+//                        containerDiv.appendChild(selectedElements[i]);
+//                    }
+//
+//                    this.restoreSelectionByMarkers();
+//                    this.saveUndoStep();
+//                }
+//            },
+//            // Left to right button.
+//            leftToRight: {
+//                title: "ltr",
+//                icon: {
+//                    type: "font",
+//                    value: 'fa fa-long-arrow-left' // Font Awesome icon class fa fa-*
+//                },
+//                callback: function () {
+//                    this.saveSelectionByMarkers();
+//                    var selectedElements = this.getSelectionElements();
+//                    var containerDiv = document.createElement("div");
+//                    containerDiv.dir = "ltr";
+//                    containerDiv.style.textAlign = "left";
+//                    $(selectedElements[0]).before(containerDiv);
+//
+//                    for(var i = 0; i < selectedElements.length; i++) {
+//                        containerDiv.appendChild(selectedElements[i]);
+//                    }
+//
+//                    this.restoreSelectionByMarkers();
+//                    this.saveUndoStep();
+//                }
+//            }
+//        }
+//    })
+//})
+    tinymce.init({
+        selector: "textarea.wysihtml5",
+        plugins: [
+            "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+            "save table contextmenu directionality emoticons template paste textcolor jbimages"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages | print preview media fullpage | forecolor backcolor emoticons",
+        relative_urls : false
 
-        customButtons: {
-            // Right to left button.
-            rightToLeft: {
-                title: "rtl",
-                icon: {
-                    type: "font",
-                    value: "fa fa-long-arrow-right" // Font Awesome icon class fa fa-*
-                },
-                callback: function () {
-                    this.saveSelectionByMarkers();
-                    var selectedElements = this.getSelectionElements();
-                    var containerDiv = document.createElement("div");
-                    containerDiv.dir = "rtl";
-                    containerDiv.style.textAlign = "right";
-                    $(selectedElements[0]).before(containerDiv);
-
-                    for(var i = 0; i < selectedElements.length; i++) {
-                        containerDiv.appendChild(selectedElements[i]);
-                    }
-
-                    this.restoreSelectionByMarkers();
-                    this.saveUndoStep();
-                }
-            },
-            // Left to right button.
-            leftToRight: {
-                title: "ltr",
-                icon: {
-                    type: "font",
-                    value: 'fa fa-long-arrow-left' // Font Awesome icon class fa fa-*
-                },
-                callback: function () {
-                    this.saveSelectionByMarkers();
-                    var selectedElements = this.getSelectionElements();
-                    var containerDiv = document.createElement("div");
-                    containerDiv.dir = "ltr";
-                    containerDiv.style.textAlign = "left";
-                    $(selectedElements[0]).before(containerDiv);
-
-                    for(var i = 0; i < selectedElements.length; i++) {
-                        containerDiv.appendChild(selectedElements[i]);
-                    }
-
-                    this.restoreSelectionByMarkers();
-                    this.saveUndoStep();
-                }
-            }
-        }
-    })
-})
+    });
     </script>
 
     @show
