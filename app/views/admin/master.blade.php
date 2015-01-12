@@ -64,6 +64,7 @@
     {{ HTML::script('assets/js/datatables-bootstrap.js') }}
     {{ HTML::script('assets/js/datatables.js') }}
     {{ HTML::script('packages/froala_editor_1.2.4/js/froala_editor.min.js') }}
+    {{ HTML::script('packages/tinymce/tinymce.min.js') }}
 
     <script type="text/javascript">
 //        $('.wysihtml5').wysihtml5();
@@ -165,9 +166,9 @@
         plugins: [
             "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-            "save table contextmenu directionality emoticons template paste textcolor jbimages"
+            "save table contextmenu directionality emoticons template paste textcolor jbimages directionality"
         ],
-        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages | print preview media fullpage | forecolor backcolor emoticons",
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages | print preview media fullpage | forecolor backcolor emoticons | ltr rtl ",
         relative_urls : false
 
     });
