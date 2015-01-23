@@ -121,7 +121,7 @@ return [
     'view_all_expired_events'   => 'عرض جميع الفعاليات السابقة',
     'name'                      => 'الاسم',
     'contact'                   => 'اتصل',
-    'welcome_to_kaizen'         => 'مرحبا بكم في كايزن',
+    'welcome_to_kaizen'         => 'مرحبا بكم  ',
     'price'                     => 'السعر',
     'free_event'                => ' الفعالية مجاني',
     'to'                        => 'إلى',

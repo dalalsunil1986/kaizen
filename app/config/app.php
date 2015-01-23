@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'url' => 'http://kaizen.company',
+	'url' => 'http://mgopremium.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 
     'currency_api' => 'cecddddb303946938cd96f93c3c96f54',
 
-    'geoDb' => app_path().'/libs/GeoLite2-Country.mmdb',
+    'geoDb' => app_path().'/library/GeoLite2-Country.mmdb',
 
 
 

@@ -55,8 +55,8 @@ class EventHandler extends BaseMailer {
         $this->recepientEmail = $user['email'];
         $this->recepientName  = $user['name_ar'];
 
-        $this->subject        = 'Your Kaizen Account has been deactivated.';
-        $user['body']         = 'Your Kaizen Account assosiated with email '.$user['email'].' has been deactivated. Please <a href="' . action('ContactsController@index') . '"> Contact Admin </a> for Further Details';
+        $this->subject        = 'Your MGO Account has been deactivated.';
+        $user['body']         = 'Your MGO Account assosiated with email '.$user['email'].' has been deactivated. Please <a href="' . action('ContactsController@index') . '"> Contact Admin </a> for Further Details';
 
     }
 

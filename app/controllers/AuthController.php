@@ -1,7 +1,6 @@
 <?php
 
 use Acme\Country\CountryRepository;
-use Acme\Libraries\UserGeoIp;
 use Acme\User\AuthService;
 use Acme\User\UserRepository;
 
@@ -168,7 +167,6 @@ class AuthController extends BaseController {
 
         $response = $this->service->resetPassword($credentials);
 
-
         switch ( $response ) {
 
             case Password::INVALID_PASSWORD:
@@ -214,8 +212,6 @@ class AuthController extends BaseController {
 
     public function sendActivationLink()
     {
-
-
         $userId = Input::get('user_id');
         $user   = $this->userRepository->findById($userId);
         if ( $user ) {

@@ -53,9 +53,6 @@
                                     <tbody><tr>
                                         <td valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
-                                            <a href="{{ URL::action('HomeController@index') }}" title="" style="word-wrap:break-word" target="_blank">
-                                                <img align="center" alt="" src="http://kaizen.company/images/Logo.png" width="100%" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;outline:none;text-decoration:none">
-                                            </a>
 
                                         </td>
                                     </tr>

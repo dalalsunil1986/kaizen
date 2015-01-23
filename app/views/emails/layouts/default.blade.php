@@ -19,7 +19,7 @@
                     </tr>
                     <tr>
                         <td style="padding:9px 18px;color:#696969;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:18px;text-align:right;line-height:150%" valign="top">
-                            <strong>- Kaizen For Conferences & Exhibitions</strong>
+                            <strong>- MGO PREMIUM</strong>
                         </td>
                     </tr>
 
