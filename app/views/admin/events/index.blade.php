@@ -49,17 +49,21 @@
                                         </td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
-                                                @foreach(explode(',',$event->setting->registration_types) as $registrationType)
-                                                    <span class="btn btn-default">{{ $registrationType }}  ({{ $event->setting->{strtolower($registrationType).'_available_seats'} }}/{{ $event->setting->{strtolower($registrationType).'_total_seats'}  }})</span>
-                                                @endforeach
+                                                @if($event->setting)
+                                                    @foreach(explode(',',$event->setting->registration_types) as $registrationType)
+                                                        <span class="btn btn-default">{{ $registrationType }}  ({{ $event->setting->{strtolower($registrationType).'_available_seats'} }}/{{ $event->setting->{strtolower($registrationType).'_total_seats'}  }})</span>
+                                                    @endforeach
+                                                @endif
                                             </div>
                                         </td>
 
                                         <td>
                                             <div class="btn-group btn-group-sm">
-                                                @foreach($event->eventCountries as $country)
-                                                    <span class="btn btn-default">{{ $country->name }}</span>
-                                                @endforeach
+                                                @if($event->eventCountries)
+                                                    @foreach($event->eventCountries as $country)
+                                                        <span class="btn btn-default">{{ $country->name }}</span>
+                                                    @endforeach
+                                                @endif
                                             </div>
                                         </td>
                                         <td>
