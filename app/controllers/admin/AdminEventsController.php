@@ -59,7 +59,7 @@ class AdminEventsController extends AdminBaseController {
 
     public function index()
     {
-        $events   = $this->eventRepository->getAll(array('category', 'location.country', 'setting'))->paginate(10);
+        $events   = $this->eventRepository->getAllForAdmin(array('category', 'location.country', 'setting', 'eventCountries'))->paginate(10);
         $packages = $this->packageRepository->getAll();
         $this->render('admin.events.index', compact('events', 'packages'));
     }

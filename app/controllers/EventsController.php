@@ -156,6 +156,33 @@ class EventsController extends BaseController {
 
     }
 
+    /**
+     * @param $event
+     * @return mixed
+     * // todo make this function SRP, and move away from this controller and payments controller
+     */
+    public function processCountry($event)
+    {
+        // Get The Country of User Stored in Session or DB
+
+        $country = $this->countryRepository->model->where('iso_code', Session::get('user.country'))->first();
+
+        // Get All the Countries that this Event is attached to and convert it into array
+        $eventCountries = $event->eventPrices->unique()->implode('id', ',');
+
+        // If the user's Country is Not In the Attached Countries of the Event, then set the country as Default Country
+        if ( !in_array($country->id, explode(',', $eventCountries)) ) {
+
+            $defaultCountry = $this->countryRepository->defaultCountry;
+
+            $country = $this->countryRepository->model->where('iso_code', $defaultCountry)->first();
+
+            return $country;
+        }
+
+        return $country;
+    }
+
     private function isOnlineEvent($event)
     {
         $setting           = $event->setting;
@@ -348,9 +375,9 @@ class EventsController extends BaseController {
         $reg_types = explode(',', $setting->registration_types);
 //
 //        // Pass the available options as a boolean
-        if ( in_array('VIP', $reg_types) && isset($price['vip']) ) $vip = true;
-        if ( in_array('ONLINE', $reg_types) && isset($price['online']) ) $online = true;
-        if ( in_array('NORMAL', $reg_types) && isset($price['normal']) ) $normal = true;
+        if ( in_array('VIP', $reg_types) ) $vip = true;
+        if ( in_array('ONLINE', $reg_types) ) $online = true;
+        if ( in_array('NORMAL', $reg_types) ) $normal = true;
 
         $this->render('site.events.registration-types', compact('event', 'vip', 'online', 'setting', 'normal', 'freeEvent', 'price', 'country'));
 
@@ -606,33 +633,6 @@ class EventsController extends BaseController {
 
         // launch the live stream
         $this->launchStream($data, $launchUrl);
-    }
-
-    /**
-     * @param $event
-     * @return mixed
-     * // todo make this function SRP, and move away from this controller and payments controller
-     */
-    public function processCountry($event)
-    {
-        // Get The Country of User Stored in Session or DB
-
-        $country = $this->countryRepository->model->where('iso_code', Session::get('user.country'))->first();
-
-        // Get All the Countries that this Event is attached to and convert it into array
-        $eventCountries = $event->eventPrices->unique()->implode('id', ',');
-
-        // If the user's Country is Not In the Attached Countries of the Event, then set the country as Default Country
-        if ( !in_array($country->id, explode(',', $eventCountries)) ) {
-
-            $defaultCountry = $this->countryRepository->defaultCountry;
-
-            $country = $this->countryRepository->model->where('iso_code', $defaultCountry)->first();
-
-            return $country;
-        }
-
-        return $country;
     }
 
 }

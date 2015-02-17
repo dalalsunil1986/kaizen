@@ -30,11 +30,11 @@ class AdminSettingsController extends AdminBaseController {
      */
     public function __construct(SettingRepository $settingRepository, CountryRepository $countryRepository, EventRepository $eventRepository, EventPriceRepository $eventPriceRepository)
     {
-        $this->settingRepository = $settingRepository;
-        $this->countryRepository = $countryRepository;
-        parent::__construct();
+        $this->settingRepository    = $settingRepository;
+        $this->countryRepository    = $countryRepository;
         $this->eventRepository      = $eventRepository;
         $this->eventPriceRepository = $eventPriceRepository;
+        parent::__construct();
     }
 
 
@@ -170,10 +170,10 @@ class AdminSettingsController extends AdminBaseController {
 
     public function updateOptions($id)
     {
-        $setting     = $this->settingRepository->findById($id, ['settingable.location.country']);
-        $event       = $setting->settingable;
-        $validPrices = [];
-        $prices      = [];
+        $setting      = $this->settingRepository->findById($id, ['settingable.location.country']);
+        $event        = $setting->settingable;
+        $validPrices  = [];
+        $prices       = [];
         $validRegType = [];
 
         foreach ( Input::all() as $key => $value ) {
@@ -211,7 +211,7 @@ class AdminSettingsController extends AdminBaseController {
 
         }
 
-        if(!empty($prices)) $this->attachPrices($event, $prices, $countryId);
+        if ( !empty($prices) ) $this->attachPrices($event, $prices, $countryId);
 
         // update the seats and descroiptions;
         $val = $this->settingRepository->getOptionForm($id);
@@ -226,16 +226,16 @@ class AdminSettingsController extends AdminBaseController {
 
         // update available seats
         foreach ( Input::all() as $key => $value ) {
-            if (substr($key, -12) == '_total_seats' ) {
+            if ( substr($key, - 12) == '_total_seats' ) {
                 if ( !empty($value) ) {
-                    $type = substr($key, 0, -12);  // returns "abcde"
+                    $type                = substr($key, 0, - 12);  // returns "abcde"
                     $validRegType[$type] = $value;
                 }
             }
         }
 
         // update available seats for all the registration types
-        $setting->updateAvailableSeatsBulk($validRegType);
+        $this->settingRepository->findById($id)->updateAvailableSeatsBulk($validRegType);
 
         return Redirect::action('AdminEventsController@index')->with('success', 'Event Settings Updated');
 
@@ -243,7 +243,7 @@ class AdminSettingsController extends AdminBaseController {
 
     public function attachPrices($model, array $prices)
     {
-        $eventPrices = $model->eventPrices;
+        $eventPrices    = $model->eventPrices;
         $attachedPrices = $eventPrices->modelKeys();
         if ( !empty($attachedPrices) ) {
             // if there are any tags assosiated with the event

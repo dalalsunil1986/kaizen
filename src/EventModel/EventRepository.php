@@ -22,6 +22,11 @@ class EventRepository extends BaseRepository {
         return $this->model->with($with)->latest();
     }
 
+    public function getAllForAdmin($with = [])
+    {
+        return $this->model->with($with)->orderBy('date_start','DESC');
+    }
+
     /**
      * Return Events For Event Index Page
      * @param $perPage

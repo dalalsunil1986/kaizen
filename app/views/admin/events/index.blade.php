@@ -23,8 +23,8 @@
                                 <th>Title</th>
                                 <th>Start Date</th>
                                 <th>Event Settings</th>
-                                <th>Total Seats</th>
-                                <th>Available Seats</th>
+                                <th>Seats Available</th>
+                                <th>Countries</th>
                                 <th>Event Type</th>
                                 <th>Add/Edit Photos</th>
                                 <th>Actions</th>
@@ -47,8 +47,21 @@
                                                 <a href="{{action('AdminEventsController@getSubscriptions',$event->id) }}" class="btn btn-default">Subscriptions</a>
                                             </div>
                                         </td>
-                                        <td> {{ $event->total_seats }}</td>
-                                        <td> {{ $event->available_seats }}</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                @foreach(explode(',',$event->setting->registration_types) as $registrationType)
+                                                    <span class="btn btn-default">{{ $registrationType }}  ({{ $event->setting->{strtolower($registrationType).'_available_seats'} }}/{{ $event->setting->{strtolower($registrationType).'_total_seats'}  }})</span>
+                                                @endforeach
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                @foreach($event->eventCountries as $country)
+                                                    <span class="btn btn-default">{{ $country->name }}</span>
+                                                @endforeach
+                                            </div>
+                                        </td>
                                         <td>
                                             {{ $event->isFreeEvent() ? 'Free' : 'Paid' }}
                                         </td>

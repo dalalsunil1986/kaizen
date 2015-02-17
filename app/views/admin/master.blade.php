@@ -91,7 +91,8 @@
         $(document).ready(function() {
             $('.datatable').dataTable({
                 "sPaginationType": "bs_four_button",
-                "iDisplayLength" : 100
+                "iDisplayLength" : 100,
+                aaSorting: []
             });
             $('.datatable').each(function(){
                 var datatable = $(this);
@@ -103,64 +104,8 @@
                 var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
                 length_sel.addClass('form-control input-sm');
             });
-//            nicEditors.allTextAreas();
         });
 
-//$(function(){
-//    $('.wysihtml5').editable({
-//        inlineMode:false,
-//        buttons: ["bold", "italic", "underline", "strikeThrough", "subscript", "superscript", "fontFamily", "fontSize", "color", "formatBlock", "blockStyle", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "selectAll", "createLink", "insertImage", "insertVideo", "undo", "removeFormat", "redo", "html", "insertHorizontalRule", "table", "uploadFile", 'rightToLeft', 'leftToRight'],
-//
-//        customButtons: {
-//            // Right to left button.
-//            rightToLeft: {
-//                title: "rtl",
-//                icon: {
-//                    type: "font",
-//                    value: "fa fa-long-arrow-right" // Font Awesome icon class fa fa-*
-//                },
-//                callback: function () {
-//                    this.saveSelectionByMarkers();
-//                    var selectedElements = this.getSelectionElements();
-//                    var containerDiv = document.createElement("div");
-//                    containerDiv.dir = "rtl";
-//                    containerDiv.style.textAlign = "right";
-//                    $(selectedElements[0]).before(containerDiv);
-//
-//                    for(var i = 0; i < selectedElements.length; i++) {
-//                        containerDiv.appendChild(selectedElements[i]);
-//                    }
-//
-//                    this.restoreSelectionByMarkers();
-//                    this.saveUndoStep();
-//                }
-//            },
-//            // Left to right button.
-//            leftToRight: {
-//                title: "ltr",
-//                icon: {
-//                    type: "font",
-//                    value: 'fa fa-long-arrow-left' // Font Awesome icon class fa fa-*
-//                },
-//                callback: function () {
-//                    this.saveSelectionByMarkers();
-//                    var selectedElements = this.getSelectionElements();
-//                    var containerDiv = document.createElement("div");
-//                    containerDiv.dir = "ltr";
-//                    containerDiv.style.textAlign = "left";
-//                    $(selectedElements[0]).before(containerDiv);
-//
-//                    for(var i = 0; i < selectedElements.length; i++) {
-//                        containerDiv.appendChild(selectedElements[i]);
-//                    }
-//
-//                    this.restoreSelectionByMarkers();
-//                    this.saveUndoStep();
-//                }
-//            }
-//        }
-//    })
-//})
     tinymce.init({
         selector: "textarea.wysihtml5",
         plugins: [

@@ -69,12 +69,14 @@ class Setting extends BaseModel implements PresenterInterface {
             $available_seats = $this->$totalSeat - $totalSubscriptions;
 
         } else {
-            $available_seats = 0;
+
+            $available_seats = $this->$totalSeat;
         }
 
         $this->$availableSeat = (int) ($available_seats);
 
         $this->save();
+
     }
 
 }

@@ -15,9 +15,6 @@
 @section('script')
     @parent
     {{ HTML::script('assets/vendors/select2/select2.min.js') }}
-    <script>
-
-    </script>
 @stop
 
 {{-- Content --}}
