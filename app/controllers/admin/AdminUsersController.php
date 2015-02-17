@@ -29,7 +29,7 @@ class AdminUsersController extends AdminBaseController {
     /**
      * @var AuthService
      */
-    private $authService;
+    protected $authService;
 
     /**
      * Inject the models.
@@ -44,9 +44,9 @@ class AdminUsersController extends AdminBaseController {
         $this->userRepository = $userRepository;
         $this->role           = $role;
         $this->permission     = $permission;
+        $this->authService = $authService;
         $this->beforeFilter('Admin', array('except' => array('index', 'getIndex', 'view', 'getReport', 'postReport', 'getData')));
         parent::__construct();
-        $this->authService = $authService;
     }
 
     /**
@@ -57,17 +57,19 @@ class AdminUsersController extends AdminBaseController {
     public function index()
     {
         // Grab all the users
-        $title  = 'Users';
-        $users = $this->userRepository->getAllPaginated(['roles','country'],800);
+        $title = 'Users';
+        $users = $this->userRepository->getAllPaginated(['roles', 'country'], 800);
+
         // Show the page
         return $this->render('admin.users.index', compact('users', 'title'));
     }
 
     public function show($id)
     {
-        $user= $this->userRepository->findById($id);
-        $title = $user->name .' Profile';
-        return $this->render('admin.users.show', compact('user','title'));
+        $user  = $this->userRepository->findById($id);
+        $title = $user->name . ' Profile';
+
+        return $this->render('admin.users.view', compact('user', 'title'));
     }
 
     /**
@@ -117,7 +119,7 @@ class AdminUsersController extends AdminBaseController {
             return Redirect::back()->with('errors', $val->getErrors())->withInput();
         }
 
-        $user = $this->userRepository->model->where('email','z4ls@live.com')->first();
+        $user = $this->userRepository->model->where('email', 'z4ls@live.com')->first();
         // If Auth Sevice Fails to Register the User
         if ( !$user = $this->authService->register($val->getInputData()) ) {
 
@@ -127,7 +129,7 @@ class AdminUsersController extends AdminBaseController {
         $roles = is_array(Input::get('roles')) ? Input::get('roles') : [];
 
         //get the user that was just addded ;
-        $user = $this->userRepository->model->where('email',Input::get('email'))->first();
+        $user = $this->userRepository->model->where('email', Input::get('email'))->first();
         $user->saveRoles($roles);
 
         // Redirect to the new user page

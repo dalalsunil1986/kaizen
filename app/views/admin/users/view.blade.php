@@ -15,7 +15,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        @include('site.users._detail')
+        @include('admin.users._detail')
     </div>
 </div>
 @stop

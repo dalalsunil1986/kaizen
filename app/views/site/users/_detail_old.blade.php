@@ -8,6 +8,18 @@
          <td>{{ $user->name_ar ? $user->name_ar: trans('word.not_available') }}</td>
      </tr>
      <tr>
+         <td>{{ trans('word.email') }} : </td>
+         <td>{{ $user->email ? $user->email: trans('word.not_available') }}</td>
+     </tr>
+     <tr>
+         <td>{{ trans('word.mobile') }} : </td>
+         <td>{{ $user->mobile ? $user->countrycode.$user->mobile: trans('word.not_available') }}</td>
+     </tr>
+     <tr>
+         <td>{{ trans('word.phone') }} : </td>
+         <td>{{ $user->phone ? $user->countrycode.$user->phone: trans('word.not_available') }}</td>
+     </tr>
+     <tr>
          <td>{{ trans('word.country') }} : </td>
          <td>{{ $user->country ? $user->country: trans('word.not_available') }}</td>
      </tr>
