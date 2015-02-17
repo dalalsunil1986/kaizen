@@ -66,7 +66,7 @@
                                         @if($subscription->event)
                                             <tr>
                                                 <td>
-                                                    <a href="{{action('AdminEventsController@getRequests',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
+                                                    <a href="{{action('AdminEventsController@getSubscriptions',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
                                                 </td>
                                                 <td><a href="{{ action('AdminUsersController@show',$subscription->user->id) }}">{{ $subscription->user->username }}</a></td>
                                                 <td><a href="{{ URL::action('AdminSubscriptionsController@edit',$subscription->id)}}">{{ $subscription->status }}</a></td>

@@ -19,13 +19,13 @@
                         <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <td>Event ID</td>
+                                <td>ID</td>
                                 <th>Title</th>
                                 <th>Start Date</th>
-                                <th>Event Settings</th>
+                                <th>Settings</th>
                                 <th>Seats Available</th>
                                 <th>Countries</th>
-                                <th>Event Type</th>
+                                <th>Fee</th>
                                 <th>Add/Edit Photos</th>
                                 <th>Actions</th>
                             </tr>
@@ -35,12 +35,12 @@
                             @foreach ($events as $event)
                                 @if(count($event->setting))
                                     <tr>
-                                        <td>{{{ $event->id }}}</td>
-                                        <td>{{{ $event->title }}}</td>
-                                        <td>{{{ $event->date_start }}}</td>
+                                        <td><a href="{{ URL::action('EventsController@show',$event->id)}}">{{ $event->id }}</a></td>
+                                        <td>{{ $event->title }}</td>
+                                        <td>{{ $event->date_start }}</td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
-                                                <a href="{{ URL::action('AdminEventsController@getDetails',$event->id)}}" class="btn btn-default">Details</a>
+                                                <a href="{{ URL::action('AdminEventsController@show',$event->id)}}" class="btn btn-default">Details</a>
                                                 <a href="{{ URL::action('AdminSettingsController@edit',$event->setting->id)}}" class="btn btn-default">Settings</a>
                                                 <a href="{{ URL::action('AdminSettingsController@editOptions',$event->setting->id)}}" class="btn btn-default">Options</a>
                                                 <a href="{{ URL::action('AdminSettingsController@getAddRoom', $event->setting->id) }}" class="btn btn-default">Online Room Number</a>
@@ -68,6 +68,13 @@
                                         </td>
                                         <td>
                                             {{ $event->isFreeEvent() ? 'Free' : 'Paid' }}
+                                            <div class="btn-group btn-group-sm">
+                                                @if($event->setting)
+                                                    @foreach(explode(',',$event->setting->registration_types) as $registrationType)
+                                                        <span class="btn btn-default">{{ $registrationType }}  ({{ $event->setting->{strtolower($registrationType).'_available_seats'} }}/{{ $event->setting->{strtolower($registrationType).'_total_seats'}  }})</span>
+                                                    @endforeach
+                                                @endif
+                                            </div>
                                         </td>
                                         <td>
                                             <a href="{{ URL::action('AdminPhotosController@create', ['imageable_type' => $event->setting->settingable_type, 'imageable_id' => $event->setting->settingable_id]) }}" class="btn btn-xs btn-success">Add Photos</a>

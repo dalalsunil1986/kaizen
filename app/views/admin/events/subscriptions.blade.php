@@ -76,7 +76,7 @@
                                         @foreach ($subscriptions as $subscription)
                                         <tr>
                                             <td>
-                                                <a href="{{action('AdminEventsController@getRequests',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
+                                                <a href="{{action('AdminEventsController@show',$subscription->event->id) }}">{{ $subscription->event->title }}</a>
                                             </td>
                                             <td>
                                                 @if($subscription->user)

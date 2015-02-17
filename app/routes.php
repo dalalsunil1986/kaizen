@@ -216,8 +216,6 @@ Route::group(array('prefix' => 'admin', 'before' => array('Auth', 'Moderator')),
 
     Route::get('event/{id}/settings', 'AdminEventsController@getSettings');
 
-    Route::get('event/{id}/details', 'AdminEventsController@getDetails');
-
     Route::get('event/{id}/requests', array('uses' => 'AdminEventsController@getRequests'));
 
     Route::get('event/type/create', 'AdminEventsController@selectType');
