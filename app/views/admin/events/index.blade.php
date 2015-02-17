@@ -35,7 +35,9 @@
                             @foreach ($events as $event)
                                 @if(count($event->setting))
                                     <tr>
-                                        <td><a href="{{ URL::action('EventsController@show',$event->id)}}">{{ $event->id }}</a></td>
+                                        <td>
+                                            <a href="{{ URL::action('EventsController@show',$event->id)}}">{{ $event->id }}</a>
+                                        </td>
                                         <td>{{ $event->title }}</td>
                                         <td>{{ $event->date_start }}</td>
                                         <td>
@@ -70,8 +72,20 @@
                                             {{ $event->isFreeEvent() ? 'Free' : 'Paid' }}
                                             <div class="btn-group btn-group-sm">
                                                 @if($event->setting)
-                                                    @foreach(explode(',',$event->setting->registration_types) as $registrationType)
-                                                        <span class="btn btn-default">{{ $registrationType }}  ({{ $event->setting->{strtolower($registrationType).'_available_seats'} }}/{{ $event->setting->{strtolower($registrationType).'_total_seats'}  }})</span>
+                                                    @foreach($event->eventPrices as $country)
+                                                        @if($country)
+                                                            <?php
+                                                            $eventPrice = $country->price($event->id, $registrationType);
+                                                            if ( $eventPrice ) {
+                                                                $price = $eventPrice->price;
+                                                            } else {
+                                                                $price = null;
+                                                            }
+                                                            ?>
+                                                            <span class="btn btn-default">
+                                                                {{ $country->iso_code }}({{ $registrationType }}) - {{ $price . $country->currency }}
+                                                            </span>
+                                                        @endif
                                                     @endforeach
                                                 @endif
                                             </div>
