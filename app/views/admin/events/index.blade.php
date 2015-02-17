@@ -69,26 +69,32 @@
                                             </div>
                                         </td>
                                         <td>
-                                            {{ $event->isFreeEvent() ? 'Free' : 'Paid' }}
-                                            <div class="btn-group btn-group-sm">
-                                                @if($event->setting)
-                                                    @foreach($event->eventPrices as $country)
-                                                        @if($country)
-                                                            <?php
-                                                            $eventPrice = $country->price($event->id, $registrationType);
-                                                            if ( $eventPrice ) {
-                                                                $price = $eventPrice->price;
-                                                            } else {
-                                                                $price = null;
-                                                            }
-                                                            ?>
-                                                            <span class="btn btn-default">
-                                                                {{ $country->iso_code }}({{ $registrationType }}) - {{ $price . $country->currency }}
-                                                            </span>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                            </div>
+                                            @if($event->isFreeEvent())
+                                                Free
+                                            @else
+
+                                                <div class="btn-group btn-group-sm">
+                                                    @if($event->setting)
+                                                        @foreach(explode(',',$event->setting->registration_types) as $registrationType)
+
+                                                            @foreach($event->eventCountries as $country)
+                                                                <?php
+                                                                $eventPrice = $country->price($event->id,$registrationType);
+                                                                ?>
+                                                                @if($country->currency && $country->iso_code)
+                                                                        @if($event->setting)
+                                                                            <span class="btn btn-default">
+                                                                                {{$country->iso_code .'-'. $registrationType }}
+                                                                                {{ $eventPrice ? $eventPrice->price . $country->currency : '' }}
+
+                                                                            </span>
+                                                                        @endif
+                                                                @endif
+                                                            @endforeach
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                            @endif
                                         </td>
                                         <td>
                                             <a href="{{ URL::action('AdminPhotosController@create', ['imageable_type' => $event->setting->settingable_type, 'imageable_id' => $event->setting->settingable_id]) }}" class="btn btn-xs btn-success">Add Photos</a>
