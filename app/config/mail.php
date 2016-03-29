@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'noreply@kaizen.company', 'name' => trans('word.kaizen')),
+	'from' => array('address' => '', 'name' => trans('word.kaizen')),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'uusa35@gmail.com',
+	'username' => '',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'L1_wqYp_JFdpoGl5_Jxzcg',
+	'password' => '',
 
 	/*
 	|--------------------------------------------------------------------------
