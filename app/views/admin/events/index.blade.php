@@ -45,8 +45,9 @@
                                                 <a href="{{ URL::action('AdminEventsController@show',$event->id)}}" class="btn btn-default">Details</a>
                                                 <a href="{{ URL::action('AdminSettingsController@edit',$event->setting->id)}}" class="btn btn-default">Settings</a>
                                                 <a href="{{ URL::action('AdminSettingsController@editOptions',$event->setting->id)}}" class="btn btn-default">Options</a>
-                                                <a href="{{ URL::action('AdminSettingsController@getAddRoom', $event->setting->id) }}" class="btn btn-default">Online Room Number</a>
-                                                <a href="{{action('AdminEventsController@getSubscriptions',$event->id) }}" class="btn btn-default">Subscriptions</a>
+                                                @if(in_array('ONLINE',explode(',',$event->setting->registration_types) ))
+                                                    <a href="{{ URL::action('AdminSettingsController@getAddRoom', $event->setting->id) }}" class="btn btn-default">Online Room Number</a>
+                                                @endif
                                             </div>
                                         </td>
                                         <td>

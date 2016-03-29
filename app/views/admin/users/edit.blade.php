@@ -1,4 +1,5 @@
 @extends('admin.master')
+@extends('admin.master')
 
 {{-- Content --}}
 @section('content')
@@ -19,9 +20,6 @@
                     </div>
                 </div>
 
-                <!-- ./ username -->
-
-                <!-- Email -->
                 <div class="form-group">
                      <div class="row">
                         <label class="col-md-2" for="email">Email</label>
@@ -30,9 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- ./ email -->
 
-                <!-- Password -->
                 <div class="form-group ">
                     <div class="row">
                          <label class="col-md-2 control-label" for="password">Password</label>
@@ -41,9 +37,7 @@
                          </div>
                     </div>
                 </div>
-                <!-- ./ password -->
 
-                <!-- Password Confirm -->
                 <div class="form-group">
                     <div class="row">
                          <label class="col-md-2 control-label" for="password_confirmation">Password Confirm</label>
@@ -52,9 +46,7 @@
                          </div>
                     </div>
                 </div>
-                <!-- ./ password confirm -->
 
-                <!-- Activation Status -->
                 <div class="form-group">
                     <div class="row">
                         <label class="col-md-2 control-label text-left" for="confirm">Activate User?</label>

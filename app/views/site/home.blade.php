@@ -4,11 +4,11 @@
 <!-- Include Slider -->
 @include('site.events.slider')
 
-@include('site.partials.ads')
+{{--@include('site.partials.ads')--}}
 
 <!-- Content Section -->
 @section('content')
     @parent
-    @include('site.partials.youtube')
-    @include('site.partials.instagram')
+{{--    @include('site.partials.youtube')--}}
+{{--    @include('site.partials.instagram')--}}
 @stop

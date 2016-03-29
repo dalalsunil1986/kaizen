@@ -55,7 +55,6 @@ return [
         'greetings' => 'مرحبا :name',
         'body'      => 'الرجاء الدخول على الرابط التالي  لتأكيد حسابك ',
         'farewell'  => 'نشكرك لتسجيلك معنا',
-
     ],
 
     'account_activated' =>
